@@ -21,7 +21,7 @@ build:
   tags:
     - build
   script:
-    - cp $ENV_CMS_DEV .env.local
+    - cp $env .env.local
     - docker build --pull -t $CONTAINER_RELEASE_IMAGE .
     - docker push $CONTAINER_RELEASE_IMAGE
   only:
