@@ -18,7 +18,7 @@ before_script:
 
 build:
   stage: build
-  tags: 
+  tags:
     - build
   script:
     - cp $ENV_CMS_DEV .env.local
@@ -31,7 +31,7 @@ build:
 
 release-image:
   stage: release
-  tags: 
+  tags:
     - build
   script:
     - docker tag $CONTAINER_RELEASE_IMAGE $CONTAINER_RELEASE_IMAGE
@@ -45,15 +45,15 @@ release-image:
 deploy:
   stage: deploy
   image: kroniak/ssh-client
-  tags: 
+  tags:
     - build
   before_script:
     - echo "Start deploying to server"
   script:
     - chmod 400 $SSH_SERVER_PROJECTS_PRIVATE_KEY
-    - ssh -o StrictHostKeyChecking=no -i $SSH_SERVER_PROJECTS_PRIVATE_KEY root@$IP_PROJECTS_SERVER "docker pull registry.ekuator.id/project/setneg-playbook/cms:latest"
-    - ssh -o StrictHostKeyChecking=no -i $SSH_SERVER_PROJECTS_PRIVATE_KEY root@$IP_PROJECTS_SERVER "docker stop playbook-cms || true && docker rm playbook-cms || true"
-    - ssh -o StrictHostKeyChecking=no -i $SSH_SERVER_PROJECTS_PRIVATE_KEY root@$IP_PROJECTS_SERVER "docker run --network=project_network -p 3007:3000 -d --name playbook-cms --restart=always registry.ekuator.id/project/setneg-playbook/cms:latest"
+    - ssh -o StrictHostKeyChecking=no -i $SSH_SERVER_PROJECTS_PRIVATE_KEY root@$IP_PROJECTS_SERVER "docker pull registry.ekuator.id/project/setneg/simdatuk/cms:latest"
+    - ssh -o StrictHostKeyChecking=no -i $SSH_SERVER_PROJECTS_PRIVATE_KEY root@$IP_PROJECTS_SERVER "docker stop simdatuk-cms || true && docker rm simdatuk-cms || true"
+    - ssh -o StrictHostKeyChecking=no -i $SSH_SERVER_PROJECTS_PRIVATE_KEY root@$IP_PROJECTS_SERVER "docker run --network=project_network -p 3005:3000 -d --name simdatuk-cms --restart=always registry.ekuator.id/project/setneg/simdatuk/cms:latest"
   only:
     - tags
   except:
