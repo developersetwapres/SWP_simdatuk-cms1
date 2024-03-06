@@ -1,1 +1,3 @@
-NEXT_PUBLIC_API_URL=https://playbook-api.dengansenangteknologi.com/api/v1
+VERSION=v1.0
+NODE_ENV=development
+NEXT_PUBLIC_API_URL=https://www.google.com
