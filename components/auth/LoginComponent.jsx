@@ -1,10 +1,9 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useSelector } from 'react'
 import {
-  Grid, Box, Container
+  Grid, Box, Container, Typography
 } from '@mui/material'
 import PropTypes from 'prop-types'
-import LoginContentText from '../simdatuk/auth/login/LoginContentText'
 import LoginModal from './LoginModal'
 import Image from 'next/image'
 import authHero from '/public/simdatuk/authHero.png'
@@ -170,7 +169,32 @@ const LoginComponent = ({
             }}
           >
             {/* Text  Banner*/}
-            <LoginContentText />
+            <Typography
+              variant='h3'
+              component='h1'
+              color='common.white'
+              fontWeight='700'
+            >
+              SIMDATUK
+            </Typography>
+            <Typography
+              variant='p'
+              component='h5'
+              color='common.white'
+              fontWeight='200'
+              py='5px'
+            >
+              (Sistem Informasi Manajemen Data Dukungan Kepegawaian)
+            </Typography>
+            <Typography
+              variant='p'
+              component='h4'
+              color='common.white'
+              fontWeight='500'
+              pt='25px'
+            >
+              Sekretariat Wakil Presiden
+            </Typography>
             {/* end Text Banner */}
           </Grid>
           <Grid
