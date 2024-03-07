@@ -1,23 +1,30 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from 'react'
-import { Input, Button, Icon, Checkbox, Form } from '@/components/shared/index'
+import { Input, Button, Icon, Form } from '@/components/shared/index'
 import PropTypes from 'prop-types'
 import { EYE_OPEN_ICON, EYE_CLOSE_ICON } from '@/utils/iconConstant'
 import { makeStyles } from '@mui/styles'
-import { Grid, Stack } from '@mui/material'
+import { Grid, Stack, Typography } from '@mui/material'
 import { primaryButtonStyle } from '@/utils/theme'
 
 const useStyles = makeStyles({
   icon: {
     cursor: 'pointer',
     position: 'absolute',
-    top: '41px',
-    right: '10px'
+    top: '70%',
+    right: '1%',
+    transform: 'translate(-50%, -50%)'
+
   },
   MuiCheckbox: {
     '&.root': {
       color: '#fff'
     }
+  },
+  fontBold: {
+    fontWeight: '600',
+    padding: '0',
+    margin: '0'
   }
 })
 
@@ -25,11 +32,9 @@ function LoginFormComponent({
   values,
   errors,
   stateLoading,
-  rememberMe,
   handleInputChange = () => { },
   handleLogin = () => { },
-  handleResetEmail = () => { },
-  setRememberMe = () => { }
+  handleResetEmail = () => { }
 }) {
   const [showPassword, setShowPassword] = useState(false)
   const classes = useStyles()
@@ -41,114 +46,133 @@ function LoginFormComponent({
 
   return (
     <>
-      <Grid container direction='column'>
+      <Grid
+        container
+        direction='column'
+        sx={{
+          bgcolor: '#fff',
+          p: 3,
+          borderRadius: 2,
+          position: 'relative',
+          width: {
+            xs: '100%',
+            lg: '400px',
+            xl: '400px'
+          }
+        }}>
+        <Typography
+          variant='h6'
+          component='h6'
+          color='simdatukPrimary.main'
+          fontWeight='700'
+          pb={3}
+        >
+          Login
+        </Typography>
         <Form onSubmit={handleLogin}>
-          <Grid item>
-            <Input
-              label='SSO'
-              name='nip'
-              placeholder='Masukan SSO Anda'
-              value={values.nip}
-              onChange={handleInputChange}
-              sx={{
-                backgroundColor: '#fff',
-                borderRadius: '6px',
-                border: errors.nip ? '1px solid #d32f2f' : ''
-              }}
-              fullWidth
-            />
-            {
-              errors.nip && (
-                <p style={{
-                  color: '#d32f2f',
-                  marginTop: '5px'
-                }}>{errors.nip}</p>
-              )
-            }
-          </Grid>
-          <Grid
-            item
+          <Stack
+            spacing={2}
           >
-            <div style={{
-              position: 'relative'
-            }}>
+            <Grid item>
               <Input
-                label='Password'
-                type={showPassword ? 'text' : 'password'}
-                name='password'
-                value={values.password}
+                classesLabel={classes.fontBold}
+                label='Username'
+                name='username'
+                placeholder='Masukan Username'
+                value={values.username}
                 onChange={handleInputChange}
-                placeholder='Masukan Password Anda'
-                fullWidth
                 sx={{
                   backgroundColor: '#fff',
                   borderRadius: '6px',
-                  border: errors.password ? '1px solid #d32f2f' : ''
+                  border: errors.username ? '1px solid #d32f2f' : ''
                 }}
+                fullWidth
               />
+              {
+                errors.username && (
+                  <p style={{
+                    position: 'absolute',
+                    color: '#d32f2f',
+                    marginTop: '0',
+                    fontSize: '12px'
+                  }}>{errors.username}</p>
+                )
+              }
+            </Grid>
+            <Grid
+              item
+            >
+              <div style={{
+                position: 'relative'
+
+              }}>
+                <Input
+                  classesLabel={classes.fontBold}
+                  label='Password'
+                  type={showPassword ? 'text' : 'password'}
+                  name='password'
+                  value={values.password}
+                  onChange={handleInputChange}
+                  placeholder='Masukan Password Anda'
+                  fullWidth
+                  sx={{
+                    backgroundColor: '#fff',
+                    borderRadius: '6px',
+                    border: errors.username ? '1px solid #d32f2f' : ''
+                  }}
+                />
+                <Icon
+                  path={showPassword ? EYE_OPEN_ICON : EYE_CLOSE_ICON}
+                  maxWidth={20}
+                  onClick={togglePassword}
+                  classes={classes.icon}
+                />
+
+              </div>
               {
                 errors.password && (
                   <p style={{
+                    position: 'absolute',
                     color: '#d32f2f',
-                    marginTop: '5px'
+                    marginTop: '0',
+                    fontSize: '12px'
                   }}>{errors.password}</p>
                 )
               }
-              <Icon
-                path={showPassword ? EYE_OPEN_ICON : EYE_CLOSE_ICON}
-                maxWidth={20}
-                onClick={togglePassword}
-                classes={classes.icon}
-              />
-            </div>
-          </Grid>
+              <Typography
+                onClick={handleResetEmail}
+                style={{
+                  textAlign: 'end',
+                  color: '#895700',
+                  fontSize: '14px',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                  marginBottom: 8,
+                  marginTop: 5
 
-          <Stack
-            direction={{
-              md: 'row',
-              sm: 'row',
-              xs: 'row'
-            }}
-            alignItems='center'
-            justifyContent='space-between'
-          >
-            <div>
-              <Checkbox
-                label='Ingat Saya'
-                color='warning'
-                sx={{
-                  color: '#fff',
-                  '.MuiFormControlLabel:': {
-                    '&-label': {
-                      color: '#fff'
-                    }
-                  }
                 }}
-                name='remember'
-                value={rememberMe}
-                onChange={() => { setRememberMe(!rememberMe) }}
+              >
+                Lupa password
+              </Typography>
+            </Grid>
+            <Grid
+              item
+            >
+              <Button
+                text='Login'
+                color='primary'
+                sx={{
+                  ...primaryButtonStyle,
+                  textTransform: 'none'
+                }}
+                type='submit'
+                fullWidth
+                isBusy={stateLoading?.isBusy}
+                isLoading={stateLoading?.loading}
               />
-            </div>
-            <div>
-              <p style={{ cursor: 'pointer' }} onClick={handleResetEmail}>Lupa password</p>
-            </div>
+            </Grid>
           </Stack>
-          <Grid
-            item
-          >
-            <Button
-              text='Login'
-              color='warning'
-              sx={{
-                ...primaryButtonStyle,
-                textTransform: 'none'
-              }}
-              type='submit'
-              fullWidth
-              isBusy={stateLoading?.isBusy}
-              isLoading={stateLoading?.loading}
-            />
-          </Grid>
+
         </Form>
       </Grid>
     </>
