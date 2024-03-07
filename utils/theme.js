@@ -3,8 +3,7 @@ import { createTheme } from '@mui/material/styles'
 // * Palette
 export const palette = {
   primary: {
-    light: '#444444',
-    main: '#2F2F2F',
+    main: '#895700',
     contrastText: '#fff'
   },
   warning: {
@@ -33,7 +32,7 @@ export const palette = {
   },
   simdatukPrimary: {
     main: '#895700',
-    dark: '#2F2F2F'
+    contrastText: '#fff'
   },
   sidatukDraweBase: {
     main: '#394346',
@@ -113,7 +112,7 @@ export const successButtonStyle = {
 
 export const primaryButtonStyle = {
   '&:hover': {
-    backgroundColor: '#FEA73D',
+    backgroundColor: '#895700',
     boxShadow: 'none'
   },
   '&:active': {
