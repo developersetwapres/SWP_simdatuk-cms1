@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from 'react'
-import { Button, Icon, Input, Modal } from '../shared'
+import { Button, Input, Modal } from '../shared'
 import PropTypes from 'prop-types'
-import { CLOSE_ICON } from '@/utils/iconConstant'
+import CloseIcon from '@mui/icons-material/Close'
 import { primaryButtonStyle } from '@/utils/theme'
 import { makeStyles } from '@mui/styles'
 import { useForm } from '@/hooks/'
@@ -11,13 +11,18 @@ import { formatEmail } from '@/utils/'
 const useStyles = (makeStyles({
   modal: {
     display: 'block',
-    margin: '0 auto'
+    padding: '0'
   },
   iconClose: {
     cursor: 'pointer',
     position: 'absolute',
-    top: '40px',
-    right: '30px'
+    top: '20px',
+    right: '20px'
+  },
+  fontBold: {
+    fontWeight: '600',
+    padding: '0',
+    margin: '0'
   }
 }))
 
@@ -83,25 +88,35 @@ function LoginModal({
         }}
         sx={{
           '.MuiBackdrop-root': {
-            background: 'rgba(0, 0, 0, 0.1)'
-          },
-          margin: '0 25px'
+            background: 'rgba(0, 0, 0, 0.5)'
+          }
+          // margin: '0 25px'
         }}
         width='500px'
       >
         <div className={classes.modal}>
-          <Icon
-            path={CLOSE_ICON}
-            maxWidth={20}
-            classes={classes.iconClose}
+          <CloseIcon
             onClick={() => {
               setResetEmail(false)
               setErrors('')
               window.location.reload()
             }}
+            widht={5}
+            color='simdatukPrimary'
+            sx={{
+              position: 'absolute',
+              p: '2px',
+              top: '10px',
+              right: '10px',
+              cursor: 'pointer',
+              '&:hover': {
+                bgcolor: 'rgba(0, 0, 0, 0.1)',
+                borderRadius: '50%'
+              }
+            }}
           />
           <div>
-            <img
+            {/* <img
               src='/images/logo_setneg.svg'
               alt='logo'
               style={{
@@ -110,9 +125,9 @@ function LoginModal({
                 margin: '0 auto',
                 display: 'block'
               }}
-            />
+            /> */}
             <div style={{
-              marginTop: '40px'
+              textAlign: 'center'
             }}>
               <h3>Lupa Password ?</h3>
               <p>Kami akan mengirim instruksi melalui email untuk mengganti password. Silakan masukkan password anda.</p>
@@ -123,6 +138,7 @@ function LoginModal({
 
               <Input
                 label='Email'
+                classesLabel={classes.fontBold}
                 placeholder='Masukan Email Anda'
                 fullWidth
                 name='resetEmail'
@@ -132,11 +148,11 @@ function LoginModal({
               />
             </div>
             <div style={{
-              marginTop: '40px'
+              marginTop: '30px'
             }}>
               <Button
-                text='Reset Password'
-                color='warning'
+                text='Kirim'
+                color='primary'
                 fullWidth
                 type='submit'
                 sx={{
@@ -160,33 +176,41 @@ function LoginModal({
         }}
       >
         <div className={classes.modal}>
-          <Icon
-            path={CLOSE_ICON}
-            maxWidth={20}
-            classes={classes.iconClose}
+          <CloseIcon
             onClick={handleCloseModal}
+            widht={5}
+            color='simdatukPrimary'
+            sx={{
+              position: 'absolute',
+              p: '2px',
+              top: '10px',
+              right: '10px',
+              cursor: 'pointer',
+              '&:hover': {
+                bgcolor: 'rgba(0, 0, 0, 0.1)',
+                borderRadius: '50%'
+              }
+            }}
           />
           <div>
-            <img
-              src='/images/logo_setneg.svg'
-              alt='logo'
-              style={{
-                width: '100%',
-                maxWidth: '460px',
-                margin: '0 auto',
-                display: 'block'
-              }}
-            />
             <div style={{
-              marginTop: '40px'
+              marginTop: '40px',
+              textAlign: 'center'
             }}>
               <h3>Email sudah dikirim</h3>
               <p>Silahkan cek email anda untuk tahap proses pergantian password yang baru.</p>
             </div>
-            <p style={{
-              textAlign: 'center',
-              fontSize: '17px'
-            }}>Kembali ke <span style={{ color: '#FE9516', cursor: 'pointer' }} onClick={() => setEmailSentModal(false)}>Login</span></p>
+            <Button
+              text='Tutup'
+              color='primary'
+              fullWidth
+              type='submit'
+              sx={{
+                ...primaryButtonStyle,
+                textTransform: 'none'
+              }}
+              onClick={handleCloseModal}
+            />
           </div>
         </div>
       </Modal>
