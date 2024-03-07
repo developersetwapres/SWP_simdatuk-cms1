@@ -1,18 +1,21 @@
 /* eslint-disable @next/next/no-img-element */
 import Footer from '@/components/core/Footer'
 import React, { useState, useEffect } from 'react'
-import { Box, Container, Grid } from '@mui/material'
+import { Box, Container, Grid, Typography, Stack } from '@mui/material'
+import Image from 'next/image'
 import { makeStyles } from '@mui/styles'
 import { useForm } from '@/hooks/'
 import ResetPasswordForm from './ResetPasswordForm'
 import { useDispatch, useSelector } from 'react-redux'
 import { GET_HASH_URL_PASSWORD_REQUESTED, RESET_PASSWORD_REQUESTED } from '@/store/constants'
 import PropTypes from 'prop-types'
+import logo from '/public/simdatuk/image 69.png'
+
 
 // eslint-disable-next-line no-unused-vars
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: '#2F2F2F',
+    backgroundColor: '#fff',
     height: '100%',
     minHeight: '100vh',
     // padding: '10px',
@@ -87,51 +90,83 @@ function ResetPasswordComponent({
       className={classes.root}
     >
       <Container
-        maxWidth='sm'
+        maxWidth='lg'
+        sx={{
+          bgcolor: '#fff'
+        }}
       >
         <Grid
           container
           direction='column'
+          alignItems='center'
+          sx={{
+            bgcolor: '#fff'
+          }}
         >
           <Grid
             item
+            alignSelf='self-start'
             lg={12}
             xl={12}
             md={12}
             sm={12}
             xs={12}
+            sx={{
+              p: 2
+            }}
           >
-            <img
-              src='/images/logo_setneg.svg'
-              alt='logo'
-              style={{
-                width: '100%',
-                maxWidth: '460px',
-                height: '98px',
-                display: 'block',
-                margin: '40px auto'
-              }}
-            />
+            <Stack
+              direction='row'
+              spacing={2}
+              alignItems='center'
+            >
+              <Image
+                src={logo}
+                alt='Logo'
+                width={60}
+                height={60}
+              />
+              <Typography
+                variant='h4'
+                fontWeight='500'
+                component='h4'
+                color='primary'
+                sx={{
+
+                }}
+              >
+                SIMDATUK
+              </Typography>
+            </Stack>
           </Grid>
-          <Grid
-            item
+          <Box
+            contnainer
+            alignItems='center'
+            width='50%'
+            maxWidth='md'
+            color='sidatukDraweBase.main'
           >
-            <h2>Reset Password</h2>
-            <p style={{
-              marginTop: '-10px'
-            }}>Reset Password akun: {selector?.resetPassword.email ?? '-'}</p>
-          </Grid>
-          <Grid
-            item
-          >
-            <ResetPasswordForm
-              values={values}
-              handleInputChange={handleInputChange}
-              handleSubmitReset={handleSubmitReset}
-              errors={errors}
-              stateLoading={selector}
-            />
-          </Grid>
+            <Grid
+              item
+              textAlign='center'
+            >
+              <h2>Reset Password</h2>
+              <p style={{
+                marginTop: '-10px'
+              }}>Reset Password akun: {selector?.resetPassword.email ?? '-'}</p>
+            </Grid>
+            <Grid
+              item
+            >
+              <ResetPasswordForm
+                values={values}
+                handleInputChange={handleInputChange}
+                handleSubmitReset={handleSubmitReset}
+                errors={errors}
+                stateLoading={selector}
+              />
+            </Grid>
+          </Box>
           <Grid
             item
             sx={{
