@@ -5,7 +5,6 @@ import { Modal as MuiModal, Box } from '@mui/material'
 function Modal({
   open,
   width = '600px',
-  padding = '5rem 2.5rem',
   children,
   otherStyle,
   ...others
@@ -20,7 +19,8 @@ function Modal({
     bgcolor: 'background.paper',
     border: 'none',
     // boxShadow: 24,
-    padding: padding,
+    px: 4,
+    py: 3,
     borderRadius: '20px',
     outline: 'none'
   }
