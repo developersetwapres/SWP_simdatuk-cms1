@@ -10,8 +10,14 @@ const useStyles = makeStyles({
   icon: {
     cursor: 'pointer',
     position: 'absolute',
-    top: '41px',
-    right: '10px'
+    top: '70%',
+    right: '1%',
+    transform: 'translate(-50%, -50%)'
+  },
+  fontBold: {
+    fontWeight: '600',
+    padding: '0',
+    margin: '0'
   }
 })
 
@@ -41,7 +47,8 @@ function ResetPasswordForm({
       container
       direction='column'
       sx={{
-        marginTop: '20px'
+        marginTop: '20px',
+        backgroundColor: '#fff'
       }}
     >
       <Form>
@@ -53,6 +60,7 @@ function ResetPasswordForm({
         >
           <div style={{ position: 'relative' }}>
             <Input
+              classesLabel={classes.fontBold}
               label='Password Baru'
               name='newPassword'
               value={values.newPassword}
@@ -61,14 +69,20 @@ function ResetPasswordForm({
               fullWidth
               sx={{
                 backgroundColor: '#fff',
-                borderRadius: '6px'
+                borderRadius: '6px',
+                border: errors.newPassword ? '1px solid #d32f2f' : '',
+                '&:active': {
+                  borderColor: '#d32f2f'
+                }
               }}
             />
             {
-              errors?.newPassword && (
+              errors.newPassword && (
                 <p style={{
+                  position: 'absolute',
                   color: '#d32f2f',
-                  marginTop: '5px'
+                  margin: '0',
+                  fontSize: '12px'
                 }}>{errors.newPassword}</p>
               )
             }
@@ -88,6 +102,7 @@ function ResetPasswordForm({
         >
           <div style={{ position: 'relative' }}>
             <Input
+              classesLabel={classes.fontBold}
               label='Konfirmasi Password'
               name='confirmNewPassword'
               value={values.confirmNewPassword}
@@ -96,14 +111,20 @@ function ResetPasswordForm({
               onChange={handleInputChange}
               sx={{
                 backgroundColor: '#fff',
-                borderRadius: '6px'
+                borderRadius: '6px',
+                border: errors.confirmNewPassword ? '1px solid #d32f2f' : '',
+                '& .Mui-focused': {
+                  borderColor: 'red'
+                }
               }}
             />
             {
               errors.confirmNewPassword && (
                 <p style={{
+                  position: 'absolute',
                   color: '#d32f2f',
-                  marginTop: '5px'
+                  margin: '0',
+                  fontSize: '12px'
                 }}>{errors.confirmNewPassword}</p>
               )
             }
@@ -125,9 +146,10 @@ function ResetPasswordForm({
             textTransform: 'none',
             ...primaryButtonStyle,
             fontWeight: 'bold',
-            fontSize: '15px'
+            fontSize: '15px',
+            mt: 3
           }}
-          color='warning'
+          color='primary'
           fullWidth
           isBusy={stateLoading?.isBusy}
           isLoading={stateLoading?.loading}
