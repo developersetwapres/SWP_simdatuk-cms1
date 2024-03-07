@@ -10,15 +10,13 @@ export default connect(
   mapActions(
     'authenticationAction',
     'forgetPassword',
-    'authenticationQrCodeAction'
   )
 )(
   class LoginContainer extends Component {
     static propTypes = {
       authentication: PropTypes.object,
       authenticationAction: PropTypes.func,
-      forgetPassword: PropTypes.func,
-      authenticationQrCodeAction: PropTypes.func
+      forgetPassword: PropTypes.func
     }
 
     constructor(props) {
@@ -33,7 +31,6 @@ export default connect(
           {...this.props}
           authentication={this.props.authenticationAction}
           forgetPassword={this.props.forgetPassword}
-          qrCode={this.props.authenticationQrCodeAction}
         />
       )
     }
