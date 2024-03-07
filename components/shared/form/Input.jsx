@@ -36,7 +36,6 @@ function Input({
     <Fragment>
       <p className={classesLabel ? classesLabel : classes.label}>{label}</p>
       <TextField
-        margin='dense'
         variant={variant || 'outlined'}
         name={name}
         value={value || ''}
