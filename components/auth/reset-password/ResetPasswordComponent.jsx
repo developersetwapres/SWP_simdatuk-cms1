@@ -9,7 +9,7 @@ import ResetPasswordForm from './ResetPasswordForm'
 import { useDispatch, useSelector } from 'react-redux'
 import { GET_HASH_URL_PASSWORD_REQUESTED, RESET_PASSWORD_REQUESTED } from '@/store/constants'
 import PropTypes from 'prop-types'
-import logo from '/public/simdatuk/image 69.png'
+import logo from '/public/simdatuk/Logo.png'
 
 
 // eslint-disable-next-line no-unused-vars

@@ -100,7 +100,7 @@ function Layout({
           variant='h5'
         >
           <img
-            src='/images/Logo_Setneg_White.svg'
+            src='/simdatuk/Logo.png'
             alt='logo'
             style={{
               width: '100%',
