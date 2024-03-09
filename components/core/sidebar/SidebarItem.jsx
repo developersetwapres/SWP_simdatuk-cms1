@@ -7,7 +7,7 @@ import {
   List
 } from '@mui/material'
 import { makeStyles } from '@mui/styles'
-import { KeyboardArrowRight, KeyboardArrowUp } from '@mui/icons-material'
+import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material'
 import PropTypes from 'prop-types'
 import { useRouter } from 'next/router'
 import { onlyRole } from '@/utils/index'
@@ -58,10 +58,14 @@ function SidebarItem({
     router.push(path)
   }
 
-  const menuAccess = decryptItem('setneg_menu', 'my-menu') !== null ? decryptItem('setneg_menu', 'my-menu') : ''
+  const menuAccess = decryptItem('setneg_menu', 'my-menu') !== null ?
+    decryptItem('setneg_menu', 'my-menu') : ''
+
   return (
     <div
-      className={`${typeof path !== 'undefined' && router.pathname.split('/')[1] === path?.split('/')[1] ? classes.activeRoute : ''}`}
+      className={`${typeof path !== 'undefined' && router.pathname.split('/')[1] === path?.split('/')[1] ?
+        classes.activeRoute : ''
+        } `}
     >
       <ListItemButton
         onClick={() => { handleOpen(path) }}
@@ -76,7 +80,8 @@ function SidebarItem({
         />
         {
           typeof child !== 'undefined' && (
-            open || router.pathname.split('/')[1].replace('-', ' ') === name.toLowerCase() ? <KeyboardArrowUp /> : <KeyboardArrowRight />
+            open || router.pathname.split('/')[1].replace('-', ' ') === name.toLowerCase() ?
+              <KeyboardArrowUp /> : <KeyboardArrowDown />
           )
         }
       </ListItemButton>
@@ -92,28 +97,27 @@ function SidebarItem({
               disablePadding
             >
               {
-                menuAccess?.access?.map(vm => {
-                  return (
-                    child?.map((value, i) => (
-                      onlyRole(vm?.name, value?.permission) && (
-                        <ListItemButton
-                          className={`${classes.listItemButtonChildren} ${router.pathname.split('/')[2] === value.path.split('/')[2] ? classes.activeRoute : ''}`}
-                          key={i}
-                          onClick={() => handlePageChange(value.path)}
-                          selected={router.pathname === value.path}
-                        >
-                          <ListItemIcon>
-                            {value.icon}
-                          </ListItemIcon>
-                          <ListItemText
-                            primary={value.name}
-                            className={classes.listItemText}
-                          />
-                        </ListItemButton>
-                      )
-                    ))
-                  )
-                })
+                child?.map((value, i) => (
+                  <ListItemButton
+                    className={
+                      `${classes.listItemButtonChildren} ${router.pathname.split('/')[2] === value.path.split('/')[2] ?
+                        classes.activeRoute : ''
+                      } `
+                    }
+                    key={i}
+                    onClick={() => handlePageChange(value.path)}
+                    selected={router.pathname === value.path}
+                  >
+                    <ListItemIcon>
+                      {value.icon}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={value.name}
+                      className={classes.listItemText}
+                    />
+                  </ListItemButton>
+                ))
+
               }
             </List>
           </Collapse>
