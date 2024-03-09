@@ -1,21 +1,54 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from 'react'
 import {
   AppBar as MuiAppBase,
   Toolbar,
   IconButton,
-  Box
+  Box,
+  Typography,
+  TextField
 } from '@mui/material'
 import { Menu } from '@mui/icons-material'
-import ButtonMenu from './ButtonMenu'
+import LogoutIcon from '@mui/icons-material/Logout'
 import PropTypes from 'prop-types'
 import { Button, ModalConfirm } from '../shared'
 import { blackButtonStyle, primaryButtonStyle } from '@/utils/theme'
-import Notification from './Notification'
 import { useRouter } from 'next/router'
 import breadcrumbs from './breadcrumb'
 import { useDispatch, useSelector } from 'react-redux'
 import { AUTHENTICATION_LOGOUT_REQUESTED } from '@/store/constants'
+import SearchIcon from '@mui/icons-material/Search'
+import { makeStyles } from '@mui/styles'
+
+const useStyles = makeStyles((theme) => ({
+  searchParent: {
+    display: 'flex',
+    gap: 5,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    height: '100%',
+    width: '100%',
+    backgroundColor: 'rgba(255,255,255,0.9)',
+    border: '1px solid #878787',
+    outline: 'none',
+    overflow: 'hidden'
+  },
+  input: {
+    cursor: 'text',
+    caretColor: '#000',
+    color: '#000',
+    border: 'none',
+    width: '100%',
+    padding: '10px 14px',
+    backgroundColor: 'transparent',
+    fontSize: '16px',
+    transition: theme.transitions.create('width'),
+    '&:focus': {
+      outline: 'none'
+    }
+  }
+}))
 
 function Appbar({
   open,
@@ -23,6 +56,8 @@ function Appbar({
   setOpen = () => { }
 }) {
   const router = useRouter()
+  const classes = useStyles()
+  const [searcOpen, setSearchOpen] = useState(false)
   const [modalLogout, setModalLogout] = useState(false)
   const dispatch = useDispatch()
   const selector = useSelector((state) => state.authentication)
@@ -67,6 +102,8 @@ function Appbar({
     dispatch({ type: AUTHENTICATION_LOGOUT_REQUESTED })
   }
 
+  console.log(classes.input)
+
   return (
     <MuiAppBase
       position='absolute'
@@ -75,11 +112,12 @@ function Appbar({
         width: {
           sm: `calc(100%) - ${drawerWidth}px`
         },
+        bgcolor: '#fff',
+        color: '#000',
         ml: {
           sm: `${drawerWidth}`
         }
       }}
-      color='primary'
     >
       <Toolbar
         sx={{
@@ -89,25 +127,10 @@ function Appbar({
           }
         }}
       >
-        <IconButton
-          color='inherit'
-          aria-label='open drawer'
-          edge='start'
-          onClick={handleOpen}
-          sx={{
-            mr: 2,
-            display: {
-              sm: 'none'
-            }
-          }}
-        >
-          <Menu />
-        </IconButton>
         <p></p>
         <Box sx={{
           display: 'flex',
           alignItems: 'center',
-          // width: '10%',
           justifyContent: 'space-between',
           width: {
             xl: '80%',
@@ -115,28 +138,101 @@ function Appbar({
             md: '81%'
           }
         }}>
-          <IconButton
-            color='inherit'
-            aria-label='open drawer'
-            edge='start'
+          <Box
             sx={{
-              display: {
-                xl: 'block',
-                lg: 'block',
-                md: 'block',
-                sm: 'none',
-                xs: 'none'
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+              flexDirection: {
+                xl: 'row',
+                lg: 'row',
+                md: 'column',
+                sm: 'column',
+                xs: 'column'
               }
             }}
           >
-            <Menu />
-          </IconButton>
-          <div>
-            <Notification />
-            <ButtonMenu
-              handleModalLogout={handleModalLogout}
+            <IconButton
+              color='inherit'
+              aria-label='open drawer'
+              edge='start'
+              sx={{
+                width: '40px',
+                height: '40px',
+                display: {
+                  xl: 'flex',
+                  lg: 'flex',
+                  md: 'flex',
+                  sm: 'none',
+                  xs: 'none'
+                },
+                alignItems: 'center'
+              }}
+            >
+              <Menu />
+            </IconButton>
+            <Typography
+              sx={{
+                fontSize: '12px'
+              }}
+            >
+              SIMDATUK (SISTEM INFORMASI MANAJEMEN DATA DUKUNGAN KEPEGAWAIAN SEKRETARIAT WAKIL PRESIDEN)
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              flexDirection: {
+                xl: 'row',
+                lg: 'row',
+                md: 'row',
+                sm: 'column',
+                xs: 'row'
+              }
+            }}
+          >
+            <TextField
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  console.log(e.target.value)
+                }
+              }}
+              size='small'
+              label='Search'
+              height='50px'
+              sx={{
+                height: '10%',
+                display: `${searcOpen ? 'flex' : 'none'}`,
+                '&:focus': {
+                  outline: '#000'
+                }
+              }}
             />
-          </div>
+            <IconButton
+              onClick={() => setSearchOpen(!searcOpen)}
+              type='button'
+              sx={{ p: '10px' }}
+              aria-label='search'>
+              <SearchIcon />
+            </IconButton>
+            <div
+              onClick={() => handleModalLogout(true)}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 4,
+                cursor: 'pointer'
+              }}
+            >
+              <Typography>
+                Logout
+              </Typography>
+              <LogoutIcon />
+            </div>
+          </Box>
         </Box>
       </Toolbar>
       <Box sx={{
@@ -192,7 +288,6 @@ function Appbar({
           sx={{
             display: 'flex',
             alignItems: 'center',
-            // flexWrap: 'nowrap',
             flexDirection: {
               xl: 'row',
               lg: 'row',
@@ -237,7 +332,7 @@ function Appbar({
           />
         </Box>
       </ModalConfirm>
-    </MuiAppBase>
+    </MuiAppBase >
   )
 }
 
