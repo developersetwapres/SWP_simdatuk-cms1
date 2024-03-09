@@ -16,12 +16,14 @@ import Drawer from '@/components/core/Drawer'
 import Paper from '@/components/shared/overrides/Paper'
 import BackdropPage from './BackdropPage'
 import SidebarItem from './sidebar/SidebarItem'
+import Image from 'next/image'
+import Search from './Search'
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex'
   },
   toolbar: {
-    justifyContent: 'center',
     padding: '1rem'
   },
   listItemText: {
@@ -68,6 +70,35 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#FE9516 !important',
     padding: '12px 4px',
     maxWidth: '300px'
+  },
+  boxToolbar: {
+    display: 'flex',
+    gap: '1rem',
+    alignItems: 'center'
+  },
+  inputParent: {
+    display: 'flex',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    border: '1px solid #878787',
+    margin: '1rem',
+    borderRadius: '4px'
+  },
+  input: {
+    cursor: 'text',
+    caretColor: '#fff',
+    color: '#fff',
+    border: 'none',
+    borderRight: '1px solid #fff',
+    width: '100%',
+    padding: '10px 14px',
+    backgroundColor: 'transparent',
+    fontSize: '16px',
+    '&:focus': {
+      outline: 'none',
+      borderRight: '1px solid #fff'
+
+    }
   }
 }))
 
@@ -78,38 +109,106 @@ function Layout({
 }) {
   const classes = useStyles()
   const [mobile, setMobile] = useState(false)
-  const [toggleOpen, setToggleOpen] = useState([])
+  // const [toggleOpen, setToggleOpen] = useState([])
   const handleMobile = () => {
     setMobile(!mobile)
   }
 
-  // eslint-disable-next-line no-unused-vars
-  const handleToggleOpen = (e, index) => {
-    setToggleOpen({ [e]: !toggleOpen[e] })
+  const handleSearch = (searchValue) => {
+    console.log(searchValue)
   }
+
+  // eslint-disable-next-line no-unused-vars
+  // const handleToggleOpen = (e, index) => {
+  //   setToggleOpen({ [e]: !toggleOpen[e] })
+  // }
 
   const container = window !== undefined ? () => window().document.body : undefined
 
-
   // Drawer List 
   const drawer = (
-    <Fragment>
-      <Toolbar className={classes.toolbar}>
-        <Typography
-          component='h5'
-          variant='h5'
+    <Fragment
+    >
+      <Toolbar
+        disableGutters
+        className={classes.toolbar}
+      >
+        <Box
+          component='div'
+          className={classes.boxToolbar}
         >
-          <img
+          <Image
             src='/simdatuk/Logo.png'
             alt='logo'
+            width={50}
+            height={50}
             style={{
-              width: '100%',
-              maxWidth: '225px',
-              height: '40px'
+              maxWidth: '225px'
             }}
           />
-        </Typography>
+          <Typography
+            variant='h5'
+            component='h5'
+            fontSize='24px'
+            fontWeight='600'
+            lineHeight='32px'
+          >
+            SIMDATUK
+          </Typography>
+        </Box>
       </Toolbar>
+      <Toolbar
+        disableGutters
+        className={classes.toolbar}
+      >
+        <Box
+          component='div'
+          className={classes.boxToolbar}
+        >
+          <Box
+            width={50}
+            height={50}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: '50%',
+              overflow: 'hidden',
+              backgroundColor: '#fff'
+            }}
+          >
+            <Image
+              src='/simdatuk/profile.png'
+              alt='logo'
+              width={50}
+              height={50}
+            />
+          </Box>
+          <Box>
+            <Typography
+              variant='h6'
+              component='p'
+              fontSize='16px'
+              fontWeight='600'
+            >
+              Sabio Ekuator
+            </Typography>
+            <Typography
+              variant='p'
+              component='p'
+            >
+              Administrator
+            </Typography>
+          </Box>
+        </Box>
+      </Toolbar>
+      <Search
+        onSearch={handleSearch}
+        inputParentClasses={classes.inputParent}
+        inputClass={classes.input}
+        iconColor='#fff'
+        placeholder='Search'
+      />
       <List>
         {
           navigation.map((item, index) => (
@@ -118,13 +217,12 @@ function Layout({
               icon={item.icon}
               child={item.children}
               path={item.path}
-              role={item.permission}
               key={index}
             />
           ))
         }
       </List>
-    </Fragment>
+    </Fragment >
   )
 
   return (
