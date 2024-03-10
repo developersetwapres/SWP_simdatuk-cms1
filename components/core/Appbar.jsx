@@ -106,6 +106,7 @@ function Appbar({
 
   return (
     <MuiAppBase
+      elevation={0}
       position='absolute'
       open={open}
       sx={{
@@ -127,6 +128,20 @@ function Appbar({
           }
         }}
       >
+        <IconButton
+          color='inherit'
+          aria-label='open drawer'
+          edge='start'
+          onClick={handleOpen}
+          sx={{
+            mr: 2,
+            display: {
+              sm: 'none'
+            }
+          }}
+        >
+          <Menu />
+        </IconButton>
         <p></p>
         <Box sx={{
           display: 'flex',
@@ -135,7 +150,9 @@ function Appbar({
           width: {
             xl: '80%',
             lg: '81%',
-            md: '81%'
+            md: '73%',
+            sm: '60%',
+            xs: '100%'
           }
         }}>
           <Box
@@ -146,8 +163,8 @@ function Appbar({
               flexDirection: {
                 xl: 'row',
                 lg: 'row',
-                md: 'column',
-                sm: 'column',
+                md: 'row',
+                sm: 'row',
                 xs: 'column'
               }
             }}
@@ -163,7 +180,7 @@ function Appbar({
                   xl: 'flex',
                   lg: 'flex',
                   md: 'flex',
-                  sm: 'none',
+                  sm: 'flex',
                   xs: 'none'
                 },
                 alignItems: 'center'
@@ -243,7 +260,7 @@ function Appbar({
           sm: '50px',
           xs: '50px'
         },
-        backgroundColor: '#444444',
+        backgroundColor: '#f4f4f4',
         display: 'flex',
         alignItems: 'center',
         justifyContent: {
