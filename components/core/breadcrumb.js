@@ -140,8 +140,8 @@ const breadcrumbs = [
     ]
   },
   {
-    path: '/banner',
-    name: 'Daftar Banner',
+    path: '/dashboard',
+    name: 'Dashboard',
     children: [
       {
         pathChild: '/banner/create',
