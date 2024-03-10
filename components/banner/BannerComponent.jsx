@@ -1,36 +1,26 @@
+/* eslint-disable no-unused-vars */
 import React from 'react'
 import BannerToolbarComponent from './BannerToolbarComponent'
 import PropTypes from 'prop-types'
-import BannerListComponent from './BannerListComponent'
+import BannerDataComponent from './bannerData/BannerDataComponent'
+import { Box } from '@mui/material'
 
 function BannerComponent({
   banner,
   queries,
-  deleteListBanner = () => { },
-  onPaginationChange = () => { },
-  onSearch = () => { },
-  onStatus = () => { },
-  onType = () => { },
+  // deleteListBanner = () => { },
+  // onPaginationChange = () => { },
+  onBirthDay = () => { },
   onClearFilter = () => { }
 }) {
   return (
     <>
       <BannerToolbarComponent
-        onSearch={onSearch}
-        onStatus={onStatus}
-        onType={onType}
+        onBirthDay={onBirthDay}
         queries={queries}
         onClearFilter={onClearFilter}
       />
-      <BannerListComponent
-        items={banner?.banner}
-        pagination={banner?.pagination}
-        deleteListBanner={deleteListBanner}
-        onPaginationChange={onPaginationChange}
-        loading={banner?.loading}
-        bannerLoading={banner}
-        resetPagination={queries?.page}
-      />
+      <BannerDataComponent />
     </>
   )
 }
@@ -40,9 +30,7 @@ BannerComponent.propTypes = {
   queries: PropTypes.object,
   deleteListBanner: PropTypes.func,
   onPaginationChange: PropTypes.func,
-  onSearch: PropTypes.func,
-  onStatus: PropTypes.func,
-  onType: PropTypes.func,
+  onBirthDay: PropTypes.func,
   onClearFilter: PropTypes.func
 }
 
