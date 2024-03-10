@@ -1,7 +1,7 @@
 import React from 'react'
 import { Typography } from '@mui/material'
 
-export default function Footer (props) {
+export default function Footer(props) {
   return (
     <Typography
       variant='body2'
@@ -9,7 +9,7 @@ export default function Footer (props) {
       align='center'
       {...props}
     >
-          Copyright &copy; Kemensetneg - Setneg Playbook {new Date().getFullYear()}
+      &copy; {new Date().getFullYear()} Sekretariat Wakil Presiden.
     </Typography>
   )
 }
