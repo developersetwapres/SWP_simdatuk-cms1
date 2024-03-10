@@ -35,9 +35,9 @@ function MuiAutocomplete({
 
   return (
     <>
-      <p style={{
+      {/* <p style={{
         marginBottom: '8px'
-      }}>{label}</p>
+      }}>{label}</p> */}
       <Autocomplete
         freeSolo
         value={value}
