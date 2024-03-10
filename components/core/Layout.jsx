@@ -13,7 +13,6 @@ import Appbar from '@/components/core/Appbar'
 import PropTypes from 'prop-types'
 import navigation from '@/components/core/navigation'
 import Drawer from '@/components/core/Drawer'
-import Paper from '@/components/shared/overrides/Paper'
 import BackdropPage from './BackdropPage'
 import SidebarItem from './sidebar/SidebarItem'
 import Image from 'next/image'
@@ -252,7 +251,13 @@ function Layout({
           maxWidth='xl'
           className={classes.container}
         >
-          <Paper>
+          <Box
+            elevation='0'
+            sx={{
+              backgroundColor: '#f4f4f4',
+              paddding:'0 '
+            }}
+          >
             {
               willRender === false ? (
                 <>
@@ -267,7 +272,7 @@ function Layout({
                 </>
               )
             }
-          </Paper>
+          </Box>
         </Container>
         <Footer className={classes.footer} />
       </Box>
