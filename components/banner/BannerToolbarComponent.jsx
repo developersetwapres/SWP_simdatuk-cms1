@@ -1,211 +1,100 @@
 import React, { useState } from 'react'
-import { Grid } from '@mui/material'
-import { Autocomplete, Button } from '@/components/shared/index'
-import { useRouter } from 'next/router'
-import { primaryButtonStyle, blackButtonStyle } from '@/utils/theme'
-import { makeStyles } from '@mui/styles'
+import { Box, Grid, Typography, Paper } from '@mui/material'
+import { Autocomplete } from '@/components/shared/index'
 import PropTypes from 'prop-types'
+import BannerListComponent from './BannerListComponent'
 
-const useStyles = makeStyles({
-  input: {
-    cursor: 'text',
-    borderRadius: '4px',
-    border: '1px solid #000',
-    width: '100%',
-    padding: '10px 14px',
-    fontSize: '16px',
-    '&:focus': {
-      outline: 'none',
-      border: '1px solid #878787'
-    }
-  }
-})
 
 
 function BannerToolbarComponent({
   // eslint-disable-next-line no-unused-vars
   queries,
-  onSearch = () => { },
-  onStatus = () => { },
-  onType = () => { },
-  onClearFilter = () => { }
+  onBirthDay = () => { }
+  // onClearFilter = () => { }
 }) {
-  const router = useRouter()
-  const classes = useStyles()
-  const [filterStatus, setFilterStatus] = useState('')
-  const [filterType, setFilterType] = useState('')
-  const [search, setSearch] = useState('')
+  const [birthDate, setBirthDate] = useState('')
 
-  const handleChangeStatus = (e) => {
-    setFilterStatus(e.target.value)
-    onStatus(e.target.value)
+  const handleBirthDay = (e) => {
+    setBirthDate(e.target.value)
+    onBirthDay(e.target.value)
   }
 
-  const handleChangeType = (e) => {
-    setFilterType(e.target.value)
-    onType(e.target.value)
-  }
 
-  const handleClearAll = () => {
-    onClearFilter()
-    setFilterStatus('')
-    setFilterType('')
-    setSearch('')
-  }
+
+  // const handleClearAll = () => {
+  //   onClearFilter()
+  //   setFilterStatus('')
+  //   setFilterType('')
+  //   setSearch('')
+  // }
+
+  const months = [
+    { id: 1, name: 'January' },
+    { id: 2, name: 'February' },
+    { id: 3, name: 'March' },
+    { id: 4, name: 'April' },
+    { id: 5, name: 'May' },
+    { id: 6, name: 'June' },
+    { id: 7, name: 'July' },
+    { id: 8, name: 'August' },
+    { id: 9, name: 'September' },
+    { id: 10, name: 'October' },
+    { id: 11, name: 'November' },
+    { id: 12, name: 'December' }
+  ]
+
   return (
     <>
-      <Grid
+      <Paper
+        elevation={2}
         container
         direction='column'
+        sx={{
+          backgroundColor: '#fff',
+          padding: '1rem'
+        }}
       >
         <Grid
           container
           direction='row'
+          alignItems='center'
+          justifyContent='space-between'
         >
-          <Grid
-            item
-          >
-            <Button
-              text='Tambah Banner'
-              color='warning'
-              sx={{
-                ...primaryButtonStyle,
-                textTransform: 'none'
-              }}
-              onClick={() => router.push('/banner/create')}
-            />
-          </Grid>
-          <Grid
-            item
-          >
-            <Button
-              text='Sort Banner'
-              sx={{
-                marginLeft: '20px',
-                ...blackButtonStyle,
-                textTransform: 'none'
-              }}
-              onClick={() => router.push('/banner/sort-banner')}
-            />
-          </Grid>
-        </Grid>
-        <Grid
-          item
-          sx={{
-            marginTop: '30px'
-          }}
-        >
-          <p style={{
-            marginBottom: '8px'
-          }}>Pencarian</p>
-          <input
-            type='text'
-            onChange={(e) => { setSearch(e.target.value) }}
-            name='search'
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                onSearch(search)
-              }
-            }}
-            className={classes.input}
-            placeholder='Masukan Pencarian: Nama Banner'
-            value={search}
-          />
-        </Grid>
-        <Grid
-          item
-        >
-          <Grid
-            container
-            direction='row'
-            justifyContent='space-between'
-            spacing={2}
-          >
-            <Grid
-              item
-              xl={6}
-              lg={6}
-              md={6}
-              sm={12}
-              xs={12}
+          <Box>
+            <Typography
+              fontWeight='500'
             >
-              <Autocomplete
-                label='Tipe'
-                options={[
-                  {
-                    id: 0, text: 'Pembelajaran', value: 0
-                  },
-                  {
-                    id: 1, text: 'Pengumuman', value: 1
-                  },
-                  {
-                    id: 2, text: 'Link', value: 2
-                  }
-                ]}
-                name='tipe'
-                placeholder='Pilih Tipe'
-                onChange={(e) => { handleChangeType(e) }}
-                value={filterType}
-              />
-            </Grid>
-            <Grid
-              item
-              xl={6}
-              lg={6}
-              md={6}
-              sm={12}
-              xs={12}
-            >
-              <Autocomplete
-                placeholder='Pilih Status'
-                label='Status'
-                name='status'
-                options={[
-                  { id: 0, text: 'Terpublikasi', status: true },
-                  { id: 1, text: 'Tidak Terpublikasi', status: false }
-                ]}
-                onChange={(e) => { handleChangeStatus(e) }}
-                value={filterStatus}
-              />
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
-      <Grid
-        container
-        direction='row'
-        justifyContent='flex-end'
-        alignItems='center'
-        sx={{
-          marginTop: '20px'
-        }}
-      >
-        <Grid
-          item
-        >
-          <Button
-            variant='outline'
-            text='Reset Filter'
+              Pegawain Yang Berulang Tahun
+            </Typography>
+          </Box>
+          <Box
             sx={{
-              textTransform: 'none',
-              border: '2px solid #FE9516',
-              color: '#FE9516',
-              padding: '10px 10px',
-              fontWeight: 'bold'
+              width: {
+                xs: '100%',
+                sm: '30%',
+                md: '20%'
+              },
+              padding: '0'
             }}
-            onClick={handleClearAll}
-          />
+          >
+            <Autocomplete
+              placeholder='Pilih'
+              name='status'
+              options={months}
+              onChange={(e) => { handleBirthDay(e) }}
+              value={birthDate}
+            />
+          </Box>
         </Grid>
-      </Grid>
+        <BannerListComponent />
+      </Paper>
     </>
   )
 }
 
 BannerToolbarComponent.propTypes = {
   queries: PropTypes.object,
-  onSearch: PropTypes.func,
-  onStatus: PropTypes.func,
-  onType: PropTypes.func,
+  onBirthDay: PropTypes.func,
   onClearFilter: PropTypes.func
 }
 
