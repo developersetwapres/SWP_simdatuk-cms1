@@ -4,7 +4,7 @@ import { mapActions, mapStateToProps } from '@/store/index'
 import { connect } from 'react-redux'
 import Layout from '@/components/core/Layout'
 import BannerSkeleton from '@/components/banner/skeleton/BannerSkeleton'
-import BannerUpdateComponent from '@/components/banner/update/BannerUpdateComponent'
+import BannerUpdateComponent from '@/components/dashboard/update/BannerUpdateComponent'
 
 const BannerUpdateContainer = ({
   router,
