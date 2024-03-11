@@ -12,8 +12,8 @@ const breadcrumbs = [
         name: 'Aparatur Sipil Negara (ASN) Non Aktif'
       },
       {
-        pathChild: '/komposisi-pegawai',
-        name: 'Update Level Pengguna'
+        pathChild: '/komposisi-pegawai/outsourcing',
+        name: 'Tenaga Outsourcing dan Non Outsourcing'
       },
       {
         pathChild: '/komposisi-pegawai',
