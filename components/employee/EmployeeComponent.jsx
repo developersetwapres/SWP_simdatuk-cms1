@@ -20,7 +20,7 @@ const EmployeeComponent = () => {
     },
     {
       id: 3,
-      path: '/komposisi-pegawai/',
+      path: '/komposisi-pegawai/outsourcing',
       type: 'Non Aparatur Sipil Negara (Non ASN) + Tim',
       amount: 162
     },
