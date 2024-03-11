@@ -9,8 +9,8 @@ import {
   Typography,
   TextField
 } from '@mui/material'
-import { Menu } from '@mui/icons-material'
-import LogoutIcon from '@mui/icons-material/Logout'
+import { Menu, LogoutRounded, ChevronLeft } from '@mui/icons-material'
+// import LogoutIcon from '@mui/icons-material/Logout'
 import PropTypes from 'prop-types'
 import { Button, ModalConfirm } from '../shared'
 import { blackButtonStyle, primaryButtonStyle } from '@/utils/theme'
@@ -74,27 +74,37 @@ function Appbar({
     breadcrumbs.map((value, index) => (
       pathname === value.path ? (
         <Box key={index}>{value.name}</Box>
-      ) : value.children?.map((child, index) => (
-        child.pathChild === pathname ? (
-          // <p key={index}>{`${value.name} > ${child.name}`}</p>
-          <Box
-            key={index}
-            sx={{
-              fontSize: {
-                xl: 'inherit',
-                lg: 'inherit',
-                md: 'inherit',
-                sm: '14.5px',
-                xs: '14.5px'
-              }
-            }}
-          >
-            <span>{value.name}</span>
-            <span style={{ marginLeft: '9px', marginRight: '9px' }}>{'>'}</span>
-            <span>{child.name}</span>
-          </Box>
-        ) : null
-      ))
+      ) :
+        value.children?.map((child, index) => (
+          child.pathChild === pathname ? (
+            // <p key={index}>{`${value.name} > ${child.name}`}</p>
+            <Box
+              key={index}
+              onClick={()=>router.back()}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                fontSize: {
+                  xl: 'inherit',
+                  lg: 'inherit',
+                  md: 'inherit',
+                  sm: '14.5px',
+                  xs: '14.5px'
+                }
+              }}
+            >
+              <ChevronLeft />
+              <Typography
+                fontWeight='500'
+                color='primary'
+              >
+                Kembali
+              </Typography>
+            </Box>
+          ) : null
+        ))
     ))
   )
 
@@ -102,7 +112,6 @@ function Appbar({
     dispatch({ type: AUTHENTICATION_LOGOUT_REQUESTED })
   }
 
-  console.log(classes.input)
 
   return (
     <MuiAppBase
@@ -247,7 +256,7 @@ function Appbar({
               <Typography>
                 Logout
               </Typography>
-              <LogoutIcon />
+              <LogoutRounded />
             </div>
           </Box>
         </Box>
