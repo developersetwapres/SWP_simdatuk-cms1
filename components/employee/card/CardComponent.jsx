@@ -1,6 +1,5 @@
 import * as React from 'react'
 import Card from '@mui/material/Card'
-import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import { Button } from '../../shared'
@@ -12,9 +11,15 @@ import PropTypes from 'prop-types'
 
 
 function CardComponent({ summary, amount }) {
+
   return (
     <Card sx={{
-      width: '240px',
+      width: {
+        lg: '16vw',
+        md: '20vw',
+        sm: '25vw',
+        xs: '50vw'
+      },
       height: '200px'
     }}>
       <CardContent
@@ -22,36 +27,40 @@ function CardComponent({ summary, amount }) {
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'space-evenly',
           alignItems: 'center'
         }}
       >
         <Typography
-          sx={{ fontSize: 12 }}
+          sx={{ fontSize: 11 }}
           fontWeight='bold'
           gutterBottom
+          paddingY={1}
+          height={60}
           textAlign='center'
         >
           {summary}
         </Typography>
         <Typography
-          variant='h2'
+          variant='h3'
           component='p'
           color='primary'
+          height={80}
           fontWeight='bold'
         >
           {amount}
         </Typography>
-        <Button
-          text='Lihat Detail'
-          color='primary'
-          fullWidth
-          type='submit'
-          sx={{
-            ...primaryButtonStyle,
-            textTransform: 'none'
-          }}
-        />
+        {amount !== 0 ? (
+          <Button
+            text='Lihat Detail'
+            color='primary'
+            fullWidth
+            type='submit'
+            sx={{
+              ...primaryButtonStyle,
+              textTransform: 'none'
+            }}
+          />
+        ) : ''}
       </CardContent>
     </Card>
   )
