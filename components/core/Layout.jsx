@@ -56,11 +56,6 @@ const useStyles = makeStyles((theme) => ({
       }
     }
   },
-  container: {
-    paddingTop: '70px',
-    paddingLeft: '35px !important',
-    paddingRight: '35px !important'
-  },
   footer: {
     paddingTop: '2.5rem',
     paddingBottom: '2.5rem'
@@ -123,7 +118,6 @@ function Layout({
   // }
 
   const container = window !== undefined ? () => window().document.body : undefined
-
   // Drawer List 
   const drawer = (
     <Fragment
@@ -249,13 +243,21 @@ function Layout({
         <Toolbar />
         <Container
           maxWidth='xl'
-          className={classes.container}
+          sx={{
+            paddingLeft: '35px !important',
+            paddingRight: '35px !important',
+            marginTop: {
+              xs: '55px',
+              md: '35px'
+            }
+          }
+          }
         >
           <Box
             elevation='0'
             sx={{
               backgroundColor: '#f4f4f4',
-              paddding:'0 '
+              paddding: '0 '
             }}
           >
             {
