@@ -18,41 +18,9 @@ const navigation = [
         sx={{ fontSize: '20px', color: '#fff' }}
       />
     ),
-    permission: [{ name: 'Pengguna' }],
-    children: [
-      {
-        path: '/manajemen-pengguna/pengguna',
-        name: 'Pengguna',
-        icon: null,
-        permission: [{ name: 'Pengguna' }]
-      },
-      {
-        path: '/manajemen-pengguna/peran-pengguna',
-        name: 'Peran Pengguna',
-        icon: null,
-        permission: [{ name: 'Peran Pengguna' }]
-      },
-      {
-        path: '/manajemen-pengguna/blacklist',
-        name: 'Blacklist',
-        icon: null,
-        permission: [{ name: 'Blacklist' }]
-      },
-      {
-        path: '/manajemen-pengguna/penyelenggara',
-        name: 'Penyelenggara',
-        icon: null,
-        permission: [{ name: 'Penyelenggara' }]
-      },
-      {
-        path: '/manajemen-pengguna/activity-log-user',
-        name: 'Activity Log User',
-        permission: [{ name: 'Activity Log' }]
-      }
-    ]
+    permission: [{ name: 'Pengguna' }]
   },
   {
-    path: '/category',
     name: 'REAKAPITULASI',
     icon: (
       <DashboardIcon
@@ -64,16 +32,43 @@ const navigation = [
     permission: [{ name: 'Kategori' }],
     children: [
       {
-        path: '/manajemen-kupon/kupon',
-        name: 'Kupon',
+        path: '/komposisi-pegawai',
+        name: 'KOMPOSISI PEGAWAI',
         icon: null,
-        permission: [{ name: 'Kupon' }]
+        permission: [{ name: 'Pengguna' }]
       },
       {
-        path: '/manajemen-kupon/pengajuan-kupon',
-        name: 'Pengajuan Kupon',
+        path: '/manajemen-pengguna/peran-pengguna',
+        name: 'PEGAWAI ASN',
         icon: null,
-        permission: [{ name: 'Pengajuan Kupon' }]
+        permission: [{ name: 'Peran Pengguna' }]
+      },
+      {
+        path: '/manajemen-pengguna/blacklist',
+        name: 'PEGAWAWAI NON ASN',
+        icon: null,
+        permission: [{ name: 'Blacklist' }]
+      },
+      {
+        path: '/manajemen-pengguna/penyelenggara',
+        name: 'PEGAWAI OUTSOURCING',
+        icon: null,
+        permission: [{ name: 'Penyelenggara' }]
+      },
+      {
+        path: '/manajemen-pengguna/activity-log-user',
+        name: 'PETA JABATAN',
+        permission: [{ name: 'Activity Log' }]
+      },
+      {
+        path: '/manajemen-pengguna/activity-log-user',
+        name: 'BANDINGKAN PEGAWAI',
+        permission: [{ name: 'Activity Log' }]
+      },
+      {
+        path: '/manajemen-pengguna/activity-log-user',
+        name: 'PROMISO PEGAWAI',
+        permission: [{ name: 'Activity Log' }]
       }
     ]
   },
