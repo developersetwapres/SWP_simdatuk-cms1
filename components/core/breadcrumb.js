@@ -1,22 +1,22 @@
 const breadcrumbs = [
   {
-    path: '/manajemen-pengguna/pengguna',
-    name: 'Daftar Pengguna',
+    path: '/komposisi-pegawai',
+    name: '',
     children: [
       {
-        pathChild: '/manajemen-pengguna/pengguna/create',
-        name: 'Tambah Pengguna'
+        pathChild: '/komposisi-pegawai/asn-aktif',
+        name: 'Aparatur Sipil Negara (ASN) Aktif + Perbantuan TNI/POLRI Pelaksana'
       },
       {
-        pathChild: '/manajemen-pengguna/pengguna/create/spreadsheet',
-        name: 'Tambah Pengguna by Spreadsheet'
+        pathChild: '/komposisi-pegawai/asn-non-aktif',
+        name: 'Aparatur Sipil Negara (ASN) Non Aktif'
       },
       {
-        pathChild: '/manajemen-pengguna/pengguna/update/level',
+        pathChild: '/komposisi-pegawai',
         name: 'Update Level Pengguna'
       },
       {
-        pathChild: '/manajemen-pengguna/pengguna/detail/[id]',
+        pathChild: '/komposisi-pegawai',
         name: 'Detail Pengguna'
       }
     ]
