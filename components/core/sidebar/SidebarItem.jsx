@@ -25,7 +25,7 @@ const useStyles = makeStyles({
     paddingLeft: '2rem'
   },
   activeRoute: {
-    backgroundColor: '#FE9516 !important'
+    backgroundColor: 'rgba(225, 225, 225, .3) !important'
   }
 })
 
