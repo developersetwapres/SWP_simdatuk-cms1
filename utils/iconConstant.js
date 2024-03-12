@@ -25,4 +25,6 @@ export const BOOK_OPEN_ICON = '/icons/book-open.png'
 export const NOTIFICATION_ICON_WARNING = '/icons/Notification_icon_warning.png'
 export const ARROW_DOWN = '/icons/chevron-down.png'
 export const BELL_WHITE = '/icons/Bell-white.png'
+export const PENCIL_SQUARE = '/icons/pencil-square.svg'
+
 
