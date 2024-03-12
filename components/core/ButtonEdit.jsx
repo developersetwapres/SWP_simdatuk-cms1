@@ -4,7 +4,6 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import PropTypes from 'prop-types'
 import { ModeEditOutline } from '@mui/icons-material'
 import { Icon } from '../shared'
-import { PENCIL_SQUARE } from '@/utils/iconConstant'
 import { makeStyles } from '@mui/styles'
 
 
@@ -54,7 +53,7 @@ function ButtonEdit() {
           }}
         >
           <Icon
-            path={PENCIL_SQUARE}
+          
             maxWidth={20}
             classes={classes.icon}
           />
