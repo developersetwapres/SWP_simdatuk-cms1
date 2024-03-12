@@ -6,7 +6,7 @@ import Icon from '../Icon'
 import { ARROW_DOWN } from '@/utils/iconConstant'
 
 function MuiAutocomplete({
-  label,
+  // label,
   options,
   value,
   name,
