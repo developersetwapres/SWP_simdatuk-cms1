@@ -294,3 +294,42 @@ export const nonOutsourcing = [
     amount: 2
   }
 ]
+
+export const eselon1 = [
+  {
+    id: 1,
+    position: 'Kepala Sekretariat Wakil Presiden',
+    name: 'Ahmad Erani Yustika, S.E., M.Sc., Ph.Dr',
+    image:'/simdatuk/imagePegawai.png',
+    eselon: 'Es. I.a., 25-01-2021',
+    golongan: 'Pembina Utama Madya (IV/d), 01-04-2017',
+    NIP: '197303221997021001'
+  },
+  {
+    id: 1,
+    position: 'Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan',
+    name: 'Dr. Ir. Suprayoga Hadi, M.S.P.',
+    image:'/simdatuk/imagePegawai.png',
+    eselon: 'Es. I.a., 25-01-2021',
+    golongan: 'Pembina Utama (IV/e), 01-04-2017',
+    NIP: '1965053019991031002'
+  },
+  {
+    id: 3,
+    position: 'Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan',
+    name: 'Dr. Velix Vernando Wanggai S.IP., MPA',
+    image:'/simdatuk/imagePegawai.png',
+    eselon: 'Es. I.a, 23-08-2022',
+    golongan: 'Pembina Utama Muda (IV/c), 01-10-2019',
+    NIP: '197202161998031005'
+  },
+  {
+    id: 3,
+    position: 'Deputi Bidang Administrasi',
+    name: 'Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.',
+    image:'/simdatuk/imagePegawai.png',
+    eselon: 'Es. I.a, 01-03-2023',
+    golongan: 'Pembina Utama (IV/e), 01-03-2023',
+    NIP: '180004061 / 197010271995031001'
+  }
+]
