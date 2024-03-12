@@ -16,8 +16,12 @@ const breadcrumbs = [
         name: 'Tenaga Outsourcing dan Non Outsourcing'
       },
       {
-        pathChild: '/komposisi-pegawai',
-        name: 'Detail Pengguna'
+        pathChild: '/komposisi-pegawai/lihat-profile',
+        name: 'Pejabat Pimpinan Tinggi Madya (Eselon I)'
+      },
+      {
+        pathChild: '/komposisi-pegawai/detail-profile',
+        name: 'Detail Profile'
       }
     ]
   },
