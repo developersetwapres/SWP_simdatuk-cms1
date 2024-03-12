@@ -9,12 +9,12 @@ import { Provider } from 'react-redux'
 import { initializeStore } from '../store'
 import ModalResponse from '@/components/shared/ModalResponse'
 import ModalCatchError from '@/components/core/ModalCatchError'
-import { requestForToken } from '@/utils/firebaseInit'
+// import { requestForToken } from '@/utils/firebaseInit'
 import Snackbar from '@/components/shared/Snackbar'
 
 const __REDUX_STORE__ = '__REDUX_STORE__'
 
-// * Get Or Create Redux Store 
+// * Get Or Create Redux Store
 function getOrCreateStore() {
   const initialState = {}
 
@@ -44,10 +44,9 @@ function SETNEGCMS({
     setLoaded(true)
   }, [])
 
-  useEffect(() => {
-    requestForToken()
-  }, [])
-
+  // useEffect(() => {
+  //   requestForToken()
+  // }, [])
 
   return (
     <Fragment>
@@ -63,16 +62,14 @@ function SETNEGCMS({
           </Head>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            {
-              loaded && (
-                <>
-                  <Snackbar />
-                  <Component {...pageProps} />
-                  <ModalResponse />
-                  <ModalCatchError />
-                </>
-              )
-            }
+            {loaded && (
+              <>
+                <Snackbar />
+                <Component {...pageProps} />
+                <ModalResponse />
+                <ModalCatchError />
+              </>
+            )}
           </ThemeProvider>
         </CacheProvider>
       </Provider>
