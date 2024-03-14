@@ -68,8 +68,7 @@ function Table({
       <Box
         sx={{
           width: 'auto',
-          overflowX: 'scroll',
-          marginTop: '52px'
+          overflowX: 'scroll'
         }}
       >
         <MuiTable>
@@ -156,8 +155,7 @@ function Table({
             sx={{
               width: '100%',
               marginLeft: 'auto',
-              marginRight: 'auto',
-              marginTop: '100px'
+              marginRight: 'auto'
             }}
           >
             <Box sx={{
