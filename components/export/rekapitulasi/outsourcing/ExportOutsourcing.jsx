@@ -27,7 +27,7 @@ const TenagaOutsourcing = () => {
           justifyContent: 'space-between',
           paddingY: '5px',
           paddingX: '8px',
-          marginY: 1,
+          marginY: '5px',
           backgroundColor: '#394346'
         }}
       >

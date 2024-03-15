@@ -24,16 +24,13 @@ const ExportNonAsn = () => {
         summary='Tim'
         data={tim}
       />
-      {/* <ExportTable
-        data={tpps}
-      /> */}
       <Box
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
           paddingY: '5px',
           paddingX: '8px',
-          marginY: 1,
+          marginY: '5px',
           backgroundColor: '#394346'
         }}
       >

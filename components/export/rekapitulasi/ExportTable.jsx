@@ -5,7 +5,7 @@ import PropsType from 'prop-types'
 
 const ExportTable = ({ summary, data }) => {
 
-  
+
   const [total, setTotal] = useState('')
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const ExportTable = ({ summary, data }) => {
           <Typography
             fontWeight='500'
             fontSize={14}
-            paddingTop={1}
+            paddingTop='5px'
           >
             {summary}
           </Typography>
