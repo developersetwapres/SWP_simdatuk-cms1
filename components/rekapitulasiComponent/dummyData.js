@@ -1,0 +1,215 @@
+export const unitKerja = [
+  {
+    id: 1,
+    path: '/komposisi-pegawai/',
+    name: 'Kepala Sekretariat Wakil Presiden',
+    amount: 1
+  },
+  {
+    id: 2,
+    path: '/komposisi-pegawai/',
+    name: 'Deputi Bidang Dukungan Kebijakan Pembangunan Ekonomi dan Peningkatan Daya Saing',
+    amount: 24
+  },
+  {
+    id: 3,
+    path: '/komposisi-pegawai/',
+    name: 'Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan',
+    amount: 26
+  },
+  {
+    id: 4,
+    path: '/komposisi-pegawai/',
+    name: 'Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan',
+    amount: 31
+  },
+  {
+    id: 5,
+    path: '/komposisi-pegawai/',
+    name: 'Deputi Bidang Administrasi',
+    amount: 186
+  },
+  {
+    id: 6,
+    path: '/komposisi-pegawai/',
+    name: 'Kementerian Sekretariat Negara',
+    amount: 15
+  }
+]
+
+export const keteranganJabatan = [
+  {
+    id: 1,
+    path: '/komposisi-pegawai/',
+    name: 'Jabatan Pimpinan Tinggi',
+    amount: 19
+  },
+  {
+    id: 2,
+    path: '/komposisi-pegawai/',
+    name: 'Jabatan Administrasi',
+    amount: 128
+  },
+  {
+    id: 3,
+    path: '/komposisi-pegawai/',
+    name: 'Jabatan Fungsional',
+    amount: 121
+  }
+]
+
+export const golongan = [
+  {
+    id: 1,
+    path: '/komposisi-pegawai/',
+    name: 'Pembina Utama (IV/e)',
+    amount: 3
+  },
+  {
+    id: 2,
+    path: '/komposisi-pegawai/',
+    name: 'Pembina Utama Madya (IV/d)',
+    amount: 7
+  },
+  {
+    id: 3,
+    path: '/komposisi-pegawai/',
+    name: 'Pembina Utama Muda (IV/c)',
+    amount: 8
+  },
+  {
+    id: 4,
+    path: '/komposisi-pegawai/',
+    name: 'Pembina Tingkat I (IV/b)',
+    amount: 41
+  },
+  {
+    id: 5,
+    path: '/komposisi-pegawai/',
+    name: 'Pembina (IV/a)',
+    amount: 34
+  },
+  {
+    id: 6,
+    path: '/komposisi-pegawai/',
+    name: 'Penata Tingkat I (III/d)',
+    amount: 59
+  },
+  {
+    id: 7,
+    path: '/komposisi-pegawai/',
+    name: 'Penata (III/c)',
+    amount: 24
+  },
+  {
+    id: 8,
+    path: '/komposisi-pegawai/',
+    name: 'Penata Muda Tingkat I (III/b)',
+    amount: 24
+  },
+  {
+    id: 9,
+    path: '/komposisi-pegawai/',
+    name: 'Penata Muda (III/a)',
+    amount: 30
+  },
+  {
+    id: 10,
+    path: '/komposisi-pegawai/',
+    name: 'Pengatur Tingkat I (II/d)',
+    amount: 27
+  },
+  {
+    id: 11,
+    path: '/komposisi-pegawai/',
+    name: 'Pengatur (II/c)',
+    amount: 15
+  },
+  {
+    id: 12,
+    path: '/komposisi-pegawai/',
+    name: 'Pengatur Muda Tingkat I (II/b)',
+    amount: 9
+  },
+  {
+    id: 13,
+    path: '/komposisi-pegawai/',
+    name: 'Pengatur Muda (II/a)',
+    amount: 2
+  }
+]
+
+export const pegawaiNonAktif = [
+  {
+    id: 1,
+    path: '/komposisi-pegawai/',
+    name: 'Tugas Belajar Luar Negeri (TBL)',
+    amount: 3
+  },
+  {
+    id: 2,
+    path: '/komposisi-pegawai/',
+    name: 'Cuti Diluar Tanggungan Negara (CLTN)',
+    amount: 3
+  }
+]
+
+export const pendidikan = [
+  {
+    id: 1,
+    path: '/komposisi-pegawai/',
+    name: 'Strata III',
+    amount: 8
+  },
+  {
+    id: 2,
+    path: '/komposisi-pegawai/',
+    name: 'Strata II',
+    amount: 96
+  },
+  {
+    id: 3,
+    path: '/komposisi-pegawai/',
+    name: 'Diploma IV/Strata I',
+    amount: 96
+  },
+  {
+    id: 4,
+    path: '/komposisi-pegawai/',
+    name: 'Akademi/Diploma III/Sarjana Muda',
+    amount: 18
+  },
+  {
+    id: 5,
+    path: '/komposisi-pegawai/',
+    name: 'Diploma I/II',
+    amount: 1
+  },
+  {
+    id: 6,
+    path: '/komposisi-pegawai/',
+    name: 'SLTA/Sederajat',
+    amount: 67
+  },
+  {
+    id: 7,
+    path: '/komposisi-pegawai/',
+    name: 'SLTP/Sederajat',
+    amount: 92
+  }
+]
+
+export const jenisKelamin = [
+  {
+    id: 1,
+    path: '/komposisi-pegawai/',
+    name: 'Laki-laki',
+    amount: 151
+  },
+  {
+    id: 2,
+    path: '/komposisi-pegawai/',
+    name: 'Perempuan',
+    amount: 132
+  }
+]
