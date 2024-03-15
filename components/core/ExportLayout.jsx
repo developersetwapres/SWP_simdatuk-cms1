@@ -12,6 +12,7 @@ const ExportLayout = ({
   summary
 }) => {
 
+  
   const exportData = () => {
     const addData = document.querySelector('.export-layout')
 
@@ -31,7 +32,6 @@ const ExportLayout = ({
   return (
     <Container
       maxWidth='md'
-      backgroundColor='#000'
     >
       <Button
         text='Export'
