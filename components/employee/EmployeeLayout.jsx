@@ -21,7 +21,7 @@ const EmployeeLayout = ({ children, summary, totalAmount, showExpButton }) => {
             md: 'row'
           },
           justifyContent: 'space-between',
-          marginBottom: '10px',
+          marginBottom: '20px',
           paddingX: '20px'
         }}
       >
@@ -32,27 +32,32 @@ const EmployeeLayout = ({ children, summary, totalAmount, showExpButton }) => {
         >
           {summary}
         </Typography>
-        <Typography
-          variant='h6'
-          component='h5'
-          fontSize='14px'
-        >
-          {`Total Keseluruhan : ${totalAmount}`}
-        </Typography>
+        <Box>
+          {
+            totalAmount && (
+              <Typography
+                variant='h6'
+                component='h5'
+                fontSize='14px'
+                marginBottom={2}
+              >
+                {`Total Keseluruhan : ${totalAmount}`}
+              </Typography>
+            )
+          }
+          {exportData ?
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'flex-end',
+                justifyContent: 'flex-end'
+              }}
+            >
+              <ButtonExport />
+            </Box> : ''
+          }
+        </Box>
       </Box>
-      {exportData ?
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'flex-end',
-            justifyContent: 'flex-end',
-            my: '20px'
-
-          }}
-        >
-          <ButtonExport />
-        </Box> : ''
-      }
       {children}
     </>
   )
