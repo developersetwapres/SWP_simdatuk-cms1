@@ -2,8 +2,15 @@ import React from 'react'
 import { Grid } from '@mui/material'
 import EmployeeLayout from '../employee/EmployeeLayout'
 import AsnDataList from '../core/card/AsnDataList'
-import { golongan, jenisKelamin, keteranganJabatan, pegawaiNonAktif, pendidikan, unitKerja } from './dummyData'
-
+import { 
+  golongan, 
+  jenisKelamin, 
+  keteranganJabatan, 
+  pegawaiNonAktif, 
+  pendidikan, 
+  unitKerja
+} from './dummyData'
+import { getPegawai } from '@/store/reducers/pegawaiAsn/getData'
 
 
 
