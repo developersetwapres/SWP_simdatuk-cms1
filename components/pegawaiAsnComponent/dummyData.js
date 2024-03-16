@@ -40,21 +40,73 @@ export const unitKerja = [
 export const keteranganJabatan = [
   {
     id: 1,
-    path: '/komposisi-pegawai/',
+    path: '/rekapitulasi/jabatan/pimpinan-tinggi',
     name: 'Jabatan Pimpinan Tinggi',
-    amount: 19
+    amount: 19,
+    child: [
+      { name: 'Pimpinan Tinggi Madya', amount: 5 },
+      { name: 'Pimpinan Tinggi Pertama', amount: 15 }
+    ]
   },
   {
     id: 2,
-    path: '/komposisi-pegawai/',
+    path: '/rekapitulasi/jabatan/jabatan-administrasi',
     name: 'Jabatan Administrasi',
-    amount: 128
+    amount: 128,
+    child: [
+      {
+        name: 'Administrator',
+        amount: 10
+      },
+      {
+        name: 'Pengawas',
+        amount: 23
+      },
+      {
+        name: 'Pelaksana',
+        amount: 95
+      }
+    ]
   },
   {
     id: 3,
-    path: '/komposisi-pegawai/',
+    path: '/rekapitulasi/jabatan/jabatan-administrasi',
     name: 'Jabatan Fungsional',
-    amount: 121
+    amount: 121,
+    child: [
+      {
+        name: 'Ahli Utama',
+        amount: 0
+      },
+      {
+        name: 'Ahli Madya',
+        amount: 33
+      },
+      {
+        name: 'Ahli Muda',
+        amount: 68
+      },
+      {
+        name: 'Ahli Pertama',
+        amount: 12
+      },
+      {
+        name: 'Penyelia',
+        amount: 4
+      },
+      {
+        name: 'Mahir',
+        amount: 0
+      },
+      {
+        name: 'Terampil',
+        amount: 4
+      },
+      {
+        name: 'Pemula',
+        amount: 0
+      }
+    ]
   }
 ]
 
