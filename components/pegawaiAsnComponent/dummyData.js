@@ -1,37 +1,37 @@
 export const unitKerja = [
   {
     id: 1,
-    path: '/komposisi-pegawai/',
+    path: '/rekapitulasi/pegawai-asn/lihat-profile',
     name: 'Kepala Sekretariat Wakil Presiden',
     amount: 1
   },
   {
     id: 2,
-    path: '/komposisi-pegawai/',
+    path: '/rekapitulasi/pegawai-asn/lihat-profile',
     name: 'Deputi Bidang Dukungan Kebijakan Pembangunan Ekonomi dan Peningkatan Daya Saing',
     amount: 24
   },
   {
     id: 3,
-    path: '/komposisi-pegawai/',
+    path: '/rekapitulasi/pegawai-asn/lihat-profile',
     name: 'Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan',
     amount: 26
   },
   {
     id: 4,
-    path: '/komposisi-pegawai/',
+    path: '/rekapitulasi/pegawai-asn/lihat-profile',
     name: 'Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan',
     amount: 31
   },
   {
     id: 5,
-    path: '/komposisi-pegawai/',
+    path: '/rekapitulasi/pegawai-asn/lihat-profile',
     name: 'Deputi Bidang Administrasi',
     amount: 186
   },
   {
     id: 6,
-    path: '/komposisi-pegawai/',
+    path: '/rekapitulasi/pegawai-asn/lihat-profile',
     name: 'Kementerian Sekretariat Negara',
     amount: 15
   }
@@ -263,5 +263,81 @@ export const jenisKelamin = [
     path: '/komposisi-pegawai/',
     name: 'Perempuan',
     amount: 132
+  }
+]
+
+export const listPegawai = [
+  {
+    id: 1,
+    position: 'Kepala Sekretariat Wakil Presiden',
+    name: 'Ahmad Erani Yustika, S.E., M.Sc., Ph.Dr',
+    image: '/simdatuk/imagePegawai.png',
+    eselon: 'Es. I.a., 25-01-2021',
+    golongan: 'Pembina Utama Madya (IV/d), 01-04-2017',
+    NIP: '197303221997021001'
+  },
+  {
+    id: 2,
+    position: 'Asisten Deputi Ekonomi dan Keuangan',
+    name: 'Dr. Ir. Suprayoga Hadi, M.S.P.',
+    image: '/simdatuk/imagePegawai.png',
+    eselon: 'Es. I.a., 25-01-2021',
+    golongan: 'Pembina Utama (IV/e), 01-04-2017',
+    NIP: '1965053019991031002'
+  },
+  {
+    id: 3,
+    position:
+      'Asisten Deputi Industri, Perdagangan, Pariwisata, dan Ekonomi Kreatif ',
+    name: 'Dr. Velix Vernando Wanggai S.IP., MPA',
+    image: '/simdatuk/imagePegawai.png',
+    eselon: 'Es. I.a, 23-08-2022',
+    golongan: 'Pembina Utama Muda (IV/c), 01-10-2019',
+    NIP: '197202161998031005'
+  },
+  {
+    id: 4,
+    position: 'Kepala Subbagian Dukungan Administrasi',
+    name: 'Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.',
+    image: '/simdatuk/imagePegawai.png',
+    eselon: 'Es. I.a, 01-03-2023',
+    golongan: 'Pembina Utama (IV/e), 01-03-2023',
+    NIP: '180004061 / 197010271995031001'
+  },
+  {
+    id: 5,
+    position: 'Ahli Madya',
+    name: 'Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.',
+    image: '/simdatuk/imagePegawai.png',
+    eselon: 'Es. I.a, 01-03-2023',
+    golongan: 'Pembina Utama (IV/e), 01-03-2023',
+    NIP: '180004061 / 197010271995031001'
+  },
+  {
+    id: 6,
+    position: 'Ahli Madya',
+    name: 'Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.',
+    image: '/simdatuk/imagePegawai.png',
+    eselon: 'Es. I.a, 01-03-2023',
+    golongan: 'Pembina Utama (IV/e), 01-03-2023',
+    NIP: '180004061 / 197010271995031001'
+  },
+  {
+    id: 7,
+    position: 'Ahli Muda',
+    name: 'Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.',
+    image: '/simdatuk/imagePegawai.png',
+    eselon: 'Es. I.a, 01-03-2023',
+    golongan: 'Pembina Utama (IV/e), 01-03-2023',
+    NIP: '180004061 / 197010271995031001'
+  },
+  {
+    id: 8,
+    position: 'Ahli Muda',
+    name: 'Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.',
+    image: '/simdatuk/imagePegawai.png',
+    eselon: 'Es. I.a, 01-03-2023',
+    golongan: 'Pembina Utama (IV/e), 01-03-2023',
+    NIP: '180004061 / 197010271995031001'
   }
 ]

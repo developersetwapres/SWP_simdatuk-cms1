@@ -75,6 +75,7 @@ const AsnDataList = ({
                   rootStyle={cardStyle}
                   summary={item.name}
                   amount={item.amount}
+                  path={item.path}
                 />
               </Grid>
             )
