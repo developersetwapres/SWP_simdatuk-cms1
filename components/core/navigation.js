@@ -32,25 +32,25 @@ const navigation = [
     permission: [{ name: 'Kategori' }],
     children: [
       {
-        path: '/komposisi-pegawai',
+        path: '/rekapitulasi/komposisi-pegawai',
         name: 'KOMPOSISI PEGAWAI',
         icon: null,
         permission: [{ name: 'Pengguna' }]
       },
       {
-        path: '/manajemen-pengguna/peran-pengguna',
+        path: '/rekapitulasi/pegawai-asn',
         name: 'PEGAWAI ASN',
         icon: null,
         permission: [{ name: 'Peran Pengguna' }]
       },
       {
-        path: '/manajemen-pengguna/blacklist',
+        path: '/rekapitulasi/pegawai-non-asn',
         name: 'PEGAWAWAI NON ASN',
         icon: null,
         permission: [{ name: 'Blacklist' }]
       },
       {
-        path: '/manajemen-pengguna/penyelenggara',
+        path: '/rekapitulasi/pegawai-outsourcing',
         name: 'PEGAWAI OUTSOURCING',
         icon: null,
         permission: [{ name: 'Penyelenggara' }]
