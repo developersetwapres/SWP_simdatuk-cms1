@@ -34,7 +34,7 @@ const styles = {
   }
 }
 
-const pegawaiAsnComponent = () => {
+const PegawaiAsnComponent = () => {
   return (
     <EmployeeLayout
       summary='Rekapitulasi Pegawai ASN'
@@ -79,4 +79,4 @@ const pegawaiAsnComponent = () => {
   )
 }
 
-export default pegawaiAsnComponent
+export default PegawaiAsnComponent
