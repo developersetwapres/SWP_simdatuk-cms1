@@ -3,12 +3,13 @@ import { Box, Grid, Typography } from '@mui/material'
 import CardComponent from './CardComponent'
 import PropTypes from 'prop-types'
 
-
-const AsnDataList = ({ data, name, cardStyle }) => {
-
-
+const AsnDataList = ({
+  data,
+  name,
+  cardStyle
+}) => {
+  
   const totalAmount = data.reduce((acc, current) => acc + current.amount, 0)
-
 
   return (
     <>
@@ -41,12 +42,16 @@ const AsnDataList = ({ data, name, cardStyle }) => {
           >
             {name}
           </Typography>
-          <Typography
-            color='primary'
-            fontWeight='500'
-          >
-            {`Total : ${totalAmount}`}
-          </Typography>
+          {
+            name && (
+              <Typography
+                color='primary'
+                fontWeight='500'
+              >
+                {`Total : ${totalAmount}`}
+              </Typography>
+            )
+          }
         </Box>
         <Grid
           item
