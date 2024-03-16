@@ -1,0 +1,45 @@
+import AsnDataList from '@/components/core/card/AsnDataList'
+import EmployeeLayout from '@/components/employee/EmployeeLayout'
+import React from 'react'
+import { keteranganJabatan } from '../dummyData'
+
+const styles = {
+  cardStyle: {
+    width: {
+      lg: '22.5vw',
+      md: '20vw',
+      sm: '25vw',
+      xs: '50vw'
+    },
+    height: '200px'
+  },
+  twoCardStyle: {
+    width: {
+      lg: '35vw',
+      md: '20vw',
+      sm: '25vw',
+      xs: '50vw'
+    },
+    height: '200px'
+  }
+}
+
+const JabatanFungsionalComponent = () => {
+
+
+  const totalAmount = keteranganJabatan[2].child.reduce((sum, child) => sum + child.amount, 0)
+
+  return (
+    <EmployeeLayout
+      summary='Jabatan Pimpinan Tinggi'
+      totalAmount={totalAmount}
+    >
+      <AsnDataList
+        cardStyle={styles.cardStyle}
+        data={keteranganJabatan[2].child}
+      />
+    </EmployeeLayout>
+  )
+}
+
+export default JabatanFungsionalComponent
