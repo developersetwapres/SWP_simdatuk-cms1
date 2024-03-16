@@ -10,7 +10,6 @@ import {
   pendidikan, 
   unitKerja
 } from './dummyData'
-import { getPegawai } from '@/store/reducers/pegawaiAsn/getData'
 
 
 
