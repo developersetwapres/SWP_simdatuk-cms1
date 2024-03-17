@@ -56,7 +56,7 @@ const navigation = [
         permission: [{ name: 'Penyelenggara' }]
       },
       {
-        path: '/manajemen-pengguna/activity-log-user',
+        path: '/rekapitulasi/peta-jabatan',
         name: 'PETA JABATAN',
         permission: [{ name: 'Activity Log' }]
       },
