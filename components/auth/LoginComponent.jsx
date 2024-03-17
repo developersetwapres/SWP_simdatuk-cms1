@@ -16,14 +16,23 @@ const LoginComponent = ({
   forgetPassword = () => { }
 }) => {
 
+  const errorState = ''
+  // const rememberMeState = getStorage('remember_setneg') ? JSON.parse(getStorage('remember_setneg')) : null
+
 
   const [initialValues, setInitialValues] = useState({
+    // username: rememberMeState?.username === '' ? '' : rememberMeState?.username,
+    // password: rememberMeState?.password === '' ? '' : rememberMeState?.password
     username: '',
     password: ''
   })
 
+  // const [rememberMe, setRememberMe] = useState(rememberMeState?.isRemember || false)
+
   const [modalResetEmail, setModalResetEmail] = useState(false)
   const [modalResetEmailFinish, setResetEmailFinish] = useState(false)
+  const [modal2FA, setModal2FA] = useState(false)
+
 
   // const classes = useStyles()
 
@@ -53,10 +62,12 @@ const LoginComponent = ({
     values,
     errors,
     setErrors,
+    // resetForm,
     handleInputChange
   } = useForm(initialValues, true, validate)
 
 
+  console.log('values', values)
   const handleLogin = (e) => {
     e.preventDefault()
     if (validate()) {
@@ -64,8 +75,24 @@ const LoginComponent = ({
         username: values.username,
         password: values.password
       }
-   
+      // if (rememberMe === true) {
+      //   setStorages([
+      //     {
+      //       name: 'remember_setneg',
+      //       value: JSON.stringify({
+      //         username: values.username,
+      //         password: values.password,
+      //         isRemember: true
+      //       })
+      //     }
+      //   ])
+      // }
+      //    else {
+      //   localStorage.removeItem('remember_setneg')
+      // }
       authentication(payload)
+      // qrCode(payload)
+
       if (errorState?.statusCode === 200) {
         setModal2FA(true)
       } else {
