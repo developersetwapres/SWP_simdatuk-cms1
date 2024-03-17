@@ -195,13 +195,6 @@ function Layout({
           </Box>
         </Box>
       </Toolbar>
-      <Search
-        onSearch={handleSearch}
-        inputParentClasses={classes.inputParent}
-        inputClass={classes.input}
-        iconColor='#fff'
-        placeholder='Search'
-      />
       <List>
         {
           navigation.map((item, index) => (

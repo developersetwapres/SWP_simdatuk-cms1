@@ -80,7 +80,7 @@ function Appbar({
             // <p key={index}>{`${value.name} > ${child.name}`}</p>
             <Box
               key={index}
-              onClick={()=>router.back()}
+              onClick={() => router.back()}
               sx={{
                 display: 'flex',
                 alignItems: 'center',
@@ -236,13 +236,6 @@ function Appbar({
                 }
               }}
             />
-            <IconButton
-              onClick={() => setSearchOpen(!searcOpen)}
-              type='button'
-              sx={{ p: '10px' }}
-              aria-label='search'>
-              <SearchIcon />
-            </IconButton>
             <div
               onClick={() => handleModalLogout(true)}
               style={{
