@@ -341,3 +341,153 @@ export const listPegawai = [
     NIP: '180004061 / 197010271995031001'
   }
 ]
+
+export const pegawaiOutsourcing = [
+  {
+    id: 1,
+    path: '/rekapitulasi/pegawai-outsourcing/lihat-profile',
+    name: 'Pengemudi',
+    amount: 38
+  },
+  {
+    id: 1,
+    path: '/rekapitulasi/pegawai-outsourcing/lihat-profile',
+    name: 'Petugas Kebersihan Gedung',
+    amount: 51
+  },
+  {
+    id: 1,
+    path: '/rekapitulasi/pegawai-outsourcing/lihat-profile',
+    name: 'Petugas Perawatan Kolam',
+    amount: 2
+  },
+  {
+    id: 1,
+    path: '/rekapitulasi/pegawai-outsourcing/lihat-profile',
+    name: 'Petugas Taman',
+    amount: 24
+  },
+  {
+    id: 1,
+    path: '/rekapitulasi/pegawai-outsourcing/lihat-profile',
+    name: 'Pramusaji/Pramubakti',
+    amount: 39
+  },
+  {
+    id: 1,
+    path: '/rekapitulasi/pegawai-outsourcing/lihat-profile',
+    name: 'Teknisi Jaringan',
+    amount: 2
+  },
+  {
+    id: 1,
+    path: '/rekapitulasi/pegawai-outsourcing/lihat-profile',
+    name: 'Teknisi Komputer',
+    amount: 11
+  },
+  {
+    id: 1,
+    path: '/rekapitulasi/pegawai-outsourcing/lihat-profile',
+    name: 'Teknisi Mekanikal dan Elektrikal',
+    amount: 24
+  }
+]
+
+export const nonOutsourcing = [
+  {
+    id: 1,
+    path: '/rekapitulasi/pegawai-outsourcing/lihat-profile',
+    name: 'Teknisi Fotocopy',
+    amount: 3
+  },
+  {
+    id: 2,
+    path: '/rekapitulasi/pegawai-outsourcing/lihat-profile',
+    name: 'Teknisi Road Blocker',
+    amount: 2
+  },
+  {
+    id: 3,
+    path: '/rekapitulasi/pegawai-outsourcing/lihat-profile',
+    name: 'Teknisi Lift',
+    amount: 2
+  }
+]
+
+export const jabatan = [
+  {
+    id: 1,
+    path: '/rekapitulasi/pegawai-non-asn/list-pegawai',
+    name: 'Staf Khusus Wakil Presiden',
+    amount: 10
+  },
+  {
+    id: 2,
+    path: '/rekapitulasi/pegawai-non-asn/list-pegawai',
+    name: 'Asisten Staf Khusus Wakil Presiden',
+    amount: 20
+  },
+  {
+    id: 1,
+    path: '/rekapitulasi/pegawai-non-asn/list-pegawai',
+    name: 'Pembantu Asisten Staf Khusus Wakil Presiden',
+    amount: 5
+  },
+  {
+    id: 1,
+    path: '/rekapitulasi/pegawai-non-asn/list-pegawai',
+    name: 'Anggota Tim Ahli Wakil Presiden',
+    amount: 12
+  },
+  {
+    id: 1,
+    path: '/rekapitulasi/pegawai-non-asn/list-pegawai',
+    name: 'Staf Pada Sekretaris Pribadi Istri Wakil Presiden',
+    amount: 1
+  },
+  {
+    id: 1,
+    path: '/rekapitulasi/pegawai-non-asn/list-pegawai',
+    name: 'Staf Kerumahtanggaan Pada Kediaman Wakil Presiden',
+    amount: 1
+  },
+  {
+    id: 1,
+    path: '/rekapitulasi/pegawai-non-asn/list-pegawai',
+    name: 'Sekretariat Pada Staf Khusus Wakil Presiden (PTT dari SETKAB)',
+    amount: 3
+  },
+  {
+    id: 1,
+    path: '/rekapitulasi/pegawai-non-asn/list-pegawai',
+    name: 'Ajudan Wakil Presiden dan Istri Wakil Presiden (Perbantuan TNI dan POLRI)',
+    amount: 8
+  },
+  {
+    id: 1,
+    path: '/rekapitulasi/pegawai-non-asn/list-pegawai',
+    name: 'Dokter Pribadi Wakil Presiden',
+    amount: 4
+  },
+  {
+    id: 1,
+    path: '/rekapitulasi/pegawai-non-asn/list-pegawai',
+    name: 'Pengemudi VVIP (Perbantuan TNI dan POLRI)',
+    amount: 10
+  }
+]
+
+export const tim = [
+  {
+    id: 1,
+    path: '/rekapitulasi/pegawai-non-asn/list-pegawai',
+    name: 'Tim Nasional Percepatan Penanggulangan Kemiskinan (TNP2K)',
+    amount: 64
+  },
+  {
+    id: 1,
+    path: '/rekapitulasi/pegawai-non-asn/list-pegawai',
+    name: 'Tim Nasional Percepatan Penurunan Stunting (TPPS)',
+    amount: 24
+  }
+]
