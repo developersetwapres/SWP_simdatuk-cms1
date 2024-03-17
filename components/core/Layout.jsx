@@ -16,7 +16,6 @@ import Drawer from '@/components/core/Drawer'
 import BackdropPage from './BackdropPage'
 import SidebarItem from './sidebar/SidebarItem'
 import Image from 'next/image'
-import Search from './Search'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -106,10 +105,6 @@ function Layout({
   // const [toggleOpen, setToggleOpen] = useState([])
   const handleMobile = () => {
     setMobile(!mobile)
-  }
-
-  const handleSearch = (searchValue) => {
-    console.log(searchValue)
   }
 
   // eslint-disable-next-line no-unused-vars
