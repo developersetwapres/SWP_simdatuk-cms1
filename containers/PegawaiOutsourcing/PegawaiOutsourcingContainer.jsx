@@ -4,7 +4,7 @@ import { mapStateToProps } from '@/store/'
 import PropTypes from 'prop-types'
 import { mapActions } from '@/store/'
 import Layout from '@/components/core/Layout'
-import PegawaiOutsourcingComponent from '@/components/PegawaiOutsourcing/PegawaiOutsourcingComponent'
+import PegawaiOutsourcingComponent from '../../components/pegawaiOutsourcing/PegawaiOutsourcingComponent'
 
 export default connect(
   mapStateToProps('banner'),
