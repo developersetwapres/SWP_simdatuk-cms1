@@ -41,7 +41,9 @@ const ProfileCard = ({
   eselon,
   imageSource,
   golongan,
-  nip
+  nip,
+  lihatDetail,
+  lihatProfile
 }) => {
 
 
@@ -137,17 +139,36 @@ const ProfileCard = ({
             </Typography>
           </Grid>
         </Grid>
-        <Button
-          onClick={handleButtonClick}
-          text='Lihat Detail'
-          color='sidatukDraweBase'
-          fullWidth
-          type='submit'
-          sx={{
-            color: '#fff',
-            textTransform: 'none'
-          }}
-        />
+        {
+          lihatProfile && (
+            <Button
+              onClick={handleButtonClick}
+              text='Lihat Profile'
+              color='sidatukDraweBase'
+              fullWidth
+              type='submit'
+              sx={{
+                color: '#fff',
+                textTransform: 'none'
+              }}
+            />
+          )
+        }
+        {
+          lihatDetail && (
+            <Button
+              onClick={handleButtonClick}
+              text={lihatDetail}
+              color='sidatukDraweBase'
+              fullWidth
+              type='submit'
+              sx={{
+                color: '#fff',
+                textTransform: 'none'
+              }}
+            />
+          )
+        }
       </CardContent>
     </Card>
   )
@@ -160,7 +181,9 @@ ProfileCard.propTypes = {
   eselon: PropTypes.string,
   golongan: PropTypes.string,
   nip: PropTypes.string,
-  rootStyle: PropTypes.object
+  rootStyle: PropTypes.object,
+  lihatProfile: PropTypes.string,
+  lihatDetail: PropTypes.string
 }
 
 export default ProfileCard
