@@ -29,7 +29,7 @@ export default connect(
         this.setState({
           willRender: true
         })
-      }, 5000)
+      }, 3000)
     }
 
 

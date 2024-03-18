@@ -10,7 +10,7 @@ const DetailPegawaiContainers = () => {
   useEffect(() => {
     setTimeout(() => {
       setWillRender(true)
-    }, 5000)
+    }, 3000)
   }, [])
 
 
