@@ -182,7 +182,7 @@ function LoginFormComponent({
 LoginFormComponent.propTypes = {
   values: PropTypes.object,
   errors: PropTypes.object,
-  stateLoading: PropTypes.object,
+  stateLoading: PropTypes.string,
   handleInputChange: PropTypes.func,
   handleLogin: PropTypes.func,
   rememberMe: PropTypes.bool,
