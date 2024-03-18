@@ -10,7 +10,7 @@ import { post, patch, get } from '@/utils/interceptors'
  * @return
  */
 export const authenticationPost = (payload) => {
-  return post(`/auth/admin/email/login`, payload)
+  return post(`/login`, payload)
 }
 
 /**
