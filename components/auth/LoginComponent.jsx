@@ -67,7 +67,6 @@ const LoginComponent = ({
   } = useForm(initialValues, true, validate)
 
 
-  console.log('values', values)
   const handleLogin = (e) => {
     e.preventDefault()
     if (validate()) {
@@ -90,6 +89,7 @@ const LoginComponent = ({
       //    else {
       //   localStorage.removeItem('remember_setneg')
       // }
+      
       authentication(payload)
       // qrCode(payload)
 
