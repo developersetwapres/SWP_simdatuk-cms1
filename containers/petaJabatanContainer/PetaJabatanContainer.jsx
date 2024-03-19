@@ -4,13 +4,13 @@ import { mapStateToProps } from '@/store/'
 import PropTypes from 'prop-types'
 import { mapActions } from '@/store/'
 import Layout from '@/components/core/Layout'
-import PetaJabatanComponent from '@/components/petaJabatan/PetaJabatan'
+import PetaJabatanComponent from '@/components/petaJabatan/PetaJabatanComponent'
 
 export default connect(
   mapStateToProps('banner'),
   mapActions('getBanners', 'deleteListBanner')
 )(
-  class PetaJabantanContainer extends Component {
+  class PetaJabatanContainer extends Component {
     static propTypes = {
       banner: PropTypes.object,
       getBanners: PropTypes.func,
