@@ -71,13 +71,32 @@ const ProfileCard = ({
         <Box
           sx={style.imageBox}
         >
-          {imageSource?.length > 0 && (
+          {imageSource?.length > 0 ? (
             <Image
               src={imageSource}
               alt='profile'
               height={200}
               width={150}
             />
+          ) : (
+            <Box
+              height={200}
+              width={150}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                overflow: 'hidden',
+                backgroundColor: '#f0f0f0'
+              }}
+            >
+              <Image
+                src='/simdatuk/userIcon.png'
+                alt='profile'
+                height={70}
+                width={70}
+              />
+            </Box>
           )}
           <Typography
             color='primary'
@@ -93,6 +112,7 @@ const ProfileCard = ({
         >
           <Grid
             item
+            xs={12}
           >
             <Typography fontSize={14}>
               Eselon
@@ -103,11 +123,12 @@ const ProfileCard = ({
               fontSize={14}
               fontWeight='600'
             >
-              {eselon}
+              {eselon ? eselon : '-'}
             </Typography>
           </Grid>
           <Grid
             item
+            xs={12}
           >
             <Typography fontSize={14}>
               Golongan
@@ -118,11 +139,12 @@ const ProfileCard = ({
               fontSize={14}
               fontWeight='600'
             >
-              {golongan}
+              {golongan ? golongan : '-'}
             </Typography>
           </Grid>
           <Grid
             item
+            xs={12}
           >
             <Typography
               fontSize={14}
@@ -135,40 +157,52 @@ const ProfileCard = ({
               fontSize={14}
               fontWeight='600'
             >
-              {nip}
+              {nip ? nip : '-'}
             </Typography>
           </Grid>
         </Grid>
-        {
-          lihatProfile && (
-            <Button
-              onClick={handleButtonClick}
-              text='Lihat Profile'
-              color='sidatukDraweBase'
-              fullWidth
-              type='submit'
-              sx={{
-                color: '#fff',
-                textTransform: 'none'
-              }}
-            />
-          )
-        }
-        {
-          lihatDetail && (
-            <Button
-              onClick={handleButtonClick}
-              text={lihatDetail}
-              color='sidatukDraweBase'
-              fullWidth
-              type='submit'
-              sx={{
-                color: '#fff',
-                textTransform: 'none'
-              }}
-            />
-          )
-        }
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexDirection: 'row',
+            width: '100%',
+            gap: '5px'
+          }}
+        >
+          {
+            lihatProfile && (
+              <Button
+                onClick={handleButtonClick}
+                text='Lihat Profile'
+                color='sidatukDraweBase'
+                fullWidth
+                type='submit'
+                sx={{
+                  color: '#fff',
+                  textTransform: 'none',
+                  fontSize: '10px'
+                }}
+              />
+            )
+          }
+          {
+            lihatDetail && (
+              <Button
+                onClick={handleButtonClick}
+                text={lihatDetail}
+                color='primary'
+                fullWidth
+                type='submit'
+                sx={{
+                  color: '#fff',
+                  textTransform: 'none',
+                  fontSize: '10px'
+                }}
+              />
+            )
+          }
+        </Box>
       </CardContent>
     </Card>
   )
