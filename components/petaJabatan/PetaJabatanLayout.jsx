@@ -92,7 +92,7 @@ const PetaJabatanLayout = ({
               {jabatan}
             </Typography>
           </Grid>
-          
+
           {/* Profile Image condition */}
           <Grid
             item
@@ -202,21 +202,19 @@ const PetaJabatanLayout = ({
           <Grid
             container
             item
-            justifyContent='center'
-            columnSpacing={2}
           >
 
             {
               profil && (
                 <Grid
                   item
-                  xs={6}
+                  xs={detail ? 6 : 12}
                 >
                   <Button
                     text='Lihat Profil'
                     sx={{
                       backgroundColor: '#394346',
-                      width: '15rem'
+                      width: detail ? '15rem' : '100%'
                     }}
                   />
                 </Grid>
@@ -226,12 +224,12 @@ const PetaJabatanLayout = ({
               detail && (
                 <Grid
                   item
-                  xs={6}
+                  xs={profil ? 6 : 12}
                 >
                   <Button
                     text='Lihat Detail'
                     sx={{
-                      width: '15rem'
+                      width: profil ? '15rem' : '100%'
                     }}
                   />
                 </Grid>

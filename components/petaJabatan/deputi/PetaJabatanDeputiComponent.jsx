@@ -55,7 +55,7 @@ const PetaJabatanDeputiComponent = () => {
       <PetaJabatanLayout
         data={listPegawai}
         jabatan='Deputi Bidang Dukungan Kebijakan Pembangunan Ekonomi dan Peningkatan Daya Saing'
-        lihatProfile='Lihat Profile'
+        profil={true}
       />
     </EmployeeLayout >
   )
