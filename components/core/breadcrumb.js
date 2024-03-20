@@ -1,26 +1,30 @@
 const breadcrumbs = [
   {
-    path: '/komposisi-pegawai',
+    path: '/rekapitulasi/komposisi-pegawai',
     name: '',
     children: [
       {
-        pathChild: '/komposisi-pegawai/asn-aktif',
+        pathChild: '/rekapitulasi/komposisi-pegawai/asn-aktif',
         name: 'Aparatur Sipil Negara (ASN) Aktif + Perbantuan TNI/POLRI Pelaksana'
       },
       {
-        pathChild: '/komposisi-pegawai/asn-non-aktif',
+        pathChild: '/rekapitulasi/komposisi-pegawai/asn-non-aktif',
         name: 'Aparatur Sipil Negara (ASN) Non Aktif'
       },
       {
-        pathChild: '/komposisi-pegawai/outsourcing',
+        pathChild: '/rekapitulasi/komposisi-pegawai/non-asn',
+        name: 'Non Aparatur Sipil Negara (Non ASN) + Tim)'
+      },
+      {
+        pathChild: '/rekapitulasi/komposisi-pegawai/outsourcing',
         name: 'Tenaga Outsourcing dan Non Outsourcing'
       },
       {
-        pathChild: '/komposisi-pegawai/lihat-profile',
+        pathChild: '/rekapitulasi/komposisi-pegawai/lihat-profile',
         name: 'Pejabat Pimpinan Tinggi Madya (Eselon I)'
       },
       {
-        pathChild: '/komposisi-pegawai/detail-profile',
+        pathChild: '/rekapitulasi/komposisi-pegawai/detail-profile',
         name: 'Detail Profile'
       }
     ]
