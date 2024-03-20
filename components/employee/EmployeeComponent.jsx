@@ -8,31 +8,31 @@ const EmployeeComponent = () => {
   const data = [
     {
       id: 1,
-      path: '/komposisi-pegawai/asn-aktif',
+      path: 'komposisi-pegawai/asn-aktif',
       type: 'Aparatur Sipil Negara (ASN) Aktif + Perbantuan TNI/POLRI Pelaksana',
       amount: 283
     },
     {
       id: 2,
-      path: '/komposisi-pegawai/asn-non-aktif',
+      path: 'komposisi-pegawai/asn-non-aktif',
       type: 'Aparatur Sipil Negara (ASN) Non Aktif',
       amount: 6
     },
     {
       id: 3,
-      path: '/komposisi-pegawai/outsourcing',
+      path: 'komposisi-pegawai/non-asn',
       type: 'Non Aparatur Sipil Negara (Non ASN) + Tim',
       amount: 162
     },
     {
       id: 4,
-      path: '/komposisi-pegawai/',
+      path: 'komposisi-pegawai/outsourcing',
       type: 'Tenaga Outsourcing dan Non Outsourcing',
       amount: 198
     }
   ]
   const totalAmount = data.reduce((acc, current) => acc + current.amount, 0)
-  
+
   return (
     <>
       <EmployeeLayout
