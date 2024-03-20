@@ -11,6 +11,7 @@ import { Box } from '@mui/material'
 const navigation = [
   {
     name: 'DASHBOARD',
+    path: '/dashboard',
     icon: (
       <PieChartIcon
         hartIcon
