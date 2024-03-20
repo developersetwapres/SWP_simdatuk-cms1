@@ -301,7 +301,7 @@ function Appbar({
           textAlign: 'center',
           fontSize: '21px',
           marginTop: '30px'
-        }}>Apakah anda yakin untuk keluar dari Setneg Playbook?</p>
+        }}>Apakah anda yakin untuk keluar dari Setneg Simdatuk?</p>
         <Box
           component='div'
           sx={{
