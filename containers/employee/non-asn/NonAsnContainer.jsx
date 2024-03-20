@@ -10,7 +10,7 @@ const NonAsnContainer = () => {
   useEffect(() => {
     setTimeout(() => {
       setWillRender(true)
-    }, 3000)
+    }, 2000)
   }, [])
 
 

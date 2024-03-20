@@ -10,7 +10,7 @@ const OutsourcingContainer = () => {
   useEffect(() => {
     setTimeout(() => {
       setWillRender(true)
-    }, 3000)
+    }, 2000)
   }, [])
 
 

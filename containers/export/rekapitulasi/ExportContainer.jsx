@@ -18,7 +18,7 @@ class ExportRekapitulasiContainer extends Component {
       this.setState({
         willRender: true
       })
-    }, 3000)
+    }, 2000)
   }
 
 
