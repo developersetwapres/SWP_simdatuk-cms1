@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Layout from '@/components/core/Layout'
 import CourseSkeleton from '@/components/course/CourseSkeleton'
-import LihatProfileComponent from '../../../components/pegawaiOutsourcing1/lihat-profile/LihatProfileComponent'
+import LihatProfileComponent from '../../../components/pegawaiOutsourcing/lihat-profile/LihatProfileComponent'
 
 const LihatProfileContainer = () => {
 
