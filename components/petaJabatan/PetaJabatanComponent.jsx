@@ -3,6 +3,7 @@ import EmployeeLayout from '../employee/EmployeeLayout'
 import PetaJabatanLayout from './PetaJabatanLayout'
 import { Box, Typography } from '@mui/material'
 import { Button } from '../shared'
+import StrukturPetaJabatan from './StrukturPetaJabatan'
 
 
 const styles = {
@@ -19,7 +20,8 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: '6rem'
+    gap: '6rem',
+    marginBottom: '10rem'
   }
 }
 
@@ -73,7 +75,6 @@ const PetaJabatanComponent = () => {
         sx={styles.boxParent}
       >
         <PetaJabatanLayout
-          data={data}
           imageSrc='/simdatuk/imagePegawai.png'
           jabatan='Kepala Sekretariat Wakil Presiden'
           name='Ahmad Erani Yustika, S.E., M.Sc., Ph.D.'
@@ -82,12 +83,20 @@ const PetaJabatanComponent = () => {
           nip='197303221997021001'
           profil={true}
           detail={true}
-        />
+        >
+
+          {/* Struktur jabatan */}
+          <StrukturPetaJabatan
+            data={data}
+          />
+          {/* End Struktur jabatan */}
+
+        </PetaJabatanLayout>
+
         <Box
           width='40vw'
           borderRadius={3}
           sx={styles.headerMap}
-          marginBottom={4}
         >
           <Typography
             textAlign='center'
