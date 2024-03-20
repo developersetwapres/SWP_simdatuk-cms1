@@ -3,7 +3,6 @@ import { Box, Grid, Typography } from '@mui/material'
 import Image from 'next/image'
 import { Button } from '../shared'
 import PropTypes from 'prop-types'
-import StrukturPetaJabatan from './StrukturPetaJabatan'
 
 
 const styles = {
@@ -38,7 +37,7 @@ const PetaJabatanLayout = ({
   nip,
   profil,
   detail,
-  data
+  children
 }) => {
   return (
     <>
@@ -237,15 +236,9 @@ const PetaJabatanLayout = ({
             }
           </Grid>
           {/* End Header Button (Profile / Detail) */}
-
         </Grid>
 
-        {/* Struktur organisasi (Anggota) */}
-        <StrukturPetaJabatan
-          data={data}
-        />
-        {/* End Struktur organisasi (Anggota) */}
-
+        {children}
 
       </Grid>
     </>
@@ -253,7 +246,7 @@ const PetaJabatanLayout = ({
 }
 
 PetaJabatanLayout.propTypes = {
-  data: PropTypes.array,
+  children: PropTypes.node,
   petaHeaderText: PropTypes.string,
   jabatan: PropTypes.string,
   name: PropTypes.string,
