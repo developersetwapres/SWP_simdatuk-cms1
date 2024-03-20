@@ -13,7 +13,6 @@ const ContentSecurityPolicy = `
   default-src 'self' https://simdatuk-api.ekuator.id/;
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
   connect-src 'self' https://simdatuk-api.ekuator.id/;
-  script-src 'self' 'unsafe-eval' https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js https://www.gstatic.com/firebasejs/9.15.0/firebase-messaging-compat.js;
   font-src 'self' https://fonts.gstatic.com;
   img-src 'self' https://simdatuk-api.ekuator.id/ data:;
   object-src 'none';
