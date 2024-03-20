@@ -1,8 +1,31 @@
 import React from 'react'
 import ProfileCard from '../core/card/ProfileCard'
-import { Box, Grid, List, ListItem, Typography } from '@mui/material'
+import { Box, Grid, List, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
-const StrukturPetaJabatan = ({data}) => {
+
+const styles = {
+  jabatanFungsional: {
+    borderRadius: '5px',
+    backgroundColor: '#f6ebda',
+    paddingY: 2,
+    paddingX: 1,
+    width: {
+      lg: '16vw',
+      md: '18vw',
+      sm: '25vw',
+      xs: '50vw'
+    }
+  }
+}
+
+
+const StrukturPetaJabatan = ({
+  data,
+  styleBoxFungsional,
+  styleBoxProfile
+}) => {
+
+  console.log(data.length)
   return (
     <>
       <hr
@@ -14,15 +37,32 @@ const StrukturPetaJabatan = ({data}) => {
           margin: '0 auto'
         }}
       />
-      <hr
-        style={{
-          width: '71.1%',
-          height: '2px',
-          border: 0,
-          margin: 0,
-          backgroundColor: '#394346'
-        }}
-      />
+      {
+        data.length == 2 && (
+          <hr
+            style={{
+              width: '42.4%',
+              height: '2px',
+              border: 0,
+              margin: 0,
+              backgroundColor: '#394346'
+            }}
+          />
+        )
+      }
+      {
+        data.length > 2 && (
+          <hr
+            style={{
+              width: '71.1%',
+              height: '2px',
+              border: 0,
+              margin: 0,
+              backgroundColor: '#394346'
+            }}
+          />
+        )
+      }
       <Grid
         container
         item
@@ -30,6 +70,11 @@ const StrukturPetaJabatan = ({data}) => {
         padding={0}
         justifyContent='center'
         gap={3}
+        sx={{
+          position: 'relative',
+          width: '100%'
+          // backgroundColor: 'blue',
+        }}
       >
         {
           data.map((item, index) =>
@@ -39,7 +84,7 @@ const StrukturPetaJabatan = ({data}) => {
 
             >
               {
-                item.name === 'Jabatan Fungsional' ? (
+                item.jabatan === 'Jabatan Fungsional' ? (
                   <>
                     <hr
                       style={{
@@ -51,50 +96,46 @@ const StrukturPetaJabatan = ({data}) => {
                       }}
                     />
                     <Box
-                      sx={{
-                        borderRadius: '5px',
-                        backgroundColor: '#f6ebda',
-                        paddingY: 2,
-                        paddingX: 1,
-                        width: {
-                          lg: '16vw',
-                          md: '18vw',
-                          sm: '25vw',
-                          xs: '50vw'
-                        }
-                      }}
+                      sx={styleBoxFungsional || styles.jabatanFungsional}
                     >
                       <Typography
                         textAlign='center'
                         fontWeight='500'
                       >
-                        Jabatan Fungsional
+                        {item.jabatan}
                       </Typography>
-                      <Box
-                        backgroundColor='#FFF'
-                        border='1px solid #000'
-                        borderRadius='10px'
-                        padding={1}
-                      >
-                        <Typography
-                          textAlign='center'
-                          fontWeight='600'
-                          color='primary'
-                        >
-                          Analisis Kebijakan
-                        </Typography>
-                        <List>
-                          <ListItem
-                            fontWeight='500'
+                      {
+                        item.name.map((childItem, indexChild) =>
+                          <Box
+                            key={indexChild + 1}
+                            marginTop={1}
+                            backgroundColor='#FFF'
+                            border='1px solid #000'
+                            borderRadius='10px'
+                            padding={1}
                           >
                             <Typography
-                              fontWeight='500'
+                              textAlign='center'
+                              fontWeight='600'
+                              color='primary'
                             >
-                              1. Ahli Utama (1/0)
+                              {childItem.childName}
                             </Typography>
-                          </ListItem>
-                        </List>
-                      </Box>
+                            <List>
+                              {
+                                childItem.type.map((grandChildItem, indexGrandChild) =>
+                                  <Typography
+                                    key={indexGrandChild + 1}
+                                    fontWeight='600'
+                                  >
+                                    {`${grandChildItem.id}. ${grandChildItem.name} (${grandChildItem.amount})`}
+                                  </Typography>
+                                )
+                              }
+                            </List>
+                          </Box>
+                        )
+                      }
                     </Box>
                   </>
                 ) : (
@@ -109,6 +150,7 @@ const StrukturPetaJabatan = ({data}) => {
                       }}
                     />
                     <ProfileCard
+                      rootStyle={styleBoxProfile}
                       summary={item.position}
                       name={item.name}
                       imageSource={item.image}
@@ -129,7 +171,9 @@ const StrukturPetaJabatan = ({data}) => {
 }
 
 StrukturPetaJabatan.propTypes = {
-  data: PropTypes.array
+  data: PropTypes.array,
+  styleBoxFungsional: PropTypes.object,
+  styleBoxProfile: PropTypes.object
 }
 
 export default StrukturPetaJabatan
