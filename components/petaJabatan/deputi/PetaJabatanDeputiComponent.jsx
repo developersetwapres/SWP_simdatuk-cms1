@@ -1,6 +1,8 @@
 import EmployeeLayout from '@/components/employee/EmployeeLayout'
 import React from 'react'
 import PetaJabatanLayout from '../PetaJabatanLayout'
+import { Box } from '@mui/material'
+import StrukturPetaJabatan from '../StrukturPetaJabatan'
 
 
 const PetaJabatanDeputiComponent = () => {
@@ -9,12 +11,19 @@ const PetaJabatanDeputiComponent = () => {
   const listPegawai = [
     {
       id: 1,
-      position: 'Kepala Sekretariat Wakil Presiden',
-      name: 'Jabatan Fungsional',
-      image: '/simdatuk/imagePegawai.png',
-      eselon: 'Es. I.a., 25-01-2021',
-      golongan: 'Pembina Utama Madya (IV/d), 01-04-2017',
-      NIP: '197303221997021001'
+      jabatan: 'Jabatan Fungsional',
+      name: [
+        {
+          childName: 'Analis Kebijakan',
+          type: [
+            {
+              id: 1,
+              name: 'Ahli Utama',
+              amount: '3/2'
+            }
+          ]
+        }
+      ]
     },
     {
       id: 2,
@@ -52,11 +61,21 @@ const PetaJabatanDeputiComponent = () => {
       summary='Peta Jabatan'
       showExpButton={true}
     >
-      <PetaJabatanLayout
-        data={listPegawai}
-        jabatan='Deputi Bidang Dukungan Kebijakan Pembangunan Ekonomi dan Peningkatan Daya Saing'
-        profil={true}
-      />
+      <Box
+        marginBottom='10rem'
+      >
+        <PetaJabatanLayout
+          data={listPegawai}
+          jabatan='Deputi Bidang Dukungan Kebijakan Pembangunan Ekonomi dan Peningkatan Daya Saing'
+          profil={true}
+        >
+
+          <StrukturPetaJabatan
+            data={listPegawai}
+          />
+
+        </PetaJabatanLayout>
+      </Box>
     </EmployeeLayout >
   )
 }
