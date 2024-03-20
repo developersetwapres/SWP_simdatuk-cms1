@@ -1,51 +1,47 @@
-import { CssBaseline, ThemeProvider } from "@mui/material";
-import Head from "next/head";
-import React, { Fragment, useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import createEmotionCache from "../utils/createEmotionCache";
-import { CacheProvider } from "@emotion/react";
-import theme from "../utils/theme";
-import { Provider } from "react-redux";
-import { initializeStore } from "../store";
-import ModalResponse from "@/components/shared/ModalResponse";
-import ModalCatchError from "@/components/core/ModalCatchError";
-import Snackbar from "@/components/shared/Snackbar";
+import { CssBaseline, ThemeProvider } from '@mui/material'
+import Head from 'next/head'
+import React, { Fragment, useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
+import createEmotionCache from '../utils/createEmotionCache'
+import { CacheProvider } from '@emotion/react'
+import theme from '../utils/theme'
+import { Provider } from 'react-redux'
+import { initializeStore } from '../store'
+import ModalResponse from '@/components/shared/ModalResponse'
+import ModalCatchError from '@/components/core/ModalCatchError'
+import Snackbar from '@/components/shared/Snackbar'
 
-const __REDUX_STORE__ = "__REDUX_STORE__";
+const __REDUX_STORE__ = '__REDUX_STORE__'
 
 // * Get Or Create Redux Store
 function getOrCreateStore() {
-  const initialState = {};
+  const initialState = {}
 
-  const isServer = typeof window === "undefined";
+  const isServer = typeof window === 'undefined'
   // Always make a new store if server, otherwise state is shared between request
   if (isServer) {
-    return initializeStore(initialState);
+    return initializeStore(initialState)
   }
 
   // Create store if unavailable on the client and set it on the window object
   if (!window[__REDUX_STORE__]) {
-    window[__REDUX_STORE__] = initializeStore(initialState);
+    window[__REDUX_STORE__] = initializeStore(initialState)
   }
-  return window[__REDUX_STORE__];
+  return window[__REDUX_STORE__]
 }
 
-const clientSideEmotionCache = createEmotionCache();
+const clientSideEmotionCache = createEmotionCache()
 function SETNEGCMS({
   pageProps,
   Component,
-  emotionCache = clientSideEmotionCache,
+  emotionCache = clientSideEmotionCache
 }) {
-  const [loaded, setLoaded] = useState(false);
-  const reduxStore = getOrCreateStore();
+  const [loaded, setLoaded] = useState(false)
+  const reduxStore = getOrCreateStore()
 
   useEffect(() => {
-    setLoaded(true);
-  }, []);
-
-  // useEffect(() => {
-  //   requestForToken()
-  // }, [])
+    setLoaded(true)
+  }, [])
 
   return (
     <Fragment>
@@ -54,10 +50,10 @@ function SETNEGCMS({
           <Head>
             <title>SETNEG CMS</title>
             <meta
-              name="viewport"
-              content="initial-scale=1, width=device-width"
+              name='viewport'
+              content='initial-scale=1, width=device-width'
             />
-            <meta charSet="utf-8" />
+            <meta charSet='utf-8' />
           </Head>
           <ThemeProvider theme={theme}>
             <CssBaseline />
@@ -73,13 +69,13 @@ function SETNEGCMS({
         </CacheProvider>
       </Provider>
     </Fragment>
-  );
+  )
 }
 
 SETNEGCMS.propTypes = {
   pageProps: PropTypes.any,
   Component: PropTypes.any,
-  emotionCache: PropTypes.any,
-};
+  emotionCache: PropTypes.any
+}
 
-export default SETNEGCMS;
+export default SETNEGCMS
