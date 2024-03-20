@@ -58,6 +58,13 @@ function SidebarItem({
     router.push(path)
   }
 
+  const clickListItem = (value) => {
+    handleOpen(value)
+    if (value) {
+      router.push(value)
+    }
+  }
+
   const menuAccess = decryptItem('setneg_menu', 'my-menu') !== null ?
     decryptItem('setneg_menu', 'my-menu') : ''
 
@@ -68,7 +75,7 @@ function SidebarItem({
         } `}
     >
       <ListItemButton
-        onClick={() => { handleOpen(path) }}
+        onClick={() => { clickListItem(path) }}
         selected={router.pathname === path}
       >
         <ListItemIcon>
