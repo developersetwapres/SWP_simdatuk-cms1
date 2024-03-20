@@ -43,12 +43,12 @@ const ProfileCard = ({
   golongan,
   nip,
   lihatDetail,
-  lihatProfile
+  lihatProfile,
+  onCLick
 }) => {
 
-
   const handleButtonClick = () => {
-    console.log('ok')
+    onCLick()
   }
   return (
     <Card sx={rootStyle || style.cardParent}>
@@ -217,7 +217,8 @@ ProfileCard.propTypes = {
   nip: PropTypes.string,
   rootStyle: PropTypes.object,
   lihatProfile: PropTypes.string,
-  lihatDetail: PropTypes.string
+  lihatDetail: PropTypes.string,
+  onCLick: PropTypes.func
 }
 
 export default ProfileCard
