@@ -3,10 +3,14 @@ import { Box, Grid } from '@mui/material'
 import EmployeeLayout from '../EmployeeLayout'
 import { eselon1 } from '../asn-active/dummiData'
 import ProfileCard from '@/components/core/card/ProfileCard'
-
+import { useRouter } from 'next/router'
 
 const LihatProfileComponent = () => {
+  const router = useRouter()
 
+  const handleClick = (item) => { 
+    router.replace(`pegawai/detail/${item}`)
+  }
 
   return (
     <Box
@@ -41,6 +45,8 @@ const LihatProfileComponent = () => {
                   eselon={item.eselon}
                   golongan={item.golongan}
                   nip={item.NIP}
+                  lihatProfile='Lihat Profile'
+                  onCLick={() => handleClick(item)}
                 />
               </Grid>
             )
