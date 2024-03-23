@@ -55,19 +55,23 @@ const ProfileCard = ({
       <CardContent
         sx={style.cardContent}
       >
-        <Box
-          height='60px'
-        >
-          <Typography
-            sx={{ fontSize: 14 }}
-            fontWeight='bold'
-            gutterBottom
-            textAlign='center'
+        {
+          summary && (
+            <Box
+              height='60px'
+            >
+              <Typography
+                sx={{ fontSize: 14 }}
+                fontWeight='bold'
+                gutterBottom
+                textAlign='center'
 
-          >
-            {summary}
-          </Typography>
-        </Box>
+              >
+                {summary}
+              </Typography>
+            </Box>
+          )
+        }
         <Box
           sx={style.imageBox}
         >
