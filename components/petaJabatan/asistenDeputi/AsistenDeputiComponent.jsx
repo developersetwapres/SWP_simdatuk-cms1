@@ -1,8 +1,9 @@
 import EmployeeLayout from '@/components/employee/EmployeeLayout'
-import React from 'react'
+import React, { useState } from 'react'
 import PetaJabatanLayout from '../PetaJabatanLayout'
 import { Box } from '@mui/material'
 import StrukturPetaJabatan from '../StrukturPetaJabatan'
+import ModalEmployeeList from '@/components/core/ModalAsisten'
 
 const listPegawai = [
   {
@@ -28,6 +29,16 @@ const listPegawai = [
             amount: '2/0'
           }
         ]
+      },
+      {
+        childName: 'Arsiparis',
+        type: [
+          {
+            id: 1,
+            name: 'Ahli Muda',
+            amount: '5/2'
+          }
+        ]
       }
     ]
   },
@@ -46,7 +57,8 @@ const styles = {
   styleBoxFungsional: {
     backgroundColor: '#f6ebda',
     width: '30vw',
-    padding: 2
+    padding: 2,
+    position: 'relative'
   },
   styleBoxPrifleCard: {
     backgroundColor: '#fff',
@@ -56,6 +68,18 @@ const styles = {
 }
 
 const AsistenDeputiComponent = () => {
+  const [modalData, setModalData] = useState({})
+  const [openModal, setOpenModal] = useState(false)
+
+  const getModalData = (data, modal) => {
+    setModalData(data)
+    setOpenModal(modal)
+  }
+
+  const handleCloseModal = () => {
+    setOpenModal(false)
+  }
+
   return (
     <EmployeeLayout
       summary='Peta Jabatan'
@@ -74,12 +98,19 @@ const AsistenDeputiComponent = () => {
           nip='197303221997021001'
         >
           <StrukturPetaJabatan
+            openModal={getModalData}
             data={listPegawai}
             styleBoxProfile={styles.styleBoxPrifleCard}
             styleBoxFungsional={styles.styleBoxFungsional}
           />
+          <ModalEmployeeList
+            openModal={openModal}
+            closeModal={handleCloseModal}
+            data={modalData}
+          />
         </PetaJabatanLayout>
       </Box>
+
     </EmployeeLayout>
   )
 }
