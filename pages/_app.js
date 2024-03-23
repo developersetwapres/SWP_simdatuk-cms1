@@ -9,7 +9,6 @@ import { Provider } from 'react-redux'
 import { initializeStore } from '../store'
 import ModalResponse from '@/components/shared/ModalResponse'
 import ModalCatchError from '@/components/core/ModalCatchError'
-// import { requestForToken } from '@/utils/firebaseInit'
 import Snackbar from '@/components/shared/Snackbar'
 
 const __REDUX_STORE__ = '__REDUX_STORE__'
@@ -43,10 +42,6 @@ function SETNEGCMS({
   useEffect(() => {
     setLoaded(true)
   }, [])
-
-  // useEffect(() => {
-  //   requestForToken()
-  // }, [])
 
   return (
     <Fragment>

@@ -20,10 +20,10 @@ Make sure you have the following installed:
 
 ```bash
 # 1. Clone the repository.
-git clone https://gitlab.com/playbook-ppkasn/cms
+git clone https://git.ekuator.id/project/setneg/simdatuk/cms
 
 # 2. Enter your cloned directory.
-cd cms-setneg
+cd cms
 
 # 3. Install dependencies. Make sure npm installed: https://www.npmjs.com/get-npm
 npm install
