@@ -1,4 +1,4 @@
-import OutsourcingContainer from '@/containers/employee/outsourcing/OutsourcingContainer'
+import OutsourcingContainer from '@/containers/Employee/Outsourcing/OutsourcingContainer'
 import React from 'react'
 
 const index = () => {

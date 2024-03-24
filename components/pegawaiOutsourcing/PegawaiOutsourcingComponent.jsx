@@ -1,13 +1,13 @@
 import React from 'react'
 import { Grid } from '@mui/material'
-import EmployeeLayout from '../employee/EmployeeLayout'
+import EmployeeLayout from '../Employee/EmployeeLayout'
 import AsnDataList from '../core/card/AsnDataList'
 import {
   nonOutsourcing,
   pegawaiOutsourcing,
   jenisKelamin,
   pendidikan
-} from '../pegawaiAsnComponent/dummyData'
+} from '../PegawaiAsnComponents/dummyData'
 
 
 

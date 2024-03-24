@@ -1,4 +1,4 @@
-import NonAsnContainer from '@/containers/employee/non-asn/NonAsnContainer'
+import NonAsnContainer from '@/containers/Employee/NonAsn/NonAsnContainer'
 import React from 'react'
 
 

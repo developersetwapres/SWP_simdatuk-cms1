@@ -2,7 +2,7 @@ import React from 'react'
 import { Box } from '@mui/material'
 import EmployeeLayout from '../EmployeeLayout'
 import AsnDataList from '@/components/core/card/AsnDataList'
-import { tenagaOutsourcing, nonOutsourcing } from '../asn-active/dummiData'
+import { tenagaOutsourcing, nonOutsourcing } from '../AsnActive/dummiData'
 
 
 const styles = {

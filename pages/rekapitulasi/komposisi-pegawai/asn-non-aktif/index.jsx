@@ -1,4 +1,4 @@
-import AsnNonActiveContainer from '@/containers/employee/asn-non-active/AsnNonActiveContainer'
+import AsnNonActiveContainer from '@/containers/Employee/AsnNonActive/AsnNonActiveContainer'
 import React from 'react'
 
 const index = () => {

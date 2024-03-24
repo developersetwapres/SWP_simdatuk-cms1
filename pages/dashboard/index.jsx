@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect } from 'react'
-import BannerContainer from '@/containers/banner/BannerContainer'
+import BannerContainer from '@/containers/Dashboard/DashboardContainer'
 import WithAuth from '@/components/shared/WithAuth'
 import { onlyRole } from '@/utils/index'
 

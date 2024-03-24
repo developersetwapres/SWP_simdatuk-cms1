@@ -1,6 +1,6 @@
 import React from 'react'
 import WithAuth from '@/components/shared/WithAuth'
-import ExportRekapitulasiContainer from '@/containers/export/rekapitulasi/ExportContainer'
+import ExportRekapitulasiContainer from '@/containers/ExportContainer/Rekapitulasi/ExportContainer'
 
 const index = () => {
   return (

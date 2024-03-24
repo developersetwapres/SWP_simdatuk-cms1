@@ -1,9 +1,10 @@
-import EmployeeLayout from '@/components/employee/EmployeeLayout'
+
 import React, { useState } from 'react'
 import PetaJabatanLayout from '../PetaJabatanLayout'
 import { Box } from '@mui/material'
 import StrukturPetaJabatan from '../StrukturPetaJabatan'
 import ModalEmployeeList from '@/components/core/ModalAsisten'
+import EmployeeLayout from '@/components/Employee/EmployeeLayout'
 
 const listPegawai = [
   {

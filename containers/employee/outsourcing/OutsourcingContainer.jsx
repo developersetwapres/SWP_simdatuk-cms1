@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Layout from '@/components/core/Layout'
 import CourseSkeleton from '@/components/course/CourseSkeleton'
-import OutsourcingComponent from '@/components/employee/outsourcing/OutsourcingComponent'
+import OutsourcingComponent from '@/components/Employee/Outsourcing/OutsourcingComponent'
 
 const OutsourcingContainer = () => {
 

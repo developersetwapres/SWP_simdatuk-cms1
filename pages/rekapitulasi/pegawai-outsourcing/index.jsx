@@ -1,6 +1,6 @@
 import React from 'react'
 import WithAuth from '@/components/shared/WithAuth'
-import PegawaiOutsourcingContainer from '@/containers/pegawaiOutsourcing/PegawaiOutsourcingContainer'
+import PegawaiOutsourcingContainer from '@/containers/PegawaiOutsourcingContainer/PegawaiOutsourcingContainer'
 
 const index = () => {
   return (

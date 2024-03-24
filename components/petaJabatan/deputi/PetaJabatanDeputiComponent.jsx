@@ -1,8 +1,8 @@
-import EmployeeLayout from '@/components/employee/EmployeeLayout'
 import React from 'react'
 import PetaJabatanLayout from '../PetaJabatanLayout'
 import { Box } from '@mui/material'
 import StrukturPetaJabatan from '../StrukturPetaJabatan'
+import EmployeeLayout from '@/components/Employee/EmployeeLayout'
 
 
 const PetaJabatanDeputiComponent = () => {

@@ -1,9 +1,9 @@
 import React from 'react'
-import EmployeeLayout from '../employee/EmployeeLayout'
 import PetaJabatanLayout from './PetaJabatanLayout'
 import { Box, Typography } from '@mui/material'
 import { Button } from '../shared'
 import StrukturPetaJabatan from './StrukturPetaJabatan'
+import EmployeeLayout from '../Employee/EmployeeLayout'
 
 
 const styles = {

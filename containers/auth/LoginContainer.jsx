@@ -1,10 +1,11 @@
-import LoginComponent from '@/components/auth/LoginComponent'
+
 // import { mapActio } from '@/store/'
 import { mapStateToProps } from '@/store/'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { mapActions } from '@/store/index'
+import LoginComponent from '@/components/Auth/LoginComponent'
 
 export default connect(
   mapStateToProps('authentication'),

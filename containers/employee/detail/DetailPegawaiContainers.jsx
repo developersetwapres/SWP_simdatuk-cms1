@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Layout from '@/components/core/Layout'
 import CourseSkeleton from '@/components/course/CourseSkeleton'
-import DetailComponent from '@/components/employee/detail/DetailComponent'
+import DetailComponent from '@/components/Employee/Detail/DetailComponent'
 
 const DetailPegawaiContainers = () => {
 

@@ -1,4 +1,4 @@
-import LoginContainer from '@/containers/auth/LoginContainer'
+import LoginContainer from '@/containers/Auth/LoginContainer'
 import React, { Component } from 'react'
 import { getStorage } from '@/utils/storage'
 import Router from 'next/router'

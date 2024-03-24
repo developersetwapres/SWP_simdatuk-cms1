@@ -1,4 +1,4 @@
-import LihatProfileContainer from '@/containers/pegawaiAsnContainer/lihat-profile/LihatProfileContainer'
+import LihatProfileContainer from '@/containers/PegawaiAsnContainers/LihatProfile/LihatProfileContainer'
 import React from 'react'
 
 

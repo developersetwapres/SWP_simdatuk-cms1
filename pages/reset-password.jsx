@@ -1,4 +1,4 @@
-import ResetPasswordComponent from '@/components/auth/reset-password/ResetPasswordComponent'
+import ResetPasswordComponent from '@/components/Auth/Reset-Password/ResetPasswordComponent'
 import React, { Component } from 'react'
 
 export default class ResetPassword extends Component {

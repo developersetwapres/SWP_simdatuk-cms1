@@ -1,9 +1,10 @@
-import EmployeeLayout from '@/components/employee/EmployeeLayout'
+
 import React, { useState } from 'react'
 import { Box, Typography } from '@mui/material'
 import JabatanFungsionalDetail from '../JabatanFungsionalComponent.jsx/JabtanFungsionalDetail'
 import ProfileCard from '@/components/core/card/ProfileCard'
 import ModalAnalis from '@/components/core/ModalAnalis'
+import EmployeeLayout from '@/components/Employee/EmployeeLayout'
 
 const listPegawai = [
   {

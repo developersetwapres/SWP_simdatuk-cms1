@@ -1,6 +1,6 @@
 import React from 'react'
 import WithAuth from '@/components/shared/WithAuth'
-import LihatProfileContainer from '@/containers/pegawaiOutsourcing/lihat-profile/LihatProfileContainer'
+import LihatProfileContainer from '@/containers/PegawaiOutsourcingContainer/LihatProfile/LihatProfileContainer'
 
 const index = () => {
   return (
