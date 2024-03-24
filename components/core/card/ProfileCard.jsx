@@ -15,7 +15,8 @@ const style = {
       sm: '25vw',
       xs: '50vw'
     },
-    height: '40rem'
+    height: '40rem',
+    margin: '1rem'
 
   },
   imageBox: {

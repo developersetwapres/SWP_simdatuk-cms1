@@ -64,7 +64,7 @@ const JabatanFungsionalDetail = ({
           >
             <hr
               style={{
-                width: '50.1%',
+                width: '50.4%',
                 height: '2px',
                 border: 0,
                 margin: 0,
