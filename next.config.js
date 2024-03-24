@@ -1,5 +1,6 @@
 const path = require('path')
 const Dotenv = require('dotenv-webpack')
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const alias = {
   '@/components': path.join(__dirname, 'components'),
   '@/containers': path.join(__dirname, 'containers'),
@@ -71,10 +72,10 @@ const nextConfig = {
       new Dotenv({
         path: path.join(__dirname, '.env.local'),
         systemvars: true
-      })
+      }),
+      new CaseSensitivePathsPlugin()
     ]
     config.resolve.alias = Object.assign({}, config.resolve.alias, alias)
-
     return config
   }
 }
