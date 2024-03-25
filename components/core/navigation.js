@@ -68,7 +68,7 @@ const navigation = [
       },
       {
         path: '/manajemen-pengguna/activity-log-user',
-        name: 'PROMISO PEGAWAI',
+        name: 'PROMOSI PEGAWAI',
         permission: [{ name: 'Activity Log' }]
       }
     ]
@@ -76,27 +76,27 @@ const navigation = [
   {
     name: 'DATA PEGAWAI',
     icon: <GroupsIcon maxWidth={20} sx={{ fontSize: '20px', color: '#fff' }} />,
-    permission: [{ name: 'Course' }],
-    children: [
-      {
-        path: '/manajemen-course/course',
-        name: 'Course',
-        icon: null,
-        permission: [{ name: 'Course' }]
-      },
-      {
-        path: '/manajemen-course/editor-choice',
-        name: 'Pilihan Editor',
-        icon: null,
-        permission: [{ name: 'Pilihan Editor' }]
-      },
-      {
-        path: '/manajemen-course/organizer',
-        name: 'Update Data Penyelenggara',
-        icon: null,
-        permission: [{ name: 'Update Data Penyelenggara' }]
-      }
-    ]
+    permission: [{ name: 'Course' }]
+    // children: [
+    //   {
+    //     path: '/manajemen-course/course',
+    //     name: 'Course',
+    //     icon: null,
+    //     permission: [{ name: 'Course' }]
+    //   },
+    //   {
+    //     path: '/manajemen-course/editor-choice',
+    //     name: 'Pilihan Editor',
+    //     icon: null,
+    //     permission: [{ name: 'Pilihan Editor' }]
+    //   },
+    //   {
+    //     path: '/manajemen-course/organizer',
+    //     name: 'Update Data Penyelenggara',
+    //     icon: null,
+    //     permission: [{ name: 'Update Data Penyelenggara' }]
+    //   }
+    // ]
   },
   {
     name: 'DATA RIWAYAT',
