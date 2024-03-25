@@ -1,5 +1,5 @@
 import React from 'react'
-import ChartLayout from './chart/ChartLayout'
+import ChartLayout from './Chart/ChartLayout'
 
 const ChartComponent = () => {
   return (

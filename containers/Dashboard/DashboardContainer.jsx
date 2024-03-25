@@ -4,13 +4,13 @@ import { mapStateToProps } from '@/store/'
 import PropTypes from 'prop-types'
 import { mapActions } from '@/store/'
 import Layout from '@/components/core/Layout'
-import DashboardListComponent from '@/components/Dashboard/DashboardListComponent'
+import DashboardComponent from '@/components/Dashboard/DashboardComponent'
 
 export default connect(
   mapStateToProps('banner'),
   mapActions('getBanners', 'deleteListBanner')
 )(
-  class BannerContainer extends Component {
+  class DashboardContainer extends Component {
     static propTypes = {
       banner: PropTypes.object,
       getBanners: PropTypes.func,
@@ -108,7 +108,7 @@ export default connect(
         <Layout
           willRender={this.state.willRender}
         >
-          <DashboardListComponent
+          <DashboardComponent
             {...this.state}
             {...this.props}
             deleteListBanner={this.props.deleteListBanner}

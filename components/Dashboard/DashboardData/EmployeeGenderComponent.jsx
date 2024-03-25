@@ -1,5 +1,5 @@
 import React from 'react'
-import LayoutComponent from './LayoutBanner/LayoutComponent'
+import LayoutComponent from './LayoutDashboard/LayoutComponent'
 
 const EmployeeGenderComponent = () => {
   return (

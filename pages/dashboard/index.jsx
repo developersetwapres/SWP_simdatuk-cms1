@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useEffect } from 'react'
-import BannerContainer from '@/containers/Dashboard/DashboardContainer'
+import React from 'react'
 import WithAuth from '@/components/shared/WithAuth'
-import { onlyRole } from '@/utils/index'
+// import { onlyRole } from '@/utils/index'
+import DashboardContainer from '@/containers/Dashboard/DashboardContainer'
 
 
 const index = (props) => {
@@ -26,7 +26,7 @@ const index = (props) => {
   // }, [checkRole, store, state])
 
   return (
-    <BannerContainer
+    <DashboardContainer
       {...props}
     />
   )

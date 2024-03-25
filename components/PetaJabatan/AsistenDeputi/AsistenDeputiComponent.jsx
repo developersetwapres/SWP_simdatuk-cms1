@@ -30,16 +30,6 @@ const listPegawai = [
             amount: '2/0'
           }
         ]
-      },
-      {
-        childName: 'Arsiparis',
-        type: [
-          {
-            id: 1,
-            name: 'Ahli Muda',
-            amount: '5/2'
-          }
-        ]
       }
     ]
   },

@@ -2,9 +2,9 @@ import React from 'react'
 import EmployeeCountComponent from './EmployeeCountComponent'
 import EmployeeGenderComponent from './EmployeeGenderComponent'
 import EmployeeTypeComponent from './EmployeeTypeComponent'
-import ChartComponent from './LayoutBanner/ChartComponent'
+import ChartComponent from './LayoutDashboard/ChartComponent'
 
-function BannerDataComponent() {
+function DashboardDataComponent() {
   return (
     <>
       <EmployeeCountComponent />
@@ -15,4 +15,4 @@ function BannerDataComponent() {
   )
 }
 
-export default BannerDataComponent
+export default DashboardDataComponent

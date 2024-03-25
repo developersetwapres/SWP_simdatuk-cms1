@@ -1,11 +1,10 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
-import BannerToolbarComponent from './DashboardToolbarComponent'
 import PropTypes from 'prop-types'
-import BannerDataComponent from '../banner/bannerData/BannerDataComponent'
-import { Box } from '@mui/material'
+import DashboardToolbarComponent from './DashboardToolbarComponent'
+import DashboardDataComponent from './DashboardData/DashboardDataComponent'
 
-function BannerComponent({
+function DashboardComponent({
   banner,
   queries,
   // deleteListBanner = () => { },
@@ -15,17 +14,17 @@ function BannerComponent({
 }) {
   return (
     <>
-      <BannerToolbarComponent
+      <DashboardToolbarComponent
         onBirthDay={onBirthDay}
         queries={queries}
         onClearFilter={onClearFilter}
       />
-      <BannerDataComponent />
+      <DashboardDataComponent />
     </>
   )
 }
 
-BannerComponent.propTypes = {
+DashboardComponent.propTypes = {
   banner: PropTypes.object,
   queries: PropTypes.object,
   deleteListBanner: PropTypes.func,
@@ -34,4 +33,4 @@ BannerComponent.propTypes = {
   onClearFilter: PropTypes.func
 }
 
-export default BannerComponent
+export default DashboardComponent
