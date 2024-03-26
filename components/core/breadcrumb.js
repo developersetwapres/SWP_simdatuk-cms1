@@ -30,29 +30,37 @@ const breadcrumbs = [
     ]
   },
   {
-    path: '/manajemen-pengguna/peran-pengguna',
-    name: 'Daftar Peran Pengguna',
+    path: '/rekapitulasi/komposisi-pegawai',
+    name: 'Komposisi Pegawai',
     children: [
       {
-        pathChild: '/manajemen-pengguna/peran-pengguna/create',
-        name: 'Tambah Peran Pengguna'
+        pathChild: '/rekapitulasi/pegawai-asn/lihat-profile',
+        name: 'Lihat Profile'
       },
       {
-        pathChild: '/manajemen-pengguna/peran-pengguna/update/[id]',
-        name: 'Edit Peran Pengguna'
+        pathChild: '/rekapitulasi/pegawai-non-asn/list-pegawai',
+        name: 'List Pegawai'
+      },
+      {
+        pathChild: '/rekapitulasi/pegawai-outsourcing/lihat-profile',
+        name: 'List Pegawai'
       }
     ]
   },
   {
-    path: '/manajemen-pengguna/blacklist',
+    path: '/rekapitulasi/peta-jabatan',
     name: 'Daftar Blacklist',
     children: [
       {
-        pathChild: '/manajemen-pengguna/blacklist/create',
+        pathChild: '/rekapitulasi/peta-jabatan/deputi',
         name: 'Tambah Blacklist'
       },
       {
-        pathChild: '/manajemen-pengguna/blacklist/detail/[id]',
+        pathChild: '/rekapitulasi/peta-jabatan/asisten-deputi',
+        name: 'Detail Blacklist'
+      },
+      {
+        pathChild: '/rekapitulasi/peta-jabatan/analis-kebijakan',
         name: 'Detail Blacklist'
       }
     ]
