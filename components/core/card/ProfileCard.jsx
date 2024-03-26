@@ -1,11 +1,14 @@
-import * as React from 'react'
+/* eslint-disable no-unused-vars */
+import React, { useCallback, useEffect, useState } from 'react'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import { Button } from '../../shared'
 import PropTypes from 'prop-types'
-import { Box, Grid } from '@mui/material'
+import { Box, FormControlLabel, Grid } from '@mui/material'
 import Image from 'next/image'
+import Checkbox from '@mui/material/Checkbox'
+
 
 const style = {
   cardParent: {
@@ -45,12 +48,32 @@ const ProfileCard = ({
   nip,
   lihatDetail,
   lihatProfile,
-  onCLick
+  onCLick,
+  check,
+  checkLabel,
+  chekValue = () => { },
+  deleteValue = () => { },
+  chekedAll,
+  id
 }) => {
 
   const handleButtonClick = () => {
     onCLick()
   }
+  const [checkedState, setCheckedState] = useState([])
+
+
+  const handleCheckboxChange = (id) => {
+    if (checkedState.includes(id)) {
+      setCheckedState(checkedState.filter((checkedId) => checkedId !== id))
+      deleteValue(id)
+    } else {
+      setCheckedState([...checkedState, id])
+      chekValue([...checkedState, id])
+    }
+  }
+
+
   return (
     <Card sx={rootStyle || style.cardParent}>
       <CardContent
@@ -207,6 +230,19 @@ const ProfileCard = ({
               />
             )
           }
+          {
+            check && (
+              <FormControlLabel
+                label={checkLabel}
+                control={
+                  <Checkbox
+                    onChange={(e) => handleCheckboxChange(id, e)}
+                    checked={checkedState.includes(id) || chekedAll}
+                  />
+                }
+              />
+            )
+          }
         </Box>
       </CardContent>
     </Card>
@@ -223,7 +259,14 @@ ProfileCard.propTypes = {
   rootStyle: PropTypes.object,
   lihatProfile: PropTypes.string,
   lihatDetail: PropTypes.string,
-  onCLick: PropTypes.func
+  onCLick: PropTypes.func,
+  check: PropTypes.bool,
+  checkLabel: PropTypes.string,
+  handleCheckboxChange: PropTypes.func,
+  chekValue: PropTypes.func,
+  deleteValue: PropTypes.func,
+  id: PropTypes.string,
+  chekedAll: PropTypes.bool
 }
 
 export default ProfileCard
