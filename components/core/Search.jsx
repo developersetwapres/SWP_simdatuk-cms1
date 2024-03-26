@@ -5,12 +5,12 @@ import PropsType from 'prop-types'
 
 
 function Search({
-  iconColor,
   onSearch = () => { },
   label,
   placeholder,
   inputParentClasses,
-  inputClass
+  inputClass,
+  iconStyle
 }) {
   const [search, setSearch] = useState('')
 
@@ -19,6 +19,23 @@ function Search({
       component='div'
       className={inputParentClasses}
     >
+      <InputLabel
+        htmlFor='search'
+        sx={{
+          height: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
+        {
+          label ||
+          (<SearchIcon
+            htmlFor='search'
+            sx={iconStyle}
+          />)
+        }
+      </InputLabel>
       <input
         type='text'
         id='search'
@@ -33,28 +50,6 @@ function Search({
         placeholder={placeholder}
       // value={search}
       />
-      <InputLabel
-        htmlFor='search'
-        sx={{
-          height: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-      >
-        {
-          label ||
-          (<SearchIcon
-            htmlFor='search'
-            sx={{
-              color: `${iconColor}`,
-              cursor: 'pointer',
-              width: '50px',
-              fontSize: '30px'
-            }}
-          />)
-        }
-      </InputLabel>
     </Box>
   )
 }
@@ -66,7 +61,7 @@ Search.propTypes = {
   placeholder: PropsType.string,
   inputParentClasses: PropsType.any,
   inputClass: PropsType.any,
-  iconColor: PropsType.string
+  iconStyle: PropsType.any
 }
 
 
