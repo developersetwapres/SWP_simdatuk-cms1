@@ -306,7 +306,7 @@ export const eselon1 = [
     NIP: '197303221997021001'
   },
   {
-    id: 1,
+    id: 2,
     position:
       'Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan',
     name: 'Dr. Ir. Suprayoga Hadi, M.S.P.',
@@ -326,7 +326,7 @@ export const eselon1 = [
     NIP: '197202161998031005'
   },
   {
-    id: 3,
+    id: 4,
     position: 'Deputi Bidang Administrasi',
     name: 'Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.',
     image: '/simdatuk/imagePegawai.png',
