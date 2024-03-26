@@ -62,9 +62,9 @@ const navigation = [
         permission: [{ name: 'Activity Log' }]
       },
       {
-        path: '/manajemen-pengguna/activity-log-user',
+        path: '/rekapitulasi/bandingkan-pegawai',
         name: 'BANDINGKAN PEGAWAI',
-        permission: [{ name: 'Activity Log' }]
+        permission: [{ name: 'Bandingkan Pegawai' }]
       },
       {
         path: '/manajemen-pengguna/activity-log-user',
