@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
-import CardComponent from '../core/card/CardComponent'
-import { Box, Grid, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import ButtonExport from '../core/ButtonExport'
 import PropTypes from 'prop-types'
 
