@@ -1,11 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CheckboxCard from '../core/CheckboxCard'
 import { Box } from '@mui/material'
 import ProfileCard from '../core/card/ProfileCard'
 import { eselon1 } from '../Employee/AsnActive/dummiData'
+import PropTypes from 'prop-types'
 
 
-const ListPegawai = () => {
+const ListPegawai = ({
+  checkAmount=()=>{}
+}) => {
   const [checkList, setCheckList] = useState([])
   const [checkAll, setCheckAll] = useState(false)
 
@@ -31,12 +34,14 @@ const ListPegawai = () => {
     }
   }
 
-
   const hanldeChekAll = () => {
     setCheckAll(!checkAll)
   }
-
-  console.log(checkList)
+  
+  
+  useEffect(() => {
+    checkAmount(checkList)
+  }, [checkAmount, checkList])
 
   return (
     <>
@@ -70,6 +75,10 @@ const ListPegawai = () => {
       </CheckboxCard>
     </>
   )
+}
+
+ListPegawai.propTypes = {
+  checkAmount: PropTypes.func
 }
 
 export default ListPegawai
