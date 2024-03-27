@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import EmployeeLayout from '../Employee/EmployeeLayout'
 import Search from '../core/Search'
 import { Box, Typography } from '@mui/material'
@@ -46,10 +46,15 @@ const BandingkanPegawaiComponent = () => {
   const classes = useStyles()
 
   const [expandFilter, setExpandFilter] = useState(false)
+  const [amountData, setAmountData] = useState([])
 
 
   const handleFilterClick = () => {
     setExpandFilter(!expandFilter)
+  }
+
+  const getAmount = (amount) => {
+    setAmountData(amount)
   }
 
   return (
@@ -58,56 +63,87 @@ const BandingkanPegawaiComponent = () => {
     >
       <Box
         sx={{
-          display: 'flex',
-          width: '100%',
-          alignItems: 'center',
-          justifyContent: 'space-between'
+          position: 'relative'
         }}
       >
         <Box
-          onClick={handleFilterClick}
           sx={{
+            position: 'absolute',
+            top: -40,
+            right: 0,
             display: 'flex',
+            width: '20%',
+            borderRadius: '15px',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '10px',
-            padding: '5px',
-            width: '7rem',
-            height: '3rem',
-            borderRadius: '10px',
-            border: '2px solid #895700',
-            cursor: 'pointer'
+            backgroundColor: 'primary.main',
+            padding: 2
           }}
         >
-          <FilterAltIcon
-            color='primary'
-            sx={{
-              fontSize: '20px',
-              cursor: 'pointer'
-            }}
-          />
           <Typography
-            color='primary'
-            sx={{
-              fontWeight: '500'
-            }}
+            variant='p'
+            fontSize='14px'
+            color='#fff'
           >
-            Filter
+            {`Bandingkan Pegawai (${amountData.length})`}
           </Typography>
         </Box>
-        <Search
-          inputParentClasses={classes.inputParent}
-          inputClass={classes.input}
-          iconStyle={styles.iconStyle}
-          placeholder='Cari Nama/Nip Pegawai'
+        <Box
+          sx={{
+            display: 'flex',
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }}
+        >
+          <Box
+            onClick={handleFilterClick}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '10px',
+              padding: '5px',
+              width: '7rem',
+              height: '3rem',
+              borderRadius: '10px',
+              border: '2px solid #895700',
+              cursor: 'pointer',
+              marginTop: 5
+            }}
+          >
+            <FilterAltIcon
+              color='primary'
+              sx={{
+                fontSize: '20px',
+                cursor: 'pointer'
+              }}
+            />
+            <Typography
+              color='primary'
+              sx={{
+                fontWeight: '500'
+              }}
+            >
+              Filter
+            </Typography>
+          </Box>
+          <Search
+            inputParentClasses={classes.inputParent}
+            inputClass={classes.input}
+            iconStyle={styles.iconStyle}
+            placeholder='Cari Nama/Nip Pegawai'
+          />
+        </Box>
+        <BandingPegawaiForm
+          expand={expandFilter}
         />
-      </Box>
-      <BandingPegawaiForm
-        expand={expandFilter}
-      />
-      <Box
-      >
-        <ListPegawai />
+        <Box
+        >
+          <ListPegawai
+            checkAmount={getAmount}
+          />
+        </Box>
       </Box>
     </EmployeeLayout>
   )
