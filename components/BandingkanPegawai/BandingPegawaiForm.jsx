@@ -26,7 +26,6 @@ const BandingPegawaiForm = ({
   expand
 }) => {
 
-  console.log(expand)
   return (
     <Box
       sx={expand ? style.rootStyle : style.displayHide}
