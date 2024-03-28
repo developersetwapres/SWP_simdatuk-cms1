@@ -36,7 +36,8 @@ export const palette = {
   },
   sidatukDraweBase: {
     main: '#394346',
-    dark: '#2F2F2F'
+    dark: '#2F2F2F',
+    contrastText: '#fff'
   }
 }
 
