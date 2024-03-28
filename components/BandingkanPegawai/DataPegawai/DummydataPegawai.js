@@ -1,4 +1,4 @@
-export const dataPegawai = [
+export const dummyDataPegawai = [
   {
     id: 1,
     image: '/simdatuk/imagePegawai.png',

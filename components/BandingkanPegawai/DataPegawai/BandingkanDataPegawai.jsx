@@ -4,7 +4,8 @@ import React, { useState } from 'react'
 import FilterAltIcon from '@mui/icons-material/FilterAlt'
 import InputTags from '@/components/core/InputTags'
 import ListDataPegawai from './ListDataPegawai'
-import { dataPegawai } from './dataPegawai'
+import { dummyDataPegawai } from './DummydataPegawai'
+
 // Dummy Data
 const filterData = [
   { title: 'Jabatan' },
@@ -18,7 +19,7 @@ const filterData = [
 
 // End Dummy Data
 
-const DataPegawai = () => {
+const BandingkanDataPegawai = () => {
   const [expandFilter, setExpandFilter] = useState(false)
 
 
@@ -120,7 +121,7 @@ const DataPegawai = () => {
           direction='row'
         >
           {
-            dataPegawai.map((data, index) =>
+            dummyDataPegawai.map((data, index) =>
               <Grid
                 key={index}
                 lg={6}
@@ -149,4 +150,4 @@ const DataPegawai = () => {
   )
 }
 
-export default DataPegawai
+export default BandingkanDataPegawai

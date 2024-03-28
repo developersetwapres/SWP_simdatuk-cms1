@@ -4,13 +4,13 @@ import { mapStateToProps } from '@/store/'
 import PropTypes from 'prop-types'
 import { mapActions } from '@/store/'
 import Layout from '@/components/core/Layout'
-import DataPegawai from '@/components/BandingkanPegawai/DataPegawai/DataPegawai'
+import BandingkanDataPegawai from '@/components/BandingkanPegawai/DataPegawai/BandingkanDataPegawai'
 
 export default connect(
   mapStateToProps('banner'),
   mapActions('getBanners', 'deleteListBanner')
 )(
-  class BannerContainer extends Component {
+  class BandingkanDataPegawaiContainer extends Component {
     static propTypes = {
       banner: PropTypes.object,
       getBanners: PropTypes.func,
@@ -38,7 +38,7 @@ export default connect(
         <Layout
           willRender={this.state.willRender}
         >
-          <DataPegawai
+          <BandingkanDataPegawai
             {...this.state}
             {...this.props}
           />

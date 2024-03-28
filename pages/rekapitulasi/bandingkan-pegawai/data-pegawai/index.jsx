@@ -1,11 +1,11 @@
 import React from 'react'
 import WithAuth from '@/components/shared/WithAuth'
-import DataPegawaiContainer from '@/containers/BandingkanPegawaiContainer/DataPegawaiContainer/DataPegawaiContainer'
+import BandingkanDataPegawaiContainer from '@/containers/BandingkanPegawaiContainer/BandingkanDataPegawaiContainer/BandingkanDataPegawaiContainer'
 
 const index = () => {
   return (
     <>
-      <DataPegawaiContainer />
+      <BandingkanDataPegawaiContainer />
     </>
   )
 }
