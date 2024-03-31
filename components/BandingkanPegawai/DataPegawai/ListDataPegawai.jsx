@@ -1,16 +1,12 @@
 /* eslint-disable no-unused-vars */
-import { Box, Typography } from '@mui/material'
+import { Box, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material'
+import { tableCellClasses } from '@mui/material/TableCell'
 import Image from 'next/image'
 import React from 'react'
 import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
+import PelatihanFungsionalSection from '@/components/Employee/Detail/Section/PelatihanFungsional'
 
-
-const style = {
-  dataBox: {
-    display: 'flex'
-  }
-}
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -30,15 +26,20 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     gap: 2,
     marginBottom: '15px'
+  },
+  tableRowClass: {
+    [`& .${tableCellClasses.root}`]: {
+      borderBottom: 'none'
+    }
   }
 }))
 
 
 
 const ListDataPegawai = ({
-  index,
+  id,
   imageSource,
-  name,
+  names,
   eselon,
   jabatan,
   golongan,
@@ -52,328 +53,334 @@ const ListDataPegawai = ({
 }) => {
   const classes = useStyles()
 
+  const rows = [
+    'Jabatan',
+    'Eselon',
+    'Golongan',
+    'Nip/NRP',
+    'Riwayat Pendidikan',
+    'Riwayat Jabatan',
+    'Riwayat Pelatihan Struktural',
+    'Riwayat Pelatihan Fungsional',
+    'Riwayat Pelatihan Teknis',
+    'Riwayat Catatan'
+  ]
+
+
   return (
     <Box
       sx={{
         paddingX: 2
       }}
     >
-      <Box
-        className={classes.boxMain}
-      >
-        <Image
-          src={imageSource}
-          alt='Fhoto Pegawai'
-          width={150}
-          height={200}
-        />
-        <Typography>
-          {name}
-        </Typography>
-      </Box>
-      <Box
-        className={classes.boxListData}
-      >
-        <Box
-          sx={style.dataBox}
-        >
-          <Box
-            sx={{
-              minWidth: '11rem',
-              maxWidth: '12rem'
-            }}
-          >
-            <Typography
-              sx={{
-                fontSize: '12px'
-              }}
+      <TableContainer>
+        <Table>
+          <TableBody>
+            <TableRow
+              className={classes.tableRowClass}
             >
-              Jabatan
-            </Typography>
-          </Box>
-          <Typography
-            sx={{
-              fontSize: '12px'
+              <TableCell
+                sx={{
+                  maxWidth: '20rem'
+                }}
+                component='th' align='center'>
 
-            }}
-          >
-            {jabatan}
-          </Typography>
-        </Box>
-        <Box
-          sx={style.dataBox}
-        >
-          <Box
-            sx={{
-              minWidth: '11rem',
-              maxWidth: '12rem'
-            }}
-          >
-            <Typography
-              sx={{
-                fontSize: '12px'
-              }}
+              </TableCell>
+              {
+                imageSource.map((imageSrc, index) => (
+                  <TableCell
+                    sx={{
+                      maxWidth: '20rem'
+                    }}
+                    key={index} align='center'>
+                    <Image
+                      src={imageSrc}
+                      alt='Fhoto Pegawai'
+                      width={150}
+                      height={200}
+                    />
+                  </TableCell>
+                ))
+              }
+            </TableRow>
+            <TableRow
+              className={classes.tableRowClass}
             >
-              Eselon
-            </Typography>
-          </Box>
-          <Typography
-            sx={{
-              fontSize: '12px'
-            }}
-          >
-            {eselon}
-          </Typography>
-        </Box>
-        <Box
-          sx={style.dataBox}
-        >
-          <Box
-            sx={{
-              minWidth: '11rem',
-              maxWidth: '12rem'
-            }}
-          >
-            <Typography
-              sx={{
-                fontSize: '12px'
-              }}
-            >
-              Golongan
-            </Typography>
-          </Box>
-          <Typography
-            sx={{
-              fontSize: '12px'
-            }}
-          >
-            {golongan}
-          </Typography>
-        </Box>
-        <Box
-          sx={style.dataBox}
-        >
-          <Box
-            sx={{
-              minWidth: '11rem',
-              maxWidth: '12rem'
-            }}
-          >
-            <Typography
-              sx={{
-                fontSize: '12px'
-              }}
-            >
-              NIP/NRP
-            </Typography>
-          </Box>
-          <Typography
-            sx={{
-              fontSize: '12px'
-            }}
-          >
-            {nip}
-          </Typography>
-        </Box>
+              <TableCell
+                sx={{
+                  maxWidth: '20rem'
+                }}
+                component='th' align='left'>
 
-        <Box
-          sx={style.dataBox}
-        >
-          <Box
-            sx={{
-              minWidth: '11rem',
-              maxWidth: '12rem'
-            }}
-          >
-            <Typography
-              sx={{
-                fontSize: '12px'
-              }}
-            >
-              Riwayat Pendidikan
-            </Typography>
-          </Box>
-          <ol
-            className={classes.list}
-          >
+              </TableCell>
+              {
+                names.map((name, index) => (
+                  <TableCell
+                    sx={{
+                      maxWidth: '20rem'
+                    }}
+                    key={index} align='center'>
+                    <Typography
+                      fontSize={16}
+                      fontWeight='500'
+                      color='primary'
+                    >
+                      {name}
+                    </Typography>
+                  </TableCell>
+                ))
+              }
+            </TableRow>
             {
-              riwayatPendidikan.map((item, index) =>
-                <li
-                  key={index}
-                >
-                  {`
-                  ${item.jenjang} ${item.jurusan} (${item.nama}, ${item.tahunLulus})`
-                  }
-                </li>
-              )
-            }
-          </ol>
-        </Box>
+              rows.map((row, index) => (
+                <TableRow
+                  className={classes.tableRowClass}
+                  key={index}>
+                  <TableCell
+                    sx={{
+                      maxWidth: '20rem',
+                      verticalAlign: 0
+                    }}
+                    component='th' align='left'>
 
-        <Box
-          sx={style.dataBox}
-        >
-          <Box
-            sx={{
-              minWidth: '11rem',
-              maxWidth: '12rem'
-            }}
-          >
-            <Typography
-              sx={{
-                fontSize: '12px'
-              }}
-            >
-              Riwayat Jabatan
-            </Typography>
-          </Box>
-          <ol
-            className={classes.list}
-          >
-            {
-              riwayatJabatan.map((item) => {
-                <li>
+                    {row}
+                  </TableCell>
                   {
-                    item.jabatan
+                    index === 0 && (
+                      jabatan.map((item, index) => (
+                        <TableCell
+                          sx={{
+                            maxWidth: '20rem',
+                            verticalAlign: 0
+                          }}
+                          key={index} align='left'>
+                          {item}
+                        </TableCell>
+                      ))
+                    )
                   }
-                </li>
-              })
+                  {
+                    index === 1 && (
+                      eselon.map((item, index) => (
+                        <TableCell
+                          sx={{
+                            maxWidth: '20rem',
+                            verticalAlign: 0
+                          }}
+                          key={index} align='left'>
+                          {item}
+                        </TableCell>
+                      ))
+                    )
+                  }
+                  {
+                    index === 2 && (
+                      golongan.map((item, index) => (
+                        <TableCell
+                          sx={{
+                            maxWidth: '20rem',
+                            verticalAlign: 0
+                          }}
+                          key={index} align='left'>
+                          {item}
+                        </TableCell>
+                      ))
+                    )
+                  }
+                  {
+                    index === 3 && (
+                      nip.map((item, index) => (
+                        <TableCell
+                          sx={{
+                            maxWidth: '20rem',
+                            verticalAlign: 0
+                          }}
+                          key={index} align='left'>
+                          {item}
+                        </TableCell>
+                      ))
+                    )
+                  }
+                  {
+                    index === 4 && (
+                      riwayatPendidikan?.map((item, index) => (
+                        <TableCell
+                          sx={{
+                            maxWidth: '20rem',
+                            verticalAlign: 0
+                          }}
+                          key={index} align='left'>
+                          <ol
+                            className={classes.list}
+                          >
+                            {item.map((data, index) => (
+                              <li key={index}>
+                                {`${data.jenjang} ${data?.jurusan} (${data.nama}, ${data.tahunLulus})`}
+                              </li>
+                            ))}
+                          </ol>
+                        </TableCell>
+                      ))
+                    )
+                  }
+                  {
+                    index === 5 && (
+                      riwayatJabatan?.map((item, index) => (
+                        item.length ? (
+                          <TableCell
+                            sx={{
+                              maxWidth: '20rem',
+                              verticalAlign: 0
+                            }}
+                            key={index} align='left'>
+                            <ol
+                              className={classes.list}
+                            >
+                              {item.map((data, index) => (
+                                <li key={index}>
+                                  {data.jabatan}
+                                </li>
+                              ))}
+                            </ol>
+                          </TableCell>
+                        ) : (
+                          <TableCell
+                            key={index}
+                          >
+                            -
+                          </TableCell>
+                        )
+                      ))
+                    )
+                  }
+                  {
+                    index === 6 && (
+                      pelatihanStruktural?.map((item, index) => (
+                        item.length ? (
+                          <TableCell
+                            sx={{
+                              maxWidth: '20rem',
+                              verticalAlign: 0
+                            }}
+                            key={index} align='left'>
+                            <ol
+                              className={classes.list}
+                            >
+                              {item.map((data, index) => (
+                                <li key={index}>
+                                  {data.pelatihan}
+                                </li>
+                              ))}
+                            </ol>
+                          </TableCell>
+                        ) : (
+                          <TableCell
+                            key={index}
+                          >
+                            -
+                          </TableCell>
+                        )
+                      ))
+                    )
+                  }
+                  {
+                    index === 7 && (
+                      pelatihanFungsional?.map((item, index) => (
+                        item.length ? (
+                          <TableCell
+                            sx={{
+                              maxWidth: '20rem',
+                              verticalAlign: 0
+                            }}
+                            key={index} align='left'>
+                            <ol
+                              className={classes.list}
+                            >
+                              {item.map((data, index) => (
+                                <li key={index}>
+                                  {data.jabatan}
+                                </li>
+                              ))}
+                            </ol>
+                          </TableCell>
+                        ) : (
+                          <TableCell
+                            key={index}
+                          >
+                            -
+                          </TableCell>
+                        )
+                      ))
+                    )
+                  }
+                  {
+                    index === 8 && (
+                      pelatihanTeknis?.map((item, index) => (
+                        item.length ? (
+                          <TableCell
+                            sx={{
+                              maxWidth: '20rem',
+                              verticalAlign: 0
+                            }}
+                            key={index} align='left'>
+                            <ol
+                              className={classes.list}
+                            >
+                              {item.map((data, index) => (
+                                <li key={index}>
+                                  {data.pelatihan}
+                                </li>
+                              ))}
+                            </ol>
+                          </TableCell>
+                        ) : (
+                          <TableCell
+                            key={index}
+                          >
+                            -
+                          </TableCell>
+                        )
+                      ))
+                    )
+                  }
+                  {
+                    index === 9 && (
+                      riwayatCatatan.map((item, index) => (
+                        <TableCell
+                          sx={{
+                            maxWidth: '20rem',
+                            verticalAlign: 0
+                          }}
+                          key={index} align='left'>
+                          {item}
+                        </TableCell>
+                      ))
+                    )
+                  }
+                </TableRow>
+              ))
             }
-          </ol>
-        </Box>
-
-        <Box
-          sx={style.dataBox}
-        >
-          <Box
-            sx={{
-              minWidth: '11rem',
-              maxWidth: '12rem'
-            }}
-          >
-            <Typography
-              sx={{
-                fontSize: '12px'
-              }}
-            >
-              Riwayat Pelatihan Struktural
-            </Typography>
-          </Box>
-          <ol
-            className={classes.list}
-          >
-            {
-              pelatihanStruktural.map((data, index) =>
-                <li
-                  key={`struktural_${index + 1}`}
-                >
-                  {data.pelatihan}
-                </li>
-              )
-            }
-          </ol>
-        </Box>
-
-        <Box
-          sx={style.dataBox}
-        >
-          <Box
-            sx={{
-              minWidth: '11rem',
-              maxWidth: '12rem'
-            }}
-          >
-            <Typography
-              sx={{
-                fontSize: '12px'
-              }}
-            >
-              Riwayat Pelatihan Fungsional
-            </Typography>
-          </Box>
-          <Typography
-            sx={{
-              fontSize: '12px'
-            }}
-          >
-            {pelatihanFungsional}
-          </Typography>
-        </Box>
-        <Box
-          sx={style.dataBox}
-        >
-          <Box
-            sx={{
-              minWidth: '11rem',
-              maxWidth: '12rem'
-            }}
-          >
-            <Typography
-              sx={{
-                fontSize: '12px'
-              }}
-            >
-              Riwayat Pelatihan Teknis
-            </Typography>
-          </Box>
-          <ol
-            className={classes.list}
-          >
-            {
-              pelatihanTeknis.map((item, index) =>
-                <li
-                  key={`teknis ${index + 1}`}
-                >
-                  {item.pelatihan}
-                </li>
-              )
-            }
-          </ol>
-        </Box>
-        <Box
-          sx={style.dataBox}
-        >
-          <Box
-            sx={{
-              minWidth: '11rem',
-              maxWidth: '12rem'
-            }}
-          >
-            <Typography
-              sx={{
-                fontSize: '12px'
-              }}
-            >
-              Riwayat Catatan
-            </Typography>
-          </Box>
-          <Typography
-            sx={{
-              fontSize: '12px'
-            }}
-          >
-            {riwayatCatatan}
-          </Typography>
-        </Box>
-      </Box>
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Box>
   )
 }
 
 ListDataPegawai.propTypes = {
-  imageSource: PropTypes.string,
-  name: PropTypes.string,
-  eselon: PropTypes.string,
-  jabatan: PropTypes.string,
-  golongan: PropTypes.string,
-  nip: PropTypes.string,
+  id: PropTypes.array,
+  imageSource: PropTypes.array,
+  names: PropTypes.array,
+  eselon: PropTypes.array,
+  jabatan: PropTypes.array,
+  golongan: PropTypes.array,
+  nip: PropTypes.array,
   riwayatPendidikan: PropTypes.array,
   riwayatJabatan: PropTypes.array,
   pelatihanStruktural: PropTypes.array,
-  pelatihanFungsional: PropTypes.string,
+  pelatihanFungsional: PropTypes.array,
   pelatihanTeknis: PropTypes.array,
-  riwayatCatatan: PropTypes.string,
-  index: PropTypes.number
+  riwayatCatatan: PropTypes.array
 }
 
 export default ListDataPegawai
