@@ -1,6 +1,6 @@
 import EmployeeLayout from '@/components/Employee/EmployeeLayout'
 import { Box, Grid, Paper, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import FilterAltIcon from '@mui/icons-material/FilterAlt'
 import InputTags from '@/components/core/InputTags'
 import ListDataPegawai from './ListDataPegawai'
@@ -21,15 +21,38 @@ const filterData = [
 
 const BandingkanDataPegawai = () => {
   const [expandFilter, setExpandFilter] = useState(false)
+  const [pegawaiData, setPegawaiData] = useState({
+    id: [],
+    name: [],
+    image: [],
+    jabatan: [],
+    eselon: [],
+    golongan: [],
+    nip: [],
+    riwayatPendidikan: [],
+    riwayatJabatan: [],
+    pelatihanStruktural: [],
+    pelatihanFungsional: [],
+    pelatihanTeknis: [],
+    riwayatCatatan: []
 
+  })
 
   const handleFilterClick = () => {
     setExpandFilter(!expandFilter)
   }
 
 
-
-
+  useEffect(() => (
+    setPegawaiData(prevState => {
+      const newData = { ...prevState }
+      for (const key in dummyDataPegawai[0]) {
+        newData[key] = dummyDataPegawai.map(item => item[key])
+      }
+      return newData
+    })
+  ), [])
+  console.log(pegawaiData)
 
   return (
     <EmployeeLayout
@@ -120,30 +143,30 @@ const BandingkanDataPegawai = () => {
           container
           direction='row'
         >
-          {
+          {/* {
             dummyDataPegawai.map((data, index) =>
               <Grid
                 key={index}
                 lg={6}
-              >
-                <ListDataPegawai
-                  index={index}
-                  imageSource={data?.image}
-                  jabatan={data.jabatan}
-                  name={data.name}
-                  eselon={data.eselon}
-                  golongan={data.golongan}
-                  nip={data.nip}
-                  riwayatPendidikan={data.riwayatPendidikan}
-                  riwayatJabatan={data.riwayatJabatan}
-                  pelatihanStruktural={data.riwayatPelatihanStruktural}
-                  pelatihanFungsional={data.pelatihanFungsional}
-                  pelatihanTeknis={data.pelatihanTeknis}
-                  riwayatCatatan={data.riwayatCatatan}
-                />
-              </Grid>
-            )
-          }
+              > */}
+          <ListDataPegawai
+            id={pegawaiData.id}
+            imageSource={pegawaiData?.image}
+            jabatan={pegawaiData.jabatan}
+            names={pegawaiData.name}
+            eselon={pegawaiData.eselon}
+            golongan={pegawaiData.golongan}
+            nip={pegawaiData.nip}
+            riwayatPendidikan={pegawaiData.riwayatPendidikan}
+            riwayatJabatan={pegawaiData.riwayatJabatan}
+            pelatihanStruktural={pegawaiData.pelatihanStruktural}
+            pelatihanFungsional={pegawaiData.pelatihanFungsional}
+            pelatihanTeknis={pegawaiData.pelatihanTeknis}
+            riwayatCatatan={pegawaiData.riwayatCatatan}
+          />
+          {/* </Grid> */}
+          {/* )
+          } */}
         </Grid>
       </Paper>
     </EmployeeLayout>
