@@ -131,7 +131,10 @@ const CardProfile = ({
         ) : (
           <ContentProfile data={data} type={data?.type} />
         )} */}
-        <ContentProfile data={data?.children[0]} type={data?.type} />
+        <ContentProfile
+          data={data?.children ? data?.children[0] : data}
+          type={data?.type}
+        />
       </CardContent>
     </Card>
   )
