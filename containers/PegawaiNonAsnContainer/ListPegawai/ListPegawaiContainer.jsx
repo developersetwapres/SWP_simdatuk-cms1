@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Layout from '@/components/core/Layout'
-import CourseSkeleton from '@/components/course/CourseSkeleton'
 import ListPegawaiComponent from '@/components/PegawaiNonAsn/ListPegawai/ListPegawaiComponent'
 
 const ListPegawaiContainer = () => {
-
-
   const [willRender, setWillRender] = useState(false)
   useEffect(() => {
     setTimeout(() => {
@@ -13,19 +10,9 @@ const ListPegawaiContainer = () => {
     }, 2000)
   }, [])
 
-
   return (
-    <Layout
-      willRender={willRender}
-    >
-      {
-        willRender === false
-          ? (
-            <CourseSkeleton />
-          ) : (
-            <ListPegawaiComponent />
-          )
-      }
+    <Layout willRender={willRender}>
+      <ListPegawaiComponent />
     </Layout>
   )
 }

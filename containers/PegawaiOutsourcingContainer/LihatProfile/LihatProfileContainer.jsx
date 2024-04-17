@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Layout from '@/components/core/Layout'
-import CourseSkeleton from '@/components/course/CourseSkeleton'
 import LihatProfileComponent from '@/components/PegawaiOutsourcing/LihatProfile/LihatProfileComponent'
 
 const LihatProfileContainer = () => {
-
-
   const [willRender, setWillRender] = useState(false)
   useEffect(() => {
     setTimeout(() => {
@@ -13,19 +10,9 @@ const LihatProfileContainer = () => {
     }, 2000)
   }, [])
 
-
   return (
-    <Layout
-      willRender={willRender}
-    >
-      {
-        willRender === false
-          ? (
-            <CourseSkeleton />
-          ) : (
-            <LihatProfileComponent />
-          )
-      }
+    <Layout willRender={willRender}>
+      <LihatProfileComponent />
     </Layout>
   )
 }
