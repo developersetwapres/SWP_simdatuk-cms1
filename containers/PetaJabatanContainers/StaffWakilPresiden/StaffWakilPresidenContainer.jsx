@@ -4,13 +4,13 @@ import { mapStateToProps } from '@/store/'
 import PropTypes from 'prop-types'
 import { mapActions } from '@/store/'
 import Layout from '@/components/core/Layout'
-import PetaJabatanDeputiComponent from '@/components/PetaJabatan/Deputi/PetaJabatanDeputiComponent'
+import StaffWakilPresidenComponent from '@/components/PetaJabatan/StaffWakilPresidenComponent'
 
 export default connect(
   mapStateToProps('banner'),
   mapActions('getBanners', 'deleteListBanner')
 )(
-  class PetaJabatanDeputiContainer extends Component {
+  class StaffWakilPresidenContainer extends Component {
     static propTypes = {
       banner: PropTypes.object,
       getBanners: PropTypes.func,
@@ -35,7 +35,7 @@ export default connect(
     render() {
       return (
         <Layout willRender={this.state.willRender}>
-          <PetaJabatanDeputiComponent {...this.state} {...this.props} />
+          <StaffWakilPresidenComponent {...this.state} {...this.props} />
         </Layout>
       )
     }

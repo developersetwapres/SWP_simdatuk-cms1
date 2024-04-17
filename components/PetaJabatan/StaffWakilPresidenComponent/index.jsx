@@ -1,9 +1,29 @@
 import React from 'react'
+import { Box } from '@mui/material'
 import EmployeeLayout from '@/components/Employee/EmployeeLayout'
 import JobChart from '@/components/shared/JobChart'
 import { CardTypes } from 'libs/types/CardTypes'
 
-const PetaJabatanDeputiComponent = () => {
+const styles = {
+  headerMap: {
+    backgroundColor: '#fff',
+    padding: '1rem',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '15px'
+  },
+  boxParent: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '2rem'
+  }
+}
+
+const index = () => {
   const data = {
     parent: {
       position: 'Kepala Sekretariat Wakil Presiden',
@@ -18,47 +38,26 @@ const PetaJabatanDeputiComponent = () => {
     },
     children: [
       {
-        type: CardTypes?.CARDJOBS,
-        position: 'Jabatan Fungsional',
+        type: CardTypes?.PROFILE1,
+        position: 'Kepala Sekretariat Wakil Presiden',
+        slot: 1,
         children: [
           {
-            title: 'Analisi Kebijakan',
-            jobs: [
-              {
-                title: 'Ahli Utama',
-                slot: 1,
-                children: [
-                  {
-                    type: CardTypes?.PROFILE1,
-                    position: 'Asisten Deputi Ekonomi dan Keuangan',
-                    name: 'Dr. Ir. Suprayoga Hadi, M.S.P.',
-                    image: '/simdatuk/imagePegawai.png',
-                    eselon: 'Es. I.a., 25-01-2021',
-                    golongan: 'Pembina Utama (IV/e), 01-04-2017',
-                    nip: '1965053019991031002',
-                    isDetail: true,
-                    isProfile: true
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            title: 'Arsiparis',
-            jobs: [
-              {
-                title: 'Ahli Utama',
-                slot: 1,
-                children: []
-              }
-            ]
+            name: 'Dr. Ir. Suprayoga Hadi, M.S.P.',
+            image: null,
+            eselon: null,
+            golongan: null,
+            nip: null,
+            tmt: '14-11-1999',
+            isDetail: true,
+            isProfile: true
           }
         ]
       },
       {
         type: CardTypes?.PROFILE1,
         position: 'Asisten Deputi Ekonomi dan Keuangan',
-        slot: 4,
+        slot: 1,
         children: [
           {
             name: 'Dr. Ir. Suprayoga Hadi, M.S.P.',
@@ -66,24 +65,7 @@ const PetaJabatanDeputiComponent = () => {
             eselon: 'Es. I.a., 25-01-2021',
             golongan: 'Pembina Utama (IV/e), 01-04-2017',
             nip: '1965053019991031002',
-            isDetail: true,
-            isProfile: true
-          },
-          {
-            name: 'Dr. Ir. Suprayoga Hadi, M.S.P.',
-            image: '/simdatuk/imagePegawai.png',
-            eselon: 'Es. I.a., 25-01-2021',
-            golongan: 'Pembina Utama (IV/e), 01-04-2017',
-            nip: '1965053019991031002',
-            isDetail: true,
-            isProfile: true
-          },
-          {
-            name: 'Dr. Ir. Suprayoga Hadi, M.S.P.',
-            image: '/simdatuk/imagePegawai.png',
-            eselon: 'Es. I.a., 25-01-2021',
-            golongan: 'Pembina Utama (IV/e), 01-04-2017',
-            nip: '1965053019991031002',
+            tmt: '14-11-1999',
             isDetail: true,
             isProfile: true
           }
@@ -93,7 +75,7 @@ const PetaJabatanDeputiComponent = () => {
         type: CardTypes?.PROFILE1,
         position:
           'Asisten Deputi Industri, Perdagangan, Pariwisata, dan Ekonomi Kreatif ',
-        slot: 3,
+        slot: 1,
         children: [
           {
             name: 'Dr. Velix Vernando Wanggai S.IP., MPA',
@@ -101,6 +83,7 @@ const PetaJabatanDeputiComponent = () => {
             eselon: 'Es. I.a, 23-08-2022',
             golongan: 'Pembina Utama Muda (IV/c), 01-10-2019',
             nip: '197202161998031005',
+            tmt: '14-11-1999',
             isDetail: true,
             isProfile: true
           }
@@ -117,6 +100,7 @@ const PetaJabatanDeputiComponent = () => {
             eselon: 'Es. I.a, 01-03-2023',
             golongan: 'Pembina Utama (IV/e), 01-03-2023',
             nip: '180004061 / 197010271995031001',
+            tmt: '14-11-1999',
             isDetail: true,
             isProfile: true
           }
@@ -126,10 +110,16 @@ const PetaJabatanDeputiComponent = () => {
   }
 
   return (
-    <EmployeeLayout summary='Peta Jabatan' showExpButton={true}>
-      <JobChart datas={data} />
+    <EmployeeLayout
+      summary='Peta Jabatan'
+      showExpButton={true}
+      urlBack={'/rekapitulasi/peta-jabatan'}
+    >
+      <Box sx={styles.boxParent}>
+        <JobChart datas={data} />
+      </Box>
     </EmployeeLayout>
   )
 }
 
-export default PetaJabatanDeputiComponent
+export default index
