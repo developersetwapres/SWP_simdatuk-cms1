@@ -1,4 +1,4 @@
-import AsnDataList from '@/components/core/card/AsnDataList'
+import AsnDataList from '@/components/shared/Card/AsnDataList'
 import React from 'react'
 import { keteranganJabatan } from '../dummyData'
 import EmployeeLayout from '@/components/Employee/EmployeeLayout'
@@ -25,18 +25,17 @@ const styles = {
 }
 
 const JabatanAdministrasiComponent = () => {
-
   const getCardData = (data) => {
     console.log(data)
   }
 
-  const totalAmount = keteranganJabatan[1].child.reduce((sum, child) => sum + child.amount, 0)
+  const totalAmount = keteranganJabatan[1].child.reduce(
+    (sum, child) => sum + child.amount,
+    0
+  )
 
   return (
-    <EmployeeLayout
-      summary='Jabatan Pimpinan Tinggi'
-      totalAmount={totalAmount}
-    >
+    <EmployeeLayout summary='Jabatan Pimpinan Tinggi' totalAmount={totalAmount}>
       <AsnDataList
         cardStyle={styles.cardStyle}
         data={keteranganJabatan[1].child}

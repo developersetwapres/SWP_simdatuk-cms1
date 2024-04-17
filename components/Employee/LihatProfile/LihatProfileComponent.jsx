@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Grid } from '@mui/material'
 import EmployeeLayout from '../EmployeeLayout'
 import { eselon1 } from '../AsnActive/dummiData'
-import ProfileCard from '@/components/core/card/ProfileCard'
+import ProfileCard from '@/components/shared/Card/CardProfile'
 import { useRouter } from 'next/router'
 
 const LihatProfileComponent = () => {
@@ -32,25 +32,20 @@ const LihatProfileComponent = () => {
             padding: 2
           }}
         >
-          {
-            eselon1.map((item, index) =>
-              <Grid
-                item
-                key={index + 1}
-              >
-                <ProfileCard
-                  summary={item.position}
-                  imageSource={item.image}
-                  name={item.name}
-                  eselon={item.eselon}
-                  golongan={item.golongan}
-                  nip={item.NIP}
-                  lihatProfile='Lihat Profile'
-                  onCLick={() => handleClick(item)}
-                />
-              </Grid>
-            )
-          }
+          {eselon1.map((item, index) => (
+            <Grid item key={index + 1}>
+              <ProfileCard
+                summary={item.position}
+                imageSource={item.image}
+                name={item.name}
+                eselon={item.eselon}
+                golongan={item.golongan}
+                nip={item.NIP}
+                lihatProfile='Lihat Profile'
+                onCLick={() => handleClick(item)}
+              />
+            </Grid>
+          ))}
         </Grid>
       </EmployeeLayout>
     </Box>

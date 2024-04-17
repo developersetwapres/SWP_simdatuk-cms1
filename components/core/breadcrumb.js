@@ -49,19 +49,23 @@ const breadcrumbs = [
   },
   {
     path: '/rekapitulasi/peta-jabatan',
-    name: 'Daftar Blacklist',
+    name: 'Peta Jabatan',
     children: [
       {
         pathChild: '/rekapitulasi/peta-jabatan/deputi',
-        name: 'Tambah Blacklist'
+        name: 'Peta Jabatan'
       },
       {
         pathChild: '/rekapitulasi/peta-jabatan/asisten-deputi',
-        name: 'Detail Blacklist'
+        name: 'Peta Jabatan'
       },
       {
         pathChild: '/rekapitulasi/peta-jabatan/analis-kebijakan',
-        name: 'Detail Blacklist'
+        name: 'Peta Jabatan'
+      },
+      {
+        pathChild: '/rekapitulasi/peta-jabatan/wakil-presiden',
+        name: 'Peta Jabatan'
       }
     ]
   },

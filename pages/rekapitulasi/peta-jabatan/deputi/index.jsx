@@ -3,12 +3,7 @@ import WithAuth from '@/components/shared/WithAuth'
 import PetaJabatanDeputiContaiiner from '@/containers/PetaJabatanContainers/Deputi/PetaJabatanDeputiContainer'
 
 const index = () => {
-  return (
-    <>
-      <PetaJabatanDeputiContaiiner />
-    </>
-  )
+  return <PetaJabatanDeputiContaiiner />
 }
 
 export default WithAuth(index)
-

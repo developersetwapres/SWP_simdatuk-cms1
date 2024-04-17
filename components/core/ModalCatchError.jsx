@@ -28,10 +28,7 @@ const style = {
   borderRadius: '20px'
 }
 
-function ModalCatchError({
-  responserReducer,
-  closeModal = () => { }
-}) {
+function ModalCatchError({ responserReducer, closeModal = () => {} }) {
   const [open, setOpen] = useState(false)
   const router = useRouter()
   // eslint-disable-next-line no-unused-vars
@@ -63,44 +60,39 @@ function ModalCatchError({
         aria-labelledby='transition-modal-title'
         aria-describedby='transition-modal-description'
         open={open}
-      // {...(modalReducer?.redirect === null && { onClose: closeModal })}
+        // {...(modalReducer?.redirect === null && { onClose: closeModal })}
       >
         <Box sx={style}>
-          {
-            responserReducer?.code !== 200 && responserReducer?.code !== 201 && (
-              <>
-                <img
-                  src={ERROR_ICON}
-                  style={{
-                    width: '100%',
-                    height: 'auto',
-                    maxWidth: '128px'
-                  }}
-                  alt='error'
-                />
-                <h2>
-                  {responserReducer?.message}
-                </h2>
-                <Button
-                  text='Tutup'
-                  type='button'
-                  color='warning'
-                  sx={{
-                    padding: '12px',
-                    width: '440px',
-                    textTransform: 'none',
-                    ...primaryButtonStyle,
-                    textTransform: 'none'
-                  }}
-                  onClick={() => { handleCallback(responserReducer?.code) }}
-                />
-              </>
-            )
-          }
+          {responserReducer?.code !== 200 && responserReducer?.code !== 201 && (
+            <>
+              <img
+                src={ERROR_ICON}
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  maxWidth: '128px'
+                }}
+                alt='error'
+              />
+              <h2>{responserReducer?.message}</h2>
+              <Button
+                text='Tutup'
+                type='button'
+                color='warning'
+                sx={{
+                  padding: '12px',
+                  width: '440px',
+                  textTransform: 'none',
+                  ...primaryButtonStyle,
+                  textTransform: 'none'
+                }}
+                onClick={() => handleCallback(responserReducer?.code)}
+              />
+            </>
+          )}
         </Box>
       </Modal>
-
-    </div >
+    </div>
   )
 }
 
@@ -114,7 +106,6 @@ const mapDispatchToProps = (dispatch) => {
     closeModal: () => dispatch({ type: 'CLOSE_MODAL' })
   }
 }
-
 
 export default connect(
   mapStateToProps('responserReducer'),

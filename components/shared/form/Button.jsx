@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Button as MuiButton, CircularProgress } from '@mui/material'
@@ -7,9 +8,10 @@ function Button({
   color,
   variant,
   size,
+  icon,
   isBusy = false,
   isLoading = false,
-  onClick = () => { },
+  onClick = () => {},
   ...others
 }) {
   return (
@@ -21,22 +23,18 @@ function Button({
       size={size || 'small'}
       {...others}
     >
-      {
-        isBusy && isLoading
-          ? <CircularProgress
-            size={13}
-            color={color}
-          /> : text
-      }
+      {icon}
+      {isBusy && isLoading ? (
+        <CircularProgress size={13} color={color} />
+      ) : (
+        text
+      )}
     </MuiButton>
   )
 }
 
 Button.propTypes = {
-  text: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node
-  ]).isRequired,
+  text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
   color: PropTypes.string,
   variant: PropTypes.string,
   size: PropTypes.string,

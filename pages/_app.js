@@ -7,7 +7,7 @@ import { CacheProvider } from '@emotion/react'
 import theme from '../utils/theme'
 import { Provider } from 'react-redux'
 import { initializeStore } from '../store'
-import ModalResponse from '@/components/shared/ModalResponse'
+import ModalResponse from '@/components/shared/Modal/ModalResponse'
 import ModalCatchError from '@/components/core/ModalCatchError'
 import Snackbar from '@/components/shared/Snackbar'
 
@@ -48,7 +48,7 @@ function SETNEGCMS({
       <Provider store={reduxStore}>
         <CacheProvider value={emotionCache}>
           <Head>
-            <title>SETNEG CMS</title>
+            <title>SIMDATUK</title>
             <meta
               name='viewport'
               content='initial-scale=1, width=device-width'

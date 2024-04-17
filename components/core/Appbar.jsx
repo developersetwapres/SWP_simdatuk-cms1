@@ -50,11 +50,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function Appbar({
-  open,
-  drawerWidth,
-  setOpen = () => { }
-}) {
+function Appbar({ open, drawerWidth, setOpen = () => {} }) {
   const router = useRouter()
   const classes = useStyles()
   const [searcOpen, setSearchOpen] = useState(false)
@@ -70,48 +66,43 @@ function Appbar({
 
   const pathname = router.pathname
 
-  const breadcrumb = (
-    breadcrumbs.map((value, index) => (
-      pathname === value.path ? (
-        <Box key={index}>{value.name}</Box>
-      ) :
-        value.children?.map((child, index) => (
-          child.pathChild === pathname ? (
-            // <p key={index}>{`${value.name} > ${child.name}`}</p>
-            <Box
-              key={index}
-              onClick={() => router.back()}
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                fontSize: {
-                  xl: 'inherit',
-                  lg: 'inherit',
-                  md: 'inherit',
-                  sm: '14.5px',
-                  xs: '14.5px'
-                }
-              }}
-            >
-              <ChevronLeft />
-              <Typography
-                fontWeight='500'
-                color='primary'
-              >
-                Kembali
-              </Typography>
-            </Box>
-          ) : null
-        ))
-    ))
+  const breadcrumb = breadcrumbs.map((value, index) =>
+    pathname === value.path ? (
+      <Box key={index}>{value.name}</Box>
+    ) : (
+      value.children?.map((child, index) =>
+        child.pathChild === pathname ? (
+          // <p key={index}>{`${value.name} > ${child.name}`}</p>
+          <Box
+            key={index}
+            onClick={() => router.back()}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              fontSize: {
+                xl: 'inherit',
+                lg: 'inherit',
+                md: 'inherit',
+                sm: '14.5px',
+                xs: '14.5px'
+              }
+            }}
+          >
+            <ChevronLeft />
+            <Typography fontWeight='500' color='primary'>
+              Kembali
+            </Typography>
+          </Box>
+        ) : null
+      )
+    )
   )
 
   const handleLogout = () => {
     dispatch({ type: AUTHENTICATION_LOGOUT_REQUESTED })
   }
-
 
   return (
     <MuiAppBase
@@ -152,18 +143,20 @@ function Appbar({
           <Menu />
         </IconButton>
         <p></p>
-        <Box sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          width: {
-            xl: '80%',
-            lg: '81%',
-            md: '73%',
-            sm: '60%',
-            xs: '100%'
-          }
-        }}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: {
+              xl: '80%',
+              lg: '81%',
+              md: '73%',
+              sm: '60%',
+              xs: '100%'
+            }
+          }}
+        >
           <Box
             sx={{
               display: 'flex',
@@ -202,7 +195,8 @@ function Appbar({
                 fontSize: '12px'
               }}
             >
-              SIMDATUK (SISTEM INFORMASI MANAJEMEN DATA DUKUNGAN KEPEGAWAIAN SEKRETARIAT WAKIL PRESIDEN)
+              SIMDATUK (SISTEM INFORMASI MANAJEMEN DATA DUKUNGAN KEPEGAWAIAN
+              SEKRETARIAT WAKIL PRESIDEN)
             </Typography>
           </Box>
           <Box
@@ -246,46 +240,14 @@ function Appbar({
                 cursor: 'pointer'
               }}
             >
-              <Typography>
-                Logout
-              </Typography>
+              <Typography>Logout</Typography>
               <LogoutRounded />
             </div>
           </Box>
         </Box>
       </Toolbar>
-      <Box sx={{
-        height: {
-          xl: '35px',
-          lg: '35px',
-          md: '35px',
-          sm: '50px',
-          xs: '50px'
-        },
-        backgroundColor: '#f4f4f4',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: {
-          xl: 'flex-start',
-          lg: 'flex-start',
-          md: 'flex-start',
-          sm: 'center',
-          xs: 'flex-start'
-        },
-        padding: {
-          xl: '0 290px',
-          lg: '0 290px',
-          md: '0 290px',
-          sm: '0 10px',
-          xs: '0 10px'
-        }
-      }}>
-        {breadcrumb}
-      </Box>
       {/* Modal Logout */}
-      <ModalConfirm
-        open={modalLogout}
-      >
+      <ModalConfirm open={modalLogout}>
         <img
           src='/images/logout.png'
           alt='poto'
@@ -296,12 +258,16 @@ function Appbar({
             margin: '0 auto'
           }}
         />
-        <p style={{
-          fontWeight: 'bold',
-          textAlign: 'center',
-          fontSize: '21px',
-          marginTop: '30px'
-        }}>Apakah anda yakin untuk keluar dari Setneg Simdatuk?</p>
+        <p
+          style={{
+            fontWeight: 'bold',
+            textAlign: 'center',
+            fontSize: '21px',
+            marginTop: '30px'
+          }}
+        >
+          Apakah anda yakin untuk keluar dari Setneg Simdatuk?
+        </p>
         <Box
           component='div'
           sx={{
@@ -346,12 +312,14 @@ function Appbar({
               textTransform: 'none',
               ...blackButtonStyle
             }}
-            onClick={() => { setModalLogout(false) }}
-          // onClick={handleCancelModal}
+            onClick={() => {
+              setModalLogout(false)
+            }}
+            // onClick={handleCancelModal}
           />
         </Box>
       </ModalConfirm>
-    </MuiAppBase >
+    </MuiAppBase>
   )
 }
 

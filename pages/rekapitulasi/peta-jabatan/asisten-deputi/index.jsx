@@ -3,12 +3,7 @@ import WithAuth from '@/components/shared/WithAuth'
 import AsistenDeputiContainer from '@/containers/PetaJabatanContainers/AsistenDeputi/AsistenDeputiContainer'
 
 const index = () => {
-  return (
-    <>
-      <AsistenDeputiContainer />
-    </>
-  )
+  return <AsistenDeputiContainer />
 }
 
 export default WithAuth(index)
-

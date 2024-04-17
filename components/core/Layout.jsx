@@ -1,13 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { Fragment, useState } from 'react'
 import Footer from '@/components/core/Footer'
-import {
-  Box,
-  Container,
-  List,
-  Toolbar,
-  Typography
-} from '@mui/material'
+import { Box, Container, List, Toolbar, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import Appbar from '@/components/core/Appbar'
 import PropTypes from 'prop-types'
@@ -34,9 +28,10 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: '2rem'
   },
   main: {
-    backgroundColor: theme.palette.mode === 'light'
-      ? theme.palette.grey[100]
-      : theme.palette.grey[900],
+    backgroundColor:
+      theme.palette.mode === 'light'
+        ? theme.palette.grey[100]
+        : theme.palette.grey[900],
     flexGrow: 1,
     height: '100vh',
     overflow: 'auto',
@@ -90,16 +85,11 @@ const useStyles = makeStyles((theme) => ({
     '&:focus': {
       outline: 'none',
       borderRight: '1px solid #fff'
-
     }
   }
 }))
 
-function Layout({
-  children,
-  window,
-  willRender
-}) {
+function Layout({ children, window, willRender }) {
   const classes = useStyles()
   const [mobile, setMobile] = useState(false)
   // const [toggleOpen, setToggleOpen] = useState([])
@@ -108,23 +98,17 @@ function Layout({
   }
 
   // eslint-disable-next-line no-unused-vars
-  // const handleToggleOpen = (e, index) => {
-  //   setToggleOpen({ [e]: !toggleOpen[e] })
-  // }
+  const handleToggleOpen = (e, index) => {
+    setToggleOpen({ [e]: !toggleOpen[e] })
+  }
 
-  const container = window !== undefined ? () => window().document.body : undefined
-  // Drawer List 
+  const container =
+    window !== undefined ? () => window().document.body : undefined
+
   const drawer = (
-    <Fragment
-    >
-      <Toolbar
-        disableGutters
-        className={classes.toolbar}
-      >
-        <Box
-          component='div'
-          className={classes.boxToolbar}
-        >
+    <Fragment>
+      <Toolbar disableGutters className={classes.toolbar}>
+        <Box component='div' className={classes.boxToolbar}>
           <Image
             src='/simdatuk/Logo.png'
             alt='logo'
@@ -145,14 +129,8 @@ function Layout({
           </Typography>
         </Box>
       </Toolbar>
-      <Toolbar
-        disableGutters
-        className={classes.toolbar}
-      >
-        <Box
-          component='div'
-          className={classes.boxToolbar}
-        >
+      <Toolbar disableGutters className={classes.toolbar}>
+        <Box component='div' className={classes.boxToolbar}>
           <Box
             width={50}
             height={50}
@@ -181,41 +159,30 @@ function Layout({
             >
               Sabio Ekuator
             </Typography>
-            <Typography
-              variant='p'
-              component='p'
-            >
+            <Typography variant='p' component='p'>
               Administrator
             </Typography>
           </Box>
         </Box>
       </Toolbar>
       <List>
-        {
-          navigation.map((item, index) => (
-            <SidebarItem
-              name={item.name}
-              icon={item.icon}
-              child={item.children}
-              path={item.path}
-              key={index}
-            />
-          ))
-        }
+        {navigation.map((item, index) => (
+          <SidebarItem
+            name={item.name}
+            icon={item.icon}
+            child={item.children}
+            path={item.path}
+            key={index}
+          />
+        ))}
       </List>
-    </Fragment >
+    </Fragment>
   )
 
   return (
-    <Box
-      className={classes.root}
-    >
+    <Box className={classes.root}>
       {/* Appbar Component */}
-      <Appbar
-        open={mobile}
-        setOpen={handleMobile}
-        drawerWidth={240}
-      />
+      <Appbar open={mobile} setOpen={handleMobile} drawerWidth={240} />
       {/* Drawer Component */}
       <Drawer
         open={mobile}
@@ -224,10 +191,7 @@ function Layout({
         setOpen={handleMobile}
         drawer={drawer}
       />
-      <Box
-        component='main'
-        className={classes.main}
-      >
+      <Box component='main' className={classes.main}>
         <Toolbar />
         <Container
           maxWidth='xl'
@@ -238,8 +202,7 @@ function Layout({
               xs: '55px',
               md: '35px'
             }
-          }
-          }
+          }}
         >
           <Box
             elevation='0'
@@ -248,20 +211,14 @@ function Layout({
               paddding: '0 '
             }}
           >
-            {
-              willRender === false ? (
-                <>
-                  <BackdropPage
-                    open={true}
-                  />
-                  {children}
-                </>
-              ) : (
-                <>
-                  {children}
-                </>
-              )
-            }
+            {willRender === false ? (
+              <>
+                <BackdropPage open={true} />
+                {children}
+              </>
+            ) : (
+              <>{children}</>
+            )}
           </Box>
         </Container>
         <Footer className={classes.footer} />

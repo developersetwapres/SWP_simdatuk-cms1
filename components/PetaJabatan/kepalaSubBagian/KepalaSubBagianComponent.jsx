@@ -1,83 +1,97 @@
-
 import React from 'react'
-import PetaJabatanLayout from '../PetaJabatanLayout'
-import StrukturPetaJabatan from '../StrukturPetaJabatan'
 import EmployeeLayout from '@/components/Employee/EmployeeLayout'
+import JobChart from '@/components/shared/JobChart'
+import { CardTypes } from 'libs/types/CardTypes'
 
-const listPegawai = [
-  {
-    id: 1,
-    jabatan: 'Jabatan Fungsional',
-    name: [
-      {
-        childName: 'Arsiparis',
-        type: [
-          {
-            id: 1,
-            name: 'Ahli Muda',
-            amount: '1/0'
-          },
-          {
-            id: 2,
-            name: 'Penyelia',
-            amount: '1/0'
-          },
-          {
-            id: 3,
-            name: 'Mahir',
-            amount: '1/0'
-          },
-          {
-            id: 4,
-            name: 'Terampil',
-            amount: '1/0'
-          }
-        ]
-      }
-    ]
+const data = {
+  parent: {
+    position: 'Kepala Sekretariat Wakil Presiden',
+    name: 'Ahmad Erani Yustika, S.E., M.Sc., Ph.D.',
+    image: '/simdatuk/imagePegawai.png',
+    eselon: 'Es. I.a., 25-01-2021',
+    golongan: 'Pembina Utama Madya (IV/d), 01-04-2017',
+    nip: '197303221997021001',
+    tmt: '14-11-1999',
+    isDetail: true,
+    isProfile: true
   },
-  {
-    id: 2,
-    position: 'Analis Tata Usaha / Pengolah Data / Pengadministrasi Umum'
-  }
-]
-
-
-
-const style = {
-  boxStyleFungsional: {
-    marginX: 1,
-    backgroundColor: '#f6ebda',
-    width: '25vw',
-    padding: 2,
-    position: 'relative',
-    justifyContent: 'center'
-  },
-  rootStyle: {
-    height: 'auto'
-  }
+  children: [
+    {
+      type: CardTypes?.PROFILE1,
+      position: 'Kepala Sekretariat Wakil Presiden',
+      slot: 1,
+      children: [
+        {
+          name: 'Dr. Ir. Suprayoga Hadi, M.S.P.',
+          image: null,
+          eselon: null,
+          golongan: null,
+          nip: null,
+          tmt: '14-11-1999',
+          isDetail: true,
+          isProfile: true
+        }
+      ]
+    },
+    {
+      type: CardTypes?.PROFILE1,
+      position: 'Asisten Deputi Ekonomi dan Keuangan',
+      slot: 1,
+      children: [
+        {
+          name: 'Dr. Ir. Suprayoga Hadi, M.S.P.',
+          image: '/simdatuk/imagePegawai.png',
+          eselon: 'Es. I.a., 25-01-2021',
+          golongan: 'Pembina Utama (IV/e), 01-04-2017',
+          nip: '1965053019991031002',
+          tmt: '14-11-1999',
+          isDetail: true,
+          isProfile: true
+        }
+      ]
+    },
+    {
+      type: CardTypes?.PROFILE1,
+      position:
+        'Asisten Deputi Industri, Perdagangan, Pariwisata, dan Ekonomi Kreatif ',
+      slot: 1,
+      children: [
+        {
+          name: 'Dr. Velix Vernando Wanggai S.IP., MPA',
+          image: '/simdatuk/imagePegawai.png',
+          eselon: 'Es. I.a, 23-08-2022',
+          golongan: 'Pembina Utama Muda (IV/c), 01-10-2019',
+          nip: '197202161998031005',
+          tmt: '14-11-1999',
+          isDetail: true,
+          isProfile: true
+        }
+      ]
+    },
+    {
+      type: CardTypes?.PROFILE1,
+      position: 'Kepala Subbagian Dukungan Administrasi',
+      slot: 1,
+      children: [
+        {
+          name: 'Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.',
+          image: '/simdatuk/imagePegawai.png',
+          eselon: 'Es. I.a, 01-03-2023',
+          golongan: 'Pembina Utama (IV/e), 01-03-2023',
+          nip: '180004061 / 197010271995031001',
+          tmt: '14-11-1999',
+          isDetail: true,
+          isProfile: true
+        }
+      ]
+    }
+  ]
 }
 
 const KepalaSubBagianComponent = () => {
   return (
-    <EmployeeLayout
-      summary='Peta Jabatan'
-      showExpButton={true}
-    >
-      <PetaJabatanLayout
-        jabatan='Kepala Subbagian Dukungan Administrasi'
-        name='Ayu Pudianingtias, S.E., M.P.A.'
-        eselon='Es. IV, 02-05-2018'
-        golongan='Penata Tingkat I (III/d), 01-04-2023'
-        nip='1800005504 / 198806042010122004'
-        imageSrc='/simdatuk/imagePegawai.png'
-        profil='Lihat Profile'
-      >
-        <StrukturPetaJabatan
-          styleBoxFungsional={style.boxStyleFungsional}
-          data={listPegawai}
-        />
-      </PetaJabatanLayout>
+    <EmployeeLayout summary='Peta Jabatan' showExpButton={true}>
+      <JobChart datas={data} />
     </EmployeeLayout>
   )
 }
