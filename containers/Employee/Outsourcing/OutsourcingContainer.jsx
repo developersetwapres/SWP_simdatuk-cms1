@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Layout from '@/components/core/Layout'
-import CourseSkeleton from '@/components/course/CourseSkeleton'
 import OutsourcingComponent from '@/components/Employee/Outsourcing/OutsourcingComponent'
 
 const OutsourcingContainer = () => {
-
-
   const [willRender, setWillRender] = useState(false)
   useEffect(() => {
     setTimeout(() => {
@@ -13,19 +10,9 @@ const OutsourcingContainer = () => {
     }, 2000)
   }, [])
 
-
   return (
-    <Layout
-      willRender={willRender}
-    >
-      {
-        willRender === false
-          ? (
-            <CourseSkeleton />
-          ) : (
-            <OutsourcingComponent />
-          )
-      }
+    <Layout willRender={willRender}>
+      <OutsourcingComponent />
     </Layout>
   )
 }

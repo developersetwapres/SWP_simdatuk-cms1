@@ -2,11 +2,7 @@ import AsnNonActiveContainer from '@/containers/Employee/AsnNonActive/AsnNonActi
 import React from 'react'
 
 const index = () => {
-  return (
-    <>
-      <AsnNonActiveContainer />
-    </>
-  )
+  return <AsnNonActiveContainer />
 }
 
 export default index

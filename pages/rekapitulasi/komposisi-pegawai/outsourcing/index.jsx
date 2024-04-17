@@ -2,11 +2,7 @@ import OutsourcingContainer from '@/containers/Employee/Outsourcing/OutsourcingC
 import React from 'react'
 
 const index = () => {
-  return (
-    <>
-      <OutsourcingContainer />
-    </>
-  )
+  return <OutsourcingContainer />
 }
 
 export default index
