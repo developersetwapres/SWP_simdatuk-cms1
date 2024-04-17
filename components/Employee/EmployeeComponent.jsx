@@ -1,10 +1,9 @@
 import React from 'react'
 import EmployeeLayout from './EmployeeLayout'
 import { Grid } from '@mui/material'
-import CardComponent from '../core/card/CardComponent'
+import CardComponent from '../shared/Card/CardComponent'
 
 const EmployeeComponent = () => {
-
   const data = [
     {
       id: 1,
@@ -47,19 +46,15 @@ const EmployeeComponent = () => {
           alignItems='center'
           justifyContent='space-between'
         >
-          {
-            data.map((item, index) =>
-              <Grid item
-                key={index + 1}
-              >
-                <CardComponent
-                  summary={item.type}
-                  amount={item.amount}
-                  path={item.path}
-                />
-              </Grid>
-            )
-          }
+          {data.map((item, index) => (
+            <Grid item key={index + 1}>
+              <CardComponent
+                summary={item.type}
+                amount={item.amount}
+                path={item.path}
+              />
+            </Grid>
+          ))}
         </Grid>
       </EmployeeLayout>
     </>
