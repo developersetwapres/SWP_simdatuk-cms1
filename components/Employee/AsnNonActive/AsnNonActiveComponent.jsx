@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Grid } from '@mui/material'
 import EmployeeLayout from '../EmployeeLayout'
 import { asnNonActive } from '../AsnActive/dummiData'
-import CardComponent from '../../core/card/CardComponent'
+import CardComponent from '../../shared/Card/CardComponent'
 
 const styles = {
   rootStyle: {
@@ -17,10 +17,10 @@ const styles = {
 }
 
 const AsnNonActiveComponent = () => {
-
-
-  const totalAmount = asnNonActive.reduce((acc, pejabat) => acc + pejabat.amount, 0)
-
+  const totalAmount = asnNonActive.reduce(
+    (acc, pejabat) => acc + pejabat.amount,
+    0
+  )
 
   return (
     <Box
@@ -42,21 +42,15 @@ const AsnNonActiveComponent = () => {
             padding: 2
           }}
         >
-
-          {
-            asnNonActive.map((item, i) =>
-              <Grid
-                item
-                key={i + 1}
-              >
-                <CardComponent
-                  summary={item.name}
-                  amount={item.amount}
-                  rootStyle={styles.rootStyle}
-                />
-              </Grid>
-            )
-          }
+          {asnNonActive.map((item, i) => (
+            <Grid item key={i + 1}>
+              <CardComponent
+                summary={item.name}
+                amount={item.amount}
+                rootStyle={styles.rootStyle}
+              />
+            </Grid>
+          ))}
         </Grid>
       </EmployeeLayout>
     </Box>

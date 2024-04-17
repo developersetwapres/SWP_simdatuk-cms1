@@ -6,7 +6,7 @@ import CloseSharpIcon from '@mui/icons-material/CloseSharp'
 import Typography from '@mui/material/Typography'
 import PropTypes from 'prop-types'
 import { Grid } from '@mui/material'
-import ProfileCard from './card/ProfileCard'
+import ProfileCard from '../shared/Card/CardProfile'
 
 const style = {
   closeButton: {
@@ -36,15 +36,7 @@ const style = {
   }
 }
 
-
-function ModalAnalis({
-  openModal,
-  data,
-  closeModal = () => { }
-}) {
-
-  console.log(data)
-
+function ModalAnalis({ openModal, data, closeModal = () => {} }) {
   return (
     <div>
       <Modal
@@ -66,10 +58,7 @@ function ModalAnalis({
                 p: 4
               }}
             >
-              <Box
-                sx={style.closeButton}
-                onClick={closeModal}
-              >
+              <Box sx={style.closeButton} onClick={closeModal}>
                 <CloseSharpIcon />
               </Box>
               <Typography
@@ -97,36 +86,34 @@ function ModalAnalis({
                   marginTop: '20px'
                 }}
               >
-                {
-                  data?.pegawai?.map((item, index) =>
-                    <Grid
-                      key={index + 1}
-                      container
-                      item
-                      border='1px solid black'
-                      overflow='hidden'
-                      borderRadius={3}
-                      direction='column'
-                      backgroundColor='background.paper'
-                    >
-                      <ProfileCard
-                        lihatProfile={true}
-                        rootStyle={style.rootStyle}
-                        name={item.name}
-                        eselon={item.eselon}
-                        golongan={item.golongan}
-                        nip={item.nip}
-                        imageSource={item.image}
-                      />
-                    </Grid>
-                  )
-                }
+                {data?.pegawai?.map((item, index) => (
+                  <Grid
+                    key={index + 1}
+                    container
+                    item
+                    border='1px solid black'
+                    overflow='hidden'
+                    borderRadius={3}
+                    direction='column'
+                    backgroundColor='background.paper'
+                  >
+                    <ProfileCard
+                      lihatProfile={true}
+                      rootStyle={style.rootStyle}
+                      name={item.name}
+                      eselon={item.eselon}
+                      golongan={item.golongan}
+                      nip={item.nip}
+                      imageSource={item.image}
+                    />
+                  </Grid>
+                ))}
               </Box>
             </Box>
           </Grid>
         </>
       </Modal>
-    </div >
+    </div>
   )
 }
 

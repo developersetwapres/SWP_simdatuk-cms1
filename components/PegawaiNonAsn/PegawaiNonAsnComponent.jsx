@@ -1,16 +1,13 @@
 import React from 'react'
 import { Grid } from '@mui/material'
 import EmployeeLayout from '../Employee/EmployeeLayout'
-import AsnDataList from '../core/card/AsnDataList'
+import AsnDataList from '../shared/Card/AsnDataList'
 import {
   jenisKelamin,
   pendidikan,
   jabatan,
   tim
 } from '../PegawaiAsnComponents/dummyData'
-
-
-
 
 const styles = {
   cardStyle: {
@@ -46,19 +43,9 @@ const PegawaiNonAsnComponent = () => {
         alignItems='center'
         justifyContent='space-between'
       >
-        <AsnDataList
-          data={jabatan}
-          name='Jabatan'
-        />
-        <AsnDataList
-          cardStyle={styles.twoCardStyle}
-          data={tim}
-          name='Tim'
-        />
-        <AsnDataList
-          data={pendidikan}
-          name='Pendidikan'
-        />
+        <AsnDataList data={jabatan} name='Jabatan' />
+        <AsnDataList cardStyle={styles.twoCardStyle} data={tim} name='Tim' />
+        <AsnDataList data={pendidikan} name='Pendidikan' />
         <AsnDataList
           cardStyle={styles.twoCardStyle}
           data={jenisKelamin}

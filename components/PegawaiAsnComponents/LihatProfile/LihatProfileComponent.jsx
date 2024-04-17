@@ -1,13 +1,10 @@
 import React from 'react'
 import { Box, Grid } from '@mui/material'
-import ProfileCard from '@/components/core/card/ProfileCard'
+import ProfileCard from '@/components/shared/Card/CardProfile'
 import { listPegawai } from '../dummyData'
 import EmployeeLayout from '@/components/Employee/EmployeeLayout'
 
-
 const LihatProfileComponent = () => {
-
-
   return (
     <Box
       sx={{
@@ -28,23 +25,18 @@ const LihatProfileComponent = () => {
             padding: 2
           }}
         >
-          {
-            listPegawai.map((item, index) =>
-              <Grid
-                item
-                key={index + 1}
-              >
-                <ProfileCard
-                  summary={item.position}
-                  imageSource={item.image}
-                  name={item.name}
-                  eselon={item.eselon}
-                  golongan={item.golongan}
-                  nip={item.NIP}
-                />
-              </Grid>
-            )
-          }
+          {listPegawai.map((item, index) => (
+            <Grid item key={index + 1}>
+              <ProfileCard
+                summary={item.position}
+                imageSource={item.image}
+                name={item.name}
+                eselon={item.eselon}
+                golongan={item.golongan}
+                nip={item.NIP}
+              />
+            </Grid>
+          ))}
         </Grid>
       </EmployeeLayout>
     </Box>

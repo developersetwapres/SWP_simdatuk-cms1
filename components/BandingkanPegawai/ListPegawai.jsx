@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import CheckboxCard from '../core/CheckboxCard'
 import { Box } from '@mui/material'
-import ProfileCard from '../core/card/ProfileCard'
+import ProfileCard from '../shared/Card/CardProfile'
 import { eselon1 } from '../Employee/AsnActive/dummiData'
 import PropTypes from 'prop-types'
 
-
-const ListPegawai = ({
-  checkAmount=()=>{}
-}) => {
+const ListPegawai = ({ checkAmount = () => {} }) => {
   const [checkList, setCheckList] = useState([])
   const [checkAll, setCheckAll] = useState(false)
-
 
   const getCheckValue = (value) => {
     if (checkList.length > 0) {
@@ -37,8 +33,7 @@ const ListPegawai = ({
   const hanldeChekAll = () => {
     setCheckAll(!checkAll)
   }
-  
-  
+
   useEffect(() => {
     checkAmount(checkList)
   }, [checkAmount, checkList])
@@ -52,25 +47,23 @@ const ListPegawai = ({
         label='Pilih Semua'
       >
         <Box sx={{ display: 'flex', flexDirection: 'row', ml: 3 }}>
-          {
-            eselon1.map((item, index) => {
-              return (
-                <ProfileCard
-                  name={item.name}
-                  eselon={item.eselon}
-                  golongan={item.golongan}
-                  nip={item.NIP}
-                  imageSource={item.image}
-                  check={true}
-                  key={index}
-                  id={item.id}
-                  chekValue={getCheckValue}
-                  deleteValue={deleteValueCheck}
-                  chekedAll={checkAll}
-                />
-              )
-            })
-          }
+          {eselon1.map((item, index) => {
+            return (
+              <ProfileCard
+                name={item.name}
+                eselon={item.eselon}
+                golongan={item.golongan}
+                nip={item.NIP}
+                imageSource={item.image}
+                check={true}
+                key={index}
+                id={item.id}
+                chekValue={getCheckValue}
+                deleteValue={deleteValueCheck}
+                chekedAll={checkAll}
+              />
+            )
+          })}
         </Box>
       </CheckboxCard>
     </>

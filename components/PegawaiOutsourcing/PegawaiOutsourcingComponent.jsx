@@ -1,16 +1,13 @@
 import React from 'react'
 import { Grid } from '@mui/material'
 import EmployeeLayout from '../Employee/EmployeeLayout'
-import AsnDataList from '../core/card/AsnDataList'
+import AsnDataList from '../shared/Card/AsnDataList'
 import {
   nonOutsourcing,
   pegawaiOutsourcing,
   jenisKelamin,
   pendidikan
 } from '../PegawaiAsnComponents/dummyData'
-
-
-
 
 const styles = {
   cardStyle: {
@@ -35,10 +32,7 @@ const styles = {
 
 const PegawaiOutsourcingComponent = () => {
   return (
-    <EmployeeLayout
-      summary='Rekapitulasi Pegawai ASN'
-      showExpButton={true}
-    >
+    <EmployeeLayout summary='Rekapitulasi Pegawai ASN' showExpButton={true}>
       <Grid
         container
         columnSpacing={2}
@@ -46,10 +40,7 @@ const PegawaiOutsourcingComponent = () => {
         alignItems='center'
         justifyContent='space-between'
       >
-        <AsnDataList
-          data={pegawaiOutsourcing}
-          name='Unit Kerja'
-        />
+        <AsnDataList data={pegawaiOutsourcing} name='Unit Kerja' />
         <AsnDataList
           cardStyle={styles.cardStyle}
           data={nonOutsourcing}
@@ -60,10 +51,7 @@ const PegawaiOutsourcingComponent = () => {
           data={pegawaiOutsourcing}
           name='Pegawai Non Aktif'
         />
-        <AsnDataList
-          data={pendidikan}
-          name='Pendidikan'
-        />
+        <AsnDataList data={pendidikan} name='Pendidikan' />
         <AsnDataList
           cardStyle={styles.twoCardStyle}
           data={jenisKelamin}

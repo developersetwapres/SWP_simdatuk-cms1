@@ -1,9 +1,8 @@
 import React from 'react'
 import { Box } from '@mui/material'
 import EmployeeLayout from '../EmployeeLayout'
-import AsnDataList from '@/components/core/card/AsnDataList'
+import AsnDataList from '@/components/shared/Card/AsnDataList'
 import { tenagaOutsourcing, nonOutsourcing } from '../AsnActive/dummiData'
-
 
 const styles = {
   cardStyle: {
@@ -17,16 +16,13 @@ const styles = {
   }
 }
 
-
-
 const OutsourcingComponent = () => {
-  const totalPejabat = [
-    ...tenagaOutsourcing,
-    ...nonOutsourcing
-  ]
+  const totalPejabat = [...tenagaOutsourcing, ...nonOutsourcing]
 
-  const totalAmount = totalPejabat.reduce((acc, pejabat) => acc + pejabat.amount, 0)
-
+  const totalAmount = totalPejabat.reduce(
+    (acc, pejabat) => acc + pejabat.amount,
+    0
+  )
 
   return (
     <Box

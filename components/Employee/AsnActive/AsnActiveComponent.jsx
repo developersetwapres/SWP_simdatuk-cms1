@@ -8,10 +8,9 @@ import {
   pejabatFungsionalKeterampilan,
   pejabatKemensetneg
 } from './dummiData'
-import AsnDataList from '../../core/card/AsnDataList'
+import AsnDataList from '../../shared/Card/AsnDataList'
 
 const AsnActiveComponent = () => {
-
   const totalPejabat = [
     ...pejabatPimpinan,
     ...pejabatPelaksana,
@@ -20,8 +19,10 @@ const AsnActiveComponent = () => {
     ...pejabatKemensetneg
   ]
 
-  const totalAmount = totalPejabat.reduce((acc, pejabat) => acc + pejabat.amount, 0)
-
+  const totalAmount = totalPejabat.reduce(
+    (acc, pejabat) => acc + pejabat.amount,
+    0
+  )
 
   return (
     <Box
@@ -34,14 +35,8 @@ const AsnActiveComponent = () => {
         totalAmount={totalAmount}
         showExpButton={false}
       >
-        <AsnDataList
-          data={pejabatPimpinan}
-          name='Pejabat Pimpinan'
-        />
-        <AsnDataList
-          data={pejabatPelaksana}
-          name='Pejabat Pelaksana'
-        />
+        <AsnDataList data={pejabatPimpinan} name='Pejabat Pimpinan' />
+        <AsnDataList data={pejabatPelaksana} name='Pejabat Pelaksana' />
         <AsnDataList
           data={pejabatFungsionalKeahlian}
           name='Pejabat Fungsional Keahlian'
@@ -54,7 +49,6 @@ const AsnActiveComponent = () => {
           data={pejabatKemensetneg}
           name='Pejabat Kemensetneg Yang Diperbantukan di Setwapres'
         />
-
       </EmployeeLayout>
     </Box>
   )
