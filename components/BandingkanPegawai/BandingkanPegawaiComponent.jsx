@@ -2,11 +2,13 @@
 import React, { useEffect, useState } from 'react'
 import EmployeeLayout from '../Employee/EmployeeLayout'
 import Search from '../core/Search'
-import { Box, Typography } from '@mui/material'
+import { Box, IconButton, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import FilterAltIcon from '@mui/icons-material/FilterAlt'
 import BandingPegawaiForm from './BandingPegawaiForm'
 import ListPegawai from './ListPegawai'
+import { Button } from '../shared'
+import { FilterAlt, Menu } from '@mui/icons-material'
 
 const useStyles = makeStyles((theme) => ({
   inputParent: {
@@ -48,7 +50,6 @@ const BandingkanPegawaiComponent = () => {
   const [expandFilter, setExpandFilter] = useState(false)
   const [amountData, setAmountData] = useState([])
 
-
   const handleFilterClick = () => {
     setExpandFilter(!expandFilter)
   }
@@ -58,76 +59,55 @@ const BandingkanPegawaiComponent = () => {
   }
 
   return (
-    <EmployeeLayout
-      summary='Bandingkan Pegawai'
-    >
-      <Box
-        sx={{
-          position: 'relative'
-        }}
-      >
-        <Box
-          sx={{
-            position: 'absolute',
-            top: -40,
-            right: 0,
-            display: 'flex',
-            width: '20%',
-            borderRadius: '15px',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'primary.main',
-            padding: 2
-          }}
-        >
-          <Typography
-            variant='p'
-            fontSize='14px'
-            color='#fff'
-          >
-            {`Bandingkan Pegawai (${amountData.length})`}
-          </Typography>
-        </Box>
+    <EmployeeLayout>
+      <Box>
+        {/* Header */}
         <Box
           sx={{
             display: 'flex',
-            width: '100%',
+            flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between'
           }}
         >
-          <Box
-            onClick={handleFilterClick}
+          <Typography variant='h6' sx={{ fontSize: '14px', fontWeight: 800 }}>
+            {`Bandingkan Pegawai`}
+          </Typography>
+          <Button
+            // onClick={onCLick}
+            text={`Bandingkan Pegawai (${amountData.length})`}
+            color='primary'
+            fullWidth
+            type='submit'
             sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '10px',
-              padding: '5px',
-              width: '7rem',
-              height: '3rem',
-              borderRadius: '10px',
-              border: '2px solid #895700',
-              cursor: 'pointer',
-              marginTop: 5
+              width: '220px',
+              color: '#fff',
+              textTransform: 'none',
+              fontSize: '14px'
             }}
-          >
-            <FilterAltIcon
-              color='primary'
-              sx={{
-                fontSize: '20px',
-                cursor: 'pointer'
-              }}
-            />
-            <Typography
-              color='primary'
-              sx={{
-                fontWeight: '500'
-              }}
-            >
-              Filter
-            </Typography>
-          </Box>
+          />
+        </Box>
+        {/* Filter */}
+        <Box
+          sx={{
+            marginBottom: '10px',
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }}
+        >
+          <Button
+            onClick={handleFilterClick}
+            variant='outlined'
+            text='Filter'
+            icon={<FilterAlt sx={{ marginRight: '6px', fontSize: '20px' }} />}
+            sx={{
+              fontSize: '14px',
+              textTransform: 'none',
+              borderWidth: '2px'
+            }}
+          />
           <Search
             inputParentClasses={classes.inputParent}
             inputClass={classes.input}
@@ -135,15 +115,8 @@ const BandingkanPegawaiComponent = () => {
             placeholder='Cari Nama/Nip Pegawai'
           />
         </Box>
-        <BandingPegawaiForm
-          expand={expandFilter}
-        />
-        <Box
-        >
-          <ListPegawai
-            checkAmount={getAmount}
-          />
-        </Box>
+        <BandingPegawaiForm expand={expandFilter} />
+        <ListPegawai checkAmount={getAmount} />
       </Box>
     </EmployeeLayout>
   )

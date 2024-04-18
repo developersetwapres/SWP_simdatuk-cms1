@@ -4,22 +4,18 @@ import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import PropTypes from 'prop-types'
 
-
 function CheckboxCard({
   children,
   checkedParent,
   checkIndeterminate,
   label,
-  getChekAll = () => { }
+  getChekAll = () => {}
 }) {
-
   const handleChange1 = () => {
     getChekAll()
   }
 
-
   console.log(checkedParent)
-
 
   // const children = (
   //   <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
@@ -40,7 +36,7 @@ function CheckboxCard({
         sx={{
           display: 'flex',
           justifyContent: 'flex-end',
-          marginY: 5
+          marginY: 1
         }}
       >
         <FormControlLabel

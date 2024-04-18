@@ -33,63 +33,65 @@ const EmployeeLayout = ({
           />
         </Box>
       )}
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: {
-            xs: 'column',
-            md: 'row'
-          },
-          alignItems: 'start',
-          justifyContent: 'space-between',
-          marginBottom: '20px',
-          paddingX: '20px'
-        }}
-      >
-        <Typography variant='H4' component='H4' fontSize='16px'>
-          {summary}
-        </Typography>
+      {summary && (
         <Box
           sx={{
             display: 'flex',
-            gap: 1
+            flexDirection: {
+              xs: 'column',
+              md: 'row'
+            },
+            alignItems: 'start',
+            justifyContent: 'space-between',
+            marginBottom: '20px',
+            paddingX: '20px'
           }}
         >
-          {exportData && (
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'flex-end',
-                justifyContent: 'flex-end'
-              }}
-            >
-              <ButtonExport />
-            </Box>
-          )}
-          {resetBtn && (
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'flex-end',
-                justifyContent: 'flex-end'
-              }}
-            >
-              <Button text='Reset Pegawai' color='sidatukDraweBase' />
-            </Box>
-          )}
-          {addEmployee && (
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'flex-end',
-                justifyContent: 'flex-end'
-              }}
-            >
-              <Button text='Tambah Pegawai' color='primary' />
-            </Box>
-          )}
+          <Typography variant='H4' component='H4' fontSize='16px'>
+            {summary}
+          </Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              gap: 1
+            }}
+          >
+            {exportData && (
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'flex-end',
+                  justifyContent: 'flex-end'
+                }}
+              >
+                <ButtonExport />
+              </Box>
+            )}
+            {resetBtn && (
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'flex-end',
+                  justifyContent: 'flex-end'
+                }}
+              >
+                <Button text='Reset Pegawai' color='sidatukDraweBase' />
+              </Box>
+            )}
+            {addEmployee && (
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'flex-end',
+                  justifyContent: 'flex-end'
+                }}
+              >
+                <Button text='Tambah Pegawai' color='primary' />
+              </Box>
+            )}
+          </Box>
         </Box>
-      </Box>
+      )}
       {children}
     </>
   )

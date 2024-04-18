@@ -248,17 +248,17 @@ const ContentProfile = ({ data, type, detailCard }) => {
             }}
           />
         )}
-        {/* {check && (
+        {data?.isCheck && (
           <FormControlLabel
-            label={checkLabel}
+            label={'Bandingkan'}
             control={
               <Checkbox
-                onChange={(e) => handleCheckboxChange(id, e)}
-                checked={checkedState.includes(id) || chekedAll}
+                // onChange={(e) => handleCheckboxChange(id, e)}
+                checked={false}
               />
             }
           />
-        )} */}
+        )}
       </Box>
     </Box>
   )
