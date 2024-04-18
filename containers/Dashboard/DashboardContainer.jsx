@@ -105,9 +105,7 @@ export default connect(
 
     render() {
       return (
-        <Layout
-          willRender={this.state.willRender}
-        >
+        <Layout willRender={this.state.willRender}>
           <DashboardComponent
             {...this.state}
             {...this.props}
