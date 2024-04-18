@@ -76,27 +76,27 @@ const navigation = [
   {
     name: 'DATA PEGAWAI',
     icon: <GroupsIcon maxWidth={20} sx={{ fontSize: '20px', color: '#fff' }} />,
-    permission: [{ name: 'Course' }]
-    // children: [
-    //   {
-    //     path: '/manajemen-course/course',
-    //     name: 'Course',
-    //     icon: null,
-    //     permission: [{ name: 'Course' }]
-    //   },
-    //   {
-    //     path: '/manajemen-course/editor-choice',
-    //     name: 'Pilihan Editor',
-    //     icon: null,
-    //     permission: [{ name: 'Pilihan Editor' }]
-    //   },
-    //   {
-    //     path: '/manajemen-course/organizer',
-    //     name: 'Update Data Penyelenggara',
-    //     icon: null,
-    //     permission: [{ name: 'Update Data Penyelenggara' }]
-    //   }
-    // ]
+    permission: [{ name: 'empolyee' }],
+    children: [
+      {
+        path: '/data-pegawai/asn',
+        name: 'ASN',
+        icon: null,
+        permission: [{ name: 'employee-asn' }]
+      },
+      {
+        path: '/data-pegawai/non-asn',
+        name: 'NON ASN',
+        icon: null,
+        permission: [{ name: 'employee-non-asn' }]
+      },
+      {
+        path: '/data-pegawai/outsourcing',
+        name: 'OUTSOURCING',
+        icon: null,
+        permission: [{ name: 'employee-outsourcing' }]
+      }
+    ]
   },
   {
     name: 'DATA RIWAYAT',
@@ -110,19 +110,67 @@ const navigation = [
         }}
       />
     ),
-    permission: [{ name: 'Kupon' }],
+    permission: [{ name: 'History' }],
     children: [
       {
-        path: '/manajemen-kupon/kupon',
-        name: 'Kupon',
+        path: '/data-riwayat/jabatan',
+        name: 'JABATAN',
         icon: null,
-        permission: [{ name: 'Kupon' }]
+        permission: [{ name: 'history-position' }]
       },
       {
-        path: '/manajemen-kupon/pengajuan-kupon',
-        name: 'Pengajuan Kupon',
+        path: '/data-riwayat/golongan',
+        name: 'GOLONGAN',
         icon: null,
-        permission: [{ name: 'Pengajuan Kupon' }]
+        permission: [{ name: 'history-group' }]
+      },
+      {
+        path: '/data-riwayat/gaji',
+        name: 'GAJI',
+        icon: null,
+        permission: [{ name: 'history-salary' }]
+      },
+      {
+        path: '/data-riwayat/pelatihan-struktural',
+        name: 'PELATIHAN STRUKTURAL',
+        icon: null,
+        permission: [{ name: 'history-structural-training' }]
+      },
+      {
+        path: '/data-riwayat/pelatihan-fungsional',
+        name: 'PELATIHAN FUNGSIONAL',
+        icon: null,
+        permission: [{ name: 'history-fungsional-training' }]
+      },
+      {
+        path: '/data-riwayat/pelatihan-teknis',
+        name: 'PELATIHAN TEKNIS',
+        icon: null,
+        permission: [{ name: 'history-techinical-training' }]
+      },
+      {
+        path: '/data-riwayat/penghargaan',
+        name: 'PENGHARGAAN',
+        icon: null,
+        permission: [{ name: 'history-honor' }]
+      },
+      {
+        path: '/data-riwayat/skp',
+        name: 'SKP',
+        icon: null,
+        permission: [{ name: 'history-skp' }]
+      },
+      {
+        path: '/data-riwayat/ppk',
+        name: 'PENILAIAN PRESTASI KERJA',
+        icon: null,
+        permission: [{ name: 'history-ppk' }]
+      },
+      {
+        path: '/data-riwayat/hukuman-disiplin',
+        name: 'HUKUMAN DISIPLIN',
+        icon: null,
+        permission: [{ name: 'history-punishment' }]
       }
     ]
   },
@@ -141,59 +189,75 @@ const navigation = [
         <FaDatabase size={15} color='#fff' />
       </Box>
     ),
-    permission: [{ name: 'Banner' }],
+    permission: [{ name: 'data-master' }],
     children: [
       {
-        path: '/manajemen-kupon/kupon',
-        name: 'Kupon',
+        path: '/master-data/user',
+        name: 'DATA PENGGUNA',
         icon: null,
-        permission: [{ name: 'Kupon' }]
+        permission: [{ name: 'data-user' }]
       },
       {
-        path: '/manajemen-kupon/pengajuan-kupon',
-        name: 'Pengajuan Kupon',
+        path: '/master-data/role-user',
+        name: 'DATA ROLE PENGGUNA',
         icon: null,
-        permission: [{ name: 'Pengajuan Kupon' }]
+        permission: [{ name: 'data-role' }]
+      },
+      {
+        path: '/master-data/position',
+        name: 'ROLE JABATAN',
+        icon: null,
+        permission: [{ name: 'data-position' }]
+      },
+      {
+        path: '/master-data/golongan',
+        name: 'ROLE GOLONGAN',
+        icon: null,
+        permission: [{ name: 'data-class' }]
+      },
+      {
+        path: '/master-data/instansi',
+        name: 'ROLE INSTANSI',
+        icon: null,
+        permission: [{ name: 'data-agency' }]
+      },
+      {
+        path: '/master-data/college',
+        name: 'ROLE PERGURUAN TINGGI',
+        icon: null,
+        permission: [{ name: 'data-college' }]
+      },
+      {
+        path: '/master-data/type',
+        name: 'ROLE JENIS PEGAWAI',
+        icon: null,
+        permission: [{ name: 'data-type' }]
       }
     ]
   },
   {
     name: 'EXPORT',
     icon: <GetAppIcon maxWidth={20} sx={{ fontSize: '20px', color: '#fff' }} />,
-    permission: [{ name: 'Kupon' }],
+    permission: [{ name: 'export' }],
     children: [
       {
-        path: '/manajemen-kupon/kupon',
-        name: 'Kupon',
+        path: '/export/employee',
+        name: 'EXPORT PEGAWAI',
         icon: null,
-        permission: [{ name: 'Kupon' }]
+        permission: [{ name: 'export-employee' }]
       },
       {
-        path: '/manajemen-kupon/pengajuan-kupon',
-        name: 'Pengajuan Kupon',
+        path: '/export/drh',
+        name: 'EXPORT DRH',
         icon: null,
-        permission: [{ name: 'Pengajuan Kupon' }]
+        permission: [{ name: 'export-drh' }]
       }
     ]
   },
   {
     name: 'LOGOUT',
     icon: <LogoutIcon maxWidth={20} sx={{ fontSize: '20px', color: '#fff' }} />,
-    permission: [{ name: 'Kupon' }],
-    children: [
-      {
-        path: '/manajemen-kupon/kupon',
-        name: 'Kupon',
-        icon: null,
-        permission: [{ name: 'Kupon' }]
-      },
-      {
-        path: '/manajemen-kupon/pengajuan-kupon',
-        name: 'Pengajuan Kupon',
-        icon: null,
-        permission: [{ name: 'Pengajuan Kupon' }]
-      }
-    ]
+    permission: [{ name: 'logout' }]
   }
 ]
 
