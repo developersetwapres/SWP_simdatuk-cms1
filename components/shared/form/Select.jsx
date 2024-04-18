@@ -10,7 +10,7 @@ import {
 import { makeStyles } from '@mui/styles'
 import { KeyboardArrowDown } from '@mui/icons-material'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   formControl: {
     '& .MuiOutlinedInput-root': {
       '&.Mui-focused fieldset': {
@@ -65,14 +65,12 @@ function Select({
       margin='dense'
       fullWidth
       className={
-        className
-          ? `${classes.formControl} ${className}`
-          : classes.formControl
+        className ? `${classes.formControl} ${className}` : classes.formControl
       }
       {...others}
       {...(error && { error: true })}
     >
-      <p className={classes.label}>{label}</p>
+      {label && <p className={classes.label}>{label}</p>}
       <MuiSelect
         className={disabled ? classes.disabled : classes.select}
         fullWidth
@@ -85,27 +83,21 @@ function Select({
         onChange={onChange}
         disabled={disabled}
         displayEmpty
-        renderValue={value !== '' ? undefined : () => <span style={{ color: '#BABABA' }}>{placeholder}</span>}
-      >
-        {
-          options?.length > 0 && (
-            options.map((item, index) => (
-              <MenuItem
-                key={index}
-                value={item.id}
-              >
-                {item.text}
-              </MenuItem>
-            ))
-          )
+        renderValue={
+          value !== ''
+            ? undefined
+            : () => <span style={{ color: '#BABABA' }}>{placeholder}</span>
         }
+      >
+        {options?.length > 0 &&
+          options.map((item, index) => (
+            <MenuItem key={index} value={item.id}>
+              {item.text}
+            </MenuItem>
+          ))}
       </MuiSelect>
-      {
-        error && (
-          <FormHelperText>{error}</FormHelperText>
-        )
-      }
-    </FormControl >
+      {error && <FormHelperText>{error}</FormHelperText>}
+    </FormControl>
   )
 }
 
