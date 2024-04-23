@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Typography } from '@mui/material'
 import { Button } from '../shared'
-import EmployeeLayout from '../Employee/EmployeeLayout'
+import EmployeeLayout from '../Employment/EmploymentLayout'
 import JobChart from '../shared/JobChart'
 import { useRouter } from 'next/router'
 import { CardTypes } from 'libs/types/CardTypes'

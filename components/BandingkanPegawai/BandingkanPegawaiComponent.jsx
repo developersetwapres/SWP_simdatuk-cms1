@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
-import EmployeeLayout from '../Employee/EmployeeLayout'
+import EmployeeLayout from '../Employment/EmploymentLayout'
 import Search from '../core/Search'
 import { Box, IconButton, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'

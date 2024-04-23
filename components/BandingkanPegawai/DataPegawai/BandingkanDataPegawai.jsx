@@ -1,4 +1,4 @@
-import EmployeeLayout from '@/components/Employee/EmployeeLayout'
+import EmployeeLayout from '@/components/Employment/EmploymentLayout'
 import { Box, Grid, Paper, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import FilterAltIcon from '@mui/icons-material/FilterAlt'
@@ -15,7 +15,6 @@ const filterData = [
   { title: 'Riwayat Pendidikan' },
   { title: 'Riwayat Pekerjaan' }
 ]
-
 
 // End Dummy Data
 
@@ -35,23 +34,23 @@ const BandingkanDataPegawai = () => {
     pelatihanFungsional: [],
     pelatihanTeknis: [],
     riwayatCatatan: []
-
   })
 
   const handleFilterClick = () => {
     setExpandFilter(!expandFilter)
   }
 
-
-  useEffect(() => (
-    setPegawaiData(prevState => {
-      const newData = { ...prevState }
-      for (const key in dummyDataPegawai[0]) {
-        newData[key] = dummyDataPegawai.map(item => item[key])
-      }
-      return newData
-    })
-  ), [])
+  useEffect(
+    () =>
+      setPegawaiData((prevState) => {
+        const newData = { ...prevState }
+        for (const key in dummyDataPegawai[0]) {
+          newData[key] = dummyDataPegawai.map((item) => item[key])
+        }
+        return newData
+      }),
+    []
+  )
   console.log(pegawaiData)
 
   return (
@@ -75,11 +74,7 @@ const BandingkanDataPegawai = () => {
           }}
         >
           <Box>
-            <Typography
-              fontWeight='500'
-            >
-              Data Pegawai
-            </Typography>
+            <Typography fontWeight='500'>Data Pegawai</Typography>
           </Box>
           <Box
             onClick={handleFilterClick}
@@ -113,36 +108,25 @@ const BandingkanDataPegawai = () => {
             </Typography>
           </Box>
         </Box>
-        {
-          expandFilter && (
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between'
-              }}
-            >
-              <Typography
-                fontWeight='500'
-              >
-                Filter Data
-              </Typography>
-              <Box
-                width='90%'
-              >
-                <InputTags
-                  id='filter'
-                  listValue={filterData}
-                  placeholder='Pilih Filter Data'
-                />
-              </Box>
+        {expandFilter && (
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}
+          >
+            <Typography fontWeight='500'>Filter Data</Typography>
+            <Box width='90%'>
+              <InputTags
+                id='filter'
+                listValue={filterData}
+                placeholder='Pilih Filter Data'
+              />
             </Box>
-          )
-        }
-        <Grid
-          container
-          direction='row'
-        >
+          </Box>
+        )}
+        <Grid container direction='row'>
           {/* {
             dummyDataPegawai.map((data, index) =>
               <Grid
