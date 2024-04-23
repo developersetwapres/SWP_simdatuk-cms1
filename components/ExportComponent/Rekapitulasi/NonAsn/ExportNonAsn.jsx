@@ -1,23 +1,15 @@
 import { Box, Typography } from '@mui/material'
 import React from 'react'
 import ExportTable from '../ExportTable'
-import {
-  nonAsn,
-  tnp2k,
-  tpps
-} from '@/components/Employment/AsnActive/dummiData'
 
 const ExportNonAsn = () => {
-  const tim = [...tnp2k, ...tpps]
-  const allData = [...nonAsn, ...tim]
+  const tim = []
+  const allData = []
   const totalData = allData.reduce((acc, data) => acc + data.amount, 0)
 
   return (
     <Box>
-      <ExportTable
-        summary='Non Aparatur Sipil Negara (Non ASN)  '
-        data={nonAsn}
-      />
+      <ExportTable summary='Non Aparatur Sipil Negara (Non ASN)  ' data={[]} />
       <ExportTable summary='Tim' data={tim} />
       <Box
         sx={{

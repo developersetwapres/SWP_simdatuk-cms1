@@ -1,40 +1,21 @@
 import { Box, Typography } from '@mui/material'
 import React from 'react'
 import ExportTable from '../ExportTable'
-import {
-  pejabatPimpinan,
-  pejabatFungsionalKeahlian,
-  pejabatFungsionalKeterampilan,
-  pejabatKemensetneg,
-  pejabatPelaksana
-} from '@/components/Employment/AsnActive/dummiData'
 
 const ExportAsnActive = () => {
-  const allData = [
-    ...pejabatFungsionalKeahlian,
-    ...pejabatFungsionalKeterampilan,
-    ...pejabatKemensetneg,
-    ...pejabatPelaksana,
-    ...pejabatPimpinan
-  ]
+  const allData = []
 
   const totalData = allData.reduce((acc, data) => acc + data.amount, 0)
 
   return (
     <Box>
-      <ExportTable summary='Pejabat Pimpinan' data={pejabatPimpinan} />
-      <ExportTable summary='Pejabat Pelaksana' data={pejabatPelaksana} />
-      <ExportTable
-        summary='Pejabat Fungsional Keahlian'
-        data={pejabatFungsionalKeahlian}
-      />
-      <ExportTable
-        summary='Pejabat Fungsional Keterampilan'
-        data={pejabatFungsionalKeterampilan}
-      />
+      <ExportTable summary='Pejabat Pimpinan' data={[]} />
+      <ExportTable summary='Pejabat Pelaksana' data={[]} />
+      <ExportTable summary='Pejabat Fungsional Keahlian' data={[]} />
+      <ExportTable summary='Pejabat Fungsional Keterampilan' data={[]} />
       <ExportTable
         summary='Pejabat Kemensetneg Yang Diperbantukan di Setwapres'
-        data={pejabatKemensetneg}
+        data={[]}
       />
       <Box
         sx={{

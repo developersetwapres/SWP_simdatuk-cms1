@@ -1,20 +1,16 @@
 import { Box, Typography } from '@mui/material'
 import React from 'react'
 import ExportTable from '../ExportTable'
-import {
-  tenagaOutsourcing,
-  nonOutsourcing
-} from '@/components/Employment/AsnActive/dummiData'
 
 const TenagaOutsourcing = () => {
-  const allData = [...tenagaOutsourcing, ...nonOutsourcing]
+  const allData = []
 
   const totalData = allData.reduce((acc, data) => acc + data.amount, 0)
 
   return (
     <Box>
-      <ExportTable summary='Tenaga Outsourcing' data={tenagaOutsourcing} />
-      <ExportTable summary='Tenaga Non Outsourcing' data={nonOutsourcing} />
+      <ExportTable summary='Tenaga Outsourcing' data={[]} />
+      <ExportTable summary='Tenaga Non Outsourcing' data={[]} />
       <Box
         sx={{
           display: 'flex',
