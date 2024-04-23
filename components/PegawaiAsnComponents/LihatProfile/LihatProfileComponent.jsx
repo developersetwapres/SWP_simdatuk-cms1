@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Grid } from '@mui/material'
 import ProfileCard from '@/components/shared/Card/CardProfile'
 import { listPegawai } from '../dummyData'
-import EmployeeLayout from '@/components/Employee/EmployeeLayout'
+import EmployeeLayout from '@/components/Employment/EmploymentLayout'
 
 const LihatProfileComponent = () => {
   return (

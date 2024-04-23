@@ -1,26 +1,20 @@
 import { Box, Typography } from '@mui/material'
 import React from 'react'
 import ExportTable from '../ExportTable'
-import { tenagaOutsourcing, nonOutsourcing } from '@/components/Employee/AsnActive/dummiData'
+import {
+  tenagaOutsourcing,
+  nonOutsourcing
+} from '@/components/Employment/AsnActive/dummiData'
 
 const TenagaOutsourcing = () => {
-  const allData = [
-    ...tenagaOutsourcing,
-    ...nonOutsourcing
-  ]
+  const allData = [...tenagaOutsourcing, ...nonOutsourcing]
 
   const totalData = allData.reduce((acc, data) => acc + data.amount, 0)
 
   return (
     <Box>
-      <ExportTable
-        summary='Tenaga Outsourcing'
-        data={tenagaOutsourcing}
-      />
-      <ExportTable
-        summary='Tenaga Non Outsourcing'
-        data={nonOutsourcing}
-      />
+      <ExportTable summary='Tenaga Outsourcing' data={tenagaOutsourcing} />
+      <ExportTable summary='Tenaga Non Outsourcing' data={nonOutsourcing} />
       <Box
         sx={{
           display: 'flex',
@@ -31,18 +25,10 @@ const TenagaOutsourcing = () => {
           backgroundColor: '#394346'
         }}
       >
-        <Typography
-          fontWeight='400'
-          color='white'
-          fontSize={14}
-        >
+        <Typography fontWeight='400' color='white' fontSize={14}>
           Tenaga Outsourcing dan Non Outsourcing
         </Typography>
-        <Typography
-          fontWeight='400'
-          color='white'
-          fontSize={14}
-        >
+        <Typography fontWeight='400' color='white' fontSize={14}>
           Total : {totalData}
         </Typography>
       </Box>

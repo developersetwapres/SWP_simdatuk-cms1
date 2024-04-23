@@ -1,7 +1,7 @@
 import AsnDataList from '@/components/shared/Card/AsnDataList'
 import React from 'react'
 import { keteranganJabatan } from '../dummyData'
-import EmployeeLayout from '@/components/Employee/EmployeeLayout'
+import EmployeeLayout from '@/components/Employment/EmploymentLayout'
 
 const styles = {
   cardStyle: {

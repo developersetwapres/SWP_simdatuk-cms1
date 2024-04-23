@@ -1,19 +1,14 @@
 import { Box, Typography } from '@mui/material'
 import React from 'react'
 import ExportTable from '../ExportTable'
-import { asnNonActive } from '@/components/Employee/AsnActive/dummiData'
+import { asnNonActive } from '@/components/Employment/AsnActive/dummiData'
 
 const ExportAsnNonActive = () => {
-
-
-
   const totalData = asnNonActive.reduce((acc, data) => acc + data.amount, 0)
 
   return (
     <Box>
-      <ExportTable
-        data={asnNonActive}
-      />
+      <ExportTable data={asnNonActive} />
 
       <Box
         sx={{
@@ -25,18 +20,10 @@ const ExportAsnNonActive = () => {
           backgroundColor: '#394346'
         }}
       >
-        <Typography
-          fontWeight='400'
-          color='white'
-          fontSize={14}
-        >
+        <Typography fontWeight='400' color='white' fontSize={14}>
           Aparatur Sipil Negara (ASN) Non Aktif
         </Typography>
-        <Typography
-          fontWeight='400'
-          color='white'
-          fontSize={14}
-        >
+        <Typography fontWeight='400' color='white' fontSize={14}>
           Total : {totalData}
         </Typography>
       </Box>

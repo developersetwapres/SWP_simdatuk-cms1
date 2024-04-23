@@ -7,11 +7,9 @@ import {
   pejabatFungsionalKeterampilan,
   pejabatKemensetneg,
   pejabatPelaksana
-} from '@/components/Employee/AsnActive/dummiData'
-
+} from '@/components/Employment/AsnActive/dummiData'
 
 const ExportAsnActive = () => {
-
   const allData = [
     ...pejabatFungsionalKeahlian,
     ...pejabatFungsionalKeterampilan,
@@ -24,14 +22,8 @@ const ExportAsnActive = () => {
 
   return (
     <Box>
-      <ExportTable
-        summary='Pejabat Pimpinan'
-        data={pejabatPimpinan}
-      />
-      <ExportTable
-        summary='Pejabat Pelaksana'
-        data={pejabatPelaksana}
-      />
+      <ExportTable summary='Pejabat Pimpinan' data={pejabatPimpinan} />
+      <ExportTable summary='Pejabat Pelaksana' data={pejabatPelaksana} />
       <ExportTable
         summary='Pejabat Fungsional Keahlian'
         data={pejabatFungsionalKeahlian}
@@ -54,18 +46,10 @@ const ExportAsnActive = () => {
           backgroundColor: '#394346'
         }}
       >
-        <Typography
-          fontWeight='400'
-          color='white'
-          fontSize={14}
-        >
+        <Typography fontWeight='400' color='white' fontSize={14}>
           Aparatur Sipil Negara (ASN) Aktif + Perbantuan TNI/POLRI Pelaksana
         </Typography>
-        <Typography
-          fontWeight='400'
-          color='white'
-          fontSize={14}
-        >
+        <Typography fontWeight='400' color='white' fontSize={14}>
           Total : {totalData}
         </Typography>
       </Box>

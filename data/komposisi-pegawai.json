@@ -1,0 +1,3737 @@
+[
+  {
+    "title": null,
+    "children": [
+      {
+        "title": "Aparatur Sipil Negara (ASN) Aktif + Perbantuan TNI/POLRI Pelaksana",
+        "category": "asn-aktif-support-tni-polri-pelaksana",
+        "count": 283,
+        "children": [
+          {
+            "title": "Pejabat Pimpinan",
+            "children": [
+              {
+                "title": "Pejabat Pimpinan Tinggi Madya (Eselon I)",
+                "category": "eselon-I",
+                "count": 4,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Pejabat Pimpinan Tinggi Pratama (Eselon II)",
+                "category": "eselon-II",
+                "count": 15,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Pejabat Administrator (Eselon III)",
+                "category": "eselon-III",
+                "count": 10,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Pejabat Pengawas (Eselon IV)",
+                "category": "eselon-IV",
+                "count": 23,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Pejabat Pelaksana",
+            "children": [
+              {
+                "title": "Pejabat Pelaksana Golongan IV",
+                "category": "pelaksana-IV",
+                "count": 0,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Pejabat Pelaksana Golongan III",
+                "category": "pelaksana-III",
+                "count": 47,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Pejabat Pelaksana Golongan II",
+                "category": "pelaksana-II",
+                "count": 17,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Pejabat Pelaksana Perbantuan TNI dan POLRI",
+                "category": "pelaksana-perbantuan-tni-polri",
+                "count": 31,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Pejabat Fungsional Keahlian",
+            "children": [
+              {
+                "title": "Pejabat Fungsional Ahli Utama",
+                "category": "ahli-utama",
+                "count": 0,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Pejabat Fungsional Ahli Madya",
+                "category": "ahli-madya",
+                "count": 3,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Pejabat Fungsional Ahli Muda",
+                "category": "ahli-muda",
+                "count": 68,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Pejabat Fungsional Ahli Pertama",
+                "category": "ahli-pertama",
+                "count": 12,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Pejabat Fungsional Keterampilan",
+            "children": [
+              {
+                "title": "Pejabat Fungsional Penyelia",
+                "category": "pejabat-penyelia",
+                "count": 4,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Pejabat Fungsional Mahir",
+                "category": "pejabat-mahir",
+                "count": 0,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Pejabat Fungsional Terampil",
+                "category": "pejabat-terampil",
+                "count": 0,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Pejabat Fungsional Pemula",
+                "category": "pejabat-pemula",
+                "count": 0,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Pejabat Kemensetneg Yang Diperbantukan di Setwapres",
+            "children": [
+              {
+                "title": "Pejabat Struktural",
+                "category": "pejabat-struktural",
+                "count": 2,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Pejabat Fungsional",
+                "category": "pejabat-fungsional",
+                "count": 13,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Aparatur Sipil Negara (ASN) Non Aktif",
+        "category": "asn-non-aktif",
+        "count": 6,
+        "children": [
+          {
+            "title": null,
+            "children": [
+              {
+                "title": "Tugas Belajar Luar Negeri (TBLN)",
+                "category": "tlbn",
+                "count": 3,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Cuti Diluar Tanggungan Negara (CLTN)",
+                "category": "cltn",
+                "count": 3,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Tidak Aktif (Non Jabatan)",
+                "category": "non-jabatan",
+                "count": 0,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Non Aparatur Sipil Negara (Non ASN) + Tim",
+        "category": "non-asn-tim",
+        "count": 162,
+        "children": [
+          {
+            "title": "Non Aparatur Sipil Negara (Non ASN)",
+            "children": [
+              {
+                "title": "Staf Khusus Wakil Presiden",
+                "category": "staff-khusu-wakil-presiden",
+                "count": 10,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Asisten Staf Khusus Wakil Presiden",
+                "category": "asisten-staff-khusu-wakil-presiden",
+                "count": 20,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Pembantu Asisten Staf Khusus Wakil Presiden",
+                "category": "pembantu-asisten-staff-khusu-wakil-presiden",
+                "count": 5,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Anggota Tim Ahli Wakil Presiden",
+                "category": "tim-ahli-wakil-presiden",
+                "count": 12,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Staf Pada Sekretaris Pribadi Istri Wakil Presiden",
+                "category": "sekertaris-pribadi-istri-wakil-presiden",
+                "count": 1,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Staf Kerumahtanggaan Pada Kediaman Wakil Presiden",
+                "category": "kerumahtanggan-wakil-presiden",
+                "count": 1,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Sekretariat Pada Staf Khusus Wakil Presiden (PTT dari SETKAB)",
+                "category": "ptt-dari-setkab",
+                "count": 3,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Ajudan Wakil Presiden dan Istri Wakil Presiden (Perbantuan TNI dan POLRI)",
+                "category": "ajudan-wapres-istri-wapres",
+                "count": 8,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Dokter Pribadi Wakil Presiden",
+                "category": "dokter-pribadi",
+                "count": 4,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Pengemudi VVIP (Perbantuan TNI dan POLRI)",
+                "category": "driver-vvip",
+                "count": 10,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Tim",
+            "children": [
+              {
+                "title": "Tim Nasional Percepatan Penanggulangan Kemiskinan (TNP2K)",
+                "category": "tnp2k",
+                "count": 64,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Tim Nasional Percepatan Penurunan Stunting (TPPS)",
+                "category": "tpps",
+                "count": 24,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Tenaga Outsourcing dan Non Outsourcing",
+        "category": "outsourcing-non-outsourcing",
+        "count": 198,
+        "children": [
+          {
+            "title": "Tenaga Outsourcing",
+            "children": [
+              {
+                "title": "Pengemudi",
+                "category": "driver",
+                "count": 38,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Petugas Kebersihan Gedung",
+                "category": "petugas-kebersihan-gedung",
+                "count": 51,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Petugas Perawatan Kolam",
+                "category": "petugas-kebersihan-kolam",
+                "count": 2,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Petugas Taman",
+                "category": "petugas-taman",
+                "count": 24,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Pramusaji/Pramubakti",
+                "category": "pramusaji-pramubakti",
+                "count": 39,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Teknisi Jaringan",
+                "category": "taknisi-jaringan",
+                "count": 2,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Teknisi Komputer",
+                "category": "taknisi-komputer",
+                "count": 11,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Teknisi Mekanikal dan Elektrikal",
+                "category": "taknisi-mekanik-elektrik",
+                "count": 24,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Tenaga Non Outsourcing",
+            "children": [
+              {
+                "title": "Teknisi Fotocopy",
+                "category": "teknisi-fotocopy",
+                "count": 3,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Teknisi Road Blocker",
+                "category": "teknisi-road-blocker",
+                "count": 2,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Teknisi Lift",
+                "category": "teknisi-lift",
+                "count": 2,
+                "children": [
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Kepala Sekretariat Wakil Presiden",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a., 25-01-2021",
+                        "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+                        "nip": "197303221997021001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 25-01-2021",
+                        "golongan": "Pembina Utama (IV/e), 01-04-2017",
+                        "nip": "1965053019991031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Dr. Velix Vernando Wanggai S.IP., MPA",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 23-08-2022",
+                        "golongan": "Pembina Utama Muda (IV/c), 01-10-2019",
+                        "nip": "197202161998031005",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CARDPROFILE1",
+                    "position": "Deputi Bidang Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. I.a, 01-03-2023",
+                        "golongan": "Pembina Utama (IV/e), 01-03-2023",
+                        "nip": "180004061 / 197010271995031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true,
+                        "pathDetail": null,
+                        "pathProfil": "/rekapitulasi/komposisi-pegawai/detail/1"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
