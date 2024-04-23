@@ -1,14 +1,9 @@
 import React from 'react'
 import { Box, Grid, Typography } from '@mui/material'
-import CardComponent from './CardComponent'
+import CardComponent from './CardEmployment'
 import PropTypes from 'prop-types'
 
-const AsnDataList = ({
-  data,
-  name,
-  cardStyle
-}) => {
-  
+const AsnDataList = ({ data, name, cardStyle }) => {
   const totalAmount = data.reduce((acc, current) => acc + current.amount, 0)
 
   return (
@@ -36,22 +31,14 @@ const AsnDataList = ({
             paddingY: '5px'
           }}
         >
-          <Typography
-            color='primary'
-            fontWeight='500'
-          >
+          <Typography color='primary' fontWeight='500'>
             {name}
           </Typography>
-          {
-            name && (
-              <Typography
-                color='primary'
-                fontWeight='500'
-              >
-                {`Total : ${totalAmount}`}
-              </Typography>
-            )
-          }
+          {name && (
+            <Typography color='primary' fontWeight='500'>
+              {`Total : ${totalAmount}`}
+            </Typography>
+          )}
         </Box>
         <Grid
           item
@@ -61,25 +48,24 @@ const AsnDataList = ({
             gap: '2.3rem'
           }}
         >
-          {
-            data.map((item, index) =>
-              <Grid item
-                key={index + 1}
-                sx={{
-                  borderRadius: 2,
-                  overflow: 'hidden',
-                  border: '1px solid black'
-                }}
-              >
-                <CardComponent
-                  rootStyle={cardStyle}
-                  summary={item.name}
-                  amount={item.amount}
-                  path={item.path}
-                />
-              </Grid>
-            )
-          }
+          {data.map((item, index) => (
+            <Grid
+              item
+              key={index + 1}
+              sx={{
+                borderRadius: 2,
+                overflow: 'hidden',
+                border: '1px solid black'
+              }}
+            >
+              <CardComponent
+                rootStyle={cardStyle}
+                summary={item.name}
+                amount={item.amount}
+                path={item.path}
+              />
+            </Grid>
+          ))}
         </Grid>
       </Grid>
     </>

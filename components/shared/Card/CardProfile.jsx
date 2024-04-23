@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
@@ -11,6 +11,7 @@ import Image from 'next/image'
 import Checkbox from '@mui/material/Checkbox'
 import { CardTypes } from 'libs/types/CardTypes'
 import { HiArrowsExpand } from 'react-icons/hi'
+import { useRouter } from 'next/router'
 
 const style = {
   cardParent: {
@@ -150,6 +151,12 @@ const ItemDetail = ({ title, value }) => {
 }
 
 const ContentProfile = ({ data, type, detailCard }) => {
+  const router = useRouter()
+
+  useEffect(() => {
+    console.log('data', data)
+  }, [data])
+
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={style.imageBox}>
@@ -220,7 +227,7 @@ const ContentProfile = ({ data, type, detailCard }) => {
       >
         {data?.isProfile && (
           <Button
-            // onClick={onCLick}
+            onClick={() => router.push(data?.pathProfil)}
             text='Lihat Profile'
             color='sidatukDraweBase'
             fullWidth
@@ -234,7 +241,7 @@ const ContentProfile = ({ data, type, detailCard }) => {
         )}
         {data?.isDetail && (
           <Button
-            // onClick={onCLick}
+            onClick={() => router.push(data?.pathDetail)}
             text='Lihat Detail'
             color='primary'
             fullWidth

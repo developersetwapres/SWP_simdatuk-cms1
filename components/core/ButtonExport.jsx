@@ -1,9 +1,10 @@
 import React, { Fragment, useState } from 'react'
-import { Button, Menu, MenuItem } from '@mui/material'
+import { Button as ButtonMui, Menu, MenuItem } from '@mui/material'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import PropTypes from 'prop-types'
+import { Button } from '../shared'
 
-function ButtonExport() {
+function ButtonExport({ data }) {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
 
@@ -14,9 +15,14 @@ function ButtonExport() {
   const handleClose = () => {
     setAnchorEl(null)
   }
+
+  if (data.length == 1) {
+    return <Button text='Export' color='success' onClick={data[0]?.action} />
+  }
+
   return (
     <Fragment>
-      <Button
+      <ButtonMui
         id='basic-button'
         aria-controls={open ? 'basic-menu' : undefined}
         aria-haspopup='true'
@@ -39,7 +45,7 @@ function ButtonExport() {
           Export
           <KeyboardArrowDownIcon />
         </div>
-      </Button>
+      </ButtonMui>
       <Menu
         id='basic-menu'
         anchorEl={anchorEl}
@@ -49,16 +55,18 @@ function ButtonExport() {
           'aria-labelledby': 'basic-button'
         }}
       >
-        <MenuItem >Pdf</MenuItem>
-        <MenuItem >XML</MenuItem>
-        <MenuItem>DOC Out</MenuItem>
+        {data.map((item, index) => (
+          <MenuItem key={index} onClick={item?.action}>
+            {item?.name}
+          </MenuItem>
+        ))}
       </Menu>
     </Fragment>
   )
 }
 
 ButtonExport.propTypes = {
-  handleModalLogout: PropTypes.func
+  data: PropTypes.object
 }
 
 export default ButtonExport
