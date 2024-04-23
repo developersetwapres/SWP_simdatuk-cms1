@@ -22,7 +22,7 @@ const navigation = [
     permission: [{ name: 'Pengguna' }]
   },
   {
-    name: 'REAKAPITULASI',
+    name: 'REKAPITULASI',
     icon: (
       <DashboardIcon
         boardIcon
