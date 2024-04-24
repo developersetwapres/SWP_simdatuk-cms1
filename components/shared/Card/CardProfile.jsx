@@ -46,26 +46,11 @@ const CardProfile = ({
   data,
   isExpand,
   onCLick,
-  check,
+  isCheck,
   checkLabel,
   handleModal = () => {},
-  chekValue = () => {},
-  deleteValue = () => {},
-  chekedAll,
-  id
+  handleCheck = () => {}
 }) => {
-  const [checkedState, setCheckedState] = useState([])
-
-  const handleCheckboxChange = (id) => {
-    if (checkedState.includes(id)) {
-      setCheckedState(checkedState.filter((checkedId) => checkedId !== id))
-      deleteValue(id)
-    } else {
-      setCheckedState([...checkedState, id])
-      chekValue([...checkedState, id])
-    }
-  }
-
   const ExpandModal = useMemo(() => {
     if (data?.slot > 1) return true
     return false
@@ -76,6 +61,7 @@ const CardProfile = ({
       <CardContent sx={style.cardContent}>
         <Box
           sx={{
+            width: '90%',
             minHeight: '10px',
             maxHeight: '60px',
             marginBottom: isExpand ? '20px' : 0,
@@ -90,7 +76,12 @@ const CardProfile = ({
               fontWeight='bold'
               gutterBottom
               textAlign='center'
-              sx={{ width: '90%', margin: 'auto', fontSize: 14 }}
+              sx={{
+                width: '90%',
+                minHeight: '40px',
+                margin: 'auto',
+                fontSize: 14
+              }}
             >
               {data?.position}
             </Typography>
@@ -133,6 +124,8 @@ const CardProfile = ({
         <ContentProfile
           data={data?.children ? data?.children[0] : data}
           type={data?.type}
+          isCheck={isCheck}
+          handleCheck={handleCheck}
         />
       </CardContent>
     </Card>
@@ -150,13 +143,8 @@ const ItemDetail = ({ title, value }) => {
   )
 }
 
-const ContentProfile = ({ data, type, detailCard }) => {
+const ContentProfile = ({ data, type, detailCard, isCheck, handleCheck }) => {
   const router = useRouter()
-
-  useEffect(() => {
-    console.log('data', data)
-  }, [data])
-
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={style.imageBox}>
@@ -258,8 +246,8 @@ const ContentProfile = ({ data, type, detailCard }) => {
             label={'Bandingkan'}
             control={
               <Checkbox
-                // onChange={(e) => handleCheckboxChange(id, e)}
-                checked={false}
+                onClick={(e) => handleCheck(e.target.checked, data)}
+                checked={isCheck}
               />
             }
           />
@@ -275,6 +263,7 @@ CardProfile.propTypes = {
   isExpand: PropTypes.bool,
   onCLick: PropTypes.func,
   handleModal: PropTypes.func,
+  handleCheck: PropTypes.func,
   check: PropTypes.bool,
   checkLabel: PropTypes.string,
   handleCheckboxChange: PropTypes.func,

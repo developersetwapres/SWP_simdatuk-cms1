@@ -32,16 +32,10 @@ export default connect(
       }, 2000)
     }
 
-
     render() {
       return (
-        <Layout
-          willRender={this.state.willRender}
-        >
-          <BandingkanDataPegawai
-            {...this.state}
-            {...this.props}
-          />
+        <Layout willRender={this.state.willRender}>
+          <BandingkanDataPegawai {...this.state} {...this.props} />
         </Layout>
       )
     }

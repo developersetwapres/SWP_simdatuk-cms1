@@ -1,14 +1,24 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react'
+import React, { useMemo, useState } from 'react'
+import PropTypes from 'prop-types'
 import EmployeeLayout from '../Employment/EmploymentLayout'
 import Search from '../core/Search'
-import { Box, IconButton, Typography } from '@mui/material'
+import {
+  Box,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  IconButton,
+  Typography
+} from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import FilterAltIcon from '@mui/icons-material/FilterAlt'
 import BandingPegawaiForm from './BandingPegawaiForm'
-import ListPegawai from './ListPegawai'
 import { Button } from '../shared'
-import { FilterAlt, Menu } from '@mui/icons-material'
+import { FilterAlt } from '@mui/icons-material'
+import CardProfile from '../shared/Card/CardProfile'
+import { CardTypes } from 'libs/types/CardTypes'
+import { useRouter } from 'next/router'
 
 const useStyles = makeStyles((theme) => ({
   inputParent: {
@@ -44,18 +54,79 @@ const styles = {
     fontSize: '20px'
   }
 }
-const BandingkanPegawaiComponent = () => {
+
+const BandingkanPegawaiComponent = ({ data }) => {
+  const router = useRouter()
   const classes = useStyles()
 
   const [expandFilter, setExpandFilter] = useState(false)
-  const [amountData, setAmountData] = useState([])
+  const [collectData, setCollectData] = useState([])
+
+  const isSelectAll = useMemo(() => {
+    return collectData.length == 3
+  }, [collectData])
 
   const handleFilterClick = () => {
     setExpandFilter(!expandFilter)
   }
 
-  const getAmount = (amount) => {
-    setAmountData(amount)
+  const handleSelectedAll = (e) => {
+    if (e && collectData.length < 3) {
+      const newData = data
+        .map((item) => {
+          return item?.children[0]
+        })
+        .slice(0, 3)
+      let newCollectData = []
+
+      newData.map((item) => {
+        const checkItem = collectData.some((itm) => {
+          return item?.name === itm?.name
+        })
+
+        if (!checkItem) {
+          newCollectData = [...newCollectData, item]
+        }
+      })
+
+      setCollectData([
+        ...collectData,
+        ...newData.slice(0, 3 - collectData.length)
+      ])
+    } else {
+      setCollectData([])
+    }
+  }
+
+  const handleGetCheckBox = (value) => {
+    return collectData.some((item) => {
+      return item?.name === value?.name
+    })
+  }
+
+  const handleCheckBox = (e, value) => {
+    const checkValue = collectData.some((item) => {
+      return item?.name === value?.name
+    })
+
+    if (collectData.length == 3 && !checkValue) {
+      const collectDataSlice = collectData.slice(1)
+      setCollectData([...collectDataSlice, value])
+    } else if (!checkValue) {
+      setCollectData([...collectData, value])
+    } else {
+      const filterData = collectData.filter((item) => {
+        return item?.name !== value?.name
+      })
+      setCollectData(filterData)
+    }
+  }
+
+  const handleRedirectCompare = () => {
+    if (collectData.length > 0) {
+      localStorage.setItem('dataPegawai', JSON.stringify(collectData))
+      router.push(`${router.asPath}/data-pegawai`)
+    }
   }
 
   return (
@@ -74,8 +145,8 @@ const BandingkanPegawaiComponent = () => {
             {`Bandingkan Pegawai`}
           </Typography>
           <Button
-            // onClick={onCLick}
-            text={`Bandingkan Pegawai (${amountData.length})`}
+            onClick={handleRedirectCompare}
+            text={`Bandingkan Pegawai (${collectData.length})`}
             color='primary'
             fullWidth
             type='submit'
@@ -88,38 +159,74 @@ const BandingkanPegawaiComponent = () => {
           />
         </Box>
         {/* Filter */}
-        <Box
-          sx={{
-            marginBottom: '10px',
-            width: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between'
-          }}
-        >
-          <Button
-            onClick={handleFilterClick}
-            variant='outlined'
-            text='Filter'
-            icon={<FilterAlt sx={{ marginRight: '6px', fontSize: '20px' }} />}
+        <Box sx={{ marginBottom: '20px' }}>
+          <Box
             sx={{
-              fontSize: '14px',
-              textTransform: 'none',
-              borderWidth: '2px'
+              marginBottom: '10px',
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
             }}
-          />
-          <Search
-            inputParentClasses={classes.inputParent}
-            inputClass={classes.input}
-            iconStyle={styles.iconStyle}
-            placeholder='Cari Nama/Nip Pegawai'
-          />
+          >
+            <Button
+              onClick={handleFilterClick}
+              variant='outlined'
+              text='Filter'
+              icon={<FilterAlt sx={{ marginRight: '6px', fontSize: '20px' }} />}
+              sx={{
+                fontSize: '14px',
+                textTransform: 'none',
+                borderWidth: '2px'
+              }}
+            />
+            <Search
+              inputParentClasses={classes.inputParent}
+              inputClass={classes.input}
+              iconStyle={styles.iconStyle}
+              placeholder='Cari Nama/Nip Pegawai'
+            />
+          </Box>
+          <BandingPegawaiForm expand={expandFilter} />
         </Box>
-        <BandingPegawaiForm expand={expandFilter} />
-        <ListPegawai checkAmount={getAmount} />
+        {/* Employees Card */}
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'flex-end'
+              }}
+            >
+              <FormControlLabel
+                label={'Pilih Semua'}
+                control={
+                  <Checkbox
+                    checked={isSelectAll}
+                    onClick={(e) => handleSelectedAll(e.target.checked)}
+                  />
+                }
+              />
+            </Box>
+          </Grid>
+          {data.map((item, index) => (
+            <Grid item xs={12} sm={3} key={index}>
+              <CardProfile
+                data={item}
+                key={index}
+                isCheck={handleGetCheckBox(item?.children[0])}
+                handleCheck={handleCheckBox}
+              />
+            </Grid>
+          ))}
+        </Grid>
       </Box>
     </EmployeeLayout>
   )
+}
+
+BandingkanPegawaiComponent.propTypes = {
+  data: PropTypes.array
 }
 
 export default BandingkanPegawaiComponent

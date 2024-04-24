@@ -3,12 +3,7 @@ import WithAuth from '@/components/shared/WithAuth'
 import BandingkanDataPegawaiContainer from '@/containers/BandingkanPegawaiContainer/BandingkanDataPegawaiContainer/BandingkanDataPegawaiContainer'
 
 const index = () => {
-  return (
-    <>
-      <BandingkanDataPegawaiContainer />
-    </>
-  )
+  return <BandingkanDataPegawaiContainer />
 }
 
 export default WithAuth(index)
-

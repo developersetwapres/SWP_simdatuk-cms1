@@ -12,6 +12,7 @@ export default connect(
 )(
   class BannerContainer extends Component {
     static propTypes = {
+      data: PropTypes.array,
       banner: PropTypes.object,
       getBanners: PropTypes.func,
       deleteListBanner: PropTypes.func

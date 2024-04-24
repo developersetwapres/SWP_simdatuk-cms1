@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /* eslint-disable no-unused-vars */
 import {
   Box,
@@ -10,10 +11,11 @@ import {
 } from '@mui/material'
 import { tableCellClasses } from '@mui/material/TableCell'
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
-import PelatihanFungsionalSection from '@/components/Employment/Employee/Section/PelatihanFungsional'
+import { Close } from '@mui/icons-material'
+import { useRouter } from 'next/router'
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -38,298 +40,237 @@ const useStyles = makeStyles((theme) => ({
     [`& .${tableCellClasses.root}`]: {
       borderBottom: 'none'
     }
+  },
+  tableContainer: {
+    display: 'flex'
+  },
+  table: {
+    minWidth: 300
+  },
+  tableHead: {
+    width: '20%'
+  },
+  tableBody: {
+    flex: 1
   }
 }))
 
-const ListDataPegawai = ({
-  id,
-  imageSource,
-  names,
-  eselon,
-  jabatan,
-  golongan,
-  nip,
-  riwayatPendidikan,
-  riwayatJabatan,
-  pelatihanStruktural,
-  pelatihanFungsional,
-  pelatihanTeknis,
-  riwayatCatatan
-}) => {
-  const classes = useStyles()
+const title = [
+  '',
+  'Jabatan',
+  'Eselon',
+  'Golongan',
+  'NIP/NRP',
+  'Riwayat Pendidikan',
+  'Riwayat Jabatan',
+  'Riwayat Pelatihan Struktural',
+  'Riwayat Pelatihan Fungsional',
+  'Riwayat Pelatihan Teknis',
+  'Riwayat Catatan'
+]
 
-  const rows = [
-    'Jabatan',
-    'Eselon',
-    'Golongan',
-    'Nip/NRP',
-    'Riwayat Pendidikan',
-    'Riwayat Jabatan',
-    'Riwayat Pelatihan Struktural',
-    'Riwayat Pelatihan Fungsional',
-    'Riwayat Pelatihan Teknis',
-    'Riwayat Catatan'
-  ]
+const ListDataPegawai = () => {
+  const router = useRouter()
+  const classes = useStyles()
+  const [data, setData] = useState([])
+
+  const handleRemoveData = (value) => {
+    if (data.length > 1) {
+      const dataFilter = data.filter((item) => {
+        return item?.name !== value?.name
+      })
+      setData(dataFilter)
+    } else {
+      router.back()
+    }
+  }
+
+  useEffect(() => {
+    const storedData = localStorage.getItem('dataPegawai')
+    const retrievedArray = storedData ? JSON.parse(storedData) : []
+    setData(retrievedArray)
+  }, [])
 
   return (
-    <Box
-      sx={{
-        paddingX: 2
-      }}
-    >
-      <TableContainer>
-        <Table>
-          <TableBody>
-            <TableRow className={classes.tableRowClass}>
+    <TableContainer>
+      <Table>
+        <TableBody>
+          {title.map((item, index) => (
+            <TableRow className={classes.tableRowClass} key={index}>
               <TableCell
                 sx={{
-                  maxWidth: '20rem'
+                  minWidth: '200px',
+                  verticalAlign: 'top'
                 }}
-                component='th'
-                align='center'
-              ></TableCell>
-              {imageSource.map((imageSrc, index) => (
-                <TableCell
-                  sx={{
-                    maxWidth: '20rem'
-                  }}
-                  key={index}
-                  align='center'
-                >
-                  <Image
-                    src={imageSrc}
-                    alt='Fhoto Pegawai'
-                    width={150}
-                    height={200}
-                  />
-                </TableCell>
-              ))}
+              >
+                <Typography>{item}</Typography>
+              </TableCell>
+              {data &&
+                data.map((itm, idx) => {
+                  switch (item) {
+                    case '':
+                      return (
+                        <TableCell
+                          key={idx}
+                          align='center'
+                          sx={{
+                            width: `${100 / data.length}%`,
+                            position: 'relative'
+                          }}
+                        >
+                          <Box sx={{ minHeight: '280px' }}>
+                            <Image
+                              src={itm?.image}
+                              alt='Photo Pegawai'
+                              width={150}
+                              height={200}
+                            />
+                            <Typography
+                              fontSize={16}
+                              fontWeight='500'
+                              color='primary'
+                              sx={{ marginTop: '12px' }}
+                            >
+                              {itm?.name}
+                            </Typography>
+                          </Box>
+                          <Box
+                            onClick={() => handleRemoveData(itm)}
+                            sx={{
+                              height: '36px',
+                              width: '36px',
+                              backgroundColor: '#D32F2F',
+                              borderRadius: '8px',
+                              position: 'absolute',
+                              right: 0,
+                              top: 0,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              '&:hover': {
+                                cursor: 'pointer'
+                              }
+                            }}
+                          >
+                            <Close sx={{ fontSize: '22px', color: 'white' }} />
+                          </Box>
+                        </TableCell>
+                      )
+                    case 'Jabatan':
+                      return <CellString value={itm?.position} data={data} />
+                    case 'Eselon':
+                      return <CellString value={itm?.eselon} data={data} />
+                    case 'Golongan':
+                      return <CellString value={itm?.golongan} data={data} />
+                    case 'NIP/NRP':
+                      return <CellString value={itm?.nip} data={data} />
+                    case 'Riwayat Pendidikan':
+                      return (
+                        <CellList value={itm?.riwayatPendidikan} data={data} />
+                      )
+                    case 'Riwayat Jabatan':
+                      return (
+                        <CellList value={itm?.riwayatJabatan} data={data} />
+                      )
+                    case 'Riwayat Pelatihan Struktural':
+                      return (
+                        <CellList
+                          value={itm?.riwayatPelatihanStruktural}
+                          data={data}
+                        />
+                      )
+                    case 'Riwayat Pelatihan Fungsional':
+                      return (
+                        <CellList
+                          value={itm?.riwayatPelatihanFungsional}
+                          data={data}
+                        />
+                      )
+                    case 'Riwayat Pelatihan Teknis':
+                      return (
+                        <CellList
+                          value={itm?.riwayatPelatihanTeknis}
+                          data={data}
+                        />
+                      )
+                    case 'Riwayat Catatan':
+                      return (
+                        <CellString value={itm?.riwayatCatatan} data={data} />
+                      )
+                  }
+                })}
             </TableRow>
-            <TableRow className={classes.tableRowClass}>
-              <TableCell
-                sx={{
-                  maxWidth: '20rem'
-                }}
-                component='th'
-                align='left'
-              ></TableCell>
-              {names.map((name, index) => (
-                <TableCell
-                  sx={{
-                    maxWidth: '20rem'
-                  }}
-                  key={index}
-                  align='center'
-                >
-                  <Typography fontSize={16} fontWeight='500' color='primary'>
-                    {name}
-                  </Typography>
-                </TableCell>
-              ))}
-            </TableRow>
-            {rows.map((row, index) => (
-              <TableRow className={classes.tableRowClass} key={index}>
-                <TableCell
-                  sx={{
-                    maxWidth: '20rem',
-                    verticalAlign: 0
-                  }}
-                  component='th'
-                  align='left'
-                >
-                  {row}
-                </TableCell>
-                {index === 0 &&
-                  jabatan.map((item, index) => (
-                    <TableCell
-                      sx={{
-                        maxWidth: '20rem',
-                        verticalAlign: 0
-                      }}
-                      key={index}
-                      align='left'
-                    >
-                      {item}
-                    </TableCell>
-                  ))}
-                {index === 1 &&
-                  eselon.map((item, index) => (
-                    <TableCell
-                      sx={{
-                        maxWidth: '20rem',
-                        verticalAlign: 0
-                      }}
-                      key={index}
-                      align='left'
-                    >
-                      {item}
-                    </TableCell>
-                  ))}
-                {index === 2 &&
-                  golongan.map((item, index) => (
-                    <TableCell
-                      sx={{
-                        maxWidth: '20rem',
-                        verticalAlign: 0
-                      }}
-                      key={index}
-                      align='left'
-                    >
-                      {item}
-                    </TableCell>
-                  ))}
-                {index === 3 &&
-                  nip.map((item, index) => (
-                    <TableCell
-                      sx={{
-                        maxWidth: '20rem',
-                        verticalAlign: 0
-                      }}
-                      key={index}
-                      align='left'
-                    >
-                      {item}
-                    </TableCell>
-                  ))}
-                {index === 4 &&
-                  riwayatPendidikan?.map((item, index) => (
-                    <TableCell
-                      sx={{
-                        maxWidth: '20rem',
-                        verticalAlign: 0
-                      }}
-                      key={index}
-                      align='left'
-                    >
-                      <ol className={classes.list}>
-                        {item.map((data, index) => (
-                          <li key={index}>
-                            {`${data.jenjang} ${data?.jurusan} (${data.nama}, ${data.tahunLulus})`}
-                          </li>
-                        ))}
-                      </ol>
-                    </TableCell>
-                  ))}
-                {index === 5 &&
-                  riwayatJabatan?.map((item, index) =>
-                    item.length ? (
-                      <TableCell
-                        sx={{
-                          maxWidth: '20rem',
-                          verticalAlign: 0
-                        }}
-                        key={index}
-                        align='left'
-                      >
-                        <ol className={classes.list}>
-                          {item.map((data, index) => (
-                            <li key={index}>{data.jabatan}</li>
-                          ))}
-                        </ol>
-                      </TableCell>
-                    ) : (
-                      <TableCell key={index}>-</TableCell>
-                    )
-                  )}
-                {index === 6 &&
-                  pelatihanStruktural?.map((item, index) =>
-                    item.length ? (
-                      <TableCell
-                        sx={{
-                          maxWidth: '20rem',
-                          verticalAlign: 0
-                        }}
-                        key={index}
-                        align='left'
-                      >
-                        <ol className={classes.list}>
-                          {item.map((data, index) => (
-                            <li key={index}>{data.pelatihan}</li>
-                          ))}
-                        </ol>
-                      </TableCell>
-                    ) : (
-                      <TableCell key={index}>-</TableCell>
-                    )
-                  )}
-                {index === 7 &&
-                  pelatihanFungsional?.map((item, index) =>
-                    item.length ? (
-                      <TableCell
-                        sx={{
-                          maxWidth: '20rem',
-                          verticalAlign: 0
-                        }}
-                        key={index}
-                        align='left'
-                      >
-                        <ol className={classes.list}>
-                          {item.map((data, index) => (
-                            <li key={index}>{data.jabatan}</li>
-                          ))}
-                        </ol>
-                      </TableCell>
-                    ) : (
-                      <TableCell key={index}>-</TableCell>
-                    )
-                  )}
-                {index === 8 &&
-                  pelatihanTeknis?.map((item, index) =>
-                    item.length ? (
-                      <TableCell
-                        sx={{
-                          maxWidth: '20rem',
-                          verticalAlign: 0
-                        }}
-                        key={index}
-                        align='left'
-                      >
-                        <ol className={classes.list}>
-                          {item.map((data, index) => (
-                            <li key={index}>{data.pelatihan}</li>
-                          ))}
-                        </ol>
-                      </TableCell>
-                    ) : (
-                      <TableCell key={index}>-</TableCell>
-                    )
-                  )}
-                {index === 9 &&
-                  riwayatCatatan.map((item, index) => (
-                    <TableCell
-                      sx={{
-                        maxWidth: '20rem',
-                        verticalAlign: 0
-                      }}
-                      key={index}
-                      align='left'
-                    >
-                      {item}
-                    </TableCell>
-                  ))}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Box>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   )
 }
 
-ListDataPegawai.propTypes = {
-  id: PropTypes.array,
-  imageSource: PropTypes.array,
-  names: PropTypes.array,
-  eselon: PropTypes.array,
-  jabatan: PropTypes.array,
-  golongan: PropTypes.array,
-  nip: PropTypes.array,
-  riwayatPendidikan: PropTypes.array,
-  riwayatJabatan: PropTypes.array,
-  pelatihanStruktural: PropTypes.array,
-  pelatihanFungsional: PropTypes.array,
-  pelatihanTeknis: PropTypes.array,
-  riwayatCatatan: PropTypes.array
+const CellString = ({ value, data }) => {
+  return (
+    <TableCell
+      sx={{
+        width: `${100 / data.length}%`,
+        verticalAlign: 'top'
+      }}
+    >
+      <Typography fontSize={16} fontWeight='400'>
+        {value}
+      </Typography>
+    </TableCell>
+  )
+}
+
+const CellList = ({ value, data }) => {
+  if (value.length == 0) {
+    return (
+      <TableCell
+        sx={{
+          width: `${100 / data.length}%`,
+          verticalAlign: 'top'
+        }}
+      >
+        -
+      </TableCell>
+    )
+  }
+
+  return (
+    <TableCell
+      sx={{
+        width: `${100 / data.length}%`,
+        verticalAlign: 'top'
+      }}
+    >
+      <Box>
+        {value.map((item, index) => (
+          <Box key={index} sx={{ display: 'flex', marginBottom: '4px' }}>
+            <Typography
+              fontSize={16}
+              fontWeight='400'
+              sx={{ marginRight: '4px' }}
+            >
+              {`${index + 1}.`}
+            </Typography>
+            <Typography fontSize={16} fontWeight='400'>
+              {item}
+            </Typography>
+          </Box>
+        ))}
+      </Box>
+    </TableCell>
+  )
+}
+
+CellString.propTypes = {
+  value: PropTypes.string,
+  data: PropTypes.array
+}
+
+CellList.propTypes = {
+  value: PropTypes.array,
+  data: PropTypes.array
 }
 
 export default ListDataPegawai
