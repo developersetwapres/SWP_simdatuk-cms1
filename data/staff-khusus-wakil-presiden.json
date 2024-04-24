@@ -1,0 +1,215 @@
+{
+  "position": "Kepala Sekretariat Wakil Presiden",
+  "name": null,
+  "image": null,
+  "eselon": null,
+  "golongan": null,
+  "nip": null,
+  "tmt": null,
+  "isDetail": false,
+  "isProfile": false,
+  "pathDetail": null,
+  "pathProfil": null,
+  "children": [
+    {
+      "type": "CARDPROFILE4",
+      "position": "Staff Khusus Wakil Presiden (Bidang Umum)",
+      "category": "skwpbu",
+      "slot": 1,
+      "children": [
+        {
+          "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "14-11-2019",
+          "isDetail": true,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE4",
+      "position": "Staff Khusus Wakil Presiden (Bidang Komunikasi dan Informasi)",
+      "category": "skwpbkdi",
+      "slot": 1,
+      "children": [
+        {
+          "name": "Drs. Masduki Baidlowi",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "14-11-2019",
+          "isDetail": true,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE4",
+      "position": "Staff Khusus Wakil Presiden (Bidang Hukum)",
+      "category": "skwpbh",
+      "slot": 1,
+      "children": [
+        {
+          "name": "Prof. Dr. Satya Arinanto, S.H., M.H.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "14-11-2019",
+          "isDetail": true,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE4",
+      "position": "Staff Khusus Wakil Presiden (Bidang Politik dan Hubungan Antar Lembaga)",
+      "category": "skwpbpdhal",
+      "slot": 1,
+      "children": [
+        {
+          "name": "Robikin Emhas, S.H., M.H.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "14-11-2019",
+          "isDetail": true,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE4",
+      "position": "Staff Khusus Wakil Presiden (Bidang Ekonomi dan Keuangan)",
+      "category": "skwpbedk",
+      "slot": 1,
+      "children": [
+        {
+          "name": "Dr. Lukmanul Hakim, M.Si.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "14-11-2019",
+          "isDetail": true,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE4",
+      "position": "Staff Khusus Wakil Presiden (Bidang Infrastruktur dan Investasi)",
+      "category": "skwpbidi",
+      "slot": 1,
+      "children": [
+        {
+          "name": "Dr. R. Gatot Prio Utomo",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "01-12-2022",
+          "isDetail": true,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE4",
+      "position": "Staff Khusus Wakil Presiden (Bidang Reformasi Birokrasi)",
+      "category": "skwpbrb",
+      "slot": 1,
+      "children": [
+        {
+          "name": "Prof. H. Mohamad Nasir, Ph.D., Ak.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "14-11-2019",
+          "isDetail": true,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE4",
+      "position": "Staff Khusus Wakil Presiden (Bidang Penanggulangan Kemiskinan dan Otonomi Daerah)",
+      "category": "skwpbpkdod",
+      "slot": 1,
+      "children": [
+        {
+          "name": "Drs. Muhammad Imam Aziz",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "14-11-2019",
+          "isDetail": true,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE4",
+      "position": "Staff Khusus Wakil Presiden",
+      "category": "skwp1",
+      "slot": 1,
+      "children": [
+        {
+          "name": "Prof. Dr. Zumrotul Mukaffa, M.Ag.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "11-12-2022",
+          "isDetail": true,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE4",
+      "position": "Staff Khusus Wakil Presiden",
+      "category": "skwp2",
+      "slot": 1,
+      "children": [
+        {
+          "name": "H. Arif Rahmansyah Marbun, S.E.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "11-12-2022",
+          "isDetail": true,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    }
+  ]
+}

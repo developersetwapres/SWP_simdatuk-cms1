@@ -1,0 +1,242 @@
+{
+  "position": "Pejabat Kemensetneg yang Diperbantukan di Sekretariat Wakil Presiden",
+  "name": null,
+  "image": null,
+  "eselon": null,
+  "golongan": null,
+  "nip": null,
+  "tmt": null,
+  "isDetail": true,
+  "isProfile": true,
+  "pathDetail": null,
+  "pathProfil": "/rekapitulasi/peta-jabatan/detail/1",
+  "children": [
+    {
+      "type": "CARDPROFILE5",
+      "position": "Biro SDM, Deputi Bidang Administrasi Aparatur, Kemensetneg",
+      "category": "dbdkpedpds",
+      "slot": 3,
+      "children": [
+        {
+          "position": "Analis SDM Aparatur Ahli Madya",
+          "name": "Susi Susanti, S.H.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": "Pembina Tingkat I (IV/b), 01-04-2011",
+          "nip": "180004373 / 197011111997032001",
+          "tmt": "22-12-2020",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "position": "Analis Kepegawaian Muda",
+          "name": "Fiman Setiana, S.AP",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": "Penata (III/c), 01-04-2023",
+          "nip": "180004895 / 197903292005011001",
+          "tmt": "02-01-2023",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "position": "Analis Kepegawaian Terampil",
+          "name": "Ade Wahyudin",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": "Pengatur Tingkat I (II/d), 01-04-2019",
+          "nip": "180005172 / 197407052007011006",
+          "tmt": "05-04-2021",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE5",
+      "position": "Bagian Pelayanan Kesehatan, Biro Umum, Setmensesneg",
+      "category": "dbdkpedpds",
+      "slot": 9,
+      "children": [
+        {
+          "position": "Administrator Kesehatan Madya",
+          "name": "Soaduon Hasibuan, S.Sos.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": "Pembina Tingkat I (IV/b), 01-10-2017",
+          "nip": "270000676 / 196312121986021001",
+          "tmt": "22-12-2020",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "position": "Kepala Subbagian Duk. Administrasi Pelayanan Medis II",
+          "name": "Nur Salam Boni, S.E.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": "Penata (III/c), 01-10-2018",
+          "nip": "198705042009121001",
+          "tmt": "22-12-2020",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "position": "Dokter Ahli Madya",
+          "name": "dr. Fatma Melati",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": "Pembina Utama Muda (IV/c), 01-04-2020",
+          "nip": "180005014 / 197901102005012001",
+          "tmt": "20-02-2014",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "position": "Dokter Gigi Ahli Madya",
+          "name": "drg. Paula Fanny Hartono",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": "Pembina Utama Muda (IV/c), 01-04-2016",
+          "nip": "140275437 / 196604171992022001",
+          "tmt": "01-11-2014",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "position": "Perawat Gigi Penyelia",
+          "name": "Jusmanita Dwi Suryani, A.Md.Kes.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": "Penata Tingkat I (III/d), 01-04-2018",
+          "nip": "140303473 / 197202241993102002",
+          "tmt": "20-08-2015",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "position": "Perawat Mahir",
+          "name": "Sri Yuningsih, A.Md.Kep.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": "Penata Muda Tingkat I (III/b), 01-10-2023",
+          "nip": "180004934 / 197806092005012001",
+          "tmt": "13-02-2020",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "position": "Perawat Mahir",
+          "name": "Sri Wahyuningsih, A.Md.Kep.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": "Penata Muda Tingkat I (III/b), 01-10-2023",
+          "nip": "180004935 / 198110212005012001",
+          "tmt": "30-06-2020",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "position": "Asisten Apoteker Terampil",
+          "name": "Mei Desi Irmasari Ompusunggu, A.Md.Farmasi",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": "Pengatur (II/c), 01-02-2020",
+          "nip": "199309042019022001",
+          "tmt": "30-09-2021",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "position": "Pengolah Data pada Subbagian Dukungan Administrasi Pelayanan Medis II",
+          "name": "Firsandhi Achmad",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": "Pengatur (II/c), 01-04-2019",
+          "nip": "198705162010121004",
+          "tmt": "01-07-2021",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE5",
+      "position": "Biro Informasi, Data, dan Teknologi Setmensesneg",
+      "category": "dbdkpedpds",
+      "slot": 1,
+      "children": [
+        {
+          "position": "Manggala Informatika Ahli Pertama",
+          "name": "Thoriq Rahmat Hidayat, S.Tr.TP",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": "Penata Muda (III/a), 01-12-2017",
+          "nip": "199409132017121005",
+          "tmt": "15-02-2023",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE5",
+      "position": "Pusat Pengembangan Kompentensi ASN, Kemensetneg",
+      "category": "dbdkpedpds",
+      "slot": 2,
+      "children": [
+        {
+          "position": "Pustakawan Ahli Muda",
+          "name": "Dra. Fajar Meilani, M.M.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": "Pembina (IV/a), 01-04-2017",
+          "nip": "760000377 / 196605021994032001",
+          "tmt": "22-12-2020",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "position": "Pustakawan Ahli Muda",
+          "name": "Dra. Arvi Anrosa",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": "Penata Tingkat I (III/d), 01-04-2005",
+          "nip": "180004288 / 196804141996032001",
+          "tmt": "22-12-2020",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    }
+  ]
+}
