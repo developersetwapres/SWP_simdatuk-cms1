@@ -1,0 +1,1701 @@
+[
+  {
+    "title": "Unit Kerja",
+    "children": [
+      {
+        "title": "Kepala Sekretariat Wakil Presiden",
+        "category": "kepala-sekretariat-wakil-presiden",
+        "count": 1,
+        "children": []
+      },
+      {
+        "title": "Deputi Bidang Dukungan Kebijakan Pembangunan Ekonomi dan Peningkatan Daya Saing",
+        "category": "deputi-bidang-dukungan-kebijakan-pembangunan-ekonomi-dan-peningkatan-data-saing",
+        "count": 24,
+        "children": []
+      },
+      {
+        "title": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+        "category": "deputi-bidang-dukungan-kebijakan-pembangunan-manusia-dan-pemerataan-pembangunan",
+        "count": 26,
+        "children": []
+      },
+      {
+        "title": "Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan",
+        "category": "deputi-bidang-dukungan-kebijakan-pemerintahan-dan-wawasan-kebangsaan",
+        "count": 31,
+        "children": []
+      },
+      {
+        "title": "Deputi Bidang Administrasi",
+        "category": "deputi-bidang-administrasi",
+        "count": 186,
+        "children": []
+      },
+      {
+        "title": "Kementerian Sekretariat Negara",
+        "category": "kementrian-sekretariat-negara",
+        "count": 15,
+        "children": []
+      }
+    ]
+  },
+  {
+    "title": "Keterangan Jabatan",
+    "children": [
+      {
+        "title": "Jabatan Pimpinan Tinggi",
+        "category": "jabatan-pimpinan-tinggi",
+        "count": 19,
+        "children": [
+          {
+            "title": null,
+            "children": [
+              {
+                "title": "Pimpinan Tinggi Madya",
+                "category": "pimpinan-tinggi-madya",
+                "count": 4,
+                "children": [
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Ekonomi dan Keuangan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Lutfie, S.E., M.M.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 13-02-2018",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2022",
+                        "nip": "196809261994031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Industri, Perdagangan, Pariwisata, dan Ekonomi Kreatif",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Drs. Abdul Mu’is",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 29-01-2014",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2019",
+                        "nip": "196605111995031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Infrastruktur, Ketahanan Energi, dan Sumber Daya Alam",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Celvya Betty Manurung, S.IP., M.P.M.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 11-01-2013",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2018",
+                        "nip": "180004042 / 196809271995032001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Kepala Subbagian Dukungan Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ayu Pudianingtias, S.E., M.P.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. IV, 02-05-2018",
+                        "golongan": "Penata Tingkat I (III/d), 01-04-2023",
+                        "nip": "1800005504 / 198806042010122004",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Madya",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sri Komsiyatun, S.E., MAk.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina Tingkat I (IV/b), 01-04-2022",
+                        "nip": "180005043 / 198109032006042003",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Madya",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sri Komsiyatun, S.E., MAk.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina Tingkat I (IV/b), 01-04-2022",
+                        "nip": "180005043 / 198109032006042003",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Muda",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Rahma Dewi S.IP., M.E.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina (IV/a), 01-04-2021",
+                        "nip": "180004789 / 198201122005012001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Muda",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Rahma Dewi S.IP., M.E.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina (IV/a), 01-04-2021",
+                        "nip": "180004789 / 198201122005012001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Pimpinan Tinggi Pratama",
+                "category": "pimpinan-tinggi-pratama",
+                "count": 15,
+                "children": [
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Ekonomi dan Keuangan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Lutfie, S.E., M.M.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 13-02-2018",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2022",
+                        "nip": "196809261994031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Industri, Perdagangan, Pariwisata, dan Ekonomi Kreatif",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Drs. Abdul Mu’is",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 29-01-2014",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2019",
+                        "nip": "196605111995031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Infrastruktur, Ketahanan Energi, dan Sumber Daya Alam",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Celvya Betty Manurung, S.IP., M.P.M.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 11-01-2013",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2018",
+                        "nip": "180004042 / 196809271995032001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Kepala Subbagian Dukungan Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ayu Pudianingtias, S.E., M.P.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. IV, 02-05-2018",
+                        "golongan": "Penata Tingkat I (III/d), 01-04-2023",
+                        "nip": "1800005504 / 198806042010122004",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Madya",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sri Komsiyatun, S.E., MAk.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina Tingkat I (IV/b), 01-04-2022",
+                        "nip": "180005043 / 198109032006042003",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Madya",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sri Komsiyatun, S.E., MAk.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina Tingkat I (IV/b), 01-04-2022",
+                        "nip": "180005043 / 198109032006042003",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Muda",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Rahma Dewi S.IP., M.E.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina (IV/a), 01-04-2021",
+                        "nip": "180004789 / 198201122005012001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Muda",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Rahma Dewi S.IP., M.E.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina (IV/a), 01-04-2021",
+                        "nip": "180004789 / 198201122005012001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Jabatan Administrasi",
+        "category": "jabatan-administrasi",
+        "count": 128,
+        "children": [
+          {
+            "title": null,
+            "children": [
+              {
+                "title": "administrator",
+                "category": "administrator",
+                "count": 10,
+                "children": [
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Ekonomi dan Keuangan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Lutfie, S.E., M.M.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 13-02-2018",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2022",
+                        "nip": "196809261994031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Industri, Perdagangan, Pariwisata, dan Ekonomi Kreatif",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Drs. Abdul Mu’is",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 29-01-2014",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2019",
+                        "nip": "196605111995031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Infrastruktur, Ketahanan Energi, dan Sumber Daya Alam",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Celvya Betty Manurung, S.IP., M.P.M.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 11-01-2013",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2018",
+                        "nip": "180004042 / 196809271995032001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Kepala Subbagian Dukungan Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ayu Pudianingtias, S.E., M.P.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. IV, 02-05-2018",
+                        "golongan": "Penata Tingkat I (III/d), 01-04-2023",
+                        "nip": "1800005504 / 198806042010122004",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Madya",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sri Komsiyatun, S.E., MAk.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina Tingkat I (IV/b), 01-04-2022",
+                        "nip": "180005043 / 198109032006042003",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Madya",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sri Komsiyatun, S.E., MAk.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina Tingkat I (IV/b), 01-04-2022",
+                        "nip": "180005043 / 198109032006042003",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Muda",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Rahma Dewi S.IP., M.E.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina (IV/a), 01-04-2021",
+                        "nip": "180004789 / 198201122005012001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Muda",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Rahma Dewi S.IP., M.E.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina (IV/a), 01-04-2021",
+                        "nip": "180004789 / 198201122005012001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Pengawas",
+                "category": "pengawas",
+                "count": 23,
+                "children": [
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Ekonomi dan Keuangan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Lutfie, S.E., M.M.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 13-02-2018",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2022",
+                        "nip": "196809261994031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Industri, Perdagangan, Pariwisata, dan Ekonomi Kreatif",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Drs. Abdul Mu’is",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 29-01-2014",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2019",
+                        "nip": "196605111995031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Infrastruktur, Ketahanan Energi, dan Sumber Daya Alam",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Celvya Betty Manurung, S.IP., M.P.M.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 11-01-2013",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2018",
+                        "nip": "180004042 / 196809271995032001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Kepala Subbagian Dukungan Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ayu Pudianingtias, S.E., M.P.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. IV, 02-05-2018",
+                        "golongan": "Penata Tingkat I (III/d), 01-04-2023",
+                        "nip": "1800005504 / 198806042010122004",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Madya",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sri Komsiyatun, S.E., MAk.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina Tingkat I (IV/b), 01-04-2022",
+                        "nip": "180005043 / 198109032006042003",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Madya",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sri Komsiyatun, S.E., MAk.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina Tingkat I (IV/b), 01-04-2022",
+                        "nip": "180005043 / 198109032006042003",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Muda",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Rahma Dewi S.IP., M.E.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina (IV/a), 01-04-2021",
+                        "nip": "180004789 / 198201122005012001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Muda",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Rahma Dewi S.IP., M.E.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina (IV/a), 01-04-2021",
+                        "nip": "180004789 / 198201122005012001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Pelaksana",
+                "category": "pelaksana",
+                "count": 95,
+                "children": [
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Ekonomi dan Keuangan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Lutfie, S.E., M.M.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 13-02-2018",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2022",
+                        "nip": "196809261994031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Industri, Perdagangan, Pariwisata, dan Ekonomi Kreatif",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Drs. Abdul Mu’is",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 29-01-2014",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2019",
+                        "nip": "196605111995031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Infrastruktur, Ketahanan Energi, dan Sumber Daya Alam",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Celvya Betty Manurung, S.IP., M.P.M.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 11-01-2013",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2018",
+                        "nip": "180004042 / 196809271995032001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Kepala Subbagian Dukungan Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ayu Pudianingtias, S.E., M.P.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. IV, 02-05-2018",
+                        "golongan": "Penata Tingkat I (III/d), 01-04-2023",
+                        "nip": "1800005504 / 198806042010122004",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Madya",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sri Komsiyatun, S.E., MAk.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina Tingkat I (IV/b), 01-04-2022",
+                        "nip": "180005043 / 198109032006042003",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Madya",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sri Komsiyatun, S.E., MAk.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina Tingkat I (IV/b), 01-04-2022",
+                        "nip": "180005043 / 198109032006042003",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Muda",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Rahma Dewi S.IP., M.E.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina (IV/a), 01-04-2021",
+                        "nip": "180004789 / 198201122005012001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Muda",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Rahma Dewi S.IP., M.E.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina (IV/a), 01-04-2021",
+                        "nip": "180004789 / 198201122005012001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Jabatan Fungsional",
+        "category": "jabatan-fungsional",
+        "count": 121,
+        "children": [
+          {
+            "title": "Keahlian",
+            "children": [
+              {
+                "title": "Ahli Utama",
+                "category": "ahli-utama",
+                "count": 0,
+                "children": []
+              },
+              {
+                "title": "Ahli Madya",
+                "category": "ahli-madya",
+                "count": 33,
+                "children": [
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Ekonomi dan Keuangan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Lutfie, S.E., M.M.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 13-02-2018",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2022",
+                        "nip": "196809261994031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Industri, Perdagangan, Pariwisata, dan Ekonomi Kreatif",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Drs. Abdul Mu’is",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 29-01-2014",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2019",
+                        "nip": "196605111995031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Infrastruktur, Ketahanan Energi, dan Sumber Daya Alam",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Celvya Betty Manurung, S.IP., M.P.M.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 11-01-2013",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2018",
+                        "nip": "180004042 / 196809271995032001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Kepala Subbagian Dukungan Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ayu Pudianingtias, S.E., M.P.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. IV, 02-05-2018",
+                        "golongan": "Penata Tingkat I (III/d), 01-04-2023",
+                        "nip": "1800005504 / 198806042010122004",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Madya",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sri Komsiyatun, S.E., MAk.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina Tingkat I (IV/b), 01-04-2022",
+                        "nip": "180005043 / 198109032006042003",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Madya",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sri Komsiyatun, S.E., MAk.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina Tingkat I (IV/b), 01-04-2022",
+                        "nip": "180005043 / 198109032006042003",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Muda",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Rahma Dewi S.IP., M.E.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina (IV/a), 01-04-2021",
+                        "nip": "180004789 / 198201122005012001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Muda",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Rahma Dewi S.IP., M.E.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina (IV/a), 01-04-2021",
+                        "nip": "180004789 / 198201122005012001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Ahli Muda",
+                "category": "ahli-muda",
+                "count": 68,
+                "children": [
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Ekonomi dan Keuangan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Lutfie, S.E., M.M.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 13-02-2018",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2022",
+                        "nip": "196809261994031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Industri, Perdagangan, Pariwisata, dan Ekonomi Kreatif",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Drs. Abdul Mu’is",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 29-01-2014",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2019",
+                        "nip": "196605111995031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Infrastruktur, Ketahanan Energi, dan Sumber Daya Alam",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Celvya Betty Manurung, S.IP., M.P.M.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 11-01-2013",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2018",
+                        "nip": "180004042 / 196809271995032001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Kepala Subbagian Dukungan Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ayu Pudianingtias, S.E., M.P.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. IV, 02-05-2018",
+                        "golongan": "Penata Tingkat I (III/d), 01-04-2023",
+                        "nip": "1800005504 / 198806042010122004",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Madya",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sri Komsiyatun, S.E., MAk.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina Tingkat I (IV/b), 01-04-2022",
+                        "nip": "180005043 / 198109032006042003",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Madya",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sri Komsiyatun, S.E., MAk.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina Tingkat I (IV/b), 01-04-2022",
+                        "nip": "180005043 / 198109032006042003",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Muda",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Rahma Dewi S.IP., M.E.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina (IV/a), 01-04-2021",
+                        "nip": "180004789 / 198201122005012001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Muda",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Rahma Dewi S.IP., M.E.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina (IV/a), 01-04-2021",
+                        "nip": "180004789 / 198201122005012001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Ahli Pertama",
+                "category": "ahli-pertama",
+                "count": 12,
+                "children": [
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Ekonomi dan Keuangan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Lutfie, S.E., M.M.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 13-02-2018",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2022",
+                        "nip": "196809261994031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Industri, Perdagangan, Pariwisata, dan Ekonomi Kreatif",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Drs. Abdul Mu’is",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 29-01-2014",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2019",
+                        "nip": "196605111995031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Infrastruktur, Ketahanan Energi, dan Sumber Daya Alam",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Celvya Betty Manurung, S.IP., M.P.M.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 11-01-2013",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2018",
+                        "nip": "180004042 / 196809271995032001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Kepala Subbagian Dukungan Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ayu Pudianingtias, S.E., M.P.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. IV, 02-05-2018",
+                        "golongan": "Penata Tingkat I (III/d), 01-04-2023",
+                        "nip": "1800005504 / 198806042010122004",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Madya",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sri Komsiyatun, S.E., MAk.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina Tingkat I (IV/b), 01-04-2022",
+                        "nip": "180005043 / 198109032006042003",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Madya",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sri Komsiyatun, S.E., MAk.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina Tingkat I (IV/b), 01-04-2022",
+                        "nip": "180005043 / 198109032006042003",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Muda",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Rahma Dewi S.IP., M.E.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina (IV/a), 01-04-2021",
+                        "nip": "180004789 / 198201122005012001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Muda",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Rahma Dewi S.IP., M.E.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina (IV/a), 01-04-2021",
+                        "nip": "180004789 / 198201122005012001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Keteramplan",
+            "children": [
+              {
+                "title": "Penyelia",
+                "category": "penyelia",
+                "count": 4,
+                "children": [
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Ekonomi dan Keuangan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Lutfie, S.E., M.M.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 13-02-2018",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2022",
+                        "nip": "196809261994031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Industri, Perdagangan, Pariwisata, dan Ekonomi Kreatif",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Drs. Abdul Mu’is",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 29-01-2014",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2019",
+                        "nip": "196605111995031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Infrastruktur, Ketahanan Energi, dan Sumber Daya Alam",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Celvya Betty Manurung, S.IP., M.P.M.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 11-01-2013",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2018",
+                        "nip": "180004042 / 196809271995032001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Kepala Subbagian Dukungan Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ayu Pudianingtias, S.E., M.P.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. IV, 02-05-2018",
+                        "golongan": "Penata Tingkat I (III/d), 01-04-2023",
+                        "nip": "1800005504 / 198806042010122004",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Madya",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sri Komsiyatun, S.E., MAk.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina Tingkat I (IV/b), 01-04-2022",
+                        "nip": "180005043 / 198109032006042003",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Madya",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sri Komsiyatun, S.E., MAk.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina Tingkat I (IV/b), 01-04-2022",
+                        "nip": "180005043 / 198109032006042003",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Muda",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Rahma Dewi S.IP., M.E.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina (IV/a), 01-04-2021",
+                        "nip": "180004789 / 198201122005012001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Muda",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Rahma Dewi S.IP., M.E.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina (IV/a), 01-04-2021",
+                        "nip": "180004789 / 198201122005012001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Mahir",
+                "category": "mahir",
+                "count": 0,
+                "children": []
+              },
+              {
+                "title": "Terampil",
+                "category": "terampil",
+                "count": 4,
+                "children": [
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Ekonomi dan Keuangan",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ahmad Lutfie, S.E., M.M.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 13-02-2018",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2022",
+                        "nip": "196809261994031001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Industri, Perdagangan, Pariwisata, dan Ekonomi Kreatif",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Drs. Abdul Mu’is",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 29-01-2014",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2019",
+                        "nip": "196605111995031002",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Asisten Deputi Infrastruktur, Ketahanan Energi, dan Sumber Daya Alam",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Celvya Betty Manurung, S.IP., M.P.M.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. II.a, 11-01-2013",
+                        "golongan": "Pembina Utama Madya (IV/d) 01-04-2018",
+                        "nip": "180004042 / 196809271995032001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Kepala Subbagian Dukungan Administrasi",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Ayu Pudianingtias, S.E., M.P.A.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "Es. IV, 02-05-2018",
+                        "golongan": "Penata Tingkat I (III/d), 01-04-2023",
+                        "nip": "1800005504 / 198806042010122004",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Madya",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sri Komsiyatun, S.E., MAk.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina Tingkat I (IV/b), 01-04-2022",
+                        "nip": "180005043 / 198109032006042003",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Madya",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Sri Komsiyatun, S.E., MAk.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina Tingkat I (IV/b), 01-04-2022",
+                        "nip": "180005043 / 198109032006042003",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Muda",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Rahma Dewi S.IP., M.E.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina (IV/a), 01-04-2021",
+                        "nip": "180004789 / 198201122005012001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PROFILE1",
+                    "position": "Ahli Muda",
+                    "slot": 1,
+                    "children": [
+                      {
+                        "name": "Rahma Dewi S.IP., M.E.",
+                        "image": "/simdatuk/imagePegawai.png",
+                        "eselon": "-",
+                        "golongan": "Pembina (IV/a), 01-04-2021",
+                        "nip": "180004789 / 198201122005012001",
+                        "tmt": "14-11-1999",
+                        "isDetail": false,
+                        "isProfile": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Pemula",
+                "category": "pemula",
+                "count": 0,
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Golongan",
+    "children": [
+      {
+        "title": "Pembina Utama (IV/e)",
+        "category": "pembina-utama-IV/e",
+        "count": 3,
+        "children": []
+      },
+      {
+        "title": "Pembina Utama Madya (IV/d)",
+        "category": "pembina-utama-madya-IV/e",
+        "count": 8,
+        "children": []
+      },
+      {
+        "title": "Pembina Utama Muda (IV/c)",
+        "category": "pembina-utama-muda-IV/c",
+        "count": 7,
+        "children": []
+      },
+      {
+        "title": "Pembina Tingkat I (IV/b)",
+        "category": "pembina-tingkat-I-IV/b",
+        "count": 41,
+        "children": []
+      },
+      {
+        "title": "Pembina (IV/a)",
+        "category": "pembina-IV/a",
+        "count": 34,
+        "children": []
+      },
+      {
+        "title": "Penata Tingkat I (III/d)",
+        "category": "penanta-tingkat-I-III/d",
+        "count": 59,
+        "children": []
+      },
+      {
+        "title": "Penata (III/c)",
+        "category": "penanta-III/c",
+        "count": 24,
+        "children": []
+      },
+      {
+        "title": "Penata Muda Tingkat I (III/b)",
+        "category": "penanta-muda-tingkat-I-III/c",
+        "count": 24,
+        "children": []
+      },
+      {
+        "title": "Penata Muda (III/a)",
+        "category": "penanta-muda-III/a",
+        "count": 30,
+        "children": []
+      },
+      {
+        "title": "Pengatur Tingkat I (II/d)",
+        "category": "pengatur-tingkat-I-III/d",
+        "count": 27,
+        "children": []
+      },
+      {
+        "title": "Pengatur (II/c)",
+        "category": "pengatur-III/c",
+        "count": 15,
+        "children": []
+      },
+      {
+        "title": "Pengatur Muda Tingkat I (II/b)",
+        "category": "pengatur-muda-tingkat-I-III/b",
+        "count": 9,
+        "children": []
+      },
+      {
+        "title": "Pengatur Muda (II/a)",
+        "category": "pengatur-muda-III/a",
+        "count": 2,
+        "children": []
+      }
+    ]
+  },
+  {
+    "title": "Pegawai Non Aktif",
+    "children": [
+      {
+        "title": "Tugas Belajar Luar Negeri (TBLN)",
+        "category": "tugas-belajar-luar-negeri-tbln",
+        "count": 3,
+        "children": []
+      },
+      {
+        "title": "Cuti Diluar Tanggungan Negara (CLTN)",
+        "category": "cuti-diluar-tanggungan-negara-cltn",
+        "count": 3,
+        "children": []
+      }
+    ]
+  },
+  {
+    "title": "Pendidikan ",
+    "children": [
+      {
+        "title": "Strata III",
+        "category": "strata-III",
+        "count": 8,
+        "children": []
+      },
+      {
+        "title": "Strata II",
+        "category": "strata-II",
+        "count": 96,
+        "children": []
+      },
+      {
+        "title": "Diploma IV/Strata I",
+        "category": "diploma-IV/Strata-I",
+        "count": 92,
+        "children": []
+      },
+      {
+        "title": "Akademi/Diploma III/Sarjana Muda",
+        "category": "akademi/diploma-III/sarjana-muda",
+        "count": 18,
+        "children": []
+      },
+      {
+        "title": "Diploma I/II",
+        "category": "diploma-I/II",
+        "count": 1,
+        "children": []
+      },
+      {
+        "title": "SLTA/Sederajat",
+        "category": "slta/sederajat",
+        "count": 67,
+        "children": []
+      },
+      {
+        "title": "SLTP/Sederajat",
+        "category": "sltp/sederajat",
+        "count": 1,
+        "children": []
+      }
+    ]
+  },
+  {
+    "title": "Jenis Kelamin",
+    "children": [
+      {
+        "title": "laki-laki",
+        "category": "laki-laki",
+        "count": 151,
+        "children": []
+      },
+      {
+        "title": "Perempuan",
+        "category": "perempuan",
+        "count": 132,
+        "children": []
+      }
+    ]
+  }
+]
