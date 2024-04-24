@@ -18,12 +18,11 @@ export async function getServerSideProps(ctx) {
   }
 
   const datas = getDataFromFile(employment)
-  const dataFilter = datas.map((item) => ({
-    ...item,
-    children: item?.children.filter(
-      (itm) => itm?.category == atob(subEmployment)
-    )
-  }))
+  const dataFilter = datas.filter((item) => {
+    return item?.children.some((itm) => {
+      if (itm?.category == atob(subEmployment)) return item
+    })
+  })
   const data = dataFilter.length > 0 ? dataFilter[0]?.children[0] : []
 
   return { props: { data } }

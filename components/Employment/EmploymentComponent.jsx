@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import EmploymentLayout from './EmploymentLayout'
@@ -79,19 +80,19 @@ const EmploymentComponent = (props) => {
                   {handleGetCountEmployee([item])}
                 </Typography>
               </Box>
-              <Grid
-                container
-                spacing={3}
-                alignItems='start'
-                justifyContent='space-between'
-              >
+              <Grid container spacing={3}>
                 {item?.children.map((itm, idx) => (
                   <Grid
                     item
                     key={idx}
                     xs={6}
-                    sm={item?.children.length > 2 ? 4 : 6}
-                    md={item?.children.length > 2 ? 3 : 6}
+                    sm={
+                      item?.children.length == 2
+                        ? 6
+                        : item?.children.length == 3
+                        ? 4
+                        : 3
+                    }
                   >
                     <CardEmployment
                       data={itm}
