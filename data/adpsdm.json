@@ -1,0 +1,81 @@
+{
+  "position": "Asisten Deputi Pembangunan Sumber Daya Manusia",
+  "name": "Tuti Trihastuti Sukardi, S.H., M.Si., M.H.",
+  "image": "/simdatuk/imagePegawai.png",
+  "eselon": "Es. II.a, 13-02-2018",
+  "golongan": "Pembina Utama Madya (IV/d), 01-04-2023",
+  "nip": "040071180 / 197405171998032001",
+  "tmt": null,
+  "isDetail": false,
+  "isProfile": true,
+  "pathDetail": null,
+  "pathProfil": "/rekapitulasi/peta-jabatan/detail/1",
+  "children": [
+    {
+      "type": "CARDJOBS",
+      "position": "Jabatan Fungsional",
+      "children": [
+        {
+          "title": "Analisi Kebijakan",
+          "jobs": [
+            {
+              "title": "Ahli Madya",
+              "slot": 3,
+              "children": []
+            },
+            {
+              "title": "Ahli Muda",
+              "slot": 4,
+              "children": []
+            },
+            {
+              "title": "Ahli Pertama",
+              "slot": 1,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE1",
+      "position": "Kepala Subbagian Dukungan Administrasi",
+      "category": "ksda-5",
+      "slot": 1,
+      "children": [
+        {
+          "name": "Desi Uli Pasaribu, S.AP., M.P.P.M.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": "Es. IV.a, 18-02-2022",
+          "golongan": "Penata Tingkat I (III/d), 01-04-2021",
+          "nip": "180005401 / 198512292009012001",
+          "tmt": null,
+          "isDetail": true,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE1",
+      "position": "Penyusun Bahan Kebijakan",
+      "category": "pbk",
+      "slot": 0,
+      "children": [
+        {
+          "name": null,
+          "image": null,
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": null,
+          "isDetail": false,
+          "isProfile": false,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    }
+  ]
+}

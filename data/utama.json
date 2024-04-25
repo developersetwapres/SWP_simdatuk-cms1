@@ -8,7 +8,7 @@
   "tmt": "14-11-1999",
   "isDetail": true,
   "isProfile": true,
-  "pathDetail": null,
+  "pathDetail": "kswp",
   "pathProfil": "/rekapitulasi/peta-jabatan/detail/1",
   "children": [
     {
@@ -24,9 +24,9 @@
           "golongan": null,
           "nip": null,
           "tmt": "14-11-1999",
-          "isDetail": false,
+          "isDetail": true,
           "isProfile": false,
-          "pathDetail": null,
+          "pathDetail": "dbdkpedpds",
           "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
         }
       ]
@@ -46,7 +46,7 @@
           "tmt": "14-11-1999",
           "isDetail": true,
           "isProfile": true,
-          "pathDetail": null,
+          "pathDetail": "dbdkpmdpp",
           "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
         }
       ]
@@ -66,7 +66,7 @@
           "tmt": "14-11-1999",
           "isDetail": true,
           "isProfile": true,
-          "pathDetail": null,
+          "pathDetail": "dbdkpdwk",
           "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
         }
       ]
@@ -86,7 +86,7 @@
           "tmt": "14-11-1999",
           "isDetail": true,
           "isProfile": true,
-          "pathDetail": null,
+          "pathDetail": "dba",
           "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
         }
       ]

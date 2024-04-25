@@ -1,4 +1,5 @@
 {
+  "type": "CARDPROFILE4",
   "position": "Asisten Staff Khusus Wakil Presiden",
   "name": "Fiqih Radito",
   "image": "/simdatuk/imagePegawai.png",
@@ -12,7 +13,7 @@
   "pathProfil": "/rekapitulasi/peta-jabatan/detail/1",
   "children": [
     {
-      "type": "CARDPROFILE1",
+      "type": "CARDPROFILE4",
       "position": "Pembantu Asisten Staff Khusus Wakil Presiden (BANAS I)",
       "category": "paskwpbI",
       "slot": 1,
@@ -32,7 +33,7 @@
       ]
     },
     {
-      "type": "CARDPROFILE1",
+      "type": "CARDPROFILE4",
       "position": "Pembantu Asisten Staff Khusus Wakil Presiden (BANAS II)",
       "category": "paskwpbII",
       "slot": 1,
@@ -52,7 +53,7 @@
       ]
     },
     {
-      "type": "CARDPROFILE1",
+      "type": "CARDPROFILE4",
       "position": "Pembantu Asisten Staff Khusus Wakil Presiden (BANAS III)",
       "category": "paskwpbIII",
       "slot": 1,
@@ -72,7 +73,7 @@
       ]
     },
     {
-      "type": "CARDPROFILE1",
+      "type": "CARDPROFILE4",
       "position": "Pembantu Asisten Staff Khusus Wakil Presiden (BANAS IV)",
       "category": "paskwpbIV",
       "slot": 1,
@@ -92,7 +93,7 @@
       ]
     },
     {
-      "type": "CARDPROFILE1",
+      "type": "CARDPROFILE4",
       "position": "Pembantu Asisten Staff Khusus Wakil Presiden (BANAS V)",
       "category": "paskwpbV",
       "slot": 1,
@@ -112,7 +113,7 @@
       ]
     },
     {
-      "type": "CARDPROFILE1",
+      "type": "CARDPROFILE4",
       "position": "Pembantu Asisten Staff Khusus Wakil Presiden (BANAS VI)",
       "category": "paskwpbVI",
       "slot": 1,

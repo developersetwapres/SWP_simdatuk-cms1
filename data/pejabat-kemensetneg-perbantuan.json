@@ -6,8 +6,8 @@
   "golongan": null,
   "nip": null,
   "tmt": null,
-  "isDetail": true,
-  "isProfile": true,
+  "isDetail": false,
+  "isProfile": false,
   "pathDetail": null,
   "pathProfil": "/rekapitulasi/peta-jabatan/detail/1",
   "children": [

@@ -1,0 +1,369 @@
+{
+  "position": "Kepala Sekretariat Wakil Presiden",
+  "name": "Ahmad Erani Yustika, S.E., M.Sc., Ph.D.",
+  "image": "/simdatuk/imagePegawai.png",
+  "eselon": " Es. I.a., 25-01-2021",
+  "golongan": "Pembina Utama Madya (IV/d), 01-04-2017",
+  "nip": "197303221997021001",
+  "tmt": null,
+  "isDetail": true,
+  "isProfile": true,
+  "pathDetail": "kswp2",
+  "pathProfil": "/rekapitulasi/peta-jabatan/detail/1",
+  "children": [
+    {
+      "type": "CARDPROFILE2",
+      "position": "Ajudan Wakil Presiden",
+      "category": "awp",
+      "slot": 4,
+      "children": [
+        {
+          "name": "Kolonel Inf Fierman Sjafirial Agustus",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": "11980047210876",
+          "tmt": "20-10-2019",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "name": "Kombes Pol Wahyu Sri Bintoro, S.H., S.l.K., M.Si.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": "77040603",
+          "tmt": "17-02-2022",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "name": "Kolonel Pnb Trinanda Hasan F.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": "526231",
+          "tmt": "24-11-2022",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "name": "Kolonel Laut (P) Dedi Komarudin, S.H.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": "14842/P",
+          "tmt": "09-08-2023",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE2",
+      "position": "Ajudan Istri Wakil Presiden",
+      "category": "aiwp",
+      "slot": 4,
+      "children": [
+        {
+          "name": "Lettu Ckm (K) Anita Putri Ayu Sulkanto, S.Gz.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": "11150025760192",
+          "tmt": "20-10-2019",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "name": "Lettu Laut (K/W) Tryastika Minarni Raharja, A.Mk.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": "21184/P",
+          "tmt": "20-10-2019",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "name": "Lettu Kes Eka Astuti H, S.Farm.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": "542444",
+          "tmt": "20-10-2019",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "name": "Iptu Dwi Astri Christyningrum, S.E.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": "85080055",
+          "tmt": "20-10-2019",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE2",
+      "position": "Dokter Pribadi Wakil Presiden",
+      "category": "dpwp",
+      "slot": 4,
+      "children": [
+        {
+          "name": "Kolonel Laut (K) dr. Widya Wirawan, Sp.PD",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": "13559/P",
+          "tmt": "06-04-2020",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "name": "Kolonel Kes dr. Miftahul Firdos, Sp.S.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": "514593",
+          "tmt": "06-04-2020",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "name": "Kolonel (CKM) dr. Nursuandy Indra Djaya, Sp.OT.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": "11970008781069",
+          "tmt": "30-09-2021",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "name": "AKBP dr. Supono, Sp. JP",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": "78020933",
+          "tmt": "19-12-2022",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE2",
+      "position": "Anggota Tim Ahli Wakil Presiden",
+      "category": "atawp",
+      "slot": 12,
+      "children": [
+        {
+          "name": "Abdul Rasyid",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "02-12-2019",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "name": "Andre Sukendra Atmadja",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "02-12-2019",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "name": "Arif Rahman",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "09-01-2023",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "name": "Berlin Haposan Manurung",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "02-12-2019",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "name": "Farhat Brachma",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "02-12-2019",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "name": "Herman Widjojo",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "02-12-2019",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "name": "Iggi Haruman Achsien",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "02-12-2019",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "name": "Johan Tedja Surya",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "02-12-2019",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "name": "Mochamad Iriawan",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "02-12-2019",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "name": "Nurdin Tampubolon",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "02-12-2019",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "name": "Saleh Husin",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "02-12-2019",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "name": "Sukriansyah S. Latief ",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "09-01-2023",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE2",
+      "position": "Staff Pendukung Wakil Presiden",
+      "category": "spwp",
+      "slot": 2,
+      "children": [
+        {
+          "name": "Mumtazah",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "position": "Staf pada Sekretaris Pribadi Istri Wakil Presiden",
+          "nip": null,
+          "tmt": "02-12-2019",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        },
+        {
+          "name": "Habibah",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "position": "Staf Kerumahtanggaan pada Kediaman Wakil Presiden",
+          "nip": null,
+          "tmt": "01-08-2021",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    }
+  ]
+}

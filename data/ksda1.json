@@ -1,0 +1,66 @@
+{
+  "position": "Kepala Subbagian Dukungan Administrasi",
+  "name": "Ayu Pudianingtias, S.E., M.P.A.",
+  "image": "/simdatuk/imagePegawai.png",
+  "eselon": "Es. IV, 02-05-2018",
+  "golongan": "Penata Tingkat I (III/d), 01-04-2023",
+  "nip": "1800005504 / 198806042010122004",
+  "tmt": null,
+  "isDetail": false,
+  "isProfile": true,
+  "pathDetail": null,
+  "pathProfil": "/rekapitulasi/peta-jabatan/detail/1",
+  "children": [
+    {
+      "type": "CARDJOBS",
+      "position": "Jabatan Fungsional",
+      "children": [
+        {
+          "title": "Arsiparis",
+          "jobs": [
+            {
+              "title": "Ahli Pertama",
+              "slot": 0,
+              "children": []
+            },
+            {
+              "title": "Penyelia",
+              "slot": 0,
+              "children": []
+            },
+            {
+              "title": "Mahir",
+              "slot": 0,
+              "children": []
+            },
+            {
+              "title": "Terampil",
+              "slot": 0,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE1",
+      "position": "Analis Tata Usaha / Pengolah Data / Pengadministrasi Umum",
+      "category": "atupdpu",
+      "slot": 0,
+      "children": [
+        {
+          "name": null,
+          "image": null,
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": null,
+          "isDetail": false,
+          "isProfile": false,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    }
+  ]
+}

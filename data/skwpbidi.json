@@ -1,4 +1,5 @@
 {
+  "type": "CARDPROFILE4",
   "position": "Staff Khusus Wakil Presiden (Bidang Infrastruktur dan Investasi)",
   "name": "Dr. R. Gatot Prio Utomo",
   "image": "/simdatuk/imagePegawai.png",
@@ -12,7 +13,7 @@
   "pathProfil": "/rekapitulasi/peta-jabatan/detail/1",
   "children": [
     {
-      "type": "CARDPROFILE1",
+      "type": "CARDPROFILE4",
       "position": "Asisten Staff Khusus Wakil Presiden",
       "category": "askwp",
       "slot": 1,
@@ -32,7 +33,7 @@
       ]
     },
     {
-      "type": "CARDPROFILE1",
+      "type": "CARDPROFILE4",
       "position": "Asisten Staff Khusus Wakil Presiden",
       "category": "askwp",
       "slot": 1,

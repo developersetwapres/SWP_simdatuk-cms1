@@ -1,0 +1,66 @@
+{
+  "position": "Kepala Subbagian Dukungan Administrasi",
+  "name": "Desi Uli Pasaribu, S.AP., M.P.P.M.",
+  "image": "/simdatuk/imagePegawai.png",
+  "eselon": "Es. IV.a, 18-02-2022",
+  "golongan": "Penata Tingkat I (III/d) 01-04-2021",
+  "nip": "180005401 / 198512292009012001",
+  "tmt": null,
+  "isDetail": false,
+  "isProfile": true,
+  "pathDetail": null,
+  "pathProfil": "/rekapitulasi/peta-jabatan/detail/1",
+  "children": [
+    {
+      "type": "CARDJOBS",
+      "position": "Jabatan Fungsional",
+      "children": [
+        {
+          "title": "Arsiparis",
+          "jobs": [
+            {
+              "title": "Ahli Pertama",
+              "slot": 0,
+              "children": []
+            },
+            {
+              "title": "Penyelia",
+              "slot": 0,
+              "children": []
+            },
+            {
+              "title": "Mahir",
+              "slot": 0,
+              "children": []
+            },
+            {
+              "title": "Terampil",
+              "slot": 0,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE1",
+      "position": "Analis Tata Usaha / Pengolah Data / Pengadministrasi Umum",
+      "category": "atupdpu-3",
+      "slot": 0,
+      "children": [
+        {
+          "name": null,
+          "image": null,
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": null,
+          "isDetail": false,
+          "isProfile": false,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    }
+  ]
+}

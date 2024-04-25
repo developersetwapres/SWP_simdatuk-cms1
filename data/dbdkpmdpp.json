@@ -1,0 +1,91 @@
+{
+  "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan",
+  "name": "Dr. Ir. Suprayoga Hadi, M.S.P.",
+  "image": "/simdatuk/imagePegawai.png",
+  "eselon": "Es. I.a, 25-01-2021",
+  "golongan": "Pembina Utama (IV/e), 01-04-2017",
+  "nip": "196505301991031002",
+  "tmt": null,
+  "isDetail": false,
+  "isProfile": true,
+  "pathDetail": null,
+  "pathProfil": "/rekapitulasi/peta-jabatan/detail/1",
+  "children": [
+    {
+      "type": "CARDJOBS",
+      "position": "Jabatan Fungsional",
+      "children": [
+        {
+          "title": "Analis Kebijakan",
+          "jobs": [
+            {
+              "title": "Ahli Utama",
+              "slot": 1,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE1",
+      "position": "Asisten Deputi Penanggulangan Kemiskinan",
+      "category": "adpk",
+      "slot": 1,
+      "children": [
+        {
+          "name": "Dr. Adyawarman, S.IP., M.D.M.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": "Es. II.a, 01-07-2021",
+          "golongan": "Pembina Utama Muda (IV/c), 01-04-2022",
+          "nip": "180004427 / 197305121998031002",
+          "tmt": null,
+          "isDetail": true,
+          "isProfile": true,
+          "pathDetail": "adpk",
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE1",
+      "position": "Asisten Deputi Pembangunan Sumber Daya Manusia",
+      "category": "adpsdm",
+      "slot": 1,
+      "children": [
+        {
+          "name": "Tuti Trihastuti Sukardi, S.H., M.Si., M.H.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": "Es. II.a, 13-02-2018",
+          "golongan": "Pembina Utama Madya (IV/d), 01-04-2023",
+          "nip": "040071180 / 197405171998032001",
+          "tmt": null,
+          "isDetail": true,
+          "isProfile": true,
+          "pathDetail": "adpsdm",
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE1",
+      "position": "Asisten Deputi Pemberdayaan Masyarakat dan Penanggulangan Bencana",
+      "category": "adpmdpb",
+      "slot": 1,
+      "children": [
+        {
+          "name": "Slamet Widodo, S.S., M.Si.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": "Es. II.a, 13-02-2018",
+          "golongan": "Pembina Utama Madya (IV/d), 01-04-2022",
+          "nip": "180004296 / 196806171996031001",
+          "tmt": null,
+          "isDetail": true,
+          "isProfile": true,
+          "pathDetail": "adpmdpb",
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    }
+  ]
+}

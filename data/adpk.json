@@ -1,0 +1,61 @@
+{
+  "position": "Asisten Deputi Penanggulangan Kemiskinan",
+  "name": "Dr. Adyawarman, S.IP., M.D.M.",
+  "image": "/simdatuk/imagePegawai.png",
+  "eselon": "Es. II.a, 01-07-2021",
+  "golongan": "Pembina Utama Muda (IV/c), 01-04-2022",
+  "nip": "180004427 / 197305121998031002",
+  "tmt": null,
+  "isDetail": false,
+  "isProfile": true,
+  "pathDetail": null,
+  "pathProfil": "/rekapitulasi/peta-jabatan/detail/1",
+  "children": [
+    {
+      "type": "CARDJOBS",
+      "position": "Jabatan Fungsional",
+      "children": [
+        {
+          "title": "Analisi Kebijakan",
+          "jobs": [
+            {
+              "title": "Ahli Madya",
+              "slot": 1,
+              "children": []
+            },
+            {
+              "title": "Ahli Muda",
+              "slot": 3,
+              "children": []
+            },
+            {
+              "title": "Ahli Pertama",
+              "slot": 1,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE1",
+      "position": "Kepala Subbagian Dukungan Administrasi",
+      "category": "ksda-4",
+      "slot": 1,
+      "children": [
+        {
+          "name": "Yudhy Ekomedianov Chandra, S.H.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": "Es. IV.a, 17-03-2011",
+          "golongan": "Penata Tingkat I (III/d), 01-04-2016",
+          "nip": "180004801 / 197911152005011005",
+          "tmt": null,
+          "isDetail": true,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    }
+  ]
+}

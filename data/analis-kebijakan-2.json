@@ -1,0 +1,75 @@
+{
+    "position": "Analis Kebijakan",
+    "name": null,
+    "image": null,
+    "eselon": null,
+    "golongan": null,
+    "nip": null,
+    "tmt": null,
+    "isDetail": false,
+    "isProfile": true,
+    "pathDetail": null,
+    "pathProfil": "/rekapitulasi/peta-jabatan/detail/1",
+    "children": [
+      {
+        "type": "CARDPROFILE1",
+        "position": "Ahli Madya",
+        "category": "am-2",
+        "slot": 2,
+        "children": [
+          {
+            "name": "Tiapul Elfrida Simanungkalit, S.E., M.M.",
+            "image": "/simdatuk/imagePegawai.png",
+            "eselon": null,
+            "golongan": "Pembina Tingkat I (IV/b), 01-04-2016",
+            "nip": "180004060 / 196608191995032001",
+            "tmt": "22-12-2020",
+            "isDetail": false,
+            "isProfile": true,
+            "pathDetail": null,
+            "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+          }
+        ]
+      },
+      {
+        "type": "CARDPROFILE1",
+        "position": "Ahli Muda",
+        "category": "amu",
+        "slot": 5,
+        "children": [
+          {
+            "name": "Thetanaya, S.E., M.A.P.",
+            "image": "/simdatuk/imagePegawai.png",
+            "eselon": null,
+            "golongan": "Pembina (IV/a), 01-10-2021",
+            "nip": "180004627 / 197703222002122001",
+            "tmt": "22-12-2020",
+            "isDetail": false,
+            "isProfile": true,
+            "pathDetail": null,
+            "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+          }
+        ]
+      },
+      {
+        "type": "CARDPROFILE1",
+        "position": "Ahli Pertama",
+        "category": "ap-2",
+        "slot": 0,
+        "children": [
+          {
+            "name": null,
+            "image": null,
+            "eselon": null,
+            "golongan": null,
+            "nip": null,
+            "tmt": null,
+            "isDetail": false,
+            "isProfile": false,
+            "pathDetail": null,
+            "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+          }
+        ]
+      }
+    ]
+  }
