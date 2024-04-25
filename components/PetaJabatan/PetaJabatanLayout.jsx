@@ -1,9 +1,11 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Box, Grid, Typography } from '@mui/material'
 import Image from 'next/image'
 import { Button } from '../shared'
 import PropTypes from 'prop-types'
+import { CardTypes } from 'libs/types/CardTypes'
+import { useRouter } from 'next/router'
 
 const styles = {
   headerMap: {
@@ -27,6 +29,12 @@ const styles = {
 }
 
 const PetaJabatanLayout = ({ data, children }) => {
+  const router = useRouter()
+
+  useEffect(() => {
+    console.log('router', router)
+  }, [router])
+
   return (
     <>
       <Grid
@@ -65,13 +73,7 @@ const PetaJabatanLayout = ({ data, children }) => {
                 {data?.position || '-'}
               </Typography>
             </Grid>
-            <Grid
-              container
-              item
-              xs={12}
-              columnSpacing={3}
-              sx={{ marginY: '20px' }}
-            >
+            <Grid container item spacing={3} sx={{ marginY: '20px' }}>
               {/* Avatar */}
               <Grid item xs={3}>
                 {data?.image ? (
@@ -114,7 +116,6 @@ const PetaJabatanLayout = ({ data, children }) => {
                   </Box>
                 )}
               </Grid>
-
               {/* Bio */}
               <Grid item xs={9}>
                 <Typography color='primary' fontSize='16px' fontWeight='600'>
@@ -126,31 +127,42 @@ const PetaJabatanLayout = ({ data, children }) => {
                   paddingY={2}
                   justifyContent='space-between'
                 >
-                  <Grid item lg={3} xs={4}>
-                    <Typography fontSize={16}>Eselon</Typography>
-                    <Typography fontWeight='600' fontSize={14}>
-                      {data?.eselon || '-'}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Typography>Golongan</Typography>
-                    <Typography fontWeight='600' fontSize={14}>
-                      {data?.golongan || '-'}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Typography>NIP/NRP</Typography>
-                    <Typography
-                      fontWeight='600'
-                      fontSize={14}
-                      sx={{
-                        whiteSpace: 'pre-wrap',
-                        wordWrap: 'break-word'
-                      }}
-                    >
-                      {data?.nip || '-'}
-                    </Typography>
-                  </Grid>
+                  {data?.type == CardTypes?.PROFILE4 ? (
+                    <Grid item xs={12}>
+                      <Typography fontSize={16}>TMT</Typography>
+                      <Typography fontWeight='600' fontSize={14}>
+                        {data?.tmt || '-'}
+                      </Typography>
+                    </Grid>
+                  ) : (
+                    <>
+                      <Grid item lg={3} xs={4}>
+                        <Typography fontSize={16}>Eselon</Typography>
+                        <Typography fontWeight='600' fontSize={14}>
+                          {data?.eselon || '-'}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <Typography>Golongan</Typography>
+                        <Typography fontWeight='600' fontSize={14}>
+                          {data?.golongan || '-'}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <Typography>NIP/NRP</Typography>
+                        <Typography
+                          fontWeight='600'
+                          fontSize={14}
+                          sx={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                          }}
+                        >
+                          {data?.nip || '-'}
+                        </Typography>
+                      </Grid>
+                    </>
+                  )}
                 </Grid>
               </Grid>
             </Grid>
@@ -159,9 +171,12 @@ const PetaJabatanLayout = ({ data, children }) => {
             {(data?.isDetail || data?.isProfile) && (
               <Grid container item xs={12} columnSpacing={2}>
                 {data?.isProfile && (
-                  <Grid item xs={data?.isProfile ? 6 : 12}>
+                  <Grid item xs={data?.isDetail ? 6 : 12}>
                     <Button
                       text='Lihat Profil'
+                      onClick={() =>
+                        router.push('/rekapitulasi/peta-jabatan/detail/1')
+                      }
                       sx={{
                         backgroundColor: '#394346',
                         width: '100%'
@@ -170,9 +185,14 @@ const PetaJabatanLayout = ({ data, children }) => {
                   </Grid>
                 )}
                 {data?.isDetail && (
-                  <Grid item xs={data?.isDetail ? 6 : 12}>
+                  <Grid item xs={data?.isProfile ? 6 : 12}>
                     <Button
                       text='Lihat Detail'
+                      onClick={() =>
+                        router.push(
+                          `/rekapitulasi/peta-jabatan/${btoa(data?.pathDetail)}`
+                        )
+                      }
                       sx={{
                         width: '100%'
                       }}

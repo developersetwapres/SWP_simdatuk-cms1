@@ -1,95 +1,10 @@
-import React from 'react'
+import React, { useMemo } from 'react'
+import PropTypes from 'prop-types'
 import { Box, Typography } from '@mui/material'
 import { Button } from '../shared'
 import EmployeeLayout from '../Employment/EmploymentLayout'
 import JobChart from '../shared/JobChart'
 import { useRouter } from 'next/router'
-import { CardTypes } from 'libs/types/CardTypes'
-
-const data = {
-  parent: {
-    position: 'Kepala Sekretariat Wakil Presiden',
-    name: 'Ahmad Erani Yustika, S.E., M.Sc., Ph.D.',
-    image: '/simdatuk/imagePegawai.png',
-    eselon: 'Es. I.a., 25-01-2021',
-    golongan: 'Pembina Utama Madya (IV/d), 01-04-2017',
-    nip: '197303221997021001',
-    tmt: '14-11-1999',
-    isDetail: true,
-    isProfile: true
-  },
-  children: [
-    {
-      type: CardTypes?.PROFILE1,
-      position: 'Kepala Sekretariat Wakil Presiden',
-      slot: 1,
-      children: [
-        {
-          name: 'Dr. Ir. Suprayoga Hadi, M.S.P.',
-          image: null,
-          eselon: null,
-          golongan: null,
-          nip: null,
-          tmt: '14-11-1999',
-          isDetail: true,
-          isProfile: true
-        }
-      ]
-    },
-    {
-      type: CardTypes?.PROFILE1,
-      position: 'Asisten Deputi Ekonomi dan Keuangan',
-      slot: 1,
-      children: [
-        {
-          name: 'Dr. Ir. Suprayoga Hadi, M.S.P.',
-          image: '/simdatuk/imagePegawai.png',
-          eselon: 'Es. I.a., 25-01-2021',
-          golongan: 'Pembina Utama (IV/e), 01-04-2017',
-          nip: '1965053019991031002',
-          tmt: '14-11-1999',
-          isDetail: true,
-          isProfile: true
-        }
-      ]
-    },
-    {
-      type: CardTypes?.PROFILE1,
-      position:
-        'Asisten Deputi Industri, Perdagangan, Pariwisata, dan Ekonomi Kreatif ',
-      slot: 1,
-      children: [
-        {
-          name: 'Dr. Velix Vernando Wanggai S.IP., MPA',
-          image: '/simdatuk/imagePegawai.png',
-          eselon: 'Es. I.a, 23-08-2022',
-          golongan: 'Pembina Utama Muda (IV/c), 01-10-2019',
-          nip: '197202161998031005',
-          tmt: '14-11-1999',
-          isDetail: true,
-          isProfile: true
-        }
-      ]
-    },
-    {
-      type: CardTypes?.PROFILE1,
-      position: 'Kepala Subbagian Dukungan Administrasi',
-      slot: 1,
-      children: [
-        {
-          name: 'Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.',
-          image: '/simdatuk/imagePegawai.png',
-          eselon: 'Es. I.a, 01-03-2023',
-          golongan: 'Pembina Utama (IV/e), 01-03-2023',
-          nip: '180004061 / 197010271995031001',
-          tmt: '14-11-1999',
-          isDetail: true,
-          isProfile: true
-        }
-      ]
-    }
-  ]
-}
 
 const styles = {
   headerMap: {
@@ -110,42 +25,63 @@ const styles = {
   }
 }
 
-const PetaJabatanComponent = () => {
+const PetaJabatanComponent = ({ data }) => {
   const router = useRouter()
 
+  const staffParams = useMemo(() => {
+    return router?.query?.staff
+  }, [router])
+
   return (
-    <EmployeeLayout summary='Peta Jabatan' showExpButton={true}>
+    <EmployeeLayout
+      handleBack={staffParams ? () => router.back() : null}
+      summary='Peta Jabatan'
+      formatExport={['PDf']}
+    >
       <Box sx={styles.boxParent}>
-        <Box width='600px' borderRadius={3} sx={styles.headerMap}>
-          <Typography textAlign='center' fontWeight='bold' width={'60%'}>
-            Staff Khusus Wakil Presiden
-          </Typography>
-          <Button
-            text='Lihat Detail'
-            onClick={() =>
-              router.push('/rekapitulasi/peta-jabatan/staff-wakil-presiden')
-            }
-            sx={{
-              width: '100%'
-            }}
+        {!staffParams && (
+          <CardEmployment
+            title='Pejabat Kemensetneg yang Diperbantukan di Sekretariat Wakil Presiden'
+            path={`${router.asPath}/${btoa('staff-khusus-wakil-presiden')}`}
           />
-        </Box>
-        {/* Job Chart */}
+        )}
         <JobChart datas={data} />
-        <Box width='600px' borderRadius={3} sx={styles.headerMap}>
-          <Typography textAlign='center' fontWeight='bold' width={'60%'}>
-            Pejabat Kemensetneg yang Diperbantukan di Sekretariat Wakil Presiden
-          </Typography>
-          <Button
-            text='Lihat Detail'
-            sx={{
-              width: '100%'
-            }}
+        {!staffParams && (
+          <CardEmployment
+            title='Pejabat Kemensetneg yang Diperbantukan di Sekretariat Wakil Presiden'
+            path={`${router.asPath}/${btoa('pejabat-kemensetneg-perbantuan')}`}
           />
-        </Box>
+        )}
       </Box>
     </EmployeeLayout>
   )
+}
+
+const CardEmployment = ({ title, path }) => {
+  const router = useRouter()
+  return (
+    <Box width='600px' borderRadius={3} sx={styles.headerMap}>
+      <Typography textAlign='center' fontWeight='bold' width={'60%'}>
+        {title}
+      </Typography>
+      <Button
+        onClick={() => router.push(path)}
+        text='Lihat Detail'
+        sx={{
+          width: '100%'
+        }}
+      />
+    </Box>
+  )
+}
+
+CardEmployment.propTypes = {
+  title: PropTypes.string,
+  path: PropTypes.string
+}
+
+PetaJabatanComponent.propTypes = {
+  data: PropTypes.object
 }
 
 export default PetaJabatanComponent

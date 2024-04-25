@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
@@ -23,7 +23,6 @@ const style = {
     height: 'fit-content'
   },
   imageBox: {
-    marginTop: '20px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -63,8 +62,7 @@ const CardProfile = ({
           sx={{
             width: '90%',
             minHeight: '10px',
-            maxHeight: '60px',
-            marginBottom: isExpand ? '20px' : 0,
+            marginBottom: '20px',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -79,7 +77,7 @@ const CardProfile = ({
               sx={{
                 width: '90%',
                 minHeight: '40px',
-                margin: 'auto',
+                margin: '0 auto',
                 fontSize: 14
               }}
             >
@@ -145,6 +143,7 @@ const ItemDetail = ({ title, value }) => {
 
 const ContentProfile = ({ data, type, detailCard, isCheck, handleCheck }) => {
   const router = useRouter()
+
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={style.imageBox}>
@@ -229,7 +228,11 @@ const ContentProfile = ({ data, type, detailCard, isCheck, handleCheck }) => {
         )}
         {data?.isDetail && (
           <Button
-            onClick={() => router.push(data?.pathDetail)}
+            onClick={() =>
+              router.push(
+                `/rekapitulasi/peta-jabatan/${btoa(data?.pathDetail)}`
+              )
+            }
             text='Lihat Detail'
             color='primary'
             fullWidth

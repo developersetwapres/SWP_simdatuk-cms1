@@ -13,6 +13,7 @@ export default connect(
   class PetaJabatanContainer extends Component {
     static propTypes = {
       banner: PropTypes.object,
+      data: PropTypes.object,
       getBanners: PropTypes.func,
       deleteListBanner: PropTypes.func
     }

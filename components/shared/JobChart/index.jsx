@@ -24,7 +24,7 @@ const JobChart = ({ datas }) => {
 
   return (
     <>
-      <PetaJabatanLayout data={datas?.parent}>
+      <PetaJabatanLayout data={datas}>
         <StrukturPetaJabatan data={datas?.children} handleModal={handleModal} />
       </PetaJabatanLayout>
       {isTypeModal &&
