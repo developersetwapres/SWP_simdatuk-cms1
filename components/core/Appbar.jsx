@@ -101,7 +101,9 @@ function Appbar({ open, drawerWidth, setOpen = () => {} }) {
   )
 
   const handleLogout = () => {
-    dispatch({ type: AUTHENTICATION_LOGOUT_REQUESTED })
+    // dispatch({ type: AUTHENTICATION_LOGOUT_REQUESTED })
+    localStorage.removeItem('setneg_token')
+    router.reload()
   }
 
   return (
@@ -248,7 +250,7 @@ function Appbar({ open, drawerWidth, setOpen = () => {} }) {
       </Toolbar>
       {/* Modal Logout */}
       <ModalConfirm open={modalLogout}>
-        <img
+        {/* <img
           src='/images/logout.png'
           alt='poto'
           style={{
@@ -257,16 +259,18 @@ function Appbar({ open, drawerWidth, setOpen = () => {} }) {
             display: 'block',
             margin: '0 auto'
           }}
-        />
+        /> */}
         <p
           style={{
+            height: '80px',
             fontWeight: 'bold',
             textAlign: 'center',
-            fontSize: '21px',
-            marginTop: '30px'
+            verticalAlign: 'center',
+            fontSize: '21px'
+            // marginTop: '30px'
           }}
         >
-          Apakah anda yakin untuk keluar dari Setneg Simdatuk?
+          Apakah anda yakin untuk keluar ?
         </p>
         <Box
           component='div'

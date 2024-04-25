@@ -1,4 +1,3 @@
-
 // import { mapActio } from '@/store/'
 import { mapStateToProps } from '@/store/'
 import React, { Component } from 'react'
@@ -9,10 +8,7 @@ import LoginComponent from '@/components/Auth/LoginComponent'
 
 export default connect(
   mapStateToProps('authentication'),
-  mapActions(
-    'authenticationAction',
-    'forgetPassword',
-  )
+  mapActions('authenticationAction', 'forgetPassword')
 )(
   class LoginContainer extends Component {
     static propTypes = {

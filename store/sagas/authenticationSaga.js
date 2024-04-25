@@ -1,7 +1,7 @@
 /**
- * 
- * @module Saga/authentication 
- * 
+ *
+ * @module Saga/authentication
+ *
  * @desc Authentication
  */
 import { call, put, takeEvery } from '@redux-saga/core/effects'
@@ -54,35 +54,29 @@ function* postAuthentication(action) {
     const res = yield call(authenticationPost, action?.payload)
 
     if (res) {
-      const payload = res?.data?.data
+      const payload = res?.data
       yield put({
         type: AUTHENTICATION_SUCCESS,
         payload: payload
       })
-      // setCookies([
-      //   { name: '_setneg_token', value: payload.token }
-      // ])
       setStorages([
         {
           name: 'setneg_token',
           value: payload.token
         }
       ])
-      // setStorages([
-      //   {
-      //     name: 'setneg_menu',
-      //     value: JSON.stringify({
-      //       access: payload?.menu_access
-      //     })
-      //   }
-      // ])
-      encryptedItem('my-menu', 'setneg_menu', JSON.stringify({ access: payload?.menu_access }))
+      encryptedItem(
+        'my-menu',
+        'setneg_menu',
+        JSON.stringify({ access: payload?.menu_access })
+      )
       yield delay(1000)
       yield put({ type: GET_USER_INFORMATION_REQUESTED })
-      Router.push('/manajemen-pengguna/pengguna')
+      Router.push('/dashboard')
     }
   } catch (err) {
     const code = err
+
     if (code?.data?.statusCode === 500) {
       yield put({
         type: CATCH_ERROR,
@@ -144,9 +138,9 @@ function* updatePassword(action) {
 }
 
 /**
- * Forget Password Sagas 
- * 
- * @param {*} action 
+ * Forget Password Sagas
+ *
+ * @param {*} action
  * @returns
  */
 function* forgetPassword(action) {
@@ -177,9 +171,9 @@ function* forgetPassword(action) {
 }
 
 /**
- * Update Profile 
- * 
- * @param {*} action 
+ * Update Profile
+ *
+ * @param {*} action
  * @returns
  */
 function* updateProfileSagas(action) {
@@ -188,16 +182,20 @@ function* updateProfileSagas(action) {
 
     const payload = res?.data
     const getUser = decryptItem('_setneg_user', 'my-info')
-    encryptedItem('my-info', '_setneg_user', JSON.stringify({
-      nip: getUser.nip,
-      name: getUser.name,
-      email: payload?.data?.email,
-      roles: getUser.roles,
-      photo: payload?.data?.photo,
-      position: getUser.position,
-      unit: getUser.unit,
-      level: getUser.level
-    }))
+    encryptedItem(
+      'my-info',
+      '_setneg_user',
+      JSON.stringify({
+        nip: getUser.nip,
+        name: getUser.name,
+        email: payload?.data?.email,
+        roles: getUser.roles,
+        photo: payload?.data?.photo,
+        position: getUser.position,
+        unit: getUser.unit,
+        level: getUser.level
+      })
+    )
     // const getUser = getStorage('_setneg_user')
     // const parseProfile = JSON.parse(getUser)
     // console.log(parseProfile)
@@ -229,9 +227,9 @@ function* updateProfileSagas(action) {
 }
 
 /**
- * Logout Sagas 
- * 
- * @param {*} action 
+ * Logout Sagas
+ *
+ * @param {*} action
  * @returns
  */
 function* authenticationLogout(action) {
@@ -242,15 +240,14 @@ function* authenticationLogout(action) {
         type: AUTHENTICATION_LOGOUT_SUCCESS
       })
       localStorage.removeItem('setneg_token')
-      localStorage.removeItem('_setneg_user')
-      localStorage.removeItem('setneg_menu')
-      localStorage.removeItem('setneg_notification')
+      // localStorage.removeItem('_setneg_user')
+      // localStorage.removeItem('setneg_menu')
+      // localStorage.removeItem('setneg_notification')
 
       // yield delay(1000)
       // Router.push('/auth/login')
       Router.reload('/auth/login')
     }
-
   } catch (err) {
     if (err?.code?.data?.statusCode === 500) {
       yield put({
@@ -269,8 +266,8 @@ function* authenticationLogout(action) {
 
 /**
  * Get Hash Sagas
- * 
- * @param {*} action 
+ *
+ * @param {*} action
  * @returns
  */
 function* getHashPassword(action) {
@@ -291,9 +288,9 @@ function* getHashPassword(action) {
 }
 
 /**
- * Reset Password 
- * 
- * @param {*} action 
+ * Reset Password
+ *
+ * @param {*} action
  * @returns
  */
 function* resetPasswordSaga(action) {
@@ -336,8 +333,8 @@ function* resetPasswordSaga(action) {
 
 /**
  * Authentication QR Code
- * 
- * @param {*} action 
+ *
+ * @param {*} action
  * @returns
  */
 function* postQRCodeAction(action) {

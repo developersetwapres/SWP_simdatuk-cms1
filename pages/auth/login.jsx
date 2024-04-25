@@ -11,17 +11,10 @@ export default class login extends Component {
 
   componentDidMount() {
     const storage = getStorage('setneg_token')
-    if (storage) {
-      Router.push('/manajemen-pengguna/pengguna')
-    }
+    if (storage) Router.push('/dashboard')
   }
 
   render() {
-    return (
-      <LoginContainer
-        {...this.state}
-        {...this.props}
-      />
-    )
+    return <LoginContainer {...this.state} {...this.props} />
   }
 }
