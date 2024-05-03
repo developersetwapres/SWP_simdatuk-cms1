@@ -21,7 +21,7 @@ import Paper from './overrides/Paper'
 //   }
 // }
 
-function Table({ columns, rows, title }) {
+function Table({ columns, rows, title, isPagination = true }) {
   return (
     <Paper>
       <Box sx={{ marginBottom: '12px', display: title ? 'flex' : 'none' }}>
@@ -103,16 +103,18 @@ function Table({ columns, rows, title }) {
           </TableBody>
         </MuiTable>
       </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
-        component='div'
-        count={100}
-        rowsPerPage={10}
-        page={0}
-        // onPageChange={handleChangePage}
-        // onRowsPerPageChange={handleChangeRowsPerPage}
-        sx={{ marginTop: '12px' }}
-      />
+      {isPagination && (
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component='div'
+          count={100}
+          rowsPerPage={10}
+          page={0}
+          // onPageChange={handleChangePage}
+          // onRowsPerPageChange={handleChangeRowsPerPage}
+          sx={{ marginTop: '12px' }}
+        />
+      )}
     </Paper>
   )
 }
@@ -120,7 +122,8 @@ function Table({ columns, rows, title }) {
 Table.propTypes = {
   columns: PropTypes.array,
   rows: PropTypes.array,
-  title: PropTypes.string
+  title: PropTypes.string,
+  isPagination: PropTypes.bool
 }
 
 export default Table
