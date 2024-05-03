@@ -28,12 +28,13 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: '2rem'
   },
   main: {
+    height: 'calc(100vh - 64px)',
+    marginTop: '64px',
     backgroundColor:
       theme.palette.mode === 'light'
         ? theme.palette.grey[100]
         : theme.palette.grey[900],
     flexGrow: 1,
-    height: '100vh',
     overflow: 'auto',
     '&::-webkit-scrollbar': {
       width: '10px'
@@ -52,7 +53,8 @@ const useStyles = makeStyles((theme) => ({
   },
   footer: {
     paddingTop: '2.5rem',
-    paddingBottom: '2.5rem'
+    paddingBottom: '2.5rem',
+    alignSelf: 'flex-end'
   },
   activeRoute: {
     backgroundColor: '#FE9516 !important',
@@ -182,7 +184,7 @@ function Layout({ children, window, willRender }) {
   return (
     <Box className={classes.root}>
       {/* Appbar Component */}
-      <Appbar open={mobile} setOpen={handleMobile} drawerWidth={240} />
+      <Appbar open={mobile} setOpen={handleMobile} drawerWidth={260} />
       {/* Drawer Component */}
       <Drawer
         open={mobile}
@@ -192,16 +194,11 @@ function Layout({ children, window, willRender }) {
         drawer={drawer}
       />
       <Box component='main' className={classes.main}>
-        <Toolbar />
         <Container
           maxWidth='xl'
           sx={{
-            paddingLeft: '35px !important',
-            paddingRight: '35px !important',
-            marginTop: {
-              xs: '55px',
-              md: '35px'
-            }
+            minHeight: '720px',
+            padding: '35px'
           }}
         >
           <Box
