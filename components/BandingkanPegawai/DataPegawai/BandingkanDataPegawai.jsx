@@ -1,12 +1,13 @@
-import EmployeeLayout from '@/components/Employment/EmploymentLayout'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Box, Paper, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
 import FilterAltIcon from '@mui/icons-material/FilterAlt'
 import InputTags from '@/components/core/InputTags'
 import ListDataPegawai from './ListDataPegawai'
 import { dummyDataPegawai } from './DummydataPegawai'
 import { useRouter } from 'next/router'
 import { Button } from '@/components/shared'
+import LayoutPages from '@/components/core/LayoutPages'
+import ButtonExport from '@/components/core/ButtonExport'
 
 // Dummy Data
 const filterData = [
@@ -39,6 +40,26 @@ const BandingkanDataPegawai = () => {
     riwayatCatatan: []
   })
 
+  const action = useMemo(() => {
+    return (
+      <Box sx={{ display: 'flex', gap: 1 }}>
+        <Button text='Tambah Pegawai' color='primary' onClick={() => {}} />
+        <Button
+          text='Reset Pegawai'
+          color='sidatukDraweBase'
+          onClick={() => {}}
+        />
+        <ButtonExport
+          data={[
+            { name: 'PDF', action: () => {} },
+            { name: 'XLS', action: () => {} },
+            { name: 'CSV', action: () => {} }
+          ]}
+        />
+      </Box>
+    )
+  }, [])
+
   const handleFilterClick = () => {
     setExpandFilter(!expandFilter)
   }
@@ -54,12 +75,10 @@ const BandingkanDataPegawai = () => {
   }, [])
 
   return (
-    <EmployeeLayout
+    <LayoutPages
       handleBack={() => router.back()}
       summary='Bandingkan Pegawai'
-      handleAdd={() => {}}
-      handleReset={() => {}}
-      formatExport={['PDF']}
+      action={action}
     >
       <Paper sx={{ padding: '20px' }}>
         <Box sx={{ marginBottom: '20px' }}>
@@ -161,7 +180,7 @@ const BandingkanDataPegawai = () => {
           riwayatCatatan={pegawaiData.riwayatCatatan}
         />
       </Paper>
-    </EmployeeLayout>
+    </LayoutPages>
   )
 }
 

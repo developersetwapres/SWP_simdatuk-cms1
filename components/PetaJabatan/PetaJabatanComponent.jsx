@@ -2,9 +2,10 @@ import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Typography } from '@mui/material'
 import { Button } from '../shared'
-import EmployeeLayout from '../Employment/EmploymentLayout'
 import JobChart from '../shared/JobChart'
 import { useRouter } from 'next/router'
+import LayoutPages from '../core/LayoutPages'
+import ButtonExport from '../core/ButtonExport'
 
 const styles = {
   headerMap: {
@@ -32,11 +33,19 @@ const PetaJabatanComponent = ({ data }) => {
     return router?.query?.staff
   }, [router])
 
+  const action = useMemo(() => {
+    return (
+      <Box>
+        <ButtonExport data={[{ name: 'PDF', action: () => {} }]} />
+      </Box>
+    )
+  }, [])
+
   return (
-    <EmployeeLayout
+    <LayoutPages
       handleBack={staffParams ? () => router.back() : null}
       summary='Peta Jabatan'
-      formatExport={['PDf']}
+      action={action}
     >
       <Box sx={styles.boxParent}>
         {!staffParams && (
@@ -53,7 +62,7 @@ const PetaJabatanComponent = ({ data }) => {
           />
         )}
       </Box>
-    </EmployeeLayout>
+    </LayoutPages>
   )
 }
 

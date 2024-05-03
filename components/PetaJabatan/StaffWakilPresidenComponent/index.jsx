@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box } from '@mui/material'
-import EmployeeLayout from '@/components/Employment/EmploymentLayout'
+import EmployeeLayout from '@/components/core/LayoutPages'
 import JobChart from '@/components/shared/JobChart'
 import { CardTypes } from 'libs/types/CardTypes'
 

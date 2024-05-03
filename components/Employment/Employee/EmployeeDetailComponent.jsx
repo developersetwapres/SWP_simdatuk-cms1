@@ -1,8 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import React from 'react'
-import PropTypes from 'prop-types'
-import EmploymentLayout from '../EmploymentLayout'
-import { Box, Grid, List, Paper, Typography } from '@mui/material'
+import React, { useMemo } from 'react'
+import { Box, Grid, List, Typography } from '@mui/material'
 import BiodataPegawai from './Section/BiodataPegawai'
 import ListNavigation from '@/components/core/ListNavigation'
 import RiwayatPendidikanSection from './Section/RiwayatPendidikanSection'
@@ -20,6 +18,10 @@ import RiwayatKeluargaSection from './Section/RiwayatKeluargaSection'
 import RiwayatCutiSection from './Section/RiwayatCutiSection'
 import RiwayatCatatanSection from './Section/RiwayatCatatanSection'
 import { useRouter } from 'next/router'
+import LayoutPages from '@/components/core/LayoutPages'
+import ButtonExport from '@/components/core/ButtonExport'
+import Paper from '@/components/shared/overrides/Paper'
+import { Button } from '@/components/shared'
 
 const dataPegawai = [
   'Data Pegawai',
@@ -40,18 +42,28 @@ const dataPegawai = [
 
 const EmployeeDetailComponent = () => {
   const router = useRouter()
+
+  const action = useMemo(() => {
+    return (
+      <Box sx={{ display: 'flex', gap: 1 }}>
+        <Button text='Edit Status Pegawai' color='primary' onClick={() => {}} />
+        <Button text='Edit' color='sidatukDraweBase' onClick={() => {}} />
+        <ButtonExport data={[{ name: 'PDF', action: () => {} }]} />
+      </Box>
+    )
+  }, [])
+
   return (
-    <EmploymentLayout
+    <LayoutPages
       handleBack={() => router.back()}
       summary={'Detail Profil'}
       formatExport={['PDF']}
       otherStyle={{ alignItems: 'center' }}
+      action={action}
     >
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <PaperContainer
-            otherStyle={{ height: '200px', display: 'flex', gap: '20px' }}
-          >
+          <Paper sx={{ height: '200px', display: 'flex', gap: '20px' }}>
             {/* Image Profile */}
             <Box
               sx={{
@@ -119,7 +131,7 @@ const EmployeeDetailComponent = () => {
                 </Grid>
               </Grid>
             </Box>
-          </PaperContainer>
+          </Paper>
         </Grid>
         <Grid item xs={12}>
           <Grid container spacing={3}>
@@ -140,108 +152,57 @@ const EmployeeDetailComponent = () => {
             <Grid item xs={10}>
               <Grid container gap={3}>
                 <Grid item xs={12}>
-                  <PaperContainer>
-                    <BiodataPegawai />
-                  </PaperContainer>
+                  <BiodataPegawai />
                 </Grid>
                 <Grid item xs={12}>
-                  <PaperContainer>
-                    <RiwayatPendidikanSection />
-                  </PaperContainer>
+                  <RiwayatPendidikanSection />
                 </Grid>
                 <Grid item xs={12}>
-                  <PaperContainer>
-                    <RiwayatJabatanSection />
-                  </PaperContainer>
+                  <RiwayatJabatanSection />
                 </Grid>
                 <Grid item xs={12}>
-                  <PaperContainer>
-                    <RiwayatGolonganSection />
-                  </PaperContainer>
+                  <RiwayatGolonganSection />
                 </Grid>
                 <Grid item xs={12}>
-                  <PaperContainer>
-                    <RiwayatGajiSection />
-                  </PaperContainer>
+                  <RiwayatGajiSection />
                 </Grid>
                 <Grid item xs={12}>
-                  <PaperContainer>
-                    <PelatihanStrukturalSection />
-                  </PaperContainer>
+                  <PelatihanStrukturalSection />
                 </Grid>
                 <Grid item xs={12}>
-                  <PaperContainer>
-                    <PelatihanFungsionalSection />
-                  </PaperContainer>
+                  <PelatihanFungsionalSection />
                 </Grid>
                 <Grid item xs={12}>
-                  <PaperContainer>
-                    <RiwayatPelatihanTeknisSection />
-                  </PaperContainer>
+                  <RiwayatPelatihanTeknisSection />
                 </Grid>
                 <Grid item xs={12}>
-                  <PaperContainer>
-                    <RiwayatPenghargaanSection />
-                  </PaperContainer>
+                  <RiwayatPenghargaanSection />
                 </Grid>
                 <Grid item xs={12}>
-                  <PaperContainer>
-                    <RiwayatSKP />
-                  </PaperContainer>
+                  <RiwayatSKP />
                 </Grid>
                 <Grid item xs={12}>
-                  <PaperContainer>
-                    <RiwayatPrestasiKerja />
-                  </PaperContainer>
+                  <RiwayatPrestasiKerja />
                 </Grid>
                 <Grid item xs={12}>
-                  <PaperContainer>
-                    <RiwayatHukumanDisiplin />
-                  </PaperContainer>
+                  <RiwayatHukumanDisiplin />
                 </Grid>
                 <Grid item xs={12}>
-                  <PaperContainer>
-                    <RiwayatKeluargaSection />
-                  </PaperContainer>
+                  <RiwayatKeluargaSection />
                 </Grid>
                 <Grid item xs={12}>
-                  <PaperContainer>
-                    <RiwayatCutiSection />
-                  </PaperContainer>
+                  <RiwayatCutiSection />
                 </Grid>
                 <Grid item xs={12}>
-                  <PaperContainer>
-                    <RiwayatCatatanSection />
-                  </PaperContainer>
+                  <RiwayatCatatanSection />
                 </Grid>
               </Grid>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
-    </EmploymentLayout>
+    </LayoutPages>
   )
-}
-
-const PaperContainer = ({ children, otherStyle }) => {
-  return (
-    <Paper
-      sx={{
-        width: '100%',
-        borderRadius: '12px',
-        padding: '20px',
-        backgroundColor: '#fff',
-        ...otherStyle
-      }}
-    >
-      {children}
-    </Paper>
-  )
-}
-
-PaperContainer.propTypes = {
-  children: PropTypes.node,
-  otherStyle: PropTypes.object
 }
 
 export default EmployeeDetailComponent

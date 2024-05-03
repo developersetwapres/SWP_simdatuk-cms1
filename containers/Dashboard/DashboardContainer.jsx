@@ -106,16 +106,7 @@ export default connect(
     render() {
       return (
         <Layout willRender={this.state.willRender}>
-          <DashboardComponent
-            {...this.state}
-            {...this.props}
-            deleteListBanner={this.props.deleteListBanner}
-            onPaginationChange={this.onPaginationChange}
-            onSearch={this.onSearch}
-            onStatus={this.onStatus}
-            onType={this.onType}
-            onClearFilter={this.onClearFilter}
-          />
+          <DashboardComponent {...this.state} {...this.props} />
         </Layout>
       )
     }

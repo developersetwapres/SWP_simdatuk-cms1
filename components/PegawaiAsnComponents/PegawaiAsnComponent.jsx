@@ -9,7 +9,7 @@ import {
   pendidikan,
   unitKerja
 } from './dummyData'
-import EmployeeLayout from '../Employment/EmploymentLayout'
+import EmployeeLayout from '../core/LayoutPages'
 
 const styles = {
   cardStyle: {

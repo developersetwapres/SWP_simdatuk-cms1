@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useMemo, useState } from 'react'
 import LayoutPages from '@/components/core/LayoutPages'
 import { useRouter } from 'next/router'

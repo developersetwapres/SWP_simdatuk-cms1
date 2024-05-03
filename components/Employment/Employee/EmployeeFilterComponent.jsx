@@ -1,5 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useMemo, useState } from 'react'
-import PropTypes from 'prop-types'
 import Search from '@/components/core/Search'
 import { Autocomplete, Button } from '@/components/shared'
 import { FilterAlt } from '@mui/icons-material'

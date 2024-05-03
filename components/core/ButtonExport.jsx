@@ -56,7 +56,16 @@ function ButtonExport({ data }) {
         }}
       >
         {data.map((item, index) => (
-          <MenuItem key={index} onClick={item?.action}>
+          <MenuItem
+            key={index}
+            onClick={item?.action}
+            sx={{
+              width: '100px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
             {item?.name}
           </MenuItem>
         ))}

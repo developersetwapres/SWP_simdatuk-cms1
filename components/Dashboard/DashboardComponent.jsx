@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
-import PropTypes from 'prop-types'
 import SectionEmployeeBirthday from './SectionDashboard/SectionEmployeeBirthday'
 import SectionCountEmployee from './SectionDashboard/SectionCountEmployee'
 import { Grid } from '@mui/material'
@@ -8,6 +7,7 @@ import COUNT_ICON from '/public/simdatuk/count.png'
 import GENDER_ICON from '/public/simdatuk/gender.png'
 import TYPE_ICON from '/public/simdatuk/type.png'
 import SectionChart from './SectionDashboard/SectionChart'
+import LayoutPages from '../core/LayoutPages'
 
 const data = [
   {
@@ -125,40 +125,26 @@ const dataCharts = [
   }
 ]
 
-function DashboardComponent({
-  banner,
-  queries,
-  // deleteListBanner = () => { },
-  // onPaginationChange = () => { },
-  onBirthDay = () => {},
-  onClearFilter = () => {}
-}) {
+function DashboardComponent() {
   return (
-    <Grid container spacing={4}>
-      <Grid item xs={12}>
-        <SectionEmployeeBirthday />
+    <LayoutPages summary={'Dashboard'}>
+      <Grid container spacing={4}>
+        <Grid item xs={12}>
+          <SectionEmployeeBirthday />
+        </Grid>
+        {data.map((item, index) => (
+          <Grid item xs={12} key={index}>
+            <SectionCountEmployee data={item} />
+          </Grid>
+        ))}
+        {dataCharts.map((item, index) => (
+          <Grid item xs={12} key={index}>
+            <SectionChart data={item} />
+          </Grid>
+        ))}
       </Grid>
-      {data.map((item, index) => (
-        <Grid item xs={12} key={index}>
-          <SectionCountEmployee data={item} />
-        </Grid>
-      ))}
-      {dataCharts.map((item, index) => (
-        <Grid item xs={12} key={index}>
-          <SectionChart data={item} />
-        </Grid>
-      ))}
-    </Grid>
+    </LayoutPages>
   )
-}
-
-DashboardComponent.propTypes = {
-  banner: PropTypes.object,
-  queries: PropTypes.object,
-  deleteListBanner: PropTypes.func,
-  onPaginationChange: PropTypes.func,
-  onBirthDay: PropTypes.func,
-  onClearFilter: PropTypes.func
 }
 
 export default DashboardComponent

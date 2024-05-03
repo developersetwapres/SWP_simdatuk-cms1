@@ -1,11 +1,12 @@
 /* eslint-disable indent */
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
-import EmploymentLayout from './EmploymentLayout'
 import { Box, Grid, Typography } from '@mui/material'
 import CardEmployment from '../shared/Card/CardEmployment'
 import { useRouter } from 'next/router'
 import Card from '../shared/Card/Index'
+import LayoutPages from '../core/LayoutPages'
+import ButtonExport from '../core/ButtonExport'
 
 const EmploymentComponent = (props) => {
   const { data } = props
@@ -30,10 +31,25 @@ const EmploymentComponent = (props) => {
     return handleGetCountEmployee(data)
   }, [data])
 
+  const action = useMemo(() => {
+    return (
+      <Box sx={{ marginTop: '12px', display: 'flex', gap: 1 }}>
+        <ButtonExport
+          data={[
+            { name: 'PDF', action: () => {} },
+            { name: 'XLS', action: () => {} },
+            { name: 'CSV', action: () => {} }
+          ]}
+        />
+      </Box>
+    )
+  }, [])
+
   return (
-    <EmploymentLayout
+    <LayoutPages
       summary='Rekapitulasi Pegawai Sekretariat Wakil Presiden RI'
       count={`Total Keseluruhan : ${totalEmployee}`}
+      action={action}
     >
       <Grid container spacing={3}>
         {data?.map((item, index) => (
@@ -111,7 +127,7 @@ const EmploymentComponent = (props) => {
           </Grid>
         ))}
       </Grid>
-    </EmploymentLayout>
+    </LayoutPages>
   )
 }
 

@@ -1,7 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import React, { useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
-import EmployeeLayout from '../Employment/EmploymentLayout'
 import Search from '../core/Search'
 import {
   Box,
@@ -19,6 +19,7 @@ import { FilterAlt } from '@mui/icons-material'
 import CardProfile from '../shared/Card/CardProfile'
 import { CardTypes } from 'libs/types/CardTypes'
 import { useRouter } from 'next/router'
+import LayoutPages from '../core/LayoutPages'
 
 const useStyles = makeStyles((theme) => ({
   inputParent: {
@@ -129,35 +130,26 @@ const BandingkanPegawaiComponent = ({ data }) => {
     }
   }
 
-  return (
-    <EmployeeLayout>
+  const action = useMemo(() => {
+    return (
       <Box>
-        {/* Header */}
-        <Box
+        <Button
+          color='primary'
+          text={`Bandingkan Pegawai (${collectData.length})`}
+          onClick={handleRedirectCompare}
           sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between'
+            width: '220px',
+            textTransform: 'none',
+            fontSize: '14px'
           }}
-        >
-          <Typography variant='h6' sx={{ fontSize: '14px', fontWeight: 800 }}>
-            {`Bandingkan Pegawai`}
-          </Typography>
-          <Button
-            onClick={handleRedirectCompare}
-            text={`Bandingkan Pegawai (${collectData.length})`}
-            color='primary'
-            fullWidth
-            type='submit'
-            sx={{
-              width: '220px',
-              color: '#fff',
-              textTransform: 'none',
-              fontSize: '14px'
-            }}
-          />
-        </Box>
+        />
+      </Box>
+    )
+  }, [collectData])
+
+  return (
+    <LayoutPages summary={'Bandingkan Pegawai'} action={action}>
+      <Box>
         {/* Filter */}
         <Box sx={{ marginBottom: '20px' }}>
           <Box
@@ -221,7 +213,7 @@ const BandingkanPegawaiComponent = ({ data }) => {
           ))}
         </Grid>
       </Box>
-    </EmployeeLayout>
+    </LayoutPages>
   )
 }
 

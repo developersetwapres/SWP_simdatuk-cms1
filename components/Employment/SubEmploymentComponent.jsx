@@ -1,11 +1,11 @@
 /* eslint-disable indent */
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
-import EmploymentLayout from './EmploymentLayout'
 import { Box, Grid, Typography } from '@mui/material'
 import CardEmployment from '../shared/Card/CardEmployment'
 import { useRouter } from 'next/router'
 import Card from '../shared/Card/Index'
+import LayoutPages from '../core/LayoutPages'
 
 const SubEmploymentComponent = (props) => {
   const { data } = props
@@ -34,7 +34,7 @@ const SubEmploymentComponent = (props) => {
   }, [data])
 
   return (
-    <EmploymentLayout
+    <LayoutPages
       handleBack={() => router.back()}
       summary={data?.title}
       count={`Total Keseluruhan : ${totalEmployee}`}
@@ -122,7 +122,7 @@ const SubEmploymentComponent = (props) => {
           </Grid>
         ))}
       </Grid>
-    </EmploymentLayout>
+    </LayoutPages>
   )
 }
 

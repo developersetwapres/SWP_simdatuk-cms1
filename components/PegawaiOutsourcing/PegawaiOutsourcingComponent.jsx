@@ -1,6 +1,6 @@
 import React from 'react'
 import { Grid } from '@mui/material'
-import EmployeeLayout from '../Employment/EmploymentLayout'
+import EmployeeLayout from '../core/LayoutPages'
 import AsnDataList from '../shared/Card/AsnDataList'
 import {
   nonOutsourcing,

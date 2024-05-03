@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
-import EmploymentLayout from '../EmploymentLayout'
 import { Grid } from '@mui/material'
 import { useRouter } from 'next/router'
 import CardProfile from '../../shared/Card/CardProfile'
+import LayoutPages from '../../core/LayoutPages'
 
 const EmployeesComponent = ({ data }) => {
   const router = useRouter()
@@ -15,7 +15,7 @@ const EmployeesComponent = ({ data }) => {
   }, [data])
 
   return (
-    <EmploymentLayout
+    <LayoutPages
       handleBack={() => router.back()}
       summary={data?.title}
       count={`Total Keseluruhan : ${totalCount}`}
@@ -27,7 +27,7 @@ const EmployeesComponent = ({ data }) => {
           </Grid>
         ))}
       </Grid>
-    </EmploymentLayout>
+    </LayoutPages>
   )
 }
 

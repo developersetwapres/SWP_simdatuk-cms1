@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react'
 import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
@@ -6,7 +7,7 @@ import { Box, Chip, Typography } from '@mui/material'
 import { Cancel } from '@mui/icons-material'
 import { makeStyles } from '@mui/styles'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   autocomplete: {
     border: '1px solid #000',
     borderRadius: '8px'

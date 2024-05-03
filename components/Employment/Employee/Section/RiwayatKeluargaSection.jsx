@@ -1,116 +1,121 @@
-/* eslint-disable no-unused-vars */
-import React from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useMemo } from 'react'
 import { Table } from '@/components/shared'
-import { Grid, TableCell, TableRow, Typography } from '@mui/material'
-import { headersRiwayatKeluarga, riwayatKeluarga } from './dummyData'
+import { Grid, Typography } from '@mui/material'
 
-
+const data = [
+  {
+    tingkat: 'SD/Sederajat',
+    nama: 'SDN Karang Tengah 2',
+    fakultas: null,
+    jurusan: 'SD',
+    status: 'Lulus',
+    tahun: '2024'
+  }
+]
 
 const RiwayatKeluargaSection = () => {
+  const columns = useMemo(
+    () => [
+      {
+        Header: 'No',
+        width: 40,
+        align: 'left'
+      },
+      {
+        Header: 'Tingkat',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'Nama Sekolah',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'Fakultas',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'Jurusan',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'Status',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'Tahun Luluss',
+        width: 200,
+        align: 'left'
+      }
+    ],
+    []
+  )
 
+  const rows = useMemo(() => {
+    const dataMapping = data.map((item, index) => {
+      return [
+        {
+          Header: 'No',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{index + 1}</Typography>
+        },
+        {
+          Header: 'Tingkat',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.tingkat}</Typography>
+        },
+        {
+          Header: 'Nama',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.nama}</Typography>
+        },
+        {
+          Header: 'Fakultas',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.fakultas}</Typography>
+        },
+        {
+          Header: 'Jurusan',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.jurusan}</Typography>
+        },
+        {
+          Header: 'Status',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.status}</Typography>
+        },
+        {
+          Header: 'Tahun',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.tahun}</Typography>
+        }
+      ]
+    })
 
+    return dataMapping
+  }, [data])
 
   return (
-    <>
-      <Grid
-
-      >
-        <Typography
-          color='primary'
-          sx={{
-            fontWeight: 'bold',
-            marginBottom: '14px'
-          }}
-        >
-          Riwayat Keluarga
-        </Typography>
-        <Table
-          headers={headersRiwayatKeluarga}
-        >
-          {
-            riwayatKeluarga.map((item, index) => {
-              return (
-                <>
-                  <TableRow
-
-                  >
-                    <TableCell
-                    >
-                      {item.no}
-                    </TableCell>
-                    <TableCell
-                      align='left'
-                    >
-                      {item.no_kartu_keluarga}
-                    </TableCell>
-                    <TableCell
-                    >
-                      {item.nama_anggota_keluarga}
-                    </TableCell>
-                    <TableCell
-                    >
-                      {item.no_NIK}
-                    </TableCell>
-                    <TableCell
-                    >
-                      {item.jenis_kelamin}
-                    </TableCell>
-                    <TableCell
-                    >
-                      {item.agama}
-                    </TableCell>
-                    <TableCell
-                    >
-                      {item.tempat_ahir}
-                    </TableCell>
-                    <TableCell
-                    >
-                      {item.tanggal_lahir}
-                    </TableCell>
-                    <TableCell
-                    >
-                      {item.nama_bapak}
-                    </TableCell>
-                    <TableCell
-                    >
-                      {item.nama_ibu}
-                    </TableCell>
-                    <TableCell
-                    >
-                      {item.hubungan_keluarga}
-                    </TableCell>
-                    <TableCell
-                    >
-                      {item.pendidikan}
-                    </TableCell>
-                    <TableCell
-                    >
-                      {item.jenis_pekerjaan}
-                    </TableCell>
-                    <TableCell
-                    >
-                      {item.keterangan_pekerjaan}
-                    </TableCell>
-                    <TableCell
-                    >
-                      {item.status_perkawinan}
-                    </TableCell>
-                    <TableCell
-                    >
-                      {item.no_hp}
-                    </TableCell>
-                    <TableCell
-                    >
-                      {item.urut_peluarga}
-                    </TableCell>
-                  </TableRow>
-                </>
-              )
-            })
-          }
-        </Table>
-      </Grid>
-    </>
+    <Grid>
+      <Table
+        title='Riwayat Keluarga'
+        columns={columns}
+        rows={rows}
+        isPagination={false}
+      />
+    </Grid>
   )
 }
 
