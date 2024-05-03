@@ -2,77 +2,84 @@ import React from 'react'
 import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
 import PropTypes from 'prop-types'
-import Icon from '../Icon'
-import { ARROW_DOWN } from '@/utils/iconConstant'
+import { Box, Chip, Typography } from '@mui/material'
+import { Cancel } from '@mui/icons-material'
+import { makeStyles } from '@mui/styles'
+
+const useStyles = makeStyles((theme) => ({
+  autocomplete: {
+    border: '1px solid #000',
+    borderRadius: '8px'
+  },
+  input: {
+    '& .MuiInputBase-root': {
+      borderRadius: '8px'
+    }
+  }
+}))
 
 function MuiAutocomplete({
-  // label,
+  label,
   options,
   value,
   name,
   placeholder,
   disabled = false,
   error = false,
-  onChange = () => { },
+  onChange = () => {},
+  multiple = false,
   ...other
 }) {
-
-  const filteredOptions = Array.isArray(value)
-    ? options.filter(item => !value?.map(i => i?.id)?.includes(item?.id))
-    : options.filter(item => item.id !== value?.id)
-
-  /**
- * Convert To Definition Event Params
- * @param {*} name
- * @param {*} value
- */
-  const convertParams = (name, value) => ({
-    target: {
-      name, value
-    }
-  })
-
+  const classes = useStyles()
 
   return (
-    <>
-      {/* <p style={{
-        marginBottom: '8px'
-      }}>{label}</p> */}
+    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+      {label && (
+        <Typography
+          component='p'
+          sx={{ marginBottom: '8px', fontSize: '14px', fontWeight: 500 }}
+        >
+          {label}
+        </Typography>
+      )}
       <Autocomplete
-        freeSolo
-        value={value}
-        id='controllable-states-demo'
-        options={filteredOptions}
-        isOptionEqualToValue={(option, value) => value.id === option.id}
-        getOptionLabel={(option) => (option.text || option.name) ?? ''}
-        onChange={(e, v) => onChange(convertParams(name, v))}
-        {...other}
-        disableClearable
-        sx={{
-          backgroundColor: disabled ? '#EDEDED' : ''
-        }}
-        disabled={disabled}
+        multiple={multiple}
+        id='tags-outlined'
+        options={options}
+        getOptionLabel={(option) => option.title}
+        filterSelectedOptions
+        className={classes.autocomplete}
         renderInput={(params) => (
           <TextField
             {...params}
-            name={name}
-            size='small'
-            variant='outlined'
             placeholder={placeholder}
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: (
-                <Icon
-                  path={ARROW_DOWN}
-                  maxWidth={20}
-                />
-              )
-            }}
-            {...(error && { error: true, helperText: error })}
+            className={classes.input}
           />
         )}
+        renderTags={(tagValue, getTagProps) =>
+          tagValue.map((option, index) => (
+            <Chip
+              key={index}
+              label={option.title}
+              {...getTagProps({ index })}
+              deleteIcon={
+                <Cancel
+                  style={{
+                    color: '#FFF',
+                    opacity: 0.5,
+                    transition: 'all .4s ease',
+                    '&:hover': {
+                      opacity: 1
+                    }
+                  }}
+                />
+              }
+              sx={{ backgroundColor: '#895700', color: '#FFF' }}
+            />
+          ))
+        }
       />
-    </>
+    </Box>
   )
 }
 
@@ -83,6 +90,7 @@ MuiAutocomplete.propTypes = {
   value: PropTypes.any,
   name: PropTypes.any,
   disabled: PropTypes.bool,
+  multiple: PropTypes.bool,
   error: PropTypes.any,
   onChange: PropTypes.func
 }
