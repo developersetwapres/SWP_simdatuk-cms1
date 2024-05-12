@@ -1,30 +1,33 @@
 /* eslint-disable indent */
 
 /**
- * 
- * Check if User have role 
- * 
- * @param {*} role 
- * @param {*} payload 
+ *
+ * Check if User have role
+ *
+ * @param {*} role
+ * @param {*} payload
  * @returns
  */
 export const onlyRole = (role, payload) => {
-  const config = payload.map(v => v.name)
+  const config = payload.map((v) => v.name)
   if (typeof config !== 'undefined') return config.indexOf(role) !== -1
 }
 
 /**
- * 
+ *
  * Read File to Url
- * 
+ *
  * @param {*} file
  */
-export const readFile = (file) => new Promise((resolve, reject) => {
-  const reader = new FileReader()
-  reader.onload = function (e) { resolve(e.target.result) }
-  reader.onerror = err => reject(err)
-  reader.readAsDataURL(file)
-})
+export const readFile = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = function (e) {
+      resolve(e.target.result)
+    }
+    reader.onerror = (err) => reject(err)
+    reader.readAsDataURL(file)
+  })
 
 /**
  *
@@ -66,12 +69,11 @@ export const getFileExtension = (filename) => {
   return filename.substring(filename.lastIndexOf('.') + 1).toLowerCase()
 }
 
-
 /**
- * 
- * Regex Email 
- * 
- * @param {*} email 
+ *
+ * Regex Email
+ *
+ * @param {*} email
  * @returns
  */
 export const formatEmail = (email) => {
@@ -80,11 +82,11 @@ export const formatEmail = (email) => {
 }
 
 /**
- * Format Date 
- * 
- * @param {*} date 
+ * Format Date
+ *
+ * @param {*} date
  * @returns
- * 
+ *
  */
 export const dateTimeFormat = (date = '', subtract = null) => {
   const d = new Date(date)
@@ -106,21 +108,17 @@ export const dateTimeFormat = (date = '', subtract = null) => {
     let second = '' + d.getSeconds()
 
     // * Check If Number Of Month 1 - 9 Add 0 to First
-    if (month.length < 2)
-      month = '0' + month
+    if (month.length < 2) month = '0' + month
     // * Check If Number Of Day 1 - 9 Add 0 to First
-    if (day.length < 2)
-      day = '0' + day
+    if (day.length < 2) day = '0' + day
     // check if number of hour 1-9 add 0 to first
-    if (hour.length < 2)
-      hour = '0' + hour
+    if (hour.length < 2) hour = '0' + hour
     // check if number of minute 1-9 add 0 to first
-    if (minute.length < 2)
-      minute = '0' + minute
-    if (second.length < 2)
-      second = '0' + second
+    if (minute.length < 2) minute = '0' + minute
+    if (second.length < 2) second = '0' + second
     // * Join All Format to YYYY-MM-DD HH:mm
-    const dateFormated = [day, month, year].join('-') + ' ' + [hour, minute, second].join(':')
+    const dateFormated =
+      [day, month, year].join('-') + ' ' + [hour, minute, second].join(':')
     return dateFormated
   } else {
     // * Get Year
@@ -138,29 +136,25 @@ export const dateTimeFormat = (date = '', subtract = null) => {
     let second = '' + d.getSeconds()
 
     // * Check If Number Of Month 1 - 9 Add 0 to First
-    if (month.length < 2)
-      month = '0' + month
+    if (month.length < 2) month = '0' + month
     // * Check If Number Of Day 1 - 9 Add 0 to First
-    if (day.length < 2)
-      day = '0' + day
+    if (day.length < 2) day = '0' + day
     // check if number of hour 1-9 add 0 to first
-    if (hour.length < 2)
-      hour = '0' + hour
+    if (hour.length < 2) hour = '0' + hour
     // check if number of minute 1-9 add 0 to first
-    if (minute.length < 2)
-      minute = '0' + minute
-    if (second.length < 2)
-      second = '0' + second
+    if (minute.length < 2) minute = '0' + minute
+    if (second.length < 2) second = '0' + second
     // * Join All Format to YYYY-MM-DD HH:mm
-    const dateFormated = [day, month, year].join('-') + ' ' + [hour, minute, second].join(':')
+    const dateFormated =
+      [day, month, year].join('-') + ' ' + [hour, minute, second].join(':')
     return dateFormated
   }
 }
 
 /**
- * Format Date yyyy-mm-dd 
- * 
- * @param {*} date 
+ * Format Date yyyy-mm-dd
+ *
+ * @param {*} date
  * @returns
  */
 export const formatDate = (date) => {
@@ -169,10 +163,8 @@ export const formatDate = (date) => {
     day = '' + d.getDate(),
     year = d.getFullYear()
 
-  if (month.length < 2)
-    month = '0' + month
-  if (day.length < 2)
-    day = '0' + day
+  if (month.length < 2) month = '0' + month
+  if (day.length < 2) day = '0' + day
 
-  return [year, month, day].join('-')
+  return [day, month, year].join('-')
 }
