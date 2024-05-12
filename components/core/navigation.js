@@ -125,12 +125,6 @@ const navigation = [
         permission: [{ name: 'history-group' }]
       },
       {
-        path: '/data-riwayat/gaji',
-        name: 'GAJI',
-        icon: null,
-        permission: [{ name: 'history-salary' }]
-      },
-      {
         path: '/data-riwayat/pelatihan-struktural',
         name: 'PELATIHAN STRUKTURAL',
         icon: null,
