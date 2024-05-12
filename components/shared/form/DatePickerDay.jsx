@@ -1,76 +1,79 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { DayPicker } from 'react-day-picker'
 import 'react-day-picker/dist/style.css'
-import { format } from 'date-fns'
 import PropTypes from 'prop-types'
 import { Input, Icon, Modal } from '@/components/shared'
 import { CALENDAR_ICON } from '@/utils/iconConstant'
-import { dateTimeFormat } from '@/utils/index'
-
-const css = `
-  :root {
-    --rdp-background-color: #FE9516
-  }
- .my-selected:not([disabled]) { 
-    font-weight: bold;
-    color: #fff; 
-    background-color: #2F2F2F;
-  }
-  .my-selected:hover:not([disabled]) { 
-    border-color: #FE9516;
-    color: #000;
-  }
-`
+import { formatDate } from '@/utils/index'
+import { Box, IconButton, Typography } from '@mui/material'
+import { Cancel } from '@mui/icons-material'
 
 function DatePickerDay({
   label,
   name,
   placeholder,
-  dateDay,
-  setDateDay = () => { }
+  value,
+  handleValue = () => {}
 }) {
-  const [singleDay, setSingleDay] = useState(dateDay || null)
+  const [singleDay, setSingleDay] = useState(value || null)
   const [open, setOpen] = useState(false)
 
-  useEffect(() => {
-    setDateDay(singleDay)
-  }, [setDateDay, singleDay])
+  const handleSelectedValue = (val) => {
+    setSingleDay(val)
+    if (open) setOpen((open) => !open)
+  }
 
-  const footer = singleDay ? (
-    <p>{format(singleDay, 'dd-MM-yyy')}.</p>
-  ) : (
-    <p>Please pick a day.</p>
-  )
+  useEffect(() => {
+    handleValue(singleDay)
+  }, [handleValue, singleDay])
 
   return (
-    <>
-      <p style={{
-        marginBottom: '0'
-      }}>{label}</p>
-      <div style={{
-        position: 'relative'
-      }}>
+    <Fragment>
+      {label && (
+        <Typography
+          component='p'
+          sx={{ marginBottom: '8px', fontSize: '14px', fontWeight: 500 }}
+        >
+          {label}
+        </Typography>
+      )}
+      <Box sx={{ position: 'relative' }}>
         <Input
           fullWidth
           placeholder={placeholder}
           readOnly
           name={name}
-          value={singleDay === null || typeof singleDay === 'undefined' ? '' : dateTimeFormat(singleDay)}
-          onClick={() => setOpen(open => !open)}
+          value={
+            singleDay === null || typeof singleDay === 'undefined'
+              ? ''
+              : formatDate(singleDay)
+          }
+          onClick={() => setOpen((open) => !open)}
         />
-        <div
-          style={{
+        <Box
+          sx={{
+            width: '50px',
+            height: '20px',
             position: 'absolute',
-            top: '17px',
-            right: '10px'
+            top: '50%',
+            right: '10px',
+            transform: 'translateY(-50%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end'
           }}
         >
+          {singleDay && (
+            <IconButton aria-label='clear' onClick={() => setSingleDay(null)}>
+              <Cancel sx={{ fontSize: '20px' }} />
+            </IconButton>
+          )}
           <Icon
             path={CALENDAR_ICON}
-            maxWidth={20}
+            style={{ width: '20px', height: '20px', fontSize: '20px' }}
           />
-        </div>
-      </div>
+        </Box>
+      </Box>
       <Modal
         keepMounted
         open={open}
@@ -78,16 +81,15 @@ function DatePickerDay({
         width='350px'
         padding='1rem 1rem'
       >
-        <style>{css}</style>
         <DayPicker
           mode='single'
           defaultMonth={singleDay}
           selected={singleDay}
-          onSelect={setSingleDay}
-          footer={footer}
+          onSelect={handleSelectedValue}
+          style={{ margin: 0 }}
         />
       </Modal>
-    </>
+    </Fragment>
   )
 }
 
@@ -95,8 +97,8 @@ DatePickerDay.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string,
   placeholder: PropTypes.string,
-  dateDay: PropTypes.any,
-  setDateDay: PropTypes.func
+  value: PropTypes.any,
+  handleValue: PropTypes.func
 }
 
 export default DatePickerDay

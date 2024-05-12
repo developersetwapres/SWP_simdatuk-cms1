@@ -1,23 +1,35 @@
-import React, { Fragment } from 'react'
-import { TextField } from '@mui/material'
+import React from 'react'
+import { Box, TextField } from '@mui/material'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@mui/styles'
 
-
 const useStyles = makeStyles({
   label: {
-    fontSize: '16px',
-    margin: 0
+    fontSize: '14px',
+    fontWeight: 500,
+    margin: '0 0 8px 0'
+  },
+  root: {
+    width: '100%',
+    '& .MuiInputBase-root': {
+      border: '1.2px solid #394346',
+      borderRadius: '6px',
+      '&.Mui-focused': {
+        border: 'none'
+      },
+      '& input': {
+        padding: '12px'
+      }
+    }
   }
 })
 
 /**
  * Input
- * 
+ *
  * @param {*} props
- * @returns 
+ * @returns
  */
-
 
 function Input({
   name,
@@ -33,9 +45,12 @@ function Input({
 }) {
   const classes = useStyles()
   return (
-    <Fragment>
-      <p className={classesLabel ? classesLabel : classes.label}>{label}</p>
+    <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+      {label && (
+        <p className={classesLabel ? classesLabel : classes.label}>{label}</p>
+      )}
       <TextField
+        className={classes.root}
         variant={variant || 'outlined'}
         name={name}
         value={value || ''}
@@ -44,10 +59,8 @@ function Input({
         {...others}
         autoComplete={autoComplete}
         {...(error && { error: true, helperText: error })}
-      // color='warning'
       />
-      {/* </TextField> */}
-    </Fragment>
+    </Box>
   )
 }
 
@@ -61,8 +74,6 @@ Input.propTypes = {
   error: PropTypes.any,
   classesLabel: PropTypes.any,
   onChange: PropTypes.any
-
-
 }
 
 export default Input

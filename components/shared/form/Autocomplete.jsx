@@ -8,13 +8,19 @@ import { Cancel } from '@mui/icons-material'
 import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles(() => ({
-  autocomplete: {
-    border: '1px solid #000',
-    borderRadius: '8px'
-  },
   input: {
-    '& .MuiInputBase-root': {
-      borderRadius: '8px'
+    '& .MuiOutlinedInput-root.MuiOutlinedInput-root': {
+      padding: '12px',
+      border: '1.2px solid #000',
+      borderRadius: '6px',
+
+      '&.Mui-focused': {
+        border: 'none'
+      },
+
+      '& input': {
+        padding: 'unset'
+      }
     }
   }
 }))
@@ -49,7 +55,6 @@ function MuiAutocomplete({
         options={options}
         getOptionLabel={(option) => option.title}
         filterSelectedOptions
-        className={classes.autocomplete}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -79,6 +84,7 @@ function MuiAutocomplete({
             />
           ))
         }
+        {...other}
       />
     </Box>
   )
