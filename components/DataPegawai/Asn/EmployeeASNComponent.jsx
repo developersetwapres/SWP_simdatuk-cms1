@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React, { useMemo } from 'react'
-import LayoutPages from '../../../core/LayoutPages'
+import LayoutPages from '../../core/LayoutPages'
 import { Box } from '@mui/system'
 import { Button, Table } from '@/components/shared'
 import { Edit, Info } from '@mui/icons-material'
@@ -30,52 +30,52 @@ const data = [
     image: '/simdatuk/imagePegawai.png',
     nama: 'John',
     nip: '12345',
-    outsourcing: 'Outsourcing Pegawai',
-    keterangan: 'Keterangan pegawai'
+    golongan: 'Golongan I',
+    jabatan: 'Jabatan I'
   },
   {
     id: 123,
     image: '/simdatuk/imagePegawai.png',
     nama: 'John',
     nip: '12345',
-    outsourcing: 'Outsourcing Pegawai',
-    keterangan: 'Keterangan pegawai'
+    golongan: 'Golongan I',
+    jabatan: 'Jabatan I'
   },
   {
     id: 123,
     image: '/simdatuk/imagePegawai.png',
     nama: 'John',
     nip: '12345',
-    outsourcing: 'Outsourcing Pegawai',
-    keterangan: 'Keterangan pegawai'
+    golongan: 'Golongan I',
+    jabatan: 'Jabatan I'
   },
   {
     id: 123,
     image: '/simdatuk/imagePegawai.png',
     nama: 'John',
     nip: '12345',
-    outsourcing: 'Outsourcing Pegawai',
-    keterangan: 'Keterangan pegawai'
+    golongan: 'Golongan I',
+    jabatan: 'Jabatan I'
   },
   {
     id: 123,
     image: '/simdatuk/imagePegawai.png',
     nama: 'John',
     nip: '12345',
-    outsourcing: 'Outsourcing Pegawai',
-    keterangan: 'Keterangan pegawai'
+    golongan: 'Golongan I',
+    jabatan: 'Jabatan I'
   },
   {
     id: 123,
     image: '/simdatuk/imagePegawai.png',
     nama: 'John',
     nip: '12345',
-    outsourcing: 'Outsourcing Pegawai',
-    keterangan: 'Keterangan pegawai'
+    golongan: 'Golongan I',
+    jabatan: 'Jabatan I'
   }
 ]
 
-const EmployeeOutsourcingComponent = () => {
+const EmployeeASNComponent = () => {
   const router = useRouter()
   const columns = useMemo(
     () => [
@@ -95,12 +95,12 @@ const EmployeeOutsourcingComponent = () => {
         align: 'left'
       },
       {
-        Header: 'Jenis Outsourcing',
+        Header: 'Golongan',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Keterangan',
+        Header: 'Jabatan Terakhir',
         width: 240,
         align: 'left'
       },
@@ -152,16 +152,16 @@ const EmployeeOutsourcingComponent = () => {
           Cell: () => <Typography>{item?.nip}</Typography>
         },
         {
-          Header: 'Outsourcing',
+          Header: 'Golongan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.outsourcing}</Typography>
+          Cell: () => <Typography>{item?.golongan}</Typography>
         },
         {
-          Header: 'Keterangan',
+          Header: 'Jabatan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.keterangan}</Typography>
+          Cell: () => <Typography>{item?.jabatan}</Typography>
         },
         {
           Header: 'Aksi',
@@ -200,6 +200,11 @@ const EmployeeOutsourcingComponent = () => {
     return (
       <Box sx={{ display: 'flex', gap: 1 }}>
         <Button
+          text='Sinkronisasi Data'
+          sx={{ backgroundColor: '#F16637' }}
+          onClick={() => handleAction('sync')}
+        />
+        <Button
           text='Tambah Massal'
           color='sidatukDraweBase'
           onClick={() => router.push(`${router.asPath}/add-bulk`)}
@@ -214,11 +219,11 @@ const EmployeeOutsourcingComponent = () => {
   }, [])
 
   return (
-    <LayoutPages summary={'Data Pegawai Outsourcing'} action={action}>
+    <LayoutPages summary={'Data Pegawai ASN'} action={action}>
       <EmployeeFilterComponent />
       <Table columns={columns} rows={rows} />
     </LayoutPages>
   )
 }
 
-export default EmployeeOutsourcingComponent
+export default EmployeeASNComponent

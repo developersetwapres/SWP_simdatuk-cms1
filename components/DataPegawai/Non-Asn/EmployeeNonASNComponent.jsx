@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React, { useMemo } from 'react'
-import LayoutPages from '../../../core/LayoutPages'
+import LayoutPages from '../../core/LayoutPages'
 import { Box } from '@mui/system'
 import { Button, Table } from '@/components/shared'
 import { Edit, Info } from '@mui/icons-material'
@@ -30,7 +30,7 @@ const data = [
     image: '/simdatuk/imagePegawai.png',
     nama: 'John',
     nip: '12345',
-    golongan: 'Golongan I',
+    perbantuan: 'Jenis Perbantuan I',
     jabatan: 'Jabatan I'
   },
   {
@@ -38,7 +38,7 @@ const data = [
     image: '/simdatuk/imagePegawai.png',
     nama: 'John',
     nip: '12345',
-    golongan: 'Golongan I',
+    perbantuan: 'Jenis Perbantuan I',
     jabatan: 'Jabatan I'
   },
   {
@@ -46,7 +46,7 @@ const data = [
     image: '/simdatuk/imagePegawai.png',
     nama: 'John',
     nip: '12345',
-    golongan: 'Golongan I',
+    perbantuan: 'Jenis Perbantuan I',
     jabatan: 'Jabatan I'
   },
   {
@@ -54,7 +54,7 @@ const data = [
     image: '/simdatuk/imagePegawai.png',
     nama: 'John',
     nip: '12345',
-    golongan: 'Golongan I',
+    perbantuan: 'Jenis Perbantuan I',
     jabatan: 'Jabatan I'
   },
   {
@@ -62,7 +62,7 @@ const data = [
     image: '/simdatuk/imagePegawai.png',
     nama: 'John',
     nip: '12345',
-    golongan: 'Golongan I',
+    perbantuan: 'Jenis Perbantuan I',
     jabatan: 'Jabatan I'
   },
   {
@@ -70,12 +70,12 @@ const data = [
     image: '/simdatuk/imagePegawai.png',
     nama: 'John',
     nip: '12345',
-    golongan: 'Golongan I',
+    perbantuan: 'Jenis Perbantuan I',
     jabatan: 'Jabatan I'
   }
 ]
 
-const EmployeeASNComponent = () => {
+const EmployeeNonASNComponent = () => {
   const router = useRouter()
   const columns = useMemo(
     () => [
@@ -95,12 +95,12 @@ const EmployeeASNComponent = () => {
         align: 'left'
       },
       {
-        Header: 'Golongan',
+        Header: 'Jenis Perbantuan',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Jabatan Terakhir',
+        Header: 'Jabatan',
         width: 240,
         align: 'left'
       },
@@ -152,10 +152,10 @@ const EmployeeASNComponent = () => {
           Cell: () => <Typography>{item?.nip}</Typography>
         },
         {
-          Header: 'Golongan',
+          Header: 'Perbantuan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.golongan}</Typography>
+          Cell: () => <Typography>{item?.perbantuan}</Typography>
         },
         {
           Header: 'Jabatan',
@@ -192,18 +192,9 @@ const EmployeeASNComponent = () => {
     return dataMapping
   }, [data])
 
-  const handleAction = (value) => {
-    console.log('action', value)
-  }
-
   const action = useMemo(() => {
     return (
       <Box sx={{ display: 'flex', gap: 1 }}>
-        <Button
-          text='Sinkronisasi Data'
-          sx={{ backgroundColor: '#F16637' }}
-          onClick={() => handleAction('sync')}
-        />
         <Button
           text='Tambah Massal'
           color='sidatukDraweBase'
@@ -218,12 +209,16 @@ const EmployeeASNComponent = () => {
     )
   }, [])
 
+  const handleAction = (value) => {
+    console.log('action', value)
+  }
+
   return (
-    <LayoutPages summary={'Data Pegawai ASN'} action={action}>
+    <LayoutPages summary={'Data Pegawai Non ASN'} action={action}>
       <EmployeeFilterComponent />
       <Table columns={columns} rows={rows} />
     </LayoutPages>
   )
 }
 
-export default EmployeeASNComponent
+export default EmployeeNonASNComponent

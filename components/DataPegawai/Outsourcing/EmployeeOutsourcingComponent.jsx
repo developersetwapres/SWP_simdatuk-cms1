@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React, { useMemo } from 'react'
-import LayoutPages from '../../../core/LayoutPages'
+import LayoutPages from '../../core/LayoutPages'
 import { Box } from '@mui/system'
 import { Button, Table } from '@/components/shared'
 import { Edit, Info } from '@mui/icons-material'
@@ -30,52 +30,52 @@ const data = [
     image: '/simdatuk/imagePegawai.png',
     nama: 'John',
     nip: '12345',
-    perbantuan: 'Jenis Perbantuan I',
-    jabatan: 'Jabatan I'
+    outsourcing: 'Outsourcing Pegawai',
+    keterangan: 'Keterangan pegawai'
   },
   {
     id: 123,
     image: '/simdatuk/imagePegawai.png',
     nama: 'John',
     nip: '12345',
-    perbantuan: 'Jenis Perbantuan I',
-    jabatan: 'Jabatan I'
+    outsourcing: 'Outsourcing Pegawai',
+    keterangan: 'Keterangan pegawai'
   },
   {
     id: 123,
     image: '/simdatuk/imagePegawai.png',
     nama: 'John',
     nip: '12345',
-    perbantuan: 'Jenis Perbantuan I',
-    jabatan: 'Jabatan I'
+    outsourcing: 'Outsourcing Pegawai',
+    keterangan: 'Keterangan pegawai'
   },
   {
     id: 123,
     image: '/simdatuk/imagePegawai.png',
     nama: 'John',
     nip: '12345',
-    perbantuan: 'Jenis Perbantuan I',
-    jabatan: 'Jabatan I'
+    outsourcing: 'Outsourcing Pegawai',
+    keterangan: 'Keterangan pegawai'
   },
   {
     id: 123,
     image: '/simdatuk/imagePegawai.png',
     nama: 'John',
     nip: '12345',
-    perbantuan: 'Jenis Perbantuan I',
-    jabatan: 'Jabatan I'
+    outsourcing: 'Outsourcing Pegawai',
+    keterangan: 'Keterangan pegawai'
   },
   {
     id: 123,
     image: '/simdatuk/imagePegawai.png',
     nama: 'John',
     nip: '12345',
-    perbantuan: 'Jenis Perbantuan I',
-    jabatan: 'Jabatan I'
+    outsourcing: 'Outsourcing Pegawai',
+    keterangan: 'Keterangan pegawai'
   }
 ]
 
-const EmployeeNonASNComponent = () => {
+const EmployeeOutsourcingComponent = () => {
   const router = useRouter()
   const columns = useMemo(
     () => [
@@ -95,12 +95,12 @@ const EmployeeNonASNComponent = () => {
         align: 'left'
       },
       {
-        Header: 'Jenis Perbantuan',
+        Header: 'Jenis Outsourcing',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Jabatan',
+        Header: 'Keterangan',
         width: 240,
         align: 'left'
       },
@@ -152,16 +152,16 @@ const EmployeeNonASNComponent = () => {
           Cell: () => <Typography>{item?.nip}</Typography>
         },
         {
-          Header: 'Perbantuan',
+          Header: 'Outsourcing',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.perbantuan}</Typography>
+          Cell: () => <Typography>{item?.outsourcing}</Typography>
         },
         {
-          Header: 'Jabatan',
+          Header: 'Keterangan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.jabatan}</Typography>
+          Cell: () => <Typography>{item?.keterangan}</Typography>
         },
         {
           Header: 'Aksi',
@@ -192,6 +192,10 @@ const EmployeeNonASNComponent = () => {
     return dataMapping
   }, [data])
 
+  const handleAction = (value) => {
+    console.log('action', value)
+  }
+
   const action = useMemo(() => {
     return (
       <Box sx={{ display: 'flex', gap: 1 }}>
@@ -209,16 +213,12 @@ const EmployeeNonASNComponent = () => {
     )
   }, [])
 
-  const handleAction = (value) => {
-    console.log('action', value)
-  }
-
   return (
-    <LayoutPages summary={'Data Pegawai Non ASN'} action={action}>
+    <LayoutPages summary={'Data Pegawai Outsourcing'} action={action}>
       <EmployeeFilterComponent />
       <Table columns={columns} rows={rows} />
     </LayoutPages>
   )
 }
 
-export default EmployeeNonASNComponent
+export default EmployeeOutsourcingComponent
