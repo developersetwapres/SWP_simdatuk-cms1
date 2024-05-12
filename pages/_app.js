@@ -10,6 +10,7 @@ import { initializeStore } from '../store'
 import ModalResponse from '@/components/shared/Modal/ModalResponse'
 import ModalCatchError from '@/components/core/ModalCatchError'
 import Snackbar from '@/components/shared/Snackbar'
+import 'react-datepicker/dist/react-datepicker.css'
 
 const __REDUX_STORE__ = '__REDUX_STORE__'
 
