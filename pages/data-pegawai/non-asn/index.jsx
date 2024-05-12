@@ -1,5 +1,5 @@
 import React from 'react'
-import EmployeeNonASNContainer from '@/containers/Employment/Employee/Non-Asn/EmployeeNonASNContainer'
+import EmployeeNonASNContainer from '@/containers/DataPegawaiContainer/Non-Asn/EmployeeNonASNContainer'
 
 const index = () => {
   return <EmployeeNonASNContainer />

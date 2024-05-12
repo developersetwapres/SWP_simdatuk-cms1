@@ -1,5 +1,5 @@
 import React from 'react'
-import EmployeeAddBulkNonASNContainer from '@/containers/Employment/Employee/Non-Asn/EmployeeAddBulkNonASNContainer'
+import EmployeeAddBulkNonASNContainer from '@/containers/DataPegawaiContainer/Non-Asn/EmployeeAddBulkNonASNContainer'
 
 const AddBulkEmployeeNonASN = () => {
   return <EmployeeAddBulkNonASNContainer />

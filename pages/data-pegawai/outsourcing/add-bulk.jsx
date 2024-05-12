@@ -1,5 +1,5 @@
 import React from 'react'
-import EmployeeAddBulkOutsourcingContainer from '@/containers/Employment/Employee/Outsourcing/EmployeeAddBulkOutsourcingContainer'
+import EmployeeAddBulkOutsourcingContainer from '@/containers/DataPegawaiContainer/Outsourcing/EmployeeAddBulkOutsourcingContainer'
 
 const AddBulkEmployeeOutsourcing = () => {
   return <EmployeeAddBulkOutsourcingContainer />

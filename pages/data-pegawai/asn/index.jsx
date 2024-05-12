@@ -1,4 +1,4 @@
-import EmployeeASNContainer from '@/containers/Employment/Employee/Asn/EmployeeASNContainer'
+import EmployeeASNContainer from '@/containers/DataPegawaiContainer/Asn/EmployeeASNContainer'
 import React from 'react'
 
 const index = () => {
