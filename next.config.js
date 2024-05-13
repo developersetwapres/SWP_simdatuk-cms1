@@ -10,15 +10,15 @@ const alias = {
   '@/store': path.join(__dirname, 'store')
 }
 
-const ContentSecurityPolicy = `
-  default-src 'self' https://simdatuk-api.ekuator.id/ http://10.1.3.97/;
-  script-src 'self' 'unsafe-eval'; 
-  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-  connect-src 'self' https://simdatuk-api.ekuator.id/ http://10.1.3.97/;
-  font-src 'self' https://fonts.gstatic.com;
-  img-src 'self' https://simdatuk-api.ekuator.id/ http://10.1.3.97/ data:;
-  object-src 'none';
-`
+// const ContentSecurityPolicy = `
+//   default-src 'self' https://simdatuk-api.ekuator.id/ http://10.1.3.97/;
+//   script-src 'self' 'unsafe-eval';
+//   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+//   connect-src 'self' https://simdatuk-api.ekuator.id/ http://10.1.3.97/;
+//   font-src 'self' https://fonts.gstatic.com;
+//   img-src 'self' https://simdatuk-api.ekuator.id/ http://10.1.3.97/ data:;
+//   object-src 'none';
+// `
 
 const securityHeaders = [
   {
@@ -36,11 +36,11 @@ const securityHeaders = [
   {
     key: 'Cache-Control',
     value: 'no-store, no-cache, must-revalidate'
-  },
-  {
-    key: 'Content-Security-Policy',
-    value: ContentSecurityPolicy.replace(/\s{2,}/g, ' ').trim()
   }
+  // {
+  //   key: 'Content-Security-Policy',
+  //   value: ContentSecurityPolicy.replace(/\s{2,}/g, ' ').trim()
+  // }
 ]
 
 const nextConfig = {
