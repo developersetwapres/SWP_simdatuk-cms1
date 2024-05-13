@@ -11,12 +11,12 @@ const alias = {
 }
 
 const ContentSecurityPolicy = `
-  default-src 'self' https://simdatuk-api.ekuator.id/;
+  default-src 'self' https://simdatuk-api.ekuator.id/ http://10.1.3.97/;
   script-src 'self' 'unsafe-eval'; 
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-  connect-src 'self' https://simdatuk-api.ekuator.id/;
+  connect-src 'self' https://simdatuk-api.ekuator.id/ http://10.1.3.97/;
   font-src 'self' https://fonts.gstatic.com;
-  img-src 'self' https://simdatuk-api.ekuator.id/ data:;
+  img-src 'self' https://simdatuk-api.ekuator.id/ http://10.1.3.97/ data:;
   object-src 'none';
 `
 
