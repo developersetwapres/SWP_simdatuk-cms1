@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Box, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 import { Button } from '../shared'
@@ -15,7 +15,7 @@ const LayoutPages = ({
   otherStyle
 }) => {
   return (
-    <>
+    <Fragment>
       {handleBack && (
         <Box sx={{ marginBottom: '20px' }}>
           <Button
@@ -49,16 +49,16 @@ const LayoutPages = ({
             }}
           >
             {count && (
-              <Typography variant='H4' component='H4' fontSize='16px'>
+              <Typography component='h4' fontSize='16px'>
                 {count}
               </Typography>
             )}
-            {action}
+            {action && action}
           </Box>
         </Box>
       )}
       {children}
-    </>
+    </Fragment>
   )
 }
 
