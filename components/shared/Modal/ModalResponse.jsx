@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from 'react'
-import { Box, Modal } from '@mui/material'
+import { Box, Modal, Typography } from '@mui/material'
 import { Button } from '@/components/shared'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -10,125 +10,150 @@ import { mapStateToProps } from '@/store/'
 import { ERROR_ICON, SUCCESS_ICON } from '@/utils/iconConstant'
 
 const style = {
+  width: '100%',
+  maxWidth: '640px',
+  padding: '50px 40px 34px 40px',
   position: 'absolute',
   textAlign: 'center',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '100%',
-  maxWidth: '600px',
   bgcolor: 'background.paper',
-  //   border: '2px solid #abaaa9',
-  // boxShadow: 24,
   border: 'none',
-  p: 4,
   borderRadius: '20px'
 }
 
-function ModalResponse({
-  modalReducer,
-  closeModal = () => { }
-}) {
-  const [open, setOpen] = useState(false)
+function ModalResponse({ modalReducer, closeModal = () => {} }) {
   const router = useRouter()
   const path = router.asPath
-  useEffect(() => {
-    setOpen(modalReducer?.modal)
-  }, [modalReducer?.modal])
+
+  const [open, setOpen] = useState(false)
 
   const handleCallback = () => {
-    router.push(modalReducer?.redirect || path)
+    if (modalReducer?.redirect) router.push(modalReducer?.redirect || path)
     closeModal()
   }
 
+  useEffect(() => {
+    setOpen(modalReducer?.modal)
 
+    console.log('modalReducer', modalReducer)
+  }, [modalReducer, modalReducer?.modal])
 
   return (
-    <div>
-      <Modal
-        aria-labelledby='transition-modal-title'
-        aria-describedby='transition-modal-description'
-        open={open}
+    <Modal
+      aria-labelledby='transition-modal-title'
+      aria-describedby='transition-modal-description'
+      open={open}
       // {...(modalReducer?.redirect === null && { onClose: closeModal })}
-      >
-        <Box sx={style}>
-          {
-            modalReducer?.code === 200 && (
-              <>
-                <img
-                  style={{
-                    width: '100%',
-                    height: 'auto',
-                    maxWidth: '128px'
-                  }}
-                  src={SUCCESS_ICON}
-                  alt='success'
-                />
-                <h2>
-                  {modalReducer?.message}
-                </h2>
-                <div
-                  style={{
-                    marginRight: 'auto',
-                    marginLeft: 'auto',
-                    width: '100%',
-                    textAlign: 'center'
+    >
+      <Box sx={style}>
+        {modalReducer?.code === 200 && (
+          <>
+            <Box
+              sx={{
+                margin: 'auto',
+                height: '112px',
+                width: '112px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                overflow: 'hidden'
+              }}
+            >
+              <img
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  maxWidth: '128px'
+                }}
+                src={SUCCESS_ICON}
+                alt='success'
+              />
+            </Box>
+            <Box sx={{ margin: '24px auto 30px auto' }}>
+              {modalReducer?.message && (
+                <Typography
+                  sx={{
+                    fontSize: '26px',
+                    fontWeight: 800
                   }}
                 >
-                  <Button
-                    text='Tutup'
-                    type='button'
-                    color='warning'
-                    sx={{
-                      padding: '12px',
-                      width: '540px',
-                      textTransform: 'none',
-                      ...primaryButtonStyle
-                    }}
-                    onClick={() => { handleCallback() }}
-                  />
-                </div>
-              </>
-            )
-          }
-          {
-            modalReducer?.code !== 200 && modalReducer?.code !== 201 && (
-              <>
-                <img
-                  src={ERROR_ICON}
-                  style={{
-                    width: '100%',
-                    height: 'auto',
-                    maxWidth: '128px'
-                  }}
-                  alt='error'
-                />
-                <h2>
                   {modalReducer?.message}
-                </h2>
-                <p style={{
-                  marginTop: '10px'
-                }}>{modalReducer?.childMessage}</p>
-                <Button
-                  text='Tutup'
-                  type='button'
-                  color='warning'
+                </Typography>
+              )}
+              {modalReducer?.childMessage && (
+                <Typography
                   sx={{
-                    padding: '12px',
-                    width: '440px',
-                    textTransform: 'none',
-                    ...primaryButtonStyle,
-                    textTransform: 'none'
+                    fontSize: '16px',
+                    fontWeight: 400
                   }}
-                  onClick={() => { handleCallback() }}
-                />
-              </>
-            )
-          }
-        </Box>
-      </Modal>
-
-    </div >
+                >
+                  {modalReducer?.childMessage}
+                </Typography>
+              )}
+            </Box>
+            <Box
+              style={{
+                marginRight: 'auto',
+                marginLeft: 'auto',
+                width: '100%',
+                textAlign: 'center'
+              }}
+            >
+              <Button
+                text='Tutup'
+                type='button'
+                sx={{
+                  padding: '12px',
+                  width: '100%',
+                  textTransform: 'none',
+                  ...primaryButtonStyle
+                }}
+                onClick={() => {
+                  handleCallback()
+                }}
+              />
+            </Box>
+          </>
+        )}
+        {modalReducer?.code !== 200 && modalReducer?.code !== 201 && (
+          <>
+            <img
+              src={ERROR_ICON}
+              style={{
+                width: '100%',
+                height: 'auto',
+                maxWidth: '128px'
+              }}
+              alt='error'
+            />
+            <h2>{modalReducer?.message}</h2>
+            <p
+              style={{
+                marginTop: '10px'
+              }}
+            >
+              {modalReducer?.childMessage}
+            </p>
+            <Button
+              text='Tutup'
+              type='button'
+              sx={{
+                padding: '12px',
+                width: '440px',
+                textTransform: 'none',
+                ...primaryButtonStyle,
+                textTransform: 'none'
+              }}
+              onClick={() => {
+                handleCallback()
+              }}
+            />
+          </>
+        )}
+      </Box>
+    </Modal>
   )
 }
 
