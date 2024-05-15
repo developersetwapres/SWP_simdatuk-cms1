@@ -53,20 +53,23 @@ function MuiAutocomplete({
         multiple={multiple}
         id='tags-outlined'
         options={options}
-        getOptionLabel={(option) => option.title}
+        value={value}
+        getOptionLabel={(option) => option}
         filterSelectedOptions
+        onChange={(e, val) => onChange(val)}
         renderInput={(params) => (
           <TextField
             {...params}
             placeholder={placeholder}
             className={classes.input}
+            {...(error && { error: true, helperText: error })}
           />
         )}
         renderTags={(tagValue, getTagProps) =>
           tagValue.map((option, index) => (
             <Chip
               key={index}
-              label={option.title}
+              label={option}
               {...getTagProps({ index })}
               deleteIcon={
                 <Cancel

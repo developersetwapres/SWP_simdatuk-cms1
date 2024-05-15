@@ -6,9 +6,11 @@ import DatePicker from 'react-datepicker'
 const DatepickerYear = ({
   value,
   label,
+  name,
+  error,
   placeholder,
   isClear = false,
-  handleValue = () => {}
+  onChange = () => {}
 }) => {
   const renderYearContent = (year) => {
     const tooltipText = `Tooltip for year: ${year}`
@@ -30,7 +32,8 @@ const DatepickerYear = ({
           width: '100%',
           margin: 0,
           padding: 0,
-          border: '1.2px solid #394346',
+          border: '1.2px solid',
+          borderColor: error ? 'red' : '#394346',
           borderRadius: '6px',
           overflow: 'hidden',
           '& > div.react-datepicker-wrapper': {
@@ -55,12 +58,21 @@ const DatepickerYear = ({
           renderYearContent={renderYearContent}
           selected={value}
           showYearPicker
+          name={name}
           dateFormat='yyyy'
-          onChange={(date) => handleValue(date)}
+          onChange={(date) => onChange(date)}
           placeholderText={placeholder}
           isClearable={isClear}
         />
       </Box>
+      {error && (
+        <Typography
+          component='p'
+          sx={{ marginTop: '4px', fontSize: '14px', color: '#d32f2f' }}
+        >
+          {error}
+        </Typography>
+      )}
     </Fragment>
   )
 }
@@ -68,9 +80,11 @@ const DatepickerYear = ({
 DatepickerYear.propTypes = {
   value: PropTypes.string,
   label: PropTypes.string,
+  name: PropTypes.string,
+  error: PropTypes.string,
   placeholder: PropTypes.string,
   isClear: PropTypes.bool,
-  handleValue: PropTypes.any
+  onChange: PropTypes.func
 }
 
 export default DatepickerYear

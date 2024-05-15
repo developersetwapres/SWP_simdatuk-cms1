@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { useState, Fragment, useMemo } from 'react'
 import { DayPicker } from 'react-day-picker'
 import 'react-day-picker/dist/style.css'
 import PropTypes from 'prop-types'
@@ -13,19 +13,20 @@ function DatePickerDay({
   name,
   placeholder,
   value,
-  handleValue = () => {}
+  error,
+  onChange = () => {},
+  ...other
 }) {
-  const [singleDay, setSingleDay] = useState(value || null)
   const [open, setOpen] = useState(false)
 
+  const valueDate = useMemo(() => {
+    return value || null
+  }, [value])
+
   const handleSelectedValue = (val) => {
-    setSingleDay(val)
+    onChange(val)
     if (open) setOpen((open) => !open)
   }
-
-  useEffect(() => {
-    handleValue(singleDay)
-  }, [handleValue, singleDay])
 
   return (
     <Fragment>
@@ -43,35 +44,46 @@ function DatePickerDay({
           placeholder={placeholder}
           readOnly
           name={name}
-          value={
-            singleDay === null || typeof singleDay === 'undefined'
-              ? ''
-              : formatDate(singleDay)
-          }
+          value={valueDate ? formatDate(valueDate) : ''}
           onClick={() => setOpen((open) => !open)}
+          error={error}
+          {...other}
         />
         <Box
           sx={{
-            width: '50px',
-            height: '20px',
+            width: 'fit-content',
+            height: '50px',
             position: 'absolute',
-            top: '50%',
-            right: '10px',
-            transform: 'translateY(-50%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-end'
+            top: 0,
+            right: 0
           }}
         >
-          {singleDay && (
-            <IconButton aria-label='clear' onClick={() => setSingleDay(null)}>
-              <Cancel sx={{ fontSize: '20px' }} />
-            </IconButton>
-          )}
-          <Icon
-            path={CALENDAR_ICON}
-            style={{ width: '20px', height: '20px', fontSize: '20px' }}
-          />
+          <Box
+            sx={{
+              width: '50px',
+              height: '20px',
+              position: 'absolute',
+              top: '50%',
+              right: '10px',
+              transform: 'translateY(-50%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-end'
+            }}
+          >
+            {valueDate && (
+              <IconButton
+                aria-label='clear'
+                onClick={() => handleSelectedValue(null)}
+              >
+                <Cancel sx={{ fontSize: '20px' }} />
+              </IconButton>
+            )}
+            <Icon
+              path={CALENDAR_ICON}
+              style={{ width: '20px', height: '20px', fontSize: '20px' }}
+            />
+          </Box>
         </Box>
       </Box>
       <Modal
@@ -83,8 +95,10 @@ function DatePickerDay({
       >
         <DayPicker
           mode='single'
-          defaultMonth={singleDay}
-          selected={singleDay}
+          defaultMonth={valueDate || new Date()}
+          selected={valueDate || new Date()}
+          // fromYear={valueDate || new Date()}
+          // toYear={valueDate || new Date()}
           onSelect={handleSelectedValue}
           style={{ margin: 0 }}
         />
@@ -96,9 +110,10 @@ function DatePickerDay({
 DatePickerDay.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string,
+  error: PropTypes.string,
   placeholder: PropTypes.string,
   value: PropTypes.any,
-  handleValue: PropTypes.func
+  onChange: PropTypes.func
 }
 
 export default DatePickerDay
