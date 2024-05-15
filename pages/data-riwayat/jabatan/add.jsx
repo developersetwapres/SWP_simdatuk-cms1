@@ -1,5 +1,5 @@
-import RiwayatJabatanAddContainer from '@/containers/RiwayatContainer/JabatanContainer/RiwayatJabatanAddContainer'
 import React from 'react'
+import RiwayatJabatanAddContainer from '@/containers/RiwayatContainer/JabatanContainer/RiwayatJabatanAddContainer'
 
 const Add = () => {
   return <RiwayatJabatanAddContainer />

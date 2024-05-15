@@ -4,7 +4,7 @@ import { mapStateToProps } from '@/store/'
 import PropTypes from 'prop-types'
 import { mapActions } from '@/store/'
 import Layout from '@/components/core/Layout'
-import RiwayatJabatanForm from '@/components/Riwayat/Jabatan/RiwayatJabatanForm'
+import RiwayatJabatanEditComponent from '@/components/Riwayat/Jabatan/RiwayatJabatanEditComponent'
 
 export default connect(
   mapStateToProps('banner'),
@@ -36,7 +36,7 @@ export default connect(
     render() {
       return (
         <Layout willRender={this.state.willRender}>
-          <RiwayatJabatanForm {...this.state} {...this.props} />
+          <RiwayatJabatanEditComponent {...this.state} {...this.props} />
         </Layout>
       )
     }

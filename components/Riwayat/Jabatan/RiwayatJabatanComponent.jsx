@@ -196,14 +196,18 @@ const RiwayatJabatanComponent = () => {
               <Button
                 text='Detail'
                 color='primary'
-                onClick={() => handleAction('add')}
+                onClick={() =>
+                  router.push(`/${router.pathname}/detail/${btoa(index)}`)
+                }
                 icon={<Info style={styles.iconButton} />}
                 sx={styles.buttonAction}
               />
               <Button
                 text='Edit'
                 color='sidatukDraweBase'
-                onClick={() => router.push(`/${router.pathname}/edit/${index}`)}
+                onClick={() =>
+                  router.push(`/${router.pathname}/edit/${btoa(index)}`)
+                }
                 icon={<Edit style={styles.iconButton} />}
                 sx={styles.buttonAction}
               />

@@ -1,4 +1,4 @@
-export const SUCCESS_ICON = '/icons/Success_Icon.png'
+export const SUCCESS_ICON = '/icons/Success_Icon.svg'
 export const ERROR_ICON = '/icons/Error_Icon.png'
 export const PLUS_ICON = '/icons/plus.png'
 export const HAMBURGER_ICON = '/icons/hamburger.png'
@@ -26,5 +26,3 @@ export const NOTIFICATION_ICON_WARNING = '/icons/Notification_icon_warning.png'
 export const ARROW_DOWN = '/icons/chevron-down.png'
 export const BELL_WHITE = '/icons/Bell-white.png'
 export const PENCIL_SQUARE = '/icons/pencil-square.svg'
-
-
