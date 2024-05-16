@@ -36,8 +36,6 @@ function ModalResponse({ modalReducer, closeModal = () => {} }) {
 
   useEffect(() => {
     setOpen(modalReducer?.modal)
-
-    console.log('modalReducer', modalReducer)
   }, [modalReducer, modalReducer?.modal])
 
   return (

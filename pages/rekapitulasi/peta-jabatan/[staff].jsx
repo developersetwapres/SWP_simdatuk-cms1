@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import PetaJabatanContainer from '@/containers/PetaJabatanContainers/PetaJabatanContainer'
 import WithAuth from '@/components/shared/WithAuth'
@@ -22,10 +22,6 @@ export async function getServerSideProps(ctx) {
 
 const EmplyementPetaJabatan = (props) => {
   const { data } = props
-
-  useEffect(() => {
-    console.log('data', data)
-  }, [data])
 
   return <PetaJabatanContainer data={data} />
 }
