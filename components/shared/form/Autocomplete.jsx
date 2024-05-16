@@ -60,6 +60,7 @@ function MuiAutocomplete({
         renderInput={(params) => (
           <TextField
             {...params}
+            name={name}
             placeholder={placeholder}
             className={classes.input}
             {...(error && { error: true, helperText: error })}
