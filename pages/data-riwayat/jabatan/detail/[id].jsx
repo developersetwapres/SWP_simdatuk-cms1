@@ -1,8 +1,8 @@
 import React from 'react'
 import RiwayatJabatanDetailContainer from '@/containers/RiwayatContainer/JabatanContainer/RiwayatJabatanDetailContainer'
 
-const DetailJabatan = () => {
+const DetailRiwayatJabatan = () => {
   return <RiwayatJabatanDetailContainer />
 }
 
-export default DetailJabatan
+export default DetailRiwayatJabatan

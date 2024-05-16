@@ -34,11 +34,41 @@ const FormSchema = Yup.object().shape({
     tahun: Yup.string().required('Tahun tidak boleh kosong')
   }),
   pegawai: Yup.array().of(
-    Yup.object().shape({
-      nama: Yup.string().required('Nama Pegawai tidak boleh kosong'),
-      jabatan: Yup.string().required('Jabatan tidak boleh kosong'),
-      tmt: Yup.string().required('TMT Pegawai tidak boleh kosong')
-    })
+    Yup.object()
+      .shape({
+        nama: Yup.string().required('Nama Pegawai tidak boleh kosong'),
+        jabatan: Yup.string().required('Jabatan tidak boleh kosong'),
+        tmt: Yup.string().required('TMT Pegawai tidak boleh kosong')
+      })
+      .test('is-unique', 'Nama Pegawai harus unik', function (values) {
+        const names = new Map()
+        const duplicateNames = new Set()
+
+        values.forEach((pegawai, index) => {
+          const { nama } = pegawai
+          if (names.has(nama)) {
+            duplicateNames.add({ nama, index })
+          } else {
+            names.set(nama, index)
+          }
+        })
+
+        if (duplicateNames.size > 0) {
+          const errors = []
+          duplicateNames.forEach((item) => {
+            errors.push(
+              new Yup.ValidationError(
+                `Nama Pegawai tidak boleh sama`,
+                null,
+                `pegawai[${item.index}].nama`
+              )
+            )
+          })
+          throw new Yup.ValidationError(errors)
+        }
+
+        return true
+      })
   )
 })
 
@@ -46,8 +76,27 @@ const RiwayatJabatanEditComponent = () => {
   const router = useRouter()
   const formikRef = useRef(null)
 
-  const handleSubmit = (values, { setSubmitting }) => {
-    console.log('values', values)
+  const handleSubmit = async (values) => {
+    try {
+      await FormSchema.validate(values, { abortEarly: false })
+
+      formikRef.current.setErrors({})
+    } catch (err) {
+      if (!err.inner || err.inner.length === 0) {
+        return
+      }
+
+      const newErrors = {}
+      err.inner.forEach((error) => {
+        newErrors[error.path] = error.message
+        formikRef.current.setFieldError(error.path, error.message)
+      })
+
+      const firstErrorField = err.inner[0].path
+      const firstErrorEl = document.querySelector(`[name="${firstErrorField}"]`)
+      firstErrorEl &&
+        firstErrorEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
   }
 
   return (
@@ -63,12 +112,15 @@ const RiwayatJabatanEditComponent = () => {
           handleBack={() => router.back()}
           action={
             <Box>
-              <Button text='Simpan' onClick={formikProps?.handleSubmit} />
+              <Button
+                text='Simpan'
+                onClick={() => handleSubmit(formikProps?.values)}
+              />
             </Box>
           }
         >
           <Card>
-            <RiwayatJabatanForm {...formikProps} />
+            <RiwayatJabatanForm formikRef={formikRef} {...formikProps} />
           </Card>
         </LayoutPages>
       )}

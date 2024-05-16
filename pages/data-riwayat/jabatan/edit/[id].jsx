@@ -1,8 +1,8 @@
 import React from 'react'
 import RiwayatJabatanEditContainer from '@/containers/RiwayatContainer/JabatanContainer/RiwayatJabatanEditContainer'
 
-const EditJabatan = () => {
+const RiwayatJabatanEdit = () => {
   return <RiwayatJabatanEditContainer />
 }
 
-export default EditJabatan
+export default RiwayatJabatanEdit

@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Grid, Typography } from '@mui/material'
 import { Autocomplete, Button, Form, Input } from '@/components/shared'
@@ -15,7 +15,8 @@ const RiwayatJabatanForm = ({
   handleBlur,
   handleSubmit,
   isSubmitting,
-  setFieldValue
+  setFieldValue,
+  formikRef
 }) => {
   const options = {
     month: [
@@ -116,7 +117,10 @@ const RiwayatJabatanForm = ({
                 multiple={false}
                 value={values?.periode?.bulan}
                 onChange={(val) => {
-                  setFieldValue(`periode.bulan`, val)
+                  setFieldValue(`periode.bulan`, val, false)
+                  setTimeout(() => {
+                    formikRef.current.validateField(`periode.bulan`)
+                  }, 1)
                 }}
                 error={errors?.periode?.bulan}
               />
@@ -130,7 +134,10 @@ const RiwayatJabatanForm = ({
                 value={values?.periode?.tahun}
                 error={errors?.periode?.tahun}
                 onChange={(val) => {
-                  setFieldValue(`periode.tahun`, val)
+                  setFieldValue(`periode.tahun`, val, false)
+                  setTimeout(() => {
+                    formikRef.current.validateField(`periode.tahun`)
+                  }, 1)
                 }}
               />
             </Grid>
@@ -162,7 +169,12 @@ const RiwayatJabatanForm = ({
                     label='Nama / NIP *'
                     error={errors?.pegawai && errors?.pegawai[index]?.nama}
                     onChange={(val) => {
-                      setFieldValue(`pegawai[${index}].nama`, val)
+                      setFieldValue(`pegawai[${index}].nama`, val, false)
+                      setTimeout(() => {
+                        formikRef.current.validateField(
+                          `pegawai[${index}].nama`
+                        )
+                      }, 1)
                     }}
                   />
                 </Grid>
@@ -176,7 +188,12 @@ const RiwayatJabatanForm = ({
                     multiple={false}
                     label='Jabatan *'
                     onChange={(val) => {
-                      setFieldValue(`pegawai[${index}].jabatan`, val)
+                      setFieldValue(`pegawai[${index}].jabatan`, val, false)
+                      setTimeout(() => {
+                        formikRef.current.validateField(
+                          `pegawai[${index}].jabatan`
+                        )
+                      }, 1)
                     }}
                   />
                 </Grid>
@@ -190,7 +207,11 @@ const RiwayatJabatanForm = ({
                     multiple={false}
                     label='Jenjang Jabatan'
                     onChange={(val) => {
-                      setFieldValue(`pegawai[${index}].jenjangJabatan`, val)
+                      setFieldValue(
+                        `pegawai[${index}].jenjangJabatan`,
+                        val,
+                        false
+                      )
                     }}
                   />
                 </Grid>
@@ -204,7 +225,11 @@ const RiwayatJabatanForm = ({
                     multiple={false}
                     label='Keterangan Jabatan'
                     onChange={(val) => {
-                      setFieldValue(`pegawai[${index}].keteranganJabatan`, val)
+                      setFieldValue(
+                        `pegawai[${index}].keteranganJabatan`,
+                        val,
+                        false
+                      )
                     }}
                   />
                 </Grid>
@@ -217,7 +242,10 @@ const RiwayatJabatanForm = ({
                     placeholder='dd-mm-yy'
                     error={errors?.pegawai && errors?.pegawai[index]?.tmt}
                     onChange={(val) => {
-                      setFieldValue(`pegawai[${index}].tmt`, val)
+                      setFieldValue(`pegawai[${index}].tmt`, val, false)
+                      setTimeout(() => {
+                        formikRef.current.validateField(`pegawai[${index}].tmt`)
+                      }, 1)
                     }}
                   />
                 </Grid>
@@ -232,16 +260,15 @@ const RiwayatJabatanForm = ({
                     }}
                   >
                     <Input
-                      type='number'
                       label='No SK Golongan'
                       placeholder='Masukkan No SK Golongan'
                       name={`pegawai[${index}].noSk`}
                       value={item?.noSk}
-                      inputProps={{ min: '0' }}
                       onChange={(val) =>
                         setFieldValue(
                           `pegawai[${index}].noSk`,
-                          val?.target?.value
+                          val?.target?.value,
+                          false
                         )
                       }
                     />
@@ -284,7 +311,8 @@ RiwayatJabatanForm.propTypes = {
   handleSubmit: PropTypes.func,
   handleField: PropTypes.func,
   setFieldValue: PropTypes.func,
-  isSubmitting: PropTypes.bool
+  isSubmitting: PropTypes.bool,
+  formikRef: PropTypes.any
 }
 
 export default RiwayatJabatanForm
