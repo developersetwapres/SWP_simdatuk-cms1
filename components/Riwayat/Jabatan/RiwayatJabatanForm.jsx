@@ -187,6 +187,7 @@ const RiwayatJabatanForm = ({
                     value={item?.jabatan}
                     multiple={false}
                     label='Jabatan *'
+                    error={errors?.pegawai && errors?.pegawai[index]?.jabatan}
                     onChange={(val) => {
                       setFieldValue(`pegawai[${index}].jabatan`, val, false)
                       setTimeout(() => {

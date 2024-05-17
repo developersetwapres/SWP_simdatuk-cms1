@@ -33,43 +33,43 @@ const FormSchema = Yup.object().shape({
     bulan: Yup.string().required('Bulan tidak boleh kosong'),
     tahun: Yup.string().required('Tahun tidak boleh kosong')
   }),
-  pegawai: Yup.array().of(
-    Yup.object()
-      .shape({
+  pegawai: Yup.array()
+    .of(
+      Yup.object().shape({
         nama: Yup.string().required('Nama Pegawai tidak boleh kosong'),
         jabatan: Yup.string().required('Jabatan tidak boleh kosong'),
         tmt: Yup.string().required('TMT Pegawai tidak boleh kosong')
       })
-      .test('is-unique', 'Nama Pegawai harus unik', function (values) {
-        const names = new Map()
-        const duplicateNames = new Set()
+    )
+    .test('is-unique', 'Nama Pegawai harus unik', function (values) {
+      const names = new Map()
+      const duplicateNames = new Set()
 
-        values.forEach((pegawai, index) => {
-          const { nama } = pegawai
-          if (names.has(nama)) {
-            duplicateNames.add({ nama, index })
-          } else {
-            names.set(nama, index)
-          }
-        })
-
-        if (duplicateNames.size > 0) {
-          const errors = []
-          duplicateNames.forEach((item) => {
-            errors.push(
-              new Yup.ValidationError(
-                `Nama Pegawai tidak boleh sama`,
-                null,
-                `pegawai[${item.index}].nama`
-              )
-            )
-          })
-          throw new Yup.ValidationError(errors)
+      values.forEach((pegawai, index) => {
+        const { nama } = pegawai
+        if (names.has(nama)) {
+          duplicateNames.add({ nama, index })
+        } else {
+          names.set(nama, index)
         }
-
-        return true
       })
-  )
+
+      if (duplicateNames.size > 0) {
+        const errors = []
+        duplicateNames.forEach((item) => {
+          errors.push(
+            new Yup.ValidationError(
+              `Nama Pegawai tidak boleh sama`,
+              null,
+              `pegawai[${item.index}].nama`
+            )
+          )
+        })
+        throw new Yup.ValidationError(errors)
+      }
+
+      return true
+    })
 })
 
 const RiwayatJabatanAddComponent = () => {
@@ -104,7 +104,7 @@ const RiwayatJabatanAddComponent = () => {
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={handleSubmit}
+      onSubmit={() => {}}
     >
       {(formikProps) => (
         <LayoutPages
