@@ -41,11 +41,19 @@ function Input({
   error = null,
   classesLabel,
   onChange,
+  styleWrapper,
   ...others
 }) {
   const classes = useStyles()
   return (
-    <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+    <Box
+      sx={{
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        ...styleWrapper
+      }}
+    >
       {label && (
         <p className={classesLabel ? classesLabel : classes.label}>{label}</p>
       )}
@@ -73,7 +81,8 @@ Input.propTypes = {
   size: PropTypes.any,
   error: PropTypes.any,
   classesLabel: PropTypes.any,
-  onChange: PropTypes.any
+  onChange: PropTypes.any,
+  styleWrapper: PropTypes.object
 }
 
 export default Input
