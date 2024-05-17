@@ -6,6 +6,7 @@ import { Button, Table } from '@/components/shared'
 import { Edit, Info } from '@mui/icons-material'
 import { Box, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
+import { useRouter } from 'next/router'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -109,7 +110,9 @@ const data = [
     total: 10
   }
 ]
+
 const RiwayatPelatihanTeknisComponent = () => {
+  const router = useRouter()
   const classes = useStyles()
 
   const columns = useMemo(
@@ -149,7 +152,7 @@ const RiwayatPelatihanTeknisComponent = () => {
   )
 
   const rows = useMemo(() => {
-    const dataMapping = data.map((item) => {
+    const dataMapping = data.map((item, index) => {
       return [
         {
           Header: 'Tanggal',
@@ -190,16 +193,20 @@ const RiwayatPelatihanTeknisComponent = () => {
               <Button
                 text='Detail'
                 color='primary'
-                onClick={() => handleAction('add')}
                 icon={<Info style={styles.iconButton} />}
                 sx={styles.buttonAction}
+                onClick={() =>
+                  router.push(`/${router.pathname}/detail/${btoa(index)}`)
+                }
               />
               <Button
                 text='Edit'
                 color='sidatukDraweBase'
-                onClick={() => handleAction('bulk')}
                 icon={<Edit style={styles.iconButton} />}
                 sx={styles.buttonAction}
+                onClick={() =>
+                  router.push(`/${router.pathname}/edit/${btoa(index)}`)
+                }
               />
             </Box>
           )
@@ -213,7 +220,10 @@ const RiwayatPelatihanTeknisComponent = () => {
   const action = useMemo(() => {
     return (
       <Box>
-        <Button text='Tambah' />
+        <Button
+          text='Tambah'
+          onClick={() => router.push(`${router.asPath}/add`)}
+        />
       </Box>
     )
   }, [])
