@@ -89,7 +89,7 @@ const RiwayatGolonganForm = ({
               fontWeight: 500
             }}
           >
-            Periode Riwayat *
+            Periode Input Riwayat *
           </Typography>
           <Grid container spacing={2}>
             {/* Bulan */}

@@ -222,7 +222,7 @@ const RiwayatPelatihanStrukturalDetailComponent = () => {
           {/* Periode */}
           <Grid item xs={6}>
             <Box sx={styles?.wrapperItem}>
-              <Typography>Periode Riwayat</Typography>
+              <Typography>Periode Input Riwayat</Typography>
               <Typography sx={styles?.font}>Desember 2023</Typography>
             </Box>
           </Grid>

@@ -250,7 +250,7 @@ const RiwayatJabatanDetailComponent = () => {
           </Grid>
           <Grid item xs={6}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <Typography>Periode Riwayat</Typography>
+              <Typography>Periode Input Riwayat</Typography>
               <Typography sx={{ fontWeight: 600 }}>Desember 2023</Typography>
             </Box>
           </Grid>
