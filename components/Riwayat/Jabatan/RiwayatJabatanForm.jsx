@@ -105,7 +105,7 @@ const RiwayatJabatanForm = ({
               fontWeight: 500
             }}
           >
-            Periode Riwayat *
+            Periode Input Riwayat *
           </Typography>
           <Grid container spacing={2}>
             {/* Bulan */}
@@ -180,14 +180,12 @@ const RiwayatJabatanForm = ({
                 </Grid>
                 {/* Jabatan */}
                 <Grid item xs={2}>
-                  <Autocomplete
-                    options={options?.jabatan}
-                    name={`pegawai[${index}].jabatan`}
-                    placeholder='Pilih Jabatan'
-                    value={item?.jabatan}
-                    multiple={false}
+                  <Input
                     label='Jabatan *'
-                    error={errors?.pegawai && errors?.pegawai[index]?.jabatan}
+                    placeholder='Masukkan Jabatan'
+                    name={`pegawai[${index}].jabatan`}
+                    value={item?.jabatan}
+                    error={errors?.jabatan}
                     onChange={(val) => {
                       setFieldValue(`pegawai[${index}].jabatan`, val, false)
                       setTimeout(() => {
@@ -261,8 +259,8 @@ const RiwayatJabatanForm = ({
                     }}
                   >
                     <Input
-                      label='No SK Golongan'
-                      placeholder='Masukkan No SK Golongan'
+                      label='No SK Jabatan'
+                      placeholder='Masukkan No SK Jabatan'
                       name={`pegawai[${index}].noSk`}
                       value={item?.noSk}
                       onChange={(val) =>
