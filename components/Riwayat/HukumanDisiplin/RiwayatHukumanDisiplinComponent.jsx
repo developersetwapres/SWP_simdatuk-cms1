@@ -6,6 +6,7 @@ import { Box, Typography } from '@mui/material'
 import Search from '@/components/core/Search'
 import { makeStyles } from '@mui/styles'
 import { Edit, Info } from '@mui/icons-material'
+import { useRouter } from 'next/router'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -104,6 +105,7 @@ const data = [
 ]
 
 const RiwayatHukumanDisiplinComponent = () => {
+  const router = useRouter()
   const classes = useStyles()
 
   const columns = useMemo(
@@ -138,7 +140,7 @@ const RiwayatHukumanDisiplinComponent = () => {
   )
 
   const rows = useMemo(() => {
-    const dataMapping = data.map((item) => {
+    const dataMapping = data.map((item, index) => {
       return [
         {
           Header: 'Tanggal',
@@ -173,14 +175,18 @@ const RiwayatHukumanDisiplinComponent = () => {
               <Button
                 text='Detail'
                 color='primary'
-                onClick={() => handleAction('add')}
+                onClick={() =>
+                  router.push(`/${router.pathname}/detail/${btoa(index)}`)
+                }
                 icon={<Info style={styles.iconButton} />}
                 sx={styles.buttonAction}
               />
               <Button
                 text='Edit'
                 color='sidatukDraweBase'
-                onClick={() => handleAction('bulk')}
+                onClick={() =>
+                  router.push(`/${router.pathname}/edit/${btoa(index)}`)
+                }
                 icon={<Edit style={styles.iconButton} />}
                 sx={styles.buttonAction}
               />
@@ -196,7 +202,10 @@ const RiwayatHukumanDisiplinComponent = () => {
   const action = useMemo(() => {
     return (
       <Box>
-        <Button text='Tambah' />
+        <Button
+          text='Tambah'
+          onClick={() => router.push(`${router.pathname}/add`)}
+        />
       </Box>
     )
   }, [])
