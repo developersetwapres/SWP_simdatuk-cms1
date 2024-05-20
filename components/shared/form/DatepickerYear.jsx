@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Typography } from '@mui/material'
@@ -10,6 +11,7 @@ const DatepickerYear = ({
   error,
   placeholder,
   isClear = false,
+  isQuarter = false,
   onChange = () => {}
 }) => {
   const renderYearContent = (year) => {
@@ -57,12 +59,18 @@ const DatepickerYear = ({
         <DatePicker
           renderYearContent={renderYearContent}
           selected={value}
-          showYearPicker
           name={name}
-          dateFormat='yyyy'
+          dateFormat={isQuarter ? 'QQQ' : 'yyyy'}
           onChange={(date) => onChange(date)}
           placeholderText={placeholder}
           isClearable={isClear}
+          {...(isQuarter
+            ? {
+                showQuarterYearPicker: true
+              }
+            : {
+                showYearPicker: true
+              })}
         />
       </Box>
       {error && (
@@ -84,6 +92,7 @@ DatepickerYear.propTypes = {
   error: PropTypes.string,
   placeholder: PropTypes.string,
   isClear: PropTypes.bool,
+  isQuarter: PropTypes.bool,
   onChange: PropTypes.func
 }
 

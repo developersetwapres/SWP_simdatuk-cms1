@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import React, { useState, Fragment, useMemo } from 'react'
 import { DayPicker } from 'react-day-picker'
 import 'react-day-picker/dist/style.css'
@@ -14,6 +15,7 @@ function DatePickerDay({
   placeholder,
   value,
   error,
+  mode = 'single',
   onChange = () => {},
   ...other
 }) {
@@ -25,7 +27,8 @@ function DatePickerDay({
 
   const handleSelectedValue = (val) => {
     onChange(val)
-    if (open) setOpen((open) => !open)
+    if ((mode == 'single' || (mode == 'range' && val?.from && val?.to)) && open)
+      setOpen((open) => !open)
   }
 
   return (
@@ -44,7 +47,15 @@ function DatePickerDay({
           placeholder={placeholder}
           readOnly
           name={name}
-          value={valueDate ? formatDate(valueDate) : ''}
+          value={
+            valueDate
+              ? mode == 'range'
+                ? `${formatDate(valueDate?.from)} - ${formatDate(
+                    valueDate?.to
+                  )}`
+                : formatDate(valueDate)
+              : ''
+          }
           onClick={() => setOpen((open) => !open)}
           error={error}
           {...other}
@@ -94,11 +105,9 @@ function DatePickerDay({
         padding='1rem 1rem'
       >
         <DayPicker
-          mode='single'
+          mode={mode}
           defaultMonth={valueDate || new Date()}
           selected={valueDate || new Date()}
-          // fromYear={valueDate || new Date()}
-          // toYear={valueDate || new Date()}
           onSelect={handleSelectedValue}
           style={{ margin: 0 }}
         />
@@ -111,6 +120,7 @@ DatePickerDay.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string,
   error: PropTypes.string,
+  mode: PropTypes.string,
   placeholder: PropTypes.string,
   value: PropTypes.any,
   onChange: PropTypes.func

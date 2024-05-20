@@ -45,6 +45,7 @@ function Table({
                     key={index}
                     sx={{
                       width: `${item?.width}px`,
+                      minWidth: item?.minWidth ? `${item.minWidth}px` : 'auto',
                       fontSize: '14px',
                       fontWeight: 600
                     }}

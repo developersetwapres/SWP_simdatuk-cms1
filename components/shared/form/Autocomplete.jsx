@@ -40,7 +40,7 @@ function MuiAutocomplete({
   const classes = useStyles()
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+    <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
       {label && (
         <Typography
           component='p'
