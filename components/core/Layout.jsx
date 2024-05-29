@@ -208,14 +208,8 @@ function Layout({ children, window, willRender }) {
               paddding: '0 '
             }}
           >
-            {willRender === false ? (
-              <>
-                <BackdropPage open={true} />
-                {children}
-              </>
-            ) : (
-              <>{children}</>
-            )}
+            {!willRender && <BackdropPage open={true} />}
+            {children}
           </Box>
         </Container>
         <Footer className={classes.footer} />
