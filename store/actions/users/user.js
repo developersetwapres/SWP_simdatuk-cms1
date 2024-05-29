@@ -1,18 +1,15 @@
 import {
   GET_USERS_REQUESTED,
-  POST_USERS_REQUESTED,
+  GET_USER_REQUESTED,
+  POST_USER_REQUESTED,
   DELETE_USER_REQUESTED,
-  GET_USER_DETAIL_REQUESTED,
   UPDATE_USER_REQUESTED,
-  GET_USER_INFORMATION_REQUESTED,
-  GET_USER_COURSE_REQUESTED,
-  DELETE_LIST_USER_REQUESTED
+  CLEAR_USER_STATE
 } from '@/store/constants'
-
 
 /**
  * GET USERS
- * 
+ *
  * @param {*} payload
  * @returns
  */
@@ -23,20 +20,31 @@ export const getUsers = (payload) => ({
 })
 
 /**
- * POST USERS 
- * 
- * @param {*} payload 
+ * GET DETAIL USER
+ *
+ * @param {*} payload
  * @returns
  */
-export const postUsers = (payload) => ({
-  type: POST_USERS_REQUESTED,
+export const getUser = (id) => ({
+  type: GET_USER_REQUESTED,
+  payload: id
+})
+
+/**
+ * POST USERS
+ *
+ * @param {*} payload
+ * @returns
+ */
+export const postUser = (payload) => ({
+  type: POST_USER_REQUESTED,
   payload: payload
 })
 
 /**
- * Delete User 
- * 
- * @param {*} id 
+ * Delete User
+ *
+ * @param {*} id
  * @returns
  */
 export const deleteUser = (id) => ({
@@ -45,31 +53,9 @@ export const deleteUser = (id) => ({
 })
 
 /**
- * Delete List User
- * 
- * @param {*} id 
- * @returns
- */
-export const deleteListUser = (id) => ({
-  type: DELETE_LIST_USER_REQUESTED,
-  payload: id
-})
-
-/**
- * GET DETAIL USER 
- * 
- * @param {*} payload 
- * @returns
- */
-export const getDetailUser = (id) => ({
-  type: GET_USER_DETAIL_REQUESTED,
-  payload: id
-})
-
-/**
- * Update User 
- * 
- * @param {*} payload 
+ * Update User
+ *
+ * @param {*} payload
  * @param {*} id
  * @returns
  */
@@ -81,18 +67,14 @@ export const updateUser = (id, payload) => ({
   }
 })
 
-export const getUserInformation = () => ({
-  type: GET_USER_INFORMATION_REQUESTED
-})
-
 /**
- * Get User course 
- * 
- * @param {*} id 
+ * Clear User State
+ *
+ * @param {*} payload
+ * @param {*} id
  * @returns
  */
-export const getUserCourse = (id) => ({
-  type: GET_USER_COURSE_REQUESTED,
-  payload: id
+export const clearUserState = () => ({
+  type: CLEAR_USER_STATE,
+  payload: {}
 })
-

@@ -54,8 +54,8 @@ export const getMediaType = (base64 = '') => {
  * @param {String} search
  * @returns
  */
-export const queryParams = (page, limit, sortBy, sortDesc, search) => {
-  return `?page=${page}&limit=${limit}&sort_by=${sortBy}&sort_desc=${sortDesc}&search=${search}`
+export const queryParams = (page, limit, search) => {
+  return `?page=${page}&limit=${limit}&search=${search}`
 }
 
 /**
