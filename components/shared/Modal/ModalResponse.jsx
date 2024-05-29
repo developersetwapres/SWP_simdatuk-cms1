@@ -46,110 +46,76 @@ function ModalResponse({ modalReducer, closeModal = () => {} }) {
       // {...(modalReducer?.redirect === null && { onClose: closeModal })}
     >
       <Box sx={style}>
-        {modalReducer?.code === 200 && (
-          <>
-            <Box
+        <Box
+          sx={{
+            margin: 'auto',
+            height: '112px',
+            width: '112px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            overflow: 'hidden'
+          }}
+        >
+          <img
+            style={{
+              width: '100%',
+              height: 'auto',
+              maxWidth: '128px'
+            }}
+            src={
+              modalReducer?.code !== 200 && modalReducer?.code !== 201
+                ? ERROR_ICON
+                : SUCCESS_ICON
+            }
+            alt='success'
+          />
+        </Box>
+        <Box sx={{ margin: '24px auto 30px auto' }}>
+          {modalReducer?.message && (
+            <Typography
               sx={{
-                margin: 'auto',
-                height: '112px',
-                width: '112px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                overflow: 'hidden'
+                marginBottom: '6px',
+                fontSize: '26px',
+                fontWeight: 800
               }}
             >
-              <img
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                  maxWidth: '128px'
-                }}
-                src={SUCCESS_ICON}
-                alt='success'
-              />
-            </Box>
-            <Box sx={{ margin: '24px auto 30px auto' }}>
-              {modalReducer?.message && (
-                <Typography
-                  sx={{
-                    fontSize: '26px',
-                    fontWeight: 800
-                  }}
-                >
-                  {modalReducer?.message}
-                </Typography>
-              )}
-              {modalReducer?.childMessage && (
-                <Typography
-                  sx={{
-                    fontSize: '16px',
-                    fontWeight: 400
-                  }}
-                >
-                  {modalReducer?.childMessage}
-                </Typography>
-              )}
-            </Box>
-            <Box
-              style={{
-                marginRight: 'auto',
-                marginLeft: 'auto',
-                width: '100%',
-                textAlign: 'center'
-              }}
-            >
-              <Button
-                text='Tutup'
-                type='button'
-                sx={{
-                  padding: '12px',
-                  width: '100%',
-                  textTransform: 'none',
-                  ...primaryButtonStyle
-                }}
-                onClick={() => {
-                  handleCallback()
-                }}
-              />
-            </Box>
-          </>
-        )}
-        {modalReducer?.code !== 200 && modalReducer?.code !== 201 && (
-          <>
-            <img
-              src={ERROR_ICON}
-              style={{
-                width: '100%',
-                height: 'auto',
-                maxWidth: '128px'
-              }}
-              alt='error'
-            />
-            <h2>{modalReducer?.message}</h2>
-            <p
-              style={{
-                marginTop: '10px'
+              {modalReducer?.message}
+            </Typography>
+          )}
+          {modalReducer?.childMessage && (
+            <Typography
+              sx={{
+                fontSize: '16px',
+                fontWeight: 400
               }}
             >
               {modalReducer?.childMessage}
-            </p>
-            <Button
-              text='Tutup'
-              type='button'
-              sx={{
-                padding: '12px',
-                width: '440px',
-                textTransform: 'none',
-                ...primaryButtonStyle,
-                textTransform: 'none'
-              }}
-              onClick={() => {
-                handleCallback()
-              }}
-            />
-          </>
-        )}
+            </Typography>
+          )}
+        </Box>
+        <Box
+          style={{
+            marginRight: 'auto',
+            marginLeft: 'auto',
+            width: '100%',
+            textAlign: 'center'
+          }}
+        >
+          <Button
+            text='Tutup'
+            type='button'
+            sx={{
+              padding: '12px',
+              width: '100%',
+              textTransform: 'none',
+              ...primaryButtonStyle
+            }}
+            onClick={() => {
+              handleCallback()
+            }}
+          />
+        </Box>
       </Box>
     </Modal>
   )
