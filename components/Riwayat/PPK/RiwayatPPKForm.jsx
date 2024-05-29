@@ -33,34 +33,14 @@ const RiwayatPPKForm = ({
       'November',
       'Desember'
     ],
-    jabatan: [
-      'Jabatan I',
-      'Jabatan II',
-      'Jabatan III',
-      'Jabatan IV',
-      'Jabatan V'
-    ],
-    jenjangJabatan: [
-      'Jenjang Jabatan I',
-      'Jenjang Jabatan II',
-      'Jenjang Jabatan III',
-      'Jenjang Jabatan IV',
-      'Jenjang Jabatan V'
-    ],
-    keteranganJabatan: [
-      'Keterangan Jabatan I',
-      'Keterangan Jabatan II',
-      'Keterangan Jabatan III',
-      'Keterangan Jabatan IV',
-      'Keterangan Jabatan V'
-    ],
     employee: [
       'Employee 1',
       'Employee 2',
       'Employee 3',
       'Employee 4',
       'Employee 5'
-    ]
+    ],
+    keterangan: ['Buruk', 'Baik', 'Sangat Baik']
   }
 
   const handleEmployee = (data, type, indexItem) => {
@@ -93,7 +73,8 @@ const RiwayatPPKForm = ({
             name='namaPPK'
             value={values?.namaPPK}
             error={errors?.namaPPK}
-            onChange={(val) => {
+            onChange={(e) => {
+              const val = e?.target?.value
               setFieldValue(`namaPPK`, val, false)
               setTimeout(() => {
                 formikRef.current.validateField(`namaPPK`)
@@ -148,7 +129,7 @@ const RiwayatPPKForm = ({
             </Grid>
           </Grid>
         </Grid>
-        {/* Keterangan PPK */}
+        {/* Periode PPK */}
         <Grid item xs={6}>
           <Input
             label='Periode PPK *'
@@ -162,17 +143,6 @@ const RiwayatPPKForm = ({
                 formikRef.current.validateField(`periodePPK`)
               }, 1)
             }}
-          />
-        </Grid>
-        {/* Keterangan PPK */}
-        <Grid item xs={6}>
-          <Input
-            label='Keterangan PPK'
-            placeholder='Masukkan Keterangan PPK'
-            name='keterangan'
-            value={values?.keterangan}
-            error={errors?.keterangan}
-            onChange={(val) => setFieldValue(`keterangan`, val, false)}
           />
         </Grid>
       </Grid>
@@ -191,7 +161,7 @@ const RiwayatPPKForm = ({
             <Grid item xs={12} key={index}>
               <Grid container spacing={3}>
                 {/* Name */}
-                <Grid item xs={8}>
+                <Grid item xs={4}>
                   <Autocomplete
                     options={options?.employee}
                     name={`pegawai[${index}].nama`}
@@ -212,6 +182,30 @@ const RiwayatPPKForm = ({
                 </Grid>
                 {/* Nilai */}
                 <Grid item xs={4}>
+                  <Input
+                    type='number'
+                    inputProps={{ min: '0' }}
+                    label='Nilai Prestasi Kerja *'
+                    placeholder='Masukkan Nilai Prestasi Kerja'
+                    name={`pegawai[${index}].nilai`}
+                    value={item?.nilai}
+                    error={errors?.pegawai && errors?.pegawai[index]?.nilai}
+                    onChange={(val) => {
+                      setFieldValue(
+                        `pegawai[${index}].nilai`,
+                        val?.target?.value,
+                        false
+                      )
+                      setTimeout(() => {
+                        formikRef.current.validateField(
+                          `pegawai[${index}].nilai`
+                        )
+                      }, 1)
+                    }}
+                  />
+                </Grid>
+                {/* Keterangan */}
+                <Grid item xs={4}>
                   <Box
                     sx={{
                       display: 'flex',
@@ -220,25 +214,22 @@ const RiwayatPPKForm = ({
                       gap: '16px'
                     }}
                   >
-                    <Input
-                      type='number'
-                      inputProps={{ min: '0' }}
-                      label='Nilai Prestasi Kerja *'
-                      placeholder='Masukkan Nilai Prestasi Kerja'
-                      name={`pegawai[${index}].nilai`}
-                      value={item?.nilai}
-                      error={errors?.pegawai && errors?.pegawai[index]?.nilai}
+                    <Autocomplete
+                      options={options?.keterangan}
+                      name={`pegawai[${index}].keterangan`}
+                      placeholder='Pilih Keterangan'
+                      value={item?.keterangan}
+                      multiple={false}
+                      label='Keterangan'
+                      error={
+                        errors?.pegawai && errors?.pegawai[index]?.keterangan
+                      }
                       onChange={(val) => {
                         setFieldValue(
-                          `pegawai[${index}].nilai`,
-                          val?.target?.value,
+                          `pegawai[${index}].keterangan`,
+                          val,
                           false
                         )
-                        setTimeout(() => {
-                          formikRef.current.validateField(
-                            `pegawai[${index}].nilai`
-                          )
-                        }, 1)
                       }}
                     />
                     {values?.pegawai.length > 1 && (

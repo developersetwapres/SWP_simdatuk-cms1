@@ -65,6 +65,14 @@ const RiwayatHukumanDisiplinForm = ({
     }
   }
 
+  const handleGetError = (value) => {
+    if (value?.to) {
+      return value?.to
+    } else {
+      return value
+    }
+  }
+
   return (
     <Form>
       <Grid container spacing={3}>
@@ -75,8 +83,14 @@ const RiwayatHukumanDisiplinForm = ({
             placeholder='Masukkan Nama Riwayat HukumanDisiplin'
             name='namaHukumanDisiplin'
             value={values?.namaHukumanDisiplin}
-            onChange={handleChange}
             error={errors?.namaHukumanDisiplin}
+            onChange={(e) => {
+              const val = e?.target?.value
+              setFieldValue(`namaHukumanDisiplin`, val, false)
+              setTimeout(() => {
+                formikRef.current.validateField(`namaHukumanDisiplin`)
+              }, 1)
+            }}
           />
         </Grid>
         {/* Periode */}
@@ -174,7 +188,8 @@ const RiwayatHukumanDisiplinForm = ({
                     name={`pegawai[${index}].golongan`}
                     value={item?.golongan}
                     error={errors?.pegawai && errors?.pegawai[index]?.golongan}
-                    onChange={(val) => {
+                    onChange={(e) => {
+                      const val = e?.target?.value
                       setFieldValue(`pegawai[${index}].golongan`, val, false)
                     }}
                   />
@@ -187,7 +202,8 @@ const RiwayatHukumanDisiplinForm = ({
                     name={`pegawai[${index}].jabatan`}
                     value={item?.jabatan}
                     error={errors?.pegawai && errors?.pegawai[index]?.jabatan}
-                    onChange={(val) => {
+                    onChange={(e) => {
+                      const val = e?.target?.value
                       setFieldValue(`pegawai[${index}].jabatan`, val, false)
                     }}
                   />
@@ -226,7 +242,8 @@ const RiwayatHukumanDisiplinForm = ({
                     name={`pegawai[${index}].noSkHukuman`}
                     value={item?.noSkHukuman}
                     error={errors?.noSkHukuman}
-                    onChange={(val) => {
+                    onChange={(e) => {
+                      const val = e?.target?.value
                       setFieldValue(`pegawai[${index}].noSkHukuman`, val, false)
                     }}
                   />
@@ -261,6 +278,8 @@ const RiwayatHukumanDisiplinForm = ({
                     placeholder='dd-mm-yy'
                     error={
                       errors?.pegawai && errors?.pegawai[index]?.tanggalHukuman
+                        ? handleGetError(errors?.pegawai[index]?.tanggalHukuman)
+                        : null
                     }
                     onChange={(val) => {
                       setFieldValue(
@@ -283,13 +302,14 @@ const RiwayatHukumanDisiplinForm = ({
                     placeholder='Masukkan Pejabat Berwenang'
                     name={`pegawai[${index}].pejabatBerwenang`}
                     value={item?.pejabatBerwenang}
-                    onChange={(val) =>
+                    onChange={(e) => {
+                      const val = e?.target?.value
                       setFieldValue(
                         `pegawai[${index}].pejabatBerwenang`,
-                        val?.target?.value,
+                        val,
                         false
                       )
-                    }
+                    }}
                   />
                 </Grid>
                 {/* Nama Pejabat Berwenang */}
@@ -299,13 +319,14 @@ const RiwayatHukumanDisiplinForm = ({
                     placeholder='Masukkan Nama Pejabat Berwenang'
                     name={`pegawai[${index}].namaPejabatBerwenang`}
                     value={item?.namaPejabatBerwenang}
-                    onChange={(val) =>
+                    onChange={(e) => {
+                      const val = e?.target?.value
                       setFieldValue(
                         `pegawai[${index}].namaPejabatBerwenang`,
-                        val?.target?.value,
+                        val,
                         false
                       )
-                    }
+                    }}
                   />
                 </Grid>
               </Grid>

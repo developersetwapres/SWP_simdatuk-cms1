@@ -42,9 +42,12 @@ const FormSchema = Yup.object().shape({
     Yup.object().shape({
       nama: Yup.string().required('Nama Pegawai tidak boleh kosong'),
       jenisHukuman: Yup.string().required('Jenis Hukuman tidak boleh kosong'),
-      tanggalHukuman: Yup.object().required(
-        'Tanggal Hukuman tidak boleh kosong'
-      )
+      tanggalHukuman: Yup.object()
+        .shape({
+          from: Yup.string().required('Pilih tanggal awal'),
+          to: Yup.string().required('Pilih tanggal akhir')
+        })
+        .required('Tanggal Hukuman tidak boleh kosong')
     })
   )
 })

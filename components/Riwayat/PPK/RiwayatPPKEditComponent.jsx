@@ -12,7 +12,6 @@ import { useRouter } from 'next/router'
 const InitValue = {
   namaPPK: '',
   periodePPK: '',
-  keterangan: '',
   periode: {
     bulan: null,
     tahun: null
@@ -20,7 +19,8 @@ const InitValue = {
   pegawai: [
     {
       nama: null,
-      nilai: null
+      nilai: null,
+      keterangan: null
     }
   ]
 }

@@ -93,7 +93,8 @@ const RiwayatJabatanForm = ({
             name='namaPenghargaan'
             value={values?.namaPenghargaan}
             error={errors?.namaPenghargaan}
-            onChange={(val) => {
+            onChange={(e) => {
+              const val = e?.target?.value
               setFieldValue(`namaPenghargaan`, val, false)
               setTimeout(() => {
                 formikRef.current.validateField(`namaPenghargaan`)
@@ -156,9 +157,10 @@ const RiwayatJabatanForm = ({
             name='keteranganPenghargaan'
             value={values?.keteranganPenghargaan}
             error={errors?.keteranganPenghargaan}
-            onChange={(val) =>
+            onChange={(e) => {
+              const val = e?.target?.value
               setFieldValue(`keteranganPenghargaan`, val, false)
-            }
+            }}
           />
         </Grid>
         {/* Jenis SK */}
@@ -203,7 +205,8 @@ const RiwayatJabatanForm = ({
             name='noSkPenghargaan'
             value={values?.noSkPenghargaan}
             error={errors?.noSkPenghargaan}
-            onChange={(val) => {
+            onChange={(e) => {
+              const val = e?.target?.value
               setFieldValue(`noSkPenghargaan`, val, false)
               setTimeout(() => {
                 formikRef.current.validateField(`noSkPenghargaan`)
@@ -231,7 +234,10 @@ const RiwayatJabatanForm = ({
             name='instansi'
             value={values?.instansi}
             error={errors?.instansi}
-            onChange={(val) => setFieldValue(`instansi`, val, false)}
+            onChange={(e) => {
+              const val = e?.target?.value
+              setFieldValue(`instansi`, val, false)
+            }}
           />
         </Grid>
         {/* Tanggal Terima */}

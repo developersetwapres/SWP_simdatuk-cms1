@@ -42,6 +42,7 @@ const RiwayatSKPForm = ({
     ],
     periode: ['Periode 1', 'Periode 2', 'Periode 3', 'Periode 4', 'Periode 5'],
     predikat: ['Kurang Baik', 'Baik', 'Sangat Baik'],
+    rating: ['Kurang Baik', 'Baik', 'Sangat Baik'],
     organisasi: [
       'Organisasi 1',
       'Organisasi 2',
@@ -74,12 +75,13 @@ const RiwayatSKPForm = ({
         {/* Nama Penghargaan */}
         <Grid item xs={6}>
           <Input
-            label='Nama Penghargaan *'
-            placeholder='Masukkan Nama Penghargaan'
+            label='Nama Riwayat SKP *'
+            placeholder='Masukkan Nama Riwayat SKP'
             name='namaPenghargaan'
             value={values?.namaPenghargaan}
             error={errors?.namaPenghargaan}
-            onChange={(val) => {
+            onChange={(e) => {
+              const val = e?.target?.value
               setFieldValue(`namaPenghargaan`, val, false)
               setTimeout(() => {
                 formikRef.current.validateField(`namaPenghargaan`)
