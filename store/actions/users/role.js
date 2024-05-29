@@ -3,14 +3,13 @@ import {
   GET_DETAIL_ROLE_REQUESTED,
   POST_ROLE_REQUESTED,
   UPDATE_ROLE_REQUESTED,
-  DELETE_ROLE_REQUESTED,
-  DELETE_ROLE_LIST_REQUESTED
+  DELETE_ROLE_REQUESTED
 } from '@/store/constants'
 
 /**
  * Get ROles
- * 
- * @param {*} payload 
+ *
+ * @param {*} payload
  * @returns
  */
 export const getRoles = (payload) => ({
@@ -19,20 +18,20 @@ export const getRoles = (payload) => ({
 })
 
 /**
- * Get detail Role 
- * 
- * @param {*} id 
+ * Get detail Role
+ *
+ * @param {*} id
  * @returns
  */
-export const getDetailRole = (id) => ({
+export const getRole = (id) => ({
   type: GET_DETAIL_ROLE_REQUESTED,
   payload: id
 })
 
 /**
- * Post Role 
- * 
- * @param {*} payload 
+ * Post Role
+ *
+ * @param {*} payload
  * @returns
  */
 export const postRole = (payload) => ({
@@ -41,8 +40,8 @@ export const postRole = (payload) => ({
 })
 
 /**
- * Update ROle 
- * 
+ * Update ROle
+ *
  * @param {*} payload
  * @returns
  */
@@ -52,24 +51,13 @@ export const updateRole = (payload) => ({
 })
 
 /**
- * Delete rOLE 
- * 
- * @param {*} id 
+ * Delete rOLE
+ *
+ * @param {*} id
  * @returns
- * 
+ *
  */
 export const deleteRole = (id) => ({
   type: DELETE_ROLE_REQUESTED,
-  payload: id
-})
-
-/**
- * Delete role lst 
- * 
- * @param {*} id 
- * @returns
- */
-export const deleteRoleList = (id) => ({
-  type: DELETE_ROLE_LIST_REQUESTED,
   payload: id
 })

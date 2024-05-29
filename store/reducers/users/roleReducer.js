@@ -14,14 +14,11 @@ import {
   UPDATE_ROLE_FAILED,
   DELETE_ROLE_REQUESTED,
   DELETE_ROLE_SUCCESS,
-  DELETE_ROLE_FAILED,
-  DELETE_ROLE_LIST_REQUESTED,
-  DELETE_ROLE_LIST_SUCCESS,
-  DELETE_ROLE_LIST_FAILED
+  DELETE_ROLE_FAILED
 } from '@/store/constants'
 
 const initialState = {
-  roles: [],
+  data: [],
   pagination: {},
   loading: false,
   error: null,
@@ -44,7 +41,7 @@ export const role = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        roles: payload?.data,
+        data: payload?.data,
         pagination: payload?.pagination
       }
     case GET_ROLES_FAILED:
@@ -59,7 +56,7 @@ export const role = (state = initialState, action) => {
         loading: true
       }
     case GET_DETAIL_ROLE_SUCCESS: {
-      //* Transform 
+      //* Transform
       function transform(array) {
         return Object.values(
           array.reduce((obj, { menu_id, menu_access, menu_name }) => {
@@ -142,27 +139,7 @@ export const role = (state = initialState, action) => {
         error: payload?.error,
         isSubmit: false
       }
-    case DELETE_ROLE_LIST_REQUESTED:
-      return {
-        ...state,
-        loading: true,
-        isSubmit: true
-      }
-    case DELETE_ROLE_LIST_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        isSubmit: false
-      }
-    case DELETE_ROLE_LIST_FAILED:
-      return {
-        ...state,
-        loading: false,
-        error: payload?.error,
-        isSubmit: false
-      }
     default:
       return state
-
   }
 }

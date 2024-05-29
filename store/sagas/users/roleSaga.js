@@ -1,7 +1,7 @@
 /**
- * 
- * @module Saga/users/roleSaga 
- * 
+ *
+ * @module Saga/users/roleSaga
+ *
  * @desc role
  */
 import { call, put, takeEvery } from '@redux-saga/core/effects'
@@ -23,24 +23,20 @@ import {
   DELETE_ROLE_REQUESTED,
   DELETE_ROLE_SUCCESS,
   DELETE_ROLE_FAILED,
-  DELETE_ROLE_LIST_REQUESTED,
-  DELETE_ROLE_LIST_SUCCESS,
-  DELETE_ROLE_LIST_FAILED,
   ACTION_RESPONSER
 } from '@/store/constants'
 import {
   getRolesAction,
-  getDetailRoleAction,
+  getRoleAction,
   postRoleAction,
   updateRoleAction,
-  deleteRoleAction,
-  deleteRoleListAction
+  deleteRoleAction
 } from '../action/users/roleAction'
 
 /**
- * Get roles 
- * 
- * @param {*} action 
+ * Get roles
+ *
+ * @param {*} action
  * @returns
  */
 function* fetchGetRoles(action) {
@@ -80,14 +76,14 @@ function* fetchGetRoles(action) {
 }
 
 /**
- * Get Detail 
- * 
- * @param {*} action 
+ * Get Detail
+ *
+ * @param {*} action
  * @returns
  */
 function* fetchDetailRole(action) {
   try {
-    const res = yield call(getDetailRoleAction, action?.payload)
+    const res = yield call(getRoleAction, action?.payload)
     const payload = res?.data
 
     yield put({
@@ -125,9 +121,9 @@ function* fetchDetailRole(action) {
 }
 
 /**
- * Post Role Saga 
- * 
- * @param {*} action 
+ * Post Role Saga
+ *
+ * @param {*} action
  * @returns
  */
 function* postRole(action) {
@@ -181,9 +177,9 @@ function* postRole(action) {
 }
 
 /**
- * Update ROle 
- * 
- * @param {*} action 
+ * Update ROle
+ *
+ * @param {*} action
  * @returns
  */
 function* updateRole(action) {
@@ -236,9 +232,9 @@ function* updateRole(action) {
 }
 
 /**
- * Delete Role 
- * 
- * @param {*} action 
+ * Delete Role
+ *
+ * @param {*} action
  * @returns
  */
 function* deleteRole(action) {
@@ -290,56 +286,12 @@ function* deleteRole(action) {
   }
 }
 
-/**
- * Delete Role List 
- * 
- * @param {*} action 
- * @returns
- */
-function* deleteRoleList(action) {
-  try {
-    const res = yield call(deleteRoleListAction, action?.payload)
-
-    const payload = res?.data
-
-    yield put({
-      type: DELETE_ROLE_LIST_SUCCESS,
-      payload: payload
-    })
-  } catch (err) {
-    if (err?.data?.meta?.code === 403) {
-      yield put({
-        type: ACTION_RESPONSER,
-        payload: {
-          code: err?.data?.meta?.code,
-          message: err?.data?.meta?.message,
-          redirect: '/profile'
-        }
-      })
-    } else {
-      const status = err?.data
-      if (status?.statusCode === 400) {
-        yield put({
-          type: CATCH_ERROR,
-          payload: status?.message
-        })
-      } else {
-        yield put({
-          type: DELETE_ROLE_LIST_FAILED,
-          payload: status?.message
-        })
-      }
-    }
-  }
-}
-
 function* roleSaga() {
   yield takeEvery(GET_ROLES_REQUESTED, fetchGetRoles)
   yield takeEvery(GET_DETAIL_ROLE_REQUESTED, fetchDetailRole)
   yield takeEvery(POST_ROLE_REQUESTED, postRole)
   yield takeEvery(UPDATE_ROLE_REQUESTED, updateRole)
   yield takeEvery(DELETE_ROLE_REQUESTED, deleteRole)
-  yield takeEvery(DELETE_ROLE_LIST_REQUESTED, deleteRoleList)
 }
 
 export default roleSaga
