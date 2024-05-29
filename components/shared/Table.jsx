@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @next/next/no-img-element */
 import React, { Fragment, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import {
@@ -19,8 +21,20 @@ function Table({
   title,
   isPagination = true,
   colorTitle = 'primary',
-  paper = true
+  paper = true,
+  pagination,
+  handlePagination = () => {},
+  handleRows = () => {}
 }) {
+  const handleChangePage = (e, page) => {
+    handlePagination(page + 1)
+  }
+
+  const handleChangeRowsPerPage = (e) => {
+    const row = e?.target?.value
+    handleRows(row)
+  }
+
   const TableComponent = useMemo(() => {
     return (
       <Fragment>
@@ -81,13 +95,29 @@ function Table({
                     <Box
                       sx={{
                         width: '100%',
-                        height: '400px',
+                        height: '100%',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         flexDirection: 'column'
                       }}
                     >
+                      <Box
+                        sx={{
+                          width: '480px',
+                          height: 'fit-content',
+                          marginBottom: '20px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}
+                      >
+                        <img
+                          src='/images/table-empty.svg'
+                          alt='Table Empty'
+                          style={{ width: '100%', height: 'fit-content' }}
+                        />
+                      </Box>
                       <Typography
                         component='h3'
                         sx={{ fontSize: '24px', fontWeight: 800 }}
@@ -108,17 +138,17 @@ function Table({
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component='div'
-            count={100}
-            rowsPerPage={10}
-            page={0}
-            // onPageChange={handleChangePage}
-            // onRowsPerPageChange={handleChangeRowsPerPage}
+            count={pagination?.total || 0}
+            rowsPerPage={pagination?.per_page || 10}
+            page={pagination?.current_page - 1 || 0}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
             sx={{ marginTop: '12px' }}
           />
         )}
       </Fragment>
     )
-  }, [columns, rows, title, isPagination, colorTitle])
+  }, [columns, rows, title, isPagination, colorTitle, pagination])
 
   return (
     <>{paper ? <Paper>{TableComponent}</Paper> : <Box>{TableComponent}</Box>}</>
@@ -131,7 +161,10 @@ Table.propTypes = {
   title: PropTypes.string,
   colorTitle: PropTypes.string,
   isPagination: PropTypes.bool,
-  paper: PropTypes.bool
+  paper: PropTypes.bool,
+  pagination: PropTypes.object,
+  handlePagination: PropTypes.func,
+  handleRows: PropTypes.func
 }
 
 export default Table
