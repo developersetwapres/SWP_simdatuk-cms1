@@ -1,0 +1,291 @@
+/**
+ *
+ * @module Saga/bannerSaga
+ *
+ * @desc Banner
+ */
+import { call, put, takeEvery } from '@redux-saga/core/effects'
+import {
+  GET_EMPLOYEES_REQUESTED,
+  GET_EMPLOYEES_SUCCESS,
+  GET_EMPLOYEES_FAILED,
+  GET_EMPLOYEE_REQUESTED,
+  GET_EMPLOYEE_SUCCESS,
+  GET_EMPLOYEE_FAILED,
+  POST_EMPLOYEE_REQUESTED,
+  POST_EMPLOYEE_SUCCESS,
+  POST_EMPLOYEE_FAILED,
+  UPDATE_EMPLOYEE_REQUESTED,
+  UPDATE_EMPLOYEE_SUCCESS,
+  UPDATE_EMPLOYEE_FAILED,
+  DELETE_EMPLOYEE_REQUESTED,
+  DELETE_EMPLOYEE_SUCCESS,
+  DELETE_EMPLOYEE_FAILED
+} from '../constants'
+import {
+  deleteEmployeeAction,
+  getEmployeesAction,
+  postEmployeeAction,
+  getEmployeeAction,
+  updateEmployeeAction
+} from './action/employeeAction'
+
+/**
+ * Fetch banner
+ *
+ * @param {*} action
+ * @returns
+ */
+function* getEmployees(action) {
+  try {
+    const res = yield call(getEmployeesAction, action?.payload)
+
+    const payload = res?.data
+
+    yield put({
+      type: GET_EMPLOYEES_SUCCESS,
+      payload: payload
+    })
+  } catch (err) {
+    if (err?.data?.meta?.code === 403) {
+      yield put({
+        type: ACTION_RESPONSER,
+        payload: {
+          code: err?.data?.meta?.code,
+          message: err?.data?.meta?.message,
+          redirect: '/profile'
+        }
+      })
+    } else {
+      const status = err?.data?.meta
+      if (status?.code === 400) {
+        yield put({
+          type: CATCH_ERROR,
+          payload: status?.message
+        })
+      } else {
+        yield put({
+          type: GET_EMPLOYEES_FAILED,
+          payload: status?.message
+        })
+      }
+    }
+  }
+}
+
+/**
+ * Get Banner
+ *
+ * @param {*} action
+ * @returns
+ */
+function* getEmployee(action) {
+  try {
+    const res = yield call(getEmployeeAction, action?.payload)
+
+    const payload = res?.data
+
+    yield put({
+      type: GET_EMPLOYEE_SUCCESS,
+      payload: payload
+    })
+  } catch (err) {
+    const status = err?.data?.meta
+    if (status?.code === 403) {
+      yield put({
+        type: ACTION_RESPONSER,
+        payload: {
+          code: err?.data?.meta?.code,
+          message: err?.data?.meta?.message,
+          redirect: '/profile'
+        }
+      })
+    } else {
+      yield put({
+        type: GET_EMPLOYEE_FAILED,
+        payload: {
+          modal: true,
+          error: err?.meta?.message
+        }
+      })
+    }
+  }
+}
+
+/**
+ * Delete banner
+ *
+ * @param {*} action
+ * @returns
+ */
+function* deleteEmployee(action) {
+  try {
+    const res = yield call(deleteEmployeeAction, action?.payload)
+
+    const payload = res?.data
+
+    yield put({
+      type: DELETE_EMPLOYEE_SUCCESS,
+      payload: payload
+    })
+
+    yield put({
+      type: SET_MODAL,
+      payload: {
+        code: res?.data?.meta?.code,
+        message: 'Pegawai berhasil dihapus',
+        redirect: '/'
+      }
+    })
+  } catch (err) {
+    const status = err?.data?.meta
+    if (status?.code === 403) {
+      yield put({
+        type: ACTION_RESPONSER,
+        payload: {
+          code: err?.data?.meta?.code,
+          message: err?.data?.meta?.message,
+          redirect: '/profile'
+        }
+      })
+    } else {
+      yield put({
+        type: SET_MODAL,
+        payload: {
+          code: err?.data?.statusCode,
+          message: 'Pegawai gagal dihapus'
+        }
+      })
+      yield put({
+        type: DELETE_EMPLOYEE_FAILED,
+        payload: {
+          modal: true,
+          error: err?.data?.message
+        }
+      })
+    }
+  }
+}
+
+/**
+ * Post Banner
+ *
+ * @param {*} action
+ * @returns
+ */
+function* postEmployee(action) {
+  try {
+    const res = yield call(postEmployeeAction, action?.payload)
+
+    const payload = res?.data
+
+    yield put({
+      type: POST_EMPLOYEE_SUCCESS,
+      payload: payload
+    })
+
+    yield put({
+      type: SET_MODAL,
+      payload: {
+        code: res?.data?.meta?.code,
+        message: 'Pegawai berhasil ditambahkan',
+        redirect: '/'
+      }
+    })
+  } catch (err) {
+    const status = err?.data?.meta
+    if (status?.code === 403) {
+      yield put({
+        type: ACTION_RESPONSER,
+        payload: {
+          code: err?.data?.meta?.code,
+          message: err?.data?.meta?.message,
+          redirect: '/profile'
+        }
+      })
+    } else {
+      yield put({
+        type: SET_MODAL,
+        payload: {
+          code: err?.data?.meta?.code,
+          message: 'Pegawai gagal ditambahkan',
+          childMessage: err?.data?.meta?.message
+        }
+      })
+      yield put({
+        type: POST_EMPLOYEE_FAILED,
+        payload: {
+          modal: true,
+          error: err?.data?.message
+        }
+      })
+    }
+  }
+}
+
+/**
+ * Update Banner
+ *
+ * @param {*} action
+ * @returns
+ *
+ */
+function* updateEmployee(action) {
+  try {
+    const res = yield call(updateEmployeeAction, action?.payload)
+
+    const payload = res?.data
+
+    yield put({
+      type: UPDATE_EMPLOYEE_SUCCESS,
+      payload: payload
+    })
+
+    yield put({
+      type: SET_MODAL,
+      payload: {
+        code: res?.data?.meta?.code,
+        message: 'Pegawai berhasil diubah',
+        redirect: '/banner'
+      }
+    })
+  } catch (err) {
+    const status = err?.data?.meta
+    if (status?.code === 403) {
+      yield put({
+        type: ACTION_RESPONSER,
+        payload: {
+          code: err?.data?.meta?.code,
+          message: err?.data?.meta?.message,
+          redirect: '/profile'
+        }
+      })
+    } else {
+      yield put({
+        type: SET_MODAL,
+        payload: {
+          code: err?.data?.meta?.code || err?.data?.statusCode,
+          message: 'Pegawai gagal diubah',
+          childMessage: err?.data?.meta?.message || err?.data?.message
+        }
+      })
+      yield put({
+        type: UPDATE_EMPLOYEE_FAILED,
+        payload: {
+          modal: true,
+          error: err?.data?.message
+        }
+      })
+    }
+  }
+}
+
+function* employeeSaga() {
+  yield takeEvery(GET_EMPLOYEES_REQUESTED, getEmployees)
+  yield takeEvery(GET_EMPLOYEE_REQUESTED, getEmployee)
+  yield takeEvery(DELETE_EMPLOYEE_REQUESTED, deleteEmployee)
+  yield takeEvery(POST_EMPLOYEE_REQUESTED, postEmployee)
+  yield takeEvery(UPDATE_EMPLOYEE_REQUESTED, updateEmployee)
+}
+
+export default employeeSaga

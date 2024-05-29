@@ -14,20 +14,21 @@ import * as providerReducer from './users/providerReducer'
 import * as activitylogReducer from './users/activitylogReducer'
 import * as menuReducer from './menuReducer'
 import * as editorReducer from './course/editorReducer'
+import * as employeeReducer from './employeeReducer'
 
-// * Excel 
+// * Excel
 import * as importExcelReducer from './excel/importExcelReducer'
 import * as exportExcelReducer from './excel/exportExcelReducer'
 
-// * Reducer 
+// * Reducer
 import * as responserReducer from './responserReducer'
 
 // * Notification
 import * as notificationReducer from './notificationReducer'
 /**
- * 
+ *
  * Root Reducers
- * 
+ *
  */
 const reducers = {
   ...bannerReducer,
@@ -49,7 +50,8 @@ const reducers = {
   ...importExcelReducer,
   ...exportExcelReducer,
   ...responserReducer,
-  ...notificationReducer
+  ...notificationReducer,
+  ...employeeReducer
 }
 
 export default reducers

@@ -1,7 +1,7 @@
 /**
- * 
+ *
  * Root Sagas
- * 
+ *
  */
 import { all } from '@redux-saga/core/effects'
 
@@ -17,15 +17,16 @@ import roleSaga from './users/roleSaga'
 import menuSaga from './menuSaga'
 import blacklistSaga from './users/blacklistSaga'
 import editorSaga from './course/editorSaga'
+import employeeSaga from './employeeSaga'
 
 // * Coupon
 import couponSaga from './coupon/couponSaga'
 import couponSubmissionSaga from './coupon/couponSubmissionSaga'
 
-// * Provider Course 
+// * Provider Course
 import providerCourseSaga from './course/providerCourseSaga'
 
-// * Excel 
+// * Excel
 import importExcelSaga from './excel/importExcelSaga'
 import exportExcelSaga from './excel/exportExcelSaga'
 
@@ -47,6 +48,7 @@ export default function* rootSaga() {
     couponSubmissionSaga(),
     providerCourseSaga(),
     importExcelSaga(),
-    exportExcelSaga()
+    exportExcelSaga(),
+    employeeSaga()
   ])
 }

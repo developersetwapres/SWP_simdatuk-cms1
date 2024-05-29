@@ -11,23 +11,24 @@ import * as role from './users/role'
 import * as menu from './menu'
 import * as blacklist from './users/blacklist'
 import * as editor from './course/editor'
+import * as employee from './employee'
 
-// * Coupon 
+// * Coupon
 import * as coupon from './coupon/coupon'
 import * as couponSubmission from './coupon/couponSubmission'
 
-// * Provider 
+// * Provider
 import * as providerCourse from './course/providerCourse'
 
-// * Excel 
+// * Excel
 import * as importExcel from './excel/importExcel'
 import * as exportExcel from './excel/exportExcel'
 import * as responser from './responser'
 
 /**
- * 
+ *
  * Root Actions
- * 
+ *
  */
 const actions = {
   ...dashboard,
@@ -48,7 +49,8 @@ const actions = {
   ...providerCourse,
   ...importExcel,
   ...exportExcel,
-  ...responser
+  ...responser,
+  ...employee
 }
 
 export default actions
