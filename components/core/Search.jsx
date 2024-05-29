@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { Box, InputLabel } from '@mui/material'
+import { Box, IconButton, InputLabel } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
 import PropsType from 'prop-types'
-
+import { Close } from '@mui/icons-material'
 
 function Search({
-  onSearch = () => { },
+  onSearch = () => {},
   label,
   placeholder,
   inputParentClasses,
@@ -18,6 +18,7 @@ function Search({
     <Box
       component='div'
       className={inputParentClasses}
+      sx={{ position: 'relative' }}
     >
       <InputLabel
         htmlFor='search'
@@ -28,28 +29,41 @@ function Search({
           alignItems: 'center'
         }}
       >
-        {
-          label ||
-          (<SearchIcon
-            htmlFor='search'
-            sx={iconStyle}
-          />)
-        }
+        {label || <SearchIcon htmlFor='search' sx={iconStyle} />}
       </InputLabel>
       <input
         type='text'
         id='search'
-        onChange={(e) => { setSearch(e.target.value) }}
+        onChange={(e) => {
+          setSearch(e.target.value)
+        }}
         name='search'
         onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            onSearch(search)
-          }
+          if (e.key === 'Enter') onSearch(search)
         }}
         className={inputClass}
         placeholder={placeholder}
-      // value={search}
+        value={search}
       />
+      {search && (
+        <IconButton
+          aria-label='delete'
+          onClick={() => {
+            setSearch('')
+            onSearch('')
+          }}
+          sx={{
+            padding: '4px',
+            fontSize: '20px',
+            position: 'absolute',
+            right: 6,
+            top: '50%',
+            transform: 'translateY(-50%)'
+          }}
+        >
+          <Close />
+        </IconButton>
+      )}
     </Box>
   )
 }
@@ -63,6 +77,5 @@ Search.propTypes = {
   inputClass: PropsType.any,
   iconStyle: PropsType.any
 }
-
 
 export default Search
