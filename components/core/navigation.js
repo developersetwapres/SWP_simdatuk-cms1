@@ -192,38 +192,38 @@ const navigation = [
         permission: [{ name: 'data-user' }]
       },
       {
-        path: '/master-data/role-user',
+        path: '/master-data/role',
         name: 'DATA ROLE PENGGUNA',
         icon: null,
         permission: [{ name: 'data-role' }]
       },
       {
         path: '/master-data/position',
-        name: 'ROLE JABATAN',
+        name: 'DATA JABATAN',
         icon: null,
         permission: [{ name: 'data-position' }]
       },
       {
         path: '/master-data/golongan',
-        name: 'ROLE GOLONGAN',
+        name: 'DATA GOLONGAN',
         icon: null,
         permission: [{ name: 'data-class' }]
       },
       {
         path: '/master-data/instansi',
-        name: 'ROLE INSTANSI',
+        name: 'DATA INSTANSI',
         icon: null,
         permission: [{ name: 'data-agency' }]
       },
       {
         path: '/master-data/college',
-        name: 'ROLE PERGURUAN TINGGI',
+        name: 'DATA PERGURUAN TINGGI',
         icon: null,
         permission: [{ name: 'data-college' }]
       },
       {
         path: '/master-data/type',
-        name: 'ROLE JENIS PEGAWAI',
+        name: 'DATA JENIS PEGAWAI',
         icon: null,
         permission: [{ name: 'data-type' }]
       }
