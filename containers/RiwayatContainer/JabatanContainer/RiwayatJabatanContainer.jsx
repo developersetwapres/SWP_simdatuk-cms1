@@ -7,8 +7,8 @@ import Layout from '@/components/core/Layout'
 import RiwayatJabatanComponent from '@/components/Riwayat/Jabatan/RiwayatJabatanComponent'
 
 export default connect(
-  mapStateToProps('banner'),
-  mapActions('getBanners', 'deleteListBanner')
+  mapStateToProps(),
+  mapActions()
 )(
   class RiwayatJabatanContainer extends Component {
     static propTypes = {

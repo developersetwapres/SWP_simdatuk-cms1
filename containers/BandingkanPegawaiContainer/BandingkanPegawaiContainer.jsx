@@ -7,8 +7,8 @@ import Layout from '@/components/core/Layout'
 import BandingkanPegawaiComponent from '@/components/BandingkanPegawai/BandingkanPegawaiComponent'
 
 export default connect(
-  mapStateToProps('banner'),
-  mapActions('getBanners', 'deleteListBanner')
+  mapStateToProps(),
+  mapActions()
 )(
   class BannerContainer extends Component {
     static propTypes = {

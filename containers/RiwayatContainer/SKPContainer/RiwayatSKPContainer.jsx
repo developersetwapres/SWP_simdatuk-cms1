@@ -7,8 +7,8 @@ import Layout from '@/components/core/Layout'
 import RiwayatSKPComponent from '@/components/Riwayat/SKP/RiwayatSKPComponent'
 
 export default connect(
-  mapStateToProps('banner'),
-  mapActions('getBanners', 'deleteListBanner')
+  mapStateToProps(),
+  mapActions()
 )(
   class RiwayatSKPContainer extends Component {
     static propTypes = {

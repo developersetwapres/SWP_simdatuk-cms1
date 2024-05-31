@@ -7,8 +7,8 @@ import Layout from '@/components/core/Layout'
 import PetaJabatanComponent from '@/components/PetaJabatan/PetaJabatanComponent'
 
 export default connect(
-  mapStateToProps('banner'),
-  mapActions('getBanners', 'deleteListBanner')
+  mapStateToProps(),
+  mapActions()
 )(
   class PetaJabatanContainer extends Component {
     static propTypes = {

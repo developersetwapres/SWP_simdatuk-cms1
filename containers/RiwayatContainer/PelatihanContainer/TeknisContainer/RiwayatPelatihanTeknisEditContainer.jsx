@@ -7,8 +7,8 @@ import Layout from '@/components/core/Layout'
 import RiwayatPelatihanTeknisEditComponent from '@/components/Riwayat/Pelatihan/Teknis/RiwayatPelatihanTeknisEditComponent'
 
 export default connect(
-  mapStateToProps('banner'),
-  mapActions('getBanners', 'deleteListBanner')
+  mapStateToProps(),
+  mapActions()
 )(
   class RiwayatPelatihanTeknisEditContainer extends Component {
     static propTypes = {

@@ -7,8 +7,8 @@ import Layout from '@/components/core/Layout'
 import KepalaSubBagianComponent from '@/components/PetaJabatan/kepalaSubBagian/KepalaSubBagianComponent'
 
 export default connect(
-  mapStateToProps('banner'),
-  mapActions('getBanners', 'deleteListBanner')
+  mapStateToProps(),
+  mapActions()
 )(
   class KepalaSubBagian extends Component {
     static propTypes = {
@@ -32,16 +32,10 @@ export default connect(
       }, 2000)
     }
 
-
     render() {
       return (
-        <Layout
-          willRender={this.state.willRender}
-        >
-          <KepalaSubBagianComponent
-            {...this.state}
-            {...this.props}
-          />
+        <Layout willRender={this.state.willRender}>
+          <KepalaSubBagianComponent {...this.state} {...this.props} />
         </Layout>
       )
     }

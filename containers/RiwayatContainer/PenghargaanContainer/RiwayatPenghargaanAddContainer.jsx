@@ -7,8 +7,8 @@ import Layout from '@/components/core/Layout'
 import RiwayatPenghargaanAddComponent from '@/components/Riwayat/Penghargaan/RiwayatPenghargaanAddComponent'
 
 export default connect(
-  mapStateToProps('banner'),
-  mapActions('getBanners', 'deleteListBanner')
+  mapStateToProps(),
+  mapActions()
 )(
   class RiwayatPenghargaanAddContainer extends Component {
     static propTypes = {

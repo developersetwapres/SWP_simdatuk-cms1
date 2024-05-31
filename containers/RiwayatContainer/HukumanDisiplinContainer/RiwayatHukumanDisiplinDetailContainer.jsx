@@ -7,8 +7,8 @@ import Layout from '@/components/core/Layout'
 import RiwayatHukumanDisiplinDetailComponent from '@/components/Riwayat/HukumanDisiplin/RiwayatHukumanDisiplinDetailComponent'
 
 export default connect(
-  mapStateToProps('banner'),
-  mapActions('getBanners', 'deleteListBanner')
+  mapStateToProps(),
+  mapActions()
 )(
   class RiwayatHukumanDisiplinDetailContainer extends Component {
     static propTypes = {

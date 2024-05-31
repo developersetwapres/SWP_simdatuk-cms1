@@ -7,8 +7,8 @@ import Layout from '@/components/core/Layout'
 import RiwayatPPKComponent from '@/components/Riwayat/PPK/RiwayatPPKComponent'
 
 export default connect(
-  mapStateToProps('banner'),
-  mapActions('getBanners', 'deleteListBanner')
+  mapStateToProps(),
+  mapActions()
 )(
   class RiwayatPPKContainer extends Component {
     static propTypes = {

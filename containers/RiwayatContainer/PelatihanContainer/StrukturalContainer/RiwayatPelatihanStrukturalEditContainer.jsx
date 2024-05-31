@@ -7,8 +7,8 @@ import Layout from '@/components/core/Layout'
 import RiwayatPelatihanStrukturalEditComponent from '@/components/Riwayat/Pelatihan/Struktural/RiwayatPelatihanStrukturalEditComponent'
 
 export default connect(
-  mapStateToProps('banner'),
-  mapActions('getBanners', 'deleteListBanner')
+  mapStateToProps(),
+  mapActions()
 )(
   class RiwayatPelatihanStrukturalEditContainer extends Component {
     static propTypes = {

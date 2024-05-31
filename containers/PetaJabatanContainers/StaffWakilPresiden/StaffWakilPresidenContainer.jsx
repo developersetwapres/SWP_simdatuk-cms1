@@ -7,8 +7,8 @@ import Layout from '@/components/core/Layout'
 import StaffWakilPresidenComponent from '@/components/PetaJabatan/StaffWakilPresidenComponent'
 
 export default connect(
-  mapStateToProps('banner'),
-  mapActions('getBanners', 'deleteListBanner')
+  mapStateToProps(),
+  mapActions()
 )(
   class StaffWakilPresidenContainer extends Component {
     static propTypes = {

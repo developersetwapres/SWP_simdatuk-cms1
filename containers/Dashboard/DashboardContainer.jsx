@@ -7,14 +7,12 @@ import Layout from '@/components/core/Layout'
 import DashboardComponent from '@/components/Dashboard/DashboardComponent'
 
 export default connect(
-  mapStateToProps('banner'),
-  mapActions('getBanners', 'deleteListBanner')
+  mapStateToProps(),
+  mapActions()
 )(
   class DashboardContainer extends Component {
     static propTypes = {
-      banner: PropTypes.object,
-      getBanners: PropTypes.func,
-      deleteListBanner: PropTypes.func
+      props: PropTypes.any
     }
 
     constructor(props) {
@@ -40,7 +38,7 @@ export default connect(
     }
 
     fetch(queries) {
-      this.props.getBanners(queries)
+      console.log('queries', queries)
     }
 
     onPaginationChange(page) {

@@ -6,14 +6,8 @@ import Layout from '@/components/core/Layout'
 import EmployeeAddBulkComponent from '@/components/DataPegawai/EmployeeAddBulkComponent'
 
 export default connect(
-  mapStateToProps('command', 'authentication'),
-  mapActions(
-    'getUserMe',
-    'getCommandUserPosition',
-    'getCommandUserUnit',
-    'getCommandUserLevel',
-    'updateProfile'
-  )
+  mapStateToProps(),
+  mapActions()
 )(
   class EmployeeNonOutsourcingContainer extends Component {
     static propTypes = {

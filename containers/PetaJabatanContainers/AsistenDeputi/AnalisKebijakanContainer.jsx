@@ -7,8 +7,8 @@ import Layout from '@/components/core/Layout'
 import AnalisKebijakanComponent from '@/components/PetaJabatan/AsistenDeputi/AnalisKebijakanComponent'
 
 export default connect(
-  mapStateToProps('banner'),
-  mapActions('getBanners', 'deleteListBanner')
+  mapStateToProps(),
+  mapActions()
 )(
   class AsistenDeputiContainer extends Component {
     static propTypes = {

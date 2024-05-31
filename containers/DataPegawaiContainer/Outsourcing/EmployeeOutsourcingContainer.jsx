@@ -6,14 +6,8 @@ import Layout from '@/components/core/Layout'
 import EmployeeOutsourcingComponent from '@/components/DataPegawai/Outsourcing/EmployeeOutsourcingComponent'
 
 export default connect(
-  mapStateToProps('command', 'authentication'),
-  mapActions(
-    'getUserMe',
-    'getCommandUserPosition',
-    'getCommandUserUnit',
-    'getCommandUserLevel',
-    'updateProfile'
-  )
+  mapStateToProps(),
+  mapActions()
 )(
   class EmployeeOutsourcingContainer extends Component {
     static propTypes = {

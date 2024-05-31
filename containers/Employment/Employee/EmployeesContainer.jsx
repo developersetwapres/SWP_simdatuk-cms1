@@ -6,8 +6,8 @@ import Layout from '@/components/core/Layout'
 import EmployeesComponent from '@/components/Employment/Employee/EmployeesComponent'
 
 export default connect(
-  mapStateToProps('banner'),
-  mapActions('getBanners', 'deleteListBanner')
+  mapStateToProps(),
+  mapActions()
 )(
   class EmployeesContainer extends Component {
     static propTypes = {

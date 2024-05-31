@@ -6,14 +6,8 @@ import Layout from '@/components/core/Layout'
 import EmployeeNonASNComponent from '@/components/DataPegawai/Non-Asn/EmployeeNonASNComponent'
 
 export default connect(
-  mapStateToProps('command', 'authentication'),
-  mapActions(
-    'getUserMe',
-    'getCommandUserPosition',
-    'getCommandUserUnit',
-    'getCommandUserLevel',
-    'updateProfile'
-  )
+  mapStateToProps(),
+  mapActions()
 )(
   class EmployeeNonASNContainer extends Component {
     static propTypes = {

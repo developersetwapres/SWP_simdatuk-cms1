@@ -7,8 +7,8 @@ import Layout from '@/components/core/Layout'
 import AsistenDeputiComponent from '@/components/PetaJabatan/AsistenDeputi/AsistenDeputiComponent'
 
 export default connect(
-  mapStateToProps('banner'),
-  mapActions('getBanners', 'deleteListBanner')
+  mapStateToProps(),
+  mapActions()
 )(
   class AsistenDeputiContainer extends Component {
     static propTypes = {
@@ -32,16 +32,10 @@ export default connect(
       }, 2000)
     }
 
-
     render() {
       return (
-        <Layout
-          willRender={this.state.willRender}
-        >
-          <AsistenDeputiComponent
-            {...this.state}
-            {...this.props}
-          />
+        <Layout willRender={this.state.willRender}>
+          <AsistenDeputiComponent {...this.state} {...this.props} />
         </Layout>
       )
     }
