@@ -1,4 +1,4 @@
-import { get, post, patch, del } from '@/utils/interceptors'
+import { get, post, del } from '@/utils/interceptors'
 import { queryParams } from '@/utils/'
 
 const basePath = '/roles'
@@ -20,7 +20,7 @@ export const getRolesAction = (payload) => {
  * @param {*} id
  * @returns
  */
-export const getDetailRoleAction = (id) => {
+export const getRoleAction = (id) => {
   return get(`${basePath}/${id}`)
 }
 
@@ -41,7 +41,7 @@ export const postRoleAction = (payload) => {
  * @returns
  */
 export const updateRoleAction = (payload) => {
-  return patch(`${basePath}`, payload)
+  return post(`${basePath}/${payload?.id}`, payload?.data)
 }
 
 /**
@@ -50,8 +50,8 @@ export const updateRoleAction = (payload) => {
  * @param {*} id
  * @returns
  */
-export const deleteRoleAction = (id) => {
-  return del(`${basePath}/${id}`)
+export const deleteRoleAction = (payload) => {
+  return del(`${basePath}/${payload?.id}`, payload.data)
 }
 
 /**
@@ -62,4 +62,13 @@ export const deleteRoleAction = (id) => {
  */
 export const deleteRoleListAction = (id) => {
   return del(`${basePath}/${id}`)
+}
+
+/**
+ * Get Permissions
+ *
+ * @returns
+ */
+export const getPermissionsAction = () => {
+  return get('/permissions')
 }

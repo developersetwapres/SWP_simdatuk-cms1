@@ -3,7 +3,7 @@ import { CATCH_ERROR, CLEAR_ERROR, CLOSE_MODAL, SET_MODAL } from '../constants'
 
 const initialState = {
   modal: false,
-  code: 200,
+  code: null,
   message: null,
   redirect: '',
   childMessage: ''
@@ -30,8 +30,11 @@ export const modalReducer = (state = initialState, action) => {
       }
     case CLOSE_MODAL:
       return {
-        ...state,
-        modal: false
+        modal: false,
+        code: null,
+        message: null,
+        redirect: '',
+        childMessage: ''
       }
     case CLEAR_ERROR:
       return {

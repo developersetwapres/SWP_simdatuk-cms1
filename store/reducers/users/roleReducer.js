@@ -3,9 +3,12 @@ import {
   GET_ROLES_REQUESTED,
   GET_ROLES_SUCCESS,
   GET_ROLES_FAILED,
-  GET_DETAIL_ROLE_REQUESTED,
-  GET_DETAIL_ROLE_SUCCESS,
-  GET_DETAIL_ROLE_FAILED,
+  GET_ROLES_OPTIONS_REQUESTED,
+  GET_ROLES_OPTIONS_SUCCESS,
+  GET_ROLES_OPTIONS_FAILED,
+  GET_ROLE_REQUESTED,
+  GET_ROLE_SUCCESS,
+  GET_ROLE_FAILED,
   POST_ROLE_REQUESTED,
   POST_ROLE_SUCCESS,
   POST_ROLE_FAILED,
@@ -14,17 +17,22 @@ import {
   UPDATE_ROLE_FAILED,
   DELETE_ROLE_REQUESTED,
   DELETE_ROLE_SUCCESS,
-  DELETE_ROLE_FAILED
+  DELETE_ROLE_FAILED,
+  GET_PERMISSIONS_REQUESTED,
+  GET_PERMISSIONS_SUCCESS,
+  GET_PERMISSIONS_FAILED,
+  CLEAR_ROLE_STATE
 } from '@/store/constants'
 
 const initialState = {
   data: [],
+  dataPermissions: [],
+  options: [],
+  detail: {},
   pagination: {},
   loading: false,
   error: null,
-  detail: {},
-  isSubmit: false,
-  detailData: {}
+  isSubmit: false
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -50,33 +58,36 @@ export const role = (state = initialState, action) => {
         loading: false,
         error: payload?.error
       }
-    case GET_DETAIL_ROLE_REQUESTED:
+    case GET_ROLES_OPTIONS_REQUESTED:
       return {
         ...state,
         loading: true
       }
-    case GET_DETAIL_ROLE_SUCCESS: {
-      //* Transform
-      function transform(array) {
-        return Object.values(
-          array.reduce((obj, { menu_id, menu_access, menu_name }) => {
-            if (obj[menu_id]) {
-              obj[menu_id].menu_access.push(menu_access)
-            } else {
-              obj[menu_id] = { menu_id, menu_name, menu_access: [menu_access] }
-            }
-            return obj
-          }, {})
-        )
-      }
+    case GET_ROLES_OPTIONS_SUCCESS:
       return {
         ...state,
         loading: false,
-        detail: transform(payload?.data?.menu),
-        detailData: payload?.data
+        options: payload?.data
+      }
+    case GET_ROLES_OPTIONS_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: payload?.error
+      }
+    case GET_ROLE_REQUESTED:
+      return {
+        ...state,
+        loading: true
+      }
+    case GET_ROLE_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        detail: payload?.data
       }
     }
-    case GET_DETAIL_ROLE_FAILED:
+    case GET_ROLE_FAILED:
       return {
         ...state,
         loading: false,
@@ -137,6 +148,33 @@ export const role = (state = initialState, action) => {
         ...state,
         loading: false,
         error: payload?.error,
+        isSubmit: false
+      }
+    case GET_PERMISSIONS_REQUESTED:
+      return {
+        ...state,
+        loading: true
+      }
+    case GET_PERMISSIONS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        dataPermissions: payload?.data
+      }
+    case GET_PERMISSIONS_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: payload?.error
+      }
+    case CLEAR_ROLE_STATE:
+      return {
+        data: [],
+        dataPermissions: [],
+        pagination: {},
+        loading: false,
+        error: null,
+        detail: {},
         isSubmit: false
       }
     default:
