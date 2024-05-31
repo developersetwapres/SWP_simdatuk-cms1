@@ -32,6 +32,12 @@ export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS'
 export const RESET_PASSWORD_FAILED = 'RESET_PASSWORD_FAILED'
 /* ========= AUTHENTICATION ========= */
 
+/* ========= PROFILE ========= */
+export const UPDATE_PROFILE_REQUESTED = 'UPDATE_PROFILE_REQUESTED'
+export const UPDATE_PROFILE_SUCCESS = 'UPDATE_PROFILE_SUCCESS'
+export const UPDATE_PROFILE_FAILED = 'UPDATE_PROFILE_FAILED'
+/* ========= PROFILE ========= */
+
 /* ========= USERS  ========= */
 export const GET_USERS_REQUESTED = 'GET_USERS_REQUESTED'
 export const GET_USERS_SUCCESS = 'GET_USERS_SUCCESS'
@@ -88,17 +94,6 @@ export const GET_PERMISSIONS_FAILED = 'GET_PERMISSIONS_FAILED'
 export const CLEAR_ROLE_STATE = 'CLEAR_ROLE_STATE'
 /* ========= ROLE ========== */
 
-/* ========= CATCH_ERROR ========== */
-export const CATCH_ERROR = 'CATCH_ERROR'
-export const CLEAR_ERROR = 'CLEAR_ERROR'
-export const CLOSE_MODAL = 'CLOSE_MODAL'
-export const SET_MODAL = 'SET_MODAL'
-/* ========= CATCH_ERROR ========== */
-
-/* ======== Responser ======== */
-export const ACTION_RESPONSER = 'ACTION_RESPONSER'
-/* ======== Responser ======== */
-
 /* ======== EMPLOYEE ========= */
 export const GET_EMPLOYEES_REQUESTED = 'GET_EMPLOYEES_REQUESTED'
 export const GET_EMPLOYEES_SUCCESS = 'GET_EMPLOYEES_SUCCESS'
@@ -120,3 +115,14 @@ export const DELETE_EMPLOYEE_REQUESTED = 'DELETE_EMPLOYEE_REQUESTED'
 export const DELETE_EMPLOYEE_SUCCESS = 'DELETE_EMPLOYEE_SUCCESS'
 export const DELETE_EMPLOYEE_FAILED = 'DELETE_EMPLOYEE_FAILED'
 /* ======== EMPLOYEE ========= */
+
+/* ========= CATCH_ERROR ========== */
+export const CATCH_ERROR = 'CATCH_ERROR'
+export const CLEAR_ERROR = 'CLEAR_ERROR'
+export const CLOSE_MODAL = 'CLOSE_MODAL'
+export const SET_MODAL = 'SET_MODAL'
+/* ========= CATCH_ERROR ========== */
+
+/* ======== Responser ======== */
+export const ACTION_RESPONSER = 'ACTION_RESPONSER'
+/* ======== Responser ======== */
