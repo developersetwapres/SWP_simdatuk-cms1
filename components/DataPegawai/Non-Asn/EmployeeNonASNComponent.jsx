@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
+import PropTypes from 'prop-types'
 import LayoutPages from '../../core/LayoutPages'
 import { Box } from '@mui/system'
 import { Button, Table } from '@/components/shared'
@@ -24,59 +25,15 @@ const styles = {
   }
 }
 
-const data = [
-  {
-    id: 123,
-    image: '/simdatuk/imagePegawai.png',
-    nama: 'John',
-    nip: '12345',
-    perbantuan: 'Jenis Perbantuan I',
-    jabatan: 'Jabatan I'
-  },
-  {
-    id: 123,
-    image: '/simdatuk/imagePegawai.png',
-    nama: 'John',
-    nip: '12345',
-    perbantuan: 'Jenis Perbantuan I',
-    jabatan: 'Jabatan I'
-  },
-  {
-    id: 123,
-    image: '/simdatuk/imagePegawai.png',
-    nama: 'John',
-    nip: '12345',
-    perbantuan: 'Jenis Perbantuan I',
-    jabatan: 'Jabatan I'
-  },
-  {
-    id: 123,
-    image: '/simdatuk/imagePegawai.png',
-    nama: 'John',
-    nip: '12345',
-    perbantuan: 'Jenis Perbantuan I',
-    jabatan: 'Jabatan I'
-  },
-  {
-    id: 123,
-    image: '/simdatuk/imagePegawai.png',
-    nama: 'John',
-    nip: '12345',
-    perbantuan: 'Jenis Perbantuan I',
-    jabatan: 'Jabatan I'
-  },
-  {
-    id: 123,
-    image: '/simdatuk/imagePegawai.png',
-    nama: 'John',
-    nip: '12345',
-    perbantuan: 'Jenis Perbantuan I',
-    jabatan: 'Jabatan I'
-  }
-]
-
-const EmployeeNonASNComponent = () => {
+const EmployeeNonASNComponent = ({
+  employee,
+  onLoading = () => {},
+  onSearch = () => {},
+  onPaginationChange = () => {},
+  onRowsPerPageChange = () => {}
+}) => {
   const router = useRouter()
+
   const columns = useMemo(
     () => [
       {
@@ -114,6 +71,7 @@ const EmployeeNonASNComponent = () => {
   )
 
   const rows = useMemo(() => {
+    const data = employee?.data
     const dataMapping = data.map((item) => {
       return [
         {
@@ -132,7 +90,7 @@ const EmployeeNonASNComponent = () => {
               }}
             >
               <img
-                src={item?.image}
+                src={item?.photo_profile}
                 alt='Image'
                 style={{ width: 'fit-content', height: '100%' }}
               />
@@ -143,25 +101,29 @@ const EmployeeNonASNComponent = () => {
           Header: 'Nama',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.nama}</Typography>
+          Cell: () => <Typography>{item?.name || '-'}</Typography>
         },
         {
           Header: 'NIP',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.nip}</Typography>
+          Cell: () => {
+            const nip = item?.employee_id_number
+            const nrp = item?.employee_registration_number
+            return <Typography>{`${nip}${nrp ? ` / ${nrp}` : ''}`}</Typography>
+          }
         },
         {
           Header: 'Perbantuan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.perbantuan}</Typography>
+          Cell: () => <Typography>{item?.employment_type || '-'}</Typography>
         },
         {
           Header: 'Jabatan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.jabatan}</Typography>
+          Cell: () => <Typography>{item?.position_name || '-'}</Typography>
         },
         {
           Header: 'Aksi',
@@ -172,16 +134,20 @@ const EmployeeNonASNComponent = () => {
               <Button
                 text='Detail'
                 color='primary'
-                onClick={() => handleAction('add')}
-                icon={<Info style={styles.iconButton} />}
                 sx={styles.buttonAction}
+                icon={<Info style={styles.iconButton} />}
+                onClick={() =>
+                  router.push(`${router.pathname}/detail/${btoa(item?.id)}`)
+                }
               />
               <Button
                 text='Edit'
                 color='sidatukDraweBase'
-                onClick={() => handleAction('bulk')}
-                icon={<Edit style={styles.iconButton} />}
                 sx={styles.buttonAction}
+                icon={<Edit style={styles.iconButton} />}
+                onClick={() =>
+                  router.push(`${router.pathname}/edit/${btoa(item?.id)}`)
+                }
               />
             </Box>
           )
@@ -190,7 +156,7 @@ const EmployeeNonASNComponent = () => {
     })
 
     return dataMapping
-  }, [data])
+  }, [employee])
 
   const action = useMemo(() => {
     return (
@@ -203,22 +169,37 @@ const EmployeeNonASNComponent = () => {
         <Button
           text='Tambah'
           color='primary'
-          onClick={() => handleAction('add')}
+          onClick={() => router.push(`${router.asPath}/add`)}
         />
       </Box>
     )
   }, [])
 
-  const handleAction = (value) => {
-    console.log('action', value)
-  }
+  useEffect(() => {
+    const state = !employee?.loading
+    onLoading(state)
+  }, [employee])
 
   return (
     <LayoutPages summary={'Data Pegawai Non ASN'} action={action}>
-      <EmployeeFilterComponent />
-      <Table columns={columns} rows={rows} />
+      <EmployeeFilterComponent onSearch={onSearch} options={{ echelon: [] }} />
+      <Table
+        columns={columns}
+        rows={rows}
+        pagination={employee?.pagination}
+        handlePagination={onPaginationChange}
+        handleRows={onRowsPerPageChange}
+      />
     </LayoutPages>
   )
+}
+
+EmployeeNonASNComponent.propTypes = {
+  employee: PropTypes.object,
+  onLoading: PropTypes.func,
+  onSearch: PropTypes.func,
+  onPaginationChange: PropTypes.func,
+  onRowsPerPageChange: PropTypes.func
 }
 
 export default EmployeeNonASNComponent
