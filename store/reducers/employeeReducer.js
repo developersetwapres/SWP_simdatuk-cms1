@@ -14,7 +14,8 @@ import {
   UPDATE_EMPLOYEE_FAILED,
   DELETE_EMPLOYEE_REQUESTED,
   DELETE_EMPLOYEE_SUCCESS,
-  DELETE_EMPLOYEE_FAILED
+  DELETE_EMPLOYEE_FAILED,
+  CLEAR_EMPLOYEE_STATE
 } from '../constants'
 
 const initialState = {
@@ -121,6 +122,14 @@ export const employee = (state = initialState, action) => {
         ...state,
         loading: false,
         isSubmit: false
+      }
+    case CLEAR_EMPLOYEE_STATE:
+      return {
+        isSubmit: false,
+        error: null,
+        detail: {},
+        pagination: {},
+        data: []
       }
     default:
       return state
