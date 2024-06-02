@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useMemo, useState } from 'react'
+import PropTypes from 'prop-types'
 import Search from '@/components/core/Search'
 import { Autocomplete, Button } from '@/components/shared'
 import { FilterAlt } from '@mui/icons-material'
@@ -36,129 +37,99 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const filterOptions = [
-  {
-    name: 'Jabatan',
-    key: 'jabatan',
-    placeholder: 'Pilih Jabatan',
-    options: [
-      { title: 'Jabatan I' },
-      { title: 'Jabatan II' },
-      { title: 'Jabatan III' },
-      { title: 'Jabatan IV' }
-    ]
-  },
-  {
-    name: 'Eselon',
-    key: 'eselon',
-    placeholder: 'Pilih Eselon',
-    options: [
-      { title: 'Eselon I' },
-      { title: 'Eselon II' },
-      { title: 'Eselon III' },
-      { title: 'Eselon IV' }
-    ]
-  },
-  {
-    name: 'Golongan',
-    key: 'golongan',
-    placeholder: 'Pilih Golongan',
-    options: [
-      { title: 'I' },
-      { title: 'II' },
-      { title: 'III' },
-      { title: 'IV' },
-      { title: 'V' }
-    ]
-  },
-  {
-    name: 'Jenis Perbantuan',
-    key: 'perbantuan',
-    placeholder: 'Pilih Jenis Perbantuan',
-    options: [
-      { title: 'Jenis Perbantuan I' },
-      { title: 'Jenis Perbantuan II' },
-      { title: 'Jenis Perbantuan III' },
-      { title: 'Jenis Perbantuan IV' }
-    ]
-  },
-  {
-    name: 'Jenis Outsourcing',
-    key: 'outsourcing',
-    placeholder: 'Pilih Jenis Outsourcing',
-    options: [
-      { title: 'Jenis Outsourcing I' },
-      { title: 'Jenis Outsourcing II' },
-      { title: 'Jenis Outsourcing III' },
-      { title: 'Jenis Outsourcing IV' }
-    ]
-  },
-  {
-    name: 'Tingkat Pendidikan',
-    key: 'pendidikan',
-    placeholder: 'Pilih Tingkat Pendidikan',
-    options: [
-      { title: 'SD' },
-      { title: 'SLTP' },
-      { title: 'SLTA' },
-      { title: 'S1/Sarjana' },
-      { title: 'S2/Sarjana' }
-    ]
-  },
-  {
-    name: 'Agama',
-    key: 'agama',
-    placeholder: 'Pilih Agama',
-    options: [
-      { title: 'Islam' },
-      { title: 'Kristen' },
-      { title: 'Konghucu' },
-      { title: 'Katolik' },
-      { title: 'Budha' }
-    ]
-  },
-  {
-    name: 'Umur',
-    key: 'umur',
-    placeholder: 'Pilih Umur',
-    options: [
-      { title: '1' },
-      { title: '2' },
-      { title: '3' },
-      { title: '4' },
-      { title: '5' }
-    ]
-  },
-  {
-    name: 'Bulan Lahir',
-    key: 'month',
-    placeholder: 'Pilih Bulan Lahir',
-    options: [
-      { title: 'Januari' },
-      { title: 'Februari' },
-      { title: 'Maret' },
-      { title: 'April' },
-      { title: 'Mei' },
-      { title: 'Juni' },
-      { title: 'Juli' },
-      { title: 'Agustus' },
-      { title: 'September' },
-      { title: 'Oktober' },
-      { title: 'November' },
-      { title: 'Desember' }
-    ]
-  },
-  {
-    name: 'Status',
-    key: 'status',
-    placeholder: 'Pilih Status',
-    options: [{ title: 'Aktif' }, { title: 'Non Aktif' }]
-  }
-]
-
-const EmployeeFilterComponent = () => {
+const EmployeeFilterComponent = ({ options, onSearch = () => {} }) => {
   const router = useRouter()
   const classes = useStyles()
+
+  const filterOptions = useMemo(() => {
+    const newOptions = [
+      {
+        name: 'Jabatan',
+        key: 'jabatan',
+        placeholder: 'Pilih Jabatan',
+        options: ['Jabatan I', 'Jabatan II', 'Jabatan III', 'Jabatan IV']
+      },
+      {
+        name: 'Eselon',
+        key: 'eselon',
+        placeholder: 'Pilih Eselon',
+        options: options?.echelon
+      },
+      {
+        name: 'Golongan',
+        key: 'golongan',
+        placeholder: 'Pilih Golongan',
+        options: ['I', 'II', 'III', 'IV', 'V']
+      },
+      {
+        name: 'Jenis Perbantuan',
+        key: 'perbantuan',
+        placeholder: 'Pilih Jenis Perbantuan',
+        options: [
+          'Jenis Perbantuan I',
+          'Jenis Perbantuan II',
+          'Jenis Perbantuan III',
+          'Jenis Perbantuan IV'
+        ]
+      },
+      {
+        name: 'Jenis Outsourcing',
+        key: 'outsourcing',
+        placeholder: 'Pilih Jenis Outsourcing',
+        options: [
+          'Jenis Outsourcing I',
+          'Jenis Outsourcing II',
+          'Jenis Outsourcing III',
+          'Jenis Outsourcing IV'
+        ]
+      },
+      {
+        name: 'Tingkat Pendidikan',
+        key: 'pendidikan',
+        placeholder: 'Pilih Tingkat Pendidikan',
+        options: ['SD', 'SLTP', 'SLTA', 'S1/Sarjana', 'S2/Sarjana']
+      },
+      {
+        name: 'Agama',
+        key: 'agama',
+        placeholder: 'Pilih Agama',
+        options: ['Islam', 'Kristen', 'Konghucu', 'Katolik', 'Budha']
+      },
+      {
+        name: 'Umur',
+        key: 'umur',
+        placeholder: 'Pilih Umur',
+        options: ['1', '2', '3', '4', '5']
+      },
+      {
+        name: 'Bulan Lahir',
+        key: 'month',
+        placeholder: 'Pilih Bulan Lahir',
+        options: [
+          'Januari',
+          'Februari',
+          'Maret',
+          'April',
+          'Mei',
+          'Juni',
+          'Juli',
+          'Agustus',
+          'September',
+          'Oktober',
+          'November',
+          'Desember'
+        ]
+      },
+      {
+        name: 'Status',
+        key: 'status',
+        placeholder: 'Pilih Status',
+        options: ['Aktif', 'Non Aktif']
+      }
+    ]
+
+    return newOptions
+  }, [options])
 
   const filter = useMemo(() => {
     const filtersDefault = [
@@ -186,8 +157,6 @@ const EmployeeFilterComponent = () => {
       const listFilter = filtersDefault
       listFilter.splice(0, 0, 'jabatan')
       listFilter.splice(2, 0, 'perbantuan')
-
-      console.log('listFilter', listFilter)
 
       return filterOptions.filter((itm) => {
         return listFilter.includes(itm?.key)
@@ -234,6 +203,7 @@ const EmployeeFilterComponent = () => {
           inputClass={classes.input}
           iconStyle={classes.iconStyle}
           placeholder='Cari Nama/Nip Pegawai'
+          onSearch={onSearch}
         />
       </Box>
       <Box
@@ -254,12 +224,15 @@ const EmployeeFilterComponent = () => {
           {filter.map((item, index) => (
             <Grid item xs={4} key={index}>
               <Autocomplete
-                label={item?.name}
                 options={item?.options}
                 name={item?.key}
                 placeholder={item?.placeholder}
                 value={filterType[item?.name]}
                 multiple={true}
+                label={item?.name}
+                onChange={(val) => {
+                  console.log('val', val)
+                }}
               />
             </Grid>
           ))}
@@ -281,7 +254,7 @@ const EmployeeFilterComponent = () => {
               <Button
                 text='Selesai'
                 color='primary'
-                onClick={() => handleAction('add')}
+                onClick={() => console.log('filterType', filterType)}
               />
             </Box>
           </Grid>
@@ -289,6 +262,11 @@ const EmployeeFilterComponent = () => {
       </Box>
     </Box>
   )
+}
+
+EmployeeFilterComponent.propTypes = {
+  options: PropTypes.object,
+  onSearch: PropTypes.func
 }
 
 export default EmployeeFilterComponent
