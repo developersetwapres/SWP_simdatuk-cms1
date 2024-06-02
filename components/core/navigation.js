@@ -234,6 +234,7 @@ const navigation = [
   },
   {
     name: 'LOGOUT',
+    path: '/logout',
     icon: <Logout sx={{ maxWidth: 20, fontSize: '20px', color: '#fff' }} />,
     permission: [{ name: 'logout' }]
   }

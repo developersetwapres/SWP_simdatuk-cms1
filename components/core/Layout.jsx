@@ -10,6 +10,9 @@ import Drawer from '@/components/core/Drawer'
 import BackdropPage from './BackdropPage'
 import SidebarItem from './sidebar/SidebarItem'
 import Image from 'next/image'
+import ModalLogout from '../shared/Modal/ModalLogout'
+import { useDispatch } from 'react-redux'
+import { AUTHENTICATION_LOGOUT_REQUESTED } from '@/store/constants'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -96,8 +99,20 @@ const useStyles = makeStyles((theme) => ({
 
 function Layout({ children, window, willRender }) {
   const classes = useStyles()
+  const dispatch = useDispatch()
+
   const [mobile, setMobile] = useState(false)
+  const [isLogout, setIsLogout] = useState(false)
   // const [toggleOpen, setToggleOpen] = useState([])
+
+  const handleLogout = () => {
+    dispatch({ type: AUTHENTICATION_LOGOUT_REQUESTED })
+  }
+
+  const handleModalLogout = () => {
+    setIsLogout((isLogout) => !isLogout)
+  }
+
   const handleMobile = () => {
     setMobile(!mobile)
   }
@@ -171,6 +186,7 @@ function Layout({ children, window, willRender }) {
       <List>
         {navigation.map((item, index) => (
           <SidebarItem
+            handleModalLogout={handleModalLogout}
             name={item.name}
             icon={item.icon}
             child={item.children}
@@ -215,6 +231,11 @@ function Layout({ children, window, willRender }) {
         </Container>
         <Footer className={classes.footer} />
       </Box>
+      <ModalLogout
+        open={isLogout}
+        handleModal={handleModalLogout}
+        handleLogout={handleLogout}
+      />
     </Box>
   )
 }

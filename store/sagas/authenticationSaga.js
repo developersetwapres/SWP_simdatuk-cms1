@@ -22,8 +22,6 @@ import {
   CATCH_ERROR,
   SET_MODAL,
   AUTHENTICATION_LOGOUT_REQUESTED,
-  AUTHENTICATION_LOGOUT_SUCCESS,
-  AUTHENTICATION_LOGOUT_FAILED,
   GET_HASH_URL_PASSWORD_REQUESTED,
   GET_HASH_URL_PASSWORD_SUCCESS,
   GET_HASH_URL_PASSWORD_FAILED,
@@ -39,14 +37,13 @@ import {
   updatePasswordAction,
   forgetPasswordAction,
   updateProfileAction,
-  authenticationLogoutAction,
   getHashUrlPasswordAction,
   resetPasswordAction,
   authenticationQrCodeAction
 } from './action/authenticationAction'
 import { delay } from './sagaUtils'
 import Router from 'next/router'
-import { setStorages } from '@/utils/storage'
+import { clearStorages, setStorages } from '@/utils/storage'
 import { decryptItem, encryptedItem } from '@/utils/crypt'
 
 function* postAuthentication(action) {
@@ -229,39 +226,11 @@ function* updateProfileSagas(action) {
 /**
  * Logout Sagas
  *
- * @param {*} action
  * @returns
  */
-function* authenticationLogout(action) {
-  try {
-    const res = yield call(authenticationLogoutAction, action?.payload)
-    if (res) {
-      yield put({
-        type: AUTHENTICATION_LOGOUT_SUCCESS
-      })
-      localStorage.removeItem('setneg_token')
-      // localStorage.removeItem('_setneg_user')
-      // localStorage.removeItem('setneg_menu')
-      // localStorage.removeItem('setneg_notification')
-
-      // yield delay(1000)
-      // Router.push('/auth/login')
-      Router.reload('/auth/login')
-    }
-  } catch (err) {
-    if (err?.code?.data?.statusCode === 500) {
-      yield put({
-        type: CATCH_ERROR,
-        code: code?.data?.statusCode,
-        payload: 'Mohon maaf kami sedang dalam gangguan'
-      })
-    } else {
-      yield put({
-        type: AUTHENTICATION_LOGOUT_FAILED,
-        payload: code?.data?.meta?.message
-      })
-    }
-  }
+function* authenticationLogout() {
+  clearStorages(['setneg_token', 'setneg_menu'])
+  Router.push('/auth/login')
 }
 
 /**
