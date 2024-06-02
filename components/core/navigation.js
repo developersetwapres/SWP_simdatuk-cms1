@@ -1,35 +1,25 @@
 import React from 'react'
-import PieChartIcon from '@mui/icons-material/PieChart'
-import DashboardIcon from '@mui/icons-material/Dashboard'
-import GroupsIcon from '@mui/icons-material/Groups'
-import ViewCarouselIcon from '@mui/icons-material/ViewCarousel'
-import GetAppIcon from '@mui/icons-material/GetApp'
-import LogoutIcon from '@mui/icons-material/Logout'
 import { FaDatabase } from 'react-icons/fa'
 import { Box } from '@mui/material'
+import {
+  Dashboard,
+  GetApp,
+  Groups,
+  Logout,
+  PieChart,
+  ViewCarousel
+} from '@mui/icons-material'
 
 const navigation = [
   {
     name: 'DASHBOARD',
     path: '/dashboard',
-    icon: (
-      <PieChartIcon
-        hartIcon
-        maxWidth={20}
-        sx={{ fontSize: '20px', color: '#fff' }}
-      />
-    ),
+    icon: <PieChart sx={{ maxWidth: 20, fontSize: '20px', color: '#fff' }} />,
     permission: [{ name: 'Pengguna' }]
   },
   {
     name: 'REKAPITULASI',
-    icon: (
-      <DashboardIcon
-        boardIcon
-        maxWidth={20}
-        sx={{ fontSize: '20px', color: '#fff' }}
-      />
-    ),
+    icon: <Dashboard sx={{ maxWidth: 20, fontSize: '20px', color: '#fff' }} />,
     permission: [{ name: 'Kategori' }],
     children: [
       {
@@ -75,7 +65,7 @@ const navigation = [
   },
   {
     name: 'DATA PEGAWAI',
-    icon: <GroupsIcon maxWidth={20} sx={{ fontSize: '20px', color: '#fff' }} />,
+    icon: <Groups sx={{ maxWidth: 20, fontSize: '20px', color: '#fff' }} />,
     permission: [{ name: 'empolyee' }],
     children: [
       {
@@ -101,10 +91,10 @@ const navigation = [
   {
     name: 'DATA RIWAYAT',
     icon: (
-      <ViewCarouselIcon
-        maxWidth={20}
+      <ViewCarousel
         fontSize='meduilarge'
         sx={{
+          maxWidth: 20,
           fontSize: '20px',
           color: '#fff'
         }}
@@ -216,12 +206,6 @@ const navigation = [
         permission: [{ name: 'data-agency' }]
       },
       {
-        path: '/master-data/college',
-        name: 'DATA PERGURUAN TINGGI',
-        icon: null,
-        permission: [{ name: 'data-college' }]
-      },
-      {
         path: '/master-data/type',
         name: 'DATA JENIS PEGAWAI',
         icon: null,
@@ -231,7 +215,7 @@ const navigation = [
   },
   {
     name: 'EXPORT',
-    icon: <GetAppIcon maxWidth={20} sx={{ fontSize: '20px', color: '#fff' }} />,
+    icon: <GetApp sx={{ maxWidth: 20, fontSize: '20px', color: '#fff' }} />,
     permission: [{ name: 'export' }],
     children: [
       {
@@ -250,7 +234,7 @@ const navigation = [
   },
   {
     name: 'LOGOUT',
-    icon: <LogoutIcon maxWidth={20} sx={{ fontSize: '20px', color: '#fff' }} />,
+    icon: <Logout sx={{ maxWidth: 20, fontSize: '20px', color: '#fff' }} />,
     permission: [{ name: 'logout' }]
   }
 ]
