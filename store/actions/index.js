@@ -1,8 +1,13 @@
 import * as authenticationAction from './authentication'
+import * as responser from './responser'
+
+// Master Data
 import * as user from './users/user'
 import * as role from './users/role'
+import * as echelon from './users/echelon'
+
+// Employee
 import * as employee from './employee'
-import * as responser from './responser'
 
 /**
  *
@@ -11,9 +16,10 @@ import * as responser from './responser'
  */
 const actions = {
   ...authenticationAction,
+  ...responser,
   ...user,
   ...role,
-  ...responser,
+  ...echelon,
   ...employee
 }
 

@@ -14,7 +14,7 @@ import {
  */
 export const getEmployees = (payload) => ({
   type: GET_EMPLOYEES_REQUESTED,
-  payload: payload
+  payload
 })
 
 /**
@@ -25,7 +25,7 @@ export const getEmployees = (payload) => ({
  */
 export const getEmployee = (payload) => ({
   type: GET_EMPLOYEE_REQUESTED,
-  payload: payload
+  payload
 })
 
 /**
@@ -47,7 +47,7 @@ export const deleteEmployee = (id) => ({
  */
 export const postEmployee = (payload) => ({
   type: POST_EMPLOYEE_REQUESTED,
-  payload: payload
+  payload
 })
 
 /**
@@ -58,5 +58,5 @@ export const postEmployee = (payload) => ({
  */
 export const updateEmployee = (payload) => ({
   type: UPDATE_EMPLOYEE_REQUESTED,
-  payload: payload
+  payload
 })

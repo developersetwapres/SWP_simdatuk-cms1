@@ -47,26 +47,26 @@ function* getEmployees(action) {
       payload: payload
     })
   } catch (err) {
-    if (err?.data?.meta?.code === 403) {
+    const errors = err?.data
+    if (errors?.code === 403) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {
-          code: err?.data?.meta?.code,
-          message: err?.data?.meta?.message,
+          code: errors?.code,
+          message: errors?.message,
           redirect: '/profile'
         }
       })
     } else {
-      const status = err?.data?.meta
-      if (status?.code === 400) {
+      if (errors?.code === 400) {
         yield put({
           type: CATCH_ERROR,
-          payload: status?.message
+          payload: errors?.message
         })
       } else {
         yield put({
           type: GET_EMPLOYEES_FAILED,
-          payload: status?.message
+          payload: errors?.message
         })
       }
     }
