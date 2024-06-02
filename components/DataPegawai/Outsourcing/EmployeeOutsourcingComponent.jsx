@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
+import PropTypes from 'prop-types'
 import LayoutPages from '../../core/LayoutPages'
 import { Box } from '@mui/system'
 import { Button, Table } from '@/components/shared'
@@ -24,59 +25,15 @@ const styles = {
   }
 }
 
-const data = [
-  {
-    id: 123,
-    image: '/simdatuk/imagePegawai.png',
-    nama: 'John',
-    nip: '12345',
-    outsourcing: 'Outsourcing Pegawai',
-    keterangan: 'Keterangan pegawai'
-  },
-  {
-    id: 123,
-    image: '/simdatuk/imagePegawai.png',
-    nama: 'John',
-    nip: '12345',
-    outsourcing: 'Outsourcing Pegawai',
-    keterangan: 'Keterangan pegawai'
-  },
-  {
-    id: 123,
-    image: '/simdatuk/imagePegawai.png',
-    nama: 'John',
-    nip: '12345',
-    outsourcing: 'Outsourcing Pegawai',
-    keterangan: 'Keterangan pegawai'
-  },
-  {
-    id: 123,
-    image: '/simdatuk/imagePegawai.png',
-    nama: 'John',
-    nip: '12345',
-    outsourcing: 'Outsourcing Pegawai',
-    keterangan: 'Keterangan pegawai'
-  },
-  {
-    id: 123,
-    image: '/simdatuk/imagePegawai.png',
-    nama: 'John',
-    nip: '12345',
-    outsourcing: 'Outsourcing Pegawai',
-    keterangan: 'Keterangan pegawai'
-  },
-  {
-    id: 123,
-    image: '/simdatuk/imagePegawai.png',
-    nama: 'John',
-    nip: '12345',
-    outsourcing: 'Outsourcing Pegawai',
-    keterangan: 'Keterangan pegawai'
-  }
-]
-
-const EmployeeOutsourcingComponent = () => {
+const EmployeeOutsourcingComponent = ({
+  employee,
+  onLoading = () => {},
+  onSearch = () => {},
+  onPaginationChange = () => {},
+  onRowsPerPageChange = () => {}
+}) => {
   const router = useRouter()
+
   const columns = useMemo(
     () => [
       {
@@ -114,6 +71,7 @@ const EmployeeOutsourcingComponent = () => {
   )
 
   const rows = useMemo(() => {
+    const data = employee?.data
     const dataMapping = data.map((item) => {
       return [
         {
@@ -132,7 +90,7 @@ const EmployeeOutsourcingComponent = () => {
               }}
             >
               <img
-                src={item?.image}
+                src={item?.photo_profile}
                 alt='Image'
                 style={{ width: 'fit-content', height: '100%' }}
               />
@@ -143,25 +101,29 @@ const EmployeeOutsourcingComponent = () => {
           Header: 'Nama',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.nama}</Typography>
+          Cell: () => <Typography>{item?.name || '-'}</Typography>
         },
         {
           Header: 'NIP',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.nip}</Typography>
+          Cell: () => {
+            const nip = item?.employee_id_number
+            const nrp = item?.employee_registration_number
+            return <Typography>{`${nip}${nrp ? ` / ${nrp}` : ''}`}</Typography>
+          }
         },
         {
           Header: 'Outsourcing',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.outsourcing}</Typography>
+          Cell: () => <Typography>{item?.employment_type || '-'}</Typography>
         },
         {
           Header: 'Keterangan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.keterangan}</Typography>
+          Cell: () => <Typography>{'-'}</Typography>
         },
         {
           Header: 'Aksi',
@@ -190,11 +152,7 @@ const EmployeeOutsourcingComponent = () => {
     })
 
     return dataMapping
-  }, [data])
-
-  const handleAction = (value) => {
-    console.log('action', value)
-  }
+  }, [employee])
 
   const action = useMemo(() => {
     return (
@@ -207,18 +165,38 @@ const EmployeeOutsourcingComponent = () => {
         <Button
           text='Tambah'
           color='primary'
-          onClick={() => handleAction('add')}
+          onClick={() => router.push(`${router.asPath}/add`)}
         />
       </Box>
     )
   }, [])
 
+  useEffect(() => {
+    const state = !employee?.loading
+    onLoading(state)
+  }, [employee])
+
   return (
     <LayoutPages summary={'Data Pegawai Outsourcing'} action={action}>
-      <EmployeeFilterComponent />
-      <Table columns={columns} rows={rows} />
+      <EmployeeFilterComponent onSearch={onSearch} options={{ echelon: [] }} />
+      <Table
+        columns={columns}
+        rows={rows}
+        pagination={employee?.pagination}
+        handlePagination={onPaginationChange}
+        handleRows={onRowsPerPageChange}
+      />
     </LayoutPages>
   )
+}
+
+EmployeeOutsourcingComponent.propTypes = {
+  employee: PropTypes.object,
+  echelon: PropTypes.object,
+  onLoading: PropTypes.func,
+  onSearch: PropTypes.func,
+  onPaginationChange: PropTypes.func,
+  onRowsPerPageChange: PropTypes.func
 }
 
 export default EmployeeOutsourcingComponent
