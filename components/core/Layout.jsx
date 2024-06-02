@@ -88,6 +88,9 @@ const useStyles = makeStyles((theme) => ({
       outline: 'none',
       borderRight: '1px solid #fff'
     }
+  },
+  imageLogo: {
+    maxWidth: '225px'
   }
 }))
 
@@ -116,9 +119,7 @@ function Layout({ children, window, willRender }) {
             alt='logo'
             width={50}
             height={50}
-            style={{
-              maxWidth: '225px'
-            }}
+            className={classes?.imageLogo}
           />
           <Typography
             variant='h5'

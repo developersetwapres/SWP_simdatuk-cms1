@@ -40,7 +40,7 @@ function Table({
       <Fragment>
         <Box sx={{ marginBottom: '12px', display: title ? 'flex' : 'none' }}>
           <Typography
-            component='H4'
+            component='h4'
             color={colorTitle}
             sx={{
               fontSize: '18px',
@@ -71,8 +71,8 @@ function Table({
             </TableHead>
             <TableBody>
               {rows.length > 0 ? (
-                rows.map((row) => (
-                  <TableRow key={row.name}>
+                rows.map((row, index) => (
+                  <TableRow key={index}>
                     {row.map((itm, idx) => (
                       <TableCell
                         component='th'
