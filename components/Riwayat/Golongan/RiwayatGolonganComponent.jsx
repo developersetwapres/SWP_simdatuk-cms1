@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
+import PropTypes from 'prop-types'
 import LayoutPages from '@/components/core/LayoutPages'
 import { makeStyles } from '@mui/styles'
 import { Box, Typography } from '@mui/material'
@@ -7,6 +8,7 @@ import { Button, Table } from '@/components/shared'
 import { Edit, Info } from '@mui/icons-material'
 import Search from '@/components/core/Search'
 import { useRouter } from 'next/router'
+import { monthsOptions } from 'libs/months'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -52,80 +54,13 @@ const styles = {
   }
 }
 
-const data = [
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Perubahan jabatan desember 2023',
-    periode: 'Desember 2023',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Perubahan jabatan desember 2023',
-    periode: 'Desember 2023',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Perubahan jabatan desember 2023',
-    periode: 'Desember 2023',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Perubahan jabatan desember 2023',
-    periode: 'Desember 2023',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Perubahan jabatan desember 2023',
-    periode: 'Desember 2023',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Perubahan jabatan desember 2023',
-    periode: 'Desember 2023',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Perubahan jabatan desember 2023',
-    periode: 'Desember 2023',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Perubahan jabatan desember 2023',
-    periode: 'Desember 2023',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Perubahan jabatan desember 2023',
-    periode: 'Desember 2023',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Perubahan jabatan desember 2023',
-    periode: 'Desember 2023',
-    total: 10
-  }
-]
-
-const RiwayatGolonganComponent = () => {
+const RiwayatGolonganComponent = ({
+  grade,
+  onSearch = () => {},
+  onLoading = () => {},
+  onPaginationChange = () => {},
+  onRowsPerPageChange = () => {}
+}) => {
   const router = useRouter()
   const classes = useStyles()
 
@@ -161,13 +96,15 @@ const RiwayatGolonganComponent = () => {
   )
 
   const rows = useMemo(() => {
-    const dataMapping = data.map((item, index) => {
+    const data = grade?.data || []
+
+    const dataMapping = data.map((item) => {
       return [
         {
           Header: 'Tanggal',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.createdAt}</Typography>
+          Cell: () => <Typography>{item?.created_at || '-'}</Typography>
         },
         {
           Header: 'Name',
@@ -179,7 +116,11 @@ const RiwayatGolonganComponent = () => {
           Header: 'Periode',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.periode}</Typography>
+          Cell: () => (
+            <Typography>{`${monthsOptions[item?.period_month - 1]} ${
+              item?.period_year
+            }`}</Typography>
+          )
         },
         {
           Header: 'Total',
@@ -197,7 +138,7 @@ const RiwayatGolonganComponent = () => {
                 text='Detail'
                 color='primary'
                 onClick={() =>
-                  router.push(`/${router.pathname}/detail/${btoa(index)}`)
+                  router.push(`/${router.pathname}/detail/${btoa(item?.id)}`)
                 }
                 icon={<Info style={styles.iconButton} />}
                 sx={styles.buttonAction}
@@ -206,7 +147,7 @@ const RiwayatGolonganComponent = () => {
                 text='Edit'
                 color='sidatukDraweBase'
                 onClick={() =>
-                  router.push(`/${router.pathname}/edit/${btoa(index)}`)
+                  router.push(`/${router.pathname}/edit/${btoa(item?.id)}`)
                 }
                 icon={<Edit style={styles.iconButton} />}
                 sx={styles.buttonAction}
@@ -218,7 +159,7 @@ const RiwayatGolonganComponent = () => {
     })
 
     return dataMapping
-  }, [data])
+  }, [grade])
 
   const action = useMemo(() => {
     return (
@@ -230,6 +171,11 @@ const RiwayatGolonganComponent = () => {
       </Box>
     )
   }, [])
+
+  useEffect(() => {
+    const state = !grade?.loading
+    onLoading(state)
+  }, [grade])
 
   return (
     <LayoutPages summary='Data Riwayat Golongan' action={action}>
@@ -248,11 +194,26 @@ const RiwayatGolonganComponent = () => {
           inputClass={classes.input}
           iconStyle={classes.iconStyle}
           placeholder='Cari Nama Riwayat Golongan'
+          onSearch={onSearch}
         />
       </Box>
-      <Table columns={columns} rows={rows} />
+      <Table
+        rows={rows}
+        columns={columns}
+        pagination={grade?.pagination}
+        handlePagination={onPaginationChange}
+        handleRows={onRowsPerPageChange}
+      />
     </LayoutPages>
   )
+}
+
+RiwayatGolonganComponent.propTypes = {
+  grade: PropTypes.object,
+  onSearch: PropTypes.func,
+  onLoading: PropTypes.func,
+  onPaginationChange: PropTypes.func,
+  onRowsPerPageChange: PropTypes.func
 }
 
 export default RiwayatGolonganComponent
