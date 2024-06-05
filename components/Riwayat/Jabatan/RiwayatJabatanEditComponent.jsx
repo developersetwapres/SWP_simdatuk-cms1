@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React, { useRef } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
+import PropTypes from 'prop-types'
 import RiwayatJabatanForm from './RiwayatJabatanForm'
 import { Formik } from 'formik'
 import LayoutPages from '@/components/core/LayoutPages'
@@ -8,6 +10,8 @@ import Card from '@/components/shared/Card/Index'
 import * as Yup from 'yup'
 import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
+import moment from 'moment'
+import { monthsOptions } from 'libs/months'
 
 const InitValue = {
   namaJabatan: '',
@@ -72,19 +76,85 @@ const FormSchema = Yup.object().shape({
     })
 })
 
-const RiwayatJabatanEditComponent = () => {
+const RiwayatJabatanEditComponent = ({
+  position,
+  echelon,
+  employee,
+  getPosition = () => {},
+  updatePosition = () => {},
+  clearPositionState = () => {},
+  onLoading = () => {}
+}) => {
   const router = useRouter()
   const formikRef = useRef(null)
+
+  const options = useMemo(() => {
+    const newEchelons = echelon?.data.map((itm) => itm?.name)
+    const newEmployees = employee?.data.map((itm) => {
+      return `${itm?.name} - ${itm?.employee_id_number}`
+    })
+
+    const data = {
+      jenjangJabatan: newEchelons,
+      employee: newEmployees,
+      keteranganJabatan: ['Promosi', 'Mutasi', 'Inpassing', 'Konversi'],
+      month: monthsOptions || []
+    }
+
+    return data
+  }, [echelon, employee])
+
+  const handleGetValueId = (val, type) => {
+    if (type == 'echelon') {
+      const dataFilter = echelon?.data.find((itm) => itm?.name == val)
+      return dataFilter?.id
+    } else if (type == 'employee') {
+      const dataFilter = employee?.data.find(
+        (itm) => itm?.name == val.split(' - ')[0]
+      )
+      return dataFilter?.id
+    } else if (type == 'month') {
+      const index = options['month'].findIndex((itm) => itm == val)
+      return index + 1
+    } else {
+      const index = options['keteranganJabatan'].findIndex((itm) => itm == val)
+      return index + 1
+    }
+  }
 
   const handleSubmit = async (values) => {
     try {
       await FormSchema.validate(values, { abortEarly: false })
-
       formikRef.current.setErrors({})
-    } catch (err) {
-      if (!err.inner || err.inner.length === 0) {
-        return
+
+      const id = atob(router?.query?.id)
+      const users = values?.pegawai.map((itm) => {
+        return {
+          user_id: handleGetValueId(itm?.nama, 'employee'),
+          position: itm?.jabatan,
+          echelon: handleGetValueId(itm?.jenjangJabatan, 'echelon'),
+          position_status: handleGetValueId(
+            itm?.keteranganJabatan,
+            'ketJabatan'
+          ),
+          effective_date: moment(itm?.tmt).format('YYYY-MM-DD'),
+          decree: itm?.noSk
+        }
+      })
+
+      const payload = {
+        id,
+        data: {
+          name: values?.namaJabatan,
+          period_month: handleGetValueId(values?.periode?.bulan, 'month'),
+          period_year: moment(values?.periode?.tahun).format('YYYY'),
+          users
+        }
       }
+
+      updatePosition(payload)
+    } catch (err) {
+      if (!err.inner || err.inner.length === 0) return
 
       const newErrors = {}
       err.inner.forEach((error) => {
@@ -99,12 +169,42 @@ const RiwayatJabatanEditComponent = () => {
     }
   }
 
+  useEffect(() => {
+    // Get Detail User
+    const id = router?.query?.id
+    if (id) getPosition(atob(id))
+
+    // Event clear state when url path changes
+    router.events.on('routeChangeComplete', clearPositionState)
+
+    return () => {
+      router.events.off('routeChangeComplete', clearPositionState)
+    }
+  }, [router])
+
+  useEffect(() => {
+    const state =
+      !employee?.loading &&
+      !echelon?.loading &&
+      !position?.loading &&
+      Object.entries(position?.detail).length > 0
+    onLoading(state)
+  }, [employee, echelon, position])
+
+  useEffect(() => {
+    const detail = position?.detail
+
+    if (detail) {
+      formikRef.current?.setFieldValue('namaJabatan', detail?.name, false)
+    }
+  }, [position?.detail])
+
   return (
     <Formik
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={handleSubmit}
+      onSubmit={() => {}}
     >
       {(formikProps) => (
         <LayoutPages
@@ -120,12 +220,26 @@ const RiwayatJabatanEditComponent = () => {
           }
         >
           <Card>
-            <RiwayatJabatanForm formikRef={formikRef} {...formikProps} />
+            <RiwayatJabatanForm
+              options={options}
+              formikRef={formikRef}
+              {...formikProps}
+            />
           </Card>
         </LayoutPages>
       )}
     </Formik>
   )
+}
+
+RiwayatJabatanEditComponent.propTypes = {
+  position: PropTypes.object,
+  echelon: PropTypes.object,
+  employee: PropTypes.object,
+  getPosition: PropTypes.func,
+  updatePosition: PropTypes.func,
+  clearPositionState: PropTypes.func,
+  onLoading: PropTypes.func
 }
 
 export default RiwayatJabatanEditComponent

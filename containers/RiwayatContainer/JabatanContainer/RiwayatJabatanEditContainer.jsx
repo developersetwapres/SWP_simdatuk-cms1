@@ -7,36 +7,63 @@ import Layout from '@/components/core/Layout'
 import RiwayatJabatanEditComponent from '@/components/Riwayat/Jabatan/RiwayatJabatanEditComponent'
 
 export default connect(
-  mapStateToProps(),
-  mapActions()
+  mapStateToProps('position', 'echelon', 'employee'),
+  mapActions(
+    'getPosition',
+    'updatePosition',
+    'getEchelons',
+    'getEmployees',
+    'clearPositionState'
+  )
 )(
   class RiwayatJabatanEditContainer extends Component {
     static propTypes = {
-      banner: PropTypes.object,
-      data: PropTypes.object,
-      getBanners: PropTypes.func,
-      deleteListBanner: PropTypes.func
+      position: PropTypes.object,
+      echelon: PropTypes.object,
+      employee: PropTypes.object,
+      getPosition: PropTypes.func,
+      getEchelons: PropTypes.func,
+      getEmployees: PropTypes.func,
+      clearPositionState: PropTypes.func
     }
 
     constructor(props) {
       super(props)
       this.state = {
+        queries: {
+          page: 1,
+          limit: 10000,
+          search: ''
+        },
         willRender: false
       }
+      this.fetch = this.fetch.bind(this)
+      this.setLoading = this.setLoading.bind(this)
+    }
+
+    fetch(queries) {
+      this.props.getEchelons(queries)
+      this.props.getEmployees(queries)
+    }
+
+    setLoading(val) {
+      this.setState({
+        willRender: val
+      })
     }
 
     componentDidMount() {
-      setTimeout(() => {
-        this.setState({
-          willRender: true
-        })
-      }, 2000)
+      this.fetch(this.state.queries)
     }
 
     render() {
       return (
         <Layout willRender={this.state.willRender}>
-          <RiwayatJabatanEditComponent {...this.state} {...this.props} />
+          <RiwayatJabatanEditComponent
+            onLoading={this.setLoading}
+            {...this.state}
+            {...this.props}
+          />
         </Layout>
       )
     }
