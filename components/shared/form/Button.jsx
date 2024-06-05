@@ -34,7 +34,7 @@ function Button({
 }
 
 Button.propTypes = {
-  text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
+  text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   color: PropTypes.string,
   variant: PropTypes.string,
   size: PropTypes.string,
