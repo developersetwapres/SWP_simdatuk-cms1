@@ -9,6 +9,10 @@ import * as echelon from './users/echelon'
 // Employee
 import * as employee from './employee'
 
+// History
+import * as position from './histories/position'
+import * as grade from './histories/grade'
+
 /**
  *
  * Root Actions
@@ -20,7 +24,9 @@ const actions = {
   ...user,
   ...role,
   ...echelon,
-  ...employee
+  ...employee,
+  ...position,
+  ...grade
 }
 
 export default actions

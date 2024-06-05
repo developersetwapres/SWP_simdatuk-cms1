@@ -6,8 +6,12 @@ import * as roleReducer from './users/roleReducer'
 import * as userReducer from './users/userReducer'
 import * as echelonReducer from './users/echelonReducer'
 
-// Employee
+// Emplyee
 import * as employeeReducer from './employeeReducer'
+
+// History
+import * as positionReducer from './histories/positionReducer'
+import * as gradeReducer from './histories/gradeReducer'
 
 // * Reducer
 import * as responserReducer from './responserReducer'
@@ -24,7 +28,9 @@ const reducers = {
   ...roleReducer,
   ...userReducer,
   ...echelonReducer,
-  ...employeeReducer
+  ...employeeReducer,
+  ...positionReducer,
+  ...gradeReducer
 }
 
 export default reducers

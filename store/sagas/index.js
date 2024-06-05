@@ -15,6 +15,18 @@ import echelonSaga from './users/echelonSaga'
 // Employee
 import employeeSaga from './employeeSaga'
 
+// History
+import positionSaga from './histories/positionSaga'
+import gradeSaga from './histories/gradeSaga'
+
 export default function* rootSaga() {
-  yield all([authSaga(), userSaga(), roleSaga(), echelonSaga(), employeeSaga()])
+  yield all([
+    authSaga(),
+    userSaga(),
+    roleSaga(),
+    echelonSaga(),
+    employeeSaga(),
+    positionSaga(),
+    gradeSaga()
+  ])
 }
