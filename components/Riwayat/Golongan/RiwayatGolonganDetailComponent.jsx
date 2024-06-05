@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
+import PropTypes from 'prop-types'
 import LayoutPages from '@/components/core/LayoutPages'
 import { Button, Table } from '@/components/shared'
 import { Box, Grid, Typography } from '@mui/material'
 import { Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
+import { monthsOptions } from 'libs/months'
 
 const styles = {
   iconStyle: {
@@ -22,74 +24,17 @@ const styles = {
   }
 }
 
-const data = [
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    golongan: 'Penata Tingkat I (III/d)',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    golongan: 'Penata Tingkat I (III/d)',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    golongan: 'Penata Tingkat I (III/d)',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    golongan: 'Penata Tingkat I (III/d)',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    golongan: 'Penata Tingkat I (III/d)',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    golongan: 'Penata Tingkat I (III/d)',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    golongan: 'Penata Tingkat I (III/d)',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    golongan: 'Penata Tingkat I (III/d)',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    golongan: 'Penata Tingkat I (III/d)',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  }
-]
-
-const RiwayatGolonganDetailComponent = () => {
+const RiwayatGolonganDetailComponent = ({
+  grade,
+  getGrade = () => {},
+  clearGradeState = () => {},
+  onLoading = () => {}
+}) => {
   const router = useRouter()
+
+  const data = useMemo(() => {
+    return grade?.detail
+  }, [grade])
 
   const columns = useMemo(
     () => [
@@ -128,6 +73,7 @@ const RiwayatGolonganDetailComponent = () => {
   )
 
   const rows = useMemo(() => {
+    const data = grade?.detail?.users || []
     const dataMapping = data.map((item, index) => {
       return [
         {
@@ -140,25 +86,27 @@ const RiwayatGolonganDetailComponent = () => {
           Header: 'Nama',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.nama}</Typography>
+          Cell: () => (
+            <Typography>{`${item?.name} / ${item?.employee_id_number}`}</Typography>
+          )
         },
         {
           Header: 'Golongan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.golongan}</Typography>
+          Cell: () => <Typography>{item?.grade_name || '-'}</Typography>
         },
         {
           Header: 'TMT',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tmt}</Typography>
+          Cell: () => <Typography>{item?.effective_date || '-'}</Typography>
         },
         {
           Header: 'No SK',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.noSk}</Typography>
+          Cell: () => <Typography>{item?.decree_number || '-'}</Typography>
         },
         {
           Header: 'Aksi',
@@ -184,7 +132,7 @@ const RiwayatGolonganDetailComponent = () => {
     })
 
     return dataMapping
-  }, [data])
+  }, [grade])
 
   const action = useMemo(() => {
     return (
@@ -201,6 +149,28 @@ const RiwayatGolonganDetailComponent = () => {
     )
   }, [])
 
+  const handleParsePeriod = (month, year) => {
+    return month && year ? `${monthsOptions[month - 1]} ${year}` : '-'
+  }
+
+  useEffect(() => {
+    // Get Detail User
+    const id = router?.query?.id
+    if (id) getGrade(atob(id))
+
+    // Event clear state when url path changes
+    router.events.on('routeChangeComplete', clearGradeState)
+
+    return () => {
+      router.events.off('routeChangeComplete', clearGradeState)
+    }
+  }, [router])
+
+  useEffect(() => {
+    const state = !grade?.loading && Object.entries(grade?.detail).length > 0
+    onLoading(state)
+  }, [grade])
+
   return (
     <LayoutPages
       handleBack={() => router.back()}
@@ -213,14 +183,16 @@ const RiwayatGolonganDetailComponent = () => {
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <Typography>Nama Riwayat golongan</Typography>
               <Typography sx={{ fontWeight: 600 }}>
-                Perubahan golongan desember 2023
+                {data?.name || '-'}
               </Typography>
             </Box>
           </Grid>
           <Grid item xs={6}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <Typography>Periode Input Riwayat</Typography>
-              <Typography sx={{ fontWeight: 600 }}>Desember 2023</Typography>
+              <Typography sx={{ fontWeight: 600 }}>
+                {handleParsePeriod(data?.period_month, data?.period_year)}
+              </Typography>
             </Box>
           </Grid>
         </Grid>
@@ -234,6 +206,13 @@ const RiwayatGolonganDetailComponent = () => {
       </Paper>
     </LayoutPages>
   )
+}
+
+RiwayatGolonganDetailComponent.propTypes = {
+  grade: PropTypes.object,
+  getGrade: PropTypes.func,
+  clearGradeState: PropTypes.func,
+  onLoading: PropTypes.func
 }
 
 export default RiwayatGolonganDetailComponent

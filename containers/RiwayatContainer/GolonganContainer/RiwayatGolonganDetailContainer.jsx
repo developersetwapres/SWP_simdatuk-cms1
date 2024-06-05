@@ -7,15 +7,14 @@ import Layout from '@/components/core/Layout'
 import RiwayatGolonganDetailComponent from '@/components/Riwayat/Golongan/RiwayatGolonganDetailComponent'
 
 export default connect(
-  mapStateToProps(),
-  mapActions()
+  mapStateToProps('grade'),
+  mapActions('getGrade', 'clearGradeState')
 )(
   class RiwayatGolonganDetailContainer extends Component {
     static propTypes = {
-      banner: PropTypes.object,
-      data: PropTypes.object,
-      getBanners: PropTypes.func,
-      deleteListBanner: PropTypes.func
+      grade: PropTypes.object,
+      getGrade: PropTypes.func,
+      clearGradeState: PropTypes.func
     }
 
     constructor(props) {
@@ -23,20 +22,23 @@ export default connect(
       this.state = {
         willRender: false
       }
+      this.setLoading = this.setLoading.bind(this)
     }
 
-    componentDidMount() {
-      setTimeout(() => {
-        this.setState({
-          willRender: true
-        })
-      }, 2000)
+    setLoading(val) {
+      this.setState({
+        willRender: val
+      })
     }
 
     render() {
       return (
         <Layout willRender={this.state.willRender}>
-          <RiwayatGolonganDetailComponent {...this.state} {...this.props} />
+          <RiwayatGolonganDetailComponent
+            onLoading={this.setLoading}
+            {...this.state}
+            {...this.props}
+          />
         </Layout>
       )
     }
