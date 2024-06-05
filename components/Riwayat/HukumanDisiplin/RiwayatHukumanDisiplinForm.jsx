@@ -6,6 +6,7 @@ import { Autocomplete, Button, Form, Input } from '@/components/shared'
 import DatepickerYear from '@/components/shared/form/DatepickerYear'
 import DatePickerDay from '@/components/shared/form/DatePickerDay'
 import { Delete } from '@mui/icons-material'
+import { monthsOptions } from 'libs/months'
 
 const RiwayatHukumanDisiplinForm = ({
   values,
@@ -19,20 +20,7 @@ const RiwayatHukumanDisiplinForm = ({
   formikRef
 }) => {
   const options = {
-    month: [
-      'Januari',
-      'Februari',
-      'Maret',
-      'April',
-      'Mei',
-      'Juni',
-      'Juli',
-      'Agustus',
-      'September',
-      'Oktober',
-      'November',
-      'Desember'
-    ],
+    month: monthsOptions || [],
     employee: [
       'Employee 1',
       'Employee 2',

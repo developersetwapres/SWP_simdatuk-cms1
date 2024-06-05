@@ -7,6 +7,7 @@ import DatepickerYear from '@/components/shared/form/DatepickerYear'
 import { Delete } from '@mui/icons-material'
 import UploadFile from '@/components/shared/form/UploadFile'
 import DatePickerDay from '@/components/shared/form/DatePickerDay'
+import { monthsOptions } from 'libs/months'
 
 const RiwayatPelatihanTeknisForm = ({
   values,
@@ -20,20 +21,7 @@ const RiwayatPelatihanTeknisForm = ({
   formikRef
 }) => {
   const options = {
-    month: [
-      'Januari',
-      'Februari',
-      'Maret',
-      'April',
-      'Mei',
-      'Juni',
-      'Juli',
-      'Agustus',
-      'September',
-      'Oktober',
-      'November',
-      'Desember'
-    ],
+    month: monthsOptions || [],
     golongan: [
       'Golongan I',
       'Golongan II',
