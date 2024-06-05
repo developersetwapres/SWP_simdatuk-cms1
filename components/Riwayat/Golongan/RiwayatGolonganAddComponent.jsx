@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React, { useRef } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
+import PropTypes from 'prop-types'
 import { Formik } from 'formik'
 import LayoutPages from '@/components/core/LayoutPages'
 import { Box } from '@mui/material'
@@ -8,6 +10,8 @@ import * as Yup from 'yup'
 import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
 import RiwayatGolonganForm from './RiwayatGolonganForm'
+import { monthsOptions } from 'libs/months'
+import moment from 'moment'
 
 const InitValue = {
   namaGolongan: '',
@@ -70,19 +74,71 @@ const FormSchema = Yup.object().shape({
     })
 })
 
-const RiwayatGolonganAddComponent = () => {
+const RiwayatGolonganAddComponent = ({
+  grade,
+  employee,
+  postGrade = () => {},
+  onLoading = () => {}
+}) => {
   const router = useRouter()
   const formikRef = useRef(null)
+
+  const options = useMemo(() => {
+    const newGrade = grade?.options?.map((itm) => itm?.name)
+    const newEmployee = employee?.data.map((itm) => {
+      return `${itm?.name} - ${itm?.employee_id_number}`
+    })
+
+    const data = {
+      month: monthsOptions || [],
+      golongan: newGrade || [],
+      employee: newEmployee || []
+    }
+
+    return data
+  }, [employee, grade])
+
+  const handleGetValueId = (val, type) => {
+    if (type == 'employee') {
+      const dataFilter = employee?.data.find(
+        (itm) => itm?.name == val.split(' - ')[0]
+      )
+      return dataFilter?.id
+    } else if (type == 'grade') {
+      const dataFilter = grade?.options.find((itm) => itm?.name == val)
+      return dataFilter?.id
+    } else {
+      const index = options['month'].findIndex((itm) => itm == val)
+      return index + 1
+    }
+  }
 
   const handleSubmit = async (values) => {
     try {
       await FormSchema.validate(values, { abortEarly: false })
-
       formikRef.current.setErrors({})
-    } catch (err) {
-      if (!err.inner || err.inner.length === 0) {
-        return
+
+      const users = values?.pegawai.map((itm) => {
+        return {
+          id: handleGetValueId(itm?.nama, 'employee'),
+          user_id: handleGetValueId(itm?.nama, 'employee'),
+          grade_id: handleGetValueId(itm?.golongan, 'grade'),
+          effective_date: moment(itm?.tmt).format('YYYY-MM-DD'),
+          decree_name: itm?.noSk
+        }
+      })
+
+      const payload = {
+        name: values?.namaGolongan,
+        period_month: handleGetValueId(values?.periode?.bulan, 'month'),
+        period_year: moment(values?.periode?.tahun).format('YYYY'),
+        users
       }
+
+      postGrade(payload)
+    } catch (err) {
+      console.log('err', err)
+      if (!err.inner || err.inner.length === 0) return
 
       const newErrors = {}
       err.inner.forEach((error) => {
@@ -96,6 +152,13 @@ const RiwayatGolonganAddComponent = () => {
         firstErrorEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
   }
+
+  useEffect(() => {
+    const state = !grade?.loading && !employee?.loading
+    onLoading(state)
+
+    console.log('grade', grade)
+  }, [grade, employee])
 
   return (
     <Formik
@@ -118,12 +181,23 @@ const RiwayatGolonganAddComponent = () => {
           }
         >
           <Card>
-            <RiwayatGolonganForm {...formikProps} formikRef={formikRef} />
+            <RiwayatGolonganForm
+              options={options}
+              formikRef={formikRef}
+              {...formikProps}
+            />
           </Card>
         </LayoutPages>
       )}
     </Formik>
   )
+}
+
+RiwayatGolonganAddComponent.propTypes = {
+  grade: PropTypes.object,
+  employee: PropTypes.object,
+  postGrade: PropTypes.func,
+  onLoading: PropTypes.func
 }
 
 export default RiwayatGolonganAddComponent

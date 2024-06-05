@@ -7,36 +7,54 @@ import Layout from '@/components/core/Layout'
 import RiwayatGolonganAddComponent from '@/components/Riwayat/Golongan/RiwayatGolonganAddComponent'
 
 export default connect(
-  mapStateToProps(),
-  mapActions()
+  mapStateToProps('grade', 'employee'),
+  mapActions('getGradesOptions', 'postGrade', 'getEmployees')
 )(
   class RiwayatGolonganAddContainer extends Component {
     static propTypes = {
-      banner: PropTypes.object,
-      data: PropTypes.object,
-      getBanners: PropTypes.func,
-      deleteListBanner: PropTypes.func
+      grade: PropTypes.object,
+      getGradesOptions: PropTypes.func,
+      postGrade: PropTypes.func,
+      getEmployees: PropTypes.func
     }
 
     constructor(props) {
       super(props)
       this.state = {
+        queries: {
+          page: 1,
+          limit: 10000,
+          search: ''
+        },
         willRender: false
       }
+      this.fetch = this.fetch.bind(this)
+      this.setLoading = this.setLoading.bind(this)
+    }
+
+    fetch(queries) {
+      this.props.getGradesOptions(queries)
+      this.props.getEmployees(queries)
+    }
+
+    setLoading(val) {
+      this.setState({
+        willRender: val
+      })
     }
 
     componentDidMount() {
-      setTimeout(() => {
-        this.setState({
-          willRender: true
-        })
-      }, 2000)
+      this.fetch(this.state.queries)
     }
 
     render() {
       return (
         <Layout willRender={this.state.willRender}>
-          <RiwayatGolonganAddComponent {...this.state} {...this.props} />
+          <RiwayatGolonganAddComponent
+            onLoading={this.setLoading}
+            {...this.state}
+            {...this.props}
+          />
         </Layout>
       )
     }

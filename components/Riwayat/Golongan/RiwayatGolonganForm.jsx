@@ -16,39 +16,9 @@ const RiwayatGolonganForm = ({
   handleSubmit,
   isSubmitting,
   setFieldValue,
-  formikRef
+  formikRef,
+  options
 }) => {
-  const options = {
-    month: [
-      'Januari',
-      'Februari',
-      'Maret',
-      'April',
-      'Mei',
-      'Juni',
-      'Juli',
-      'Agustus',
-      'September',
-      'Oktober',
-      'November',
-      'Desember'
-    ],
-    golongan: [
-      'Golongan I',
-      'Golongan II',
-      'Golongan III',
-      'Golongan IV',
-      'Golongan V'
-    ],
-    employee: [
-      'Employee 1',
-      'Employee 2',
-      'Employee 3',
-      'Employee 4',
-      'Employee 5'
-    ]
-  }
-
   const handleEmployee = (data, type, indexItem) => {
     if (type == 'add') {
       const newPegawai = {
@@ -244,7 +214,6 @@ const RiwayatGolonganForm = ({
             variant='outlined'
             onClick={() => handleEmployee(values?.pegawai, 'add')}
           />
-          {/* <Button type='submit' text='Simpan' onClick={handleSubmit} /> */}
         </Box>
       </Box>
     </Form>
@@ -261,7 +230,8 @@ RiwayatGolonganForm.propTypes = {
   handleField: PropTypes.func,
   setFieldValue: PropTypes.func,
   isSubmitting: PropTypes.bool,
-  formikRef: PropTypes.any
+  formikRef: PropTypes.any,
+  options: PropTypes.object
 }
 
 export default RiwayatGolonganForm
