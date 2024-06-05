@@ -91,7 +91,7 @@ function Table({
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={6}>
+                  <TableCell colSpan={columns.length}>
                     <Box
                       sx={{
                         width: '100%',
