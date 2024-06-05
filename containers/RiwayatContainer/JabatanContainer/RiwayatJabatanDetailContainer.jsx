@@ -7,15 +7,14 @@ import Layout from '@/components/core/Layout'
 import RiwayatJabatanDetailComponent from '@/components/Riwayat/Jabatan/RiwayatJabatanDetailComponent'
 
 export default connect(
-  mapStateToProps(),
-  mapActions()
+  mapStateToProps('position'),
+  mapActions('getPosition', 'clearPositionState')
 )(
   class RiwayatJabatanDetailContainer extends Component {
     static propTypes = {
-      banner: PropTypes.object,
-      data: PropTypes.object,
-      getBanners: PropTypes.func,
-      deleteListBanner: PropTypes.func
+      position: PropTypes.object,
+      getPosition: PropTypes.func,
+      clearPositionState: PropTypes.func
     }
 
     constructor(props) {
@@ -23,20 +22,23 @@ export default connect(
       this.state = {
         willRender: false
       }
+      this.setLoading = this.setLoading.bind(this)
     }
 
-    componentDidMount() {
-      setTimeout(() => {
-        this.setState({
-          willRender: true
-        })
-      }, 2000)
+    setLoading(val) {
+      this.setState({
+        willRender: val
+      })
     }
 
     render() {
       return (
         <Layout willRender={this.state.willRender}>
-          <RiwayatJabatanDetailComponent {...this.state} {...this.props} />
+          <RiwayatJabatanDetailComponent
+            onLoading={this.setLoading}
+            {...this.state}
+            {...this.props}
+          />
         </Layout>
       )
     }

@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
+import PropTypes from 'prop-types'
 import LayoutPages from '@/components/core/LayoutPages'
 import { Button, Table } from '@/components/shared'
 import { Box, Grid, Typography } from '@mui/material'
 import { Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
+import { monthsOptions } from 'libs/months'
 
 const styles = {
   iconStyle: {
@@ -22,83 +24,17 @@ const styles = {
   }
 }
 
-const data = [
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    jabatan: 'Kepala Subbagian Administrasi',
-    jenjangJabatan: 'Eselon II',
-    keteranganJabatan: 'Promosi',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    jabatan: 'Kepala Subbagian Administrasi',
-    jenjangJabatan: 'Eselon II',
-    keteranganJabatan: 'Promosi',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    jabatan: 'Kepala Subbagian Administrasi',
-    jenjangJabatan: 'Eselon II',
-    keteranganJabatan: 'Promosi',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    jabatan: 'Kepala Subbagian Administrasi',
-    jenjangJabatan: 'Eselon II',
-    keteranganJabatan: 'Promosi',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    jabatan: 'Kepala Subbagian Administrasi',
-    jenjangJabatan: 'Eselon II',
-    keteranganJabatan: 'Promosi',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    jabatan: 'Kepala Subbagian Administrasi',
-    jenjangJabatan: 'Eselon II',
-    keteranganJabatan: 'Promosi',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    jabatan: 'Kepala Subbagian Administrasi',
-    jenjangJabatan: 'Eselon II',
-    keteranganJabatan: 'Promosi',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    jabatan: 'Kepala Subbagian Administrasi',
-    jenjangJabatan: 'Eselon II',
-    keteranganJabatan: 'Promosi',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  }
-]
-
-const RiwayatJabatanDetailComponent = () => {
+const RiwayatJabatanDetailComponent = ({
+  position,
+  getPosition = () => {},
+  clearPositionState = () => {},
+  onLoading = () => {}
+}) => {
   const router = useRouter()
+
+  const data = useMemo(() => {
+    return position?.detail
+  }, [position])
 
   const columns = useMemo(
     () => [
@@ -147,6 +83,7 @@ const RiwayatJabatanDetailComponent = () => {
   )
 
   const rows = useMemo(() => {
+    const data = position?.detail?.employee || []
     const dataMapping = data.map((item, index) => {
       return [
         {
@@ -215,7 +152,7 @@ const RiwayatJabatanDetailComponent = () => {
     })
 
     return dataMapping
-  }, [data])
+  }, [position])
 
   const action = useMemo(() => {
     return (
@@ -232,6 +169,29 @@ const RiwayatJabatanDetailComponent = () => {
     )
   }, [])
 
+  const handleParsePeriod = (month, year) => {
+    return month && year ? `${monthsOptions[month - 1]} ${year}` : '-'
+  }
+
+  useEffect(() => {
+    // Get Detail User
+    const id = router?.query?.id
+    if (id) getPosition(atob(id))
+
+    // Event clear state when url path changes
+    router.events.on('routeChangeComplete', clearPositionState)
+
+    return () => {
+      router.events.off('routeChangeComplete', clearPositionState)
+    }
+  }, [router])
+
+  useEffect(() => {
+    const state =
+      !position?.loading && Object.entries(position?.detail).length > 0
+    onLoading(state)
+  }, [position])
+
   return (
     <LayoutPages
       handleBack={() => router.back()}
@@ -244,14 +204,16 @@ const RiwayatJabatanDetailComponent = () => {
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <Typography>Nama Riwayat Jabatan</Typography>
               <Typography sx={{ fontWeight: 600 }}>
-                Perubahan jabatan desember 2023
+                {data?.name || '-'}
               </Typography>
             </Box>
           </Grid>
           <Grid item xs={6}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <Typography>Periode Input Riwayat</Typography>
-              <Typography sx={{ fontWeight: 600 }}>Desember 2023</Typography>
+              <Typography sx={{ fontWeight: 600 }}>
+                {handleParsePeriod(data?.period_month, data?.period_year)}
+              </Typography>
             </Box>
           </Grid>
         </Grid>
@@ -265,6 +227,13 @@ const RiwayatJabatanDetailComponent = () => {
       </Paper>
     </LayoutPages>
   )
+}
+
+RiwayatJabatanDetailComponent.propTypes = {
+  position: PropTypes.object,
+  getPosition: PropTypes.func,
+  clearPositionState: PropTypes.func,
+  onLoading: PropTypes.func
 }
 
 export default RiwayatJabatanDetailComponent
