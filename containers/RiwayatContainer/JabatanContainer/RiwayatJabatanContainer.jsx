@@ -7,36 +7,97 @@ import Layout from '@/components/core/Layout'
 import RiwayatJabatanComponent from '@/components/Riwayat/Jabatan/RiwayatJabatanComponent'
 
 export default connect(
-  mapStateToProps(),
-  mapActions()
+  mapStateToProps('position'),
+  mapActions('getPositions')
 )(
   class RiwayatJabatanContainer extends Component {
     static propTypes = {
-      banner: PropTypes.object,
-      data: PropTypes.object,
-      getBanners: PropTypes.func,
-      deleteListBanner: PropTypes.func
+      position: PropTypes.object,
+      getPositions: PropTypes.func
     }
 
     constructor(props) {
       super(props)
       this.state = {
+        queries: {
+          page: 1,
+          limit: 10,
+          search: ''
+        },
         willRender: false
       }
+      this.fetch = this.fetch.bind(this)
+      this.onPaginationChange = this.onPaginationChange.bind(this)
+      this.onRowsPerPageChange = this.onRowsPerPageChange.bind(this)
+      this.onSearch = this.onSearch.bind(this)
+      this.onClearState = this.onClearState.bind(this)
+      this.setLoading = this.setLoading.bind(this)
+    }
+
+    fetch(queries) {
+      this.props.getPositions(queries)
+    }
+
+    onPaginationChange(page) {
+      const queries = {
+        ...this.state.queries,
+        page
+      }
+      this.setState({ queries })
+      this.fetch(queries)
+    }
+
+    onRowsPerPageChange(limit) {
+      const queries = {
+        ...this.state.queries,
+        page: 1,
+        limit
+      }
+      this.setState({ queries })
+      this.fetch(queries)
+    }
+
+    onSearch(value) {
+      const queries = {
+        ...this.state.queries,
+        search: value || '',
+        page: 1
+      }
+      this.setState({ queries })
+      this.fetch(queries)
+    }
+
+    onClearState() {
+      const queries = {
+        ...this.state.queries,
+        search: '',
+        page: 1
+      }
+      this.setState({ queries })
+      this.fetch(queries)
+    }
+
+    setLoading(val) {
+      this.setState({
+        willRender: val
+      })
     }
 
     componentDidMount() {
-      setTimeout(() => {
-        this.setState({
-          willRender: true
-        })
-      }, 2000)
+      this.fetch(this.state.queries)
     }
 
     render() {
       return (
         <Layout willRender={this.state.willRender}>
-          <RiwayatJabatanComponent {...this.state} {...this.props} />
+          <RiwayatJabatanComponent
+            onSearch={this.onSearch}
+            onLoading={this.setLoading}
+            onPaginationChange={this.onPaginationChange}
+            onRowsPerPageChange={this.onRowsPerPageChange}
+            {...this.state}
+            {...this.props}
+          />
         </Layout>
       )
     }
