@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Grid, Typography } from '@mui/material'
 import { Autocomplete, Button, Form, Input } from '@/components/shared'
@@ -16,53 +16,9 @@ const RiwayatJabatanForm = ({
   handleSubmit,
   isSubmitting,
   setFieldValue,
-  formikRef
+  formikRef,
+  options
 }) => {
-  const options = {
-    month: [
-      'Januari',
-      'Februari',
-      'Maret',
-      'April',
-      'Mei',
-      'Juni',
-      'Juli',
-      'Agustus',
-      'September',
-      'Oktober',
-      'November',
-      'Desember'
-    ],
-    jabatan: [
-      'Jabatan I',
-      'Jabatan II',
-      'Jabatan III',
-      'Jabatan IV',
-      'Jabatan V'
-    ],
-    jenjangJabatan: [
-      'Jenjang Jabatan I',
-      'Jenjang Jabatan II',
-      'Jenjang Jabatan III',
-      'Jenjang Jabatan IV',
-      'Jenjang Jabatan V'
-    ],
-    keteranganJabatan: [
-      'Keterangan Jabatan I',
-      'Keterangan Jabatan II',
-      'Keterangan Jabatan III',
-      'Keterangan Jabatan IV',
-      'Keterangan Jabatan V'
-    ],
-    employee: [
-      'Employee 1',
-      'Employee 2',
-      'Employee 3',
-      'Employee 4',
-      'Employee 5'
-    ]
-  }
-
   const handleEmployee = (data, type, indexItem) => {
     if (type == 'add') {
       const newPegawai = {
@@ -92,8 +48,14 @@ const RiwayatJabatanForm = ({
             placeholder='Masukkan Nama Riwayat Jabatan'
             name='namaJabatan'
             value={values?.namaJabatan}
-            onChange={handleChange}
             error={errors?.namaJabatan}
+            onChange={(e) => {
+              const val = e?.target?.value
+              setFieldValue(`namaJabatan`, val, false)
+              setTimeout(() => {
+                formikRef.current.validateField(`namaJabatan`)
+              }, 1)
+            }}
           />
         </Grid>
         {/* Periode */}
@@ -186,7 +148,8 @@ const RiwayatJabatanForm = ({
                     name={`pegawai[${index}].jabatan`}
                     value={item?.jabatan}
                     error={errors?.jabatan}
-                    onChange={(val) => {
+                    onChange={(e) => {
+                      const val = e?.target?.value
                       setFieldValue(`pegawai[${index}].jabatan`, val, false)
                       setTimeout(() => {
                         formikRef.current.validateField(
@@ -263,13 +226,10 @@ const RiwayatJabatanForm = ({
                       placeholder='Masukkan No SK Jabatan'
                       name={`pegawai[${index}].noSk`}
                       value={item?.noSk}
-                      onChange={(val) =>
-                        setFieldValue(
-                          `pegawai[${index}].noSk`,
-                          val?.target?.value,
-                          false
-                        )
-                      }
+                      onChange={(e) => {
+                        const val = e?.target?.value
+                        setFieldValue(`pegawai[${index}].noSk`, val, false)
+                      }}
                     />
                     {values?.pegawai.length > 1 && (
                       <Button
@@ -302,6 +262,7 @@ const RiwayatJabatanForm = ({
 }
 
 RiwayatJabatanForm.propTypes = {
+  options: PropTypes.object,
   values: PropTypes.object,
   errors: PropTypes.object,
   touched: PropTypes.object,
