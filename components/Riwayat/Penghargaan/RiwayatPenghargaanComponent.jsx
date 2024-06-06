@@ -121,9 +121,13 @@ const RiwayatPenghargaanComponent = ({
           align: 'left',
           verticalAlign: 'top',
           Cell: () => (
-            <Typography>{`${monthsOptions[item?.period_month - 1]} ${
-              item?.period_year
-            }`}</Typography>
+            <Typography>
+              {item?.period_month && item?.period_year
+                ? `${monthsOptions[item?.period_month - 1]} ${
+                    item?.period_year
+                  }`
+                : '-'}
+            </Typography>
           )
         },
         {
