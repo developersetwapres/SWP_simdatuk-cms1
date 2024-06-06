@@ -169,16 +169,21 @@ const RiwayatJabatanEditComponent = ({
     }
   }
 
+  const handleClearState = () => {
+    formikRef.current.resetForm()
+    clearPositionState()
+  }
+
   useEffect(() => {
     // Get Detail User
     const id = router?.query?.id
     if (id) getPosition(atob(id))
 
     // Event clear state when url path changes
-    router.events.on('routeChangeComplete', clearPositionState)
+    router.events.on('routeChangeComplete', handleClearState)
 
     return () => {
-      router.events.off('routeChangeComplete', clearPositionState)
+      router.events.off('routeChangeComplete', handleClearState)
     }
   }, [router])
 
