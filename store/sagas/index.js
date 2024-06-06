@@ -18,6 +18,10 @@ import employeeSaga from './employeeSaga'
 // History
 import positionSaga from './histories/positionSaga'
 import gradeSaga from './histories/gradeSaga'
+import recognitionSaga from './histories/recognitionSaga'
+
+// Master Data
+import decreeSaga from './masterData/decreeSaga'
 
 export default function* rootSaga() {
   yield all([
@@ -27,6 +31,8 @@ export default function* rootSaga() {
     echelonSaga(),
     employeeSaga(),
     positionSaga(),
-    gradeSaga()
+    gradeSaga(),
+    recognitionSaga(),
+    decreeSaga()
   ])
 }

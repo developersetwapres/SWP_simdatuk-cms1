@@ -318,6 +318,14 @@ export const DELETE_DICIPLINARY_FAILED = 'DELETE_DICIPLINARY_FAILED'
 export const CLEAR_DICIPLINARY_STATE = 'CLEAR_DICIPLINARY_STATE'
 /* ======== DICIPLINARY ========= */
 
+/* ======== DECREE ========= */
+export const GET_DECREES_REQUESTED = 'GET_DECREES_REQUESTED'
+export const GET_DECREES_SUCCESS = 'GET_DECREES_SUCCESS'
+export const GET_DECREES_FAILED = 'GET_DECREES_FAILED'
+
+export const CLEAR_DECREE_STATE = 'CLEAR_DECREE_STATE'
+/* ======== DECREE ========= */
+
 /* ========= CATCH_ERROR ========== */
 export const CATCH_ERROR = 'CATCH_ERROR'
 export const CLEAR_ERROR = 'CLEAR_ERROR'

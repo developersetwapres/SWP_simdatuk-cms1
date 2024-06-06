@@ -12,6 +12,10 @@ import * as employee from './employee'
 // History
 import * as position from './histories/position'
 import * as grade from './histories/grade'
+import * as recognition from './histories/recognition'
+
+// Master Data
+import * as decree from './masterData/decree'
 
 /**
  *
@@ -26,7 +30,9 @@ const actions = {
   ...echelon,
   ...employee,
   ...position,
-  ...grade
+  ...grade,
+  ...recognition,
+  ...decree
 }
 
 export default actions
