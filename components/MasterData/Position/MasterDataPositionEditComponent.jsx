@@ -141,7 +141,7 @@ const MasterDataPositionEditComponent = ({
     >
       {(formikProps) => (
         <LayoutPages
-          summary={'Edit Data Pengguna'}
+          summary={'Edit Data Jabatan'}
           handleBack={() => router.back()}
           action={
             <Box>
