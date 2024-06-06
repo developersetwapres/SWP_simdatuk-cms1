@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
+import PropTypes from 'prop-types'
 import LayoutPages from '@/components/core/LayoutPages'
 import Search from '@/components/core/Search'
 import { Button, Table } from '@/components/shared'
@@ -7,6 +8,7 @@ import { Edit, Info } from '@mui/icons-material'
 import { Box, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { useRouter } from 'next/router'
+import { monthsOptions } from 'libs/months'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -52,66 +54,13 @@ const styles = {
   }
 }
 
-const data = [
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Diklat PIM Tk.IV',
-    periode: 'Desember 2023',
-    pelaksana: '20-11-2023',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Diklat PIM Tk.IV',
-    periode: 'Desember 2023',
-    pelaksana: '20-11-2023',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Diklat PIM Tk.IV',
-    periode: 'Desember 2023',
-    pelaksana: '20-11-2023',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Diklat PIM Tk.IV',
-    periode: 'Desember 2023',
-    pelaksana: '20-11-2023',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Diklat PIM Tk.IV',
-    periode: 'Desember 2023',
-    pelaksana: '20-11-2023',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Diklat PIM Tk.IV',
-    periode: 'Desember 2023',
-    pelaksana: '20-11-2023',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Diklat PIM Tk.IV',
-    periode: 'Desember 2023',
-    pelaksana: '20-11-2023',
-    total: 10
-  }
-]
-
-const RiwayatPelatihanStrukturalComponent = () => {
+const RiwayatPelatihanStrukturalComponent = ({
+  training,
+  onSearch = () => {},
+  onLoading = () => {},
+  onPaginationChange = () => {},
+  onRowsPerPageChange = () => {}
+}) => {
   const router = useRouter()
   const classes = useStyles()
 
@@ -152,37 +101,46 @@ const RiwayatPelatihanStrukturalComponent = () => {
   )
 
   const rows = useMemo(() => {
-    const dataMapping = data.map((item, index) => {
+    const data = training?.data || []
+    const dataMapping = data.map((item) => {
       return [
         {
           Header: 'Tanggal',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.createdAt}</Typography>
+          Cell: () => <Typography>{item?.created_at || '-'}</Typography>
         },
         {
           Header: 'Name',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.name}</Typography>
+          Cell: () => <Typography>{item?.name || '-'}</Typography>
         },
         {
           Header: 'Periode',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.periode}</Typography>
+          Cell: () => (
+            <Typography>
+              {item?.period_month && item?.period_year
+                ? `${monthsOptions[item?.period_month - 1]} ${
+                    item?.period_year
+                  }`
+                : '-'}
+            </Typography>
+          )
         },
         {
           Header: 'Pelaksana',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.pelaksana}</Typography>
+          Cell: () => <Typography>{item?.start_date || '-'}</Typography>
         },
         {
           Header: 'Total',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.total}</Typography>
+          Cell: () => <Typography>{item?.total || 0}</Typography>
         },
         {
           Header: 'Aksi',
@@ -196,7 +154,7 @@ const RiwayatPelatihanStrukturalComponent = () => {
                 icon={<Info style={styles.iconButton} />}
                 sx={styles.buttonAction}
                 onClick={() =>
-                  router.push(`/${router.pathname}/detail/${btoa(index)}`)
+                  router.push(`/${router.pathname}/detail/${btoa(item?.id)}`)
                 }
               />
               <Button
@@ -205,7 +163,7 @@ const RiwayatPelatihanStrukturalComponent = () => {
                 icon={<Edit style={styles.iconButton} />}
                 sx={styles.buttonAction}
                 onClick={() =>
-                  router.push(`/${router.pathname}/edit/${btoa(index)}`)
+                  router.push(`/${router.pathname}/edit/${btoa(item?.id)}`)
                 }
               />
             </Box>
@@ -215,7 +173,7 @@ const RiwayatPelatihanStrukturalComponent = () => {
     })
 
     return dataMapping
-  }, [data])
+  }, [training])
 
   const action = useMemo(() => {
     return (
@@ -227,6 +185,11 @@ const RiwayatPelatihanStrukturalComponent = () => {
       </Box>
     )
   }, [])
+
+  useEffect(() => {
+    const state = !training?.loading
+    onLoading(state)
+  }, [training])
 
   return (
     <LayoutPages summary='Data Riwayat Pelatihan Struktural' action={action}>
@@ -245,11 +208,26 @@ const RiwayatPelatihanStrukturalComponent = () => {
           inputClass={classes.input}
           iconStyle={classes.iconStyle}
           placeholder='Cari Nama Diklat'
+          onSearch={onSearch}
         />
       </Box>
-      <Table columns={columns} rows={rows} />
+      <Table
+        columns={columns}
+        rows={rows}
+        pagination={training?.pagination}
+        handlePagination={onPaginationChange}
+        handleRows={onRowsPerPageChange}
+      />
     </LayoutPages>
   )
+}
+
+RiwayatPelatihanStrukturalComponent.propTypes = {
+  training: PropTypes.object,
+  onSearch: PropTypes.func,
+  onLoading: PropTypes.func,
+  onPaginationChange: PropTypes.func,
+  onRowsPerPageChange: PropTypes.func
 }
 
 export default RiwayatPelatihanStrukturalComponent
