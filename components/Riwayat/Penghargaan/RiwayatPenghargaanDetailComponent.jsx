@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
+import PropTypes from 'prop-types'
 import LayoutPages from '@/components/core/LayoutPages'
 import { Button, Table } from '@/components/shared'
 import { Box, Grid, Typography } from '@mui/material'
 import { Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
+import { monthsOptions } from 'libs/months'
 
 const styles = {
   iconStyle: {
@@ -30,83 +32,22 @@ const styles = {
   }
 }
 
-const data = [
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    jabatan: 'Kepala Subbagian Administrasi',
-    jenjangJabatan: 'Eselon II',
-    keteranganJabatan: 'Promosi',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    jabatan: 'Kepala Subbagian Administrasi',
-    jenjangJabatan: 'Eselon II',
-    keteranganJabatan: 'Promosi',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    jabatan: 'Kepala Subbagian Administrasi',
-    jenjangJabatan: 'Eselon II',
-    keteranganJabatan: 'Promosi',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    jabatan: 'Kepala Subbagian Administrasi',
-    jenjangJabatan: 'Eselon II',
-    keteranganJabatan: 'Promosi',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    jabatan: 'Kepala Subbagian Administrasi',
-    jenjangJabatan: 'Eselon II',
-    keteranganJabatan: 'Promosi',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    jabatan: 'Kepala Subbagian Administrasi',
-    jenjangJabatan: 'Eselon II',
-    keteranganJabatan: 'Promosi',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    jabatan: 'Kepala Subbagian Administrasi',
-    jenjangJabatan: 'Eselon II',
-    keteranganJabatan: 'Promosi',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    jabatan: 'Kepala Subbagian Administrasi',
-    jenjangJabatan: 'Eselon II',
-    keteranganJabatan: 'Promosi',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  }
-]
-
-const RiwayatPenghargaanDetailComponent = () => {
+const RiwayatPenghargaanDetailComponent = ({
+  recognition,
+  decree,
+  getRecognition = () => {},
+  clearRecognitionState = () => {},
+  onLoading = () => {}
+}) => {
   const router = useRouter()
+
+  const dataDecree = useMemo(() => {
+    return decree?.data
+  }, [decree])
+
+  const data = useMemo(() => {
+    return recognition?.detail
+  }, [recognition])
 
   const columns = useMemo(
     () => [
@@ -130,6 +71,7 @@ const RiwayatPenghargaanDetailComponent = () => {
   )
 
   const rows = useMemo(() => {
+    const data = recognition?.detail?.users || []
     const dataMapping = data.map((item, index) => {
       return [
         {
@@ -142,7 +84,7 @@ const RiwayatPenghargaanDetailComponent = () => {
           Header: 'Nama',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.nama}</Typography>
+          Cell: () => <Typography>{item?.name || '-'}</Typography>
         },
         {
           Header: 'Aksi',
@@ -168,7 +110,7 @@ const RiwayatPenghargaanDetailComponent = () => {
     })
 
     return dataMapping
-  }, [data])
+  }, [recognition])
 
   const action = useMemo(() => {
     return (
@@ -185,6 +127,34 @@ const RiwayatPenghargaanDetailComponent = () => {
     )
   }, [])
 
+  const handleGetDecreeType = (val) => {
+    const dataFilter = dataDecree.find((itm) => itm?.id == val)
+    return dataFilter?.name
+  }
+
+  const handleParsePeriod = (month, year) => {
+    return month && year ? `${monthsOptions[month - 1]} ${year}` : '-'
+  }
+
+  useEffect(() => {
+    // Get Detail User
+    const id = router?.query?.id
+    if (id) getRecognition(atob(id))
+
+    // Event clear state when url path changes
+    router.events.on('routeChangeComplete', clearRecognitionState)
+
+    return () => {
+      router.events.off('routeChangeComplete', clearRecognitionState)
+    }
+  }, [router])
+
+  useEffect(() => {
+    const state =
+      !recognition?.loading && Object.entries(recognition?.detail).length > 0
+    onLoading(state)
+  }, [recognition])
+
   return (
     <LayoutPages
       handleBack={() => router.back()}
@@ -197,37 +167,45 @@ const RiwayatPenghargaanDetailComponent = () => {
           <Grid item xs={6}>
             <Box sx={styles?.itemWrapper}>
               <Typography>Nama Riwayat Jabatan</Typography>
-              <Typography sx={styles?.fontItem}>
-                Perubahan jabatan desember 2023
-              </Typography>
+              <Typography sx={styles?.fontItem}>{data?.name || '-'}</Typography>
             </Box>
           </Grid>
           {/* Periode */}
           <Grid item xs={6}>
             <Box sx={styles?.itemWrapper}>
               <Typography>Periode Input Riwayat</Typography>
-              <Typography sx={styles?.fontItem}>Desember 2023</Typography>
+              <Typography sx={styles?.fontItem}>
+                {handleParsePeriod(data?.period_month, data?.period_year)}
+              </Typography>
             </Box>
           </Grid>
           {/* Keterangan Penghargaan */}
           <Grid item xs={6}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <Typography>Keterangan Penghargaan</Typography>
-              <Typography sx={styles?.fontItem}>Apresiasi Kerja</Typography>
+              <Typography sx={styles?.fontItem}>
+                {data?.description || '-'}
+              </Typography>
             </Box>
           </Grid>
           {/* Jenis SK */}
           <Grid item xs={6}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <Typography>Jenis SK</Typography>
-              <Typography sx={styles?.fontItem}>SK Penghargaan</Typography>
+              <Typography sx={styles?.fontItem}>
+                {data?.type_of_decree
+                  ? handleGetDecreeType(data?.type_of_decree)
+                  : '-'}
+              </Typography>
             </Box>
           </Grid>
           {/* Tanggal SK */}
           <Grid item xs={6}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <Typography>Tanggal SK</Typography>
-              <Typography sx={styles?.fontItem}>20-10-2023</Typography>
+              <Typography sx={styles?.fontItem}>
+                {data?.decree_date || '-'}
+              </Typography>
             </Box>
           </Grid>
           {/* No SK Penghargaan */}
@@ -235,7 +213,7 @@ const RiwayatPenghargaanDetailComponent = () => {
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <Typography>No SK Penghargaan</Typography>
               <Typography sx={styles?.fontItem}>
-                Nomor 456 Tahun 2023
+                {data?.decree_number || '-'}
               </Typography>
             </Box>
           </Grid>
@@ -243,21 +221,27 @@ const RiwayatPenghargaanDetailComponent = () => {
           <Grid item xs={6}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <Typography>Tahun SK</Typography>
-              <Typography sx={styles?.fontItem}>Tahun 2023</Typography>
+              <Typography sx={styles?.fontItem}>
+                {data?.decree_year ? `Tahun ${data?.decree_year}` : '-'}
+              </Typography>
             </Box>
           </Grid>
           {/* Instansi Pemberi Penghargaan */}
           <Grid item xs={6}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <Typography>Instansi Pemberi Penghargaan</Typography>
-              <Typography sx={styles?.fontItem}>Setneg Wapres</Typography>
+              <Typography sx={styles?.fontItem}>
+                {data?.awarding_institution || '-'}
+              </Typography>
             </Box>
           </Grid>
           {/* Tanggal Terima */}
           <Grid item xs={6}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <Typography>Tanggal Terima</Typography>
-              <Typography sx={styles?.fontItem}>25-10-2023</Typography>
+              <Typography sx={styles?.fontItem}>
+                {data?.date_of_receipt || '-'}
+              </Typography>
             </Box>
           </Grid>
         </Grid>
@@ -271,6 +255,14 @@ const RiwayatPenghargaanDetailComponent = () => {
       </Paper>
     </LayoutPages>
   )
+}
+
+RiwayatPenghargaanDetailComponent.propTypes = {
+  recognition: PropTypes.object,
+  decree: PropTypes.object,
+  getRecognition: PropTypes.func,
+  clearRecognitionState: PropTypes.func,
+  onLoading: PropTypes.func
 }
 
 export default RiwayatPenghargaanDetailComponent

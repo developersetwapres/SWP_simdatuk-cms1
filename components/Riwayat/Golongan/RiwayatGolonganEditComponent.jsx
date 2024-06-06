@@ -158,16 +158,21 @@ const RiwayatGolonganEditComponent = ({
     }
   }
 
+  const handleClearState = () => {
+    formikRef.current.resetForm()
+    clearGradeState()
+  }
+
   useEffect(() => {
     // Get Detail User
     const id = router?.query?.id
     if (id) getGrade(atob(id))
 
     // Event clear state when url path changes
-    router.events.on('routeChangeComplete', clearGradeState)
+    router.events.on('routeChangeComplete', handleClearState)
 
     return () => {
-      router.events.off('routeChangeComplete', clearGradeState)
+      router.events.off('routeChangeComplete', handleClearState)
     }
   }, [router])
 

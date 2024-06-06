@@ -76,6 +76,7 @@ const MasterDataUserEditComponent = ({
 
   const handleClearState = () => {
     clearUserState()
+    formikRef.current.resetForm()
   }
 
   const handleSubmit = async (values) => {
