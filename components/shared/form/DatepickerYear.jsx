@@ -86,7 +86,7 @@ const DatepickerYear = ({
 }
 
 DatepickerYear.propTypes = {
-  value: PropTypes.string,
+  value: PropTypes.any,
   label: PropTypes.string,
   name: PropTypes.string,
   error: PropTypes.string,
