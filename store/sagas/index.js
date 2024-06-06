@@ -19,6 +19,7 @@ import employeeSaga from './employeeSaga'
 import positionSaga from './histories/positionSaga'
 import gradeSaga from './histories/gradeSaga'
 import recognitionSaga from './histories/recognitionSaga'
+import trainingSaga from './histories/trainingSaga'
 
 // Master Data
 import decreeSaga from './masterData/decreeSaga'
@@ -33,6 +34,7 @@ export default function* rootSaga() {
     positionSaga(),
     gradeSaga(),
     recognitionSaga(),
-    decreeSaga()
+    decreeSaga(),
+    trainingSaga()
   ])
 }

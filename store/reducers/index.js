@@ -13,6 +13,7 @@ import * as employeeReducer from './employeeReducer'
 import * as positionReducer from './histories/positionReducer'
 import * as gradeReducer from './histories/gradeReducer'
 import * as recognitionReducer from './histories/recognitionReducer'
+import * as trainingReducer from './histories/trainingReducer'
 
 // Master Data
 import * as decreeReducer from './masterData/decreeReducer'
@@ -36,7 +37,8 @@ const reducers = {
   ...positionReducer,
   ...gradeReducer,
   ...recognitionReducer,
-  ...decreeReducer
+  ...decreeReducer,
+  ...trainingReducer
 }
 
 export default reducers
