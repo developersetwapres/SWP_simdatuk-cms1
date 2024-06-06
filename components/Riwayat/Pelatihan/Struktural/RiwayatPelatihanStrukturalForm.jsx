@@ -18,26 +18,9 @@ const RiwayatPelatihanStrukturalForm = ({
   handleSubmit,
   isSubmitting,
   setFieldValue,
-  formikRef
+  formikRef,
+  options
 }) => {
-  const options = {
-    month: monthsOptions || [],
-    golongan: [
-      'Golongan I',
-      'Golongan II',
-      'Golongan III',
-      'Golongan IV',
-      'Golongan V'
-    ],
-    employee: [
-      'Employee 1',
-      'Employee 2',
-      'Employee 3',
-      'Employee 4',
-      'Employee 5'
-    ]
-  }
-
   const handleEmployee = (data, type, indexItem) => {
     if (type == 'add') {
       const newPegawai = {
@@ -147,9 +130,6 @@ const RiwayatPelatihanStrukturalForm = ({
             onChange={(e) => {
               const val = e?.target?.value
               setFieldValue(`jenjang`, val, false)
-              setTimeout(() => {
-                formikRef?.current?.validateField(`jenjang`)
-              }, 1)
             }}
             error={errors?.jenjang}
           />
@@ -180,9 +160,6 @@ const RiwayatPelatihanStrukturalForm = ({
             onChange={(e) => {
               const val = e?.target?.value
               setFieldValue(`penyelenggara`, val, false)
-              setTimeout(() => {
-                formikRef?.current?.validateField(`penyelenggara`)
-              }, 1)
             }}
             error={errors?.penyelenggara}
           />
@@ -199,9 +176,6 @@ const RiwayatPelatihanStrukturalForm = ({
             onChange={(e) => {
               const val = e?.target?.value
               setFieldValue(`durasi`, val, false)
-              setTimeout(() => {
-                formikRef?.current?.validateField(`durasi`)
-              }, 1)
             }}
             error={errors?.durasi}
           />
@@ -216,9 +190,6 @@ const RiwayatPelatihanStrukturalForm = ({
             onChange={(e) => {
               const val = e?.target?.value
               setFieldValue(`materi`, val, false)
-              setTimeout(() => {
-                formikRef?.current?.validateField(`materi`)
-              }, 1)
             }}
             error={errors?.materi}
           />
@@ -347,7 +318,8 @@ RiwayatPelatihanStrukturalForm.propTypes = {
   handleField: PropTypes.func,
   setFieldValue: PropTypes.func,
   isSubmitting: PropTypes.bool,
-  formikRef: PropTypes.any
+  formikRef: PropTypes.any,
+  options: PropTypes.object
 }
 
 export default RiwayatPelatihanStrukturalForm

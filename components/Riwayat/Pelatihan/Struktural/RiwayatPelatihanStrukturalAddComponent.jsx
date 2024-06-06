@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React, { useRef } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
+import PropTypes from 'prop-types'
 import { Formik } from 'formik'
 import LayoutPages from '@/components/core/LayoutPages'
 import { Box } from '@mui/material'
@@ -8,6 +10,8 @@ import * as Yup from 'yup'
 import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
 import RiwayatPelatihanStrukturalForm from './RiwayatPelatihanStrukturalForm'
+import { monthsOptions } from 'libs/months'
+import moment from 'moment'
 
 const InitValue = {
   namaDiklat: '',
@@ -39,71 +43,100 @@ const FormSchema = Yup.object().shape({
   tanggalPelaksanaan: Yup.string().required(
     'Tanggal Pelaksanaan tidak boleh kosong'
   ),
-  pegawai: Yup.array()
-    .of(
-      Yup.object().shape({
-        nama: Yup.string().required('Nama Pegawai tidak boleh kosong'),
-        sertifikat: Yup.mixed()
-          .nullable()
-          .test('fileType', 'Format file harus PNG, JPG, atau PDF', (value) => {
-            if (!value) return true
-            const fileType = value && value.type
-            return (
-              fileType === 'image/png' ||
-              fileType === 'image/jpeg' ||
-              fileType === 'application/pdf'
-            )
-          })
-          .test(
-            'fileSize',
-            'Ukuran file tidak boleh lebih dari 2MB',
-            (value) => {
-              if (!value) return true
-              return value.size <= 2000000
-            }
-          )
-      })
-    )
-    .test('is-unique', 'Nama Pegawai harus unik', function (values) {
-      const names = new Map()
-      const duplicateNames = new Set()
-
-      values.forEach((pegawai, index) => {
-        const { nama } = pegawai
-        if (names.has(nama)) {
-          duplicateNames.add({ nama, index })
-        } else {
-          names.set(nama, index)
-        }
-      })
-
-      if (duplicateNames.size > 0) {
-        const errors = []
-        duplicateNames.forEach((item) => {
-          errors.push(
-            new Yup.ValidationError(
-              `Nama Pegawai tidak boleh sama`,
-              null,
-              `pegawai[${item.index}].nama`
-            )
+  pegawai: Yup.array().of(
+    Yup.object().shape({
+      nama: Yup.string().required('Nama Pegawai tidak boleh kosong'),
+      sertifikat: Yup.mixed()
+        .nullable()
+        .test('fileType', 'Format file harus PNG, JPG, atau PDF', (value) => {
+          if (!value) return true
+          const fileType = value && value.type
+          return (
+            fileType === 'image/png' ||
+            fileType === 'image/jpeg' ||
+            fileType === 'application/pdf'
           )
         })
-        throw new Yup.ValidationError(errors)
-      }
-
-      return true
+        .test('fileSize', 'Ukuran file tidak boleh lebih dari 2MB', (value) => {
+          if (!value) return true
+          return value.size <= 2000
+        })
     })
+  )
 })
 
-const RiwayatPelatihanStrukturalAddComponent = () => {
+const RiwayatPelatihanStrukturalAddComponent = ({
+  training,
+  employee,
+  postTraining = () => {},
+  onLoading = () => {}
+}) => {
   const router = useRouter()
   const formikRef = useRef(null)
+
+  const options = useMemo(() => {
+    const newEmployees = employee?.data.map((itm) => {
+      return `${itm?.name} - ${itm?.employee_id_number}`
+    })
+    const data = {
+      month: monthsOptions || [],
+      employee: newEmployees || []
+    }
+
+    return data
+  }, [employee])
+
+  const handleGetValue = (value, type) => {
+    if (type == 'employee') {
+      const data = employee?.data
+      const dataFilter = data.find(
+        (itm) => itm?.name == value.split(' - ')[0]
+      )?.id
+
+      return dataFilter
+    } else {
+      const index = monthsOptions.findIndex((itm) => itm == value) + 1
+
+      return index
+    }
+  }
 
   const handleSubmit = async (values) => {
     try {
       await FormSchema.validate(values, { abortEarly: false })
-
       formikRef.current.setErrors({})
+
+      const formData = new FormData()
+
+      formData.append('name', values?.namaDiklat)
+      formData.append(
+        'period_month',
+        handleGetValue(values?.periode?.bulan, 'month')
+      )
+      formData.append(
+        'period_year',
+        moment(values?.periode?.tahun).format('YYYY')
+      )
+      formData.append('reference_number', values?.noSurat)
+      formData.append('level', values?.jenjang)
+      formData.append(
+        'start_date',
+        moment(values?.tanggalPelaksanaan).format('YYYY-MM-DD')
+      )
+      formData.append('duration', values?.durasi)
+      formData.append('organizer', values?.penyelenggara)
+      formData.append('link', values?.materi)
+      formData.append('type', 1)
+
+      values?.pegawai.map((item, index) => {
+        formData.append(
+          `users[${index}][user_id]`,
+          handleGetValue(item?.nama, 'employee')
+        )
+        formData.append(`users[${index}][certificate]`, item?.sertifikat)
+      })
+
+      postTraining(formData)
     } catch (err) {
       if (!err.inner || err.inner.length === 0) {
         return
@@ -121,6 +154,11 @@ const RiwayatPelatihanStrukturalAddComponent = () => {
         firstErrorEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
   }
+
+  useEffect(() => {
+    const state = !training?.loading && !employee?.loading
+    onLoading(state)
+  }, [training, employee])
 
   return (
     <Formik
@@ -144,6 +182,7 @@ const RiwayatPelatihanStrukturalAddComponent = () => {
         >
           <Card>
             <RiwayatPelatihanStrukturalForm
+              options={options}
               formikRef={formikRef}
               {...formikProps}
             />
@@ -152,6 +191,13 @@ const RiwayatPelatihanStrukturalAddComponent = () => {
       )}
     </Formik>
   )
+}
+
+RiwayatPelatihanStrukturalAddComponent.propTypes = {
+  training: PropTypes.object,
+  employee: PropTypes.object,
+  postTraining: PropTypes.func,
+  onLoading: PropTypes.func
 }
 
 export default RiwayatPelatihanStrukturalAddComponent
