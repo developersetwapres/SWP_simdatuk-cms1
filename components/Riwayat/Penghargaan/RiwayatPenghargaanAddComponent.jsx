@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React, { useRef } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
+import PropTypes from 'prop-types'
 import RiwayatPenghargaanForm from './RiwayatPenghargaanForm'
 import { Formik } from 'formik'
 import LayoutPages from '@/components/core/LayoutPages'
@@ -8,6 +10,8 @@ import Card from '@/components/shared/Card/Index'
 import * as Yup from 'yup'
 import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
+import { monthsOptions } from 'libs/months'
+import moment from 'moment'
 
 const InitValue = {
   namaPenghargaan: '',
@@ -47,19 +51,74 @@ const FormSchema = Yup.object().shape({
   )
 })
 
-const RiwayatPenghargaanAddComponent = () => {
+const RiwayatPenghargaanAddComponent = ({
+  recognition,
+  employee,
+  decree,
+  postRecognition = () => {},
+  onLoading = () => {}
+}) => {
   const router = useRouter()
   const formikRef = useRef(null)
+
+  const options = useMemo(() => {
+    const newEmployees = employee?.data.map((itm) => {
+      return `${itm?.name} - ${itm?.employee_id_number}`
+    })
+    const newDecree = decree?.data.map((itm) => itm?.name)
+
+    const data = {
+      employee: newEmployees || [],
+      decree: newDecree || [],
+      month: monthsOptions || []
+    }
+
+    return data
+  }, [employee, decree])
+
+  const handleGetValueId = (val, type) => {
+    if (type == 'employee') {
+      const dataFilter = employee?.data.find(
+        (itm) => itm?.name == val.split(' - ')[0]
+      )
+      return dataFilter?.id
+    } else if (type == 'month') {
+      const index = options['month'].findIndex((itm) => itm == val)
+      return index + 1
+    } else {
+      const dataFilter = decree?.data.find((itm) => itm?.name == val)
+      return dataFilter?.id
+    }
+  }
 
   const handleSubmit = async (values) => {
     try {
       await FormSchema.validate(values, { abortEarly: false })
-
       formikRef.current.setErrors({})
-    } catch (err) {
-      if (!err.inner || err.inner.length === 0) {
-        return
+
+      const users = values?.pegawai.map((itm) => {
+        return {
+          user_id: handleGetValueId(itm?.nama, 'employee')
+        }
+      })
+
+      const payload = {
+        name: values?.namaPenghargaan,
+        period_month: handleGetValueId(values?.periode?.bulan, 'month'),
+        period_year: moment(values?.periode?.tahun).format('YYYY'),
+        description: values?.keteranganPenghargaan,
+        type_of_decree: handleGetValueId(values?.jenisSk, 'decree'),
+        decree_date: moment(values?.tanggalSk).format('YYYY-MM-DD'),
+        decree_number: values?.noSkPenghargaan,
+        decree_year: moment(values?.tahunSk).format('YYYY'),
+        awarding_institution: values?.instansi,
+        date_of_receipt: moment(values?.received).format('YYYY-MM-DD'),
+        users
       }
+
+      postRecognition(payload)
+    } catch (err) {
+      if (!err.inner || err.inner.length === 0) return
 
       const newErrors = {}
       err.inner.forEach((error) => {
@@ -73,6 +132,11 @@ const RiwayatPenghargaanAddComponent = () => {
         firstErrorEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
   }
+
+  useEffect(() => {
+    const state = !recognition?.loading && !employee?.loading
+    onLoading(state)
+  }, [recognition, employee])
 
   return (
     <Formik
@@ -95,12 +159,24 @@ const RiwayatPenghargaanAddComponent = () => {
           }
         >
           <Card>
-            <RiwayatPenghargaanForm formikRef={formikRef} {...formikProps} />
+            <RiwayatPenghargaanForm
+              options={options}
+              formikRef={formikRef}
+              {...formikProps}
+            />
           </Card>
         </LayoutPages>
       )}
     </Formik>
   )
+}
+
+RiwayatPenghargaanAddComponent.propTypes = {
+  recognition: PropTypes.object,
+  employee: PropTypes.object,
+  decree: PropTypes.object,
+  postRecognition: PropTypes.func,
+  onLoading: PropTypes.func
 }
 
 export default RiwayatPenghargaanAddComponent

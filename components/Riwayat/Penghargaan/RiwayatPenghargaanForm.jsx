@@ -6,7 +6,6 @@ import { Autocomplete, Button, Form, Input } from '@/components/shared'
 import DatepickerYear from '@/components/shared/form/DatepickerYear'
 import DatePickerDay from '@/components/shared/form/DatePickerDay'
 import { Delete } from '@mui/icons-material'
-import { monthsOptions } from 'libs/months'
 
 const RiwayatJabatanForm = ({
   values,
@@ -17,40 +16,9 @@ const RiwayatJabatanForm = ({
   handleSubmit,
   isSubmitting,
   setFieldValue,
-  formikRef
+  formikRef,
+  options
 }) => {
-  const options = {
-    month: monthsOptions || [],
-    jabatan: [
-      'Jabatan I',
-      'Jabatan II',
-      'Jabatan III',
-      'Jabatan IV',
-      'Jabatan V'
-    ],
-    jenjangJabatan: [
-      'Jenjang Jabatan I',
-      'Jenjang Jabatan II',
-      'Jenjang Jabatan III',
-      'Jenjang Jabatan IV',
-      'Jenjang Jabatan V'
-    ],
-    keteranganJabatan: [
-      'Keterangan Jabatan I',
-      'Keterangan Jabatan II',
-      'Keterangan Jabatan III',
-      'Keterangan Jabatan IV',
-      'Keterangan Jabatan V'
-    ],
-    employee: [
-      'Employee 1',
-      'Employee 2',
-      'Employee 3',
-      'Employee 4',
-      'Employee 5'
-    ]
-  }
-
   const handleEmployee = (data, type, indexItem) => {
     if (type == 'add') {
       const newPegawai = {
@@ -154,7 +122,7 @@ const RiwayatJabatanForm = ({
         {/* Jenis SK */}
         <Grid item xs={6}>
           <Autocomplete
-            options={options?.employee}
+            options={options?.decree}
             name='jenisSk'
             placeholder='Pilih Jenis SK'
             value={values?.jenisSk}
@@ -317,7 +285,8 @@ RiwayatJabatanForm.propTypes = {
   handleField: PropTypes.func,
   setFieldValue: PropTypes.func,
   isSubmitting: PropTypes.bool,
-  formikRef: PropTypes.any
+  formikRef: PropTypes.any,
+  options: PropTypes.object
 }
 
 export default RiwayatJabatanForm
