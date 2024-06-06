@@ -200,7 +200,7 @@ const navigation = [
         permission: [{ name: 'data-class' }]
       },
       {
-        path: '/master-data/instansi',
+        path: '/master-data/institution',
         name: 'DATA INSTANSI',
         icon: null,
         permission: [{ name: 'data-agency' }]
