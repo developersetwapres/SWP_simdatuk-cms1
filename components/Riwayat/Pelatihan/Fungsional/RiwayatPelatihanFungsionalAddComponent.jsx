@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React, { useRef } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
+import PropTypes from 'prop-types'
 import { Formik } from 'formik'
 import LayoutPages from '@/components/core/LayoutPages'
 import { Box } from '@mui/material'
@@ -8,6 +10,8 @@ import * as Yup from 'yup'
 import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
 import RiwayatPelatihanFungsionalForm from './RiwayatPelatihanFungsionalForm'
+import { monthsOptions } from 'libs/months'
+import moment from 'moment'
 
 const InitValue = {
   namaDiklat: '',
@@ -95,15 +99,78 @@ const FormSchema = Yup.object().shape({
     })
 })
 
-const RiwayatPelatihanFungsionalAddComponent = () => {
+const RiwayatPelatihanFungsionalAddComponent = ({
+  training,
+  employee,
+  postTraining = () => {},
+  onLoading = () => {}
+}) => {
   const router = useRouter()
   const formikRef = useRef(null)
+
+  const options = useMemo(() => {
+    const newEmployees = employee?.data.map((itm) => {
+      return `${itm?.name} - ${itm?.employee_id_number}`
+    })
+    const data = {
+      month: monthsOptions || [],
+      employee: newEmployees || []
+    }
+
+    return data
+  }, [employee])
+
+  const handleGetValue = (value, type) => {
+    if (type == 'employee') {
+      const data = employee?.data
+      const dataFilter = data.find(
+        (itm) => itm?.name == value.split(' - ')[0]
+      )?.id
+
+      return dataFilter
+    } else {
+      const index = monthsOptions.findIndex((itm) => itm == value) + 1
+
+      return index
+    }
+  }
 
   const handleSubmit = async (values) => {
     try {
       await FormSchema.validate(values, { abortEarly: false })
-
       formikRef.current.setErrors({})
+
+      const formData = new FormData()
+
+      formData.append('name', values?.namaDiklat)
+      formData.append(
+        'period_month',
+        handleGetValue(values?.periode?.bulan, 'month')
+      )
+      formData.append(
+        'period_year',
+        moment(values?.periode?.tahun).format('YYYY')
+      )
+      formData.append('reference_number', values?.noSurat)
+      formData.append('level', values?.jenjang)
+      formData.append(
+        'start_date',
+        moment(values?.tanggalPelaksanaan).format('YYYY-MM-DD')
+      )
+      formData.append('duration', values?.durasi)
+      formData.append('organizer', values?.penyelenggara)
+      formData.append('link', values?.materi)
+      formData.append('type', 2)
+
+      values?.pegawai.map((item, index) => {
+        formData.append(
+          `users[${index}][user_id]`,
+          handleGetValue(item?.nama, 'employee')
+        )
+        formData.append(`users[${index}][certificate]`, item?.sertifikat)
+      })
+
+      postTraining(formData)
     } catch (err) {
       if (!err.inner || err.inner.length === 0) {
         return
@@ -121,6 +188,11 @@ const RiwayatPelatihanFungsionalAddComponent = () => {
         firstErrorEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
   }
+
+  useEffect(() => {
+    const state = !training?.loading && !employee?.loading
+    onLoading(state)
+  }, [training, employee])
 
   return (
     <Formik
@@ -144,6 +216,7 @@ const RiwayatPelatihanFungsionalAddComponent = () => {
         >
           <Card>
             <RiwayatPelatihanFungsionalForm
+              options={options}
               formikRef={formikRef}
               {...formikProps}
             />
@@ -152,6 +225,13 @@ const RiwayatPelatihanFungsionalAddComponent = () => {
       )}
     </Formik>
   )
+}
+
+RiwayatPelatihanFungsionalAddComponent.propTypes = {
+  training: PropTypes.object,
+  employee: PropTypes.object,
+  postTraining: PropTypes.func,
+  onLoading: PropTypes.func
 }
 
 export default RiwayatPelatihanFungsionalAddComponent
