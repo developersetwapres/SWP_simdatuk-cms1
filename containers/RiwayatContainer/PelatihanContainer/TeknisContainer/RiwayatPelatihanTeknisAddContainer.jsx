@@ -7,36 +7,53 @@ import Layout from '@/components/core/Layout'
 import RiwayatPelatihanTeknisAddComponent from '@/components/Riwayat/Pelatihan/Teknis/RiwayatPelatihanTeknisAddComponent'
 
 export default connect(
-  mapStateToProps(),
-  mapActions()
+  mapStateToProps('training', 'employee'),
+  mapActions('postTraining', 'getEmployees')
 )(
   class RiwayatPelatihanTeknisAddContainer extends Component {
     static propTypes = {
-      banner: PropTypes.object,
-      data: PropTypes.object,
-      getBanners: PropTypes.func,
-      deleteListBanner: PropTypes.func
+      training: PropTypes.object,
+      employee: PropTypes.object,
+      postTraining: PropTypes.func,
+      getEmployees: PropTypes.func
     }
 
     constructor(props) {
       super(props)
       this.state = {
+        queries: {
+          page: 1,
+          limit: 10000,
+          search: ''
+        },
         willRender: false
       }
+      this.fetch = this.fetch.bind(this)
+      this.setLoading = this.setLoading.bind(this)
+    }
+
+    fetch(queries) {
+      this.props.getEmployees(queries)
+    }
+
+    setLoading(val) {
+      this.setState({
+        willRender: val
+      })
     }
 
     componentDidMount() {
-      setTimeout(() => {
-        this.setState({
-          willRender: true
-        })
-      }, 2000)
+      this.fetch(this.state.queries)
     }
 
     render() {
       return (
         <Layout willRender={this.state.willRender}>
-          <RiwayatPelatihanTeknisAddComponent {...this.state} {...this.props} />
+          <RiwayatPelatihanTeknisAddComponent
+            onLoading={this.setLoading}
+            {...this.state}
+            {...this.props}
+          />
         </Layout>
       )
     }

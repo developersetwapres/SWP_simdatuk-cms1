@@ -18,26 +18,9 @@ const RiwayatPelatihanTeknisForm = ({
   handleSubmit,
   isSubmitting,
   setFieldValue,
-  formikRef
+  formikRef,
+  options
 }) => {
-  const options = {
-    month: monthsOptions || [],
-    golongan: [
-      'Golongan I',
-      'Golongan II',
-      'Golongan III',
-      'Golongan IV',
-      'Golongan V'
-    ],
-    employee: [
-      'Employee 1',
-      'Employee 2',
-      'Employee 3',
-      'Employee 4',
-      'Employee 5'
-    ]
-  }
-
   const handleEmployee = (data, type, indexItem) => {
     if (type == 'add') {
       const newPegawai = {
@@ -165,9 +148,6 @@ const RiwayatPelatihanTeknisForm = ({
             onChange={(e) => {
               const val = e?.target?.value
               setFieldValue(`durasi`, val, false)
-              setTimeout(() => {
-                formikRef?.current?.validateField(`durasi`)
-              }, 1)
             }}
             error={errors?.durasi}
           />
@@ -182,9 +162,6 @@ const RiwayatPelatihanTeknisForm = ({
             onChange={(e) => {
               const val = e?.target?.value
               setFieldValue(`materi`, val, false)
-              setTimeout(() => {
-                formikRef?.current?.validateField(`materi`)
-              }, 1)
             }}
             error={errors?.materi}
           />
@@ -313,7 +290,8 @@ RiwayatPelatihanTeknisForm.propTypes = {
   handleField: PropTypes.func,
   setFieldValue: PropTypes.func,
   isSubmitting: PropTypes.bool,
-  formikRef: PropTypes.any
+  formikRef: PropTypes.any,
+  options: PropTypes.object
 }
 
 export default RiwayatPelatihanTeknisForm
