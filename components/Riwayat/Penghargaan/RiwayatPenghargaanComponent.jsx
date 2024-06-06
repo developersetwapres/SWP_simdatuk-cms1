@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
+import PropTypes from 'prop-types'
 import LayoutPages from '@/components/core/LayoutPages'
 import { Button, Table } from '@/components/shared'
 import { Box, Typography } from '@mui/material'
@@ -7,6 +8,7 @@ import Search from '@/components/core/Search'
 import { makeStyles } from '@mui/styles'
 import { Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
+import { monthsOptions } from 'libs/months'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -52,74 +54,13 @@ const styles = {
   }
 }
 
-const data = [
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Penghargaan 1',
-    periode: 'Desember 2023',
-    instansi: 'Setneg Wapres',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Penghargaan 1',
-    periode: 'Desember 2023',
-    instansi: 'Setneg Wapres',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Penghargaan 1',
-    periode: 'Desember 2023',
-    instansi: 'Setneg Wapres',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Penghargaan 1',
-    periode: 'Desember 2023',
-    instansi: 'Setneg Wapres',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Penghargaan 1',
-    periode: 'Desember 2023',
-    instansi: 'Setneg Wapres',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Penghargaan 1',
-    periode: 'Desember 2023',
-    instansi: 'Setneg Wapres',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Penghargaan 1',
-    periode: 'Desember 2023',
-    instansi: 'Setneg Wapres',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Penghargaan 1',
-    periode: 'Desember 2023',
-    instansi: 'Setneg Wapres',
-    total: 10
-  }
-]
-
-const RiwayatPenghargaanComponent = () => {
+const RiwayatPenghargaanComponent = ({
+  recognition,
+  onSearch = () => {},
+  onLoading = () => {},
+  onPaginationChange = () => {},
+  onRowsPerPageChange = () => {}
+}) => {
   const router = useRouter()
   const classes = useStyles()
 
@@ -160,31 +101,36 @@ const RiwayatPenghargaanComponent = () => {
   )
 
   const rows = useMemo(() => {
-    const dataMapping = data.map((item, index) => {
+    const data = recognition?.data || []
+    const dataMapping = data.map((item) => {
       return [
         {
           Header: 'Tanggal',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.createdAt}</Typography>
+          Cell: () => <Typography>{item?.created_at || '-'}</Typography>
         },
         {
           Header: 'Name',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.name}</Typography>
+          Cell: () => <Typography>{item?.name || '-'}</Typography>
         },
         {
           Header: 'Periode',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.periode}</Typography>
+          Cell: () => (
+            <Typography>{`${monthsOptions[item?.period_month - 1]} ${
+              item?.period_year
+            }`}</Typography>
+          )
         },
         {
           Header: 'Instansi',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.instansi}</Typography>
+          Cell: () => <Typography>{item?.awarding_institution}</Typography>
         },
         {
           Header: 'Total',
@@ -202,7 +148,7 @@ const RiwayatPenghargaanComponent = () => {
                 text='Detail'
                 color='primary'
                 onClick={() =>
-                  router.push(`/${router.pathname}/detail/${btoa(index)}`)
+                  router.push(`${router.pathname}/detail/${btoa(item?.id)}`)
                 }
                 icon={<Info style={styles.iconButton} />}
                 sx={styles.buttonAction}
@@ -211,7 +157,7 @@ const RiwayatPenghargaanComponent = () => {
                 text='Edit'
                 color='sidatukDraweBase'
                 onClick={() =>
-                  router.push(`/${router.pathname}/edit/${btoa(index)}`)
+                  router.push(`${router.pathname}/edit/${btoa(item?.id)}`)
                 }
                 icon={<Edit style={styles.iconButton} />}
                 sx={styles.buttonAction}
@@ -223,7 +169,7 @@ const RiwayatPenghargaanComponent = () => {
     })
 
     return dataMapping
-  }, [data])
+  }, [recognition])
 
   const action = useMemo(() => {
     return (
@@ -235,6 +181,11 @@ const RiwayatPenghargaanComponent = () => {
       </Box>
     )
   }, [])
+
+  useEffect(() => {
+    const state = !recognition?.loading
+    onLoading(state)
+  }, [recognition])
 
   return (
     <LayoutPages summary='Data Riwayat Penghargaan' action={action}>
@@ -253,11 +204,26 @@ const RiwayatPenghargaanComponent = () => {
           inputClass={classes.input}
           iconStyle={classes.iconStyle}
           placeholder='Cari Nama Riwayat Penghargaan'
+          onSearch={onSearch}
         />
       </Box>
-      <Table columns={columns} rows={rows} />
+      <Table
+        columns={columns}
+        rows={rows}
+        pagination={recognition?.pagination}
+        handlePagination={onPaginationChange}
+        handleRows={onRowsPerPageChange}
+      />
     </LayoutPages>
   )
+}
+
+RiwayatPenghargaanComponent.propTypes = {
+  recognition: PropTypes.object,
+  onSearch: PropTypes.func,
+  onLoading: PropTypes.func,
+  onPaginationChange: PropTypes.func,
+  onRowsPerPageChange: PropTypes.func
 }
 
 export default RiwayatPenghargaanComponent
