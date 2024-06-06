@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
+import PropTypes from 'prop-types'
 import LayoutPages from '@/components/core/LayoutPages'
 import { Button, Table } from '@/components/shared'
 import { Box, Grid, Typography } from '@mui/material'
 import { Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
+import { monthsOptions } from 'libs/months'
 
 const styles = {
   iconStyle: {
@@ -30,74 +32,21 @@ const styles = {
   }
 }
 
-const data = [
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    golongan: 'Penata Tingkat I (III/d)',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    golongan: 'Penata Tingkat I (III/d)',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    golongan: 'Penata Tingkat I (III/d)',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    golongan: 'Penata Tingkat I (III/d)',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    golongan: 'Penata Tingkat I (III/d)',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    golongan: 'Penata Tingkat I (III/d)',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    golongan: 'Penata Tingkat I (III/d)',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    golongan: 'Penata Tingkat I (III/d)',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    golongan: 'Penata Tingkat I (III/d)',
-    tmt: '10-12-2023',
-    noSk: 'Nomor 132 Tahun 2023'
-  }
-]
-
-const RiwayatPelatihanFungsionalDetailComponent = () => {
+const RiwayatPelatihanFungsionalDetailComponent = ({
+  training,
+  getTraining = () => {},
+  clearTrainingState = () => {},
+  onLoading = () => {}
+}) => {
   const router = useRouter()
+
+  const data = useMemo(() => {
+    const detail = training?.detail
+
+    if (detail) return detail
+
+    return {}
+  }, [training])
 
   const columns = useMemo(
     () => [
@@ -126,6 +75,7 @@ const RiwayatPelatihanFungsionalDetailComponent = () => {
   )
 
   const rows = useMemo(() => {
+    const data = training?.detail?.users || []
     const dataMapping = data.map((item, index) => {
       return [
         {
@@ -138,7 +88,7 @@ const RiwayatPelatihanFungsionalDetailComponent = () => {
           Header: 'Nama',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.nama}</Typography>
+          Cell: () => <Typography>{item?.name || '-'}</Typography>
         },
         {
           Header: 'Sertifikat',
@@ -146,16 +96,19 @@ const RiwayatPelatihanFungsionalDetailComponent = () => {
           verticalAlign: 'top',
           Cell: () => (
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              <Button
-                text='Lihat File'
-                color='primary'
-                onClick={() => {
-                  const url =
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9hMF2m2-4-0O_viJ73WJWS5Ldo-bK1rkf4MlOULk64Q&s'
-                  window.open(url, '_blank')
-                }}
-                sx={styles.buttonAction}
-              />
+              {item?.certificate ? (
+                <Button
+                  text='Lihat File'
+                  color='primary'
+                  onClick={() => {
+                    const url = item?.certificate
+                    if (url) window.open(url, '_blank')
+                  }}
+                  sx={styles.buttonAction}
+                />
+              ) : (
+                '-'
+              )}
             </Box>
           )
         },
@@ -185,7 +138,7 @@ const RiwayatPelatihanFungsionalDetailComponent = () => {
     })
 
     return dataMapping
-  }, [data])
+  }, [training])
 
   const action = useMemo(() => {
     return (
@@ -204,6 +157,29 @@ const RiwayatPelatihanFungsionalDetailComponent = () => {
     )
   }, [])
 
+  const handleClearState = () => {
+    clearTrainingState()
+  }
+
+  useEffect(() => {
+    // Get Detail Training
+    const id = router?.query?.id
+    if (id) getTraining(atob(id))
+
+    // Event clear state when url path changes
+    router.events.on('routeChangeComplete', handleClearState)
+
+    return () => {
+      router.events.off('routeChangeComplete', handleClearState)
+    }
+  }, [router])
+
+  useEffect(() => {
+    const state =
+      !training?.loading && Object.entries(training?.detail).length > 0
+    onLoading(state)
+  }, [training])
+
   return (
     <LayoutPages
       handleBack={() => router.back()}
@@ -216,63 +192,79 @@ const RiwayatPelatihanFungsionalDetailComponent = () => {
           <Grid item xs={6}>
             <Box sx={styles?.wrapperItem}>
               <Typography>Nama Diklat</Typography>
-              <Typography sx={styles?.font}>Diklat PIM Tk.IV</Typography>
+              <Typography sx={styles?.font}>{data?.name || '-'}</Typography>
             </Box>
           </Grid>
           {/* Periode */}
           <Grid item xs={6}>
             <Box sx={styles?.wrapperItem}>
               <Typography>Periode Input Riwayat</Typography>
-              <Typography sx={styles?.font}>Desember 2023</Typography>
+              <Typography sx={styles?.font}>
+                {data?.period_month && data?.period_year
+                  ? `${monthsOptions[data?.period_month - 1]} ${
+                      data?.period_year
+                    }`
+                  : '-'}
+              </Typography>
             </Box>
           </Grid>
           {/* No Surat Perintah */}
           <Grid item xs={6}>
             <Box sx={styles?.wrapperItem}>
               <Typography>No Surat Perintah</Typography>
-              <Typography sx={styles?.font}>Nomor 74 Tahun 2023</Typography>
+              <Typography sx={styles?.font}>
+                {data?.reference_number || '-'}
+              </Typography>
             </Box>
           </Grid>
           {/* Jenjang */}
           <Grid item xs={6}>
             <Box sx={styles?.wrapperItem}>
               <Typography>Jenjang</Typography>
-              <Typography sx={styles?.font}>-</Typography>
+              <Typography sx={styles?.font}>{data?.level || '-'}</Typography>
             </Box>
           </Grid>
           {/* Tanggal Pelaksanaan */}
           <Grid item xs={6}>
             <Box sx={styles?.wrapperItem}>
               <Typography>Tanggal Pelaksanaan</Typography>
-              <Typography sx={styles?.font}>00-00-00</Typography>
+              <Typography sx={styles?.font}>
+                {data?.start_date || '-'}
+              </Typography>
             </Box>
           </Grid>
           {/* Penyelenggara */}
           <Grid item xs={6}>
             <Box sx={styles?.wrapperItem}>
               <Typography>Penyelenggara</Typography>
-              <Typography sx={styles?.font}>Kemensetneg</Typography>
+              <Typography sx={styles?.font}>
+                {data?.organizer || '-'}
+              </Typography>
             </Box>
           </Grid>
           {/* Durasi */}
           <Grid item xs={6}>
             <Box sx={styles?.wrapperItem}>
               <Typography>Durasi Pelatihan (Hari)</Typography>
-              <Typography sx={styles?.font}>2</Typography>
+              <Typography sx={styles?.font}>{data?.duration || '-'}</Typography>
             </Box>
           </Grid>
           {/* Materi */}
           <Grid item xs={6}>
             <Box sx={styles?.wrapperItem}>
               <Typography>Link Materi Pelatihan</Typography>
-              <Button
-                text='Lihat Materi'
-                style={{ width: '140px' }}
-                onClick={() => {
-                  const url = 'https://youtube.com'
-                  window.open(url, '_blank')
-                }}
-              />
+              {data?.link ? (
+                <Button
+                  text='Lihat Materi'
+                  style={{ width: '140px' }}
+                  onClick={() => {
+                    const url = data?.link
+                    if (url) window.open(url, '_blank')
+                  }}
+                />
+              ) : (
+                '-'
+              )}
             </Box>
           </Grid>
         </Grid>
@@ -286,6 +278,13 @@ const RiwayatPelatihanFungsionalDetailComponent = () => {
       </Paper>
     </LayoutPages>
   )
+}
+
+RiwayatPelatihanFungsionalDetailComponent.propTypes = {
+  training: PropTypes.object,
+  getTraining: PropTypes.func,
+  clearTrainingState: PropTypes.func,
+  onLoading: PropTypes.func
 }
 
 export default RiwayatPelatihanFungsionalDetailComponent
