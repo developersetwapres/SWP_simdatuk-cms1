@@ -111,12 +111,16 @@ const UploadFile = ({
               color: error ? '#D32F2F' : '#895700'
             }}
           >
-            <Typography sx={style?.textFile}>{value?.name}</Typography>
-            <Input
-              name={name}
-              style={{ width: 0, height: 0, visibility: 'hidden' }}
-              styleWrapper={{ width: 0, height: 0, visibility: 'hidden' }}
-            />
+            <Typography sx={style?.textFile}>
+              {typeof value == 'string' ? value : value?.name}
+            </Typography>
+            {typeof value == 'string' && (
+              <Input
+                name={name}
+                style={{ width: 0, height: 0, visibility: 'hidden' }}
+                styleWrapper={{ width: 0, height: 0, visibility: 'hidden' }}
+              />
+            )}
             <IconButton
               aria-label='delete'
               sx={style?.buttonDelete}
@@ -156,7 +160,7 @@ const UploadFile = ({
 UploadFile.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.any,
   error: PropTypes.string,
   dataUnit: PropTypes.string,
   formatFile: PropTypes.array,
