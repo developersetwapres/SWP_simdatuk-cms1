@@ -8,7 +8,6 @@ import { Box, Grid, Typography } from '@mui/material'
 import { Delete, Edit } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
-import PermissionRoleCheckbox from './PermissionRoleCheckbox'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 import { useSelector } from 'react-redux'
 
@@ -115,7 +114,7 @@ const MasterDataInstitutionDetailComponent = ({
           color='sidatukDraweBase'
           icon={<Edit style={styles.iconButton} />}
           onClick={() =>
-            router.push(`/master-data/role/edit/${router?.query?.id}`)
+            router.push(`/master-data/institution/edit/${router?.query?.id}`)
           }
         />
       </Box>

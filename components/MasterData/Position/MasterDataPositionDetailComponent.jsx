@@ -114,7 +114,7 @@ const MasterDataPositionDetailComponent = ({
           color='sidatukDraweBase'
           icon={<Edit style={styles.iconButton} />}
           onClick={() =>
-            router.push(`/master-data/role/edit/${router?.query?.id}`)
+            router.push(`/master-data/position/edit/${router?.query?.id}`)
           }
         />
       </Box>
