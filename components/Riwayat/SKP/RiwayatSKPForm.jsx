@@ -4,9 +4,7 @@ import PropTypes from 'prop-types'
 import { Box, Grid, Typography } from '@mui/material'
 import { Autocomplete, Button, Form, Input } from '@/components/shared'
 import DatepickerYear from '@/components/shared/form/DatepickerYear'
-import DatePickerDay from '@/components/shared/form/DatePickerDay'
 import { Delete } from '@mui/icons-material'
-import { monthsOptions } from 'libs/months'
 
 const RiwayatSKPForm = ({
   values,
@@ -17,29 +15,9 @@ const RiwayatSKPForm = ({
   handleSubmit,
   isSubmitting,
   setFieldValue,
-  formikRef
+  formikRef,
+  options
 }) => {
-  const options = {
-    month: monthsOptions || [],
-    employee: [
-      'Employee 1',
-      'Employee 2',
-      'Employee 3',
-      'Employee 4',
-      'Employee 5'
-    ],
-    periode: ['Periode 1', 'Periode 2', 'Periode 3', 'Periode 4', 'Periode 5'],
-    predikat: ['Kurang Baik', 'Baik', 'Sangat Baik'],
-    rating: ['Kurang Baik', 'Baik', 'Sangat Baik'],
-    organisasi: [
-      'Organisasi 1',
-      'Organisasi 2',
-      'Organisasi 3',
-      'Organisasi 4',
-      'Organisasi 5'
-    ]
-  }
-
   const handleEmployee = (data, type, indexItem) => {
     if (type == 'add') {
       const newPegawai = {
@@ -65,14 +43,14 @@ const RiwayatSKPForm = ({
           <Input
             label='Nama Riwayat SKP *'
             placeholder='Masukkan Nama Riwayat SKP'
-            name='namaPenghargaan'
-            value={values?.namaPenghargaan}
-            error={errors?.namaPenghargaan}
+            name='namaSkp'
+            value={values?.namaSkp}
+            error={errors?.namaSkp}
             onChange={(e) => {
               const val = e?.target?.value
-              setFieldValue(`namaPenghargaan`, val, false)
+              setFieldValue(`namaSkp`, val, false)
               setTimeout(() => {
-                formikRef.current.validateField(`namaPenghargaan`)
+                formikRef.current.validateField(`namaSkp`)
               }, 1)
             }}
           />
@@ -126,19 +104,18 @@ const RiwayatSKPForm = ({
         </Grid>
         {/* Periode Penilaian */}
         <Grid item xs={6}>
-          <DatepickerYear
-            isClear
-            isQuarter={true}
-            label='Periode Penilaian *'
+          <Autocomplete
+            multiple={false}
+            options={options?.periode}
             name='periodePenilaian'
+            label='Periode Penilaian *'
             placeholder='Pilih Periode Penilaian'
             value={values?.periodePenilaian}
             error={errors?.periodePenilaian}
             onChange={(val) => {
-              setFieldValue(`periodePenilaian`, val, false)
-              setFieldValue(`periodePenilaianTahun`, val, false)
+              setFieldValue('periodePenilaian', val, false)
               setTimeout(() => {
-                formikRef.current.validateField(`periodePenilaian`)
+                formikRef.current.validateField('periodePenilaian')
               }, 1)
             }}
           />
@@ -153,24 +130,7 @@ const RiwayatSKPForm = ({
             value={values?.periodePenilaianTahun}
             error={errors?.periodePenilaianTahun}
             onChange={(val) => {
-              let newDate = ''
-              const currentPeriodePenilaian = values?.periodePenilaian
-
-              if (currentPeriodePenilaian) {
-                newDate = new Date(
-                  val.getFullYear(),
-                  currentPeriodePenilaian.getMonth(),
-                  currentPeriodePenilaian.getDate()
-                )
-              } else {
-                newDate = val
-              }
-
               setFieldValue(`periodePenilaianTahun`, val, false)
-              setFieldValue(`periodePenilaian`, newDate, false)
-              setTimeout(() => {
-                formikRef.current.validateField(`periodePenilaian`)
-              }, 1)
             }}
           />
         </Grid>
@@ -289,7 +249,7 @@ const RiwayatSKPForm = ({
                         sx={{
                           width: '50px',
                           height: '50px',
-                          marginTop: '29`px'
+                          marginTop: '29px'
                         }}
                         onClick={() =>
                           handleEmployee(values?.pegawai, 'delete', index)
@@ -326,7 +286,8 @@ RiwayatSKPForm.propTypes = {
   handleField: PropTypes.func,
   setFieldValue: PropTypes.func,
   isSubmitting: PropTypes.bool,
-  formikRef: PropTypes.any
+  formikRef: PropTypes.any,
+  options: PropTypes.object
 }
 
 export default RiwayatSKPForm

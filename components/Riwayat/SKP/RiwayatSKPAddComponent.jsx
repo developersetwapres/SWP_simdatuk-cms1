@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React, { useRef } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
+import PropTypes from 'prop-types'
 import { Formik } from 'formik'
 import LayoutPages from '@/components/core/LayoutPages'
 import { Box } from '@mui/material'
@@ -8,6 +10,8 @@ import * as Yup from 'yup'
 import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
 import RiwayatSKPForm from './RiwayatSKPForm'
+import { monthsOptions } from 'libs/months'
+import moment from 'moment'
 
 const InitValue = {
   namaSkp: '',
@@ -28,7 +32,7 @@ const InitValue = {
 }
 
 const FormSchema = Yup.object().shape({
-  namaPenghargaan: Yup.string().required('Nama Penghargaan tidak boleh kosong'),
+  namaSkp: Yup.string().required('Nama SKP tidak boleh kosong'),
   periodePenilaian: Yup.string().required(
     'Periode Penilaian tidak boleh kosong'
   ),
@@ -46,15 +50,99 @@ const FormSchema = Yup.object().shape({
   )
 })
 
-const RiwayatSKPAddComponent = () => {
+const RiwayatSKPAddComponent = ({
+  target,
+  employee,
+  postTarget = () => {},
+  onLoading = () => {}
+}) => {
   const router = useRouter()
   const formikRef = useRef(null)
+
+  const options = useMemo(() => {
+    const newEmployees = employee?.data.map((itm) => {
+      return `${itm?.name} - ${itm?.employee_id_number}`
+    })
+
+    const data = {
+      month: monthsOptions || [],
+      employee: newEmployees,
+      periode: ['Q1', 'Q2', 'Q3', 'Q4', 'Tahunan'],
+      predikat: [
+        'Sangat baik',
+        'Baik',
+        'Butuh perbaikan',
+        'Kurang',
+        'Sangat Kurang'
+      ],
+      rating: [
+        'Di atas ekspektasi',
+        'Sesuai ekspektasi',
+        'Di bawah ekspektasi'
+      ],
+      organisasi: ['Sangat baik', 'Baik', 'Cukup']
+    }
+
+    return data
+  }, [employee])
+
+  const handleGetValue = (value, type) => {
+    if (type == 'employee') {
+      const data = employee?.data
+      const dataFilter = data.find(
+        (itm) => itm?.name == value.split(' - ')[0]
+      )?.id
+
+      return dataFilter
+    } else if (type == 'month') {
+      const index = monthsOptions.findIndex((itm) => itm == value) + 1
+
+      return index
+    } else if (type == 'predikat') {
+      const index = options['predikat'].findIndex((itm) => itm == value) + 1
+
+      return index
+    } else if (type == 'rating') {
+      const index = options['rating'].findIndex((itm) => itm == value) + 1
+
+      return index
+    } else {
+      const index = options['organisasi'].findIndex((itm) => itm == value) + 1
+
+      return index
+    }
+  }
 
   const handleSubmit = async (values) => {
     try {
       await FormSchema.validate(values, { abortEarly: false })
-
       formikRef.current.setErrors({})
+
+      const users = values?.pegawai.map((itm) => {
+        return {
+          user_id: handleGetValue(itm?.nama, 'employee'),
+          work_behavior_rating: handleGetValue(itm?.rating, 'rating'),
+          employee_performance_predicate: handleGetValue(
+            itm?.predikat,
+            'predikat'
+          ),
+          organizational_performance_achievement: handleGetValue(
+            itm?.pencapaian,
+            'organisasi'
+          )
+        }
+      })
+
+      const payload = {
+        name: values?.namaSkp,
+        period_month: handleGetValue(values?.periode?.bulan, 'month'),
+        period_year: moment(values?.periode?.tahun).format('YYYY'),
+        appraisal_period: values?.periodePenilaian,
+        year: moment(values?.periodePenilaianTahun).format('YYYY'),
+        users
+      }
+
+      postTarget(payload)
     } catch (err) {
       if (!err.inner || err.inner.length === 0) {
         return
@@ -72,6 +160,11 @@ const RiwayatSKPAddComponent = () => {
         firstErrorEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
   }
+
+  useEffect(() => {
+    const state = !target?.loading && !employee?.loading
+    onLoading(state)
+  }, [target, employee])
 
   return (
     <Formik
@@ -94,12 +187,23 @@ const RiwayatSKPAddComponent = () => {
           }
         >
           <Card>
-            <RiwayatSKPForm formikRef={formikRef} {...formikProps} />
+            <RiwayatSKPForm
+              options={options}
+              formikRef={formikRef}
+              {...formikProps}
+            />
           </Card>
         </LayoutPages>
       )}
     </Formik>
   )
+}
+
+RiwayatSKPAddComponent.propTypes = {
+  target: PropTypes.object,
+  employee: PropTypes.object,
+  postTarget: PropTypes.func,
+  onLoading: PropTypes.func
 }
 
 export default RiwayatSKPAddComponent
