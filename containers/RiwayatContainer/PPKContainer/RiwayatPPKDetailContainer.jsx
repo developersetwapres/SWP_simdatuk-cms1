@@ -7,15 +7,14 @@ import Layout from '@/components/core/Layout'
 import RiwayatPPKDetailComponent from '@/components/Riwayat/PPK/RiwayatPPKDetailComponent'
 
 export default connect(
-  mapStateToProps(),
-  mapActions()
+  mapStateToProps('performance'),
+  mapActions('getPerformance', 'clearPerformanceState')
 )(
   class RiwayatPPKDetailContainer extends Component {
     static propTypes = {
-      banner: PropTypes.object,
-      data: PropTypes.object,
-      getBanners: PropTypes.func,
-      deleteListBanner: PropTypes.func
+      performance: PropTypes.object,
+      getPerformance: PropTypes.func,
+      clearPerformanceState: PropTypes.func
     }
 
     constructor(props) {
@@ -23,20 +22,23 @@ export default connect(
       this.state = {
         willRender: false
       }
+      this.setLoading = this.setLoading.bind(this)
     }
 
-    componentDidMount() {
-      setTimeout(() => {
-        this.setState({
-          willRender: true
-        })
-      }, 2000)
+    setLoading(val) {
+      this.setState({
+        willRender: val
+      })
     }
 
     render() {
       return (
         <Layout willRender={this.state.willRender}>
-          <RiwayatPPKDetailComponent {...this.state} {...this.props} />
+          <RiwayatPPKDetailComponent
+            onLoading={this.setLoading}
+            {...this.state}
+            {...this.props}
+          />
         </Layout>
       )
     }

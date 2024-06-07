@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
+import PropTypes from 'prop-types'
 import LayoutPages from '@/components/core/LayoutPages'
 import { Button, Table } from '@/components/shared'
 import { Box, Grid, Typography } from '@mui/material'
 import { Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
+import { monthsOptions } from 'libs/months'
 
 const styles = {
   iconStyle: {
@@ -30,41 +32,25 @@ const styles = {
   }
 }
 
-const data = [
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    nilai: 90
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    nilai: 90
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    nilai: 90
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    nilai: 90
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    nilai: 90
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    nilai: 90
-  }
-]
-
-const RiwayatPPKDetailComponent = () => {
+const RiwayatPPKDetailComponent = ({
+  performance,
+  getPerformance = () => {},
+  clearPerformanceState = () => {},
+  onLoading = () => {}
+}) => {
   const router = useRouter()
+
+  const options = useMemo(() => {
+    const data = {
+      keterangan: ['Kurang', 'Sedang', 'Cukup', 'Baik', 'Sangat Baik']
+    }
+
+    return data
+  }, [])
+
+  const data = useMemo(() => {
+    return performance?.detail
+  }, [performance])
 
   const columns = useMemo(
     () => [
@@ -84,6 +70,11 @@ const RiwayatPPKDetailComponent = () => {
         align: 'left'
       },
       {
+        Header: 'Keterangan',
+        width: 300,
+        align: 'left'
+      },
+      {
         Header: 'Aksi',
         width: 50,
         align: 'left'
@@ -93,6 +84,7 @@ const RiwayatPPKDetailComponent = () => {
   )
 
   const rows = useMemo(() => {
+    const data = performance?.detail?.users || []
     const dataMapping = data.map((item, index) => {
       return [
         {
@@ -105,13 +97,27 @@ const RiwayatPPKDetailComponent = () => {
           Header: 'Nama',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.nama}</Typography>
+          Cell: () => <Typography>{item?.name || '-'}</Typography>
         },
         {
           Header: 'Nilai',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.nilai}</Typography>
+          Cell: () => (
+            <Typography>{item?.work_performance_score || 0}</Typography>
+          )
+        },
+        {
+          Header: 'Nilai',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => (
+            <Typography>
+              {item?.description
+                ? options['keterangan'][item?.description - 1]
+                : '-'}
+            </Typography>
+          )
         },
         {
           Header: 'Aksi',
@@ -137,7 +143,7 @@ const RiwayatPPKDetailComponent = () => {
     })
 
     return dataMapping
-  }, [data])
+  }, [performance])
 
   const action = useMemo(() => {
     return (
@@ -154,6 +160,29 @@ const RiwayatPPKDetailComponent = () => {
     )
   }, [])
 
+  const handleParsePeriod = (month, year) => {
+    return month && year ? `${monthsOptions[month - 1]} ${year}` : '-'
+  }
+
+  useEffect(() => {
+    // Get Detail User
+    const id = router?.query?.id
+    if (id) getPerformance(atob(id))
+
+    // Event clear state when url path changes
+    router.events.on('routeChangeComplete', clearPerformanceState)
+
+    return () => {
+      router.events.off('routeChangeComplete', clearPerformanceState)
+    }
+  }, [router])
+
+  useEffect(() => {
+    const state =
+      !performance?.loading && Object.entries(performance?.detail).length > 0
+    onLoading(state)
+  }, [performance])
+
   return (
     <LayoutPages
       handleBack={() => router.back()}
@@ -166,28 +195,25 @@ const RiwayatPPKDetailComponent = () => {
           <Grid item xs={6}>
             <Box sx={styles?.itemWrapper}>
               <Typography>Nama Riwayat PPK</Typography>
-              <Typography sx={styles?.fontItem}>PPK Desember 2023</Typography>
+              <Typography sx={styles?.fontItem}>{data?.name || '-'}</Typography>
             </Box>
           </Grid>
           {/* Periode Riwayat */}
           <Grid item xs={6}>
             <Box sx={styles?.itemWrapper}>
               <Typography>Periode Riwayat</Typography>
-              <Typography sx={styles?.fontItem}>Desember 2023</Typography>
+              <Typography sx={styles?.fontItem}>
+                {handleParsePeriod(data?.period_month, data?.period_year)}
+              </Typography>
             </Box>
           </Grid>
           {/* Periode PPK */}
           <Grid item xs={6}>
             <Box sx={styles?.itemWrapper}>
               <Typography>Periode PPK</Typography>
-              <Typography sx={styles?.fontItem}>Desember 2023</Typography>
-            </Box>
-          </Grid>
-          {/* Nama Penilaian Prestasi Kerja */}
-          <Grid item xs={6}>
-            <Box sx={styles?.itemWrapper}>
-              <Typography>Nama Penilaian Prestasi Kerja</Typography>
-              <Typography sx={styles?.fontItem}>Penilaian bulanan</Typography>
+              <Typography sx={styles?.fontItem}>
+                {data?.performance_period || '-'}
+              </Typography>
             </Box>
           </Grid>
         </Grid>
@@ -201,6 +227,13 @@ const RiwayatPPKDetailComponent = () => {
       </Paper>
     </LayoutPages>
   )
+}
+
+RiwayatPPKDetailComponent.propTypes = {
+  performance: PropTypes.object,
+  getPerformance: PropTypes.func,
+  clearPerformanceState: PropTypes.func,
+  onLoading: PropTypes.func
 }
 
 export default RiwayatPPKDetailComponent
