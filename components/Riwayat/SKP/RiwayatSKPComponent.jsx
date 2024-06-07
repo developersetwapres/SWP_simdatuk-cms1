@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
+import PropTypes from 'prop-types'
 import LayoutPages from '@/components/core/LayoutPages'
 import { Button, Table } from '@/components/shared'
 import { Box, Typography } from '@mui/material'
@@ -7,6 +8,7 @@ import Search from '@/components/core/Search'
 import { makeStyles } from '@mui/styles'
 import { Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
+import { monthsOptions } from 'libs/months'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -52,66 +54,13 @@ const styles = {
   }
 }
 
-const data = [
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'SKP Desember 2023',
-    periode: 'Desember 2023',
-    penilaian: 'Q1',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'SKP Desember 2023',
-    periode: 'Desember 2023',
-    penilaian: 'Q1',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'SKP Desember 2023',
-    periode: 'Desember 2023',
-    penilaian: 'Q1',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'SKP Desember 2023',
-    periode: 'Desember 2023',
-    penilaian: 'Q1',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'SKP Desember 2023',
-    periode: 'Desember 2023',
-    penilaian: 'Q1',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'SKP Desember 2023',
-    periode: 'Desember 2023',
-    penilaian: 'Q1',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'SKP Desember 2023',
-    periode: 'Desember 2023',
-    penilaian: 'Q1',
-    total: 10
-  }
-]
-
-const RiwayatSKPComponent = () => {
+const RiwayatSKPComponent = ({
+  target,
+  onSearch = () => {},
+  onLoading = () => {},
+  onPaginationChange = () => {},
+  onRowsPerPageChange = () => {}
+}) => {
   const router = useRouter()
   const classes = useStyles()
 
@@ -152,37 +101,46 @@ const RiwayatSKPComponent = () => {
   )
 
   const rows = useMemo(() => {
-    const dataMapping = data.map((item, index) => {
+    const data = target?.data || []
+    const dataMapping = data.map((item) => {
       return [
         {
           Header: 'Tanggal',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.createdAt}</Typography>
+          Cell: () => <Typography>{item?.created_at || '-'}</Typography>
         },
         {
           Header: 'Name',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.name}</Typography>
+          Cell: () => <Typography>{item?.name || '-'}</Typography>
         },
         {
           Header: 'Periode',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.periode}</Typography>
+          Cell: () => (
+            <Typography>
+              {item?.period_month && item?.period_year
+                ? `${monthsOptions[item?.period_month - 1]} ${
+                    item?.period_year
+                  }`
+                : '-'}
+            </Typography>
+          )
         },
         {
           Header: 'Penilaian',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.penilaian}</Typography>
+          Cell: () => <Typography>{item?.appraisal_period || '-'}</Typography>
         },
         {
           Header: 'Total',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.total}</Typography>
+          Cell: () => <Typography>{item?.total || '0'}</Typography>
         },
         {
           Header: 'Aksi',
@@ -194,7 +152,7 @@ const RiwayatSKPComponent = () => {
                 text='Detail'
                 color='primary'
                 onClick={() =>
-                  router.push(`/${router.pathname}/detail/${btoa(index)}`)
+                  router.push(`/${router.pathname}/detail/${btoa(item?.id)}`)
                 }
                 icon={<Info style={styles.iconButton} />}
                 sx={styles.buttonAction}
@@ -203,7 +161,7 @@ const RiwayatSKPComponent = () => {
                 text='Edit'
                 color='sidatukDraweBase'
                 onClick={() =>
-                  router.push(`/${router.pathname}/edit/${btoa(index)}`)
+                  router.push(`/${router.pathname}/edit/${btoa(item?.id)}`)
                 }
                 icon={<Edit style={styles.iconButton} />}
                 sx={styles.buttonAction}
@@ -215,7 +173,7 @@ const RiwayatSKPComponent = () => {
     })
 
     return dataMapping
-  }, [data])
+  }, [target])
 
   const action = useMemo(() => {
     return (
@@ -227,6 +185,11 @@ const RiwayatSKPComponent = () => {
       </Box>
     )
   }, [])
+
+  useEffect(() => {
+    const state = !target?.loading
+    onLoading(state)
+  }, [target])
 
   return (
     <LayoutPages summary='Data Riwayat SKP' action={action}>
@@ -245,11 +208,26 @@ const RiwayatSKPComponent = () => {
           inputClass={classes.input}
           iconStyle={classes.iconStyle}
           placeholder='Cari Nama Riwayat SKP'
+          onSearch={onSearch}
         />
       </Box>
-      <Table columns={columns} rows={rows} />
+      <Table
+        columns={columns}
+        rows={rows}
+        pagination={target?.pagination}
+        handlePagination={onPaginationChange}
+        handleRows={onRowsPerPageChange}
+      />
     </LayoutPages>
   )
+}
+
+RiwayatSKPComponent.propTypes = {
+  target: PropTypes.object,
+  onSearch: PropTypes.func,
+  onLoading: PropTypes.func,
+  onPaginationChange: PropTypes.func,
+  onRowsPerPageChange: PropTypes.func
 }
 
 export default RiwayatSKPComponent
