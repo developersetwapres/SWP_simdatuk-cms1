@@ -15,6 +15,7 @@ import * as grade from './histories/grade'
 import * as recognition from './histories/recognition'
 import * as training from './histories/training'
 import * as target from './histories/target'
+import * as performance from './histories/performance'
 
 // Master Data
 import * as decree from './masterData/decree'
@@ -36,7 +37,8 @@ const actions = {
   ...recognition,
   ...decree,
   ...training,
-  ...target
+  ...target,
+  ...performance
 }
 
 export default actions
