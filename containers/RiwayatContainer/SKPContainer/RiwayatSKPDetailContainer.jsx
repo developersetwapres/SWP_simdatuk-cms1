@@ -7,15 +7,14 @@ import Layout from '@/components/core/Layout'
 import RiwayatSKPDetailComponent from '@/components/Riwayat/SKP/RiwayatSKPDetailComponent'
 
 export default connect(
-  mapStateToProps(),
-  mapActions()
+  mapStateToProps('target'),
+  mapActions('getTarget', 'clearTargetState')
 )(
   class RiwayatSKPDetailContainer extends Component {
     static propTypes = {
-      banner: PropTypes.object,
-      data: PropTypes.object,
-      getBanners: PropTypes.func,
-      deleteListBanner: PropTypes.func
+      target: PropTypes.object,
+      getTarget: PropTypes.func,
+      clearTargetState: PropTypes.func
     }
 
     constructor(props) {
@@ -23,20 +22,23 @@ export default connect(
       this.state = {
         willRender: false
       }
+      this.setLoading = this.setLoading.bind(this)
     }
 
-    componentDidMount() {
-      setTimeout(() => {
-        this.setState({
-          willRender: true
-        })
-      }, 2000)
+    setLoading(val) {
+      this.setState({
+        willRender: val
+      })
     }
 
     render() {
       return (
         <Layout willRender={this.state.willRender}>
-          <RiwayatSKPDetailComponent {...this.state} {...this.props} />
+          <RiwayatSKPDetailComponent
+            onLoading={this.setLoading}
+            {...this.state}
+            {...this.props}
+          />
         </Layout>
       )
     }
