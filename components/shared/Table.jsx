@@ -11,7 +11,8 @@ import {
   TableBody,
   TablePagination,
   Typography,
-  Box
+  Box,
+  Divider
 } from '@mui/material'
 import Paper from './overrides/Paper'
 
@@ -22,6 +23,7 @@ function Table({
   isPagination = true,
   colorTitle = 'primary',
   paper = true,
+  divider = true,
   pagination,
   handlePagination = () => {},
   handleRows = () => {}
@@ -50,6 +52,7 @@ function Table({
             {title || ''}
           </Typography>
         </Box>
+        {divider && <Divider sx={{ marginBottom: '12px', border: '1px solid #929292' }} />}
         <TableContainer>
           <MuiTable sx={{ minWidth: 700 }} aria-label='customized table'>
             <TableHead>
@@ -161,6 +164,7 @@ Table.propTypes = {
   title: PropTypes.string,
   colorTitle: PropTypes.string,
   isPagination: PropTypes.bool,
+  divider: PropTypes.bool,
   paper: PropTypes.bool,
   pagination: PropTypes.object,
   handlePagination: PropTypes.func,
