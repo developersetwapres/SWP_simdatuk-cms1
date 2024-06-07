@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React, { useRef } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
+import PropTypes from 'prop-types'
 import RiwayatPPKForm from './RiwayatPPKForm'
 import { Formik } from 'formik'
 import LayoutPages from '@/components/core/LayoutPages'
@@ -8,6 +10,8 @@ import Card from '@/components/shared/Card/Index'
 import * as Yup from 'yup'
 import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
+import { monthsOptions } from 'libs/months'
+import moment from 'moment'
 
 const InitValue = {
   namaPPK: '',
@@ -35,20 +39,90 @@ const FormSchema = Yup.object().shape({
   pegawai: Yup.array().of(
     Yup.object().shape({
       nama: Yup.string().required('Nama Pegawai tidak boleh kosong'),
-      nilai: Yup.string().required('Nilai Pegawai tidak boleh kosong')
+      nilai: Yup.string()
+        .transform((value, originalValue) =>
+          originalValue.trim() === '' ? null : value
+        )
+        .nullable()
+        .required('Nilai Pegawai tidak boleh kosong')
+        .test(
+          'min',
+          'Nilai Pegawai tidak boleh 0',
+          (value) => value !== null && Number(value) >= 1
+        )
+        .test(
+          'max',
+          'Nilai Pegawai tidak boleh lebih dari 100',
+          (value) => value !== null && Number(value) <= 100
+        )
     })
   )
 })
 
-const RiwayatPPKAddComponent = () => {
+const RiwayatPPKAddComponent = ({
+  performance,
+  employee,
+  postPerformance = () => {},
+  onLoading = () => {}
+}) => {
   const router = useRouter()
   const formikRef = useRef(null)
+
+  const options = useMemo(() => {
+    const newEmployees = employee?.data.map((itm) => {
+      return `${itm?.name} - ${itm?.employee_id_number}`
+    })
+
+    const data = {
+      month: monthsOptions || [],
+      employee: newEmployees,
+      keterangan: ['Kurang', 'Sedang', 'Cukup', 'Baik', 'Sangat Baik']
+    }
+
+    return data
+  }, [employee])
+
+  const handleGetValue = (value, type) => {
+    if (type == 'employee') {
+      const data = employee?.data
+      const dataFilter = data.find(
+        (itm) => itm?.name == value.split(' - ')[0]
+      )?.id
+
+      return dataFilter
+    } else if (type == 'month') {
+      const index = monthsOptions.findIndex((itm) => itm == value) + 1
+
+      return index
+    } else {
+      const index = options['keterangan'].findIndex((itm) => itm == value) + 1
+
+      return index
+    }
+  }
 
   const handleSubmit = async (values) => {
     try {
       await FormSchema.validate(values, { abortEarly: false })
-
       formikRef.current.setErrors({})
+
+      const users = values?.pegawai.map((itm) => {
+        return {
+          user_id: handleGetValue(itm?.nama, 'employee'),
+          work_performance_score: itm?.nilai,
+          description: handleGetValue(itm?.keterangan, 'keterangan')
+        }
+      })
+
+      const payload = {
+        name: values?.namaPPK,
+        period_month: handleGetValue(values?.periode?.bulan, 'month'),
+        period_year: moment(values?.periode?.tahun).format('YYYY'),
+        performance_period: values?.periodePPK,
+        users
+      }
+
+      postPerformance(payload)
     } catch (err) {
       if (!err.inner || err.inner.length === 0) {
         return
@@ -66,6 +140,11 @@ const RiwayatPPKAddComponent = () => {
         firstErrorEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
   }
+
+  useEffect(() => {
+    const state = !performance?.loading && !employee?.loading
+    onLoading(state)
+  }, [performance, employee])
 
   return (
     <Formik
@@ -88,12 +167,23 @@ const RiwayatPPKAddComponent = () => {
           }
         >
           <Card>
-            <RiwayatPPKForm formikRef={formikRef} {...formikProps} />
+            <RiwayatPPKForm
+              options={options}
+              formikRef={formikRef}
+              {...formikProps}
+            />
           </Card>
         </LayoutPages>
       )}
     </Formik>
   )
+}
+
+RiwayatPPKAddComponent.propTypes = {
+  performance: PropTypes.object,
+  employee: PropTypes.object,
+  postPerformance: PropTypes.func,
+  onLoading: PropTypes.func
 }
 
 export default RiwayatPPKAddComponent

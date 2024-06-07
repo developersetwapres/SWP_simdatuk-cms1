@@ -4,9 +4,7 @@ import PropTypes from 'prop-types'
 import { Box, Grid, Typography } from '@mui/material'
 import { Autocomplete, Button, Form, Input } from '@/components/shared'
 import DatepickerYear from '@/components/shared/form/DatepickerYear'
-import DatePickerDay from '@/components/shared/form/DatePickerDay'
 import { Delete } from '@mui/icons-material'
-import { monthsOptions } from 'libs/months'
 
 const RiwayatPPKForm = ({
   values,
@@ -17,20 +15,9 @@ const RiwayatPPKForm = ({
   handleSubmit,
   isSubmitting,
   setFieldValue,
-  formikRef
+  formikRef,
+  options
 }) => {
-  const options = {
-    month: monthsOptions || [],
-    employee: [
-      'Employee 1',
-      'Employee 2',
-      'Employee 3',
-      'Employee 4',
-      'Employee 5'
-    ],
-    keterangan: ['Buruk', 'Baik', 'Sangat Baik']
-  }
-
   const handleEmployee = (data, type, indexItem) => {
     if (type == 'add') {
       const newPegawai = {
@@ -125,7 +112,8 @@ const RiwayatPPKForm = ({
             name='periodePPK'
             value={values?.periodePPK}
             error={errors?.periodePPK}
-            onChange={(val) => {
+            onChange={(e) => {
+              const val = e?.target?.value
               setFieldValue(`periodePPK`, val, false)
               setTimeout(() => {
                 formikRef.current.validateField(`periodePPK`)
@@ -264,7 +252,8 @@ RiwayatPPKForm.propTypes = {
   handleField: PropTypes.func,
   setFieldValue: PropTypes.func,
   isSubmitting: PropTypes.bool,
-  formikRef: PropTypes.any
+  formikRef: PropTypes.any,
+  options: PropTypes.any
 }
 
 export default RiwayatPPKForm
