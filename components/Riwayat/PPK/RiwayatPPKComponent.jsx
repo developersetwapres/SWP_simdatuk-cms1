@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
+import PropTypes from 'prop-types'
 import LayoutPages from '@/components/core/LayoutPages'
 import { Button, Table } from '@/components/shared'
 import { Box, Typography } from '@mui/material'
@@ -7,6 +8,7 @@ import Search from '@/components/core/Search'
 import { makeStyles } from '@mui/styles'
 import { Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
+import { monthsOptions } from 'libs/months'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -52,74 +54,13 @@ const styles = {
   }
 }
 
-const data = [
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Perubahan jabatan desember 2023',
-    periode: 'Desember 2023',
-    periodePpk: 'Desember 2023',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Perubahan jabatan desember 2023',
-    periode: 'Desember 2023',
-    periodePpk: 'Desember 2023',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Perubahan jabatan desember 2023',
-    periode: 'Desember 2023',
-    periodePpk: 'Desember 2023',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Perubahan jabatan desember 2023',
-    periode: 'Desember 2023',
-    periodePpk: 'Desember 2023',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Perubahan jabatan desember 2023',
-    periode: 'Desember 2023',
-    periodePpk: 'Desember 2023',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Perubahan jabatan desember 2023',
-    periode: 'Desember 2023',
-    periodePpk: 'Desember 2023',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Perubahan jabatan desember 2023',
-    periode: 'Desember 2023',
-    periodePpk: 'Desember 2023',
-    total: 10
-  },
-  {
-    id: 123,
-    createdAt: '01-12-2023 09:12:12',
-    name: 'Perubahan jabatan desember 2023',
-    periode: 'Desember 2023',
-    periodePpk: 'Desember 2023',
-    total: 10
-  }
-]
-
-const RiwayatPPKComponent = () => {
+const RiwayatPPKComponent = ({
+  performance,
+  onSearch = () => {},
+  onLoading = () => {},
+  onPaginationChange = () => {},
+  onRowsPerPageChange = () => {}
+}) => {
   const router = useRouter()
   const classes = useStyles()
 
@@ -160,37 +101,46 @@ const RiwayatPPKComponent = () => {
   )
 
   const rows = useMemo(() => {
-    const dataMapping = data.map((item, index) => {
+    const data = performance?.data || []
+    const dataMapping = data.map((item) => {
       return [
         {
           Header: 'Tanggal',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.createdAt}</Typography>
+          Cell: () => <Typography>{item?.created_at || '-'}</Typography>
         },
         {
           Header: 'Name',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.name}</Typography>
+          Cell: () => <Typography>{item?.name || '-'}</Typography>
         },
         {
           Header: 'Periode',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.periode}</Typography>
+          Cell: () => (
+            <Typography>
+              {item?.period_month && item?.period_year
+                ? `${monthsOptions[item?.period_month - 1]} ${
+                    item?.period_year
+                  }`
+                : '-'}
+            </Typography>
+          )
         },
         {
           Header: 'Periode PPK',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.periodePpk}</Typography>
+          Cell: () => <Typography>{item?.performance_period || '-'}</Typography>
         },
         {
           Header: 'Total',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.total}</Typography>
+          Cell: () => <Typography>{item?.total || '0'}</Typography>
         },
         {
           Header: 'Aksi',
@@ -202,7 +152,7 @@ const RiwayatPPKComponent = () => {
                 text='Detail'
                 color='primary'
                 onClick={() =>
-                  router.push(`/${router.pathname}/detail/${btoa(index)}`)
+                  router.push(`${router.pathname}/detail/${btoa(item?.id)}`)
                 }
                 icon={<Info style={styles.iconButton} />}
                 sx={styles.buttonAction}
@@ -211,7 +161,7 @@ const RiwayatPPKComponent = () => {
                 text='Edit'
                 color='sidatukDraweBase'
                 onClick={() =>
-                  router.push(`/${router.pathname}/edit/${btoa(index)}`)
+                  router.push(`${router.pathname}/edit/${btoa(item?.id)}`)
                 }
                 icon={<Edit style={styles.iconButton} />}
                 sx={styles.buttonAction}
@@ -223,7 +173,7 @@ const RiwayatPPKComponent = () => {
     })
 
     return dataMapping
-  }, [data])
+  }, [performance])
 
   const action = useMemo(() => {
     return (
@@ -235,6 +185,11 @@ const RiwayatPPKComponent = () => {
       </Box>
     )
   }, [])
+
+  useEffect(() => {
+    const state = !performance?.loading
+    onLoading(state)
+  }, [performance])
 
   return (
     <LayoutPages
@@ -256,11 +211,26 @@ const RiwayatPPKComponent = () => {
           inputClass={classes.input}
           iconStyle={classes.iconStyle}
           placeholder='Cari Nama Riwayat PPK'
+          onSearch={onSearch}
         />
       </Box>
-      <Table columns={columns} rows={rows} />
+      <Table
+        columns={columns}
+        rows={rows}
+        pagination={performance?.pagination}
+        handlePagination={onPaginationChange}
+        handleRows={onRowsPerPageChange}
+      />
     </LayoutPages>
   )
+}
+
+RiwayatPPKComponent.propTypes = {
+  performance: PropTypes.object,
+  onSearch: PropTypes.func,
+  onLoading: PropTypes.func,
+  onPaginationChange: PropTypes.func,
+  onRowsPerPageChange: PropTypes.func
 }
 
 export default RiwayatPPKComponent
