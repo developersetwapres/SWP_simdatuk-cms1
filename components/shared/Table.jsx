@@ -23,7 +23,7 @@ function Table({
   isPagination = true,
   colorTitle = 'primary',
   paper = true,
-  divider = true,
+  divider = false,
   pagination,
   handlePagination = () => {},
   handleRows = () => {}
@@ -52,7 +52,9 @@ function Table({
             {title || ''}
           </Typography>
         </Box>
-        {divider && <Divider sx={{ marginBottom: '12px', border: '1px solid #929292' }} />}
+        {divider && (
+          <Divider sx={{ marginBottom: '12px', border: '1px solid #929292' }} />
+        )}
         <TableContainer>
           <MuiTable sx={{ minWidth: 700 }} aria-label='customized table'>
             <TableHead>

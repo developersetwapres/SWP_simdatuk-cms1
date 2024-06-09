@@ -17,6 +17,9 @@ const useStyles = makeStyles({
       '&.Mui-focused': {
         border: 'none'
       },
+      '&.Mui-disabled': {
+        background: 'rgba(146, 146, 146, 0.15)'
+      },
       '& input': {
         padding: '12px'
       }
