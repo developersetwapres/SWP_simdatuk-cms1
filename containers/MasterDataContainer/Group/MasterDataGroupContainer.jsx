@@ -7,13 +7,13 @@ import Layout from '@/components/core/Layout'
 import MasterDataGroupComponent from '@/components/MasterData/Group/MasterDataGroupComponent'
 
 export default connect(
-  mapStateToProps(),
-  mapActions()
+  mapStateToProps('grade'),
+  mapActions('getGradesOptions')
 )(
   class MasterDataGroupContainer extends Component {
     static propTypes = {
-      Group: PropTypes.object,
-      getGroups: PropTypes.func
+      grade: PropTypes.object,
+      getGradesOptions: PropTypes.func
     }
 
     constructor(props) {
@@ -35,8 +35,7 @@ export default connect(
     }
 
     fetch(queries) {
-      console.log('queries', queries)
-      // this.props.getGroups(queries)
+      this.props.getGradesOptions(queries)
     }
 
     onPaginationChange(page) {

@@ -36,24 +36,14 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-// const styles = {
-//   iconStyle: {
-//     fontSize: '20px'
-//   },
-//   iconButton: {
-//     margin: '0 8px 0 -4px',
-//     fontSize: '20px'
-//   },
-//   buttonAction: {
-//     width: '100px',
-//     fontSize: '16px',
-//     textTransform: 'none'
-//   }
-// }
-
-const MasterDataGroupComponent = ({ onLoading = () => {} }) => {
+const MasterDataGroupComponent = ({
+  grade,
+  onSearch = () => {},
+  onLoading = () => {},
+  onPaginationChange = () => {},
+  onRowsPerPageChange = () => {}
+}) => {
   const classes = useStyles()
-  // const router = useRouter()
 
   const columns = useMemo(() => {
     const col = [
@@ -77,7 +67,7 @@ const MasterDataGroupComponent = ({ onLoading = () => {} }) => {
   }, [])
 
   const rows = useMemo(() => {
-    const data = []
+    const data = grade?.options || []
     const dataMapping = data.map((item) => {
       return [
         {
@@ -102,11 +92,12 @@ const MasterDataGroupComponent = ({ onLoading = () => {} }) => {
     })
 
     return dataMapping
-  }, [])
+  }, [grade])
 
   useEffect(() => {
-    onLoading(true)
-  }, [])
+    const state = !grade?.loading
+    onLoading(state)
+  }, [grade])
 
   return (
     <LayoutPages summary='Master Data Golongan'>
@@ -125,22 +116,26 @@ const MasterDataGroupComponent = ({ onLoading = () => {} }) => {
           inputClass={classes.input}
           iconStyle={classes.iconStyle}
           placeholder='Cari Pangkat'
-          // onSearch={onSearch}
+          onSearch={onSearch}
         />
       </Box>
       <Table
         columns={columns}
         rows={rows}
-        // pagination={role?.pagination}
-        // handlePagination={onPaginationChange}
-        // handleRows={onRowsPerPageChange}
+        pagination={grade?.paginationOptions}
+        handlePagination={onPaginationChange}
+        handleRows={onRowsPerPageChange}
       />
     </LayoutPages>
   )
 }
 
 MasterDataGroupComponent.propTypes = {
-  onLoading: PropTypes.func
+  grade: PropTypes.object,
+  onSearch: PropTypes.func,
+  onLoading: PropTypes.func,
+  onPaginationChange: PropTypes.func,
+  onRowsPerPageChange: PropTypes.func
 }
 
 export default MasterDataGroupComponent
