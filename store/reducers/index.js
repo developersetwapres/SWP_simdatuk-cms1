@@ -16,6 +16,7 @@ import * as recognitionReducer from './histories/recognitionReducer'
 import * as trainingReducer from './histories/trainingReducer'
 import * as targetReducer from './histories/targetReducer'
 import * as performanceReducer from './histories/performanceReducer'
+import * as disciplinaryReducer from './histories/disciplinaryReducer'
 
 // Master Data
 import * as decreeReducer from './masterData/decreeReducer'
@@ -42,7 +43,8 @@ const reducers = {
   ...decreeReducer,
   ...trainingReducer,
   ...targetReducer,
-  ...performanceReducer
+  ...performanceReducer,
+  ...disciplinaryReducer
 }
 
 export default reducers

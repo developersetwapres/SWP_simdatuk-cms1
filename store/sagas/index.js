@@ -22,6 +22,7 @@ import recognitionSaga from './histories/recognitionSaga'
 import trainingSaga from './histories/trainingSaga'
 import targetSaga from './histories/targetSaga'
 import performanceSaga from './histories/performanceSaga'
+import disciplinarySaga from './histories/disciplinarySaga'
 
 // Master Data
 import decreeSaga from './masterData/decreeSaga'
@@ -39,6 +40,7 @@ export default function* rootSaga() {
     decreeSaga(),
     trainingSaga(),
     targetSaga(),
-    performanceSaga()
+    performanceSaga(),
+    disciplinarySaga()
   ])
 }
