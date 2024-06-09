@@ -124,7 +124,8 @@ const RiwayatGolonganAddComponent = ({
           user_id: handleGetValueId(itm?.nama, 'employee'),
           grade_id: handleGetValueId(itm?.golongan, 'grade'),
           effective_date: moment(itm?.tmt).format('YYYY-MM-DD'),
-          decree_name: itm?.noSk
+          decree_number: itm?.noSk,
+          status: 1
         }
       })
 
@@ -137,7 +138,6 @@ const RiwayatGolonganAddComponent = ({
 
       postGrade(payload)
     } catch (err) {
-      console.log('err', err)
       if (!err.inner || err.inner.length === 0) return
 
       const newErrors = {}
@@ -156,8 +156,6 @@ const RiwayatGolonganAddComponent = ({
   useEffect(() => {
     const state = !grade?.loading && !employee?.loading
     onLoading(state)
-
-    console.log('grade', grade)
   }, [grade, employee])
 
   return (

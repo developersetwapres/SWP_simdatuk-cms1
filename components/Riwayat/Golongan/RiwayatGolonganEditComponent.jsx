@@ -127,7 +127,8 @@ const RiwayatGolonganEditComponent = ({
           user_id: handleGetValueId(itm?.nama, 'employee'),
           grade_id: handleGetValueId(itm?.golongan, 'grade'),
           effective_date: moment(itm?.tmt).format('YYYY-MM-DD'),
-          decree_name: itm?.noSk
+          decree_name: itm?.noSk,
+          status: 1
         }
       })
 
