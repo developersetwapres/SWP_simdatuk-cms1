@@ -142,7 +142,7 @@ const RiwayatJabatanComponent = ({
                 text='Detail'
                 color='primary'
                 onClick={() =>
-                  router.push(`/${router.pathname}/detail/${btoa(item?.id)}`)
+                  router.push(`${router.pathname}/detail/${btoa(item?.id)}`)
                 }
                 icon={<Info style={styles.iconButton} />}
                 sx={styles.buttonAction}
@@ -151,7 +151,7 @@ const RiwayatJabatanComponent = ({
                 text='Edit'
                 color='sidatukDraweBase'
                 onClick={() =>
-                  router.push(`/${router.pathname}/edit/${btoa(item?.id)}`)
+                  router.push(`${router.pathname}/edit/${btoa(item?.id)}`)
                 }
                 icon={<Edit style={styles.iconButton} />}
                 sx={styles.buttonAction}
