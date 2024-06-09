@@ -100,9 +100,13 @@ const RiwayatPenghargaanEditComponent = ({
       await FormSchema.validate(values, { abortEarly: false })
       formikRef.current.setErrors({})
 
+      const usersData = recognition?.detail?.users
+
       const id = atob(router?.query?.id)
       const users = values?.pegawai.map((itm) => {
         return {
+          id: usersData.find((item) => item?.name == itm?.nama.split(' - ')[0])
+            ?.id,
           user_id: handleGetValueId(itm?.nama, 'employee')
         }
       })
