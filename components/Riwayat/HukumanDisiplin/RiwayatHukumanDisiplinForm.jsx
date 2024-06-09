@@ -6,7 +6,16 @@ import { Autocomplete, Button, Form, Input } from '@/components/shared'
 import DatepickerYear from '@/components/shared/form/DatepickerYear'
 import DatePickerDay from '@/components/shared/form/DatePickerDay'
 import { Delete } from '@mui/icons-material'
-import { monthsOptions } from 'libs/months'
+import { makeStyles } from '@mui/styles'
+
+const useStyles = makeStyles({
+  label: {
+    fontSize: '14px',
+    fontWeight: 500,
+    margin: '0 0 8px 0',
+    color: '#929292'
+  }
+})
 
 const RiwayatHukumanDisiplinForm = ({
   values,
@@ -17,19 +26,10 @@ const RiwayatHukumanDisiplinForm = ({
   handleSubmit,
   isSubmitting,
   setFieldValue,
-  formikRef
+  formikRef,
+  options
 }) => {
-  const options = {
-    month: monthsOptions || [],
-    employee: [
-      'Employee 1',
-      'Employee 2',
-      'Employee 3',
-      'Employee 4',
-      'Employee 5'
-    ],
-    jenisHukuman: ['Ringan', 'Sedang', 'Berat']
-  }
+  const classes = useStyles()
 
   const handleEmployee = (data, type, indexItem) => {
     if (type == 'add') {
@@ -38,6 +38,9 @@ const RiwayatHukumanDisiplinForm = ({
         golongan: '',
         jabatan: '',
         jenisHukuman: null,
+        tingkatHukuman: '',
+        potonganTunjangan: '',
+        potonganWaktu: '',
         noSkHukuman: '',
         tanggalSkHukuman: '',
         tanggalHukuman: null,
@@ -61,13 +64,38 @@ const RiwayatHukumanDisiplinForm = ({
     }
   }
 
+  const handleDiscipleType = (val, index) => {
+    const discipleType = options['discipleType'].find((itm) => itm?.name == val)
+
+    setFieldValue(
+      `pegawai[${index}].tingkatHukuman`,
+      val ? discipleType?.description : '',
+      false
+    )
+    setFieldValue(
+      `pegawai[${index}].potonganTunjangan`,
+      val ? discipleType?.performance_allowance_deduction : '',
+      false
+    )
+    setFieldValue(
+      `pegawai[${index}].potonganWaktu`,
+      val ? discipleType?.performance_allowance_duration : '',
+      false
+    )
+
+    setFieldValue(`pegawai[${index}].jenisHukuman`, val, false)
+    setTimeout(() => {
+      formikRef.current.validateField(`pegawai[${index}].jenisHukuman`)
+    }, 1)
+  }
+
   return (
     <Form>
       <Grid container spacing={3}>
         {/* Nama Riwayat HukumanDisiplin */}
         <Grid item xs={6}>
           <Input
-            label='Nama Riwayat HukumanDisiplin *'
+            label='Nama Riwayat Hukuman Disiplin *'
             placeholder='Masukkan Nama Riwayat HukumanDisiplin'
             name='namaHukumanDisiplin'
             value={values?.namaHukumanDisiplin}
@@ -208,20 +236,49 @@ const RiwayatHukumanDisiplinForm = ({
                     error={
                       errors?.pegawai && errors?.pegawai[index]?.jenisHukuman
                     }
-                    onChange={(val) => {
-                      setFieldValue(
-                        `pegawai[${index}].jenisHukuman`,
-                        val,
-                        false
-                      )
-                      setTimeout(() => {
-                        formikRef.current.validateField(
-                          `pegawai[${index}].jenisHukuman`
-                        )
-                      }, 1)
-                    }}
+                    onChange={(val) => handleDiscipleType(val, index)}
                   />
                 </Grid>
+                {item?.jenisHukuman && (
+                  <>
+                    {/* Tingkat Hukuman */}
+                    <Grid item xs={4}>
+                      <Input
+                        label='Tingkat Hukuman'
+                        placeholder='Masukkan Tingkat Hukuman'
+                        name={`pegawai[${index}].tingkatHukuman`}
+                        classesLabel={classes.label}
+                        value={item?.tingkatHukuman}
+                        error={errors?.tingkatHukuman}
+                        disabled
+                      />
+                    </Grid>
+                    {/* Pemotongan Tunjangan Kinerja (Persentase) */}
+                    <Grid item xs={4}>
+                      <Input
+                        label='Pemotongan Tunjangan Kinerja (Persentase)'
+                        placeholder='Masukkan Pemotongan Tunjangan Kinerja (Persentase)'
+                        name={`pegawai[${index}].potonganTunjangan`}
+                        classesLabel={classes.label}
+                        value={item?.potonganTunjangan}
+                        error={errors?.potonganTunjangan}
+                        disabled
+                      />
+                    </Grid>
+                    {/* Jangka Waktu Pemotongan (Bulan) */}
+                    <Grid item xs={4}>
+                      <Input
+                        label='Jangka Waktu Pemotongan (Bulan)'
+                        placeholder='Masukkan Jangka Waktu Pemotongan (Bulan)'
+                        name={`pegawai[${index}].potonganWaktu`}
+                        classesLabel={classes.label}
+                        value={item?.potonganWaktu}
+                        error={errors?.potonganWaktu}
+                        disabled
+                      />
+                    </Grid>
+                  </>
+                )}
                 {/* No SK Hukuman Disiplin */}
                 <Grid item xs={4}>
                   <Input
@@ -360,7 +417,8 @@ RiwayatHukumanDisiplinForm.propTypes = {
   handleField: PropTypes.func,
   setFieldValue: PropTypes.func,
   isSubmitting: PropTypes.bool,
-  formikRef: PropTypes.any
+  formikRef: PropTypes.any,
+  options: PropTypes.object
 }
 
 export default RiwayatHukumanDisiplinForm
