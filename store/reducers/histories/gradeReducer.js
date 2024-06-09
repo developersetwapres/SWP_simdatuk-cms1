@@ -27,6 +27,7 @@ const initialState = {
   error: null,
   detail: {},
   pagination: {},
+  paginationOptions: {},
   data: [],
   options: []
 }
@@ -45,7 +46,8 @@ export const grade = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        options: payload?.data
+        options: payload?.data,
+        paginationOptions: payload?.pagination
       }
     case GET_GRADES_OPTIONS_FAILED:
       return {
