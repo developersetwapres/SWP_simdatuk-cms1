@@ -194,7 +194,7 @@ const navigation = [
         permission: [{ name: 'data-position' }]
       },
       {
-        path: '/master-data/golongan',
+        path: '/master-data/group',
         name: 'DATA GOLONGAN',
         icon: null,
         permission: [{ name: 'data-class' }]
