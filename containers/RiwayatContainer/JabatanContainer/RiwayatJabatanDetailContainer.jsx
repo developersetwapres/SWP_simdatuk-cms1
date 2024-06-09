@@ -7,28 +7,44 @@ import Layout from '@/components/core/Layout'
 import RiwayatJabatanDetailComponent from '@/components/Riwayat/Jabatan/RiwayatJabatanDetailComponent'
 
 export default connect(
-  mapStateToProps('position'),
-  mapActions('getPosition', 'clearPositionState')
+  mapStateToProps('position', 'echelon'),
+  mapActions('getPosition', 'clearPositionState', 'getEchelons')
 )(
   class RiwayatJabatanDetailContainer extends Component {
     static propTypes = {
       position: PropTypes.object,
+      echelon: PropTypes.object,
       getPosition: PropTypes.func,
-      clearPositionState: PropTypes.func
+      clearPositionState: PropTypes.func,
+      getEchelons: PropTypes.func
     }
 
     constructor(props) {
       super(props)
       this.state = {
+        queries: {
+          page: 1,
+          limit: 1000,
+          search: ''
+        },
         willRender: false
       }
+      this.fetch = this.fetch.bind(this)
       this.setLoading = this.setLoading.bind(this)
+    }
+
+    fetch(queries) {
+      this.props.getEchelons(queries)
     }
 
     setLoading(val) {
       this.setState({
         willRender: val
       })
+    }
+
+    componentDidMount() {
+      this.fetch(this.state.queries)
     }
 
     render() {

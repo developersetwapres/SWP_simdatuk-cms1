@@ -26,11 +26,38 @@ const styles = {
 
 const RiwayatJabatanDetailComponent = ({
   position,
+  echelon,
   getPosition = () => {},
   clearPositionState = () => {},
   onLoading = () => {}
 }) => {
   const router = useRouter()
+
+  const options = useMemo(() => {
+    const newEchelons = echelon?.data || []
+
+    const data = {
+      echelon: newEchelons,
+      keteranganJabatan: ['Promosi', 'Mutasi', 'Inpassing', 'Konversi'],
+      month: monthsOptions || []
+    }
+
+    return data
+  }, [echelon])
+
+  const handleGetValueId = (val, type) => {
+    if (type == 'echelon') {
+      const dataFilter =
+        options['echelon'].find((itm) => itm?.id == val)?.name || null
+      return dataFilter
+    } else if (type == 'month') {
+      const value = options['month'][val - 1]
+      return value + 1
+    } else {
+      const value = options['keteranganJabatan'][val - 1] || null
+      return value
+    }
+  }
 
   const data = useMemo(() => {
     return position?.detail
@@ -83,7 +110,7 @@ const RiwayatJabatanDetailComponent = ({
   )
 
   const rows = useMemo(() => {
-    const data = position?.detail?.employee || []
+    const data = position?.detail?.users || []
     const dataMapping = data.map((item, index) => {
       return [
         {
@@ -96,37 +123,47 @@ const RiwayatJabatanDetailComponent = ({
           Header: 'Nama',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.nama}</Typography>
+          Cell: () => <Typography>{item?.name || '-'}</Typography>
         },
         {
           Header: 'Jabatan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.jabatan}</Typography>
+          Cell: () => <Typography>{item?.position || '-'}</Typography>
         },
         {
           Header: 'Jenjang Jabatan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.jenjangJabatan}</Typography>
+          Cell: () => (
+            <Typography>
+              {item?.echelon ? handleGetValueId(item?.echelon, 'echelon') : ''}
+            </Typography>
+          )
         },
         {
           Header: 'Keterangan Jabatan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.keteranganJabatan}</Typography>
+          Cell: () => (
+            <Typography>
+              {item?.position_status
+                ? handleGetValueId(item?.position_status, 'ketJabatan')
+                : ''}
+            </Typography>
+          )
         },
         {
           Header: 'TMT',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tmt}</Typography>
+          Cell: () => <Typography>{item?.effective_date || '-'}</Typography>
         },
         {
           Header: 'No SK',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.noSk}</Typography>
+          Cell: () => <Typography>{item?.decree_number || '-'}</Typography>
         },
         {
           Header: 'Aksi',
@@ -231,6 +268,7 @@ const RiwayatJabatanDetailComponent = ({
 
 RiwayatJabatanDetailComponent.propTypes = {
   position: PropTypes.object,
+  echelon: PropTypes.object,
   getPosition: PropTypes.func,
   clearPositionState: PropTypes.func,
   onLoading: PropTypes.func
