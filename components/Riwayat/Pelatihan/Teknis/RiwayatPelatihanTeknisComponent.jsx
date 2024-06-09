@@ -134,7 +134,7 @@ const RiwayatPelatihanTeknisComponent = ({
           Header: 'Pelaksana',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.pelaksana}</Typography>
+          Cell: () => <Typography>{item?.start_date || '-'}</Typography>
         },
         {
           Header: 'Total',

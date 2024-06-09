@@ -154,7 +154,7 @@ const RiwayatPelatihanStrukturalComponent = ({
                 icon={<Info style={styles.iconButton} />}
                 sx={styles.buttonAction}
                 onClick={() =>
-                  router.push(`/${router.pathname}/detail/${btoa(item?.id)}`)
+                  router.push(`${router.pathname}/detail/${btoa(item?.id)}`)
                 }
               />
               <Button
@@ -163,7 +163,7 @@ const RiwayatPelatihanStrukturalComponent = ({
                 icon={<Edit style={styles.iconButton} />}
                 sx={styles.buttonAction}
                 onClick={() =>
-                  router.push(`/${router.pathname}/edit/${btoa(item?.id)}`)
+                  router.push(`${router.pathname}/edit/${btoa(item?.id)}`)
                 }
               />
             </Box>
