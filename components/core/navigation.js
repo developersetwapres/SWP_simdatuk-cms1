@@ -109,7 +109,7 @@ const navigation = [
         permission: [{ name: 'history-position' }]
       },
       {
-        path: '/data-riwayat/group',
+        path: '/data-riwayat/golongan',
         name: 'GOLONGAN',
         icon: null,
         permission: [{ name: 'history-group' }]
