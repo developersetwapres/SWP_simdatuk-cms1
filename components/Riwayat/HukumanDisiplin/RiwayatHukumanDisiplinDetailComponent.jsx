@@ -1,11 +1,14 @@
+/* eslint-disable indent */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
+import PropTypes from 'prop-types'
 import LayoutPages from '@/components/core/LayoutPages'
 import { Button, Table } from '@/components/shared'
 import { Box, Grid, Typography } from '@mui/material'
 import { Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
+import { monthsOptions } from 'libs/months'
 
 const styles = {
   iconStyle: {
@@ -24,101 +27,17 @@ const styles = {
   fontItem: { fontWeight: 600 }
 }
 
-const data = [
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    golongan: 'Golongan I',
-    jabatan: 'Jabatan I',
-    jenisHukuman: 'Teguran Tertulis',
-    tingkatHukuman: 'Ringan',
-    pemotonganTunjangan: 0.25,
-    waktuPemotongan: 3,
-    noSkHukuman: 'No SK Hukuman',
-    tanggalSkHukuman: '00-00-00',
-    tanggalHukuman: '00-00-00',
-    pejabatBerwenang: 'Deputi Bidang Administrasi',
-    namaPejabatBerwenang: 'Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    golongan: 'Golongan I',
-    jabatan: 'Jabatan I',
-    jenisHukuman: 'Teguran Tertulis',
-    tingkatHukuman: 'Ringan',
-    pemotonganTunjangan: 0.25,
-    waktuPemotongan: 3,
-    noSkHukuman: 'No SK Hukuman',
-    tanggalSkHukuman: '00-00-00',
-    tanggalHukuman: '00-00-00',
-    pejabatBerwenang: 'Deputi Bidang Administrasi',
-    namaPejabatBerwenang: 'Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    golongan: 'Golongan I',
-    jabatan: 'Jabatan I',
-    jenisHukuman: 'Teguran Tertulis',
-    tingkatHukuman: 'Ringan',
-    pemotonganTunjangan: 0.25,
-    waktuPemotongan: 3,
-    noSkHukuman: 'No SK Hukuman',
-    tanggalSkHukuman: '00-00-00',
-    tanggalHukuman: '00-00-00',
-    pejabatBerwenang: 'Deputi Bidang Administrasi',
-    namaPejabatBerwenang: 'Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    golongan: 'Golongan I',
-    jabatan: 'Jabatan I',
-    jenisHukuman: 'Teguran Tertulis',
-    tingkatHukuman: 'Ringan',
-    pemotonganTunjangan: 0.25,
-    waktuPemotongan: 3,
-    noSkHukuman: 'No SK Hukuman',
-    tanggalSkHukuman: '00-00-00',
-    tanggalHukuman: '00-00-00',
-    pejabatBerwenang: 'Deputi Bidang Administrasi',
-    namaPejabatBerwenang: 'Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    golongan: 'Golongan I',
-    jabatan: 'Jabatan I',
-    jenisHukuman: 'Teguran Tertulis',
-    tingkatHukuman: 'Ringan',
-    pemotonganTunjangan: 0.25,
-    waktuPemotongan: 3,
-    noSkHukuman: 'No SK Hukuman',
-    tanggalSkHukuman: '00-00-00',
-    tanggalHukuman: '00-00-00',
-    pejabatBerwenang: 'Deputi Bidang Administrasi',
-    namaPejabatBerwenang: 'Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.'
-  },
-  {
-    id: 123,
-    nama: 'Ibnu Iskandar, S.E. / 180004051',
-    golongan: 'Golongan I',
-    jabatan: 'Jabatan I',
-    jenisHukuman: 'Teguran Tertulis',
-    tingkatHukuman: 'Ringan',
-    pemotonganTunjangan: 0.25,
-    waktuPemotongan: 3,
-    noSkHukuman: 'No SK Hukuman',
-    tanggalSkHukuman: '00-00-00',
-    tanggalHukuman: '00-00-00',
-    pejabatBerwenang: 'Deputi Bidang Administrasi',
-    namaPejabatBerwenang: 'Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.'
-  }
-]
-
-const RiwayatHukumanDisiplinDetailComponent = () => {
+const RiwayatHukumanDisiplinDetailComponent = ({
+  disciplinary,
+  getDisciplinary = () => {},
+  clearDisciplinaryState = () => {},
+  onLoading = () => {}
+}) => {
   const router = useRouter()
+
+  const data = useMemo(() => {
+    return disciplinary?.detail
+  }, [disciplinary])
 
   const columns = useMemo(
     () => [
@@ -210,85 +129,108 @@ const RiwayatHukumanDisiplinDetailComponent = () => {
   )
 
   const rows = useMemo(() => {
-    const dataMapping = data.map((item, index) => {
+    const data = disciplinary?.detail?.users || []
+    const dataMapping = data.map((item) => {
       return [
         {
           Header: 'No',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{index + 1}</Typography>
+          Cell: () => <Typography>{item?.id}</Typography>
         },
         {
           Header: 'Nama',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.nama}</Typography>
+          Cell: () => <Typography>{item?.name || '-'}</Typography>
         },
         {
           Header: 'Golongan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.golongan}</Typography>
+          Cell: () => <Typography>{item?.grade || '-'}</Typography>
         },
         {
           Header: 'Jabatan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.jabatan}</Typography>
+          Cell: () => <Typography>{item?.position || '-'}</Typography>
         },
         {
           Header: 'Jenis Hukuman',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.jenisHukuman}</Typography>
+          Cell: () => (
+            <Typography>{item?.disciplinary_type_name || '-'}</Typography>
+          )
         },
         {
           Header: 'Tingkat Hukuman',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tingkatHukuman}</Typography>
+          Cell: () => (
+            <Typography>
+              {item?.disciplinary_type_description || '-'}
+            </Typography>
+          )
         },
         {
           Header: 'Pemotongan Tunjangan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.pemotonganTunjangan}</Typography>
+          Cell: () => (
+            <Typography>
+              {item?.performance_allowance_deduction || 0}
+            </Typography>
+          )
         },
         {
           Header: 'Waktu Pemotongan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.waktuPemotongan}</Typography>
+          Cell: () => (
+            <Typography>{item?.performance_allowance_duration || 0}</Typography>
+          )
         },
         {
           Header: 'No SK Hukuman',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.noSkHukuman}</Typography>
+          Cell: () => <Typography>{item?.decree_number || '-'}</Typography>
         },
         {
           Header: 'Tanggal SK Hukuman',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tanggalSkHukuman}</Typography>
+          Cell: () => <Typography>{item?.date_of_decree || '-'}</Typography>
         },
         {
           Header: 'Tanggal Hukuman',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tanggalHukuman}</Typography>
+          Cell: () => (
+            <Typography>
+              {item?.start_date && item?.end_date
+                ? `${item?.start_date} - ${item?.end_date}`
+                : '-'}
+            </Typography>
+          )
         },
         {
           Header: 'Pejabat Berwenang',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.pejabatBerwenang}</Typography>
+          Cell: () => (
+            <Typography>{item?.authorizing_officer || '-'}</Typography>
+          )
         },
         {
           Header: 'Nama Pejabat Berwenang',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.namaPejabatBerwenang}</Typography>
+          Cell: () => (
+            <Typography>{item?.name_of_authorizing_officer || '-'}</Typography>
+          )
         },
         {
           Header: 'Aksi',
@@ -316,7 +258,7 @@ const RiwayatHukumanDisiplinDetailComponent = () => {
     })
 
     return dataMapping
-  }, [data])
+  }, [disciplinary])
 
   const action = useMemo(() => {
     return (
@@ -335,6 +277,29 @@ const RiwayatHukumanDisiplinDetailComponent = () => {
     )
   }, [])
 
+  const handleParsePeriod = (month, year) => {
+    return month && year ? `${monthsOptions[month - 1]} ${year}` : '-'
+  }
+
+  useEffect(() => {
+    // Get Detail User
+    const id = router?.query?.id
+    if (id) getDisciplinary(atob(id))
+
+    // Event clear state when url path changes
+    router.events.on('routeChangeComplete', clearDisciplinaryState)
+
+    return () => {
+      router.events.off('routeChangeComplete', clearDisciplinaryState)
+    }
+  }, [router])
+
+  useEffect(() => {
+    const state =
+      !disciplinary?.loading && Object.entries(disciplinary?.detail).length > 0
+    onLoading(state)
+  }, [disciplinary])
+
   return (
     <LayoutPages
       handleBack={() => router.back()}
@@ -346,15 +311,15 @@ const RiwayatHukumanDisiplinDetailComponent = () => {
           <Grid item xs={6}>
             <Box sx={styles?.itemWrapper}>
               <Typography>Nama Riwayat Hukuman Disiplin</Typography>
-              <Typography sx={styles?.fontItem}>
-                Perubahan HukumanDisiplin desember 2023
-              </Typography>
+              <Typography sx={styles?.fontItem}>{data?.name || '-'}</Typography>
             </Box>
           </Grid>
           <Grid item xs={6}>
             <Box sx={styles?.itemWrapper}>
               <Typography>Periode Riwayat</Typography>
-              <Typography sx={styles?.fontItem}>Desember 2023</Typography>
+              <Typography sx={styles?.fontItem}>
+                {handleParsePeriod(data?.period_month, data?.period_year)}
+              </Typography>
             </Box>
           </Grid>
         </Grid>
@@ -368,6 +333,13 @@ const RiwayatHukumanDisiplinDetailComponent = () => {
       </Paper>
     </LayoutPages>
   )
+}
+
+RiwayatHukumanDisiplinDetailComponent.propTypes = {
+  disciplinary: PropTypes.object,
+  getDisciplinary: PropTypes.func,
+  clearDisciplinaryState: PropTypes.func,
+  onLoading: PropTypes.func
 }
 
 export default RiwayatHukumanDisiplinDetailComponent
