@@ -140,7 +140,17 @@ const RiwayatPelatihanFungsionalEditComponent = ({
         )
         formData.append(
           `users[${index}][certificate]`,
-          handleGetValue(item?.nama, 'employee')?.certificate
+          item?.sertifikat && typeof item?.sertifikat == 'object'
+            ? item?.sertifikat
+            : ''
+        )
+        formData.append(
+          `users[${index}][delete_certificate]`,
+          item?.sertifikat &&
+            (typeof item?.sertifikat == 'object' ||
+              typeof item?.sertifikat == 'string')
+            ? 0
+            : 1
         )
       })
 
@@ -219,13 +229,19 @@ const RiwayatPelatihanFungsionalEditComponent = ({
 
       detail?.users &&
         detail?.users.map((itm, idx) => {
+          let fileSplit = null
+          let fileName = null
           const file = itm?.certificate
-          const fileSplit = file.split('/')
-          const fileName = fileSplit[fileSplit.length - 1]
+
           const userName =
             itm?.name && itm?.employee_id_number
               ? `${itm?.name} - ${itm?.employee_id_number}`
               : null
+
+          if (file) {
+            fileSplit = file.split('/')
+            fileName = fileSplit[fileSplit.length - 1]
+          }
 
           formikRef.current?.setFieldValue(
             `pegawai[${idx}].nama`,
