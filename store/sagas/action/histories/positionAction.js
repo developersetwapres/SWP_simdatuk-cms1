@@ -1,4 +1,4 @@
-import { get, del, post, patch } from '@/utils/interceptors'
+import { get, del, post } from '@/utils/interceptors'
 import { queryParams } from '@/utils/'
 
 const basePath = '/position-histories'
@@ -63,5 +63,5 @@ export const postPositionAction = (payload) => {
  * @returns
  */
 export const updatePositionAction = (payload) => {
-  return patch(`${basePath}/${payload?.id}`, payload?.data)
+  return post(`${basePath}/${payload?.id}`, payload?.data)
 }
