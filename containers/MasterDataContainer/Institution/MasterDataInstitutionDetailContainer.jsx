@@ -7,23 +7,21 @@ import Layout from '@/components/core/Layout'
 import MasterDataInstitutionDetailComponent from '@/components/MasterData/Institution/MasterDataInstitutionDetailComponent'
 
 export default connect(
-  mapStateToProps('role'),
+  mapStateToProps('institution'),
   mapActions(
-    'getRole',
-    'deleteRole',
-    'getRolesOptions',
-    'getPermissions',
-    'clearRoleState'
+    'getInstitution',
+    'deleteInstitution',
+    'getInstitutionsOptions',
+    'clearInstitutionState'
   )
 )(
   class MasterDataInstitutionDetailContainer extends Component {
     static propTypes = {
-      role: PropTypes.object,
-      getRole: PropTypes.func,
-      deleteRole: PropTypes.func,
-      getRolesOptions: PropTypes.func,
-      getPermissions: PropTypes.func,
-      clearRoleState: PropTypes.func
+      institution: PropTypes.object,
+      getInstitution: PropTypes.func,
+      deleteInstitution: PropTypes.func,
+      getInstitutionsOptions: PropTypes.func,
+      clearInstitutionState: PropTypes.func
     }
 
     constructor(props) {
@@ -36,17 +34,12 @@ export default connect(
         },
         willRender: false
       }
-      this.fetch = this.fetch.bind(this)
+      this.fetchOptions = this.fetchOptions.bind(this)
       this.setLoading = this.setLoading.bind(this)
-      this.fetchGetRolesOptions = this.fetchGetRolesOptions.bind(this)
     }
 
-    fetch() {
-      this.props.getPermissions()
-    }
-
-    fetchGetRolesOptions(queries) {
-      this.props.getRolesOptions(queries)
+    fetchOptions(queries) {
+      this.props.getInstitutionsOptions(queries)
     }
 
     setLoading(val) {
@@ -56,8 +49,7 @@ export default connect(
     }
 
     componentDidMount() {
-      this.fetch()
-      this.fetchGetRolesOptions(this.state.queries)
+      this.fetchOptions(this.state.queries)
     }
 
     render() {
