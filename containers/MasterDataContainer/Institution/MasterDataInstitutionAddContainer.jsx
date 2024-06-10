@@ -7,14 +7,13 @@ import Layout from '@/components/core/Layout'
 import MasterDataInstitutionAddComponent from '@/components/MasterData/Institution/MasterDataInstitutionAddComponent'
 
 export default connect(
-  mapStateToProps('role'),
-  mapActions('getPermissions', 'postRole')
+  mapStateToProps('institution'),
+  mapActions('postInstitution')
 )(
   class MasterDataInstitutionAddContainer extends Component {
     static propTypes = {
-      role: PropTypes.object,
-      getPermissions: PropTypes.func,
-      postRole: PropTypes.func
+      institution: PropTypes.object,
+      postInstitution: PropTypes.func
     }
 
     constructor(props) {
@@ -22,22 +21,13 @@ export default connect(
       this.state = {
         willRender: false
       }
-      this.fetch = this.fetch.bind(this)
       this.setLoading = this.setLoading.bind(this)
-    }
-
-    fetch() {
-      this.props.getPermissions()
     }
 
     setLoading(val) {
       this.setState({
         willRender: val
       })
-    }
-
-    componentDidMount() {
-      this.fetch()
     }
 
     render() {

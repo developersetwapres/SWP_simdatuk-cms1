@@ -5,7 +5,6 @@ import { Grid, Typography } from '@mui/material'
 import { Form, Input } from '@/components/shared'
 
 const MasterDataInstitutionForm = ({
-  dataPermissions,
   values,
   errors,
   touched,
@@ -16,29 +15,20 @@ const MasterDataInstitutionForm = ({
   setFieldValue,
   formikRef
 }) => {
-  const handleGetValueAccess = (id) => {
-    const filter = values?.permissions.filter((itm) => {
-      return itm?.id == id
-    })
-
-    return filter.length > 0 ? filter[0] : {}
-  }
-
   return (
     <Form>
       <Grid container spacing={3}>
-        {/* Name */}
         <Grid item xs={12}>
           <Input
             label='Nama Instansi *'
             placeholder='Masukkan Nama Instansi'
-            name='roleName'
-            value={values?.roleName}
-            error={errors?.roleName}
+            name='name'
+            value={values?.name}
+            error={errors?.name}
             onChange={(val) => {
-              setFieldValue('roleName', val?.target?.value, false)
+              setFieldValue('name', val?.target?.value, false)
               setTimeout(() => {
-                formikRef.current.validateField('roleName')
+                formikRef.current.validateField('name')
               }, 1)
             }}
           />

@@ -1,9 +1,9 @@
 /* eslint-disable indent */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
-import { Formik, useFormik } from 'formik'
+import { Formik } from 'formik'
 import LayoutPages from '@/components/core/LayoutPages'
 import { Box } from '@mui/material'
 import Card from '@/components/shared/Card/Index'
@@ -12,48 +12,32 @@ import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
 import MasterDataInstitutionForm from './MasterDataInstitutionForm'
 
+const InitValue = {
+  name: ''
+}
+
 const FormSchema = Yup.object().shape({
-  roleName: Yup.string().required('Role Pengguna tidak boleh kosong')
+  name: Yup.string().required('Nama Instansi tidak boleh kosong')
 })
 
 const MasterDataInstitutionAddComponent = ({
-  role,
+  institution,
   onLoading = () => {},
-  postRole = () => {}
+  postInstitution = () => {}
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
 
-  const [initValue, setInitValue] = useState({
-    roleName: '',
-    permissions: []
-  })
-
-  const formik = useFormik({
-    initialValues: initValue,
-    validationSchema: FormSchema,
-    onSubmit: () => {}
-  })
-
   const handleSubmit = async (values) => {
     try {
       await FormSchema.validate(values, { abortEarly: false })
-
-      const dataPermission = values?.permissions
-      const valuePermission =
-        dataPermission.length > 0
-          ? dataPermission.map((itm) => {
-              return { id: itm?.id, permitted_actions: itm?.permitted_actions }
-            })
-          : []
+      formikRef.current.setErrors({})
 
       const payload = {
-        name: values.roleName,
-        permissions: valuePermission
+        name: values.name
       }
 
-      postRole(payload)
-      formikRef.current.setErrors({})
+      postInstitution(payload)
     } catch (err) {
       if (!err.inner || err.inner.length === 0) {
         return
@@ -73,29 +57,16 @@ const MasterDataInstitutionAddComponent = ({
   }
 
   useEffect(() => {
-    const dataPermissions = role?.dataPermissions
-    const state = !role?.loading && dataPermissions.length > 0
+    const state = !institution?.loading
     onLoading(state)
-
-    if (dataPermissions.length > 0) {
-      const newInitValue = dataPermissions.map((itm, idx) => {
-        return {
-          id: itm?.id,
-          permitted_actions: null
-        }
-      })
-
-      if (!Object.keys(initValue).includes('permissions'))
-        setInitValue({ ...initValue, permissions: newInitValue })
-    }
-  }, [role])
+  }, [institution])
 
   return (
     <Formik
       innerRef={formikRef}
-      initialValues={formik.values}
-      validationSchema={formik.validationSchema}
-      onSubmit={formik.onSubmit}
+      initialValues={InitValue}
+      validationSchema={FormSchema}
+      onSubmit={() => {}}
     >
       {(formikProps) => (
         <LayoutPages
@@ -111,11 +82,7 @@ const MasterDataInstitutionAddComponent = ({
           }
         >
           <Card>
-            <MasterDataInstitutionForm
-              dataPermissions={role?.dataPermissions}
-              formikRef={formikRef}
-              {...formikProps}
-            />
+            <MasterDataInstitutionForm formikRef={formikRef} {...formikProps} />
           </Card>
         </LayoutPages>
       )}
@@ -124,9 +91,9 @@ const MasterDataInstitutionAddComponent = ({
 }
 
 MasterDataInstitutionAddComponent.propTypes = {
-  role: PropTypes.object,
+  institution: PropTypes.object,
   onLoading: PropTypes.func,
-  postRole: PropTypes.func
+  postInstitution: PropTypes.func
 }
 
 export default MasterDataInstitutionAddComponent
