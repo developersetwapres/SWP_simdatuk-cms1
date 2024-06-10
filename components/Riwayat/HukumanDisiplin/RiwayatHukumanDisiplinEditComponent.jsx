@@ -165,16 +165,21 @@ const RiwayatHukumanDisiplinEditComponent = ({
     }
   }
 
+  const handleClearState = () => {
+    formikRef.current.resetForm()
+    clearDisciplinaryState()
+  }
+
   useEffect(() => {
     // Get Detail User
     const id = router?.query?.id
     if (id) getDisciplinary(atob(id))
 
     // Event clear state when url path changes
-    router.events.on('routeChangeComplete', clearDisciplinaryState)
+    router.events.on('routeChangeComplete', handleClearState)
 
     return () => {
-      router.events.off('routeChangeComplete', clearDisciplinaryState)
+      router.events.off('routeChangeComplete', handleClearState)
     }
   }, [router])
 
