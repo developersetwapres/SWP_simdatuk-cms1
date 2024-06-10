@@ -27,10 +27,10 @@ const styles = {
 
 const EmployeeOutsourcingComponent = ({
   employee,
-  onLoading = () => {},
-  onSearch = () => {},
-  onPaginationChange = () => {},
-  onRowsPerPageChange = () => {}
+  onLoading = () => { },
+  onSearch = () => { },
+  onPaginationChange = () => { },
+  onRowsPerPageChange = () => { }
 }) => {
   const router = useRouter()
 
@@ -134,14 +134,14 @@ const EmployeeOutsourcingComponent = ({
               <Button
                 text='Detail'
                 color='primary'
-                onClick={() => handleAction('add')}
+                onClick={() => router.push(`${router.pathname}/detail/${btoa(item?.id)}`)}
                 icon={<Info style={styles.iconButton} />}
                 sx={styles.buttonAction}
               />
               <Button
                 text='Edit'
                 color='sidatukDraweBase'
-                onClick={() => handleAction('bulk')}
+                onClick={() => router.push(`${router.pathname}/edit/${btoa(item?.id)}`)}
                 icon={<Edit style={styles.iconButton} />}
                 sx={styles.buttonAction}
               />
