@@ -12,53 +12,47 @@ import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
 import MasterDataEmployementTypeForm from './MasterDataEmployementTypeForm'
 
+const initValue = {
+  name: '',
+  type: null,
+  status: false
+}
+
 const FormSchema = Yup.object().shape({
-  roleName: Yup.string().required('Role Pengguna tidak boleh kosong')
+  name: Yup.string().required('Jenis Pegawai tidak boleh kosong'),
+  type: Yup.string().required('Pegawai tidak boleh kosong')
 })
 
 const MasterDataEmployementTypeEditComponent = ({
-  role,
-  onLoading = () => {},
-  getRole = () => {},
-  updateRole = () => {},
-  clearRoleState = () => {}
+  employmentType,
+  getEmploymentType = () => {},
+  updateEmploymentType = () => {},
+  clearEmploymentTypeState = () => {},
+  onLoading = () => {}
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
 
-  const [initValue, setInitValue] = useState({
-    roleName: '',
-    permissions: []
-  })
-
-  const formik = useFormik({
-    initialValues: initValue,
-    validationSchema: FormSchema,
-    onSubmit: () => {}
-  })
+  const options = useMemo(() => {
+    const data = { type: ['ASN', 'NON ASN', 'OUTSOURCE'] }
+    return data
+  }, [])
 
   const handleSubmit = async (values) => {
     try {
       await FormSchema.validate(values, { abortEarly: false })
-
-      const dataPermission = values?.permissions
-      const valuePermission =
-        dataPermission.length > 0
-          ? dataPermission.map((itm) => {
-              return { id: itm?.id, permitted_actions: itm?.permitted_actions }
-            })
-          : []
+      formikRef.current.setErrors({})
 
       const payload = {
         id: atob(router?.query?.id),
         data: {
-          name: values.roleName,
-          permissions: valuePermission
+          name: values?.name,
+          type: options['type'].findIndex((itm) => itm == values?.type) + 1,
+          status: values?.status
         }
       }
 
-      updateRole(payload)
-      formikRef.current.setErrors({})
+      updateEmploymentType(payload)
     } catch (err) {
       if (!err.inner || err.inner.length === 0) {
         return
@@ -80,10 +74,10 @@ const MasterDataEmployementTypeEditComponent = ({
   useEffect(() => {
     // Get Detail User
     const id = router?.query?.id
-    if (id) getRole(atob(id))
+    if (id) getEmploymentType(atob(id))
 
     const clearState = () => {
-      clearRoleState()
+      clearEmploymentTypeState()
       if (formikRef.current) {
         formikRef.current.resetForm()
       }
@@ -98,46 +92,37 @@ const MasterDataEmployementTypeEditComponent = ({
   }, [router])
 
   useEffect(() => {
-    const dataPermissions = role?.dataPermissions
     const state =
-      !role?.loading &&
-      dataPermissions.length > 0 &&
-      Object.entries(role?.detail).length > 0
+      !employmentType?.loading &&
+      Object.entries(employmentType?.detail).length > 0
 
     onLoading(state)
-
-    if (dataPermissions.length > 0) {
-      const newInitValue = dataPermissions.map((itm, idx) => {
-        return {
-          id: itm?.id,
-          permitted_actions: null
-        }
-      })
-
-      if (!Object.keys(initValue).includes('permissions'))
-        setInitValue({ ...initValue, permissions: newInitValue })
-    }
-  }, [role])
+  }, [employmentType])
 
   useEffect(() => {
-    const detail = role?.detail
+    const detail = employmentType?.detail
 
-    if (detail?.permissions) {
-      const newPermissions = detail?.permissions.map((itm) => {
-        return { id: itm?.id, permitted_actions: itm?.permitted_actions }
-      })
-
-      formikRef.current?.setFieldValue('roleName', detail?.name, false)
-      formikRef.current?.setFieldValue('permissions', newPermissions, false)
+    if (detail) {
+      formikRef.current?.setFieldValue('name', detail?.name, false)
+      formikRef.current?.setFieldValue(
+        'type',
+        options['type'][detail?.type - 1],
+        false
+      )
+      formikRef.current?.setFieldValue(
+        'status',
+        detail?.status == 1 ? true : false,
+        false
+      )
     }
-  }, [role?.detail])
+  }, [employmentType?.detail])
 
   return (
     <Formik
       innerRef={formikRef}
-      initialValues={formik.values}
-      validationSchema={formik.validationSchema}
-      onSubmit={formik.onSubmit}
+      initialValues={initValue}
+      validationSchema={FormSchema}
+      onSubmit={() => {}}
     >
       {(formikProps) => (
         <LayoutPages
@@ -154,7 +139,7 @@ const MasterDataEmployementTypeEditComponent = ({
         >
           <Card>
             <MasterDataEmployementTypeForm
-              dataPermissions={role?.dataPermissions}
+              options={options}
               formikRef={formikRef}
               {...formikProps}
             />
@@ -166,11 +151,11 @@ const MasterDataEmployementTypeEditComponent = ({
 }
 
 MasterDataEmployementTypeEditComponent.propTypes = {
-  role: PropTypes.object,
+  employmentType: PropTypes.object,
+  getEmploymentType: PropTypes.func,
+  updateEmploymentType: PropTypes.func,
   onLoading: PropTypes.func,
-  getRole: PropTypes.func,
-  updateRole: PropTypes.func,
-  clearRoleState: PropTypes.func
+  clearEmploymentTypeState: PropTypes.func
 }
 
 export default MasterDataEmployementTypeEditComponent

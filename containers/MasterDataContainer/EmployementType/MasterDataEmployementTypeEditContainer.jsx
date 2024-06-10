@@ -7,16 +7,19 @@ import Layout from '@/components/core/Layout'
 import MasterDataEmployementTypeEditComponent from '@/components/MasterData/EmployementType/MasterDataEmployementTypeEditComponent'
 
 export default connect(
-  mapStateToProps('role'),
-  mapActions('getRole', 'getPermissions', 'updateRole', 'clearRoleState')
+  mapStateToProps('employmentType'),
+  mapActions(
+    'getEmploymentType',
+    'updateEmploymentType',
+    'clearEmploymentTypeState'
+  )
 )(
   class MasterDataEmployementTypeEditContainer extends Component {
     static propTypes = {
-      role: PropTypes.object,
-      getRole: PropTypes.func,
-      updateRole: PropTypes.func,
-      getPermissions: PropTypes.func,
-      clearRoleState: PropTypes.func
+      employmentType: PropTypes.object,
+      getEmploymentType: PropTypes.func,
+      updateEmploymentType: PropTypes.func,
+      clearEmploymentTypeState: PropTypes.func
     }
 
     constructor(props) {
@@ -24,22 +27,13 @@ export default connect(
       this.state = {
         willRender: false
       }
-      this.fetch = this.fetch.bind(this)
       this.setLoading = this.setLoading.bind(this)
-    }
-
-    fetch() {
-      this.props.getPermissions()
     }
 
     setLoading(val) {
       this.setState({
         willRender: val
       })
-    }
-
-    componentDidMount() {
-      this.fetch()
     }
 
     render() {
