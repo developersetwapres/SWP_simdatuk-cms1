@@ -120,14 +120,17 @@ const RiwayatGolonganEditComponent = ({
       await FormSchema.validate(values, { abortEarly: false })
       formikRef.current.setErrors({})
 
+      const usersData = grade?.detail?.users
+
       const id = atob(router?.query?.id)
       const users = values?.pegawai.map((itm) => {
         return {
-          id: handleGetValueId(itm?.nama, 'employee'),
+          id: usersData.find((item) => item?.name == itm?.nama.split(' - ')[0])
+            ?.id,
           user_id: handleGetValueId(itm?.nama, 'employee'),
           grade_id: handleGetValueId(itm?.golongan, 'grade'),
           effective_date: moment(itm?.tmt).format('YYYY-MM-DD'),
-          decree_name: itm?.noSk,
+          decree_number: itm?.noSk,
           status: 1
         }
       })
