@@ -74,7 +74,7 @@ const MasterDataGroupComponent = ({
           Header: 'Name',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.name}</Typography>
+          Cell: () => <Typography>{item?.type}</Typography>
         },
         {
           Header: 'Name',
@@ -86,7 +86,7 @@ const MasterDataGroupComponent = ({
           Header: 'Name',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.name}</Typography>
+          Cell: () => <Typography>{item?.code}</Typography>
         }
       ]
     })
