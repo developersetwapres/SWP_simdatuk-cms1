@@ -51,6 +51,7 @@ function TextArea({
   value,
   error = null,
   className,
+  placeholder,
   onChange = () => { },
   ...others
 }) {
@@ -67,6 +68,7 @@ function TextArea({
         minRows={rows}
         name={name}
         value={value}
+        placeholder={placeholder}
         onChange={onChange}
         {...others}
       />
@@ -84,6 +86,7 @@ function TextArea({
 TextArea.propTypes = {
   rows: PropTypes.number,
   name: PropTypes.string,
+  placeholder: PropTypes.string,
   label: PropTypes.string,
   value: PropTypes.string,
   className: PropTypes.any,
