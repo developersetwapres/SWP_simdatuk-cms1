@@ -31,23 +31,26 @@ const containerStyles = {
   gap: 2
 }
 const accordionStyles = {
-  padding: 'none',
-  margin: 'none',
+  padding: 'unset',
+  margin: 'unset',
   boxShadow: 'none'
 }
 const accordionSummaryStyles = {
   fontWeight: 'bold',
   fontSize: '20px',
   padding: 'none',
-  margin: 'none',
+  margin: 'unset',
   boxShadow: 'none'
+}
+const cardStyle = {
+  padding: 'unset'
 }
 
 function FormComponent({ formType }) {
   return (
     <Box sx={containerStyles}>
-      <Card>
-        <Accordion sx={accordionStyles}>
+      <Card otherStyle={cardStyle}>
+        <Accordion defaultExpanded sx={accordionStyles}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls='panel1-content'
@@ -62,7 +65,7 @@ function FormComponent({ formType }) {
         </Accordion>
       </Card>
 
-      <Card>
+      <Card otherStyle={cardStyle}>
         <Accordion sx={accordionStyles}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -80,7 +83,7 @@ function FormComponent({ formType }) {
 
       {formType == 'edit' && (
         <>
-          <Card>
+          <Card otherStyle={cardStyle}>
             <Accordion sx={accordionStyles}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -96,7 +99,7 @@ function FormComponent({ formType }) {
             </Accordion>
           </Card>
 
-          <Card>
+          <Card otherStyle={cardStyle}>
             <Accordion sx={accordionStyles}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -112,7 +115,7 @@ function FormComponent({ formType }) {
             </Accordion>
           </Card>
 
-          <Card>
+          <Card otherStyle={cardStyle}>
             <Accordion sx={accordionStyles}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -128,7 +131,7 @@ function FormComponent({ formType }) {
             </Accordion>
           </Card>
 
-          <Card>
+          <Card otherStyle={cardStyle}>
             <Accordion sx={accordionStyles}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -144,7 +147,7 @@ function FormComponent({ formType }) {
             </Accordion>
           </Card>
 
-          <Card>
+          <Card otherStyle={cardStyle}>
             <Accordion sx={accordionStyles}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -160,7 +163,7 @@ function FormComponent({ formType }) {
             </Accordion>
           </Card>
 
-          <Card>
+          <Card otherStyle={cardStyle}>
             <Accordion sx={accordionStyles}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -176,7 +179,7 @@ function FormComponent({ formType }) {
             </Accordion>
           </Card>
 
-          <Card>
+          <Card otherStyle={cardStyle}>
             <Accordion sx={accordionStyles}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -192,7 +195,7 @@ function FormComponent({ formType }) {
             </Accordion>
           </Card>
 
-          <Card>
+          <Card otherStyle={cardStyle}>
             <Accordion sx={accordionStyles}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -208,7 +211,7 @@ function FormComponent({ formType }) {
             </Accordion>
           </Card>
 
-          <Card>
+          <Card otherStyle={cardStyle}>
             <Accordion sx={accordionStyles}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -226,7 +229,7 @@ function FormComponent({ formType }) {
         </>
       )}
 
-      <Card>
+      <Card otherStyle={cardStyle}>
         <Accordion sx={accordionStyles}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -242,7 +245,7 @@ function FormComponent({ formType }) {
         </Accordion>
       </Card>
 
-      <Card>
+      <Card otherStyle={cardStyle}>
         <Accordion sx={accordionStyles}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -258,7 +261,7 @@ function FormComponent({ formType }) {
         </Accordion>
       </Card>
 
-      <Card>
+      <Card otherStyle={cardStyle}>
         <Accordion sx={accordionStyles}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -274,7 +277,7 @@ function FormComponent({ formType }) {
         </Accordion>
       </Card>
 
-      <Card>
+      <Card otherStyle={cardStyle}>
         <Accordion sx={accordionStyles}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -290,7 +293,7 @@ function FormComponent({ formType }) {
         </Accordion>
       </Card>
 
-      <Card>
+      <Card otherStyle={cardStyle}>
         <Accordion sx={accordionStyles}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -306,7 +309,7 @@ function FormComponent({ formType }) {
         </Accordion>
       </Card>
 
-      <Card>
+      <Card otherStyle={cardStyle}>
         <Accordion sx={accordionStyles}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
