@@ -1,7 +1,7 @@
 /* eslint-disable indent */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Formik, useFormik } from 'formik'
 import LayoutPages from '@/components/core/LayoutPages'
@@ -12,48 +12,42 @@ import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
 import MasterDataEmployementTypeForm from './MasterDataEmployementTypeForm'
 
+const initValue = {
+  name: '',
+  type: null,
+  status: false
+}
+
 const FormSchema = Yup.object().shape({
-  roleName: Yup.string().required('Role Pengguna tidak boleh kosong')
+  name: Yup.string().required('Jenis Pegawai tidak boleh kosong'),
+  type: Yup.string().required('Pegawai tidak boleh kosong')
 })
 
 const MasterDataEmployementTypeAddComponent = ({
-  role,
-  onLoading = () => {},
-  postRole = () => {}
+  employmentType,
+  postEmploymentType = () => {},
+  onLoading = () => {}
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
 
-  const [initValue, setInitValue] = useState({
-    roleName: '',
-    permissions: []
-  })
-
-  const formik = useFormik({
-    initialValues: initValue,
-    validationSchema: FormSchema,
-    onSubmit: () => {}
-  })
+  const options = useMemo(() => {
+    const data = { type: ['ASN', 'NON ASN', 'OUTSOURCE'] }
+    return data
+  }, [])
 
   const handleSubmit = async (values) => {
     try {
       await FormSchema.validate(values, { abortEarly: false })
-
-      const dataPermission = values?.permissions
-      const valuePermission =
-        dataPermission.length > 0
-          ? dataPermission.map((itm) => {
-              return { id: itm?.id, permitted_actions: itm?.permitted_actions }
-            })
-          : []
+      formikRef.current.setErrors({})
 
       const payload = {
-        name: values.roleName,
-        permissions: valuePermission
+        name: values?.name,
+        type: options['type'].findIndex((itm) => itm == values?.type) + 1,
+        status: values?.status
       }
 
-      postRole(payload)
-      formikRef.current.setErrors({})
+      postEmploymentType(payload)
     } catch (err) {
       if (!err.inner || err.inner.length === 0) {
         return
@@ -73,29 +67,16 @@ const MasterDataEmployementTypeAddComponent = ({
   }
 
   useEffect(() => {
-    const dataPermissions = role?.dataPermissions
-    const state = !role?.loading && dataPermissions.length > 0
+    const state = !employmentType?.loading
     onLoading(state)
-
-    if (dataPermissions.length > 0) {
-      const newInitValue = dataPermissions.map((itm, idx) => {
-        return {
-          id: itm?.id,
-          permitted_actions: null
-        }
-      })
-
-      if (!Object.keys(initValue).includes('permissions'))
-        setInitValue({ ...initValue, permissions: newInitValue })
-    }
-  }, [role])
+  }, [employmentType])
 
   return (
     <Formik
       innerRef={formikRef}
-      initialValues={formik.values}
-      validationSchema={formik.validationSchema}
-      onSubmit={formik.onSubmit}
+      initialValues={initValue}
+      validationSchema={FormSchema}
+      onSubmit={() => {}}
     >
       {(formikProps) => (
         <LayoutPages
@@ -112,7 +93,7 @@ const MasterDataEmployementTypeAddComponent = ({
         >
           <Card>
             <MasterDataEmployementTypeForm
-              dataPermissions={role?.dataPermissions}
+              options={options}
               formikRef={formikRef}
               {...formikProps}
             />
@@ -124,9 +105,9 @@ const MasterDataEmployementTypeAddComponent = ({
 }
 
 MasterDataEmployementTypeAddComponent.propTypes = {
-  role: PropTypes.object,
-  onLoading: PropTypes.func,
-  postRole: PropTypes.func
+  employmentType: PropTypes.object,
+  postEmploymentType: PropTypes.func,
+  onLoading: PropTypes.func
 }
 
 export default MasterDataEmployementTypeAddComponent
