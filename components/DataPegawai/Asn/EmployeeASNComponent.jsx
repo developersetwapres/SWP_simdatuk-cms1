@@ -184,7 +184,7 @@ const EmployeeASNComponent = ({
           color='sidatukDraweBase'
           onClick={() => router.push(`${router.asPath}/add-bulk`)}
         />
-        <Button text='Tambah' color='primary' onClick={() => {}} />
+        <Button text='Tambah' color='primary' onClick={() => router.push(`${router.asPath}/add`)} />
       </Box>
     )
   }, [])
