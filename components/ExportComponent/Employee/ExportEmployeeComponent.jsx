@@ -1,9 +1,18 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import LayoutPages from '@/components/core/LayoutPages'
 import { Button, Table } from '@/components/shared'
-import { Box, Paper, Typography, Divider, Grid, Checkbox, Button as MuiButton } from '@mui/material'
+import {
+  Box,
+  Paper,
+  Typography,
+  Divider,
+  Grid,
+  Checkbox,
+  Button as MuiButton
+} from '@mui/material'
 import { Autocomplete } from '@/components/shared'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
@@ -110,15 +119,8 @@ const ExportEmployeeComponent = ({
   const action = useMemo(() => {
     return (
       <Box sx={{ display: 'flex', gap: 1 }}>
-        <Button
-          text='Reset'
-          color='danger'
-          onClick={() => {}}
-        />
-        <Button
-          text='Export'
-          onClick={() => {}}
-        />
+        <Button text='Reset' color='danger' onClick={() => {}} />
+        <Button text='Export' onClick={() => {}} />
       </Box>
     )
   }, [])
@@ -140,16 +142,12 @@ const ExportEmployeeComponent = ({
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
       <LayoutPages summary='Export Pegawai' action={action}>
         <Paper sx={{ padding: 2 }}>
-          <Typography fontSize='12' color='#895700' fontWeight='700'>Filter Data</Typography>
+          <Typography fontSize='12' color='#895700' fontWeight='700'>
+            Filter Data
+          </Typography>
           <Divider sx={{ border: '1px solid #929292', margin: '10px 0px' }} />
 
-          <Grid
-            container
-            direction='row'
-            spacing={3}
-            rowSpacing={2}
-          >
-
+          <Grid container direction='row' spacing={3} rowSpacing={2}>
             <Grid item xs={6}>
               <Autocomplete
                 options={['a', 'b']}
@@ -305,18 +303,19 @@ const ExportEmployeeComponent = ({
                 onChange={(val) => {}}
               />
             </Grid>
-
           </Grid>
         </Paper>
 
         <Paper sx={{ padding: 2 }}>
-          <Typography fontSize='12' color='#895700' fontWeight='700'>Jenis File Export</Typography>
+          <Typography fontSize='12' color='#895700' fontWeight='700'>
+            Jenis File Export
+          </Typography>
           <Divider sx={{ border: '1px solid #929292', margin: '10px 0px' }} />
           <Grid container spacing={3}>
             <Grid item xs={4}>
               <FormControlLabel control={<Checkbox />} label='CSV' />
             </Grid>
-            
+
             <Grid item xs={4}>
               <FormControlLabel control={<Checkbox />} label='XLSX' />
             </Grid>
@@ -328,10 +327,18 @@ const ExportEmployeeComponent = ({
         </Paper>
 
         <Paper sx={{ padding: 2 }}>
-          <Typography fontSize='12' color='#895700' fontWeight='700'>Hasil Export Data</Typography>
+          <Typography fontSize='12' color='#895700' fontWeight='700'>
+            Hasil Export Data
+          </Typography>
           <Divider sx={{ border: '1px solid #929292', margin: '10px 0px' }} />
 
-          <Box sx={{ border: '1px solid #000', borderRadius: 1, padding: '0px 6px' }}>
+          <Box
+            sx={{
+              border: '1px solid #000',
+              borderRadius: 1,
+              padding: '0px 6px'
+            }}
+          >
             <Box
               sx={{
                 width: '100%',
@@ -353,7 +360,10 @@ const ExportEmployeeComponent = ({
                 <FormControlLabel control={<Checkbox />} label='Jabatan' />
               </Grid>
               <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Keterangan Jabatan' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='Keterangan Jabatan'
+                />
               </Grid>
 
               <Grid item xs={4}>
@@ -367,7 +377,10 @@ const ExportEmployeeComponent = ({
               </Grid>
 
               <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Tempat, Tanggal Lahir' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='Tempat, Tanggal Lahir'
+                />
               </Grid>
               <Grid item xs={4}>
                 <FormControlLabel control={<Checkbox />} label='Umur' />
@@ -377,69 +390,114 @@ const ExportEmployeeComponent = ({
               </Grid>
 
               <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Jenis Kelamin' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='Jenis Kelamin'
+                />
               </Grid>
               <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Status Perkawinan' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='Status Perkawinan'
+                />
               </Grid>
               <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Instansi Induk' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='Instansi Induk'
+                />
               </Grid>
 
               <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Satuan Organisasi' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='Satuan Organisasi'
+                />
               </Grid>
               <Grid item xs={4}>
                 <FormControlLabel control={<Checkbox />} label='Unit Kerja' />
               </Grid>
               <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='No. Karpeg/No. Karis/No. Karsu' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='No. Karpeg/No. Karis/No. Karsu'
+                />
               </Grid>
 
               <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Masa Kerja Keseluruhan' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='Masa Kerja Keseluruhan'
+                />
               </Grid>
               <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Masa Kerja Golongan' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='Masa Kerja Golongan'
+                />
               </Grid>
               <Grid item xs={4}>
                 <FormControlLabel control={<Checkbox />} label='NPWP' />
               </Grid>
 
               <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Status Pegawai' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='Status Pegawai'
+                />
               </Grid>
               <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Alamat Tempat Tinggal Saat Ini' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='Alamat Tempat Tinggal Saat Ini'
+                />
               </Grid>
               <Grid item xs={4}>
                 <FormControlLabel control={<Checkbox />} label='Komplek' />
               </Grid>
 
               <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='No. Telepon Rumah' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='No. Telepon Rumah'
+                />
               </Grid>
               <Grid item xs={4}>
                 <FormControlLabel control={<Checkbox />} label='No. HP' />
               </Grid>
               <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Alamat Kantor' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='Alamat Kantor'
+                />
               </Grid>
 
               <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='No. Telepon Kantor' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='No. Telepon Kantor'
+                />
               </Grid>
               <Grid item xs={4}>
                 <FormControlLabel control={<Checkbox />} label='Email' />
               </Grid>
               <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Batas Usia Pensiun' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='Batas Usia Pensiun'
+                />
               </Grid>
             </Grid>
-
           </Box>
-          
-          <Box sx={{ border: '1px solid #000', borderRadius: 1, padding: '0px 6px', marginTop: 2 }}>
+
+          <Box
+            sx={{
+              border: '1px solid #000',
+              borderRadius: 1,
+              padding: '0px 6px',
+              marginTop: 2
+            }}
+          >
             <Box
               sx={{
                 width: '100%',
@@ -455,7 +513,10 @@ const ExportEmployeeComponent = ({
 
             <Grid container>
               <Grid item xs={12}>
-                <FormControlLabel control={<Checkbox />} label='Riwayat Pendidikan' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='Riwayat Pendidikan'
+                />
               </Grid>
 
               <Grid container sx={{ paddingLeft: 4 }}>
@@ -466,62 +527,110 @@ const ExportEmployeeComponent = ({
                   <FormControlLabel control={<Checkbox />} label='Strata II' />
                 </Grid>
                 <Grid item xs={4}>
-                  <FormControlLabel control={<Checkbox />} label='Diploma IV/Strata I' />
+                  <FormControlLabel
+                    control={<Checkbox />}
+                    label='Diploma IV/Strata I'
+                  />
                 </Grid>
 
                 <Grid item xs={4}>
-                  <FormControlLabel control={<Checkbox />} label='Akademi/Diploma III/Sarjana Muda' />
+                  <FormControlLabel
+                    control={<Checkbox />}
+                    label='Akademi/Diploma III/Sarjana Muda'
+                  />
                 </Grid>
                 <Grid item xs={4}>
-                  <FormControlLabel control={<Checkbox />} label='Diploma I/II' />
+                  <FormControlLabel
+                    control={<Checkbox />}
+                    label='Diploma I/II'
+                  />
                 </Grid>
                 <Grid item xs={4}>
-                  <FormControlLabel control={<Checkbox />} label='SLTA/Sederajat' />
+                  <FormControlLabel
+                    control={<Checkbox />}
+                    label='SLTA/Sederajat'
+                  />
                 </Grid>
 
                 <Grid item xs={4}>
-                  <FormControlLabel control={<Checkbox />} label='SLTP/Sederajat' />
+                  <FormControlLabel
+                    control={<Checkbox />}
+                    label='SLTP/Sederajat'
+                  />
                 </Grid>
                 <Grid item xs={4}>
-                  <FormControlLabel control={<Checkbox />} label='SD/Sederajat' />
+                  <FormControlLabel
+                    control={<Checkbox />}
+                    label='SD/Sederajat'
+                  />
                 </Grid>
               </Grid>
 
               <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Riwayat Jabatan' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='Riwayat Jabatan'
+                />
               </Grid>
               <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Riwayat Golongan' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='Riwayat Golongan'
+                />
               </Grid>
               <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Riwayat Pelatihan Struktural' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='Riwayat Pelatihan Struktural'
+                />
               </Grid>
 
               <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Riwayat Pelatihan Fungsional' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='Riwayat Pelatihan Fungsional'
+                />
               </Grid>
               <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Riwayat Pelatihan Teknis' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='Riwayat Pelatihan Teknis'
+                />
               </Grid>
               <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Riwayat Penghargaan' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='Riwayat Penghargaan'
+                />
               </Grid>
 
               <Grid item xs={4}>
                 <FormControlLabel control={<Checkbox />} label='Riwayat SKP' />
               </Grid>
               <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Riwayat Penetapan Angka Kredit Terakhir' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='Riwayat Penetapan Angka Kredit Terakhir'
+                />
               </Grid>
               <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Riwayat Penilaian Prestasi Kerja' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='Riwayat Penilaian Prestasi Kerja'
+                />
               </Grid>
 
               <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Riwayat Hukuman Disiplin' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='Riwayat Hukuman Disiplin'
+                />
               </Grid>
               <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Riwayat Keluarga' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='Riwayat Keluarga'
+                />
               </Grid>
               <Grid item xs={4}>
                 <FormControlLabel control={<Checkbox />} label='Riwayat Cuti' />
@@ -531,17 +640,25 @@ const ExportEmployeeComponent = ({
                 <FormControlLabel control={<Checkbox />} label='Catatan' />
               </Grid>
               <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Hasil Assessment' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='Hasil Assessment'
+                />
               </Grid>
               <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Hasil Uji Kompetensi' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='Hasil Uji Kompetensi'
+                />
               </Grid>
 
               <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Hasil Talent Pool' />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label='Hasil Talent Pool'
+                />
               </Grid>
             </Grid>
-
           </Box>
 
           <MuiButton

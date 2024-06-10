@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
@@ -72,15 +73,8 @@ const ExportDrhComponent = ({
   const action = useMemo(() => {
     return (
       <Box sx={{ display: 'flex', gap: 1 }}>
-        <Button
-          text='Reset'
-          color='danger'
-          onClick={() => {}}
-        />
-        <Button
-          text='Export'
-          onClick={() => {}}
-        />
+        <Button text='Reset' color='danger' onClick={() => {}} />
+        <Button text='Export' onClick={() => {}} />
       </Box>
     )
   }, [])
@@ -102,16 +96,12 @@ const ExportDrhComponent = ({
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
       <LayoutPages summary='Export DRH' action={action}>
         <Paper sx={{ padding: 2 }}>
-          <Typography fontSize='12' color='#895700' fontWeight='700'>Filter Data</Typography>
+          <Typography fontSize='12' color='#895700' fontWeight='700'>
+            Filter Data
+          </Typography>
           <Divider sx={{ border: '1px solid #929292', margin: '10px 0px' }} />
 
-          <Grid
-            container
-            direction='row'
-            spacing={3}
-            rowSpacing={2}
-          >
-
+          <Grid container direction='row' spacing={3} rowSpacing={2}>
             <Grid item xs={6}>
               <Autocomplete
                 options={['a', 'b']}
@@ -267,7 +257,6 @@ const ExportDrhComponent = ({
                 onChange={(val) => {}}
               />
             </Grid>
-
           </Grid>
         </Paper>
       </LayoutPages>
