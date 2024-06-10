@@ -46,7 +46,45 @@ const cardStyle = {
   padding: 'unset'
 }
 
-function FormComponent({ formType }) {
+function FormComponent({ mode, pageType }) {
+  if (pageType == 'OUTSOURCING') {
+    return (
+      <Box sx={containerStyles}>
+        <Card otherStyle={cardStyle}>
+          <Accordion sx={accordionStyles}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls='panel1-content'
+              id='panel1-header'
+              sx={accordionSummaryStyles}
+            >
+              Pendidikan
+            </AccordionSummary>
+            <AccordionDetails>
+              <EducationForm />
+            </AccordionDetails>
+          </Accordion>
+        </Card>
+
+        <Card otherStyle={cardStyle}>
+          <Accordion sx={accordionStyles}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls='panel1-content'
+              id='panel1-header'
+              sx={accordionSummaryStyles}
+            >
+              Catatan
+            </AccordionSummary>
+            <AccordionDetails>
+              <NotesForm />
+            </AccordionDetails>
+          </Accordion>
+        </Card>
+      </Box>
+    )
+  }
+
   return (
     <Box sx={containerStyles}>
       <Card otherStyle={cardStyle}>
@@ -60,7 +98,7 @@ function FormComponent({ formType }) {
             Data Pegawai
           </AccordionSummary>
           <AccordionDetails>
-            <EmployeeForm />
+            <EmployeeForm pageType={pageType} />
           </AccordionDetails>
         </Accordion>
       </Card>
@@ -81,7 +119,7 @@ function FormComponent({ formType }) {
         </Accordion>
       </Card>
 
-      {formType == 'edit' && (
+      {mode == 'edit' && (
         <>
           <Card otherStyle={cardStyle}>
             <Accordion sx={accordionStyles}>
@@ -329,7 +367,8 @@ function FormComponent({ formType }) {
 }
 
 FormComponent.propTypes = {
-  formType: PropTypes.string.isRequired
+  mode: PropTypes.string.isRequired,
+  pageType: PropTypes.string.isRequired
 }
 
 export default FormComponent

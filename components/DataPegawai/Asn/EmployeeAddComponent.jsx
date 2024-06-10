@@ -26,7 +26,7 @@ const EmployeeAddComponent = () => {
       summary={'Tambah Pegawai ASN'}
       action={action}
     >
-      <FormComponent formType='add' />
+      <FormComponent mode='add' pageType='ASN' />
     </LayoutPages>
   )
 }

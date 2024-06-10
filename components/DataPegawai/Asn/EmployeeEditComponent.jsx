@@ -26,7 +26,7 @@ const EmployeeEditComponent = () => {
       summary={'Edit Pegawai ASN'}
       action={action}
     >
-      <FormComponent formType='edit' />
+      <FormComponent mode='edit' pageType='ASN' />
     </LayoutPages>
   )
 }

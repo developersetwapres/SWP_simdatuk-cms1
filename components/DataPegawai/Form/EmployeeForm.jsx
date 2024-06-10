@@ -5,6 +5,7 @@ import {
   Button as MuiButton,
   Grid
 } from '@mui/material'
+import PropTypes from 'prop-types'
 import { Input } from '@/components/shared'
 import { styled } from '@mui/styles'
 import DatePickerDay from '@/components/shared/form/DatePickerDay'
@@ -66,7 +67,7 @@ function InputFile() {
   )
 }
 
-export default function EmployeeForm() {
+function EmployeeForm({ pageType }) {
   return (
     <>
       <Box>
@@ -85,27 +86,32 @@ export default function EmployeeForm() {
               onChange={(val) => console.log(val)}
             />
           </Grid>
-          <Grid item xs={6}>
-            <Input
-              label='Nama Gelar Depan'
-              placeholder='Masukkan Nama Gelar Depan'
-              name='name'
-              value={''}
-              error={''}
-              onChange={(val) => console.log(val)}
-            />
-          </Grid>
 
-          <Grid item xs={6}>
-            <Input
-              label='Nama Gelar Belakang'
-              placeholder='Masukkan Nama Gelar Belakang'
-              name='name'
-              value={''}
-              error={''}
-              onChange={(val) => console.log(val)}
-            />
-          </Grid>
+          {pageType != 'OUTSOURCING' && (
+            <>
+              <Grid item xs={6}>
+                <Input
+                  label='Nama Gelar Depan'
+                  placeholder='Masukkan Nama Gelar Depan'
+                  name='name'
+                  value={''}
+                  error={''}
+                  onChange={(val) => console.log(val)}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Input
+                  label='Nama Gelar Belakang'
+                  placeholder='Masukkan Nama Gelar Belakang'
+                  name='name'
+                  value={''}
+                  error={''}
+                  onChange={(val) => console.log(val)}
+                />
+              </Grid>
+            </>
+          )}
+
           <Grid item xs={6}>
             <Input
               label='NIP *'
@@ -117,16 +123,19 @@ export default function EmployeeForm() {
             />
           </Grid>
 
-          <Grid item xs={6}>
-            <Input
-              label='NRP'
-              placeholder='Masukkan NRP'
-              name='name'
-              value={''}
-              error={''}
-              onChange={(val) => console.log(val)}
-            />
-          </Grid>
+          {pageType != 'OUTSOURCING' && (
+            <Grid item xs={6}>
+              <Input
+                label='NRP'
+                placeholder='Masukkan NRP'
+                name='name'
+                value={''}
+                error={''}
+                onChange={(val) => console.log(val)}
+              />
+            </Grid>
+          )}
+
           <Grid item xs={6}>
             <Input
               label='Tempat Lahir *'
@@ -186,15 +195,39 @@ export default function EmployeeForm() {
           </Grid>
 
           <Grid item xs={6}>
-            <Autocomplete
-              options={['a', 'b']}
-              name={`name`}
-              placeholder='Pilih Jenis Pegawai'
-              multiple={true}
-              label='Jenis Pegawai *'
-              error={''}
-              onChange={(val) => console.log(val)}
-            />
+            {pageType == 'ASN' && (
+              <Autocomplete
+                options={['a', 'b']}
+                name='employementType'
+                placeholder='Pilih Jenis Pegawai'
+                multiple={true}
+                label='Jenis Pegawai *'
+                error={''}
+                onChange={(val) => console.log(val)}
+              />
+            )}
+            {pageType == 'NON_ASN' && (
+              <Autocomplete
+                options={['a', 'b']}
+                name='employementType'
+                placeholder='Pilih Jenis Perbantuan'
+                multiple={true}
+                label='Jenis Perbantuan *'
+                error={''}
+                onChange={(val) => console.log(val)}
+              />
+            )}
+            {pageType == 'ASN' && (
+              <Autocomplete
+                options={['a', 'b']}
+                name='employementType'
+                placeholder='Pilih Jenis Outsourcing'
+                multiple={true}
+                label='Jenis Outsourcing *'
+                error={''}
+                onChange={(val) => console.log(val)}
+              />
+            )}
           </Grid>
           <Grid item xs={6}>
             <Autocomplete
@@ -220,84 +253,101 @@ export default function EmployeeForm() {
               }}
             />
           </Grid>
+
+          {pageType != 'OUTSOURCING' && (
+            <>
+              <Grid item xs={6}>
+                <Autocomplete
+                  options={['a', 'b']}
+                  name={`name`}
+                  placeholder='Pilih Golongan'
+                  multiple={true}
+                  label='Golongan *'
+                  error={''}
+                  onChange={(val) => console.log(val)}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <DatePickerDay
+                  value={''}
+                  name={'dateOfBirth'}
+                  label='TMT Golongan *'
+                  placeholder='dd-mm-yyyy'
+                  error={''}
+                  onChange={(val) => {
+                    console.log(val)
+                  }}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Autocomplete
+                  options={['a', 'b']}
+                  name={`name`}
+                  placeholder='Pilih Eselon'
+                  multiple={true}
+                  label='Eselon *'
+                  error={''}
+                  onChange={(val) => console.log(val)}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <DatePickerDay
+                  value={''}
+                  name={'dateOfBirth'}
+                  label='TMT Eselon'
+                  placeholder='dd-mm-yyyy'
+                  error={''}
+                  onChange={(val) => {
+                    console.log(val)
+                  }}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Autocomplete
+                  options={['a', 'b']}
+                  name={`name`}
+                  placeholder='Pilih Instansi Induk'
+                  multiple={true}
+                  label='Instansi Induk *'
+                  error={''}
+                  onChange={(val) => console.log(val)}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <Autocomplete
+                  options={['a', 'b']}
+                  name={`name`}
+                  placeholder='Pilih Satuan Organisasi'
+                  multiple={true}
+                  label='Satuan Organisasi *'
+                  error={''}
+                  onChange={(val) => console.log(val)}
+                />
+              </Grid>
+            </>
+          )}
+
           <Grid item xs={6}>
             <Autocomplete
               options={['a', 'b']}
               name={`name`}
-              placeholder='Pilih Golongan'
+              placeholder='Pilih Tingkat'
               multiple={true}
-              label='Golongan *'
+              label='Tingkat *'
               error={''}
               onChange={(val) => console.log(val)}
             />
           </Grid>
 
           <Grid item xs={6}>
-            <DatePickerDay
+            <Input
+              label='Nama Sekolah/Universitas *'
+              placeholder='Masukkan Nama Sekolah/Universitas'
+              name='name'
               value={''}
-              name={'dateOfBirth'}
-              label='TMT Golongan *'
-              placeholder='dd-mm-yyyy'
-              error={''}
-              onChange={(val) => {
-                console.log(val)
-              }}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <Autocomplete
-              options={['a', 'b']}
-              name={`name`}
-              placeholder='Pilih Eselon'
-              multiple={true}
-              label='Eselon *'
-              error={''}
-              onChange={(val) => console.log(val)}
-            />
-          </Grid>
-
-          <Grid item xs={6}>
-            <DatePickerDay
-              value={''}
-              name={'dateOfBirth'}
-              label='TMT Eselon'
-              placeholder='dd-mm-yyyy'
-              error={''}
-              onChange={(val) => {
-                console.log(val)
-              }}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <Autocomplete
-              options={['a', 'b']}
-              name={`name`}
-              placeholder='Pilih Instansi Induk'
-              multiple={true}
-              label='Instansi Induk *'
-              error={''}
-              onChange={(val) => console.log(val)}
-            />
-          </Grid>
-
-          <Grid item xs={6}>
-            <Autocomplete
-              options={['a', 'b']}
-              name={`name`}
-              placeholder='Pilih Satuan Organisasi'
-              multiple={true}
-              label='Satuan Organisasi *'
-              error={''}
-              onChange={(val) => console.log(val)}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <Autocomplete
-              options={['a', 'b']}
-              name={`name`}
-              placeholder='Pilih Unit Kerja'
-              multiple={true}
-              label='Unit Kerja *'
               error={''}
               onChange={(val) => console.log(val)}
             />
@@ -305,50 +355,77 @@ export default function EmployeeForm() {
 
           <Grid item xs={6}>
             <Input
-              label='No. Karpeg'
-              placeholder='Masukkan No. Karpeg'
+              label='Tahun Lulus *'
+              placeholder='Masukkan Tahun Lulus'
               name='name'
               value={''}
               error={''}
               onChange={(val) => console.log(val)}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <UploadFile
-              label='Kartu Pegawai'
-              maxSize={2}
-              dataUnit='MB'
-              formatFile={['.png', '.jpg', '.pdf']}
-              name={'name'}
-              value={''}
-              error={''}
-              onDelete={() => { }}
-              onChange={(val) => {
-                console.log(val)
-              }}
             />
           </Grid>
 
-          <Grid item xs={6}>
-            <Input
-              label='No. Karis'
-              placeholder='Masukkan No. Karis'
-              name='name'
-              value={''}
-              error={''}
-              onChange={(val) => console.log(val)}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <Input
-              label='No. Karsu'
-              placeholder='Masukkan No. Karsu'
-              name='name'
-              value={''}
-              error={''}
-              onChange={(val) => console.log(val)}
-            />
-          </Grid>
+          {pageType != 'OUTSOURCING' && (
+            <>
+              <Grid item xs={6}>
+                <Autocomplete
+                  options={['a', 'b']}
+                  name={`name`}
+                  placeholder='Pilih Unit Kerja'
+                  multiple={true}
+                  label='Unit Kerja *'
+                  error={''}
+                  onChange={(val) => console.log(val)}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <Input
+                  label='No. Karpeg'
+                  placeholder='Masukkan No. Karpeg'
+                  name='name'
+                  value={''}
+                  error={''}
+                  onChange={(val) => console.log(val)}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <UploadFile
+                  label='Kartu Pegawai'
+                  maxSize={2}
+                  dataUnit='MB'
+                  formatFile={['.png', '.jpg', '.pdf']}
+                  name={'name'}
+                  value={''}
+                  error={''}
+                  onDelete={() => { }}
+                  onChange={(val) => {
+                    console.log(val)
+                  }}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <Input
+                  label='No. Karis'
+                  placeholder='Masukkan No. Karis'
+                  name='name'
+                  value={''}
+                  error={''}
+                  onChange={(val) => console.log(val)}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Input
+                  label='No. Karsu'
+                  placeholder='Masukkan No. Karsu'
+                  name='name'
+                  value={''}
+                  error={''}
+                  onChange={(val) => console.log(val)}
+                />
+              </Grid>
+            </>
+          )}
 
           <Grid item xs={6}>
             <Input
@@ -367,6 +444,27 @@ export default function EmployeeForm() {
               placeholder='Pilih Status Pegawai'
               multiple={true}
               label='Status Pegawai *'
+              error={''}
+              onChange={(val) => console.log(val)}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <Input
+              label='No. KK *'
+              placeholder='Masukkan No. KK *'
+              name='name'
+              value={''}
+              error={''}
+              onChange={(val) => console.log(val)}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <Input
+              label='No. NIK *'
+              placeholder='Masukkan No. NIK'
+              name='name'
+              value={''}
               error={''}
               onChange={(val) => console.log(val)}
             />
@@ -446,6 +544,20 @@ export default function EmployeeForm() {
               onChange={(val) => console.log(val)}
             />
           </Grid>
+
+          {pageType == 'OUTSOURCING' && (
+            <Grid item xs={6}>
+              <Input
+                label='Keterangan'
+                placeholder='Masukkan Keterangan'
+                name='name'
+                value={''}
+                error={''}
+                onChange={(val) => console.log(val)}
+              />
+            </Grid>
+          )}
+
           <Grid item xs={6}>
             <Input
               label='Kontak Darurat(Nama, Nomor Handphone, Hubungan dengan pegawai)*'
@@ -461,3 +573,9 @@ export default function EmployeeForm() {
     </>
   )
 }
+
+EmployeeForm.propTypes = {
+  pageType: PropTypes.string.isRequired
+}
+
+export default EmployeeForm
