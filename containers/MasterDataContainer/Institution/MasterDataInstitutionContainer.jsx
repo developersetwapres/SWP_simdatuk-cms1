@@ -7,15 +7,14 @@ import Layout from '@/components/core/Layout'
 import MasterDataInstitutionComponent from '@/components/MasterData/Institution/MasterDataInstitutionComponent'
 
 export default connect(
-  mapStateToProps('role'),
-  mapActions('getRoles', 'getRolesOptions', 'deleteRole')
+  mapStateToProps('institution'),
+  mapActions('getInstitutions', 'getInstitutionsOptions', 'deleteInstitution')
 )(
   class MasterDataInstitutionContainer extends Component {
     static propTypes = {
-      role: PropTypes.object,
-      getRoles: PropTypes.func,
-      getRolesOptions: PropTypes.func,
-      deleteRole: PropTypes.func
+      institution: PropTypes.object,
+      getInstitutions: PropTypes.func,
+      getInstitutionsOptions: PropTypes.func
     }
 
     constructor(props) {
@@ -29,7 +28,7 @@ export default connect(
         willRender: false
       }
       this.fetch = this.fetch.bind(this)
-      this.fetchGetRolesOptions = this.fetchGetRolesOptions.bind(this)
+      this.fetchOptions = this.fetchOptions.bind(this)
       this.onPaginationChange = this.onPaginationChange.bind(this)
       this.onRowsPerPageChange = this.onRowsPerPageChange.bind(this)
       this.onSearch = this.onSearch.bind(this)
@@ -38,15 +37,17 @@ export default connect(
     }
 
     fetch(queries) {
-      this.props.getRoles(queries)
+      this.props.getInstitutions(queries)
     }
 
-    fetchGetRolesOptions() {
-      this.props.getRolesOptions({
+    fetchOptions() {
+      const queries = {
         page: 1,
         limit: 10000,
         search: ''
-      })
+      }
+
+      this.props.getInstitutionsOptions(queries)
     }
 
     onPaginationChange(page) {
@@ -96,7 +97,7 @@ export default connect(
 
     componentDidMount() {
       this.fetch(this.state.queries)
-      this.fetchGetRolesOptions()
+      this.fetchOptions()
     }
 
     render() {
@@ -106,7 +107,7 @@ export default connect(
             onSearch={this.onSearch}
             onLoading={this.setLoading}
             onFetch={this.fetch}
-            onFetchOptions={this.fetchGetRolesOptions}
+            onFetchOptions={this.fetchOptions}
             onPaginationChange={this.onPaginationChange}
             onRowsPerPageChange={this.onRowsPerPageChange}
             {...this.state}

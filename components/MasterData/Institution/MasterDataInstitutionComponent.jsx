@@ -56,15 +56,15 @@ const styles = {
 }
 
 const MasterDataInstitutionComponent = ({
-  role,
   queries,
-  onFetch = () => {},
-  onFetchOptions = () => {},
+  institution,
   onSearch = () => {},
   onLoading = () => {},
+  onFetch = () => {},
+  onFetchOptions = () => {},
   onPaginationChange = () => {},
   onRowsPerPageChange = () => {},
-  deleteRole = () => {}
+  deleteInstitution = () => {}
 }) => {
   const classes = useStyles()
   const router = useRouter()
@@ -75,17 +75,17 @@ const MasterDataInstitutionComponent = ({
   const [deleteId, setDeleteId] = useState(null)
 
   const handleSetValue = (val) => {
-    const data = role?.options.filter((itm) => itm?.name == val)[0]
+    const data = institution?.options.filter((itm) => itm?.name == val)[0]
     setDeleteValue(data)
   }
 
   const handleDelete = () => {
     const payload = {
       id: deleteId,
-      data: { role_id: deleteValue?.id }
+      data: { institution_id: deleteValue?.id }
     }
 
-    deleteRole(payload)
+    deleteInstitution(payload)
   }
 
   const handleModal = () => {
@@ -101,7 +101,7 @@ const MasterDataInstitutionComponent = ({
 
   const options = useMemo(() => {
     let newOptions = []
-    const datas = role?.options
+    const datas = institution?.options
 
     if (datas) {
       if (deleteId) {
@@ -116,7 +116,7 @@ const MasterDataInstitutionComponent = ({
     }
 
     return newOptions
-  }, [role, deleteId])
+  }, [institution, deleteId])
 
   const columns = useMemo(() => {
     const col = [
@@ -132,16 +132,17 @@ const MasterDataInstitutionComponent = ({
       }
     ]
     return col
-  }, [role])
+  }, [])
 
   const rows = useMemo(() => {
-    const dataMapping = role?.data.map((item) => {
+    const data = institution?.data || []
+    const dataMapping = data.map((item) => {
       return [
         {
           Header: 'Name',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.name}</Typography>
+          Cell: () => <Typography>{item?.name || '-'}</Typography>
         },
         {
           Header: 'Aksi',
@@ -184,7 +185,7 @@ const MasterDataInstitutionComponent = ({
     })
 
     return dataMapping
-  }, [role])
+  }, [institution])
 
   const action = useMemo(() => {
     return (
@@ -198,13 +199,13 @@ const MasterDataInstitutionComponent = ({
   }, [])
 
   useEffect(() => {
-    const state = !role?.loading
+    const state = !institution?.loading
     onLoading(state)
-  }, [role])
+  }, [institution])
 
   useEffect(() => {
     if (modal?.code !== null) handleModal()
-    if (!modal?.modal && role?.data.length > 0) {
+    if (!modal?.modal && institution?.data.length > 0) {
       onFetch(queries)
       onFetchOptions()
     }
@@ -234,19 +235,19 @@ const MasterDataInstitutionComponent = ({
         <Table
           columns={columns}
           rows={rows}
-          pagination={role?.pagination}
+          pagination={institution?.pagination}
           handlePagination={onPaginationChange}
           handleRows={onRowsPerPageChange}
         />
       </LayoutPages>
       <ModalConfirmDelete
-        label='Role Pengguna'
-        title='Hapus Data Role Pengguna'
-        copytext='Apakah anda yakin akan menghapus data role pengguna ? Jika ya, silahkan pilih role pengguna lain sebagai pengganti'
+        label='Instansi'
+        title='Hapus Data Instansi'
+        copytext='Apakah anda yakin akan menghapus data instansi ? Jika ya, silahkan pilih instansi lain sebagai pengganti'
         options={options}
         open={modalDelete}
         value={deleteValue?.name || null}
-        isLoading={role?.loading}
+        isLoading={institution?.loading}
         handleModal={handleModal}
         handleDelete={handleDelete}
         handleSetValue={handleSetValue}
@@ -256,15 +257,15 @@ const MasterDataInstitutionComponent = ({
 }
 
 MasterDataInstitutionComponent.propTypes = {
-  role: PropTypes.object,
+  institution: PropTypes.object,
   queries: PropTypes.object,
-  onFetch: PropTypes.func,
-  onFetchOptions: PropTypes.func,
   onSearch: PropTypes.func,
   onLoading: PropTypes.func,
+  onFetch: PropTypes.func,
+  onFetchOptions: PropTypes.func,
   onPaginationChange: PropTypes.func,
   onRowsPerPageChange: PropTypes.func,
-  deleteRole: PropTypes.func
+  deleteInstitution: PropTypes.func
 }
 
 export default MasterDataInstitutionComponent
