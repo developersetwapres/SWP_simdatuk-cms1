@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
@@ -56,67 +57,35 @@ const styles = {
 }
 
 const MasterDataEmployementTypeComponent = ({
-  role,
+  employmentType,
   queries,
   onFetch = () => {},
-  onFetchOptions = () => {},
   onSearch = () => {},
   onLoading = () => {},
   onPaginationChange = () => {},
   onRowsPerPageChange = () => {},
-  deleteRole = () => {}
+  deleteEmploymentType = () => {}
 }) => {
   const classes = useStyles()
   const router = useRouter()
   const modal = useSelector((state) => state.modalReducer)
 
+  const [type, setType] = useState(['ASN', 'NON ASN', 'OUTSOURCE'])
   const [modalDelete, setModalDelete] = useState(false)
-  const [deleteValue, setDeleteValue] = useState(null)
   const [deleteId, setDeleteId] = useState(null)
 
-  const handleSetValue = (val) => {
-    const data = role?.options.filter((itm) => itm?.name == val)[0]
-    setDeleteValue(data)
-  }
-
   const handleDelete = () => {
-    const payload = {
-      id: deleteId,
-      data: { role_id: deleteValue?.id }
-    }
-
-    deleteRole(payload)
+    deleteEmploymentType(deleteId)
   }
 
   const handleModal = () => {
     const newVal = !modalDelete
-
     setModalDelete(newVal)
 
     if (!newVal) {
       setDeleteId(null)
-      setDeleteValue(null)
     }
   }
-
-  const options = useMemo(() => {
-    let newOptions = []
-    const datas = role?.options
-
-    if (datas) {
-      if (deleteId) {
-        const newData = datas
-          .filter((itm) => itm?.id !== deleteId)
-          .map((itm) => itm?.name)
-        newOptions = newData
-      } else {
-        const newData = datas.map((itm) => itm?.name)
-        newOptions = newData
-      }
-    }
-
-    return newOptions
-  }, [role, deleteId])
 
   const columns = useMemo(() => {
     const col = [
@@ -142,10 +111,11 @@ const MasterDataEmployementTypeComponent = ({
       }
     ]
     return col
-  }, [role])
+  }, [])
 
   const rows = useMemo(() => {
-    const dataMapping = role?.data.map((item) => {
+    const data = employmentType?.data || []
+    const dataMapping = data.map((item) => {
       return [
         {
           Header: 'Pegawai',
@@ -157,13 +127,23 @@ const MasterDataEmployementTypeComponent = ({
           Header: 'Jenis Pegawai',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.name}</Typography>
+          Cell: () => (
+            <Typography>{item?.type ? type[item?.type - 1] : '-'}</Typography>
+          )
         },
         {
           Header: 'Tampilkan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.name}</Typography>
+          Cell: () => (
+            <Typography>
+              {item?.status !== null
+                ? parseInt(item?.status)
+                  ? 'Ya'
+                  : 'Tidak'
+                : '-'}
+            </Typography>
+          )
         },
         {
           Header: 'Aksi',
@@ -192,12 +172,12 @@ const MasterDataEmployementTypeComponent = ({
               <Button
                 text='Hapus'
                 color='danger'
+                icon={<Delete style={styles.iconButton} />}
+                sx={styles.buttonAction}
                 onClick={() => {
                   setDeleteId(item?.id)
                   handleModal()
                 }}
-                icon={<Delete style={styles.iconButton} />}
-                sx={styles.buttonAction}
               />
             </Box>
           )
@@ -206,7 +186,7 @@ const MasterDataEmployementTypeComponent = ({
     })
 
     return dataMapping
-  }, [role])
+  }, [employmentType])
 
   const action = useMemo(() => {
     return (
@@ -220,15 +200,14 @@ const MasterDataEmployementTypeComponent = ({
   }, [])
 
   useEffect(() => {
-    const state = !role?.loading
+    const state = !employmentType?.loading
     onLoading(state)
-  }, [role])
+  }, [employmentType])
 
   useEffect(() => {
     if (modal?.code !== null) handleModal()
-    if (!modal?.modal && role?.data.length > 0) {
-      onFetch(queries)
-      onFetchOptions()
+    if (!modal?.modal && employmentType?.data.length > 0) {
+      onFetch({ ...queries, search: '' })
     }
   }, [modal])
 
@@ -256,37 +235,33 @@ const MasterDataEmployementTypeComponent = ({
         <Table
           columns={columns}
           rows={rows}
-          pagination={role?.pagination}
+          pagination={employmentType?.pagination}
           handlePagination={onPaginationChange}
           handleRows={onRowsPerPageChange}
         />
       </LayoutPages>
       <ModalConfirmDelete
-        label='Role Pengguna'
-        title='Hapus Data Role Pengguna'
-        copytext='Apakah anda yakin akan menghapus data role pengguna ? Jika ya, silahkan pilih role pengguna lain sebagai pengganti'
-        options={options}
+        title='Hapus Data Jenis Pegawai'
+        copytext='Apakah anda yakin akan menghapus data jenis pegawai ?'
+        options={null}
         open={modalDelete}
-        value={deleteValue?.name || null}
-        isLoading={role?.loading}
+        isLoading={employmentType?.loading}
         handleModal={handleModal}
         handleDelete={handleDelete}
-        handleSetValue={handleSetValue}
       />
     </>
   )
 }
 
 MasterDataEmployementTypeComponent.propTypes = {
-  role: PropTypes.object,
+  employmentType: PropTypes.object,
   queries: PropTypes.object,
   onFetch: PropTypes.func,
-  onFetchOptions: PropTypes.func,
   onSearch: PropTypes.func,
   onLoading: PropTypes.func,
   onPaginationChange: PropTypes.func,
   onRowsPerPageChange: PropTypes.func,
-  deleteRole: PropTypes.func
+  deleteEmploymentType: PropTypes.func
 }
 
 export default MasterDataEmployementTypeComponent

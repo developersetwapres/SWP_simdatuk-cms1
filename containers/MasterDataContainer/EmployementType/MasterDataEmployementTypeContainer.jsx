@@ -7,15 +7,14 @@ import Layout from '@/components/core/Layout'
 import MasterDataEmployementTypeComponent from '@/components/MasterData/EmployementType/MasterDataEmployementTypeComponent'
 
 export default connect(
-  mapStateToProps('role'),
-  mapActions('getRoles', 'getRolesOptions', 'deleteRole')
+  mapStateToProps('employmentType'),
+  mapActions('getEmploymentTypes', 'deleteEmploymentType')
 )(
   class MasterDataEmployementTypeContainer extends Component {
     static propTypes = {
-      role: PropTypes.object,
-      getRoles: PropTypes.func,
-      getRolesOptions: PropTypes.func,
-      deleteRole: PropTypes.func
+      employmentType: PropTypes.object,
+      getEmploymentTypes: PropTypes.func,
+      deleteEmploymentType: PropTypes.func
     }
 
     constructor(props) {
@@ -29,7 +28,6 @@ export default connect(
         willRender: false
       }
       this.fetch = this.fetch.bind(this)
-      this.fetchGetRolesOptions = this.fetchGetRolesOptions.bind(this)
       this.onPaginationChange = this.onPaginationChange.bind(this)
       this.onRowsPerPageChange = this.onRowsPerPageChange.bind(this)
       this.onSearch = this.onSearch.bind(this)
@@ -38,15 +36,7 @@ export default connect(
     }
 
     fetch(queries) {
-      this.props.getRoles(queries)
-    }
-
-    fetchGetRolesOptions() {
-      this.props.getRolesOptions({
-        page: 1,
-        limit: 10000,
-        search: ''
-      })
+      this.props.getEmploymentTypes(queries)
     }
 
     onPaginationChange(page) {
@@ -96,17 +86,15 @@ export default connect(
 
     componentDidMount() {
       this.fetch(this.state.queries)
-      this.fetchGetRolesOptions()
     }
 
     render() {
       return (
         <Layout willRender={this.state.willRender}>
           <MasterDataEmployementTypeComponent
+            onFetch={this.fetch}
             onSearch={this.onSearch}
             onLoading={this.setLoading}
-            onFetch={this.fetch}
-            onFetchOptions={this.fetchGetRolesOptions}
             onPaginationChange={this.onPaginationChange}
             onRowsPerPageChange={this.onRowsPerPageChange}
             {...this.state}
