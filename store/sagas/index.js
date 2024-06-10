@@ -26,6 +26,7 @@ import disciplinarySaga from './histories/disciplinarySaga'
 
 // Master Data
 import decreeSaga from './masterData/decreeSaga'
+import institutionSaga from './masterData/institutionSaga'
 
 export default function* rootSaga() {
   yield all([
@@ -41,6 +42,7 @@ export default function* rootSaga() {
     trainingSaga(),
     targetSaga(),
     performanceSaga(),
-    disciplinarySaga()
+    disciplinarySaga(),
+    institutionSaga()
   ])
 }

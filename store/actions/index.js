@@ -20,6 +20,7 @@ import * as disciplinary from './histories/disciplinary'
 
 // Master Data
 import * as decree from './masterData/decree'
+import * as institution from './masterData/institution'
 
 /**
  *
@@ -40,7 +41,8 @@ const actions = {
   ...training,
   ...target,
   ...performance,
-  ...disciplinary
+  ...disciplinary,
+  ...institution
 }
 
 export default actions
