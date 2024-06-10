@@ -134,7 +134,9 @@ const RiwayatPenghargaanComponent = ({
           Header: 'Instansi',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.awarding_institution}</Typography>
+          Cell: () => (
+            <Typography>{item?.awarding_institution || '-'}</Typography>
+          )
         },
         {
           Header: 'Total',
