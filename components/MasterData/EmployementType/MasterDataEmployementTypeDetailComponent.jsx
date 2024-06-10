@@ -29,76 +29,34 @@ const styles = {
 }
 
 const MasterDataEmployementTypeDetailComponent = ({
-  role,
-  getRole = () => {},
-  deleteRole = () => {},
-  clearRoleState = () => {},
+  employmentType,
+  getEmploymentType = () => {},
+  deleteEmploymentType = () => {},
+  clearEmploymentTypeState = () => {},
   onLoading = () => {}
 }) => {
   const router = useRouter()
   const modal = useSelector((state) => state.modalReducer)
 
-  const [values, setValues] = useState([])
+  const [type, setType] = useState(['ASN', 'NON ASN', 'OUTSOURCE'])
   const [modalDelete, setModalDelete] = useState(false)
-  const [deleteValue, setDeleteValue] = useState(null)
   const [deleteId, setDeleteId] = useState(null)
 
-  const handleSetValue = (val) => {
-    const data = role?.options.filter((itm) => itm?.name == val)[0]
-    setDeleteValue(data)
-  }
-
   const handleDelete = () => {
-    const payload = {
-      id: deleteId,
-      data: { role_id: deleteValue?.id }
-    }
-
-    deleteRole(payload)
+    deleteEmploymentType(deleteId)
   }
 
   const handleModal = () => {
     const newVal = !modalDelete
 
     setModalDelete(newVal)
-
-    if (!newVal) setDeleteValue(null)
   }
 
-  const options = useMemo(() => {
-    let newOptions = []
-    const datas = role?.options
-
-    if (datas) {
-      const newData = datas
-        .filter((itm) => itm?.id !== parseInt(deleteId))
-        .map((itm) => itm?.name)
-      newOptions = newData
-    }
-
-    return newOptions
-  }, [role, deleteId, router])
-
   const data = useMemo(() => {
-    const detail = role?.detail
-    const access = role?.dataPermissions
+    const detail = employmentType?.detail || []
 
-    if (detail?.permissions && access) {
-      const detailId = detail?.permissions.map((itm) => {
-        return itm?.id
-      })
-      const newAccess = access.filter((itm) => {
-        return detailId.includes(itm?.id)
-      })
-
-      return {
-        ...detail,
-        permissions: newAccess
-      }
-    }
-
-    return []
-  }, [role])
+    return detail
+  }, [employmentType])
 
   const action = useMemo(() => {
     return (
@@ -114,57 +72,42 @@ const MasterDataEmployementTypeDetailComponent = ({
           color='sidatukDraweBase'
           icon={<Edit style={styles.iconButton} />}
           onClick={() =>
-            router.push(`/master-data/employement-type/edit/${router?.query?.id}`)
+            router.push(
+              `/master-data/employment-type/edit/${router?.query?.id}`
+            )
           }
         />
       </Box>
     )
-  }, [])
-
-  const handleGetValueAccess = (id) => {
-    const filter = values?.filter((itm) => {
-      return itm?.id == id
-    })
-
-    return filter.length > 0 ? filter[0] : {}
-  }
+  }, [router])
 
   useEffect(() => {
     // Get Detail User
     const id = router?.query?.id
     if (id) {
-      getRole(atob(id))
+      getEmploymentType(atob(id))
       setDeleteId(atob(id))
     }
 
     // Event clear state when url path changes
-    router.events.on('routeChangeComplete', clearRoleState)
+    router.events.on('routeChangeComplete', clearEmploymentTypeState)
 
     return () => {
-      router.events.off('routeChangeComplete', clearRoleState)
+      router.events.off('routeChangeComplete', clearEmploymentTypeState)
     }
   }, [router])
 
   useEffect(() => {
-    const dataPermissions = role?.dataPermissions
     const state =
-      !role?.loading &&
-      dataPermissions.length > 0 &&
-      Object.entries(role?.detail).length > 0
+      !employmentType?.loading &&
+      Object.entries(employmentType?.detail).length > 0
 
     onLoading(state)
-  }, [role])
+  }, [employmentType])
 
   useEffect(() => {
-    const detail = role?.detail
-
-    if (detail?.permissions) {
-      const newPermissions = detail?.permissions.map((itm) => {
-        return { id: itm?.id, permitted_actions: itm?.permitted_actions }
-      })
-      setValues(newPermissions)
-    }
-  }, [role?.detail])
+    const detail = employmentType?.detail
+  }, [employmentType?.detail])
 
   useEffect(() => {
     if (modal?.code !== null) handleModal()
@@ -192,7 +135,7 @@ const MasterDataEmployementTypeDetailComponent = ({
               <Box sx={styles?.wrapperItem}>
                 <Typography>Jenis Pegawai</Typography>
                 <Typography sx={styles?.fontItem}>
-                  {data?.name || '-'}
+                  {data?.type ? type[data?.type - 1] : '-'}
                 </Typography>
               </Box>
             </Grid>
@@ -201,7 +144,11 @@ const MasterDataEmployementTypeDetailComponent = ({
               <Box sx={styles?.wrapperItem}>
                 <Typography>Tampilkan</Typography>
                 <Typography sx={styles?.fontItem}>
-                  {data?.name || '-'}
+                  {data?.status !== undefined
+                    ? parseInt(data?.status)
+                      ? 'Ya'
+                      : 'Tidak'
+                    : '-'}
                 </Typography>
               </Box>
             </Grid>
@@ -209,26 +156,23 @@ const MasterDataEmployementTypeDetailComponent = ({
         </Paper>
       </LayoutPages>
       <ModalConfirmDelete
-        label='Role Pengguna'
-        title='Hapus Data Role Pengguna'
-        copytext='Apakah anda yakin akan menghapus data role pengguna ? Jika ya, silahkan pilih role pengguna lain sebagai pengganti'
-        options={options}
+        title='Hapus Data Jenis Pegawai'
+        copytext='Apakah anda yakin akan menghapus data jenis pegawai ?'
+        options={null}
         open={modalDelete}
-        value={deleteValue?.name || null}
-        isLoading={role?.loading}
+        isLoading={employmentType?.loading}
         handleModal={handleModal}
         handleDelete={handleDelete}
-        handleSetValue={handleSetValue}
       />
     </>
   )
 }
 
 MasterDataEmployementTypeDetailComponent.propTypes = {
-  role: PropTypes.object,
-  getRole: PropTypes.func,
-  deleteRole: PropTypes.func,
-  clearRoleState: PropTypes.func,
+  employmentType: PropTypes.object,
+  getEmploymentType: PropTypes.func,
+  deleteEmploymentType: PropTypes.func,
+  clearEmploymentTypeState: PropTypes.func,
   onLoading: PropTypes.func
 }
 

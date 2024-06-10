@@ -7,57 +7,33 @@ import Layout from '@/components/core/Layout'
 import MasterDataEmployementTypeDetailComponent from '@/components/MasterData/EmployementType/MasterDataEmployementTypeDetailComponent'
 
 export default connect(
-  mapStateToProps('role'),
+  mapStateToProps('employmentType'),
   mapActions(
-    'getRole',
-    'deleteRole',
-    'getRolesOptions',
-    'getPermissions',
-    'clearRoleState'
+    'getEmploymentType',
+    'deleteEmploymentType',
+    'clearEmploymentTypeState'
   )
 )(
   class MasterDataEmployementTypeDetailContainer extends Component {
     static propTypes = {
-      role: PropTypes.object,
-      getRole: PropTypes.func,
-      deleteRole: PropTypes.func,
-      getRolesOptions: PropTypes.func,
-      getPermissions: PropTypes.func,
-      clearRoleState: PropTypes.func
+      employmentType: PropTypes.object,
+      getEmploymentType: PropTypes.func,
+      deleteEmploymentType: PropTypes.func,
+      clearEmploymentTypeState: PropTypes.func
     }
 
     constructor(props) {
       super(props)
       this.state = {
-        queries: {
-          page: 1,
-          limit: 10000,
-          search: ''
-        },
         willRender: false
       }
-      this.fetch = this.fetch.bind(this)
       this.setLoading = this.setLoading.bind(this)
-      this.fetchGetRolesOptions = this.fetchGetRolesOptions.bind(this)
-    }
-
-    fetch() {
-      this.props.getPermissions()
-    }
-
-    fetchGetRolesOptions(queries) {
-      this.props.getRolesOptions(queries)
     }
 
     setLoading(val) {
       this.setState({
         willRender: val
       })
-    }
-
-    componentDidMount() {
-      this.fetch()
-      this.fetchGetRolesOptions(this.state.queries)
     }
 
     render() {
