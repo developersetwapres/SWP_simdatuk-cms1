@@ -206,7 +206,7 @@ const navigation = [
         permission: [{ name: 'data-agency' }]
       },
       {
-        path: '/master-data/employement-type',
+        path: '/master-data/employment-type',
         name: 'DATA JENIS PEGAWAI',
         icon: null,
         permission: [{ name: 'data-type' }]
