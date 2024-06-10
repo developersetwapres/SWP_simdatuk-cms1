@@ -15,6 +15,7 @@ const style = {
     position: 'relative'
   },
   wrapperText: {
+    width: '100%',
     margin: '26px 0',
     display: 'flex',
     alignItems: 'center',
@@ -67,7 +68,7 @@ const ModalConfirmDelete = ({
         </Typography>
         <Typography
           sx={{
-            width: '90%',
+            width: '380px',
             margin: '6px 0 16px 0',
             fontSize: '14px',
             fontWeight: 400,
@@ -76,22 +77,24 @@ const ModalConfirmDelete = ({
         >
           {copytext}
         </Typography>
-        <Autocomplete
-          label={label}
-          options={options}
-          name='options-delete'
-          placeholder={`Pilih ${label}`}
-          multiple={false}
-          value={value}
-          onChange={(val) => handleSetValue(val)}
-        />
+        {options && (
+          <Autocomplete
+            label={label}
+            options={options}
+            name='options-delete'
+            placeholder={`Pilih ${label}`}
+            multiple={false}
+            value={value}
+            onChange={(val) => handleSetValue(val)}
+          />
+        )}
       </Box>
       <Box sx={style?.wrapperButton}>
         <Button
           text='Ya'
           isLoading={isLoading}
           onClick={handleDelete}
-          isBusy={!value || isLoading}
+          isBusy={(!value && options) || isLoading}
           style={{ width: '100%' }}
         />
         <Button
