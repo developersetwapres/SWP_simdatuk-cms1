@@ -7,16 +7,15 @@ import Layout from '@/components/core/Layout'
 import MasterDataInstitutionEditComponent from '@/components/MasterData/Institution/MasterDataInstitutionEditComponent'
 
 export default connect(
-  mapStateToProps('role'),
-  mapActions('getRole', 'getPermissions', 'updateRole', 'clearRoleState')
+  mapStateToProps('institution'),
+  mapActions('getInstitution', 'updateInstitution', 'clearInstitutionState')
 )(
   class MasterDataInstitutionEditContainer extends Component {
     static propTypes = {
-      role: PropTypes.object,
-      getRole: PropTypes.func,
-      updateRole: PropTypes.func,
-      getPermissions: PropTypes.func,
-      clearRoleState: PropTypes.func
+      institution: PropTypes.object,
+      getInstitution: PropTypes.func,
+      updateInstitution: PropTypes.func,
+      clearInstitutionState: PropTypes.func
     }
 
     constructor(props) {
@@ -24,22 +23,13 @@ export default connect(
       this.state = {
         willRender: false
       }
-      this.fetch = this.fetch.bind(this)
       this.setLoading = this.setLoading.bind(this)
-    }
-
-    fetch() {
-      this.props.getPermissions()
     }
 
     setLoading(val) {
       this.setState({
         willRender: val
       })
-    }
-
-    componentDidMount() {
-      this.fetch()
     }
 
     render() {

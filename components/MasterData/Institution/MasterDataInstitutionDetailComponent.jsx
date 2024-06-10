@@ -29,32 +29,31 @@ const styles = {
 }
 
 const MasterDataInstitutionDetailComponent = ({
-  role,
-  getRole = () => {},
-  deleteRole = () => {},
-  clearRoleState = () => {},
+  institution,
+  getInstitution = () => {},
+  deleteInstitution = () => {},
+  clearInstitutionState = () => {},
   onLoading = () => {}
 }) => {
   const router = useRouter()
   const modal = useSelector((state) => state.modalReducer)
 
-  const [values, setValues] = useState([])
   const [modalDelete, setModalDelete] = useState(false)
   const [deleteValue, setDeleteValue] = useState(null)
   const [deleteId, setDeleteId] = useState(null)
 
   const handleSetValue = (val) => {
-    const data = role?.options.filter((itm) => itm?.name == val)[0]
+    const data = institution?.options.filter((itm) => itm?.name == val)[0]
     setDeleteValue(data)
   }
 
   const handleDelete = () => {
     const payload = {
       id: deleteId,
-      data: { role_id: deleteValue?.id }
+      data: { institution_id: deleteValue?.id }
     }
 
-    deleteRole(payload)
+    deleteInstitution(payload)
   }
 
   const handleModal = () => {
@@ -67,7 +66,7 @@ const MasterDataInstitutionDetailComponent = ({
 
   const options = useMemo(() => {
     let newOptions = []
-    const datas = role?.options
+    const datas = institution?.options
 
     if (datas) {
       const newData = datas
@@ -77,28 +76,13 @@ const MasterDataInstitutionDetailComponent = ({
     }
 
     return newOptions
-  }, [role, deleteId, router])
+  }, [institution, deleteId, router])
 
   const data = useMemo(() => {
-    const detail = role?.detail
-    const access = role?.dataPermissions
+    const detail = institution?.detail
 
-    if (detail?.permissions && access) {
-      const detailId = detail?.permissions.map((itm) => {
-        return itm?.id
-      })
-      const newAccess = access.filter((itm) => {
-        return detailId.includes(itm?.id)
-      })
-
-      return {
-        ...detail,
-        permissions: newAccess
-      }
-    }
-
-    return []
-  }, [role])
+    return detail
+  }, [institution])
 
   const action = useMemo(() => {
     return (
@@ -121,50 +105,28 @@ const MasterDataInstitutionDetailComponent = ({
     )
   }, [])
 
-  const handleGetValueAccess = (id) => {
-    const filter = values?.filter((itm) => {
-      return itm?.id == id
-    })
-
-    return filter.length > 0 ? filter[0] : {}
-  }
-
   useEffect(() => {
     // Get Detail User
     const id = router?.query?.id
     if (id) {
-      getRole(atob(id))
+      getInstitution(atob(id))
       setDeleteId(atob(id))
     }
 
     // Event clear state when url path changes
-    router.events.on('routeChangeComplete', clearRoleState)
+    router.events.on('routeChangeComplete', clearInstitutionState)
 
     return () => {
-      router.events.off('routeChangeComplete', clearRoleState)
+      router.events.off('routeChangeComplete', clearInstitutionState)
     }
   }, [router])
 
   useEffect(() => {
-    const dataPermissions = role?.dataPermissions
     const state =
-      !role?.loading &&
-      dataPermissions.length > 0 &&
-      Object.entries(role?.detail).length > 0
+      !institution?.loading && Object.entries(institution?.detail).length > 0
 
     onLoading(state)
-  }, [role])
-
-  useEffect(() => {
-    const detail = role?.detail
-
-    if (detail?.permissions) {
-      const newPermissions = detail?.permissions.map((itm) => {
-        return { id: itm?.id, permitted_actions: itm?.permitted_actions }
-      })
-      setValues(newPermissions)
-    }
-  }, [role?.detail])
+  }, [institution])
 
   useEffect(() => {
     if (modal?.code !== null) handleModal()
@@ -191,13 +153,13 @@ const MasterDataInstitutionDetailComponent = ({
         </Paper>
       </LayoutPages>
       <ModalConfirmDelete
-        label='Role Pengguna'
-        title='Hapus Data Role Pengguna'
-        copytext='Apakah anda yakin akan menghapus data role pengguna ? Jika ya, silahkan pilih role pengguna lain sebagai pengganti'
+        label='Instansi'
+        title='Hapus Data Instansi'
+        copytext='Apakah anda yakin akan menghapus data instansi ? Jika ya, silahkan pilih instansi lain sebagai pengganti'
         options={options}
         open={modalDelete}
         value={deleteValue?.name || null}
-        isLoading={role?.loading}
+        isLoading={institution?.loading}
         handleModal={handleModal}
         handleDelete={handleDelete}
         handleSetValue={handleSetValue}
@@ -207,10 +169,10 @@ const MasterDataInstitutionDetailComponent = ({
 }
 
 MasterDataInstitutionDetailComponent.propTypes = {
-  role: PropTypes.object,
-  getRole: PropTypes.func,
-  deleteRole: PropTypes.func,
-  clearRoleState: PropTypes.func,
+  institution: PropTypes.object,
+  getInstitution: PropTypes.func,
+  deleteInstitution: PropTypes.func,
+  clearInstitutionState: PropTypes.func,
   onLoading: PropTypes.func
 }
 
