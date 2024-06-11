@@ -13,13 +13,15 @@ import Image from 'next/image'
 import ModalLogout from '../shared/Modal/ModalLogout'
 import { useDispatch } from 'react-redux'
 import { AUTHENTICATION_LOGOUT_REQUESTED } from '@/store/constants'
+import { useRouter } from 'next/router'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex'
   },
   toolbar: {
-    padding: '1rem'
+    padding: '1rem',
+    cursor: 'pointer'
   },
   listItemText: {
     '& .MuiTypography-root': {
@@ -100,6 +102,7 @@ const useStyles = makeStyles((theme) => ({
 function Layout({ children, window, willRender }) {
   const classes = useStyles()
   const dispatch = useDispatch()
+  const router = useRouter()
 
   const [mobile, setMobile] = useState(false)
   const [isLogout, setIsLogout] = useState(false)
@@ -115,6 +118,10 @@ function Layout({ children, window, willRender }) {
 
   const handleMobile = () => {
     setMobile(!mobile)
+  }
+
+  const navigateToProfile = () => {
+    router.push(`/profile`)
   }
 
   // eslint-disable-next-line no-unused-vars
@@ -147,7 +154,7 @@ function Layout({ children, window, willRender }) {
           </Typography>
         </Box>
       </Toolbar>
-      <Toolbar disableGutters className={classes.toolbar}>
+      <Toolbar disableGutters className={classes.toolbar} onClick={navigateToProfile}>
         <Box component='div' className={classes.boxToolbar}>
           <Box
             width={50}

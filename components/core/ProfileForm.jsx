@@ -1,7 +1,7 @@
-import { primaryButtonStyle } from '@/utils/theme'
-import { Grid } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import React from 'react'
-import { Button, Input } from '../shared'
+import { Input } from '../shared'
+import InputPassword from '../shared/form/InputPassword'
 import PropTypes from 'prop-types'
 
 function ProfileForm({
@@ -13,137 +13,101 @@ function ProfileForm({
   handleSubmit = () => { }
 }) {
   return (
-    <Grid
-      item
-      xl={9}
-      lg={9}
-      md={12}
-      sm={12}
-      xs={12}
-    >
-      <h3>Data Diri</h3>
-      <Grid
-        container
-        direction='column'
-      >
-        <Grid
-          item
-          sx={{
-            marginBottom: '12px'
-          }}
-        >
-          <Input
-            label='NIP'
-            disabled
-            fullWidth
-            value={parseProfile?.nip ?? '-'}
-            sx={{
-              backgroundColor: '#EDEDED !important'
-            }}
-          />
-        </Grid>
-        <Grid
-          item
-          sx={{
-            marginBottom: '12px'
-          }}
-        >
+    <>
+      <Grid container spacing={2} sx={{ marginTop: 1 }}>
+        <Grid item xs={6}>
           <Input
             label='Nama'
+            placeholder='Masukkan Nama'
+            name='name'
+            value={''}
+            error={''}
+            onChange={(val) => console.log(val)}
             disabled
-            fullWidth
-            value={parseProfile?.name ?? '-'}
-            sx={{
-              backgroundColor: '#EDEDED !important'
-            }}
           />
         </Grid>
-        <Grid
-          item
-          sx={{
-            marginBottom: '12px'
-          }}
-        >
+        <Grid item xs={6}>
           <Input
-            label='Jabatan'
-            placeholder='Pilih Jabatan'
+            label='NIP/NRP'
+            placeholder='Masukkan NIP/NRP'
+            name='name'
+            value={''}
+            error={''}
+            onChange={(val) => console.log(val)}
             disabled
-            fullWidth
-            sx={{
-              backgroundColor: '#EDEDED !important'
-            }}
-            value={parseProfile.position === null ? '-' : parseProfile.position.name}
           />
         </Grid>
-        <Grid
-          item
-          sx={{
-            marginBottom: '12px'
-          }}
-        >
+
+        <Grid item xs={6}>
           <Input
+            label='Role Pengguna'
+            placeholder='Masukkan Role Pengguna'
+            name='name'
+            value={''}
+            error={''}
+            onChange={(val) => console.log(val)}
             disabled
-            fullWidth
-            label='Unit Kerja/Satuan Organisasi'
-            placeholder='Pilih Unit Kerja/Satuan Organisasi'
-            sx={{
-              backgroundColor: '#EDEDED !important'
-            }}
-            value={parseProfile.unit === null ? '-' : parseProfile.unit.name}
           />
         </Grid>
-        <Grid
-          item
-          sx={{
-            marginBottom: '12px'
-          }}
-        >
-          <Input
-            label='Pangkat/Golongan'
-            placeholder='Pilih Pangkat/Golongan'
-            disabled
-            fullWidth
-            sx={{
-              backgroundColor: '#EDEDED !important'
-            }}
-            value={parseProfile.level === null ? '-' : parseProfile.level.name}
-          />
-        </Grid>
-        <Grid
-          item
-          sx={{
-            marginTop: '12px'
-          }}
-        >
+        <Grid item xs={6}>
           <Input
             label='Email'
-            fullWidth
-            name='email'
-            value={values.email}
-            error={errors.email}
-            onChange={handleInputChange}
+            placeholder='Masukkan Email'
+            name='name'
+            value={''}
+            error={''}
+            onChange={(val) => console.log(val)}
+            disabled
           />
         </Grid>
-        <Grid
-          item
-          sx={{
-            marginTop: '20px'
-          }}
-        >
-          <Button
-            text='Submit'
-            sx={{
-              textTransform: 'none',
-              ...primaryButtonStyle
-            }}
-            onClick={handleSubmit}
-            isBusy={loadingState.isBusy}
-            isLoading={loadingState.loadingProfile}
-            color='warning'
+
+        <Grid item xs={6}>
+          <Input
+            label='Username *'
+            placeholder='Masukkan Username'
+            name='name'
+            value={''}
+            error={''}
+            onChange={(val) => console.log(val)}
           />
         </Grid>
       </Grid>
-    </Grid>
+
+      <Typography fontWeight={700} fontSize={20} sx={{ marginTop: 3 }}>Data Profil</Typography>
+
+      <Grid container spacing={2} sx={{ marginTop: 1 }}>
+        <Grid item xs={6}>
+          <InputPassword
+            label='Password Lama'
+            placeholder='Masukkan Password Lama'
+            name='name'
+            value={'AAA'}
+            onChange={(val) => console.log(val)}
+            disabled
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <InputPassword
+            label='Password Baru'
+            placeholder='Masukkan Password Baru'
+            name='name'
+            value={'AAA'}
+            onChange={(val) => console.log(val)}
+            disabled
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <InputPassword
+            label='Konfirmasi Password'
+            placeholder='Masukkan Konfirmasi Password'
+            name='name'
+            value={'AAA'}
+            onChange={(val) => console.log(val)}
+            disabled
+          />
+        </Grid>
+      </Grid>
+    </>
   )
 }
 
