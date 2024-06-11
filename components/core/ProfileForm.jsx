@@ -1,7 +1,8 @@
-import { Grid, Typography } from '@mui/material'
+import { Grid, Box, Typography } from '@mui/material'
 import React from 'react'
-import { Input } from '../shared'
+import { Input, Button } from '../shared'
 import InputPassword from '../shared/form/InputPassword'
+import { primaryButtonStyle } from '@/utils/theme'
 import PropTypes from 'prop-types'
 
 function ProfileForm({
@@ -107,6 +108,21 @@ function ProfileForm({
           />
         </Grid>
       </Grid>
+
+      <Box sx={{ textAlign: 'right' }}>
+        <Button
+          color='primary'
+          text='Simpan'
+          sx={{
+            ...primaryButtonStyle,
+            textTransform: 'none',
+            marginTop: '36px'
+          }}
+          onClick={() => { }}
+          isBusy={false}
+          isLoading={false}
+        />
+      </Box>
     </>
   )
 }
