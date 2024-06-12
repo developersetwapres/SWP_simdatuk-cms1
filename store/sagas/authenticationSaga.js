@@ -16,6 +16,9 @@ import {
   FORGET_PASSWORD_REQUESTED,
   FORGET_PASSWORD_SUCCESS,
   FORGET_PASSWORD_FAILED,
+  GET_PROFILE_REQUESTED,
+  GET_PROFILE_SUCCESS,
+  GET_PROFILE_FAILED,
   UPDATE_PROFILE_REQUESTED,
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PROFILE_FAILED,
@@ -39,12 +42,13 @@ import {
   updateProfileAction,
   getHashUrlPasswordAction,
   resetPasswordAction,
-  authenticationQrCodeAction
+  authenticationQrCodeAction,
+  getProfileAction
 } from './action/authenticationAction'
 import { delay } from './sagaUtils'
 import Router from 'next/router'
 import { clearStorages, setStorages } from '@/utils/storage'
-import { decryptItem, encryptedItem } from '@/utils/crypt'
+import { encryptedItem } from '@/utils/crypt'
 
 function* postAuthentication(action) {
   try {
@@ -168,6 +172,49 @@ function* forgetPassword(action) {
 }
 
 /**
+ * Get Profile
+ *
+ * @returns
+ */
+function* getProfile() {
+  try {
+    const res = yield call(getProfileAction)
+    const payload = res?.data
+
+    yield put({
+      type: GET_PROFILE_SUCCESS,
+      payload
+    })
+  } catch (err) {
+    const error = err?.data
+
+    yield put({
+      type: SET_MODAL,
+      payload: {
+        code: error?.code,
+        message: error?.message
+      }
+    })
+
+    if (error?.code === 403) {
+      yield put({
+        type: ACTION_RESPONSER,
+        payload: {
+          code: error?.code,
+          message: error?.message,
+          redirect: '/profile'
+        }
+      })
+    } else {
+      yield put({
+        type: GET_PROFILE_FAILED,
+        payload: { error: error?.message }
+      })
+    }
+  }
+}
+
+/**
  * Update Profile
  *
  * @param {*} action
@@ -176,46 +223,44 @@ function* forgetPassword(action) {
 function* updateProfileSagas(action) {
   try {
     const res = yield call(updateProfileAction, action?.payload)
-
     const payload = res?.data
-    const getUser = decryptItem('_setneg_user', 'my-info')
-    encryptedItem(
-      'my-info',
-      '_setneg_user',
-      JSON.stringify({
-        nip: getUser.nip,
-        name: getUser.name,
-        email: payload?.data?.email,
-        roles: getUser.roles,
-        photo: payload?.data?.photo,
-        position: getUser.position,
-        unit: getUser.unit,
-        level: getUser.level
-      })
-    )
-    // const getUser = getStorage('_setneg_user')
-    // const parseProfile = JSON.parse(getUser)
-    // console.log(parseProfile)
-    // setStorages([
-    //   {
-    //     name: '_setneg_user',
-    //     value: JSON.stringify({
-    //       nip: parseProfile.nip,
-    //       name: parseProfile.name,
-    //       email: payload?.data?.email,
-    //       roles: parseProfile.roles,
-    //       photo: payload?.data?.photo,
-    //       position: parseProfile.position,
-    //       unit: parseProfile.unit,
-    //       level: parseProfile.level
-    //     })
-    //   }
-    // ])
+    // const getUser = decryptItem('_setneg_user', 'my-info')
+    // encryptedItem(
+    //   'my-info',
+    //   '_setneg_user',
+    //   JSON.stringify({
+    //     nip: getUser.nip,
+    //     name: getUser.name,
+    //     email: payload?.data?.email,
+    //     roles: getUser.roles,
+    //     photo: payload?.data?.photo,
+    //     position: getUser.position,
+    //     unit: getUser.unit,
+    //     level: getUser.level
+    //   })
+    // )
     yield put({
       type: UPDATE_PROFILE_SUCCESS,
       payload: payload
     })
+
+    yield put({
+      type: SET_MODAL,
+      payload: {
+        code: payload?.code,
+        message: 'Profil Berhasil Diedit',
+        childMessage: 'Anda telah berhasil mengedit profil',
+        redirect: '/profile'
+      }
+    })
   } catch (err) {
+    yield put({
+      type: SET_MODAL,
+      payload: {
+        code: err?.data?.code,
+        message: err?.data?.message
+      }
+    })
     yield put({
       type: UPDATE_PROFILE_FAILED,
       payload: err.data?.meta?.message
@@ -330,6 +375,7 @@ function* authSaga() {
   yield takeEvery(AUTHENTICATION_REQUESTED, postAuthentication)
   yield takeEvery(UPDATE_PASSWORD_REQUESTED, updatePassword)
   yield takeEvery(FORGET_PASSWORD_REQUESTED, forgetPassword)
+  yield takeEvery(GET_PROFILE_REQUESTED, getProfile)
   yield takeEvery(UPDATE_PROFILE_REQUESTED, updateProfileSagas)
   yield takeEvery(AUTHENTICATION_LOGOUT_REQUESTED, authenticationLogout)
   yield takeEvery(GET_HASH_URL_PASSWORD_REQUESTED, getHashPassword)

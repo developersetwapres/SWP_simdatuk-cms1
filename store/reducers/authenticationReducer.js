@@ -10,6 +10,9 @@ import {
   FORGET_PASSWORD_REQUESTED,
   FORGET_PASSWORD_SUCCESS,
   FORGET_PASSWORD_FAILED,
+  GET_PROFILE_REQUESTED,
+  GET_PROFILE_SUCCESS,
+  GET_PROFILE_FAILED,
   UPDATE_PROFILE_REQUESTED,
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PROFILE_FAILED,
@@ -24,28 +27,28 @@ import {
   RESET_PASSWORD_FAILED,
   AUTHENTICATION_QR_REQUESTED,
   AUTHENTICATION_QR_SUCCESS,
-  AUTHENTICATION_QR_FAILED,
-} from "../constants";
-import { SUCCESS_ICON, ERROR_ICON } from "@/utils/iconConstant";
+  AUTHENTICATION_QR_FAILED
+} from '../constants'
+import { SUCCESS_ICON, ERROR_ICON } from '@/utils/iconConstant'
 
 const initialState = {
   isAuth: false,
   loading: false,
   error: null,
   userInformation: {},
-  message: "",
+  message: '',
   loadingProfile: Boolean,
   icon: null,
   resetPassword: {},
   isBusy: false,
-  forgetStatus: "",
+  forgetStatus: '',
   statusCode: 200,
-  qrCode: null,
-};
+  qrCode: null
+}
 
 export const authentication = (state = initialState, actions) => {
   // eslint-disable-next-line no-unused-vars
-  const payload = actions?.payload;
+  const payload = actions?.payload
 
   switch (actions.type) {
     case AUTHENTICATION_REQUESTED:
@@ -53,16 +56,16 @@ export const authentication = (state = initialState, actions) => {
         ...state,
         loading: true,
         isBusy: true,
-        error: "",
-      };
+        error: ''
+      }
     case AUTHENTICATION_SUCCESS:
       return {
         ...state,
         loading: false,
         isAuth: true,
         isBusy: false,
-        statusCode: 200,
-      };
+        statusCode: 200
+      }
     case AUTHENTICATION_FAILED:
       return {
         ...state,
@@ -71,8 +74,8 @@ export const authentication = (state = initialState, actions) => {
         isBusy: false,
         message: payload?.message,
         statusCode: payload?.code,
-        error: payload,
-      };
+        error: payload
+      }
     // case GET_USER_INFORMATION:
     //   return {
     //     ...state,
@@ -84,143 +87,160 @@ export const authentication = (state = initialState, actions) => {
       return {
         ...state,
         isBusy: true,
-        loading: true,
-      };
+        loading: true
+      }
     case UPDATE_PASSWORD_SUCCESS:
       return {
         ...state,
         loading: false,
-        isBusy: false,
-      };
+        isBusy: false
+      }
     case UPDATE_PASSWORD_FAILED:
       return {
         ...state,
         loading: false,
         isBusy: false,
-        error: payload?.error,
-      };
+        error: payload?.error
+      }
     case FORGET_PASSWORD_REQUESTED:
       return {
         ...state,
         loading: true,
-        forgetStatus: "IDLE",
-      };
+        forgetStatus: 'IDLE'
+      }
     case FORGET_PASSWORD_SUCCESS:
       return {
         ...state,
         loading: false,
-        forgetStatus: "SUCCESS",
-      };
+        forgetStatus: 'SUCCESS'
+      }
     case FORGET_PASSWORD_FAILED:
       return {
         ...state,
         loading: false,
-        forgetStatus: "FAILED",
-        error: payload?.error,
-      };
+        forgetStatus: 'FAILED',
+        error: payload?.error
+      }
+    case GET_PROFILE_REQUESTED:
+      return {
+        ...state,
+        loading: true
+      }
+    case GET_PROFILE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        userInformation: payload?.data
+      }
+    case GET_PROFILE_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: payload?.error
+      }
     case UPDATE_PROFILE_REQUESTED:
-      return {
-        ...state,
-        loadingProfile: true,
-        isBusy: true,
-        icon: null,
-        message: "",
-      };
-    case UPDATE_PROFILE_SUCCESS:
-      return {
-        ...state,
-        loadingProfile: false,
-        isBusy: false,
-        icon: SUCCESS_ICON,
-        message: "Perubahan Profil berhasil disimpan",
-      };
-    case UPDATE_PROFILE_FAILED:
-      return {
-        ...state,
-        error: payload?.error,
-        loadingProfile: false,
-        isBusy: false,
-        icon: ERROR_ICON,
-        message: "Perubahan Profil gagal disimpan",
-      };
-    case AUTHENTICATION_LOGOUT_REQUESTED:
       return {
         ...state,
         loading: true,
         isBusy: true,
-      };
-    case AUTHENTICATION_LOGOUT_SUCCESS:
+        icon: null,
+        message: ''
+      }
+    case UPDATE_PROFILE_SUCCESS:
       return {
         ...state,
         loading: false,
         isBusy: false,
-      };
+        icon: SUCCESS_ICON,
+        message: 'Perubahan Profil berhasil disimpan'
+      }
+    case UPDATE_PROFILE_FAILED:
+      return {
+        ...state,
+        error: payload?.error,
+        loading: false,
+        isBusy: false,
+        icon: ERROR_ICON,
+        message: 'Perubahan Profil gagal disimpan'
+      }
+    case AUTHENTICATION_LOGOUT_REQUESTED:
+      return {
+        ...state,
+        loading: true,
+        isBusy: true
+      }
+    case AUTHENTICATION_LOGOUT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isBusy: false
+      }
     case AUTHENTICATION_LOGOUT_FAILED:
       return {
         ...state,
         loading: false,
         isBusy: false,
-        error: payload?.error,
-      };
+        error: payload?.error
+      }
     case GET_HASH_URL_PASSWORD_REQUESTED:
       return {
         ...state,
-        loading: true,
-      };
+        loading: true
+      }
     case GET_HASH_URL_PASSWORD_SUCCESS:
       return {
         ...state,
         loading: false,
-        resetPassword: payload?.data,
-      };
+        resetPassword: payload?.data
+      }
     case GET_HASH_URL_PASSWORD_FAILED:
       return {
         ...state,
         loading: false,
-        error: payload?.error,
-      };
+        error: payload?.error
+      }
     case RESET_PASSWORD_REQUESTED:
       return {
         ...state,
         loading: true,
-        isBusy: true,
-      };
+        isBusy: true
+      }
     case RESET_PASSWORD_SUCCESS:
       return {
         ...state,
         loading: false,
-        isBusy: false,
-      };
+        isBusy: false
+      }
     case RESET_PASSWORD_FAILED:
       return {
         ...state,
         loading: false,
         isBusy: false,
-        error: payload?.error,
-      };
+        error: payload?.error
+      }
     case AUTHENTICATION_QR_REQUESTED:
       return {
         ...state,
         loading: true,
         isBusy: true,
-        error: null,
-      };
+        error: null
+      }
     case AUTHENTICATION_QR_SUCCESS:
       return {
         ...state,
         loading: false,
         isBusy: false,
         qrCode: payload,
-        statusCode: 200,
-      };
+        statusCode: 200
+      }
     case AUTHENTICATION_QR_FAILED:
       return {
         ...state,
         loading: false,
         isBusy: false,
-        error: payload,
-      };
+        error: payload
+      }
     default:
-      return state;
+      return state
   }
-};
+}

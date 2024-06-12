@@ -6,7 +6,8 @@ import {
   AUTHENTICATION_LOGOUT_REQUESTED,
   GET_HASH_URL_PASSWORD_REQUESTED,
   RESET_PASSWORD_REQUESTED,
-  AUTHENTICATION_QR_REQUESTED
+  AUTHENTICATION_QR_REQUESTED,
+  GET_PROFILE_REQUESTED
 } from '../constants'
 
 /**
@@ -59,6 +60,15 @@ export const updatePassword = (payload) => ({
 export const forgetPassword = (payload) => ({
   type: FORGET_PASSWORD_REQUESTED,
   payload: payload
+})
+
+/**
+ * Get Profile 
+ * 
+ * @returns
+ */
+export const getProfile = () => ({
+  type: GET_PROFILE_REQUESTED
 })
 
 /**

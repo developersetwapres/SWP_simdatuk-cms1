@@ -45,13 +45,22 @@ export const forgetPasswordAction = (payload) => {
 }
 
 /**
+ * Get Profile
+ *
+ * @returns
+ */
+export const getProfileAction = () => {
+  return get('/profile')
+}
+
+/**
  * Update Profile 
  * 
  * @param {*} payload 
  * @returns
  */
 export const updateProfileAction = (payload) => {
-  return patch(`/auth/me`, payload)
+  return post(`/profile`, payload)
 }
 
 /**
