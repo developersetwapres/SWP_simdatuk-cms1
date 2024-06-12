@@ -8,11 +8,17 @@ import PropTypes from 'prop-types'
 function ProfileForm({
   values,
   errors,
-  parseProfile,
-  loadingState,
-  handleInputChange = () => { },
-  handleSubmit = () => { }
+  setFieldValue,
+  handleSubmit,
+  formikRef
 }) {
+  const handleInputChange = e => {
+    setFieldValue([e?.target?.name], e?.target?.value, false)
+    setTimeout(() => {
+      formikRef.current.validateField(e?.target?.name)
+    }, 1)
+  }
+
   return (
     <>
       <Grid container spacing={2} sx={{ marginTop: 1 }}>
@@ -21,9 +27,9 @@ function ProfileForm({
             label='Nama'
             placeholder='Masukkan Nama'
             name='name'
-            value={''}
-            error={''}
-            onChange={(val) => console.log(val)}
+            value={values?.name}
+            error={errors?.name}
+            onChange={handleInputChange}
             disabled
           />
         </Grid>
@@ -31,10 +37,10 @@ function ProfileForm({
           <Input
             label='NIP/NRP'
             placeholder='Masukkan NIP/NRP'
-            name='name'
-            value={''}
-            error={''}
-            onChange={(val) => console.log(val)}
+            name='registration_number'
+            value={values?.registration_number}
+            error={errors?.registration_number}
+            onChange={handleInputChange}
             disabled
           />
         </Grid>
@@ -43,10 +49,10 @@ function ProfileForm({
           <Input
             label='Role Pengguna'
             placeholder='Masukkan Role Pengguna'
-            name='name'
-            value={''}
-            error={''}
-            onChange={(val) => console.log(val)}
+            name='role_name'
+            value={values?.role_name}
+            error={errors?.role_name}
+            onChange={handleInputChange}
             disabled
           />
         </Grid>
@@ -54,10 +60,10 @@ function ProfileForm({
           <Input
             label='Email'
             placeholder='Masukkan Email'
-            name='name'
-            value={''}
-            error={''}
-            onChange={(val) => console.log(val)}
+            name='email'
+            value={values?.email}
+            error={errors?.email}
+            onChange={handleInputChange}
             disabled
           />
         </Grid>
@@ -66,10 +72,10 @@ function ProfileForm({
           <Input
             label='Username *'
             placeholder='Masukkan Username'
-            name='name'
-            value={''}
-            error={''}
-            onChange={(val) => console.log(val)}
+            name='username'
+            value={values?.username}
+            error={errors?.username}
+            onChange={handleInputChange}
           />
         </Grid>
       </Grid>
@@ -81,30 +87,30 @@ function ProfileForm({
           <InputPassword
             label='Password Lama'
             placeholder='Masukkan Password Lama'
-            name='name'
-            value={'AAA'}
-            onChange={(val) => console.log(val)}
-            disabled
+            name='old_password'
+            value={values?.old_password}
+            error={errors?.old_password}
+            onChange={handleInputChange}
           />
         </Grid>
         <Grid item xs={6}>
           <InputPassword
             label='Password Baru'
             placeholder='Masukkan Password Baru'
-            name='name'
-            value={'AAA'}
-            onChange={(val) => console.log(val)}
-            disabled
+            name='password'
+            value={values?.password}
+            error={errors?.password}
+            onChange={handleInputChange}
           />
         </Grid>
         <Grid item xs={6}>
           <InputPassword
             label='Konfirmasi Password'
             placeholder='Masukkan Konfirmasi Password'
-            name='name'
-            value={'AAA'}
-            onChange={(val) => console.log(val)}
-            disabled
+            name='confirm_password'
+            value={values?.confirm_password}
+            error={errors?.confirm_password}
+            onChange={handleInputChange}
           />
         </Grid>
       </Grid>
@@ -118,7 +124,7 @@ function ProfileForm({
             textTransform: 'none',
             marginTop: '36px'
           }}
-          onClick={() => { }}
+          onClick={handleSubmit}
           isBusy={false}
           isLoading={false}
         />
@@ -130,10 +136,9 @@ function ProfileForm({
 ProfileForm.propTypes = {
   values: PropTypes.object,
   errors: PropTypes.object,
-  parseProfile: PropTypes.object,
-  loadingState: PropTypes.object,
-  handleInputChange: PropTypes.func,
-  handleSubmit: PropTypes.func
+  setFieldValue: PropTypes.func,
+  handleSubmit: PropTypes.func,
+  formikRef: PropTypes.any
 }
 
 export default ProfileForm

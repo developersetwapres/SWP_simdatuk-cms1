@@ -6,22 +6,15 @@ import { mapStateToProps, mapActions } from '../store'
 import PropTypes from 'prop-types'
 
 export default connect(
-  mapStateToProps('command', 'authentication'),
+  mapStateToProps('authentication'),
   mapActions(
-    'getUser',
-    'getCommandUserPosition',
-    'getCommandUserUnit',
-    'getCommandUserLevel',
-    // 'updateProfile'
+    'getProfile',
+    'updateProfile'
   )
 )(
   class ProfileContainer extends Component {
     static propTypes = {
-      command: PropTypes.object,
-      getUser: PropTypes.func,
-      getCommandUserPosition: PropTypes.func,
-      getCommandUserUnit: PropTypes.func,
-      getCommandUserLevel: PropTypes.func,
+      getProfile: PropTypes.func,
       updateProfile: PropTypes.func
     }
 
@@ -32,14 +25,21 @@ export default connect(
       }
     }
 
-    componentDidMount() { }
+    componentDidMount() {
+      this.props.getProfile()
+    }
+
+    setLoading = (val) => {
+      this.setState({ willRender: val })
+    }
 
     render() {
       return (
-        <Layout willRender>
+        <Layout willRender={this.state.willRender}>
           <Profile
             {...this.state}
             {...this.props}
+            setLoading={this.setLoading}
             updateProfile={this.props.updateProfile}
           />
         </Layout>

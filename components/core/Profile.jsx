@@ -1,14 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import { Paper, Typography } from '@mui/material'
-import React, { useState, useEffect } from 'react'
-import Image from 'next/image'
-import { useForm } from '@/hooks/'
-import { getFileExtension } from '@/utils/'
+import React, { useState, useEffect, useRef } from 'react'
+import { Formik } from 'formik'
 import PropTypes from 'prop-types'
 import ProfileForm from './ProfileForm'
-import { formatEmail } from '@/utils/index'
-import { decryptItem } from '@/utils/crypt'
 import { makeStyles } from '@mui/styles'
+import * as Yup from 'yup'
 
 const useStyles = makeStyles({
   profile: {
@@ -16,119 +14,128 @@ const useStyles = makeStyles({
   }
 })
 
+const initialValues = {
+  name: '',
+  registration_number: 0,
+  role_name: '',
+  email: '',
+  username: '',
+  old_password: '',
+  password: '',
+  confirm_password: ''
+}
+
+const FormSchema = Yup.object().shape({
+  name: Yup.string().notRequired().nullable(),
+  registration_number: Yup.number().notRequired().nullable(),
+  role_name: Yup.string().notRequired().nullable(),
+  email: Yup.string().notRequired().nullable().email('Email tidak valid'),
+  username: Yup.string().notRequired().nullable(),
+  // Password
+  old_password: Yup.string().notRequired().nullable(),
+  password: Yup.string().notRequired().nullable(),
+  confirm_password: Yup.string().notRequired().nullable()
+    .oneOf([Yup.ref('password'), null], 'Konfirmasi Password harus sama dengan Password Baru')
+})
+
 function Profile({
-  // eslint-disable-next-line no-unused-vars
-  command,
   authentication,
+  setLoading = () => { },
   updateProfile = () => { }
 }) {
   const classes = useStyles()
-  const parseProfile = decryptItem('_setneg_user', 'my-info') !== null ? decryptItem('_setneg_user', 'my-info') : ''
+  const formikRef = useRef(null)
+  const [profile, setProfile] = useState(null)
 
-  // eslint-disable-next-line no-unused-vars
-  const [initialValues, setInitialValues] = useState({
-    email: parseProfile?.email === null ? '' : parseProfile?.email,
-    image: []
-  })
+  const handleSubmit = async (values) => {
+    try {
+      await FormSchema.validate(values, { abortEarly: false })
+      formikRef.current.setErrors({})
 
-
-  const validate = (fieldOfValues = values) => {
-    const temp = { ...errors }
-
-    if ('email' in fieldOfValues)
-      temp.email = fieldOfValues.email === ''
-        ? ''
-        : (
-          formatEmail(fieldOfValues.email) === false
-            ? 'Format Email yang Anda Masukan Tidak Sesuai'
-            : ''
-        )
-
-    if ('image' in fieldOfValues) {
-      const extImage = fieldOfValues.image.name
-        ? getFileExtension(fieldOfValues.image.name)
-        : ''
-
-      temp.image = fieldOfValues.image.length === 0
-        ? ''
-        : (
-          extImage !== 'png' && extImage !== 'jpg'
-            ? 'Gambar harus berupa file gambar dengan format .png atau .jpg'
-            : (
-              fieldOfValues.image.size > 2097152
-                ? 'Gambar tidak boleh lebih dari 2 MB'
-                : ''
-            )
-        )
-    }
-
-    setErrors({
-      ...temp
-    })
-
-    if (fieldOfValues === values)
-      return Object.values(temp).every(x => x === '')
-  }
-
-  const {
-    values,
-    setErrors,
-    errors,
-    handleInputChange
-  } = useForm(initialValues, true, validate)
-
-  const convertParams = (name, value) => {
-    const reader = new FileReader()
-    reader.readAsDataURL(value || '')
-
-    const obj = {
-      target: {
-        name, value
+      const payload = {
+        name: values?.name,
+        registration_number: values?.registration_number,
+        role_name: values?.role_name,
+        email: values?.email || 'email@email.idaa',
+        username: values?.username,
+        old_password: values?.old_password,
+        password: values?.password,
+        confirm_password: values?.confirm_password
       }
-    }
 
-    return obj
-  }
-
-  const handleSubmit = () => {
-    if (validate()) {
-      const payload = new FormData()
-      payload.append('email', values.email)
-      payload.append('photo', values.image)
       updateProfile(payload)
+    } catch (error) {
+      if (!error.inner || error.inner.length === 0) return
+
+      const newErrors = {}
+      error.inner.forEach((err) => {
+        newErrors[err.path] = err.message
+        formikRef.current.setFieldError(err.path, err.message)
+      })
+
+      const firstErrorField = error.inner[0].path
+      const firstErrorEl = document.querySelector(`[name="${firstErrorField}"]`)
+      firstErrorEl &&
+        firstErrorEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
   }
 
   useEffect(() => {
-    if (authentication.loadingProfile === false) {
-      setFinishModal(true)
-    } else if (authentication.loadingProfile === true) {
-      setFinishModal(false)
-    }
+    const userInfo = authentication.userInformation
+
+    formikRef.current?.setFieldValue('name', userInfo?.name, false)
+    formikRef.current?.setFieldValue('registration_number', userInfo?.registration_number, false)
+    formikRef.current?.setFieldValue('role_name', userInfo?.role_name, false)
+    formikRef.current?.setFieldValue('email', userInfo?.email, false)
+    formikRef.current?.setFieldValue('username', userInfo?.username, false)
+    setProfile(userInfo)
+  }, [authentication])
+
+  useEffect(() => {
+    const state = authentication?.loading
+    setLoading(!state)
   }, [authentication])
 
   return (
-    <>
-      <Typography fontWeight={700}>Edit Profil</Typography>
-      <Paper sx={{ marginTop: 1, padding: '20px 24px' }}>
-        <Typography fontWeight={700} fontSize={20}>Data Profil</Typography>
-        <Typography fontWeight={500} fontSize={14} sx={{ margin: '12px 0 8px 0' }}>Foto Profil</Typography>
-        <Image
-          src='/simdatuk/imagePegawai.png'
-          width={110}
-          height={150}
-          alt='Pegawai'
-          className={classes.profile}
-        />
-        <ProfileForm />
-      </Paper>
-    </>
+    <Formik
+      innerRef={formikRef}
+      initialValues={initialValues}
+      validationSchema={FormSchema}
+      onSubmit={() => { }}
+    >
+      {(formikProps) => (
+        <>
+          <Typography fontWeight={700}>Edit Profil</Typography>
+          <Paper sx={{ marginTop: 1, padding: '20px 24px' }}>
+            <Typography fontWeight={700} fontSize={20}>Data Profil</Typography>
+            {!!profile?.photo_profile &&
+              <>
+                <Typography fontWeight={500} fontSize={14} sx={{ margin: '12px 0 8px 0' }}>Foto Profil</Typography>
+                <img
+                  src={profile?.photo_profile}
+                  width={110}
+                  height={150}
+                  alt='Pegawai'
+                  className={classes.profile}
+                />
+              </>
+            }
+            <ProfileForm
+              {...profile}
+              {...formikProps}
+              handleSubmit={() => handleSubmit(formikProps?.values)}
+              formikRef={formikRef}
+            />
+          </Paper>
+        </>
+      )}
+    </Formik>
   )
 }
 
 Profile.propTypes = {
-  command: PropTypes.object,
   updateProfile: PropTypes.func,
+  setLoading: PropTypes.func,
   authentication: PropTypes.object
 }
 
