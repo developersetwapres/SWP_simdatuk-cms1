@@ -1,16 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 import Footer from '@/components/core/Footer'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Box, Container, Grid, Typography, Stack } from '@mui/material'
 import Image from 'next/image'
 import { makeStyles } from '@mui/styles'
 import { useForm } from '@/hooks/'
 import ResetPasswordForm from './ResetPasswordForm'
-import { useDispatch, useSelector } from 'react-redux'
-import { GET_HASH_URL_PASSWORD_REQUESTED, RESET_PASSWORD_REQUESTED } from '@/store/constants'
+import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import logo from '/public/simdatuk/Logo.png'
-
 
 // eslint-disable-next-line no-unused-vars
 const useStyles = makeStyles((theme) => ({
@@ -18,17 +16,16 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#fff',
     height: '100%',
     minHeight: '100vh',
-    // padding: '10px',
     color: '#fff',
     overflow: 'auto hidden'
   }
 }))
 
 function ResetPasswordComponent({
-  router
+  router,
+  resetPassword = () => { }
 }) {
   const classes = useStyles()
-  const dispatch = useDispatch()
   const selector = useSelector((state) => state.authentication)
 
   // eslint-disable-next-line no-unused-vars
@@ -69,21 +66,14 @@ function ResetPasswordComponent({
 
   const handleSubmitReset = () => {
     if (validate()) {
-      dispatch({
-        type: RESET_PASSWORD_REQUESTED, payload: {
-          password: values.newPassword,
-          hash: router.query.hash
-        }
+      resetPassword({
+        code: router.query.hash,
+        status: false,
+        password: values?.newPassword,
+        password_confirmation: values?.confirmNewPassword
       })
     }
   }
-
-  //* Dispatch Action GET_HASH
-  useEffect(() => {
-    if (!router.isReady) return
-    dispatch({ type: GET_HASH_URL_PASSWORD_REQUESTED, payload: router.query.hash })
-  }, [router, dispatch])
-
 
   return (
     <Box
@@ -140,7 +130,6 @@ function ResetPasswordComponent({
             </Stack>
           </Grid>
           <Box
-            contnainer
             alignItems='center'
             width='50%'
             maxWidth='md'
@@ -153,7 +142,7 @@ function ResetPasswordComponent({
               <h2>Reset Password</h2>
               <p style={{
                 marginTop: '-10px'
-              }}>Reset Password akun: {selector?.resetPassword.email ?? '-'}</p>
+              }}>Reset Password akun: {router?.query?.email ?? '-'}</p>
             </Grid>
             <Grid
               item
@@ -186,7 +175,8 @@ function ResetPasswordComponent({
 }
 
 ResetPasswordComponent.propTypes = {
-  router: PropTypes.object
+  router: PropTypes.object,
+  resetPassword: PropTypes.func
 }
 
 export default ResetPasswordComponent

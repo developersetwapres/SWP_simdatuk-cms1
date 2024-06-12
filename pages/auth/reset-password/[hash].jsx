@@ -1,11 +1,11 @@
 
 import React from 'react'
 import { withRouter } from 'next/router'
-import ResetPasswordComponent from '@/components/Auth/Reset-Password/ResetPasswordComponent'
+import ResetPasswordContainer from '@/containers/Auth/ResetPasswordContainer'
 
 function index(props) {
   return (
-    <ResetPasswordComponent
+    <ResetPasswordContainer
       {...props}
     />
   )

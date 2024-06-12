@@ -41,7 +41,7 @@ export const updatePasswordAction = (payload) => {
  * @returns
  */
 export const forgetPasswordAction = (payload) => {
-  return post(`/auth/admin/forgot/password`, payload)
+  return post(`/forgot-password`, payload)
 }
 
 /**
@@ -89,5 +89,5 @@ export const getHashUrlPasswordAction = (payload) => {
  * @returns
  */
 export const resetPasswordAction = (payload) => {
-  return post(`auth/reset/password`, payload)
+  return post(`/reset-password`, payload)
 }

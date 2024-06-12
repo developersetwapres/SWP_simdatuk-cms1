@@ -69,8 +69,7 @@ function LoginModal({
 
   const handleSuccessReset = () => {
     if (validate()) {
-      // setEmailSentModal(true)
-      // setResetEmail(false)
+      setResetEmail(false)
       const payload = {
         email: values.resetEmail
       }
@@ -90,7 +89,6 @@ function LoginModal({
           '.MuiBackdrop-root': {
             background: 'rgba(0, 0, 0, 0.5)'
           }
-          // margin: '0 25px'
         }}
         width='500px'
       >
@@ -116,26 +114,13 @@ function LoginModal({
             }}
           />
           <div>
-            {/* <img
-              src='/images/logo_setneg.svg'
-              alt='logo'
-              style={{
-                width: '100%',
-                maxWidth: '460px',
-                margin: '0 auto',
-                display: 'block'
-              }}
-            /> */}
             <div style={{
               textAlign: 'center'
             }}>
               <h3>Lupa Password ?</h3>
               <p>Kami akan mengirim instruksi melalui email untuk mengganti password. Silakan masukkan password anda.</p>
             </div>
-            <div style={{
-              marginTop: '40px'
-            }}>
-
+            <div style={{ marginTop: '40px' }}>
               <Input
                 label='Email'
                 classesLabel={classes.fontBold}

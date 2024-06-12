@@ -153,13 +153,19 @@ function* forgetPassword(action) {
       type: FORGET_PASSWORD_SUCCESS,
       payload: payload
     })
+    yield put({
+      type: SET_MODAL,
+      payload: {
+        code: payload?.code,
+        message: payload?.message
+      }
+    })
   } catch (err) {
     yield put({
       type: SET_MODAL,
       payload: {
-        code: err?.data?.meta?.code,
-        message: err?.data?.meta?.message,
-        redirect: '/auth/login'
+        code: err?.data?.code,
+        message: err?.data?.message
       }
     })
     yield put({
@@ -321,8 +327,9 @@ function* resetPasswordSaga(action) {
     yield put({
       type: SET_MODAL,
       payload: {
-        code: res?.data?.meta?.code,
-        message: 'Reset Password Berhasil',
+        code: payload?.code,
+        message: 'Reset Password Berhasil Disimpan',
+        childMessage: 'Anda telah berhasil melakukan reset password',
         redirect: '/'
       }
     })
@@ -330,9 +337,8 @@ function* resetPasswordSaga(action) {
     yield put({
       type: SET_MODAL,
       payload: {
-        code: err?.statusCode,
-        message: 'Mohon Maaf kami sedang dalam gangguan',
-        redirect: '/profile'
+        code: err?.data?.code,
+        message: err?.data?.message
       }
     })
     yield put({
