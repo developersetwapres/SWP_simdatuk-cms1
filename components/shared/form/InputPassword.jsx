@@ -56,8 +56,9 @@ function InputPassword({
   label,
   placeholder,
   value,
+  name,
   error = '',
-  onChange
+  onChange = () => { }
 }) {
   const classes = useStyles()
   const [showPassword, setShowPassword] = useState(false)
@@ -72,7 +73,7 @@ function InputPassword({
           label={label}
           placeholder={placeholder}
           type={showPassword ? 'text' : 'password'}
-          name='password'
+          name={name}
           value={value}
           onChange={onChange}
           className={error ? classes.inputError : classes.input}
@@ -97,6 +98,7 @@ InputPassword.propTypes = {
   value: PropTypes.string.isRequired,
   error: PropTypes.string,
   label: PropTypes.string,
+  name: PropTypes.string,
   placeholder: PropTypes.string,
   onChange: PropTypes.func
 }
