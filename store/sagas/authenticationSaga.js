@@ -314,10 +314,15 @@ function* getHashPassword(action) {
  * @returns
  */
 function* resetPasswordSaga(action) {
+  const isNewPassword = action?.payload?.status
+
   try {
     const res = yield call(resetPasswordAction, action?.payload)
-
     const payload = res?.data
+    const message = isNewPassword ?
+      'Password Baru Berhasil Disimpan' : 'Reset Password Berhasil Disimpan'
+    const childMessage = isNewPassword ?
+      'Anda telah berhasil menyimpan password baru' : 'Anda telah berhasil melakukan reset password'
 
     yield put({
       type: RESET_PASSWORD_SUCCESS,
@@ -328,8 +333,8 @@ function* resetPasswordSaga(action) {
       type: SET_MODAL,
       payload: {
         code: payload?.code,
-        message: 'Reset Password Berhasil Disimpan',
-        childMessage: 'Anda telah berhasil melakukan reset password',
+        message,
+        childMessage,
         redirect: '/'
       }
     })

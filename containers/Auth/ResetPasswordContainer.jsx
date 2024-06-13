@@ -11,15 +11,23 @@ export default connect(
 )(
   class ResetPasswordContainer extends Component {
     static propTypes = {
-      forgetPassword: PropTypes.func
+      forgetPassword: PropTypes.func,
+      router: PropTypes.object
     }
 
     constructor(props) {
       super(props)
-      this.state = {}
+      this.state = {
+        isNewPassword: false
+      }
     }
 
-    componentDidMount() { }
+    componentDidMount() {
+      const path = this.props.router.pathname.split('/')[2]
+      this.setState({
+        isNewPassword: path.includes('new-password')
+      })
+    }
 
     render() {
       return (

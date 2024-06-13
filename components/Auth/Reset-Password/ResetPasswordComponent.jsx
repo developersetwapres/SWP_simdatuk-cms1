@@ -23,7 +23,8 @@ const useStyles = makeStyles((theme) => ({
 
 function ResetPasswordComponent({
   router,
-  resetPassword = () => { }
+  resetPassword = () => { },
+  isNewPassword = false
 }) {
   const classes = useStyles()
   const selector = useSelector((state) => state.authentication)
@@ -68,7 +69,7 @@ function ResetPasswordComponent({
     if (validate()) {
       resetPassword({
         code: router.query.hash,
-        status: false,
+        status: isNewPassword,
         password: values?.newPassword,
         password_confirmation: values?.confirmNewPassword
       })
@@ -139,10 +140,17 @@ function ResetPasswordComponent({
               item
               textAlign='center'
             >
-              <h2>Reset Password</h2>
-              <p style={{
-                marginTop: '-10px'
-              }}>Reset Password akun: {router?.query?.email ?? '-'}</p>
+              <h2>{isNewPassword ? 'Password Baru' : 'Reset Password'}</h2>
+
+              {isNewPassword ? (
+                <>
+                  <p style={{ marginTop: '' }}>Anda telah berhasil terverifikasi</p>
+                  <p style={{ marginTop: '-8px' }}>Silakan masukkan password baru</p>
+                </>
+              ) : (
+                <p style={{ marginTop: '-10px' }}>Reset Password akun: {router?.query?.email ?? '-'}</p>
+              )}
+
             </Grid>
             <Grid
               item
@@ -176,7 +184,8 @@ function ResetPasswordComponent({
 
 ResetPasswordComponent.propTypes = {
   router: PropTypes.object,
-  resetPassword: PropTypes.func
+  resetPassword: PropTypes.func,
+  isNewPassword: PropTypes.bool
 }
 
 export default ResetPasswordComponent
