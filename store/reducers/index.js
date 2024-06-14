@@ -6,6 +6,9 @@ import * as roleReducer from './users/roleReducer'
 import * as userReducer from './users/userReducer'
 import * as echelonReducer from './users/echelonReducer'
 
+// Dashboard
+import * as dashboardReducer from './dashboardReducer'
+
 // Emplyee
 import * as employeeReducer from './employeeReducer'
 
@@ -36,6 +39,7 @@ const reducers = {
   ...modalReducer,
   ...responserReducer,
   ...roleReducer,
+  ...dashboardReducer,
   ...userReducer,
   ...echelonReducer,
   ...employeeReducer,

@@ -6,6 +6,9 @@ import * as user from './users/user'
 import * as role from './users/role'
 import * as echelon from './users/echelon'
 
+// Dashboard
+import * as dashboard from './dashboard'
+
 // Employee
 import * as employee from './employee'
 
@@ -35,6 +38,7 @@ const actions = {
   ...role,
   ...echelon,
   ...employee,
+  ...dashboard,
   ...position,
   ...grade,
   ...recognition,
