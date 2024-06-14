@@ -1,8 +1,14 @@
+/* eslint-disable no-unused-vars */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Card, Typography } from '@mui/material'
+import { v4 as uuidv4 } from 'uuid'
 
-const ContentCount = ({ data }) => {
+const ContentCount = ({ data, datas }) => {
+  const counts = datas[data.type]
+  const labels = data?.count.map((e) => e.title)
+  const transformed = !!counts ? Object.entries(counts) : []
+
   return (
     <Box>
       <Typography
@@ -36,8 +42,8 @@ const ContentCount = ({ data }) => {
           gap: '16px'
         }}
       >
-        {data?.count.map((item, index) => (
-          <CardCount key={index} title={item?.title} count={item?.total} />
+        {transformed.map(([key, value], idx) => (
+          <CardCount key={uuidv4()} title={labels[idx]} count={value} />
         ))}
       </Box>
     </Box>
@@ -86,7 +92,8 @@ CardCount.propTypes = {
   count: PropTypes.number
 }
 ContentCount.propTypes = {
-  data: PropTypes.object
+  data: PropTypes.object,
+  datas: PropTypes.object
 }
 
 export default ContentCount

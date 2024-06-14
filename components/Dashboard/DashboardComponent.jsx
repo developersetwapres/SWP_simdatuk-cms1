@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React from 'react'
+import React, { useEffect, useMemo } from 'react'
 import SectionEmployeeBirthday from './SectionDashboard/SectionEmployeeBirthday'
 import SectionCountEmployee from './SectionDashboard/SectionCountEmployee'
 import { Grid } from '@mui/material'
@@ -8,6 +9,8 @@ import GENDER_ICON from '/public/simdatuk/gender.png'
 import TYPE_ICON from '/public/simdatuk/type.png'
 import SectionChart from './SectionDashboard/SectionChart'
 import LayoutPages from '../core/LayoutPages'
+import PropTypes from 'prop-types'
+import { v4 as uuidv4 } from 'uuid'
 
 const data = [
   {
@@ -23,7 +26,8 @@ const data = [
         title: 'aktif',
         total: 288
       }
-    ]
+    ],
+    type: 'total_government_employees'
   },
   {
     title: 'Jenis Kelamin Pegawai',
@@ -38,7 +42,8 @@ const data = [
         title: 'Wanita',
         total: 133
       }
-    ]
+    ],
+    type: 'gender_employees'
   },
   {
     title: 'Pegawai Bukan ASN',
@@ -53,7 +58,8 @@ const data = [
         title: 'Outsourcing',
         total: 190
       }
-    ]
+    ],
+    type: 'total_non_government_employees'
   }
 ]
 
@@ -61,6 +67,7 @@ const dataCharts = [
   {
     title: 'Unit Kerja',
     copytext: 'Detail unit kerja yang ada di Sekretariat Wakil Presiden',
+    type: 'work_unit',
     children: [
       {
         name: 'Kepala Sekretariat Wakil Presiden',
@@ -92,6 +99,7 @@ const dataCharts = [
     title: 'Pegawai Pendidikan',
     copytext:
       'Detail pendidikan pegawai yang ada di Sekretariat Wakil Presiden',
+    type: 'education_employees',
     children: [
       {
         name: 'Strata III',
@@ -125,26 +133,66 @@ const dataCharts = [
   }
 ]
 
-function DashboardComponent() {
+function DashboardComponent({
+  datas,
+  month,
+  dashboardReducer,
+  handleChangeMonth = () => { },
+  setDatas = () => { },
+  setRender = () => { }
+}) {
+  useEffect(() => {
+    const state = !dashboardReducer?.loading
+    setRender(state)
+  }, [dashboardReducer?.loading])
+
+  useEffect(() => {
+    setDatas(dashboardReducer?.data)
+  }, [dashboardReducer?.data])
+
+  const employeesCounts = useMemo(() => {
+    return data.map(item => (
+      <Grid item xs={12} key={uuidv4()}>
+        <SectionCountEmployee
+          data={item}
+          datas={datas}
+        />
+      </Grid>
+    ))
+  }, [datas])
+
+  const chartsCounts = useMemo(() => {
+    return dataCharts.map((item, index) => (
+      <Grid item xs={12} key={index}>
+        <SectionChart data={item} datas={datas} />
+      </Grid>
+    ))
+  }, [datas])
+
   return (
     <LayoutPages summary={'Dashboard'}>
       <Grid container spacing={4}>
         <Grid item xs={12}>
-          <SectionEmployeeBirthday />
+          <SectionEmployeeBirthday
+            month={month}
+            datas={datas}
+            handleChangeMonth={handleChangeMonth}
+          />
         </Grid>
-        {data.map((item, index) => (
-          <Grid item xs={12} key={index}>
-            <SectionCountEmployee data={item} />
-          </Grid>
-        ))}
-        {dataCharts.map((item, index) => (
-          <Grid item xs={12} key={index}>
-            <SectionChart data={item} />
-          </Grid>
-        ))}
+        {employeesCounts}
+        {chartsCounts}
       </Grid>
     </LayoutPages>
   )
+}
+
+DashboardComponent.propTypes = {
+  month: PropTypes.number,
+  datas: PropTypes.object,
+  dashboardReducer: PropTypes.object,
+  handleChangeMonth: PropTypes.func,
+  setDatas: PropTypes.func,
+  setRender: PropTypes.func
 }
 
 export default DashboardComponent

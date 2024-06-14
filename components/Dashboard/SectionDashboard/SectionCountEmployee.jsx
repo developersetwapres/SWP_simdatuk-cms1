@@ -16,7 +16,7 @@ const style = {
   }
 }
 
-const SectionCountEmployee = ({ data }) => {
+const SectionCountEmployee = ({ data, datas }) => {
   return (
     <DashboardSectionLayout>
       <Grid container sx={{ height: '80vh' }}>
@@ -30,7 +30,7 @@ const SectionCountEmployee = ({ data }) => {
             justifyContent: 'start'
           }}
         >
-          <ContentCount data={data} />
+          <ContentCount data={data} datas={datas} />
         </Grid>
         <Grid item xs={12} sm={7} sx={style?.grid}>
           <Box sx={style?.grid}>
@@ -46,6 +46,7 @@ const SectionCountEmployee = ({ data }) => {
 }
 
 SectionCountEmployee.propTypes = {
+  datas: PropTypes.object,
   data: PropTypes.object
 }
 

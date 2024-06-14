@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import 'chart.js/auto'
@@ -25,7 +26,8 @@ const options = {
   }
 }
 
-const SectionChart = ({ data }) => {
+const SectionChart = ({ data, datas }) => {
+  const counts = datas[data.type]
   const generateRandomColor = (name, index) => {
     const colorWheel = [
       '#FF0000', // Merah
@@ -63,14 +65,14 @@ const SectionChart = ({ data }) => {
         }
         return acc
       }, {}),
-      children: data?.children.map((item, index) => ({
+      children: counts?.map((item, index) => ({
         ...item,
+        count: item.quantity,
         color: generateRandomColor(item?.name, index)
       }))
     }
-
     return payload
-  }, [data])
+  }, [datas])
 
   const dataCharts = useMemo(() => {
     const payload = {
@@ -84,7 +86,6 @@ const SectionChart = ({ data }) => {
         }
       ]
     }
-
     return payload
   }, [newDatas])
 
@@ -113,7 +114,8 @@ const SectionChart = ({ data }) => {
 }
 
 SectionChart.propTypes = {
-  data: PropTypes.object
+  data: PropTypes.object,
+  datas: PropTypes.object
 }
 
 export default SectionChart

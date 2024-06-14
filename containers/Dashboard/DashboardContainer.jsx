@@ -7,104 +7,72 @@ import Layout from '@/components/core/Layout'
 import DashboardComponent from '@/components/Dashboard/DashboardComponent'
 
 export default connect(
-  mapStateToProps(),
-  mapActions()
+  mapStateToProps('dashboardReducer'),
+  mapActions('getSummaries')
 )(
   class DashboardContainer extends Component {
     static propTypes = {
-      props: PropTypes.any
+      props: PropTypes.any,
+      getSummaries: PropTypes.func,
+      dashboardReducer: PropTypes.object
     }
 
     constructor(props) {
       super(props)
       this.state = {
-        queries: {
-          page: 1,
-          limit: 10,
-          sortBy: '',
-          sortDesc: '',
-          search: '',
-          status: '',
-          type: ''
-        },
-        willRender: false
+        willRender: false,
+        month: 1,
+        datas: {
+          educational_employees: [],
+          gender_employees: {},
+          total_government_employees: {},
+          total_non_government_employees: {},
+          users: [],
+          work_unit: []
+        }
       }
-      this.fetch = this.fetch.bind(this)
-      this.onPaginationChange = this.onPaginationChange.bind(this)
-      this.onSearch = this.onSearch.bind(this)
-      this.onStatus = this.onStatus.bind(this)
-      this.onType = this.onType.bind(this)
-      this.onClearFilter = this.onClearFilter.bind(this)
+      this.setRender = this.setRender.bind(this)
+      this.getCurrentMonth = this.getCurrentMonth.bind(this)
+      this.handleChangeMonth = this.handleChangeMonth.bind(this)
+      this.setDatas = this.setDatas.bind(this)
     }
 
-    fetch(queries) {
-      console.log('queries', queries)
+    setDatas(datas) {
+      this.setState({ datas: { ...datas } })
     }
 
-    onPaginationChange(page) {
-      const queries = {
-        ...this.state.queries,
-        page: page
-      }
-      this.setState({ queries })
-      this.fetch(queries)
+    getCurrentMonth() {
+      const currentDate = new Date()
+      const currentMonth = currentDate.getMonth()
+      return currentMonth + 1
     }
 
-    onSearch(value) {
-      const queries = {
-        ...this.state.queries,
-        search: value || '',
-        page: 1
-      }
-      this.setState({ queries })
-      this.fetch(queries)
-    }
-
-    onStatus(value) {
-      const queries = {
-        ...this.state.queries,
-        status: value.status || false,
-        page: 1
-      }
-      this.setState({ queries })
-      this.fetch(queries)
-    }
-
-    onType(value) {
-      const queries = {
-        ...this.state.queries,
-        type: value?.value || 0,
-        page: 1
-      }
-      this.setState({ queries })
-      this.fetch(queries)
-    }
-
-    onClearFilter() {
-      const queries = {
-        ...this.state.queries,
-        search: '',
-        type: '',
-        status: '',
-        page: 1
-      }
-      this.setState({ queries })
-      this.fetch(queries)
+    handleChangeMonth(month) {
+      this.setState({ month }, () => {
+        this.props.getSummaries({ month })
+      })
     }
 
     componentDidMount() {
-      this.fetch(this.state.queries)
-      setTimeout(() => {
-        this.setState({
-          willRender: true
-        })
-      }, 3000)
+      this.setState({ month: this.getCurrentMonth() }, () => {
+        this.props.getSummaries({ month: this.getCurrentMonth() })
+      })
+    }
+
+    setRender(val) {
+      this.setState({ willRender: val })
     }
 
     render() {
       return (
         <Layout willRender={this.state.willRender}>
-          <DashboardComponent {...this.state} {...this.props} />
+          <DashboardComponent
+            {...this.state}
+            {...this.props}
+            handleChangeMonth={this.handleChangeMonth}
+            setDatas={this.setDatas}
+            setRender={this.setRender}
+          />
         </Layout>
       )
     }

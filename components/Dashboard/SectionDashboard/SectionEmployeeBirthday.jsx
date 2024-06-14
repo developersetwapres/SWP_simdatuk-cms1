@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react'
+import React, { useMemo } from 'react'
 import { Box, Typography, Grid } from '@mui/material'
 import { Select } from '@/components/shared/index'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import CardEmployee from '../../shared/Card/CardEmployee'
 import DashboardSectionLayout from '../DashboardSectionLayout'
+import { v4 as uuidv4 } from 'uuid'
 
 const months = [
   { id: 1, text: 'January' },
@@ -21,62 +22,30 @@ const months = [
   { id: 12, text: 'December' }
 ]
 
-const data = [
-  {
-    name: 'Dr. Ir. Suprayoga Hadi, M.S.P.',
-    image: '/simdatuk/imagePegawai.png',
-    date: '00-00-0000'
-  },
-  {
-    name: 'Dr. Ir. Suprayoga Hadi, M.S.P.',
-    image: '/simdatuk/imagePegawai.png',
-    date: '00-00-0000'
-  },
-  {
-    name: 'Dr. Ir. Suprayoga Hadi, M.S.P.',
-    image: '/simdatuk/imagePegawai.png',
-    date: '00-00-0000'
-  },
-  {
-    name: 'Dr. Ir. Suprayoga Hadi, M.S.P.',
-    image: '/simdatuk/imagePegawai.png',
-    date: '00-00-0000'
-  },
-  {
-    name: 'Dr. Ir. Suprayoga Hadi, M.S.P.',
-    image: '/simdatuk/imagePegawai.png',
-    date: '00-00-0000'
-  },
-  {
-    name: 'Dr. Ir. Suprayoga Hadi, M.S.P.',
-    image: '/simdatuk/imagePegawai.png',
-    date: '00-00-0000'
-  },
-  {
-    name: 'Dr. Ir. Suprayoga Hadi, M.S.P.',
-    image: '/simdatuk/imagePegawai.png',
-    date: '00-00-0000'
-  }
-]
-
-function SectionEmployeeBirthday() {
-  const [month, setMonth] = useState(null)
-
-  const handleChangeMonth = (event) => {
-    setMonth(event.target.value)
+function SectionEmployeeBirthday({
+  datas,
+  month,
+  handleChangeMonth
+}) {
+  const handleSelectChange = e => {
+    handleChangeMonth(e.target.value)
   }
 
-  function getCurrentMonth() {
-    const currentDate = new Date()
-    const currentMonth = currentDate.getMonth()
-    const valueMonth = currentMonth + 1
-
-    if (!month) setMonth(valueMonth)
-  }
-
-  useEffect(() => {
-    getCurrentMonth()
-  }, [])
+  const employees = useMemo(() => {
+    return datas?.users?.map((item) => (
+      <Grid item xs={12} sm={3} key={uuidv4()}>
+        <CardEmployee
+          data={{
+            name: item.name,
+            // image: item.photo_profile,
+            image: '/simdatuk/imagePegawai.png',
+            date: item.date_of_birth
+          }}
+          otherStyle={{ boxShadow: 'none' }}
+        />
+      </Grid>
+    ))
+  }, [datas])
 
   return (
     <DashboardSectionLayout>
@@ -96,21 +65,20 @@ function SectionEmployeeBirthday() {
           value={month}
           options={months}
           placeholder='Month'
-          onChange={handleChangeMonth}
+          onChange={handleSelectChange}
         />
       </Box>
       <Grid container>
-        {data?.map((item, index) => (
-          <Grid item xs={12} sm={3} key={index}>
-            <CardEmployee data={item} otherStyle={{ boxShadow: 'none' }} />
-          </Grid>
-        ))}
+        {employees}
       </Grid>
     </DashboardSectionLayout>
   )
 }
 
-// SectionEmployeeBirthday.propTypes = {
-// }
+SectionEmployeeBirthday.propTypes = {
+  month: PropTypes.number,
+  datas: PropTypes.object,
+  handleChangeMonth: PropTypes.func
+}
 
 export default SectionEmployeeBirthday
