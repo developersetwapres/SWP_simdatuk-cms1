@@ -53,14 +53,15 @@ function Profile({
       formikRef.current.setErrors({})
 
       const payload = {
-        name: values?.name,
-        registration_number: values?.registration_number,
-        role_name: values?.role_name,
-        email: values?.email || 'email@email.idaa',
         username: values?.username,
+        email: values?.email || 'email@email.idaa',
         old_password: values?.old_password,
         password: values?.password,
-        confirm_password: values?.confirm_password
+        password_confirmation: values?.confirm_password
+
+        // name: values?.name,
+        // registration_number: values?.registration_number,
+        // role_name: values?.role_name,
       }
 
       updateProfile(payload)
