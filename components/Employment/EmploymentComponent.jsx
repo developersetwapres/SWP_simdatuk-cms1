@@ -167,7 +167,7 @@ const RecapItem = ({
               fontWeight: 800
             }}
           >
-            {count}
+            Total: {count}
           </Typography>
         </Box>
         <Grid container spacing={3}>
