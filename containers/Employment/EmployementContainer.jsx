@@ -7,36 +7,80 @@ import Layout from '@/components/core/Layout'
 import EmploymentComponent from '@/components/Employment/EmploymentComponent'
 
 export default connect(
-  mapStateToProps(),
-  mapActions()
+  mapStateToProps('recapComposition', 'recapASN', 'recapNonASN', 'recapOutsource'),
+  mapActions(
+    'getCompositions',
+    'getCompositionsCategories',
+    'getASNRecap',
+    'getASNRecapByCategory',
+    'getNonASNRecap',
+    'getNonASNRecapByCategory',
+    'getOutsourceRecap',
+    'getOutsourceRecapByCategory',
+  )
 )(
   class EmploymentContainer extends Component {
     static propTypes = {
       data: PropTypes.object,
-      banner: PropTypes.object,
-      getBanners: PropTypes.func,
-      deleteListBanner: PropTypes.func
+      recapComposition: PropTypes.object,
+      recapASN: PropTypes.object,
+      recapNonASN: PropTypes.object,
+      recapOutsource: PropTypes.object,
+      getCompositions: PropTypes.func,
+      getCompositionsCategories: PropTypes.func,
+      getASNRecap: PropTypes.func,
+      getASNRecapByCategory: PropTypes.func,
+      getNonASNRecap: PropTypes.func,
+      getNonASNRecapByCategory: PropTypes.func,
+      getOutsourceRecap: PropTypes.func,
+      getOutsourceRecapByCategory: PropTypes.func
     }
 
     constructor(props) {
       super(props)
       this.state = {
-        willRender: false
+        willRender: false,
+        recapData: {}
       }
+      this.getRecapData = this.getRecapData.bind(this)
+      this.setRender = this.setRender.bind(this)
+      this.setRecapData = this.setRecapData.bind(this)
     }
 
     componentDidMount() {
-      setTimeout(() => {
-        this.setState({
-          willRender: true
-        })
-      }, 2000)
+      console.log('FILE: ', this.props.data)
+    }
+
+    setRecapData(data) {
+      this.setState({ recapData: data })
+    }
+
+    setRender(val) {
+      this.setState({ willRender: val })
+    }
+
+    getRecapData(pagePath) {
+      if (pagePath?.includes('komposisi')) {
+        this.props.getCompositions()
+      } else if (pagePath?.includes('pegawai-asn')) {
+        this.props.getASNRecap()
+      } else if (pagePath?.includes('pegawai-non-asn')) {
+        this.props.getNonASNRecap()
+      } else if (pagePath?.includes('pegawai-outsourcing')) {
+        this.props.getOutsourceRecap()
+      }
     }
 
     render() {
       return (
         <Layout willRender={this.state.willRender}>
-          <EmploymentComponent {...this.state} {...this.props} />
+          <EmploymentComponent
+            {...this.state}
+            {...this.props}
+            getRecapData={this.getRecapData}
+            setRender={this.setRender}
+            setRecapData={this.setRecapData}
+          />
         </Layout>
       )
     }
