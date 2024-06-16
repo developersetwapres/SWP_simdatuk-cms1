@@ -12,8 +12,14 @@ import userSaga from './users/userSaga'
 import roleSaga from './users/roleSaga'
 import echelonSaga from './users/echelonSaga'
 
-// Employee
+// Dashboard
 import dashboardSaga from './dashboardSaga'
+
+// Recap
+import compositionSaga from './recap/compositionSaga'
+import asnSaga from './recap/asnSaga'
+import nonASNSaga from './recap/nonASNSaga'
+import outsourceSaga from './recap/outsourceSaga'
 
 // Employee
 import employeeSaga from './employeeSaga'
@@ -40,6 +46,10 @@ export default function* rootSaga() {
     echelonSaga(),
     employeeSaga(),
     dashboardSaga(),
+    compositionSaga(),
+    asnSaga(),
+    nonASNSaga(),
+    outsourceSaga(),
     positionSaga(),
     gradeSaga(),
     recognitionSaga(),

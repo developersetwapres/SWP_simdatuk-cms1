@@ -9,6 +9,12 @@ import * as echelonReducer from './users/echelonReducer'
 // Dashboard
 import * as dashboardReducer from './dashboardReducer'
 
+// Recap
+import * as compositionReducer from './recap/compositionReducer'
+import * as asnReducer from './recap/asnReducer'
+import * as nonASNReducer from './recap/nonASNReducer'
+import * as outsourceReducer from './recap/outsourceReducer'
+
 // Emplyee
 import * as employeeReducer from './employeeReducer'
 
@@ -40,6 +46,10 @@ const reducers = {
   ...responserReducer,
   ...roleReducer,
   ...dashboardReducer,
+  ...compositionReducer,
+  ...asnReducer,
+  ...nonASNReducer,
+  ...outsourceReducer,
   ...userReducer,
   ...echelonReducer,
   ...employeeReducer,

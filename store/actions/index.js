@@ -9,6 +9,12 @@ import * as echelon from './users/echelon'
 // Dashboard
 import * as dashboard from './dashboard'
 
+// Recap
+import * as recapComposition from './recap/composition'
+import * as recapASN from './recap/asn'
+import * as recapNonASN from './recap/non_asn'
+import * as recapOutsource from './recap/outsource'
+
 // Employee
 import * as employee from './employee'
 
@@ -36,6 +42,10 @@ const actions = {
   ...responser,
   ...user,
   ...role,
+  ...recapComposition,
+  ...recapASN,
+  ...recapNonASN,
+  ...recapOutsource,
   ...echelon,
   ...employee,
   ...dashboard,
