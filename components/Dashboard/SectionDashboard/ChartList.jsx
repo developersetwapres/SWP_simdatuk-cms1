@@ -33,11 +33,11 @@ const ChartList = ({ data }) => {
         {data?.copytext}
       </Typography>
       <Box>
-        {data?.children.map((item, index) => (
+        {data?.children?.map((item, index) => (
           <Box
             sx={{
               width: '100%',
-              marginBottom: index + 1 == data?.children.length ? 0 : '14px',
+              marginBottom: index + 1 == data?.children?.length ? 0 : '14px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'flex-start'

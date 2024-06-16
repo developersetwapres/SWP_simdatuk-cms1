@@ -27,7 +27,7 @@ const options = {
 }
 
 const SectionChart = ({ data, datas }) => {
-  const counts = datas[data.type]
+  const counts = datas[data?.type]
   const generateRandomColor = (name, index) => {
     const colorWheel = [
       '#FF0000', // Merah
@@ -48,7 +48,7 @@ const SectionChart = ({ data, datas }) => {
       color = colorWheel[index]
     } else {
       let hash = 0
-      for (let i = 0; i < name.length; i++) {
+      for (let i = 0; i < name?.length; i++) {
         hash = name.charCodeAt(i) + ((hash << 5) - hash)
       }
       color = '#' + ((hash & 0xffffff) << 0).toString(16).padStart(6, '0')
@@ -71,43 +71,50 @@ const SectionChart = ({ data, datas }) => {
         color: generateRandomColor(item?.name, index)
       }))
     }
+
     return payload
   }, [datas])
 
   const dataCharts = useMemo(() => {
     const payload = {
-      labels: newDatas?.children.map((item) => item.name),
+      labels: !!newDatas?.children?.length ? newDatas?.children?.map((item) => item.name) : [],
       datasets: [
         {
           label: newDatas?.title,
-          data: newDatas?.children.map((item) => item.count),
-          backgroundColor: newDatas?.children.map((item) => item.color),
+          data: newDatas?.children?.map((item) => item.count),
+          backgroundColor: newDatas?.children?.map((item) => item.color),
           borderWidth: 1
         }
       ]
     }
+
     return payload
   }, [newDatas])
 
   return (
     <DashboardSectionLayout>
       <Grid container sx={{ height: '80vh' }}>
-        <Grid
-          item
-          xs={12}
-          sm={5}
-          sx={{
-            ...style?.grid,
-            paddingLeft: '44px'
-          }}
-        >
-          <ChartList data={newDatas} />
-        </Grid>
-        <Grid item xs={12} sm={7} sx={style?.grid}>
-          <Box sx={{ width: '60%' }}>
-            <Chart type='doughnut' data={dataCharts} options={options} />
-          </Box>
-        </Grid>
+        {!!newDatas?.children?.length && (
+          <Grid
+            item
+            xs={12}
+            sm={5}
+            sx={{
+              ...style?.grid,
+              paddingLeft: '44px'
+            }}
+          >
+            <ChartList data={newDatas} />
+          </Grid>
+        )}
+
+        {!!dataCharts && (
+          <Grid item xs={12} sm={7} sx={style?.grid}>
+            <Box sx={{ width: '60%' }}>
+              <Chart type='doughnut' data={dataCharts} options={options} />
+            </Box>
+          </Grid>
+        )}
       </Grid>
     </DashboardSectionLayout>
   )
