@@ -1,6 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 import React from 'react'
 import PropTypes from 'prop-types'
-import Image from 'next/image'
 import { Box, Card, CardContent, Typography } from '@mui/material'
 
 const style = {
@@ -37,7 +37,7 @@ const CardEmployee = ({ data, otherStyle }) => {
       <CardContent sx={style.cardContent}>
         <Box sx={style.imageBox}>
           {data?.image?.length > 0 ? (
-            <Image src={data?.image} alt='profile' height={200} width={150} />
+            <img src={data?.image} alt='profile' height={200} width={150} />
           ) : (
             <Box
               height={200}
@@ -51,7 +51,7 @@ const CardEmployee = ({ data, otherStyle }) => {
                 borderRadius: '6px'
               }}
             >
-              <Image
+              <img
                 src='/simdatuk/userIcon.png'
                 alt='profile'
                 height={70}
