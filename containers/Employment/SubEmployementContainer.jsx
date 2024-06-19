@@ -57,9 +57,11 @@ export default connect(
       } else if (pagePath?.includes('pegawai-asn')) {
         this.props.getASNRecapByCategory(query)
       } else if (pagePath?.includes('pegawai-non-asn')) {
-        this.props.getNonASNRecapByCategory(query)
+        // this.props.getNonASNRecapByCategory(query)
+        router.replace(`${router.asPath}/pegawai`)
       } else if (pagePath?.includes('pegawai-outsourcing')) {
-        this.props.getOutsourceRecapByCategory(query)
+        // this.props.getOutsourceRecapByCategory(query)
+        router.replace(`${router.asPath}/pegawai`)
       }
     }
 

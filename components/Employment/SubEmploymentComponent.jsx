@@ -161,8 +161,7 @@ const RecapItem = ({
             >
               <CardEmployment
                 data={itm}
-                // path={`/rekapitulasi/${router?.query?.employment}/${btoa(idx + 1)}/pegawai`}
-                path={router.asPath}
+                path={`/rekapitulasi/${router?.query?.employment}/${btoa(idx + 1)}/pegawai`}
                 cardStyle={{
                   border: showBackground ? '2px solid #394346' : 'none',
                   boxShadow: !showBackground

@@ -5,25 +5,39 @@ import { useRouter } from 'next/router'
 import CardProfile from '../../shared/Card/CardProfile'
 import LayoutPages from '../../core/LayoutPages'
 
-const EmployeesComponent = ({ data }) => {
+const EmployeesComponent = ({
+  datas
+}) => {
   const router = useRouter()
 
   const totalCount = useMemo(() => {
-    return data?.children.reduce((acc, child) => {
-      return acc + child.slot
+    return datas?.employees?.reduce((acc, child) => {
+      return acc + (child?.slot || 0)
     }, 0)
-  }, [data])
+  }, [datas])
 
   return (
     <LayoutPages
+      summary='Posisi'
       handleBack={() => router.back()}
-      summary={data?.title}
       count={`Total Keseluruhan : ${totalCount}`}
     >
       <Grid container spacing={3}>
-        {data?.children.map((item, index) => (
+        {datas?.employees?.map((item, index) => (
           <Grid item xs={3} key={index}>
-            <CardProfile data={item} />
+            <CardProfile
+              data={{
+                ...item,
+                children: [
+                  ...item.children.map(
+                    c => ({
+                      ...c,
+                      pathProfil: router.asPath + `/${index + 1}`
+                    })
+                  )
+                ]
+              }}
+            />
           </Grid>
         ))}
       </Grid>
@@ -32,7 +46,7 @@ const EmployeesComponent = ({ data }) => {
 }
 
 EmployeesComponent.propTypes = {
-  data: PropTypes.object
+  datas: PropTypes.object
 }
 
 export default EmployeesComponent

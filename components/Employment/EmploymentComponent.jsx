@@ -84,7 +84,7 @@ const EmploymentComponent = ({
 
   return (
     <LayoutPages
-      summary={recapData?.name || 'Rekapitulasi Pegawai Sekretariat Wakil Presiden RI'}
+      summary={recapData?.name || ''}
       count={`Total Keseluruhan : ${recapData?.total || 0}`}
       action={action}
     >
@@ -112,18 +112,23 @@ const RecapItem = ({
   const router = useRouter()
 
   const nextPagePath = (title, idx) => {
-    if (router.asPath?.includes('komposisi')) {
-      return `${router?.asPath}/${btoa(idx + 1)}`
-    }
+    // if (
+    //   router.asPath?.includes('komposisi') ||
+    //   router.asPath?.includes('pegawai-asn')
+    // ) {
+    //   return `${router?.asPath}/${btoa(idx + 1)}`
+    // }
 
-    if (
-      router.asPath?.includes('pegawai-asn') &&
-      title?.toLowerCase()?.includes('keterangan jabatan')
-    ) {
-      return `${router?.asPath}/${btoa(idx + 1)}`
-    }
+    // if (
+    //   router.asPath?.includes('pegawai-asn') &&
+    //   title?.toLowerCase()?.includes('keterangan jabatan')
+    // ) {
+    //   return `${router?.asPath}/${btoa(idx + 1)}`
+    // }
 
-    return router.asPath
+    // return router.asPath
+
+    return `${router?.asPath}/${btoa(idx + 1)}`
   }
 
   return (
