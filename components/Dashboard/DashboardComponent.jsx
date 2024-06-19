@@ -14,24 +14,24 @@ import { v4 as uuidv4 } from 'uuid'
 
 const data = [
   {
-    title: 'Jumlah Pegawai',
-    copytext: 'Jumlah pegawai yang ada di Sekretariat Wakil Presiden',
+    title: 'Jumlah Pegawai ASN',
+    copytext: 'Pegawai ASN aktif (PNS Setwapres dan Perbantuan Setneg) + PPPK + Perbantuan TNI/POLRI (Pelaksana)',
     image: COUNT_ICON,
     count: [
       {
-        title: 'Seluruhnya',
-        total: 294
-      },
-      {
         title: 'aktif',
         total: 288
+      },
+      {
+        title: 'Seluruhnya',
+        total: 294
       }
     ],
     type: 'total_government_employees'
   },
   {
-    title: 'Jenis Kelamin Pegawai',
-    copytext: 'Jumlah jenis kelamin yang ada di Sekretariat Wakil Presiden',
+    title: 'Jenis Kelamin Pegawai ASN',
+    copytext: 'Jumlah pegawai berdasarkan jenis kelamin',
     image: GENDER_ICON,
     count: [
       {
@@ -46,8 +46,8 @@ const data = [
     type: 'gender_employees'
   },
   {
-    title: 'Pegawai Bukan ASN',
-    copytext: 'Jumlah pegawai bukan ASN yang ada di Sekretariat Wakil Presiden',
+    title: 'Pegawai Non ASN',
+    copytext: 'Jumlah pegawai Non ASN yang ada di Sekretariat Wakil Presiden',
     image: TYPE_ICON,
     count: [
       {
@@ -96,7 +96,7 @@ const dataCharts = [
     ]
   },
   {
-    title: 'Pegawai Pendidikan',
+    title: 'Pendidikan Pegawai',
     copytext:
       'Detail pendidikan pegawai yang ada di Sekretariat Wakil Presiden',
     type: 'education_employees',

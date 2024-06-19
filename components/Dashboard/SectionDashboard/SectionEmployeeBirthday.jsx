@@ -37,8 +37,7 @@ function SectionEmployeeBirthday({
         <CardEmployee
           data={{
             name: item.name,
-            // image: item.photo_profile,
-            image: '/simdatuk/imagePegawai.png',
+            image: item.photo_profile,
             date: item.date_of_birth
           }}
           otherStyle={{ boxShadow: 'none' }}
@@ -58,7 +57,7 @@ function SectionEmployeeBirthday({
           justifyContent: 'space-between'
         }}
       >
-        <Typography fontWeight='500'>Pegawain Yang Berulang Tahun</Typography>
+        <Typography fontWeight='500'>Pegawai yang Berulang Tahun</Typography>
         <Select
           name='month'
           sx={{ width: '200px' }}
