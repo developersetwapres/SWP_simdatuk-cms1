@@ -21,7 +21,6 @@ export default connect(
 )(
   class EmploymentContainer extends Component {
     static propTypes = {
-      data: PropTypes.object,
       recapComposition: PropTypes.object,
       recapASN: PropTypes.object,
       recapNonASN: PropTypes.object,
@@ -47,9 +46,7 @@ export default connect(
       this.setRecapData = this.setRecapData.bind(this)
     }
 
-    componentDidMount() {
-      console.log('FILE: ', this.props.data)
-    }
+    componentDidMount() { }
 
     setRecapData(data) {
       this.setState({ recapData: data })

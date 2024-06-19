@@ -16,7 +16,6 @@ export default connect(
 )(
   class SubEmploymentContainer extends Component {
     static propTypes = {
-      data: PropTypes.object,
       recapComposition: PropTypes.object,
       recapASN: PropTypes.object,
       recapNonASN: PropTypes.object,

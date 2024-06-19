@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 import { mapActions, mapStateToProps } from '@/store/index'
 import Layout from '@/components/core/Layout'
 import EmployeesComponent from '@/components/Employment/Employee/EmployeesComponent'
@@ -10,9 +9,7 @@ export default connect(
   mapActions()
 )(
   class EmployeesContainer extends Component {
-    static propTypes = {
-      data: PropTypes.array
-    }
+    static propTypes = {}
 
     constructor(props) {
       super(props)
