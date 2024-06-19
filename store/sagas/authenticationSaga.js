@@ -22,7 +22,6 @@ import {
   UPDATE_PROFILE_REQUESTED,
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PROFILE_FAILED,
-  CATCH_ERROR,
   SET_MODAL,
   AUTHENTICATION_LOGOUT_REQUESTED,
   GET_HASH_URL_PASSWORD_REQUESTED,
@@ -76,23 +75,23 @@ function* postAuthentication(action) {
       Router.push('/dashboard')
     }
   } catch (err) {
-    const code = err
+    const data = err?.data
 
-    if (code?.data?.statusCode === 500) {
-      yield put({
-        type: CATCH_ERROR,
-        code: code?.data?.statusCode,
-        payload: 'Mohon maaf kami sedang dalam gangguan'
-      })
-    } else {
-      yield put({
-        type: AUTHENTICATION_FAILED,
-        payload: {
-          code: err?.data?.meta?.code || err?.data?.message,
-          message: err?.data?.meta?.message || err?.data?.message
-        }
-      })
-    }
+    yield put({
+      type: SET_MODAL,
+      payload: {
+        code: data?.code,
+        message: data?.message || 'Mohon maaf kami sedang dalam gangguan'
+      }
+    })
+
+    yield put({
+      type: AUTHENTICATION_FAILED,
+      payload: {
+        code: err?.data?.meta?.code || err?.data?.message,
+        message: err?.data?.meta?.message || err?.data?.message
+      }
+    })
   }
 }
 
