@@ -37,7 +37,7 @@ const LayoutPages = ({
             ...otherStyle
           }}
         >
-          <Typography variant='h4' component='h4' fontSize='16px'>
+          <Typography variant='h4' component='h4' fontWeight='bold' fontSize='16px'>
             {summary}
           </Typography>
           <Box
@@ -49,7 +49,7 @@ const LayoutPages = ({
             }}
           >
             {count && (
-              <Typography component='h4' fontSize='16px'>
+              <Typography component='h4' fontWeight='bold' fontSize='16px'>
                 {count}
               </Typography>
             )}
