@@ -8,26 +8,22 @@ import DashboardSectionLayout from '../DashboardSectionLayout'
 import { v4 as uuidv4 } from 'uuid'
 
 const months = [
-  { id: 1, text: 'January' },
-  { id: 2, text: 'February' },
-  { id: 3, text: 'March' },
+  { id: 1, text: 'Januari' },
+  { id: 2, text: 'Februari' },
+  { id: 3, text: 'Maret' },
   { id: 4, text: 'April' },
-  { id: 5, text: 'May' },
-  { id: 6, text: 'June' },
-  { id: 7, text: 'July' },
-  { id: 8, text: 'August' },
+  { id: 5, text: 'Mei' },
+  { id: 6, text: 'Juni' },
+  { id: 7, text: 'Juli' },
+  { id: 8, text: 'Agustus' },
   { id: 9, text: 'September' },
-  { id: 10, text: 'October' },
+  { id: 10, text: 'OKtober' },
   { id: 11, text: 'November' },
-  { id: 12, text: 'December' }
+  { id: 12, text: 'Desember' }
 ]
 
-function SectionEmployeeBirthday({
-  datas,
-  month,
-  handleChangeMonth
-}) {
-  const handleSelectChange = e => {
+function SectionEmployeeBirthday({ datas, month, handleChangeMonth }) {
+  const handleSelectChange = (e) => {
     handleChangeMonth(e.target.value)
   }
 
@@ -67,9 +63,7 @@ function SectionEmployeeBirthday({
           onChange={handleSelectChange}
         />
       </Box>
-      <Grid container>
-        {employees}
-      </Grid>
+      <Grid container>{employees}</Grid>
     </DashboardSectionLayout>
   )
 }
