@@ -2,19 +2,9 @@
 import React, { useMemo } from 'react'
 import { Table } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
+import PropTypes from 'prop-types'
 
-const data = [
-  {
-    tingkat: 'SD/Sederajat',
-    nama: 'SDN Karang Tengah 2',
-    fakultas: null,
-    jurusan: 'SD',
-    status: 'Lulus',
-    tahun: '2024'
-  }
-]
-
-const RiwayatKeluargaSection = () => {
+const RiwayatKeluargaSection = ({ detail }) => {
   const columns = useMemo(
     () => [
       {
@@ -23,32 +13,82 @@ const RiwayatKeluargaSection = () => {
         align: 'left'
       },
       {
-        Header: 'Tingkat',
+        Header: 'No. Kartu Keluarga',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Nama Sekolah',
+        Header: 'Nama Anggota Keluarga',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Fakultas',
+        Header: 'No. NIK',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Jurusan',
+        Header: 'Jenis Kelamin',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Status',
+        Header: 'Agama',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Tahun Luluss',
+        Header: 'Tempat Lahir',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'Tanggal Lahir',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'Nama Bapak',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'Nama Ibu',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'Hubungan Keluarga',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'Pendidikan',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'Jenis Pekerjaan',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'Keterangan Pekerjaan',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'Status Perkawinan',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'No. HP',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'Urut Keluarga',
         width: 200,
         align: 'left'
       }
@@ -57,7 +97,7 @@ const RiwayatKeluargaSection = () => {
   )
 
   const rows = useMemo(() => {
-    const dataMapping = data.map((item, index) => {
+    const dataMapping = detail?.performances?.map((item, index) => {
       return [
         {
           Header: 'No',
@@ -66,37 +106,97 @@ const RiwayatKeluargaSection = () => {
           Cell: () => <Typography>{index + 1}</Typography>
         },
         {
-          Header: 'Tingkat',
+          Header: 'No. Kartu Keluarga',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.tingkat}</Typography>
         },
         {
-          Header: 'Nama',
+          Header: 'Nama Anggota Keluarga',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.nama}</Typography>
         },
         {
-          Header: 'Fakultas',
+          Header: 'No. NIK',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.fakultas}</Typography>
         },
         {
-          Header: 'Jurusan',
+          Header: 'Jenis Kelamin',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.jurusan}</Typography>
         },
         {
-          Header: 'Status',
+          Header: 'Agama',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.status}</Typography>
         },
         {
-          Header: 'Tahun',
+          Header: 'Tempat Lahir',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.tahun}</Typography>
+        },
+        {
+          Header: 'Tanggal Lahir',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.tahun}</Typography>
+        },
+        {
+          Header: 'Nama Bapak',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.tahun}</Typography>
+        },
+        {
+          Header: 'Nama Ibu',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.tahun}</Typography>
+        },
+        {
+          Header: 'Hubungan Keluarga',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.tahun}</Typography>
+        },
+        {
+          Header: 'Pendidikan',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.tahun}</Typography>
+        },
+        {
+          Header: 'Jenis Pekerjaan',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.tahun}</Typography>
+        },
+        {
+          Header: 'Keterangan Pekerjaan',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.tahun}</Typography>
+        },
+        {
+          Header: 'Status Perkawinan',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.tahun}</Typography>
+        },
+        {
+          Header: 'No. HP',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.tahun}</Typography>
+        },
+        {
+          Header: 'Urut Keluarga',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.tahun}</Typography>
@@ -105,7 +205,7 @@ const RiwayatKeluargaSection = () => {
     })
 
     return dataMapping
-  }, [data])
+  }, [detail])
 
   return (
     <Grid>
@@ -117,6 +217,10 @@ const RiwayatKeluargaSection = () => {
       />
     </Grid>
   )
+}
+
+RiwayatKeluargaSection.propTypes = {
+  detail: PropTypes.object
 }
 
 export default RiwayatKeluargaSection

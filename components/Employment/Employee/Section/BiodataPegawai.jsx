@@ -2,34 +2,11 @@ import React from 'react'
 import { Grid, Typography } from '@mui/material'
 import { Button } from '@/components/shared'
 import Paper from '@/components/shared/overrides/Paper'
+import PropTypes from 'prop-types'
 
-const data = {
-  tempat_lahir: 'Bogor, 03-01-1979',
-  agama: 'Islam',
-  jenis_kelamin: 'Laki-laki',
-  status_perkawinan: 'Kawin',
-  instansi_induk: 'Kementerian Sekretariat Negara',
-  satuan_organisasi: 'Sekretariat Wakil Presiden',
-  unit_kerja: 'Unit Kerja',
-  no_karpeg: 'M 303684/00 6977',
-  kartu_pegawai: '123',
-  masa_kerja_keseluruhan: '10 Tahun 2 bulan 15 Hari',
-  masa_kerja_golongan: '3 Tahun 4 Bulan 2 hari',
-  npwp: '49.666.836.9-416.000',
-  status_pegawai: 'Aktif',
-  alamat_tempat_tinggal:
-    'Jl. Anggrek Bulan 2 Blok F No. 13 Anggrek Loka Sektor 2.1. BSD Rawa Buntu, Serpong, Tangerang Selatan 15318',
-  komplek: 'dalam',
-  nama_komplek: 'Anggrek Bulan',
-  no_telepon_rumah: '-',
-  no_hp: '-',
-  alamat_kantor: 'Alamat Kantor',
-  no_telepon_kantor: '-',
-  email: '-',
-  batas_usia_pensiun: 'Januari 2030'
-}
-
-const BiodataPegawai = () => {
+const BiodataPegawai = ({
+  detail
+}) => {
   return (
     <Paper>
       <Grid container>
@@ -41,49 +18,73 @@ const BiodataPegawai = () => {
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Tempat, Tanggal Lahir</Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {data.tempat_lahir}
+            {detail?.place_of_birth + ', ' + detail?.date_of_birth}
           </Typography>
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Agama</Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {data.agama}
+            {detail?.religion || '-'}
           </Typography>
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Jenis Kelamin</Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {data.jenis_kelamin}
+            {detail?.gender == 0 ? 'Perempuan' : 'Laki-laki'}
           </Typography>
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Status Perkawinan</Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {data.status_pegawai}
+            {detail?.maritalStatus || '-'}
           </Typography>
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
+          <Typography>Jenis Pegawai</Typography>
+          <Typography fontWeight='500' marginTop={1}>-</Typography>
+        </Grid>
+        <Grid item xs={12} md={4} paddingY={1}>
+          <Typography>TMT Menjabat</Typography>
+          <Typography fontWeight='500' marginTop={1}>-</Typography>
+        </Grid>
+        <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Instansi Induk</Typography>
-          <Typography fontWeight='500' marginTop={1}>
-            {data.instansi_induk}
-          </Typography>
+          <Typography fontWeight='500' marginTop={1}>-</Typography>
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Satuan Organisasi</Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {data.satuan_organisasi}
+            {detail?.satuan_organisasi || '-'}
           </Typography>
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Unit Kerja</Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {data.unit_kerja}
+            {detail?.unit_kerja || '-'}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={4} paddingY={1}>
+          <Typography>Tingkat</Typography>
+          <Typography fontWeight='500' marginTop={1}>
+            {detail?.educationLevel || '-'}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={4} paddingY={1}>
+          <Typography>Nama Sekolah/Universitas</Typography>
+          <Typography fontWeight='500' marginTop={1}>
+            {detail?.education_name || '-'}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={4} paddingY={1}>
+          <Typography>Tahun Lulus</Typography>
+          <Typography fontWeight='500' marginTop={1}>
+            {detail?.education_year || '-'}
           </Typography>
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>No. Karpeg/No. Karis/No. Karsu</Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {data.no_karpeg}
+            {detail?.employee_id_card_number || '-'}
           </Typography>
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
@@ -93,84 +94,106 @@ const BiodataPegawai = () => {
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Masa Kerja Keseluruhan</Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {data.masa_kerja_keseluruhan}
+            {detail?.masa_kerja_keseluruhan || '-'}
           </Typography>
         </Grid>{' '}
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Masa Kerja Golongan</Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {data.masa_kerja_golongan}
+            {detail?.masa_kerja_golongan || '-'}
           </Typography>
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>NPWP</Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {data.npwp}
+            {detail?.id_tax || '-'}
           </Typography>
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Status Pegawai</Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {data.status_pegawai}
+            {detail?.employmentStatus || '-'}
           </Typography>
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
-          <Typography>Alamat Tempat Tinggal Saat Ini</Typography>
+          <Typography>No. KK</Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {data.alamat_tempat_tinggal}
+            {detail?.family_registration_number || '-'}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={4} paddingY={1}>
+          <Typography>No. NIK</Typography>
+          <Typography fontWeight='500' marginTop={1}>
+            {detail?.id_number || '-'}
           </Typography>
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Komplek</Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {data.komplek}
+            {detail?.residence || '-'}
           </Typography>
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Nama Komplek</Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {data.nama_komplek}
+            {detail?.residence_name || '-'}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={4} paddingY={1}>
+          <Typography>Alamat Tempat Tinggal Saat Ini</Typography>
+          <Typography fontWeight='500' marginTop={1}>
+            {detail?.current_address || '-'}
           </Typography>
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>No. Telepon Rumah</Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {data.no_telepon_rumah}
+            {detail?.home_phone_number || '-'}
           </Typography>
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>No. HP</Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {data.no_hp}
+            {detail?.mobile_phone || '-'}
           </Typography>
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Alamat Kantor</Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {data.alamat_kantor}
+            {detail?.office_address || '-'}
           </Typography>
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>No. Telepon Kantor</Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {data.no_telepon_kantor}
+            {detail?.office_phone_number || '-'}
           </Typography>
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Email</Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {data.email}
+            {detail?.email || '-'}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={4} paddingY={1}>
+          <Typography>Kontak Darurat</Typography>
+          <Typography fontWeight='500' marginTop={1}>
+            {detail?.emergency_contact || '-'}
           </Typography>
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Batas Usia Pensiun</Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {data.batas_usia_pensiun}
+            {detail?.batas_usia_pensiun || '-'}
           </Typography>
         </Grid>
       </Grid>
     </Paper>
   )
+}
+
+BiodataPegawai.propTypes = {
+  detail: PropTypes.object
 }
 
 export default BiodataPegawai

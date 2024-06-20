@@ -1,20 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useMemo } from 'react'
-import { Table } from '@/components/shared'
+import { Table, Button } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
+import PropTypes from 'prop-types'
 
-const data = [
-  {
-    tingkat: 'SD/Sederajat',
-    nama: 'SDN Karang Tengah 2',
-    fakultas: null,
-    jurusan: 'SD',
-    status: 'Lulus',
-    tahun: '2024'
-  }
-]
-
-const RiwayatPelatihanTeknisSection = () => {
+const PelatihanStrukturalSection = ({ detail }) => {
   const columns = useMemo(
     () => [
       {
@@ -23,32 +13,27 @@ const RiwayatPelatihanTeknisSection = () => {
         align: 'left'
       },
       {
-        Header: 'Tingkat',
+        Header: 'Nama Diklat',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Nama Sekolah',
+        Header: 'No. Surat Perintah',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Fakultas',
+        Header: 'Tanggal Pelaksanaan',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Jurusan',
+        Header: 'Durasi Pelatihan(Hari)',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Status',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'Tahun Luluss',
+        Header: 'Sertifikat',
         width: 200,
         align: 'left'
       }
@@ -57,7 +42,7 @@ const RiwayatPelatihanTeknisSection = () => {
   )
 
   const rows = useMemo(() => {
-    const dataMapping = data.map((item, index) => {
+    const dataMapping = detail?.technicals?.map((item, index) => {
       return [
         {
           Header: 'No',
@@ -66,46 +51,44 @@ const RiwayatPelatihanTeknisSection = () => {
           Cell: () => <Typography>{index + 1}</Typography>
         },
         {
-          Header: 'Tingkat',
+          Header: 'Nama Diklat',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tingkat}</Typography>
+          Cell: () => <Typography>{item?.name || '-'}</Typography>
         },
         {
-          Header: 'Nama',
+          Header: 'No. Surat Perintah',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.nama}</Typography>
+          Cell: () => <Typography>{item?.reference_number || '-'}</Typography>
         },
         {
-          Header: 'Fakultas',
+          Header: 'Tanggal Pelaksanaan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.fakultas}</Typography>
+          Cell: () => <Typography>{item?.start_date || '-'}</Typography>
         },
         {
-          Header: 'Jurusan',
+          Header: 'Durasi Pelatihan(Hari)',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.jurusan}</Typography>
+          Cell: () => <Typography>{item?.duration || '-'}</Typography>
         },
         {
-          Header: 'Status',
+          Header: 'Sertifikat',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.status}</Typography>
-        },
-        {
-          Header: 'Tahun',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
+          Cell: () => (
+            <Typography>
+              <Button text='Lihat File' />
+            </Typography>
+          )
         }
       ]
     })
 
     return dataMapping
-  }, [data])
+  }, [detail])
 
   return (
     <Grid>
@@ -119,4 +102,8 @@ const RiwayatPelatihanTeknisSection = () => {
   )
 }
 
-export default RiwayatPelatihanTeknisSection
+PelatihanStrukturalSection.propTypes = {
+  detail: PropTypes.object
+}
+
+export default PelatihanStrukturalSection

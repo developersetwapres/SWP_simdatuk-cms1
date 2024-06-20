@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useMemo } from 'react'
-import { Table } from '@/components/shared'
+import { Table, Button } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
+import PropTypes from 'prop-types'
 
 const data = [
   {
@@ -14,7 +15,7 @@ const data = [
   }
 ]
 
-const RiwayatJabatanSection = () => {
+const RiwayatJabatanSection = ({ detail }) => {
   const columns = useMemo(
     () => [
       {
@@ -23,32 +24,82 @@ const RiwayatJabatanSection = () => {
         align: 'left'
       },
       {
-        Header: 'Tingkat',
+        Header: 'Jabatan',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Nama Sekolah',
+        Header: 'Rumpun',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Fakultas',
+        Header: 'Jenjang Jabatan',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Jurusan',
+        Header: 'Keterangan Jabatan',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Status',
+        Header: 'TMT Menjabat',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Tahun Luluss',
+        Header: 'SK Menjabat',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'SK Jabatan',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'Jenis SK Jabatan',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'No. SK Jabatan',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'Tanggal SK Jabatan',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'TMT Selesai',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'SK Selesai',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'Jenis SK Selesai',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'No. SK Selesai',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'Tanggal SK Selesai',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'Status jabatan',
         width: 200,
         align: 'left'
       }
@@ -57,7 +108,7 @@ const RiwayatJabatanSection = () => {
   )
 
   const rows = useMemo(() => {
-    const dataMapping = data.map((item, index) => {
+    const dataMapping = detail?.positions?.map((item, index) => {
       return [
         {
           Header: 'No',
@@ -66,46 +117,111 @@ const RiwayatJabatanSection = () => {
           Cell: () => <Typography>{index + 1}</Typography>
         },
         {
-          Header: 'Tingkat',
+          Header: 'Jabatan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tingkat}</Typography>
+          Cell: () => <Typography>{item?.position || '-'}</Typography>
         },
         {
-          Header: 'Nama',
+          Header: 'Rumpun',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.nama}</Typography>
+          Cell: () => <Typography>{item?.position || '-'}</Typography>
         },
         {
-          Header: 'Fakultas',
+          Header: 'Jenjang Jabatan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.fakultas}</Typography>
+          Cell: () => <Typography>{item?.position || '-'}</Typography>
         },
         {
-          Header: 'Jurusan',
+          Header: 'Keterangan Jabatan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.jurusan}</Typography>
+          Cell: () => <Typography>{item?.position || '-'}</Typography>
         },
         {
-          Header: 'Status',
+          Header: 'TMT Menjabat',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.status}</Typography>
+          Cell: () => <Typography>{item?.position || '-'}</Typography>
         },
         {
-          Header: 'Tahun',
+          Header: 'SK Menjabat',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
+          Cell: () => <Typography>{item?.position || '-'}</Typography>
+        },
+        {
+          Header: 'SK Jabatan',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => (
+            <Typography>
+              <Button text='Lihat File' />
+            </Typography>
+          )
+        },
+        {
+          Header: 'Jenis SK Jabatan',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.position || '-'}</Typography>
+        },
+        {
+          Header: 'No. SK Jabatan',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.position || '-'}</Typography>
+        },
+        {
+          Header: 'Tanggal SK Jabatan',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.position || '-'}</Typography>
+        },
+        {
+          Header: 'TMT Selesai',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.position || '-'}</Typography>
+        },
+        {
+          Header: 'SK Selesai',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.position || '-'}</Typography>
+        },
+        {
+          Header: 'Jenis SK Selesai',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.position || '-'}</Typography>
+        },
+        {
+          Header: 'No. SK Selesai',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.position || '-'}</Typography>
+        },
+        {
+          Header: 'Tanggal SK Selesai',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.position || '-'}</Typography>
+        },
+        {
+          Header: 'Status Jabatan',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.position || '-'}</Typography>
         }
       ]
     })
 
     return dataMapping
   }, [data])
+
   return (
     <Grid>
       <Table
@@ -116,6 +232,10 @@ const RiwayatJabatanSection = () => {
       />
     </Grid>
   )
+}
+
+RiwayatJabatanSection.propTypes = {
+  detail: PropTypes.object
 }
 
 export default RiwayatJabatanSection

@@ -2,19 +2,9 @@
 import React, { useMemo } from 'react'
 import { Table } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
+import PropTypes from 'prop-types'
 
-const data = [
-  {
-    tingkat: 'SD/Sederajat',
-    nama: 'SDN Karang Tengah 2',
-    fakultas: null,
-    jurusan: 'SD',
-    status: 'Lulus',
-    tahun: '2024'
-  }
-]
-
-const RiwayatPrestasiKerja = () => {
+const RiwayatPrestasiKerja = ({ detail }) => {
   const columns = useMemo(
     () => [
       {
@@ -23,32 +13,17 @@ const RiwayatPrestasiKerja = () => {
         align: 'left'
       },
       {
-        Header: 'Tingkat',
+        Header: 'Periode PPK',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Nama Sekolah',
+        Header: 'Nilai Prestasi Kerja',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Fakultas',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'Jurusan',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'Status',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'Tahun Luluss',
+        Header: 'Keterangan',
         width: 200,
         align: 'left'
       }
@@ -57,7 +32,7 @@ const RiwayatPrestasiKerja = () => {
   )
 
   const rows = useMemo(() => {
-    const dataMapping = data.map((item, index) => {
+    const dataMapping = detail?.performances?.map((item, index) => {
       return [
         {
           Header: 'No',
@@ -66,46 +41,28 @@ const RiwayatPrestasiKerja = () => {
           Cell: () => <Typography>{index + 1}</Typography>
         },
         {
-          Header: 'Tingkat',
+          Header: 'Periode PPK',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tingkat}</Typography>
+          Cell: () => <Typography>-</Typography>
         },
         {
-          Header: 'Nama',
+          Header: 'Nilai Prestasi Kerja',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.nama}</Typography>
+          Cell: () => <Typography>-</Typography>
         },
         {
-          Header: 'Fakultas',
+          Header: 'Keterangan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.fakultas}</Typography>
-        },
-        {
-          Header: 'Jurusan',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.jurusan}</Typography>
-        },
-        {
-          Header: 'Status',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.status}</Typography>
-        },
-        {
-          Header: 'Tahun',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
+          Cell: () => <Typography>-</Typography>
         }
       ]
     })
 
     return dataMapping
-  }, [data])
+  }, [detail])
 
   return (
     <Grid>
@@ -117,6 +74,10 @@ const RiwayatPrestasiKerja = () => {
       />
     </Grid>
   )
+}
+
+RiwayatPrestasiKerja.propTypes = {
+  detail: PropTypes.object
 }
 
 export default RiwayatPrestasiKerja

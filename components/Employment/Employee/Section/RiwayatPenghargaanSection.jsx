@@ -2,19 +2,9 @@
 import React, { useMemo } from 'react'
 import { Table } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
+import PropTypes from 'prop-types'
 
-const data = [
-  {
-    tingkat: 'SD/Sederajat',
-    nama: 'SDN Karang Tengah 2',
-    fakultas: null,
-    jurusan: 'SD',
-    status: 'Lulus',
-    tahun: '2024'
-  }
-]
-
-const RiwayatPenghargaanSection = () => {
+const RiwayatPenghargaanSection = ({ detail }) => {
   const columns = useMemo(
     () => [
       {
@@ -23,32 +13,42 @@ const RiwayatPenghargaanSection = () => {
         align: 'left'
       },
       {
-        Header: 'Tingkat',
+        Header: 'Nama Penghargaan',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Nama Sekolah',
+        Header: 'Keterangan Penghargaan',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Fakultas',
+        Header: 'Jenis SK',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Jurusan',
+        Header: 'Tanggal SK',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Status',
+        Header: 'No. SK Penghargaan',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Tahun Luluss',
+        Header: 'Tahun SK',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'Instansi Pemberi Penghargaan',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'Tanggal Terima',
         width: 200,
         align: 'left'
       }
@@ -57,7 +57,7 @@ const RiwayatPenghargaanSection = () => {
   )
 
   const rows = useMemo(() => {
-    const dataMapping = data.map((item, index) => {
+    const dataMapping = detail?.recognitions?.map((item, index) => {
       return [
         {
           Header: 'No',
@@ -66,46 +66,58 @@ const RiwayatPenghargaanSection = () => {
           Cell: () => <Typography>{index + 1}</Typography>
         },
         {
-          Header: 'Tingkat',
+          Header: 'Nama Penghargaan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tingkat}</Typography>
+          Cell: () => <Typography>-</Typography>
         },
         {
-          Header: 'Nama',
+          Header: 'Keterangan Penghargaan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.nama}</Typography>
+          Cell: () => <Typography>-</Typography>
         },
         {
-          Header: 'Fakultas',
+          Header: 'Jenis SK',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.fakultas}</Typography>
+          Cell: () => <Typography>-</Typography>
         },
         {
-          Header: 'Jurusan',
+          Header: 'Tanggal SK',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.jurusan}</Typography>
+          Cell: () => <Typography>-</Typography>
         },
         {
-          Header: 'Status',
+          Header: 'No. SK Penghargaan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.status}</Typography>
+          Cell: () => <Typography>-</Typography>
         },
         {
-          Header: 'Tahun',
+          Header: 'Tahun SK',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
+          Cell: () => <Typography>-</Typography>
+        },
+        {
+          Header: 'Instansi Pemberi Penghargaan',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>-</Typography>
+        },
+        {
+          Header: 'Tanggal Terima',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>-</Typography>
         }
       ]
     })
 
     return dataMapping
-  }, [data])
+  }, [detail])
 
   return (
     <Grid>
@@ -117,6 +129,10 @@ const RiwayatPenghargaanSection = () => {
       />
     </Grid>
   )
+}
+
+RiwayatPenghargaanSection.propTypes = {
+  detail: PropTypes.object
 }
 
 export default RiwayatPenghargaanSection

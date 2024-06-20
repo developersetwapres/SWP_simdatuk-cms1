@@ -2,19 +2,9 @@
 import React, { useMemo } from 'react'
 import { Table } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
+import PropTypes from 'prop-types'
 
-const data = [
-  {
-    tingkat: 'SD/Sederajat',
-    nama: 'SDN Karang Tengah 2',
-    fakultas: null,
-    jurusan: 'SD',
-    status: 'Lulus',
-    tahun: '2024'
-  }
-]
-
-const RiwayatSKP = () => {
+const RiwayatSKP = ({ detail }) => {
   const columns = useMemo(
     () => [
       {
@@ -23,32 +13,27 @@ const RiwayatSKP = () => {
         align: 'left'
       },
       {
-        Header: 'Tingkat',
+        Header: 'Periode Penilaian',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Nama Sekolah',
+        Header: 'Tahun',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Fakultas',
+        Header: 'Rating Perilaku Kerja',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Jurusan',
+        Header: 'Predikat Kinerja Pegawai',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Status',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'Tahun Luluss',
+        Header: 'Capaian Kinerja Organisasi',
         width: 200,
         align: 'left'
       }
@@ -57,7 +42,7 @@ const RiwayatSKP = () => {
   )
 
   const rows = useMemo(() => {
-    const dataMapping = data.map((item, index) => {
+    const dataMapping = detail?.performances?.map((item, index) => {
       return [
         {
           Header: 'No',
@@ -66,46 +51,40 @@ const RiwayatSKP = () => {
           Cell: () => <Typography>{index + 1}</Typography>
         },
         {
-          Header: 'Tingkat',
+          Header: 'Periode Penilaian',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tingkat}</Typography>
-        },
-        {
-          Header: 'Nama',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.nama}</Typography>
-        },
-        {
-          Header: 'Fakultas',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.fakultas}</Typography>
-        },
-        {
-          Header: 'Jurusan',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.jurusan}</Typography>
-        },
-        {
-          Header: 'Status',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.status}</Typography>
+          Cell: () => <Typography>-</Typography>
         },
         {
           Header: 'Tahun',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
+          Cell: () => <Typography>-</Typography>
+        },
+        {
+          Header: 'Rating Perilaku Kerja',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>-</Typography>
+        },
+        {
+          Header: 'Predikat Kinerja Pegawai',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>-</Typography>
+        },
+        {
+          Header: 'Capaian Kinerja Organisasi',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>-</Typography>
         }
       ]
     })
 
     return dataMapping
-  }, [data])
+  }, [detail])
 
   return (
     <Grid>
@@ -117,6 +96,10 @@ const RiwayatSKP = () => {
       />
     </Grid>
   )
+}
+
+RiwayatSKP.propTypes = {
+  detail: PropTypes.object
 }
 
 export default RiwayatSKP

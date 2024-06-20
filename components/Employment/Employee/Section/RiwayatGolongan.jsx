@@ -1,20 +1,35 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useMemo } from 'react'
-import { Table } from '@/components/shared'
+import { Table, Button } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
+import PropTypes from 'prop-types'
 
 const data = [
   {
-    tingkat: 'SD/Sederajat',
-    nama: 'SDN Karang Tengah 2',
-    fakultas: null,
-    jurusan: 'SD',
-    status: 'Lulus',
-    tahun: '2024'
+    golongan: '-',
+    tmt_golongan: '-',
+    sk_golongan: '-',
+    sk_golongan_file: '-',
+    jenis_sk_golongan: '-',
+    no_sk_golongan: '-',
+    tanggal_sk_golongan: '-',
+    keterangan_golongan: '-',
+    status_golongan: '-'
+  },
+  {
+    golongan: '-',
+    tmt_golongan: '-',
+    sk_golongan: '-',
+    sk_golongan_file: '-',
+    jenis_sk_golongan: '-',
+    no_sk_golongan: '-',
+    tanggal_sk_golongan: '-',
+    keterangan_golongan: '-',
+    status_golongan: '-'
   }
 ]
 
-const RiwayatGolonganSection = () => {
+const RiwayatGolonganSection = ({ detail }) => {
   const columns = useMemo(
     () => [
       {
@@ -23,32 +38,47 @@ const RiwayatGolonganSection = () => {
         align: 'left'
       },
       {
-        Header: 'Tingkat',
+        Header: 'Golongan',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Nama Sekolah',
+        Header: 'TMT Golongan',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Fakultas',
+        Header: 'SK Golongan',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Jurusan',
+        Header: 'SK Golongan',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Status',
+        Header: 'Jenis SK Golongan',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Tahun Luluss',
+        Header: 'No. SK Golongan',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'Tanggal SK Golongan',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'Keterangan Golongan',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'Status Golongan',
         width: 200,
         align: 'left'
       }
@@ -66,46 +96,68 @@ const RiwayatGolonganSection = () => {
           Cell: () => <Typography>{index + 1}</Typography>
         },
         {
-          Header: 'Tingkat',
+          Header: 'Golongan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tingkat}</Typography>
+          Cell: () => <Typography>{item?.golongan}</Typography>
         },
         {
-          Header: 'Nama',
+          Header: 'TMT Golongan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.nama}</Typography>
+          Cell: () => <Typography>{item?.tmt_golongan}</Typography>
         },
         {
-          Header: 'Fakultas',
+          Header: 'SK Golongan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.fakultas}</Typography>
+          Cell: () => <Typography>{item?.sk_golongan}</Typography>
         },
         {
-          Header: 'Jurusan',
+          Header: 'SK Golongan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.jurusan}</Typography>
+          Cell: () => (
+            <Typography>
+              <Button text='Lihat File' />
+            </Typography>
+          )
         },
         {
-          Header: 'Status',
+          Header: 'Jenis SK Golongan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.status}</Typography>
+          Cell: () => <Typography>{item?.jenis_sk_golongan}</Typography>
         },
         {
-          Header: 'Tahun',
+          Header: 'No. SK Golongan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
+          Cell: () => <Typography>{item?.no_sk_golongan}</Typography>
+        },
+        {
+          Header: 'Tanggal SK Golongan',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.tanggal_sk_golongan}</Typography>
+        },
+        {
+          Header: 'Keterangan Golongan',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.keterangan_golongan}</Typography>
+        },
+        {
+          Header: 'Status Golongan',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.status_golongan}</Typography>
         }
       ]
     })
 
     return dataMapping
-  }, [data])
+  }, [data, detail])
 
   return (
     <Grid>
@@ -117,6 +169,10 @@ const RiwayatGolonganSection = () => {
       />
     </Grid>
   )
+}
+
+RiwayatGolonganSection.propTypes = {
+  detail: PropTypes.object
 }
 
 export default RiwayatGolonganSection

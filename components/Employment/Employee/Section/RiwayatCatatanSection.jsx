@@ -2,19 +2,9 @@
 import React, { useMemo } from 'react'
 import { Table } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
+import PropTypes from 'prop-types'
 
-const data = [
-  {
-    tingkat: 'SD/Sederajat',
-    nama: 'SDN Karang Tengah 2',
-    fakultas: null,
-    jurusan: 'SD',
-    status: 'Lulus',
-    tahun: '2024'
-  }
-]
-
-const RiwayatCatatanSection = () => {
+const RiwayatCatatanSection = ({ detail }) => {
   const columns = useMemo(
     () => [
       {
@@ -23,32 +13,17 @@ const RiwayatCatatanSection = () => {
         align: 'left'
       },
       {
-        Header: 'Tingkat',
+        Header: 'Tanggal',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Nama Sekolah',
+        Header: 'Inputer',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Fakultas',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'Jurusan',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'Status',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'Tahun Luluss',
+        Header: 'Catatan',
         width: 200,
         align: 'left'
       }
@@ -57,7 +32,7 @@ const RiwayatCatatanSection = () => {
   )
 
   const rows = useMemo(() => {
-    const dataMapping = data.map((item, index) => {
+    const dataMapping = detail?.performances?.map((item, index) => {
       return [
         {
           Header: 'No',
@@ -66,46 +41,28 @@ const RiwayatCatatanSection = () => {
           Cell: () => <Typography>{index + 1}</Typography>
         },
         {
-          Header: 'Tingkat',
+          Header: 'Tanggal',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.tingkat}</Typography>
         },
         {
-          Header: 'Nama',
+          Header: 'Inputer',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.nama}</Typography>
         },
         {
-          Header: 'Fakultas',
+          Header: 'Catatan',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.fakultas}</Typography>
-        },
-        {
-          Header: 'Jurusan',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.jurusan}</Typography>
-        },
-        {
-          Header: 'Status',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.status}</Typography>
-        },
-        {
-          Header: 'Tahun',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
         }
       ]
     })
 
     return dataMapping
-  }, [data])
+  }, [detail])
 
   return (
     <Grid>
@@ -117,6 +74,10 @@ const RiwayatCatatanSection = () => {
       />
     </Grid>
   )
+}
+
+RiwayatCatatanSection.propTypes = {
+  detail: PropTypes.object
 }
 
 export default RiwayatCatatanSection

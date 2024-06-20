@@ -4,7 +4,7 @@ import { Table, Button } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 
-const PelatihanStrukturalSection = ({ detail }) => {
+const RiwayatUjikomSection = ({ detail }) => {
   const columns = useMemo(
     () => [
       {
@@ -13,27 +13,12 @@ const PelatihanStrukturalSection = ({ detail }) => {
         align: 'left'
       },
       {
-        Header: 'Nama Diklat',
+        Header: 'Tanggal',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'No. Surat Perintah',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'Jenjang',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'Tanggal Pelaksanaan',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'Durasi Pelatihan(Hari)',
+        Header: 'Hasil',
         width: 200,
         align: 'left'
       },
@@ -43,7 +28,7 @@ const PelatihanStrukturalSection = ({ detail }) => {
         align: 'left'
       },
       {
-        Header: 'Sertifikat',
+        Header: 'File Pendukung',
         width: 200,
         align: 'left'
       }
@@ -52,7 +37,7 @@ const PelatihanStrukturalSection = ({ detail }) => {
   )
 
   const rows = useMemo(() => {
-    const dataMapping = detail?.structurals?.map((item, index) => {
+    const dataMapping = detail?.performances?.map((item, index) => {
       return [
         {
           Header: 'No',
@@ -61,43 +46,25 @@ const PelatihanStrukturalSection = ({ detail }) => {
           Cell: () => <Typography>{index + 1}</Typography>
         },
         {
-          Header: 'Nama Diklat',
+          Header: 'Tanggal',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.name || '-'}</Typography>
+          Cell: () => <Typography>{item?.tingkat}</Typography>
         },
         {
-          Header: 'No. Surat Perintah',
+          Header: 'Hasil',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.reference_number || '-'}</Typography>
-        },
-        {
-          Header: 'Jenjang',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.level || '-'}</Typography>
-        },
-        {
-          Header: 'Tanggal Pelaksanaan',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.start_date || '-'}</Typography>
-        },
-        {
-          Header: 'Durasi Pelatihan(Hari)',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.duration || '-'}</Typography>
+          Cell: () => <Typography>{item?.nama}</Typography>
         },
         {
           Header: 'Penyelenggara',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.organizer || '-'}</Typography>
+          Cell: () => <Typography>{item?.fakultas}</Typography>
         },
         {
-          Header: 'Sertifikat',
+          Header: 'File Pendukung',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => (
@@ -115,7 +82,7 @@ const PelatihanStrukturalSection = ({ detail }) => {
   return (
     <Grid>
       <Table
-        title='Riwayat Pelatihan Struktural'
+        title='Hasil Uji Kompetensi'
         columns={columns}
         rows={rows}
         isPagination={false}
@@ -124,8 +91,8 @@ const PelatihanStrukturalSection = ({ detail }) => {
   )
 }
 
-PelatihanStrukturalSection.propTypes = {
+RiwayatUjikomSection.propTypes = {
   detail: PropTypes.object
 }
 
-export default PelatihanStrukturalSection
+export default RiwayatUjikomSection
