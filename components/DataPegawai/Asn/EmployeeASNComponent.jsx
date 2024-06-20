@@ -28,10 +28,10 @@ const styles = {
 const EmployeeASNComponent = ({
   employee,
   echelon,
-  onLoading = () => {},
-  onSearch = () => {},
-  onPaginationChange = () => {},
-  onRowsPerPageChange = () => {}
+  onLoading = () => { },
+  onSearch = () => { },
+  onPaginationChange = () => { },
+  onRowsPerPageChange = () => { }
 }) => {
   const router = useRouter()
 
@@ -147,7 +147,7 @@ const EmployeeASNComponent = ({
                 sx={styles.buttonAction}
                 onClick={() =>
                   router.push(
-                    `${router.pathname}/detail/${btoa(router?.query?.id)}`
+                    `${router.pathname}/detail/${btoa(item?.id)}`
                   )
                 }
               />
@@ -158,7 +158,7 @@ const EmployeeASNComponent = ({
                 sx={styles.buttonAction}
                 onClick={() =>
                   router.push(
-                    `${router.pathname}/edit/${btoa(router?.query?.id)}`
+                    `${router.pathname}/edit/${btoa(item?.id)}`
                   )
                 }
               />
@@ -177,7 +177,7 @@ const EmployeeASNComponent = ({
         <Button
           text='Sinkronisasi Data'
           sx={{ backgroundColor: '#F16637' }}
-          onClick={() => {}}
+          onClick={() => { }}
         />
         <Button
           text='Tambah Massal'
