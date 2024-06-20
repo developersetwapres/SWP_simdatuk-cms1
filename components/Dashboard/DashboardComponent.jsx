@@ -137,9 +137,9 @@ function DashboardComponent({
   datas,
   month,
   dashboardReducer,
-  handleChangeMonth = () => { },
-  setDatas = () => { },
-  setRender = () => { }
+  handleChangeMonth = () => {},
+  setDatas = () => {},
+  setRender = () => {}
 }) {
   useEffect(() => {
     const state = !dashboardReducer?.loading
@@ -151,12 +151,9 @@ function DashboardComponent({
   }, [dashboardReducer?.data])
 
   const employeesCounts = useMemo(() => {
-    return data.map(item => (
+    return data.map((item) => (
       <Grid item xs={12} key={uuidv4()}>
-        <SectionCountEmployee
-          data={item}
-          datas={datas}
-        />
+        <SectionCountEmployee data={item} datas={datas} />
       </Grid>
     ))
   }, [datas])
