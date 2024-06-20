@@ -37,7 +37,12 @@ const LayoutPages = ({
             ...otherStyle
           }}
         >
-          <Typography variant='h4' component='h4' fontWeight='bold' fontSize='16px'>
+          <Typography
+            variant='h4'
+            component='h4'
+            fontSize='16px'
+            fontWeight={600}
+          >
             {summary}
           </Typography>
           <Box
