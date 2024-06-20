@@ -1,4 +1,5 @@
 import {
+  GET_ECHELONS_OPTIONS_REQUESTED,
   GET_ECHELONS_REQUESTED,
   GET_ECHELON_REQUESTED,
   POST_ECHELON_REQUESTED,
@@ -8,7 +9,19 @@ import {
 } from '@/store/constants'
 
 /**
- * GET ECHELONS
+ * Get Echelons Options
+ *
+ * @param {*} payload
+ * @returns
+ */
+// eslint-disable-next-line no-unused-vars
+export const getEchelonsOptions = (payload) => ({
+  type: GET_ECHELONS_OPTIONS_REQUESTED,
+  payload
+})
+
+/**
+ * Get Echelons
  *
  * @param {*} payload
  * @returns
@@ -16,7 +29,7 @@ import {
 // eslint-disable-next-line no-unused-vars
 export const getEchelons = (payload) => ({
   type: GET_ECHELONS_REQUESTED,
-  payload: payload
+  payload
 })
 
 /**

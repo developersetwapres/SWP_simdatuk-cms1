@@ -1,5 +1,8 @@
 /* eslint-disable indent */
 import {
+  GET_ECHELONS_OPTIONS_REQUESTED,
+  GET_ECHELONS_OPTIONS_SUCCESS,
+  GET_ECHELONS_OPTIONS_FAILED,
   GET_ECHELONS_REQUESTED,
   GET_ECHELONS_SUCCESS,
   GET_ECHELONS_FAILED,
@@ -22,6 +25,7 @@ const initialState = {
   loading: false,
   error: null,
   data: [],
+  options: [],
   pagination: {},
   detail: {},
   message: ''
@@ -32,6 +36,23 @@ export const echelon = (state = initialState, actions) => {
   const payload = actions?.payload
 
   switch (actions.type) {
+    case GET_ECHELONS_OPTIONS_REQUESTED:
+      return {
+        ...state,
+        loading: true
+      }
+    case GET_ECHELONS_OPTIONS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        options: payload?.data
+      }
+    case GET_ECHELONS_OPTIONS_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: payload?.error
+      }
     case GET_ECHELONS_REQUESTED:
       return {
         ...state,

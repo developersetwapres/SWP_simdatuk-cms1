@@ -2,9 +2,13 @@ import * as authenticationReducer from './authenticationReducer'
 import * as modalReducer from './modalReducer'
 
 // Master Data
-import * as roleReducer from './users/roleReducer'
-import * as userReducer from './users/userReducer'
-import * as echelonReducer from './users/echelonReducer'
+import * as decreeReducer from './masterData/decreeReducer'
+import * as residenceReducer from './masterData/residenceReducer'
+import * as roleReducer from './masterData/roleReducer'
+import * as userReducer from './masterData/userReducer'
+import * as echelonReducer from './masterData/echelonReducer'
+import * as institutionReducer from './masterData/institutionReducer'
+import * as employmentTypeReducer from './masterData/employmentTypeReducer'
 
 // Dashboard
 import * as dashboardReducer from './dashboardReducer'
@@ -27,13 +31,11 @@ import * as targetReducer from './histories/targetReducer'
 import * as performanceReducer from './histories/performanceReducer'
 import * as disciplinaryReducer from './histories/disciplinaryReducer'
 
-// Master Data
-import * as decreeReducer from './masterData/decreeReducer'
-import * as institutionReducer from './masterData/institutionReducer'
-import * as employmentTypeReducer from './masterData/employmentTypeReducer'
-
 // * Reducer
 import * as responserReducer from './responserReducer'
+
+// * Reducer
+import * as exportDRHReducer from './export/exportDRHReducer'
 
 /**
  *
@@ -62,7 +64,9 @@ const reducers = {
   ...performanceReducer,
   ...disciplinaryReducer,
   ...institutionReducer,
-  ...employmentTypeReducer
+  ...employmentTypeReducer,
+  ...residenceReducer,
+  ...exportDRHReducer
 }
 
 export default reducers

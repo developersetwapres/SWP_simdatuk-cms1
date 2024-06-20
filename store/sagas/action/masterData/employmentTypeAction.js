@@ -10,8 +10,9 @@ const basePath = '/employment-types'
  * @returns
  */
 export const getEmploymentTypesAction = (payload) => {
-  const { page, limit, search } = payload
-  return get(`${basePath}${queryParams(page, limit, search)}`)
+  const { page, limit, search, type } = payload
+  const moreParams = `&type=${type}`
+  return get(`${basePath}${queryParams(page, limit, search)}${moreParams}`)
 }
 
 /**

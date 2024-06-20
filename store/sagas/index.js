@@ -8,9 +8,13 @@ import { all } from '@redux-saga/core/effects'
 import authSaga from './authenticationSaga'
 
 // Master Data
-import userSaga from './users/userSaga'
-import roleSaga from './users/roleSaga'
-import echelonSaga from './users/echelonSaga'
+import decreeSaga from './masterData/decreeSaga'
+import residenceSaga from './masterData/residenceSaga'
+import userSaga from './masterData/userSaga'
+import roleSaga from './masterData/roleSaga'
+import echelonSaga from './masterData/echelonSaga'
+import institutionSaga from './masterData/institutionSaga'
+import employmentTypeSaga from './masterData/employmentTypeSaga'
 
 // Dashboard
 import dashboardSaga from './dashboardSaga'
@@ -33,10 +37,8 @@ import targetSaga from './histories/targetSaga'
 import performanceSaga from './histories/performanceSaga'
 import disciplinarySaga from './histories/disciplinarySaga'
 
-// Master Data
-import decreeSaga from './masterData/decreeSaga'
-import institutionSaga from './masterData/institutionSaga'
-import employmentTypeSaga from './masterData/employmentTypeSaga'
+// Employee
+import exportDRHSaga from './export/exportDRHSaga'
 
 export default function* rootSaga() {
   yield all([
@@ -59,6 +61,8 @@ export default function* rootSaga() {
     performanceSaga(),
     disciplinarySaga(),
     institutionSaga(),
-    employmentTypeSaga()
+    employmentTypeSaga(),
+    residenceSaga(),
+    exportDRHSaga()
   ])
 }

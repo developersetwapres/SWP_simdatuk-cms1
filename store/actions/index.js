@@ -2,9 +2,13 @@ import * as authenticationAction from './authentication'
 import * as responser from './responser'
 
 // Master Data
-import * as user from './users/user'
-import * as role from './users/role'
-import * as echelon from './users/echelon'
+import * as decree from './masterData/decree'
+import * as residence from './masterData/residence'
+import * as user from './masterData/user'
+import * as role from './masterData/role'
+import * as echelon from './masterData/echelon'
+import * as institution from './masterData/institution'
+import * as employmentType from './masterData/employmentType'
 
 // Dashboard
 import * as dashboard from './dashboard'
@@ -27,10 +31,8 @@ import * as target from './histories/target'
 import * as performance from './histories/performance'
 import * as disciplinary from './histories/disciplinary'
 
-// Master Data
-import * as decree from './masterData/decree'
-import * as institution from './masterData/institution'
-import * as employmentType from './masterData/employmentType'
+// Export
+import * as exportDRH from './export/exportDRH'
 
 /**
  *
@@ -58,7 +60,9 @@ const actions = {
   ...performance,
   ...disciplinary,
   ...institution,
-  ...employmentType
+  ...employmentType,
+  ...residence,
+  ...exportDRH
 }
 
 export default actions

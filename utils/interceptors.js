@@ -3,10 +3,10 @@ import { Logger } from './logger'
 import { getStorage } from './storage'
 
 /**
- * 
+ *
  * Log Responser
- * 
- * @param {*} res 
+ *
+ * @param {*} res
  * @returns
  */
 export const logResponser = (res) => {
@@ -15,7 +15,7 @@ export const logResponser = (res) => {
   const loadTime = performance.now()
   const url = config.url.replace(process.env.NEXT_PUBLIC_API_URL, '')
 
-  // * Send Response to logger 
+  // * Send Response to logger
   Logger(`${config.method.toUpperCase()} ${url}`, {
     responseTime: loadTime,
     status: res.status,
@@ -46,56 +46,57 @@ const service = axios.create({
 /**
  * Axios interceptors
  */
-service.interceptors.response.use(function (res) {
-  // * Turn on logger when not in production
-  if (process.env.NODE_ENV !== 'production')
-    logResponser(res)
-  return res
-}, function (error) {
-  const store = window.__REDUX_STORE__
-  if (error.response.status === 401) {
-    store.dispatch({
-      type: 'ACTION_RESPONSER', payload: {
-        code: error.response.status || 401,
-        message: 'Sesion anda telah habis, silahkan login kembali'
-      }
-    })
+service.interceptors.response.use(
+  function (res) {
+    // * Turn on logger when not in production
+    if (process.env.NODE_ENV !== 'production') logResponser(res)
+    return res
+  },
+  function (error) {
+    const store = window.__REDUX_STORE__
+    if (error.response.status === 401) {
+      store.dispatch({
+        type: 'ACTION_RESPONSER',
+        payload: {
+          code: error.response.status || 401,
+          message: 'Sesion anda telah habis, silahkan login kembali'
+        }
+      })
+    }
+    // else if (error.response.status === 403) {
+    //   store.dispatch({
+    //     type: 'ACTION_RESPONSER', payload: {
+    //       code: error.response.status || 403,
+    //       message: 'Mohon maaf, anda tidak diizinkan untuk mengakses halaman ini',
+    //       redirect: '/profile'
+    //     }
+    //   })
+    // } else if (error.response.status === 400) {
+    //   store.dispatch({
+    //     type: 'ACTION_RESPONSER', payload: {
+    //       code: 400,
+    //       message: 'Mohon Maaf kami sedang dalam gangguan',
+    //       redirect: '/profile'
+    //     }
+    //   })
+    // } else if (error.message === 'Network Error' || error.response.status === 500) {
+    //   store.dispatch({
+    //     type: 'ACTION_RESPONSER',
+    //     payload: {
+    //       code: 500,
+    //       message: 'Mohon Maaf kami sedang dalam gangguan',
+    //       redirect: '/profile'
+    //     }
+    //   })
+    // }
+
+    const err = error?.response
+    // * Turn on logger when not in production
+    if (process.env.NODE_ENV !== 'production') logResponser(err)
+
+    return Promise.reject(err)
   }
-  // else if (error.response.status === 403) {
-  //   store.dispatch({
-  //     type: 'ACTION_RESPONSER', payload: {
-  //       code: error.response.status || 403,
-  //       message: 'Mohon maaf, anda tidak diizinkan untuk mengakses halaman ini',
-  //       redirect: '/profile'
-  //     }
-  //   })
-  // } else if (error.response.status === 400) {
-  //   store.dispatch({
-  //     type: 'ACTION_RESPONSER', payload: {
-  //       code: 400,
-  //       message: 'Mohon Maaf kami sedang dalam gangguan',
-  //       redirect: '/profile'
-  //     }
-  //   })
-  // } else if (error.message === 'Network Error' || error.response.status === 500) {
-  //   store.dispatch({
-  //     type: 'ACTION_RESPONSER',
-  //     payload: {
-  //       code: 500,
-  //       message: 'Mohon Maaf kami sedang dalam gangguan',
-  //       redirect: '/profile'
-  //     }
-  //   })
-  // }
-
-  const err = error?.response
-  // * Turn on logger when not in production
-  if (process.env.NODE_ENV !== 'production')
-    logResponser(err)
-
-
-  return Promise.reject(err)
-})
+)
 
 /**
  *
@@ -108,6 +109,23 @@ export const get = (url, params) => {
   return service.get(`${url}`, {
     params
   })
+}
+
+/**
+ *
+ * Function Get With Body Axios
+ *
+ * @param {String} url
+ * @param {*} params
+ */
+export const getWithBody = (url, params, body) => {
+  return service.get(
+    `${url}`,
+    {
+      params
+    },
+    body
+  )
 }
 
 /**
@@ -133,10 +151,10 @@ export const put = (url, body) => {
 }
 
 /**
- * 
- * Function Patch Axios 
- * 
- * @param {String} url 
+ *
+ * Function Patch Axios
+ *
+ * @param {String} url
  * @param {*} body
  */
 export const patch = (url, body) => {

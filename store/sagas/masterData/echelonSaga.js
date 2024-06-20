@@ -6,6 +6,9 @@
  */
 import { call, put, takeEvery } from '@redux-saga/core/effects'
 import {
+  GET_ECHELONS_OPTIONS_REQUESTED,
+  GET_ECHELONS_OPTIONS_SUCCESS,
+  GET_ECHELONS_OPTIONS_FAILED,
   GET_ECHELONS_REQUESTED,
   GET_ECHELONS_SUCCESS,
   GET_ECHELONS_FAILED,
@@ -31,6 +34,52 @@ import {
   deleteEchelonAction,
   updateEchelonAction
 } from '../action/users/echelonAction'
+
+/**
+ * Get Echelons Options
+ *
+ * @param {*} action
+ * @returns
+ */
+function* getEchelonsOptions(action) {
+  try {
+    const res = yield call(getEchelonsAction, action?.payload)
+
+    const payload = res?.data
+
+    yield put({
+      type: GET_ECHELONS_OPTIONS_SUCCESS,
+      payload: payload
+    })
+  } catch (err) {
+    const error = err?.data
+    if (error?.code === 403) {
+      yield put({
+        type: ACTION_RESPONSER,
+        payload: {
+          code: error?.code,
+          message: error?.message,
+          redirect: '/profile'
+        }
+      })
+    } else {
+      if (error?.code === 401 || error?.code === 403) {
+        yield put({
+          type: SET_MODAL,
+          payload: {
+            message: error?.message,
+            redirect: '/profile'
+          }
+        })
+      } else {
+        yield put({
+          type: GET_ECHELONS_OPTIONS_FAILED,
+          payload: { error: error?.message }
+        })
+      }
+    }
+  }
+}
 
 /**
  * GET ECHELON
@@ -278,6 +327,7 @@ function* updateEchelon(action) {
 }
 
 function* echelonSaga() {
+  yield takeEvery(GET_ECHELONS_OPTIONS_REQUESTED, getEchelonsOptions)
   yield takeEvery(GET_ECHELONS_REQUESTED, getEchelons)
   yield takeEvery(GET_ECHELON_REQUESTED, getEchelon)
   yield takeEvery(POST_ECHELON_REQUESTED, postEchelon)
