@@ -36,7 +36,7 @@ const navigation = [
       },
       {
         path: '/rekapitulasi/pegawai-non-asn',
-        name: 'PEGAWAWAI NON ASN',
+        name: 'PEGAWAI NON ASN',
         icon: null,
         permission: [{ name: 'Blacklist' }]
       },
