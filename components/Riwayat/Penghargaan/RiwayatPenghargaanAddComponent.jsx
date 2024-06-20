@@ -10,8 +10,8 @@ import Card from '@/components/shared/Card/Index'
 import * as Yup from 'yup'
 import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
-import { monthsOptions } from 'libs/months'
 import moment from 'moment'
+import { monthOptions } from 'libs/types/options'
 
 const InitValue = {
   namaPenghargaan: '',
@@ -70,7 +70,7 @@ const RiwayatPenghargaanAddComponent = ({
     const data = {
       employee: newEmployees || [],
       decree: newDecree || [],
-      month: monthsOptions || []
+      month: monthOptions || []
     }
 
     return data

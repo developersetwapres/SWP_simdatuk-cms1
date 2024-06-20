@@ -7,7 +7,6 @@ import DatepickerYear from '@/components/shared/form/DatepickerYear'
 import { Delete } from '@mui/icons-material'
 import UploadFile from '@/components/shared/form/UploadFile'
 import DatePickerDay from '@/components/shared/form/DatePickerDay'
-import { monthsOptions } from 'libs/months'
 
 const RiwayatPelatihanStrukturalForm = ({
   values,

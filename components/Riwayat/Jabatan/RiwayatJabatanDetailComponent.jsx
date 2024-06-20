@@ -7,7 +7,7 @@ import { Box, Grid, Typography } from '@mui/material'
 import { Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
-import { monthsOptions } from 'libs/months'
+import { monthOptions, positionDescOptions } from 'libs/types/options'
 
 const styles = {
   iconStyle: {
@@ -38,8 +38,8 @@ const RiwayatJabatanDetailComponent = ({
 
     const data = {
       echelon: newEchelons,
-      keteranganJabatan: ['Promosi', 'Mutasi', 'Inpassing', 'Konversi'],
-      month: monthsOptions || []
+      keteranganJabatan: positionDescOptions,
+      month: monthOptions || []
     }
 
     return data
@@ -207,7 +207,7 @@ const RiwayatJabatanDetailComponent = ({
   }, [])
 
   const handleParsePeriod = (month, year) => {
-    return month && year ? `${monthsOptions[month - 1]} ${year}` : '-'
+    return month && year ? `${monthOptions[month - 1]} ${year}` : '-'
   }
 
   useEffect(() => {

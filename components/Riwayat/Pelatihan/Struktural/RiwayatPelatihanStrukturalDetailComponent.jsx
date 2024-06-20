@@ -7,7 +7,7 @@ import { Box, Grid, Typography } from '@mui/material'
 import { Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
-import { monthsOptions } from 'libs/months'
+import { monthOptions } from 'libs/types/options'
 
 const styles = {
   iconStyle: {
@@ -201,7 +201,7 @@ const RiwayatPelatihanStrukturalDetailComponent = ({
               <Typography>Periode Input Riwayat</Typography>
               <Typography sx={styles?.font}>
                 {data?.period_month && data?.period_year
-                  ? `${monthsOptions[data?.period_month - 1]} ${
+                  ? `${monthOptions[data?.period_month - 1]} ${
                       data?.period_year
                     }`
                   : '-'}

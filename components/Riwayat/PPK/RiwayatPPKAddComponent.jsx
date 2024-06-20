@@ -10,8 +10,8 @@ import Card from '@/components/shared/Card/Index'
 import * as Yup from 'yup'
 import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
-import { monthsOptions } from 'libs/months'
 import moment from 'moment'
+import { monthOptions } from 'libs/types/options'
 
 const InitValue = {
   namaPPK: '',
@@ -74,7 +74,7 @@ const RiwayatPPKAddComponent = ({
     })
 
     const data = {
-      month: monthsOptions || [],
+      month: monthOptions || [],
       employee: newEmployees,
       keterangan: ['Kurang', 'Sedang', 'Cukup', 'Baik', 'Sangat Baik']
     }
@@ -91,7 +91,7 @@ const RiwayatPPKAddComponent = ({
 
       return dataFilter
     } else if (type == 'month') {
-      const index = monthsOptions.findIndex((itm) => itm == value) + 1
+      const index = monthOptions.findIndex((itm) => itm == value) + 1
 
       return index
     } else {

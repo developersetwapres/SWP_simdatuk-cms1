@@ -11,7 +11,7 @@ import * as Yup from 'yup'
 import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
 import moment from 'moment'
-import { monthsOptions } from 'libs/months'
+import { monthOptions, positionDescOptions } from 'libs/types/options'
 
 const InitValue = {
   namaJabatan: '',
@@ -95,8 +95,8 @@ const RiwayatJabatanAddComponent = ({
     const data = {
       jenjangJabatan: newEchelons,
       employee: newEmployees,
-      keteranganJabatan: ['Promosi', 'Mutasi', 'Inpassing', 'Konversi'],
-      month: monthsOptions || []
+      keteranganJabatan: positionDescOptions,
+      month: monthOptions || []
     }
 
     return data

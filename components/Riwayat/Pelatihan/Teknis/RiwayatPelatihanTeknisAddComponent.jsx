@@ -11,7 +11,7 @@ import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
 import RiwayatPelatihanTeknisForm from './RiwayatPelatihanTeknisForm'
 import moment from 'moment'
-import { monthsOptions } from 'libs/months'
+import { monthOptions } from 'libs/types/options'
 
 const InitValue = {
   namaDiklat: '',
@@ -77,7 +77,7 @@ const RiwayatPelatihanTeknisAddComponent = ({
       return `${itm?.name} - ${itm?.employee_id_number}`
     })
     const data = {
-      month: monthsOptions || [],
+      month: monthOptions || [],
       employee: newEmployees || []
     }
 
@@ -93,7 +93,7 @@ const RiwayatPelatihanTeknisAddComponent = ({
 
       return dataFilter
     } else {
-      const index = monthsOptions.findIndex((itm) => itm == value) + 1
+      const index = monthOptions.findIndex((itm) => itm == value) + 1
 
       return index
     }

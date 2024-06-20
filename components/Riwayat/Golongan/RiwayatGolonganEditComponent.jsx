@@ -11,7 +11,7 @@ import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
 import RiwayatGolonganForm from './RiwayatGolonganForm'
 import moment from 'moment'
-import { monthsOptions } from 'libs/months'
+import { monthOptions } from 'libs/types/options'
 
 const InitValue = {
   namaGolongan: '',
@@ -92,7 +92,7 @@ const RiwayatGolonganEditComponent = ({
     })
 
     const data = {
-      month: monthsOptions || [],
+      month: monthOptions || [],
       golongan: newGrade || [],
       employee: newEmployee || []
     }
@@ -197,7 +197,7 @@ const RiwayatGolonganEditComponent = ({
       formikRef.current?.setFieldValue('namaGolongan', detail?.name, false)
       formikRef.current?.setFieldValue(
         'periode.bulan',
-        monthsOptions[detail?.period_month - 1],
+        monthOptions[detail?.period_month - 1],
         false
       )
       formikRef.current?.setFieldValue('periode.tahun', newDates, false)

@@ -10,8 +10,8 @@ import * as Yup from 'yup'
 import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
 import RiwayatPelatihanFungsionalForm from './RiwayatPelatihanFungsionalForm'
-import { monthsOptions } from 'libs/months'
 import moment from 'moment'
+import { monthOptions } from 'libs/types/options'
 
 const InitValue = {
   namaDiklat: '',
@@ -81,7 +81,7 @@ const RiwayatPelatihanFungsionalEditComponent = ({
       return `${itm?.name} - ${itm?.employee_id_number}`
     })
     const data = {
-      month: monthsOptions || [],
+      month: monthOptions || [],
       employee: newEmployees || []
     }
 
@@ -95,7 +95,7 @@ const RiwayatPelatihanFungsionalEditComponent = ({
 
       return dataFilter
     } else {
-      const index = monthsOptions.findIndex((itm) => itm == value) + 1
+      const index = monthOptions.findIndex((itm) => itm == value) + 1
 
       return index
     }
@@ -206,7 +206,7 @@ const RiwayatPelatihanFungsionalEditComponent = ({
         detail?.period_year && detail?.period_month
           ? new Date(detail?.period_year, detail?.period_month - 1)
           : null
-      const periodMonth = monthsOptions[detail?.period_month - 1] || null
+      const periodMonth = monthOptions[detail?.period_month - 1] || null
       const startDate = detail?.start_date ? new Date(detail?.start_date) : ''
 
       formikRef.current?.setFieldValue('namaDiklat', detail?.name, false)

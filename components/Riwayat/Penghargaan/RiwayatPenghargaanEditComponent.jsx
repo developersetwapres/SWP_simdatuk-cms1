@@ -10,8 +10,8 @@ import Card from '@/components/shared/Card/Index'
 import * as Yup from 'yup'
 import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
-import { monthsOptions } from 'libs/months'
 import moment from 'moment'
+import { monthOptions } from 'libs/types/options'
 
 const InitValue = {
   namaPenghargaan: '',
@@ -71,7 +71,7 @@ const RiwayatPenghargaanEditComponent = ({
     const data = {
       employee: newEmployees || [],
       decree: newDecree || [],
-      month: monthsOptions || []
+      month: monthOptions || []
     }
 
     return data
@@ -85,7 +85,7 @@ const RiwayatPenghargaanEditComponent = ({
 
       return dataFilter
     } else if (type == 'month') {
-      const index = monthsOptions.findIndex((itm) => itm == val) + 1
+      const index = monthOptions.findIndex((itm) => itm == val) + 1
 
       return index
     } else {
@@ -180,7 +180,7 @@ const RiwayatPenghargaanEditComponent = ({
         detail?.period_year && detail?.period_month
           ? new Date(detail?.period_year, detail?.period_month - 1)
           : null
-      const periodMonth = monthsOptions[detail?.period_month - 1] || null
+      const periodMonth = monthOptions[detail?.period_month - 1] || null
       const decreeType =
         decree?.data.find((itm) => itm?.id == detail?.type_of_decree)?.name ||
         null

@@ -8,7 +8,7 @@ import Search from '@/components/core/Search'
 import { makeStyles } from '@mui/styles'
 import { Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
-import { monthsOptions } from 'libs/months'
+import { monthOptions } from 'libs/types/options'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -119,9 +119,7 @@ const RiwayatJabatanComponent = ({
           Cell: () => (
             <Typography>
               {item?.period_month && item?.period_year
-                ? `${monthsOptions[item?.period_month - 1]} ${
-                    item?.period_year
-                  }`
+                ? `${monthOptions[item?.period_month - 1]} ${item?.period_year}`
                 : '-'}
             </Typography>
           )

@@ -7,7 +7,7 @@ import { Box, Grid, Typography } from '@mui/material'
 import { Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
-import { monthsOptions } from 'libs/months'
+import { monthOptions } from 'libs/types/options'
 
 const styles = {
   iconStyle: {
@@ -197,7 +197,7 @@ const RiwayatSKPDetailComponent = ({
   }, [])
 
   const handleParsePeriod = (month, year) => {
-    return month && year ? `${monthsOptions[month - 1]} ${year}` : '-'
+    return month && year ? `${monthOptions[month - 1]} ${year}` : '-'
   }
 
   useEffect(() => {
