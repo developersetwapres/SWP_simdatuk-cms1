@@ -3,10 +3,13 @@ import { Grid, Typography } from '@mui/material'
 import { Button } from '@/components/shared'
 import Paper from '@/components/shared/overrides/Paper'
 import PropTypes from 'prop-types'
+import { useRouter } from 'next/router'
 
 const BiodataPegawai = ({
   detail
 }) => {
+  const router = useRouter()
+
   return (
     <Paper>
       <Grid container>
@@ -99,12 +102,14 @@ const BiodataPegawai = ({
             {detail?.masa_kerja_keseluruhan || '-'}
           </Typography>
         </Grid>{' '}
-        <Grid item xs={12} md={4} paddingY={1}>
-          <Typography>Masa Kerja Golongan</Typography>
-          <Typography fontWeight='500' marginTop={1}>
-            {detail?.masa_kerja_golongan || '-'}
-          </Typography>
-        </Grid>
+        {!router?.asPath?.includes('outsourcing') && (
+          <Grid item xs={12} md={4} paddingY={1}>
+            <Typography>Masa Kerja Golongan</Typography>
+            <Typography fontWeight='500' marginTop={1}>
+              {detail?.masa_kerja_golongan || '-'}
+            </Typography>
+          </Grid>
+        )}
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>NPWP</Typography>
           <Typography fontWeight='500' marginTop={1}>
