@@ -4,24 +4,22 @@ import {
 import React from 'react'
 import PropTypes from 'prop-types'
 
-
 const ListNavigation = ({
-  name
+  name,
+  selected = false,
+  handleClick
 }) => {
-
-  const handleClick = (value) => {
-    console.log(value)
-  }
-
   return (
     <>
-
       <ListItemButton
         on
+        selected={selected}
         name={name}
         sx={{
           '&.Mui-selected': {
-            backgroundColor: '#000'
+            backgroundColor: '#895700',
+            borderRadius: '6px',
+            color: '#FFF'
           }
         }}
         onClick={(e) => handleClick(e)}
@@ -32,9 +30,9 @@ const ListNavigation = ({
   )
 }
 ListNavigation.propTypes = {
-  selectedIndex: PropTypes.number,
-  name: PropTypes.string
-  // handleClick: PropTypes.func
+  selected: PropTypes.bool,
+  name: PropTypes.string,
+  handleClick: PropTypes.func
 }
 
 
