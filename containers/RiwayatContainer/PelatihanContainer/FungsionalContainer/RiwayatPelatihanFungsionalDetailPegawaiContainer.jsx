@@ -7,36 +7,53 @@ import Layout from '@/components/core/Layout'
 import EmployeeDetailComponent from '@/components/Employment/Employee/EmployeeDetailComponent'
 
 export default connect(
-  mapStateToProps(),
-  mapActions()
+  mapStateToProps('employee', 'institution', 'residence'),
+  mapActions('getEmployee', 'getInstitutionsOptions', 'getResidences')
 )(
   class RiwayatPelatihanFungsionalDetailPegawaiContainer extends Component {
     static propTypes = {
-      banner: PropTypes.object,
-      data: PropTypes.object,
-      getBanners: PropTypes.func,
-      deleteListBanner: PropTypes.func
+      employee: PropTypes.object,
+      residence: PropTypes.object,
+      getEmployee: PropTypes.func,
+      getInstitutionsOptions: PropTypes.func,
+      getResidences: PropTypes.func
     }
 
     constructor(props) {
       super(props)
       this.state = {
-        willRender: false
+        willRender: false,
+        queries: {
+          page: 1,
+          limit: 10000,
+          search: ''
+        }
       }
+      this.setRender = this.setRender.bind(this)
+      this.fetch = this.fetch.bind(this)
+    }
+
+    setRender(val) {
+      this.setState({ willRender: val })
+    }
+
+    fetch(queries) {
+      this.props.getInstitutionsOptions(queries)
+      this.props.getResidences(queries)
     }
 
     componentDidMount() {
-      setTimeout(() => {
-        this.setState({
-          willRender: true
-        })
-      }, 2000)
+      this.fetch(this.state.queries)
     }
 
     render() {
       return (
         <Layout willRender={this.state.willRender}>
-          <EmployeeDetailComponent {...this.state} {...this.props} />
+          <EmployeeDetailComponent
+            setRender={this.setRender}
+            {...this.props}
+            {...this.state}
+          />
         </Layout>
       )
     }
