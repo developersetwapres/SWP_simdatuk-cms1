@@ -24,10 +24,20 @@ import ButtonExport from '@/components/core/ButtonExport'
 import Paper from '@/components/shared/overrides/Paper'
 import { Button } from '@/components/shared'
 import PropTypes from 'prop-types'
-import { monthsOptions } from 'libs/months'
 import RiwayatAssessmentSection from './Section/RiwayatAssessmentSection'
 import RiwayatUjikomSection from './Section/RiwayatUjikomSection'
 import RiwayatTalentPoolSection from './Section/RiwayatTalentPoolSection'
+import {
+  educationStatusOptions,
+  employeeEducationLevelOptions,
+  employeeStatusOptions,
+  genderOptions,
+  maritalStatusOptions,
+  monthOptions,
+  organizationOptions,
+  relationshipStatusOptions,
+  religionOptions
+} from 'libs/types/options'
 
 const dataPegawai = [
   'Data Pegawai',
@@ -43,7 +53,10 @@ const dataPegawai = [
   'Riwayat Hukuman Disiplin',
   'Riwayat Keluarga',
   'Riwayat Cuti',
-  'Riwayat Catatan'
+  'Riwayat Catatan',
+  'Hasil Assessment',
+  'Hasil Uji Kompetensi',
+  'Hasil Talent Pool'
 ]
 
 const EmployeeDetailComponent = ({
@@ -56,49 +69,15 @@ const EmployeeDetailComponent = ({
   const router = useRouter()
   const options = useMemo(() => {
     const dataOptions = {
-      month: monthsOptions,
-      organization: ['Organisasi'],
-      unit: ['Unit'],
-      religion: ['Islam', 'Kristen', 'Katolik', 'Hindu', 'Buddha', 'Konghucu'],
-      gender: ['Laki-Laki', 'Perempuan'],
-      marital: ['Belum Menikah', 'Menikah', 'Cerai', 'Janda', 'Duda'],
-      employeeStatus: [
-        'Aktif',
-        'Pensiun',
-        'Berhenti',
-        'Meninggal',
-        'Alih Status',
-        'Aktif PS',
-        'CLTN',
-        'TBLN',
-        'Non Aktif',
-        'Hukdis'
-      ],
-      educationLevel: [
-        'SD/Sederajat',
-        'SLTP/Sederajat',
-        'SLTA/Sederajat',
-        'Akademik/D3/S.Muda',
-        'Diploma IV',
-        'Strata I',
-        'Strata II',
-        'Strata III'
-      ],
-      educationStatus: [
-        'Lulus',
-        'DO',
-        'Aktif',
-        'Non Aktif',
-        'Mengundurkan Diri'
-      ],
-      relationshipStatus: ['Orang Tua', 'Anak'],
-      grove: [],
-      typeOfDecree: [],
-      typeOfDecreeEnd: [],
-      positionLevels: [],
-      positionStatus: [],
-      gradeType: [],
-      gradeStatus: []
+      month: monthOptions,
+      organization: organizationOptions,
+      religion: religionOptions,
+      gender: genderOptions,
+      marital: maritalStatusOptions,
+      employeeStatus: employeeStatusOptions,
+      educationLevel: employeeEducationLevelOptions,
+      educationStatus: educationStatusOptions,
+      relationshipStatus: relationshipStatusOptions
     }
 
     return dataOptions
