@@ -32,7 +32,7 @@ const EmployeesComponent = ({
                   ...item.children.map(
                     c => ({
                       ...c,
-                      pathProfil: router.asPath + `/${index + 1}`
+                      pathProfil: router.asPath + `/${btoa(index + 1)}`
                     })
                   )
                 ]
