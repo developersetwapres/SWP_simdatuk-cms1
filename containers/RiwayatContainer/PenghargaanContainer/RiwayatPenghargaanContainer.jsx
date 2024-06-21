@@ -4,83 +4,42 @@ import { mapStateToProps } from '@/store/'
 import PropTypes from 'prop-types'
 import { mapActions } from '@/store/'
 import Layout from '@/components/core/Layout'
-import RiwayatPenghargaanComponent from '@/components/Riwayat/Penghargaan/RiwayatPenghargaanComponent'
+import EmployeeDetailComponent from '@/components/Employment/Employee/EmployeeDetailComponent'
 
 export default connect(
-  mapStateToProps('recognition'),
-  mapActions('getRecognitions')
+  mapStateToProps('employee', 'institution', 'residence'),
+  mapActions('getEmployee', 'getInstitutionsOptions', 'getResidences')
 )(
   class RiwayatPenghargaanContainer extends Component {
     static propTypes = {
-      recognition: PropTypes.object,
-      getRecognitions: PropTypes.func
+      employee: PropTypes.object,
+      residence: PropTypes.object,
+      getEmployee: PropTypes.func,
+      getInstitutionsOptions: PropTypes.func,
+      getResidences: PropTypes.func
     }
 
     constructor(props) {
       super(props)
       this.state = {
+        willRender: false,
         queries: {
           page: 1,
-          limit: 10,
+          limit: 10000,
           search: ''
-        },
-        willRender: false
+        }
       }
+      this.setRender = this.setRender.bind(this)
       this.fetch = this.fetch.bind(this)
-      this.onPaginationChange = this.onPaginationChange.bind(this)
-      this.onRowsPerPageChange = this.onRowsPerPageChange.bind(this)
-      this.onSearch = this.onSearch.bind(this)
-      this.onClearState = this.onClearState.bind(this)
-      this.setLoading = this.setLoading.bind(this)
+    }
+
+    setRender(val) {
+      this.setState({ willRender: val })
     }
 
     fetch(queries) {
-      this.props.getRecognitions(queries)
-    }
-
-    onPaginationChange(page) {
-      const queries = {
-        ...this.state.queries,
-        page
-      }
-      this.setState({ queries })
-      this.fetch(queries)
-    }
-
-    onRowsPerPageChange(limit) {
-      const queries = {
-        ...this.state.queries,
-        page: 1,
-        limit
-      }
-      this.setState({ queries })
-      this.fetch(queries)
-    }
-
-    onSearch(value) {
-      const queries = {
-        ...this.state.queries,
-        search: value || '',
-        page: 1
-      }
-      this.setState({ queries })
-      this.fetch(queries)
-    }
-
-    onClearState() {
-      const queries = {
-        ...this.state.queries,
-        search: '',
-        page: 1
-      }
-      this.setState({ queries })
-      this.fetch(queries)
-    }
-
-    setLoading(val) {
-      this.setState({
-        willRender: val
-      })
+      this.props.getInstitutionsOptions(queries)
+      this.props.getResidences(queries)
     }
 
     componentDidMount() {
@@ -90,13 +49,10 @@ export default connect(
     render() {
       return (
         <Layout willRender={this.state.willRender}>
-          <RiwayatPenghargaanComponent
-            onSearch={this.onSearch}
-            onLoading={this.setLoading}
-            onPaginationChange={this.onPaginationChange}
-            onRowsPerPageChange={this.onRowsPerPageChange}
-            {...this.state}
+          <EmployeeDetailComponent
+            setRender={this.setRender}
             {...this.props}
+            {...this.state}
           />
         </Layout>
       )

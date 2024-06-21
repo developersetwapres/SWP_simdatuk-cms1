@@ -35,9 +35,9 @@ const styles = {
 const RiwayatPenghargaanDetailComponent = ({
   recognition,
   decree,
-  getRecognition = () => {},
-  clearRecognitionState = () => {},
-  onLoading = () => {}
+  getRecognition = () => { },
+  clearRecognitionState = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
 
@@ -97,7 +97,7 @@ const RiwayatPenghargaanDetailComponent = ({
                 color='primary'
                 onClick={() =>
                   router.push(
-                    `/data-riwayat/penghargaan/detail/pegawai/${btoa(item?.id)}`
+                    `/data-riwayat/penghargaan/detail/pegawai/${btoa(item?.user_id)}`
                   )
                 }
                 icon={<Info style={styles.iconButton} />}
