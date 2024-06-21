@@ -4,17 +4,6 @@ import { Table, Button } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 
-const data = [
-  {
-    tingkat: 'SD/Sederajat',
-    nama: 'SDN Karang Tengah 2',
-    fakultas: null,
-    jurusan: 'SD',
-    status: 'Lulus',
-    tahun: '2024'
-  }
-]
-
 const RiwayatJabatanSection = ({ detail }) => {
   const columns = useMemo(
     () => [
@@ -108,7 +97,8 @@ const RiwayatJabatanSection = ({ detail }) => {
   )
 
   const rows = useMemo(() => {
-    const dataMapping = detail?.positions?.map((item, index) => {
+    const data = detail?.positions || []
+    const dataMapping = data?.map((item, index) => {
       return [
         {
           Header: 'No',
@@ -126,31 +116,31 @@ const RiwayatJabatanSection = ({ detail }) => {
           Header: 'Rumpun',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.position || '-'}</Typography>
+          Cell: () => <Typography>{item?.group_name || '-'}</Typography>
         },
         {
           Header: 'Jenjang Jabatan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.position || '-'}</Typography>
+          Cell: () => <Typography>{item?.echelon || '-'}</Typography>
         },
         {
           Header: 'Keterangan Jabatan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.position || '-'}</Typography>
+          Cell: () => <Typography>{'-'}</Typography>
         },
         {
           Header: 'TMT Menjabat',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.position || '-'}</Typography>
+          Cell: () => <Typography>{item?.effective_date || '-'}</Typography>
         },
         {
           Header: 'SK Menjabat',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.position || '-'}</Typography>
+          Cell: () => <Typography>{item?.decree || '-'}</Typography>
         },
         {
           Header: 'SK Jabatan',
@@ -158,7 +148,7 @@ const RiwayatJabatanSection = ({ detail }) => {
           verticalAlign: 'top',
           Cell: () => (
             <Typography>
-              <Button text='Lihat File' />
+              {item?.decree_document ? <Button text='Lihat File' /> : '-'}
             </Typography>
           )
         },
@@ -166,61 +156,61 @@ const RiwayatJabatanSection = ({ detail }) => {
           Header: 'Jenis SK Jabatan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.position || '-'}</Typography>
+          Cell: () => <Typography>{item?.type_decree_name || '-'}</Typography>
         },
         {
           Header: 'No. SK Jabatan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.position || '-'}</Typography>
+          Cell: () => <Typography>{item?.decree_number || '-'}</Typography>
         },
         {
           Header: 'Tanggal SK Jabatan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.position || '-'}</Typography>
+          Cell: () => <Typography>{item?.decree_date || '-'}</Typography>
         },
         {
           Header: 'TMT Selesai',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.position || '-'}</Typography>
+          Cell: () => <Typography>{'-'}</Typography>
         },
         {
           Header: 'SK Selesai',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.position || '-'}</Typography>
+          Cell: () => <Typography>{item?.termination_decree || '-'}</Typography>
         },
         {
           Header: 'Jenis SK Selesai',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.position || '-'}</Typography>
+          Cell: () => <Typography>{item?.type_termination_decree_name || '-'}</Typography>
         },
         {
           Header: 'No. SK Selesai',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.position || '-'}</Typography>
+          Cell: () => <Typography>{item?.termination_decree_number || '-'}</Typography>
         },
         {
           Header: 'Tanggal SK Selesai',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.position || '-'}</Typography>
+          Cell: () => <Typography>{item?.termination_decree_date || '-'}</Typography>
         },
         {
           Header: 'Status Jabatan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.position || '-'}</Typography>
+          Cell: () => <Typography>{'-'}</Typography>
         }
       ]
     })
 
     return dataMapping
-  }, [data])
+  }, [detail])
 
   return (
     <Grid>
