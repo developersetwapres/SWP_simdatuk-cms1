@@ -87,10 +87,12 @@ const BiodataPegawai = ({
             {detail?.employee_id_card_number || '-'}
           </Typography>
         </Grid>
-        <Grid item xs={12} md={4} paddingY={1}>
-          <Typography>Kartu Pegawai</Typography>
-          <Button text='Lihat File' />
-        </Grid>
+        {detail?.employee_id_card && (
+          <Grid item xs={12} md={4} paddingY={1}>
+            <Typography>Kartu Pegawai</Typography>
+            <Button text='Lihat File' />
+          </Grid>
+        )}
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Masa Kerja Keseluruhan</Typography>
           <Typography fontWeight='500' marginTop={1}>

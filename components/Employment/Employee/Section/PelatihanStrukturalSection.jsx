@@ -52,7 +52,8 @@ const PelatihanStrukturalSection = ({ detail }) => {
   )
 
   const rows = useMemo(() => {
-    const dataMapping = detail?.structurals?.map((item, index) => {
+    const data = detail?.structurals || []
+    const dataMapping = data?.map((item, index) => {
       return [
         {
           Header: 'No',
@@ -102,7 +103,7 @@ const PelatihanStrukturalSection = ({ detail }) => {
           verticalAlign: 'top',
           Cell: () => (
             <Typography>
-              <Button text='Lihat File' />
+              {item?.certificate ? <Button text='Lihat File' /> : '-'}
             </Typography>
           )
         }

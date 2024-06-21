@@ -52,7 +52,8 @@ const PelatihanFungsionalSection = ({ detail }) => {
   )
 
   const rows = useMemo(() => {
-    const dataMapping = detail?.functionals?.map((item, index) => {
+    const data = detail?.functionals || []
+    const dataMapping = data?.map((item, index) => {
       return [
         {
           Header: 'No',
@@ -102,7 +103,7 @@ const PelatihanFungsionalSection = ({ detail }) => {
           verticalAlign: 'top',
           Cell: () => (
             <Typography>
-              <Button text='Lihat File' />
+              {item?.certificate ? <Button text='Lihat File' /> : '-'}
             </Typography>
           )
         }

@@ -57,7 +57,8 @@ const RiwayatPenghargaanSection = ({ detail }) => {
   )
 
   const rows = useMemo(() => {
-    const dataMapping = detail?.recognitions?.map((item, index) => {
+    const data = detail?.recognitions || []
+    const dataMapping = data?.map((item, index) => {
       return [
         {
           Header: 'No',

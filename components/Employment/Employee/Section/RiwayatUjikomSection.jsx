@@ -37,7 +37,8 @@ const RiwayatUjikomSection = ({ detail }) => {
   )
 
   const rows = useMemo(() => {
-    const dataMapping = detail?.performances?.map((item, index) => {
+    const data = detail?.performances || []
+    const dataMapping = data?.map((item, index) => {
       return [
         {
           Header: 'No',

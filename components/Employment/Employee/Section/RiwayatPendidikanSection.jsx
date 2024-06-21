@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useMemo } from 'react'
-import { Table, Button } from '@/components/shared'
+import { Table } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 
@@ -57,7 +57,8 @@ const RiwayatPendidikanSection = ({ detail }) => {
   )
 
   const rows = useMemo(() => {
-    const dataMapping = detail?.educations?.map((item, index) => {
+    const data = detail?.educations || []
+    const dataMapping = data?.map((item, index) => {
       return [
         {
           Header: 'No',
@@ -105,16 +106,17 @@ const RiwayatPendidikanSection = ({ detail }) => {
           Header: 'Keterangan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>-</Typography>
+          Cell: () => <Typography>{item?.description || '-'}</Typography>
         },
         {
           Header: 'Ijazah',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => (
-            <Typography>
-              <Button text='Lihat File' />
-            </Typography>
+            <Typography>-</Typography>
+            // <Typography>
+            //   <Button text='Lihat File' />
+            // </Typography>
           )
         }
       ]
