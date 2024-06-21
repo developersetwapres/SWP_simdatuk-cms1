@@ -4,31 +4,6 @@ import { Table, Button } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 
-const data = [
-  {
-    golongan: '-',
-    tmt_golongan: '-',
-    sk_golongan: '-',
-    sk_golongan_file: '-',
-    jenis_sk_golongan: '-',
-    no_sk_golongan: '-',
-    tanggal_sk_golongan: '-',
-    keterangan_golongan: '-',
-    status_golongan: '-'
-  },
-  {
-    golongan: '-',
-    tmt_golongan: '-',
-    sk_golongan: '-',
-    sk_golongan_file: '-',
-    jenis_sk_golongan: '-',
-    no_sk_golongan: '-',
-    tanggal_sk_golongan: '-',
-    keterangan_golongan: '-',
-    status_golongan: '-'
-  }
-]
-
 const RiwayatGolonganSection = ({ detail }) => {
   const columns = useMemo(
     () => [
@@ -44,11 +19,6 @@ const RiwayatGolonganSection = ({ detail }) => {
       },
       {
         Header: 'TMT Golongan',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'SK Golongan',
         width: 200,
         align: 'left'
       },
@@ -87,6 +57,7 @@ const RiwayatGolonganSection = ({ detail }) => {
   )
 
   const rows = useMemo(() => {
+    const data = detail?.grades || []
     const dataMapping = data.map((item, index) => {
       return [
         {
@@ -99,19 +70,13 @@ const RiwayatGolonganSection = ({ detail }) => {
           Header: 'Golongan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.golongan}</Typography>
+          Cell: () => <Typography>{item?.grade_name || '-'}</Typography>
         },
         {
           Header: 'TMT Golongan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tmt_golongan}</Typography>
-        },
-        {
-          Header: 'SK Golongan',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.sk_golongan}</Typography>
+          Cell: () => <Typography>{item?.effective_date || '-'}</Typography>
         },
         {
           Header: 'SK Golongan',
@@ -119,7 +84,7 @@ const RiwayatGolonganSection = ({ detail }) => {
           verticalAlign: 'top',
           Cell: () => (
             <Typography>
-              <Button text='Lihat File' />
+              {item?.decree_document ? <Button text='Lihat File' /> : '-'}
             </Typography>
           )
         },
@@ -127,37 +92,37 @@ const RiwayatGolonganSection = ({ detail }) => {
           Header: 'Jenis SK Golongan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.jenis_sk_golongan}</Typography>
+          Cell: () => <Typography>{item?.type_of_decree || '-'}</Typography>
         },
         {
           Header: 'No. SK Golongan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.no_sk_golongan}</Typography>
+          Cell: () => <Typography>{item?.decree_number || '-'}</Typography>
         },
         {
           Header: 'Tanggal SK Golongan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tanggal_sk_golongan}</Typography>
+          Cell: () => <Typography>{item?.decree_date || '-'}</Typography>
         },
         {
           Header: 'Keterangan Golongan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.keterangan_golongan}</Typography>
+          Cell: () => <Typography>{item?.description || '-'}</Typography>
         },
         {
           Header: 'Status Golongan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.status_golongan}</Typography>
+          Cell: () => <Typography>{item?.status || '-'}</Typography>
         }
       ]
     })
 
     return dataMapping
-  }, [data, detail])
+  }, [detail])
 
   return (
     <Grid>
