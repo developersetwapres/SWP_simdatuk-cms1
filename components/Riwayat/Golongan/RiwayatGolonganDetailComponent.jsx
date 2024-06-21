@@ -26,9 +26,9 @@ const styles = {
 
 const RiwayatGolonganDetailComponent = ({
   grade,
-  getGrade = () => {},
-  clearGradeState = () => {},
-  onLoading = () => {}
+  getGrade = () => { },
+  clearGradeState = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
 
@@ -119,7 +119,7 @@ const RiwayatGolonganDetailComponent = ({
                 color='primary'
                 onClick={() =>
                   router.push(
-                    `/data-riwayat/golongan/detail/pegawai/${btoa(item?.id)}`
+                    `/data-riwayat/golongan/detail/pegawai/${btoa(item?.user_id)}`
                   )
                 }
                 icon={<Info style={styles.iconButton} />}
