@@ -29,9 +29,9 @@ const styles = {
 
 const RiwayatHukumanDisiplinDetailComponent = ({
   disciplinary,
-  getDisciplinary = () => {},
-  clearDisciplinaryState = () => {},
-  onLoading = () => {}
+  getDisciplinary = () => { },
+  clearDisciplinaryState = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
 
@@ -244,7 +244,7 @@ const RiwayatHukumanDisiplinDetailComponent = ({
                 onClick={() =>
                   router.push(
                     `/data-riwayat/hukuman-disiplin/detail/pegawai/${btoa(
-                      item?.id
+                      item?.user_id
                     )}`
                   )
                 }
