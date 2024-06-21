@@ -34,9 +34,9 @@ const styles = {
 
 const RiwayatPelatihanStrukturalDetailComponent = ({
   training,
-  getTraining = () => {},
-  clearTrainingState = () => {},
-  onLoading = () => {}
+  getTraining = () => { },
+  clearTrainingState = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
 
@@ -124,7 +124,7 @@ const RiwayatPelatihanStrukturalDetailComponent = ({
                 onClick={() =>
                   router.push(
                     `/data-riwayat/pelatihan-struktural/detail/pegawai/${btoa(
-                      item?.id
+                      item?.user_id
                     )}`
                   )
                 }
@@ -201,9 +201,8 @@ const RiwayatPelatihanStrukturalDetailComponent = ({
               <Typography>Periode Input Riwayat</Typography>
               <Typography sx={styles?.font}>
                 {data?.period_month && data?.period_year
-                  ? `${monthOptions[data?.period_month - 1]} ${
-                      data?.period_year
-                    }`
+                  ? `${monthOptions[data?.period_month - 1]} ${data?.period_year
+                  }`
                   : '-'}
               </Typography>
             </Box>
