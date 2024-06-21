@@ -7,7 +7,7 @@ import ListNavigation from '@/components/core/ListNavigation'
 import RiwayatPendidikanSection from './Section/RiwayatPendidikanSection'
 import RiwayatJabatanSection from './Section/RiwayatJabatanSection'
 import RiwayatGolonganSection from './Section/RiwayatGolongan'
-// import RiwayatGajiSection from './Section/RiwayatGajiSection'
+import RiwayatGajiSection from './Section/RiwayatGajiSection'
 import PelatihanStrukturalSection from './Section/PelatihanStrukturalSection'
 import PelatihanFungsionalSection from './Section/PelatihanFungsional'
 import RiwayatPelatihanTeknisSection from './Section/RiwayatPelatihanTeknisSection'
@@ -149,6 +149,134 @@ const EmployeeDetailComponent = ({
     )
   }, [])
 
+  const sectionComponents = () => {
+    const outsourcingPage = router?.asPath?.includes('outsourcing')
+
+    if (outsourcingPage) {
+      return (
+        <>
+          <Grid item xs={12} id='data_pegawai'>
+            <BiodataPegawai
+              detail={data}
+            />
+          </Grid>
+          <Grid item xs={12} id='riwayat_pendidikan'>
+            <RiwayatPendidikanSection
+              detail={data}
+            />
+          </Grid>
+          <Grid item xs={12} id='riwayat_catatan'>
+            <RiwayatCatatanSection
+              detail={data}
+            />
+          </Grid>
+        </>
+      )
+    }
+
+    return (
+      <>
+        <Grid item xs={12} id='data_pegawai'>
+          <BiodataPegawai
+            detail={data}
+          />
+        </Grid>
+        <Grid item xs={12} id='riwayat_pendidikan'>
+          <RiwayatPendidikanSection
+            detail={data}
+          />
+        </Grid>
+        <Grid item xs={12} id='riwayat_jabatan'>
+          <RiwayatJabatanSection
+            detail={data}
+          />
+        </Grid>
+        <Grid item xs={12} id='riwayat_golongan'>
+          <RiwayatGolonganSection
+            detail={data}
+          />
+        </Grid>
+        <Grid item xs={12} id='riwayat_gaji'>
+          <RiwayatGajiSection
+            detail={data}
+          />
+        </Grid>
+        <Grid item xs={12} id='riwayat_pelatihan_struktural'>
+          <PelatihanStrukturalSection
+            detail={data}
+          />
+        </Grid>
+        <Grid item xs={12} id='riwayat_pelatihan_fungsional'>
+          <PelatihanFungsionalSection
+            detail={data}
+          />
+        </Grid>
+        <Grid item xs={12} id='riwayat_pelatihan_teknis'>
+          <RiwayatPelatihanTeknisSection
+            detail={data}
+          />
+        </Grid>
+        <Grid item xs={12} id='riwayat_penghargaan'>
+          <RiwayatPenghargaanSection
+            detail={data}
+          />
+        </Grid>
+        <Grid item xs={12} id='riwayat_skp'>
+          <RiwayatSKP
+            detail={data}
+          />
+        </Grid>
+        <Grid item xs={12} id='riwayat_penilaian_prestasi_kerja'>
+          <RiwayatPrestasiKerja
+            detail={data}
+          />
+        </Grid>
+        <Grid item xs={12} id='riwayat_hukuman_disiplin'>
+          <RiwayatHukumanDisiplin
+            detail={data}
+          />
+        </Grid>
+        <Grid item xs={12} id='riwayat_keluarga'>
+          <RiwayatKeluargaSection
+            detail={data}
+          />
+        </Grid>
+        <Grid item xs={12} id='riwayat_cuti'>
+          <RiwayatCutiSection
+            detail={data}
+          />
+        </Grid>
+        <Grid item xs={12} id='riwayat_catatan'>
+          <RiwayatCatatanSection
+            detail={data}
+          />
+        </Grid>
+        <Grid item xs={12} id='hasil_assessment'>
+          <RiwayatAssessmentSection
+            detail={data}
+          />
+        </Grid>
+        <Grid item xs={12} id='hasil_uji_kompetensi'>
+          <RiwayatUjikomSection
+            detail={data}
+          />
+        </Grid>
+        <Grid item xs={12} id='hasil_talent_pool'>
+          <RiwayatTalentPoolSection
+            detail={data}
+          />
+        </Grid>
+      </>
+    )
+  }
+
+  const handleNavigationMenuClick = (id) => {
+    document.getElementById(id).scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    })
+  }
+
   return (
     <LayoutPages
       handleBack={() => router.back()}
@@ -236,76 +364,43 @@ const EmployeeDetailComponent = ({
         </Grid>
         <Grid item xs={12}>
           <Grid container spacing={3}>
-            <Grid item xs={2} sx={{ position: 'sticky', top: '400px' }}>
+            <Grid item xs={2}>
               <List
                 sx={{
                   padding: '12px',
                   borderRadius: '12px',
-                  overflow: 'hidden',
-                  backgroundColor: '#fff'
+                  overflow: 'scroll',
+                  backgroundColor: '#fff',
+                  position: 'sticky !important',
+                  top: 10,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 1,
+                  height: () => window.innerHeight * 0.70 + 'px'
                 }}
               >
-                {dataPegawai.map((item, index) => (
-                  <ListNavigation key={index} name={item} />
-                ))}
+                {dataPegawai
+                  .filter((item) => {
+                    const outsourcingPage = router?.asPath?.includes('outsourcing')
+                    const outsourcingMenu = ['Data Pegawai', 'Riwayat Pendidikan', 'Riwayat Catatan']
+                    return outsourcingPage ? outsourcingMenu?.includes(item) : item
+                  })
+                  .map((item, index) => {
+                    const id = item?.toLowerCase()?.split(' ')?.join('_')
+
+                    return (
+                      <ListNavigation
+                        key={index}
+                        name={item}
+                        handleClick={() => handleNavigationMenuClick(id)}
+                      />
+                    )
+                  })}
               </List>
             </Grid>
             <Grid item xs={10}>
               <Grid container gap={3}>
-                <Grid item xs={12}>
-                  <BiodataPegawai detail={data} />
-                </Grid>
-                <Grid item xs={12}>
-                  <RiwayatPendidikanSection detail={data} />
-                </Grid>
-                <Grid item xs={12}>
-                  <RiwayatJabatanSection detail={data} />
-                </Grid>
-                <Grid item xs={12}>
-                  <RiwayatGolonganSection detail={data} />
-                </Grid>
-                {/* <Grid item xs={12}>
-                  <RiwayatGajiSection detail={data} />
-                </Grid> */}
-                <Grid item xs={12}>
-                  <PelatihanStrukturalSection detail={data} />
-                </Grid>
-                <Grid item xs={12}>
-                  <PelatihanFungsionalSection detail={data} />
-                </Grid>
-                <Grid item xs={12}>
-                  <RiwayatPelatihanTeknisSection detail={data} />
-                </Grid>
-                <Grid item xs={12}>
-                  <RiwayatPenghargaanSection detail={data} />
-                </Grid>
-                <Grid item xs={12}>
-                  <RiwayatSKP detail={data} />
-                </Grid>
-                <Grid item xs={12}>
-                  <RiwayatPrestasiKerja detail={data} />
-                </Grid>
-                <Grid item xs={12}>
-                  <RiwayatHukumanDisiplin detail={data} />
-                </Grid>
-                <Grid item xs={12}>
-                  <RiwayatKeluargaSection detail={data} />
-                </Grid>
-                <Grid item xs={12}>
-                  <RiwayatCutiSection detail={data} />
-                </Grid>
-                <Grid item xs={12}>
-                  <RiwayatCatatanSection detail={data} />
-                </Grid>
-                <Grid item xs={12}>
-                  <RiwayatAssessmentSection detail={data} />
-                </Grid>
-                <Grid item xs={12}>
-                  <RiwayatUjikomSection detail={data} />
-                </Grid>
-                <Grid item xs={12}>
-                  <RiwayatTalentPoolSection detail={data} />
-                </Grid>
+                {sectionComponents()}
               </Grid>
             </Grid>
           </Grid>
