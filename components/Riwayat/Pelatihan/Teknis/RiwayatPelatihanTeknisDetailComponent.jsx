@@ -34,9 +34,9 @@ const styles = {
 
 const RiwayatPelatihanTeknisDetailComponent = ({
   training,
-  getTraining = () => {},
-  clearTrainingState = () => {},
-  onLoading = () => {}
+  getTraining = () => { },
+  clearTrainingState = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
 
@@ -124,7 +124,7 @@ const RiwayatPelatihanTeknisDetailComponent = ({
                 onClick={() =>
                   router.push(
                     `/data-riwayat/pelatihan-teknis/detail/pegawai/${btoa(
-                      item?.id
+                      item?.user_id
                     )}`
                   )
                 }
@@ -203,9 +203,8 @@ const RiwayatPelatihanTeknisDetailComponent = ({
               <Typography>Periode Input Riwayat</Typography>
               <Typography sx={styles?.font}>
                 {data?.period_month && data?.period_year
-                  ? `${monthOptions[data?.period_month - 1]} ${
-                      data?.period_year
-                    }`
+                  ? `${monthOptions[data?.period_month - 1]} ${data?.period_year
+                  }`
                   : '-'}
               </Typography>
             </Box>
