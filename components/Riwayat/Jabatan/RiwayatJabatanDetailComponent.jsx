@@ -27,9 +27,9 @@ const styles = {
 const RiwayatJabatanDetailComponent = ({
   position,
   echelon,
-  getPosition = () => {},
-  clearPositionState = () => {},
-  onLoading = () => {}
+  getPosition = () => { },
+  clearPositionState = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
 
@@ -176,7 +176,7 @@ const RiwayatJabatanDetailComponent = ({
                 color='primary'
                 onClick={() =>
                   router.push(
-                    `/data-riwayat/jabatan/detail/pegawai/${btoa(item?.id)}`
+                    `/data-riwayat/jabatan/detail/pegawai/${btoa(item?.user_id)}`
                   )
                 }
                 icon={<Info style={styles.iconButton} />}
