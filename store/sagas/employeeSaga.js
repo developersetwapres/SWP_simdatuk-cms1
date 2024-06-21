@@ -20,7 +20,8 @@ import {
   UPDATE_EMPLOYEE_FAILED,
   DELETE_EMPLOYEE_REQUESTED,
   DELETE_EMPLOYEE_SUCCESS,
-  DELETE_EMPLOYEE_FAILED
+  DELETE_EMPLOYEE_FAILED,
+  CATCH_ERROR
 } from '../constants'
 import {
   deleteEmployeeAction,
@@ -91,6 +92,14 @@ function* getEmployee(action) {
     })
   } catch (err) {
     const status = err?.data?.meta
+    const errorData = err?.data
+    console.error('ERROR: ', err)
+
+    yield put({
+      type: CATCH_ERROR,
+      payload: `${errorData?.exception}: ${errorData?.message}\n${errorData?.file}\n(${errorData?.line})`
+    })
+
     if (status?.code === 403) {
       yield put({
         type: ACTION_RESPONSER,
