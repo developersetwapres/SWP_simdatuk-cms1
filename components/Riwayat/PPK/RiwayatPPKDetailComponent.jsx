@@ -34,9 +34,9 @@ const styles = {
 
 const RiwayatPPKDetailComponent = ({
   performance,
-  getPerformance = () => {},
-  clearPerformanceState = () => {},
-  onLoading = () => {}
+  getPerformance = () => { },
+  clearPerformanceState = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
 
@@ -130,7 +130,7 @@ const RiwayatPPKDetailComponent = ({
                 color='primary'
                 onClick={() =>
                   router.push(
-                    `/data-riwayat/ppk/detail/pegawai/${btoa(item?.id)}`
+                    `/data-riwayat/ppk/detail/pegawai/${btoa(item?.user_id)}`
                   )
                 }
                 icon={<Info style={styles.iconButton} />}
