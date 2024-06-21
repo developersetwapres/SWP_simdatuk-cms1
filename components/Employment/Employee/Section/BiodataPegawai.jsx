@@ -87,7 +87,7 @@ const BiodataPegawai = ({
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>No. Karpeg/No. Karis/No. Karsu</Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {detail?.employee_id_card_number || '-'}
+            {detail?.karisu_number || '-'}
           </Typography>
         </Grid>
         {detail?.employee_id_card && (
