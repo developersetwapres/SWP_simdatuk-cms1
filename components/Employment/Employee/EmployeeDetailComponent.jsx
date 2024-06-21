@@ -300,7 +300,7 @@ const EmployeeDetailComponent = ({
               }}
             >
               <img
-                src={`https://content.ekuator.id/simdatuk/${data?.photo_profile}`}
+                src={data?.photo_profile}
                 alt='Pegawai'
                 style={{
                   height: '100%',
@@ -376,7 +376,11 @@ const EmployeeDetailComponent = ({
                   display: 'flex',
                   flexDirection: 'column',
                   gap: 1,
-                  height: () => window.innerHeight * 0.70 + 'px'
+                  height: () => {
+                    const outsourcingPage = router?.asPath?.includes('outsourcing')
+
+                    return outsourcingPage ? 'unset' : window.innerHeight * 0.70 + 'px'
+                  }
                 }}
               >
                 {dataPegawai
