@@ -123,7 +123,7 @@ const EmployeeOutsourcingComponent = ({
           Header: 'Keterangan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{'-'}</Typography>
+          Cell: () => <Typography>{item?.description || '-'}</Typography>
         },
         {
           Header: 'Aksi',
