@@ -34,8 +34,9 @@ import * as disciplinaryReducer from './histories/disciplinaryReducer'
 // * Reducer
 import * as responserReducer from './responserReducer'
 
-// * Reducer
+// Export
 import * as exportDRHReducer from './export/exportDRHReducer'
+import * as exportRecapReducer from './export/exportRecapReducer'
 
 /**
  *
@@ -66,7 +67,8 @@ const reducers = {
   ...institutionReducer,
   ...employmentTypeReducer,
   ...residenceReducer,
-  ...exportDRHReducer
+  ...exportDRHReducer,
+  ...exportRecapReducer
 }
 
 export default reducers

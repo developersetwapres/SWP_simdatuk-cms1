@@ -37,8 +37,9 @@ import targetSaga from './histories/targetSaga'
 import performanceSaga from './histories/performanceSaga'
 import disciplinarySaga from './histories/disciplinarySaga'
 
-// Employee
+// Export
 import exportDRHSaga from './export/exportDRHSaga'
+import exportRecapSaga from './export/exportRecapSaga'
 
 export default function* rootSaga() {
   yield all([
@@ -63,6 +64,7 @@ export default function* rootSaga() {
     institutionSaga(),
     employmentTypeSaga(),
     residenceSaga(),
-    exportDRHSaga()
+    exportDRHSaga(),
+    exportRecapSaga()
   ])
 }
