@@ -86,6 +86,7 @@ const EmploymentComponent = ({
     link.href = fileURL
     link.download = getFileName()
     link.click()
+    URL.revokeObjectURL(fileURL)
     dispatch({ type: CLEAR_EXPORT_RECAP_STATE })
   }
 
@@ -129,9 +130,7 @@ const EmploymentComponent = ({
       <Box sx={{ marginTop: '12px', display: 'flex', gap: 1 }}>
         <ButtonExport
           data={[
-            { name: 'PDF', action: () => exportPDF() },
-            { name: 'XLS', action: () => { } },
-            { name: 'CSV', action: () => { } }
+            { name: 'PDF', action: () => exportPDF() }
           ]}
         />
       </Box>

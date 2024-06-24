@@ -16,6 +16,11 @@ function ButtonExport({ data }) {
     setAnchorEl(null)
   }
 
+  const handleMenuItemClicked = (action) => {
+    handleClose()
+    action()
+  }
+
   if (data.length == 1) {
     return <Button text='Export' color='success' onClick={data[0]?.action} />
   }
@@ -58,7 +63,7 @@ function ButtonExport({ data }) {
         {data.map((item, index) => (
           <MenuItem
             key={index}
-            onClick={item?.action}
+            onClick={() => handleMenuItemClicked(item?.action)}
             sx={{
               width: '100px',
               display: 'flex',
