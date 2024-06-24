@@ -97,7 +97,7 @@ const RiwayatKeluargaSection = ({ detail }) => {
   )
 
   const rows = useMemo(() => {
-    const data = detail?.performances || []
+    const data = detail?.families || []
     const dataMapping = data?.map((item, index) => {
       return [
         {

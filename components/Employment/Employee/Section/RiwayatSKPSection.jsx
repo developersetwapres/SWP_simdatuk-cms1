@@ -3,6 +3,11 @@ import React, { useMemo } from 'react'
 import { Table } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
+import {
+  employeePerformancePredicateOptions,
+  employeeWorkBehaviorRatingOptions,
+  organizationalPerformanceOptions
+} from 'libs/types/options'
 
 const RiwayatSKP = ({ detail }) => {
   const columns = useMemo(
@@ -41,8 +46,23 @@ const RiwayatSKP = ({ detail }) => {
     []
   )
 
+  const options = useMemo(() => {
+    const data = {
+      predikat: employeePerformancePredicateOptions,
+      rating: employeeWorkBehaviorRatingOptions,
+      organisasi: organizationalPerformanceOptions
+    }
+
+    return data
+  }, [])
+
+  const handleGetValue = (value, type) => {
+    const val = value ? options[type][value] : ''
+    return val
+  }
+
   const rows = useMemo(() => {
-    const data = detail?.performances || []
+    const data = detail?.targets || []
     const dataMapping = data?.map((item, index) => {
       return [
         {
@@ -55,31 +75,31 @@ const RiwayatSKP = ({ detail }) => {
           Header: 'Periode Penilaian',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>-</Typography>
+          Cell: () => <Typography>{item?.appraisal_period || '-'}</Typography>
         },
         {
           Header: 'Tahun',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>-</Typography>
+          Cell: () => <Typography>{item?.year || '-'}</Typography>
         },
         {
           Header: 'Rating Perilaku Kerja',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>-</Typography>
+          Cell: () => <Typography>{handleGetValue(item?.work_behavior_rating, 'rating')}</Typography>
         },
         {
           Header: 'Predikat Kinerja Pegawai',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>-</Typography>
+          Cell: () => <Typography>{handleGetValue(item?.employee_performance_predicate, 'predikat')}</Typography>
         },
         {
           Header: 'Capaian Kinerja Organisasi',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>-</Typography>
+          Cell: () => <Typography>{handleGetValue(item?.organizational_performance_achievement, 'organisasi')}</Typography>
         }
       ]
     })

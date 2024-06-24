@@ -37,7 +37,7 @@ const RiwayatTalentPoolSection = ({ detail }) => {
   )
 
   const rows = useMemo(() => {
-    const data = detail?.performances || []
+    const data = detail?.talents || []
     const dataMapping = data?.map((item, index) => {
       return [
         {

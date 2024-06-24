@@ -76,3 +76,23 @@ export const positionDescOptions = [
   'Inpassing',
   'Konversi'
 ]
+
+export const employeePerformancePredicateOptions = [
+  'Sangat baik',
+  'Baik',
+  'Butuh perbaikan',
+  'Kurang',
+  'Sangat Kurang'
+]
+
+export const employeeWorkBehaviorRatingOptions = [
+  'Di atas ekspektasi',
+  'Sesuai ekspektasi',
+  'Di bawah ekspektasi'
+]
+
+export const organizationalPerformanceOptions = [
+  'Sangat baik',
+  'Baik',
+  'Cukup'
+]

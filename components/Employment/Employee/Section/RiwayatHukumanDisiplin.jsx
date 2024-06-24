@@ -87,7 +87,7 @@ const RiwayatHukumanDisiplin = ({ detail }) => {
   )
 
   const rows = useMemo(() => {
-    const data = detail?.performances || []
+    const data = detail?.disciplinaries || []
     const dataMapping = data?.map((item, index) => {
       return [
         {

@@ -70,49 +70,49 @@ const RiwayatPenghargaanSection = ({ detail }) => {
           Header: 'Nama Penghargaan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>-</Typography>
+          Cell: () => <Typography>{item?.recognition_name || '-'}</Typography>
         },
         {
           Header: 'Keterangan Penghargaan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>-</Typography>
+          Cell: () => <Typography>{item?.description || '-'}</Typography>
         },
         {
           Header: 'Jenis SK',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>-</Typography>
+          Cell: () => <Typography>{item?.type_of_decree_name || '-'}</Typography>
         },
         {
           Header: 'Tanggal SK',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>-</Typography>
+          Cell: () => <Typography>{item?.decree_date || '-'}</Typography>
         },
         {
           Header: 'No. SK Penghargaan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>-</Typography>
+          Cell: () => <Typography>{item?.decree_number || '-'}</Typography>
         },
         {
           Header: 'Tahun SK',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>-</Typography>
+          Cell: () => <Typography>{item?.decree_year || '-'}</Typography>
         },
         {
           Header: 'Instansi Pemberi Penghargaan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>-</Typography>
+          Cell: () => <Typography>{item?.awarding_institution || '-'}</Typography>
         },
         {
           Header: 'Tanggal Terima',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>-</Typography>
+          Cell: () => <Typography>{item?.date_of_receipt || '-'}</Typography>
         }
       ]
     })

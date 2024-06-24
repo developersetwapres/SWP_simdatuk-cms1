@@ -42,7 +42,6 @@ const dataPegawai = [
   'Data Pegawai',
   'Riwayat Pendidikan',
   'Riwayat Golongan',
-  // 'Riwayat Gaji',
   'Riwayat Pelatihan Struktural',
   'Riwayat Pelatihan Fungsional',
   'Riwayat Pelatihan Teknis',

@@ -45,19 +45,19 @@ const RiwayatPrestasiKerja = ({ detail }) => {
           Header: 'Periode PPK',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>-</Typography>
+          Cell: () => <Typography>{item?.period_year || '-'}</Typography>
         },
         {
           Header: 'Nilai Prestasi Kerja',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>-</Typography>
+          Cell: () => <Typography>{item?.work_performance_score || '-'}</Typography>
         },
         {
           Header: 'Keterangan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>-</Typography>
+          Cell: () => <Typography>{'-'}</Typography>
         }
       ]
     })
