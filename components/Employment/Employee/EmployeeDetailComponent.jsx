@@ -7,7 +7,6 @@ import ListNavigation from '@/components/core/ListNavigation'
 import RiwayatPendidikanSection from './Section/RiwayatPendidikanSection'
 import RiwayatJabatanSection from './Section/RiwayatJabatanSection'
 import RiwayatGolonganSection from './Section/RiwayatGolongan'
-import RiwayatGajiSection from './Section/RiwayatGajiSection'
 import PelatihanStrukturalSection from './Section/PelatihanStrukturalSection'
 import PelatihanFungsionalSection from './Section/PelatihanFungsional'
 import RiwayatPelatihanTeknisSection from './Section/RiwayatPelatihanTeknisSection'
@@ -193,11 +192,6 @@ const EmployeeDetailComponent = ({
         </Grid>
         <Grid item xs={12} id='riwayat_golongan'>
           <RiwayatGolonganSection
-            detail={data}
-          />
-        </Grid>
-        <Grid item xs={12} id='riwayat_gaji'>
-          <RiwayatGajiSection
             detail={data}
           />
         </Grid>
