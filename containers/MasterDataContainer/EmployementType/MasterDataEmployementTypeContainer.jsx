@@ -23,7 +23,8 @@ export default connect(
         queries: {
           page: 1,
           limit: 10,
-          search: ''
+          search: '',
+          type: ''
         },
         willRender: false
       }
