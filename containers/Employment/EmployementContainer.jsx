@@ -7,7 +7,13 @@ import Layout from '@/components/core/Layout'
 import EmploymentComponent from '@/components/Employment/EmploymentComponent'
 
 export default connect(
-  mapStateToProps('recapComposition', 'recapASN', 'recapNonASN', 'recapOutsource'),
+  mapStateToProps(
+    'recapComposition',
+    'recapASN',
+    'recapNonASN',
+    'recapOutsource',
+    'exportRecapData'
+  ),
   mapActions(
     'getCompositions',
     'getCompositionsCategories',
@@ -17,6 +23,7 @@ export default connect(
     'getNonASNRecapByCategory',
     'getOutsourceRecap',
     'getOutsourceRecapByCategory',
+    'exportRecap'
   )
 )(
   class EmploymentContainer extends Component {
@@ -25,6 +32,7 @@ export default connect(
       recapASN: PropTypes.object,
       recapNonASN: PropTypes.object,
       recapOutsource: PropTypes.object,
+      exportRecapData: PropTypes.object,
       getCompositions: PropTypes.func,
       getCompositionsCategories: PropTypes.func,
       getASNRecap: PropTypes.func,
@@ -32,7 +40,8 @@ export default connect(
       getNonASNRecap: PropTypes.func,
       getNonASNRecapByCategory: PropTypes.func,
       getOutsourceRecap: PropTypes.func,
-      getOutsourceRecapByCategory: PropTypes.func
+      getOutsourceRecapByCategory: PropTypes.func,
+      exportRecap: PropTypes.func
     }
 
     constructor(props) {

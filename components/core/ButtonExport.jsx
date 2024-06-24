@@ -75,7 +75,7 @@ function ButtonExport({ data }) {
 }
 
 ButtonExport.propTypes = {
-  data: PropTypes.object
+  data: PropTypes.array
 }
 
 export default ButtonExport

@@ -9,6 +9,9 @@ import Card from '../shared/Card/Index'
 import LayoutPages from '../core/LayoutPages'
 import ButtonExport from '../core/ButtonExport'
 import { v4 as uuidv4 } from 'uuid'
+import { useDispatch } from 'react-redux'
+import { CLEAR_EXPORT_RECAP_STATE } from '@/store/constants'
+import { dateTimeFormat } from '@/utils/index'
 
 const EmploymentComponent = ({
   recapData,
@@ -16,32 +19,37 @@ const EmploymentComponent = ({
   recapASN,
   recapNonASN,
   recapOutsource,
+  exportRecapData,
   getRecapData = () => { },
   setRecapData = () => { },
+  exportRecap = () => { },
   setRender = () => { }
 }) => {
   const router = useRouter()
+  const dispatch = useDispatch()
   // Path
   useEffect(() => {
     getRecapData(router.asPath)
-  }, [router.asPath])
+  }, [router])
 
   // Loading
   useEffect(() => {
-    setRender(!recapComposition?.loading)
-  }, [recapComposition?.loading])
-
-  useEffect(() => {
-    setRender(!recapASN?.loading)
-  }, [recapASN?.loading])
-
-  useEffect(() => {
-    setRender(!recapNonASN?.loading)
-  }, [recapNonASN?.loading])
-
-  useEffect(() => {
-    setRender(!recapOutsource?.loading)
-  }, [recapOutsource?.loading])
+    setRender(
+      !(
+        recapComposition?.loading ||
+        recapASN?.loading ||
+        recapNonASN?.loading ||
+        recapOutsource?.loading ||
+        exportRecapData?.loading
+      )
+    )
+  }, [
+    recapComposition?.loading,
+    recapASN?.loading,
+    recapNonASN?.loading,
+    recapOutsource?.loading,
+    exportRecapData?.loading
+  ])
 
   // Composition
   useEffect(() => {
@@ -65,22 +73,70 @@ const EmploymentComponent = ({
 
   // Recap Data
   useEffect(() => {
-    console.log('RECAP: ', recapData)
-  }, [recapData])
+    if (exportRecapData?.data) saveFile(exportRecapData?.data)
+  }, [exportRecapData])
+
+  const saveFile = (resp) => {
+    // set the blog type to final pdf
+    const file = new Blob([resp], { type: 'application/pdf' })
+
+    // process to auto download it
+    const fileURL = URL.createObjectURL(file)
+    const link = document.createElement('a')
+    link.href = fileURL
+    link.download = getFileName()
+    link.click()
+    dispatch({ type: CLEAR_EXPORT_RECAP_STATE })
+  }
+
+  const getFileName = () => {
+    const currentPage = router?.asPath
+    const dateNow = dateTimeFormat(new Date())?.replace(' ', '_')
+    let prefix = 'DATA_ASN_'
+
+    if (currentPage?.includes('komposisi')) {
+      prefix = 'DATA_KESELURUHAN_'
+    } else if (currentPage?.includes('pegawai-asn')) {
+      prefix = 'DATA_ASN_'
+    } else if (currentPage?.includes('non-asn')) {
+      prefix = 'DATA_NON_ASN_'
+    } else {
+      prefix = 'DATA_OUTSOURCING_'
+    }
+
+    return prefix + dateNow + '.pdf'
+  }
+
+  const exportPDF = () => {
+    const currentPage = router?.asPath
+    let type = 1
+
+    if (currentPage?.includes('komposisi')) {
+      type = 1
+    } else if (currentPage?.includes('pegawai-asn')) {
+      type = 2
+    } else if (currentPage?.includes('non-asn')) {
+      type = 3
+    } else {
+      type = 4
+    }
+
+    exportRecap(type)
+  }
 
   const action = useMemo(() => {
     return (
       <Box sx={{ marginTop: '12px', display: 'flex', gap: 1 }}>
         <ButtonExport
           data={[
-            { name: 'PDF', action: () => { } },
+            { name: 'PDF', action: () => exportPDF() },
             { name: 'XLS', action: () => { } },
             { name: 'CSV', action: () => { } }
           ]}
         />
       </Box>
     )
-  }, [])
+  }, [router])
 
   return (
     <LayoutPages
@@ -112,22 +168,6 @@ const RecapItem = ({
   const router = useRouter()
 
   const nextPagePath = (title, idx) => {
-    // if (
-    //   router.asPath?.includes('komposisi') ||
-    //   router.asPath?.includes('pegawai-asn')
-    // ) {
-    //   return `${router?.asPath}/${btoa(idx + 1)}`
-    // }
-
-    // if (
-    //   router.asPath?.includes('pegawai-asn') &&
-    //   title?.toLowerCase()?.includes('keterangan jabatan')
-    // ) {
-    //   return `${router?.asPath}/${btoa(idx + 1)}`
-    // }
-
-    // return router.asPath
-
     return `${router?.asPath}/${btoa(idx + 1)}`
   }
 
@@ -208,6 +248,7 @@ const RecapItem = ({
 }
 
 EmploymentComponent.propTypes = {
+  exportRecapData: PropTypes.object,
   recapData: PropTypes.object,
   recapComposition: PropTypes.object,
   recapASN: PropTypes.object,
@@ -215,6 +256,7 @@ EmploymentComponent.propTypes = {
   recapOutsource: PropTypes.object,
   getRecapData: PropTypes.func,
   setRecapData: PropTypes.func,
+  exportRecap: PropTypes.func,
   setRender: PropTypes.func
 }
 
