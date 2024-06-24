@@ -61,6 +61,12 @@ function* postAuthentication(action) {
       })
       setStorages([
         {
+          name: 'user_info',
+          value: JSON.stringify(payload.user)
+        }
+      ])
+      setStorages([
+        {
           name: 'setneg_token',
           value: payload.token
         }

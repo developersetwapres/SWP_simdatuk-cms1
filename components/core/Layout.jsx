@@ -14,6 +14,7 @@ import ModalLogout from '../shared/Modal/ModalLogout'
 import { useDispatch } from 'react-redux'
 import { AUTHENTICATION_LOGOUT_REQUESTED } from '@/store/constants'
 import { useRouter } from 'next/router'
+import { getStorage } from '@/utils/storage'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -103,6 +104,7 @@ function Layout({ children, window, willRender }) {
   const classes = useStyles()
   const dispatch = useDispatch()
   const router = useRouter()
+  const userInfo = JSON.parse(getStorage('user_info'))
 
   const [mobile, setMobile] = useState(false)
   const [isLogout, setIsLogout] = useState(false)
@@ -164,15 +166,16 @@ function Layout({ children, window, willRender }) {
               alignItems: 'center',
               justifyContent: 'center',
               borderRadius: '50%',
-              overflow: 'hidden',
-              backgroundColor: '#fff'
+              overflow: 'hidden'
             }}
           >
-            <Image
-              src='/simdatuk/profile.png'
+            <img
+              src={userInfo?.photo_profile}
               alt='logo'
-              width={50}
-              height={50}
+              style={{
+                width: '100%',
+                height: 'fit-content'
+              }}
             />
           </Box>
           <Box>
@@ -182,10 +185,10 @@ function Layout({ children, window, willRender }) {
               fontSize='16px'
               fontWeight='600'
             >
-              Sabio Ekuator
+              {userInfo?.username}
             </Typography>
             <Typography variant='p' component='p'>
-              Administrator
+              {userInfo?.role?.name}
             </Typography>
           </Box>
         </Box>
