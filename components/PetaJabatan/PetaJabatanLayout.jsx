@@ -175,7 +175,7 @@ const PetaJabatanLayout = ({ data, children }) => {
                     <Button
                       text='Lihat Profil'
                       onClick={() =>
-                        router.push('/rekapitulasi/peta-jabatan/detail/1')
+                        router.push(`/rekapitulasi/peta-jabatan/detail/${btoa(1)}`)
                       }
                       sx={{
                         backgroundColor: '#394346',
