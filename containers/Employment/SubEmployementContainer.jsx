@@ -49,6 +49,8 @@ export default connect(
 
     getRecapData(router) {
       const pagePath = router.asPath
+      if (!router.query?.subEmployment) return
+
       const query = window.atob(router.query?.subEmployment)
 
       if (pagePath?.includes('komposisi')) {
