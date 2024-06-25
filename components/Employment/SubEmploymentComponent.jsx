@@ -63,18 +63,16 @@ const SubEmploymentComponent = ({
     setRecapData(recapOutsource?.data)
   }, [recapOutsource?.data])
 
-  // Recap Data
-  useEffect(() => {
-    console.log('RECAP: ', recapData)
-  }, [recapData])
-
   return (
     <LayoutPages
       handleBack={() => router.back()}
       summary={recapData?.name}
-      count={`Total Keseluruhan : ${recapData?.total}`}
+      count={`Total Keseluruhan: ${recapData?.total}`}
     >
-      <Grid container spacing={3}>
+      <Grid
+        container
+        spacing={3}
+      >
         {recapData?.cards?.map((item) => (
           <RecapItem
             key={uuidv4()}
@@ -144,7 +142,7 @@ const RecapItem = ({
           container
           spacing={3}
           alignItems='start'
-          justifyContent='space-between'
+          justifyContent='flex-start'
         >
           {cards?.map((itm, idx) => (
             <Grid
