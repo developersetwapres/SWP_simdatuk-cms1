@@ -1,5 +1,4 @@
 import {
-  GET_POSITIONS_OPTIONS_REQUESTED,
   GET_POSITIONS_ORDERS_REQUESTED,
   GET_POSITIONS_REQUESTED,
   GET_POSITION_REQUESTED,
@@ -8,17 +7,6 @@ import {
   DELETE_POSITION_REQUESTED,
   CLEAR_POSITION_STATE
 } from '../../constants'
-
-/**
- * Get Positions Options
- *
- * @param {*} payload
- * @returns
- */
-export const getPositionsOptions = (payload) => ({
-  type: GET_POSITIONS_OPTIONS_REQUESTED,
-  payload
-})
 
 /**
  * Get Positions Orders

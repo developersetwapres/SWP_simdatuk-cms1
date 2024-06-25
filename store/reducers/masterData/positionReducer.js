@@ -1,8 +1,5 @@
 /* eslint-disable indent */
 import {
-  GET_POSITIONS_OPTIONS_REQUESTED,
-  GET_POSITIONS_OPTIONS_SUCCESS,
-  GET_POSITIONS_OPTIONS_FAILED,
   GET_POSITIONS_ORDERS_REQUESTED,
   GET_POSITIONS_ORDERS_SUCCESS,
   GET_POSITIONS_ORDERS_FAILED,
@@ -31,7 +28,6 @@ const initialState = {
   detail: {},
   pagination: {},
   data: [],
-  options: [],
   orders: []
 }
 
@@ -40,23 +36,6 @@ export const position = (state = initialState, action) => {
   const payload = action?.payload
 
   switch (action.type) {
-    case GET_POSITIONS_OPTIONS_REQUESTED:
-      return {
-        ...state,
-        loading: true
-      }
-    case GET_POSITIONS_OPTIONS_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        options: payload?.data
-      }
-    case GET_POSITIONS_OPTIONS_FAILED:
-      return {
-        ...state,
-        loading: false,
-        error: payload?.error
-      }
     case GET_POSITIONS_ORDERS_REQUESTED:
       return {
         ...state,

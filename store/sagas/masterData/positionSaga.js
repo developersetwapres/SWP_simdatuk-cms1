@@ -6,9 +6,6 @@
  */
 import { call, put, takeEvery } from '@redux-saga/core/effects'
 import {
-  GET_POSITIONS_OPTIONS_REQUESTED,
-  GET_POSITIONS_OPTIONS_SUCCESS,
-  GET_POSITIONS_OPTIONS_FAILED,
   GET_POSITIONS_ORDERS_REQUESTED,
   GET_POSITIONS_ORDERS_SUCCESS,
   GET_POSITIONS_ORDERS_FAILED,
@@ -34,54 +31,10 @@ import {
   deletePositionAction,
   getPositionAction,
   getPositionsAction,
-  getPositionsOptionsAction,
   getPositionsOrdersAction,
   postPositionAction,
   updatePositionAction
 } from '../action/masterData/positionAction'
-
-/**
- * Get Positions Options
- *
- * @param {*} action
- * @returns
- */
-function* getPositionsOptions(action) {
-  try {
-    const res = yield call(getPositionsOptionsAction, action?.payload)
-
-    const payload = res?.data
-
-    yield put({
-      type: GET_POSITIONS_OPTIONS_SUCCESS,
-      payload
-    })
-  } catch (err) {
-    const errors = err?.data
-    if (errors?.code === 403) {
-      yield put({
-        type: ACTION_RESPONSER,
-        payload: {
-          code: errors?.code,
-          message: errors?.message,
-          redirect: '/profile'
-        }
-      })
-    } else {
-      if (errors?.code === 400) {
-        yield put({
-          type: CATCH_ERROR,
-          payload: errors?.message
-        })
-      } else {
-        yield put({
-          type: GET_POSITIONS_OPTIONS_FAILED,
-          payload: errors?.message
-        })
-      }
-    }
-  }
-}
 
 /**
  * Get Positions Orders
@@ -387,7 +340,6 @@ function* updatePosition(action) {
 }
 
 function* PositionSaga() {
-  yield takeEvery(GET_POSITIONS_OPTIONS_REQUESTED, getPositionsOptions)
   yield takeEvery(GET_POSITIONS_ORDERS_REQUESTED, getPositionsOrders)
   yield takeEvery(GET_POSITIONS_REQUESTED, getPositions)
   yield takeEvery(GET_POSITION_REQUESTED, getPosition)

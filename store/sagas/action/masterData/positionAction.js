@@ -4,17 +4,6 @@ import { queryParams } from '@/utils/'
 const basePath = '/positions'
 
 /**
- * GET POSITIONS OPTIONS ACTION
- *
- * @param {*} payload
- * @returns
- */
-export const getPositionsOptionsAction = (payload) => {
-  const { page, limit, search } = payload
-  return get(`/positions${queryParams(page, limit, search)}`)
-}
-
-/**
  * GET POSITIONS ORDERS ACTION
  *
  * @param {*} payload
