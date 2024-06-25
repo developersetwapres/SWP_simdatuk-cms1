@@ -17,7 +17,7 @@ const months = [
   { id: 7, text: 'Juli' },
   { id: 8, text: 'Agustus' },
   { id: 9, text: 'September' },
-  { id: 10, text: 'OKtober' },
+  { id: 10, text: 'Oktober' },
   { id: 11, text: 'November' },
   { id: 12, text: 'Desember' }
 ]
