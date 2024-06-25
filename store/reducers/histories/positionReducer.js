@@ -1,24 +1,21 @@
 /* eslint-disable indent */
 import {
-  GET_POSITIONS_OPTIONS_REQUESTED,
-  GET_POSITIONS_OPTIONS_SUCCESS,
-  GET_POSITIONS_OPTIONS_FAILED,
-  GET_POSITIONS_REQUESTED,
-  GET_POSITIONS_SUCCESS,
-  GET_POSITIONS_FAILED,
-  GET_POSITION_REQUESTED,
-  GET_POSITION_SUCCESS,
-  GET_POSITION_FAILED,
-  POST_POSITION_REQUESTED,
-  POST_POSITION_SUCCESS,
-  POST_POSITION_FAILED,
-  UPDATE_POSITION_REQUESTED,
-  UPDATE_POSITION_SUCCESS,
-  UPDATE_POSITION_FAILED,
-  DELETE_POSITION_REQUESTED,
-  DELETE_POSITION_SUCCESS,
-  DELETE_POSITION_FAILED,
-  CLEAR_POSITION_STATE
+  GET_POSITIONS_HISTORIES_REQUESTED,
+  GET_POSITIONS_HISTORIES_SUCCESS,
+  GET_POSITIONS_HISTORIES_FAILED,
+  GET_POSITION_HISTORIES_REQUESTED,
+  GET_POSITION_HISTORIES_SUCCESS,
+  GET_POSITION_HISTORIES_FAILED,
+  POST_POSITION_HISTORIES_REQUESTED,
+  POST_POSITION_HISTORIES_SUCCESS,
+  POST_POSITION_HISTORIES_FAILED,
+  UPDATE_POSITION_HISTORIES_REQUESTED,
+  UPDATE_POSITION_HISTORIES_SUCCESS,
+  UPDATE_POSITION_HISTORIES_FAILED,
+  DELETE_POSITION_HISTORIES_REQUESTED,
+  DELETE_POSITION_HISTORIES_SUCCESS,
+  DELETE_POSITION_HISTORIES_FAILED,
+  CLEAR_POSITION_HISTORIES_STATE
 } from '../../constants'
 
 const initialState = {
@@ -28,123 +25,107 @@ const initialState = {
   detail: {},
   pagination: {},
   data: [],
-  options: []
+  options: [],
+  orders: []
 }
 
 // eslint-disable-next-line no-unused-vars
-export const position = (state = initialState, action) => {
+export const positionHistories = (state = initialState, action) => {
   const payload = action?.payload
 
   switch (action.type) {
-    case GET_POSITIONS_OPTIONS_REQUESTED:
+    case GET_POSITIONS_HISTORIES_REQUESTED:
       return {
         ...state,
         loading: true
       }
-    case GET_POSITIONS_OPTIONS_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        options: payload?.data
-      }
-    case GET_POSITIONS_OPTIONS_FAILED:
-      return {
-        ...state,
-        loading: false,
-        error: payload?.error
-      }
-    case GET_POSITIONS_REQUESTED:
-      return {
-        ...state,
-        loading: true
-      }
-    case GET_POSITIONS_SUCCESS:
+    case GET_POSITIONS_HISTORIES_SUCCESS:
       return {
         ...state,
         loading: false,
         data: payload?.data,
         pagination: payload?.pagination
       }
-    case GET_POSITIONS_FAILED:
+    case GET_POSITIONS_HISTORIES_FAILED:
       return {
         ...state,
         loading: false,
         error: payload?.error
       }
-    case GET_POSITION_REQUESTED:
+    case GET_POSITION_HISTORIES_REQUESTED:
       return {
         ...state,
         loading: true
       }
-    case GET_POSITION_SUCCESS:
+    case GET_POSITION_HISTORIES_SUCCESS:
       return {
         ...state,
         loading: false,
         detail: payload?.data
       }
-    case GET_POSITION_FAILED:
+    case GET_POSITION_HISTORIES_FAILED:
       return {
         ...state,
         loading: false,
         error: payload?.error
       }
-    case POST_POSITION_REQUESTED:
+    case POST_POSITION_HISTORIES_REQUESTED:
       return {
         ...state,
         loading: true,
         isSubmit: true
       }
-    case POST_POSITION_SUCCESS:
+    case POST_POSITION_HISTORIES_SUCCESS:
       return {
         ...state,
         loading: false,
         isSubmit: false
       }
-    case POST_POSITION_FAILED:
+    case POST_POSITION_HISTORIES_FAILED:
       return {
         ...state,
         loading: false,
         isSubmit: false,
         error: payload?.error
       }
-    case DELETE_POSITION_REQUESTED:
+    case DELETE_POSITION_HISTORIES_REQUESTED:
       return {
         ...state,
         loading: true,
         isSubmit: true
       }
-    case DELETE_POSITION_SUCCESS:
+    case DELETE_POSITION_HISTORIES_SUCCESS:
       return {
         ...state,
         loading: false,
         isSubmit: false
       }
-    case DELETE_POSITION_FAILED:
+    case DELETE_POSITION_HISTORIES_FAILED:
       return {
         ...state,
         loading: false,
         isSubmit: false,
         error: payload?.error
       }
-    case UPDATE_POSITION_REQUESTED:
+    case UPDATE_POSITION_HISTORIES_REQUESTED:
       return {
         ...state,
         loading: true,
         isSubmit: true
       }
-    case UPDATE_POSITION_SUCCESS:
+    case UPDATE_POSITION_HISTORIES_SUCCESS:
       return {
         ...state,
         loading: false,
         isSubmit: false
       }
-    case UPDATE_POSITION_FAILED:
+    case UPDATE_POSITION_HISTORIES_FAILED:
       return {
         ...state,
         loading: false,
         isSubmit: false
       }
-    case CLEAR_POSITION_STATE:
+    case CLEAR_POSITION_HISTORIES_STATE:
       return {
         isSubmit: false,
         error: null,

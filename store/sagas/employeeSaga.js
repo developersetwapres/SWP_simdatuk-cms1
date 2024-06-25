@@ -21,7 +21,8 @@ import {
   DELETE_EMPLOYEE_REQUESTED,
   DELETE_EMPLOYEE_SUCCESS,
   DELETE_EMPLOYEE_FAILED,
-  CATCH_ERROR
+  CATCH_ERROR,
+  SET_MODAL
 } from '../constants'
 import {
   deleteEmployeeAction,

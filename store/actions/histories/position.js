@@ -1,23 +1,11 @@
 import {
-  GET_POSITIONS_OPTIONS_REQUESTED,
-  GET_POSITIONS_REQUESTED,
-  GET_POSITION_REQUESTED,
-  POST_POSITION_REQUESTED,
-  UPDATE_POSITION_REQUESTED,
-  DELETE_POSITION_REQUESTED,
-  CLEAR_POSITION_STATE
+  GET_POSITIONS_HISTORIES_REQUESTED,
+  GET_POSITION_HISTORIES_REQUESTED,
+  POST_POSITION_HISTORIES_REQUESTED,
+  UPDATE_POSITION_HISTORIES_REQUESTED,
+  DELETE_POSITION_HISTORIES_REQUESTED,
+  CLEAR_POSITION_HISTORIES_STATE
 } from '../../constants'
-
-/**
- * Get Positions Options
- *
- * @param {*} payload
- * @returns
- */
-export const getPositionsOptions = (payload) => ({
-  type: GET_POSITIONS_OPTIONS_REQUESTED,
-  payload
-})
 
 /**
  * Get Positions
@@ -25,8 +13,8 @@ export const getPositionsOptions = (payload) => ({
  * @param {*} payload
  * @returns
  */
-export const getPositions = (payload) => ({
-  type: GET_POSITIONS_REQUESTED,
+export const getPositionsHistories = (payload) => ({
+  type: GET_POSITIONS_HISTORIES_REQUESTED,
   payload
 })
 
@@ -36,8 +24,8 @@ export const getPositions = (payload) => ({
  * @param {*} payload
  * @returns
  */
-export const getPosition = (payload) => ({
-  type: GET_POSITION_REQUESTED,
+export const getPositionHistories = (payload) => ({
+  type: GET_POSITION_HISTORIES_REQUESTED,
   payload
 })
 
@@ -47,8 +35,8 @@ export const getPosition = (payload) => ({
  * @param {*} id
  * @returns
  */
-export const deletePosition = (id) => ({
-  type: DELETE_POSITION_REQUESTED,
+export const deletePositionHistories = (id) => ({
+  type: DELETE_POSITION_HISTORIES_REQUESTED,
   payload: id
 })
 
@@ -58,8 +46,8 @@ export const deletePosition = (id) => ({
  * @param {*} payload
  * @returns
  */
-export const postPosition = (payload) => ({
-  type: POST_POSITION_REQUESTED,
+export const postPositionHistories = (payload) => ({
+  type: POST_POSITION_HISTORIES_REQUESTED,
   payload
 })
 
@@ -69,8 +57,8 @@ export const postPosition = (payload) => ({
  * @param {*} payload
  * @returns
  */
-export const updatePosition = (payload) => ({
-  type: UPDATE_POSITION_REQUESTED,
+export const updatePositionHistories = (payload) => ({
+  type: UPDATE_POSITION_HISTORIES_REQUESTED,
   payload
 })
 
@@ -80,6 +68,6 @@ export const updatePosition = (payload) => ({
  * @param {*} id
  * @returns
  */
-export const clearPositionState = () => ({
-  type: CLEAR_POSITION_STATE
+export const clearPositionHistoriesState = () => ({
+  type: CLEAR_POSITION_HISTORIES_STATE
 })

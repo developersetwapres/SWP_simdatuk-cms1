@@ -15,6 +15,7 @@ import roleSaga from './masterData/roleSaga'
 import echelonSaga from './masterData/echelonSaga'
 import institutionSaga from './masterData/institutionSaga'
 import employmentTypeSaga from './masterData/employmentTypeSaga'
+import positionSaga from './masterData/positionSaga'
 
 // Dashboard
 import dashboardSaga from './dashboardSaga'
@@ -29,7 +30,7 @@ import outsourceSaga from './recap/outsourceSaga'
 import employeeSaga from './employeeSaga'
 
 // History
-import positionSaga from './histories/positionSaga'
+import positionHistoriesSaga from './histories/positionSaga'
 import gradeSaga from './histories/gradeSaga'
 import recognitionSaga from './histories/recognitionSaga'
 import trainingSaga from './histories/trainingSaga'
@@ -53,7 +54,7 @@ export default function* rootSaga() {
     asnSaga(),
     nonASNSaga(),
     outsourceSaga(),
-    positionSaga(),
+    positionHistoriesSaga(),
     gradeSaga(),
     recognitionSaga(),
     decreeSaga(),
@@ -65,6 +66,7 @@ export default function* rootSaga() {
     employmentTypeSaga(),
     residenceSaga(),
     exportDRHSaga(),
-    exportRecapSaga()
+    exportRecapSaga(),
+    positionSaga()
   ])
 }

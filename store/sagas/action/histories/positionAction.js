@@ -4,23 +4,12 @@ import { queryParams } from '@/utils/'
 const basePath = '/position-histories'
 
 /**
- * GET POSITIONS OPTIONS ACTION
- *
- * @param {*} payload
- * @returns
- */
-export const getPositionsOptionsAction = (payload) => {
-  const { page, limit, search } = payload
-  return get(`/positions${queryParams(page, limit, search)}`)
-}
-
-/**
  * GET POSITIONS ACTION
  *
  * @param {*} payload
  * @returns
  */
-export const getPositionsAction = (payload) => {
+export const getPositionsHistoriesAction = (payload) => {
   const { page, limit, search, type } = payload
   const moreParams = type ? `&type=${type}` : ''
   return get(`${basePath}${queryParams(page, limit, search)}${moreParams}`)
@@ -32,7 +21,7 @@ export const getPositionsAction = (payload) => {
  * @param {*} id
  * @returns
  */
-export const getPositionAction = (id) => {
+export const getPositionHistoriesAction = (id) => {
   return get(`${basePath}/${id}`)
 }
 
@@ -42,7 +31,7 @@ export const getPositionAction = (id) => {
  * @param {*} id
  * @returns
  */
-export const deletePositionAction = (id) => {
+export const deletePositionHistoriesAction = (id) => {
   return del(`${basePath}/${id}`)
 }
 
@@ -52,7 +41,7 @@ export const deletePositionAction = (id) => {
  * @param {*} payload
  * @returns
  */
-export const postPositionAction = (payload) => {
+export const postPositionHistoriesAction = (payload) => {
   return post(`${basePath}`, payload)
 }
 
@@ -62,6 +51,6 @@ export const postPositionAction = (payload) => {
  * @param {*} payload
  * @returns
  */
-export const updatePositionAction = (payload) => {
+export const updatePositionHistoriesAction = (payload) => {
   return post(`${basePath}/${payload?.id}`, payload?.data)
 }

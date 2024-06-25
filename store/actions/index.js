@@ -9,6 +9,7 @@ import * as role from './masterData/role'
 import * as echelon from './masterData/echelon'
 import * as institution from './masterData/institution'
 import * as employmentType from './masterData/employmentType'
+import * as position from './masterData/position'
 
 // Dashboard
 import * as dashboard from './dashboard'
@@ -23,7 +24,7 @@ import * as recapOutsource from './recap/outsource'
 import * as employee from './employee'
 
 // History
-import * as position from './histories/position'
+import * as positionHistories from './histories/position'
 import * as grade from './histories/grade'
 import * as recognition from './histories/recognition'
 import * as training from './histories/training'
@@ -52,7 +53,7 @@ const actions = {
   ...echelon,
   ...employee,
   ...dashboard,
-  ...position,
+  ...positionHistories,
   ...grade,
   ...recognition,
   ...decree,
@@ -64,7 +65,8 @@ const actions = {
   ...employmentType,
   ...residence,
   ...exportDRH,
-  ...exportRecap
+  ...exportRecap,
+  ...position
 }
 
 export default actions

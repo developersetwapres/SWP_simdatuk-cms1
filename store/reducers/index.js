@@ -9,6 +9,7 @@ import * as userReducer from './masterData/userReducer'
 import * as echelonReducer from './masterData/echelonReducer'
 import * as institutionReducer from './masterData/institutionReducer'
 import * as employmentTypeReducer from './masterData/employmentTypeReducer'
+import * as positionReducer from './masterData/positionReducer'
 
 // Dashboard
 import * as dashboardReducer from './dashboardReducer'
@@ -23,7 +24,7 @@ import * as outsourceReducer from './recap/outsourceReducer'
 import * as employeeReducer from './employeeReducer'
 
 // History
-import * as positionReducer from './histories/positionReducer'
+import * as positionHistoriesReducer from './histories/positionReducer'
 import * as gradeReducer from './histories/gradeReducer'
 import * as recognitionReducer from './histories/recognitionReducer'
 import * as trainingReducer from './histories/trainingReducer'
@@ -56,7 +57,7 @@ const reducers = {
   ...userReducer,
   ...echelonReducer,
   ...employeeReducer,
-  ...positionReducer,
+  ...positionHistoriesReducer,
   ...gradeReducer,
   ...recognitionReducer,
   ...decreeReducer,
@@ -68,7 +69,8 @@ const reducers = {
   ...employmentTypeReducer,
   ...residenceReducer,
   ...exportDRHReducer,
-  ...exportRecapReducer
+  ...exportRecapReducer,
+  ...positionReducer
 }
 
 export default reducers

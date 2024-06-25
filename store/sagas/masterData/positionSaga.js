@@ -6,31 +6,125 @@
  */
 import { call, put, takeEvery } from '@redux-saga/core/effects'
 import {
-  GET_POSITIONS_HISTORIES_REQUESTED,
-  GET_POSITIONS_HISTORIES_SUCCESS,
-  GET_POSITIONS_HISTORIES_FAILED,
-  GET_POSITION_HISTORIES_REQUESTED,
-  GET_POSITION_HISTORIES_SUCCESS,
-  GET_POSITION_HISTORIES_FAILED,
-  POST_POSITION_HISTORIES_REQUESTED,
-  POST_POSITION_HISTORIES_SUCCESS,
-  POST_POSITION_HISTORIES_FAILED,
-  UPDATE_POSITION_HISTORIES_REQUESTED,
-  UPDATE_POSITION_HISTORIES_SUCCESS,
-  UPDATE_POSITION_HISTORIES_FAILED,
-  DELETE_POSITION_HISTORIES_REQUESTED,
-  DELETE_POSITION_HISTORIES_SUCCESS,
-  DELETE_POSITION_HISTORIES_FAILED,
+  GET_POSITIONS_OPTIONS_REQUESTED,
+  GET_POSITIONS_OPTIONS_SUCCESS,
+  GET_POSITIONS_OPTIONS_FAILED,
+  GET_POSITIONS_ORDERS_REQUESTED,
+  GET_POSITIONS_ORDERS_SUCCESS,
+  GET_POSITIONS_ORDERS_FAILED,
+  GET_POSITIONS_REQUESTED,
+  GET_POSITIONS_SUCCESS,
+  GET_POSITIONS_FAILED,
+  GET_POSITION_REQUESTED,
+  GET_POSITION_SUCCESS,
+  GET_POSITION_FAILED,
+  POST_POSITION_REQUESTED,
+  POST_POSITION_SUCCESS,
+  POST_POSITION_FAILED,
+  UPDATE_POSITION_REQUESTED,
+  UPDATE_POSITION_SUCCESS,
+  UPDATE_POSITION_FAILED,
+  DELETE_POSITION_REQUESTED,
+  DELETE_POSITION_SUCCESS,
+  DELETE_POSITION_FAILED,
   SET_MODAL,
   ACTION_RESPONSER
 } from '../../constants'
 import {
-  deletePositionHistoriesAction,
-  getPositionsHistoriesAction,
-  getPositionHistoriesAction,
-  postPositionHistoriesAction,
-  updatePositionHistoriesAction
-} from '../action/histories/positionAction'
+  deletePositionAction,
+  getPositionAction,
+  getPositionsAction,
+  getPositionsOptionsAction,
+  getPositionsOrdersAction,
+  postPositionAction,
+  updatePositionAction
+} from '../action/masterData/positionAction'
+
+/**
+ * Get Positions Options
+ *
+ * @param {*} action
+ * @returns
+ */
+function* getPositionsOptions(action) {
+  try {
+    const res = yield call(getPositionsOptionsAction, action?.payload)
+
+    const payload = res?.data
+
+    yield put({
+      type: GET_POSITIONS_OPTIONS_SUCCESS,
+      payload
+    })
+  } catch (err) {
+    const errors = err?.data
+    if (errors?.code === 403) {
+      yield put({
+        type: ACTION_RESPONSER,
+        payload: {
+          code: errors?.code,
+          message: errors?.message,
+          redirect: '/profile'
+        }
+      })
+    } else {
+      if (errors?.code === 400) {
+        yield put({
+          type: CATCH_ERROR,
+          payload: errors?.message
+        })
+      } else {
+        yield put({
+          type: GET_POSITIONS_OPTIONS_FAILED,
+          payload: errors?.message
+        })
+      }
+    }
+  }
+}
+
+/**
+ * Get Positions Orders
+ *
+ * @param {*} action
+ * @returns
+ */
+function* getPositionsOrders(action) {
+  try {
+    const res = yield call(getPositionsOrdersAction, action?.payload)
+
+    const payload = res?.data
+
+    yield put({
+      type: GET_POSITIONS_ORDERS_SUCCESS,
+      payload
+    })
+  } catch (err) {
+    const errors = err?.data
+    if (errors?.code === 403) {
+      yield put({
+        type: ACTION_RESPONSER,
+        payload: {
+          code: errors?.code,
+          message: errors?.message,
+          redirect: '/profile'
+        }
+      })
+    } else {
+      if (errors?.code === 400) {
+        yield put({
+          type: CATCH_ERROR,
+          payload: errors?.message
+        })
+      } else {
+        yield put({
+          type: GET_POSITIONS_ORDERS_FAILED,
+          payload: errors?.message
+        })
+      }
+    }
+  }
+}
 
 /**
  * Get Positions
@@ -40,12 +134,12 @@ import {
  */
 function* getPositions(action) {
   try {
-    const res = yield call(getPositionsHistoriesAction, action?.payload)
+    const res = yield call(getPositionsAction, action?.payload)
 
     const payload = res?.data
 
     yield put({
-      type: GET_POSITIONS_HISTORIES_SUCCESS,
+      type: GET_POSITIONS_SUCCESS,
       payload
     })
   } catch (err) {
@@ -75,7 +169,7 @@ function* getPositions(action) {
           }
         })
         yield put({
-          type: GET_POSITIONS_HISTORIES_FAILED,
+          type: GET_POSITIONS_FAILED,
           payload: errors?.message
         })
       }
@@ -91,12 +185,12 @@ function* getPositions(action) {
  */
 function* getPosition(action) {
   try {
-    const res = yield call(getPositionHistoriesAction, action?.payload)
+    const res = yield call(getPositionAction, action?.payload)
 
     const payload = res?.data
 
     yield put({
-      type: GET_POSITION_HISTORIES_SUCCESS,
+      type: GET_POSITION_SUCCESS,
       payload
     })
   } catch (err) {
@@ -118,11 +212,11 @@ function* getPosition(action) {
           code: errors?.code,
           message: 'Warning!',
           childMessage: errors?.message,
-          redirect: '/data-riwayat/jabatan'
+          redirect: '/master-data/position'
         }
       })
       yield put({
-        type: GET_POSITION_HISTORIES_FAILED,
+        type: GET_POSITION_FAILED,
         payload: { error: errors?.message }
       })
     }
@@ -137,12 +231,12 @@ function* getPosition(action) {
  */
 function* deletePosition(action) {
   try {
-    const res = yield call(deletePositionHistoriesAction, action?.payload)
+    const res = yield call(deletePositionAction, action?.payload)
 
     const payload = res?.data
 
     yield put({
-      type: DELETE_POSITION_HISTORIES_SUCCESS,
+      type: DELETE_POSITION_SUCCESS,
       payload
     })
 
@@ -150,9 +244,9 @@ function* deletePosition(action) {
       type: SET_MODAL,
       payload: {
         code: payload?.code,
-        message: 'Riwayat Jabatan Berhasil Dihapus',
+        message: 'Data Jabatan Berhasil Dihapus',
         childMessage: payload?.message,
-        redirect: '/data-riwayat/jabatan'
+        redirect: '/master-data/position'
       }
     })
   } catch (err) {
@@ -171,12 +265,12 @@ function* deletePosition(action) {
         type: SET_MODAL,
         payload: {
           code: errors?.code,
-          message: 'Riwayat Jabatan Gagal Dihapus',
+          message: 'Data Jabatan Gagal Dihapus',
           message: errors?.message
         }
       })
       yield put({
-        type: DELETE_POSITION_HISTORIES_FAILED,
+        type: DELETE_POSITION_FAILED,
         payload: { error: errors?.message }
       })
     }
@@ -191,12 +285,12 @@ function* deletePosition(action) {
  */
 function* postPosition(action) {
   try {
-    const res = yield call(postPositionHistoriesAction, action?.payload)
+    const res = yield call(postPositionAction, action?.payload)
 
     const payload = res?.data
 
     yield put({
-      type: POST_POSITION_HISTORIES_SUCCESS,
+      type: POST_POSITION_SUCCESS,
       payload
     })
 
@@ -204,9 +298,9 @@ function* postPosition(action) {
       type: SET_MODAL,
       payload: {
         code: payload?.code,
-        message: 'Riwayat Jabatan Berhasil Ditambahkan',
+        message: 'Data Jabatan Berhasil Ditambahkan',
         childMessage: payload?.message,
-        redirect: '/data-riwayat/jabatan'
+        redirect: '/master-data/position'
       }
     })
   } catch (err) {
@@ -225,12 +319,12 @@ function* postPosition(action) {
         type: SET_MODAL,
         payload: {
           code: errors?.code,
-          message: 'Riwayat Jabatan Gagal Ditambahkan',
+          message: 'Data Jabatan Gagal Ditambahkan',
           childMessage: errors?.message
         }
       })
       yield put({
-        type: POST_POSITION_HISTORIES_FAILED,
+        type: POST_POSITION_FAILED,
         payload: { error: errors?.message }
       })
     }
@@ -246,12 +340,12 @@ function* postPosition(action) {
  */
 function* updatePosition(action) {
   try {
-    const res = yield call(updatePositionHistoriesAction, action?.payload)
+    const res = yield call(updatePositionAction, action?.payload)
 
     const payload = res?.data
 
     yield put({
-      type: UPDATE_POSITION_HISTORIES_SUCCESS,
+      type: UPDATE_POSITION_SUCCESS,
       payload
     })
 
@@ -259,9 +353,9 @@ function* updatePosition(action) {
       type: SET_MODAL,
       payload: {
         code: payload?.code,
-        message: 'Riwayat Jabatan Berhasil Diubah',
+        message: 'Data Jabatan Berhasil Diubah',
         childMessage: payload?.message,
-        redirect: '/data-riwayat/jabatan'
+        redirect: '/master-data/position'
       }
     })
   } catch (err) {
@@ -280,12 +374,12 @@ function* updatePosition(action) {
         type: SET_MODAL,
         payload: {
           code: errors?.code,
-          message: 'Riwayat Jabatan Gagal Diubah',
+          message: 'Data Jabatan Gagal Diubah',
           childMessage: errors?.message
         }
       })
       yield put({
-        type: UPDATE_POSITION_HISTORIES_FAILED,
+        type: UPDATE_POSITION_FAILED,
         payload: { error: errors?.message }
       })
     }
@@ -293,11 +387,13 @@ function* updatePosition(action) {
 }
 
 function* PositionSaga() {
-  yield takeEvery(GET_POSITIONS_HISTORIES_REQUESTED, getPositions)
-  yield takeEvery(GET_POSITION_HISTORIES_REQUESTED, getPosition)
-  yield takeEvery(DELETE_POSITION_HISTORIES_REQUESTED, deletePosition)
-  yield takeEvery(POST_POSITION_HISTORIES_REQUESTED, postPosition)
-  yield takeEvery(UPDATE_POSITION_HISTORIES_REQUESTED, updatePosition)
+  yield takeEvery(GET_POSITIONS_OPTIONS_REQUESTED, getPositionsOptions)
+  yield takeEvery(GET_POSITIONS_ORDERS_REQUESTED, getPositionsOrders)
+  yield takeEvery(GET_POSITIONS_REQUESTED, getPositions)
+  yield takeEvery(GET_POSITION_REQUESTED, getPosition)
+  yield takeEvery(DELETE_POSITION_REQUESTED, deletePosition)
+  yield takeEvery(POST_POSITION_REQUESTED, postPosition)
+  yield takeEvery(UPDATE_POSITION_REQUESTED, updatePosition)
 }
 
 export default PositionSaga
