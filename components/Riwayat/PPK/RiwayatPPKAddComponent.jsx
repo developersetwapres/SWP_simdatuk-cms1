@@ -11,7 +11,7 @@ import * as Yup from 'yup'
 import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
 import moment from 'moment'
-import { monthOptions } from 'libs/types/options'
+import { monthOptions, ppkDescOptions } from 'libs/types/options'
 
 const InitValue = {
   namaPPK: '',
@@ -76,7 +76,7 @@ const RiwayatPPKAddComponent = ({
     const data = {
       month: monthOptions || [],
       employee: newEmployees,
-      keterangan: ['Kurang', 'Sedang', 'Cukup', 'Baik', 'Sangat Baik']
+      keterangan: ppkDescOptions
     }
 
     return data

@@ -7,7 +7,13 @@ import { Box, Grid, Typography } from '@mui/material'
 import { Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
-import { monthOptions } from 'libs/types/options'
+import {
+  monthOptions,
+  periodOptions,
+  predicateOptions,
+  ratingOptions,
+  ratingOrganizationOptions
+} from 'libs/types/options'
 
 const styles = {
   iconStyle: {
@@ -46,20 +52,10 @@ const RiwayatSKPDetailComponent = ({
 
   const options = useMemo(() => {
     const data = {
-      periode: ['Q1', 'Q2', 'Q3', 'Q4', 'Tahunan'],
-      predikat: [
-        'Sangat baik',
-        'Baik',
-        'Butuh perbaikan',
-        'Kurang',
-        'Sangat Kurang'
-      ],
-      rating: [
-        'Di atas ekspektasi',
-        'Sesuai ekspektasi',
-        'Di bawah ekspektasi'
-      ],
-      organisasi: ['Sangat baik', 'Baik', 'Cukup']
+      periode: periodOptions,
+      predikat: predicateOptions,
+      rating: ratingOptions,
+      organisasi: ratingOrganizationOptions
     }
 
     return data

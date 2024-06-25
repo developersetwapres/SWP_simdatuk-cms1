@@ -11,7 +11,13 @@ import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
 import RiwayatSKPForm from './RiwayatSKPForm'
 import moment from 'moment'
-import { monthOptions } from 'libs/types/options'
+import {
+  monthOptions,
+  periodOptions,
+  predicateOptions,
+  ratingOptions,
+  ratingOrganizationOptions
+} from 'libs/types/options'
 
 const InitValue = {
   namaSkp: '',
@@ -67,20 +73,10 @@ const RiwayatSKPAddComponent = ({
     const data = {
       month: monthOptions || [],
       employee: newEmployees,
-      periode: ['Q1', 'Q2', 'Q3', 'Q4', 'Tahunan'],
-      predikat: [
-        'Sangat baik',
-        'Baik',
-        'Butuh perbaikan',
-        'Kurang',
-        'Sangat Kurang'
-      ],
-      rating: [
-        'Di atas ekspektasi',
-        'Sesuai ekspektasi',
-        'Di bawah ekspektasi'
-      ],
-      organisasi: ['Sangat baik', 'Baik', 'Cukup']
+      periode: periodOptions,
+      predikat: predicateOptions,
+      rating: ratingOptions,
+      organisasi: ratingOrganizationOptions
     }
 
     return data

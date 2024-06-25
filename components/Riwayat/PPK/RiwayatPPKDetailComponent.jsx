@@ -7,7 +7,7 @@ import { Box, Grid, Typography } from '@mui/material'
 import { Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
-import { monthOptions } from 'libs/types/options'
+import { monthOptions, ppkDescOptions } from 'libs/types/options'
 
 const styles = {
   iconStyle: {
@@ -42,7 +42,7 @@ const RiwayatPPKDetailComponent = ({
 
   const options = useMemo(() => {
     const data = {
-      keterangan: ['Kurang', 'Sedang', 'Cukup', 'Baik', 'Sangat Baik']
+      keterangan: ppkDescOptions
     }
 
     return data
