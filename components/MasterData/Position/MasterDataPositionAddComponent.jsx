@@ -1,7 +1,7 @@
 /* eslint-disable indent */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Formik, useFormik } from 'formik'
 import LayoutPages from '@/components/core/LayoutPages'
@@ -11,49 +11,147 @@ import * as Yup from 'yup'
 import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
 import MasterDataPositionForm from './MasterDataPositionForm'
+import { entityOptions, positionTypeOptions } from 'libs/types/options'
+
+const InitValue = {
+  show: false,
+  entity: null,
+  name: '',
+  order: null,
+  position: null,
+  echelons: [
+    {
+      name: null,
+      quantity: ''
+    }
+  ],
+  parent: [{ name: null }]
+}
 
 const FormSchema = Yup.object().shape({
-  roleName: Yup.string().required('Role Pengguna tidak boleh kosong')
+  show: Yup.boolean(),
+  entity: Yup.string().required('Tipe Entitas tidak boleh kosong'),
+  name: Yup.string().required('Nama Jabatan tidak boleh kosong')
+  // position: Yup.string().when('entity', {
+  //   is: (entity) => entity == 'Orang',
+  //   then: Yup.string().required('Tipe Jabatan tidak boleh kosong')
+  //   // otherwise: Yup.string().nullable()
+  // }),
+  // order: Yup.string().when(['show', 'entity'], {
+  //   is: (show, entity) => show == true && entity == 'Kelompok',
+  //   then: Yup.string().required('Urutan tidak boleh kosong')
+  //   // otherwise: Yup.string().nullable()
+  // }),
+  // echelons: Yup.array().of(
+  //   Yup.object().shape({
+  //     name: Yup.string().when(['show', 'entity'], {
+  //       is: (show, entity) => show == true && entity == 'Orang',
+  //       then: Yup.string().required('Echelon tidak boleh kosong'),
+  //       otherwise: Yup.string().nullable()
+  //     }),
+  //     quantity: Yup.string().when('entity', {
+  //       is: 'Orang',
+  //       then: Yup.string().required('Jumlah yang diperlukan tidak boleh kosong')
+  //       // otherwise: Yup.string().nullable()
+  //     })
+  //   })
+  // )
 })
 
 const MasterDataPositionAddComponent = ({
-  role,
-  onLoading = () => {},
-  postRole = () => {}
+  echelon,
+  position,
+  postPosition = () => {},
+  onFetchHierarchy = () => {},
+  onLoading = () => {}
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
 
-  const [initValue, setInitValue] = useState({
-    roleName: '',
-    permissions: []
-  })
+  const [positions, setPositions] = useState([])
 
-  const formik = useFormik({
-    initialValues: initValue,
-    validationSchema: FormSchema,
-    onSubmit: () => {}
-  })
+  const handleMapping = (val) => {
+    const arr = []
+
+    val.map((itm) => {
+      arr.push(itm?.name)
+    })
+
+    return arr
+  }
+
+  const options = useMemo(() => {
+    const newPositions = positions
+      ? positions.map((itm) => handleMapping(itm))
+      : []
+    const newEchelons = echelon?.options ? handleMapping(echelon?.options) : []
+    const newOrders = position?.orders
+      ? position?.orders.map((itm) => {
+          return `${itm}`
+        })
+      : []
+
+    const dataOptions = {
+      echelons: newEchelons,
+      orders: newOrders,
+      positions: newPositions,
+      positionType: positionTypeOptions,
+      entity: entityOptions
+    }
+
+    return dataOptions
+  }, [echelon, positions])
+
+  const handleGetValue = (type, value) => {
+    if (type == 'parent') {
+      const data = positions[positions.length - (positions.length > 1 ? 2 : 1)]
+      const item = data.find((itm) => itm?.name == value)
+
+      return item
+    } else if (type == 'echelon') {
+      const item = echelon?.options.find((itm) => itm?.name == value)?.id
+
+      return item
+    } else {
+      const item = options[type].findIndex((itm) => itm == value) + 1
+
+      return item
+    }
+  }
 
   const handleSubmit = async (values) => {
     try {
       await FormSchema.validate(values, { abortEarly: false })
+      formikRef.current.setErrors({})
 
-      const dataPermission = values?.permissions
-      const valuePermission =
-        dataPermission.length > 0
-          ? dataPermission.map((itm) => {
-              return { id: itm?.id, permitted_actions: itm?.permitted_actions }
-            })
-          : []
+      const position = values?.position
+      const echelons = values?.echelons
+      const parents = values?.parent
+        .map((itm) => itm?.name)
+        .filter((itm) => itm !== null)
+      const isParents = parents.length > 0
+      const parent = isParents && parents[parents?.length - 1]
+      const entity = handleGetValue('entity', values?.entity)
+      const isShow = values?.show
 
       const payload = {
-        name: values.roleName,
-        permissions: valuePermission
+        name: values.name,
+        parent_id: isParents ? handleGetValue('parent', parent)?.id : null,
+        available: echelons[0]?.quantity || 0,
+        type: position ? handleGetValue('positionType', position) : 1,
+        entity,
+        order: values?.order,
+        position_echelons: isShow
+          ? echelons.map((itm) => {
+              return {
+                echelon_id: handleGetValue('echelon', itm?.name),
+                available: itm?.quantity
+              }
+            })
+          : []
       }
 
-      postRole(payload)
-      formikRef.current.setErrors({})
+      postPosition(payload)
     } catch (err) {
       if (!err.inner || err.inner.length === 0) {
         return
@@ -72,30 +170,55 @@ const MasterDataPositionAddComponent = ({
     }
   }
 
-  useEffect(() => {
-    const dataPermissions = role?.dataPermissions
-    const state = !role?.loading && dataPermissions.length > 0
-    onLoading(state)
+  const handleChangeHierarchies = (val) => {
+    const datas = val.filter((itm) => itm?.name !== null)
 
-    if (dataPermissions.length > 0) {
-      const newInitValue = dataPermissions.map((itm, idx) => {
-        return {
-          id: itm?.id,
-          permitted_actions: null
-        }
-      })
+    if (datas.length > 0) {
+      const length = datas?.length
+      const index = length - 1
+      const item = datas[index]?.name
+      const dataPosition = positions[index]
+      const lengthPositions = positions.length
 
-      if (!Object.keys(initValue).includes('permissions'))
-        setInitValue({ ...initValue, permissions: newInitValue })
+      if (length < lengthPositions) {
+        const newPositions = positions.slice(0, length + 1)
+        setPositions(newPositions)
+      }
+
+      if (dataPosition.length > 0) {
+        const itemId = dataPosition.find((itm) => itm?.name == item)?.id
+        onFetchHierarchy(itemId)
+      }
+    } else {
+      const newPositions = positions.length > 0 ? positions.slice(0, 1) : []
+      setPositions(newPositions)
     }
-  }, [role])
+  }
+
+  useEffect(() => {
+    const data = position?.data
+    const isValidate = data?.length > 0
+    const isChecked = positions.some((subArray) =>
+      data.every((value) => subArray.some((item) => item.id === value.id))
+    )
+
+    if (isValidate && !isChecked) {
+      const values = [...positions, data]
+      setPositions(values)
+    }
+  }, [position?.data])
+
+  useEffect(() => {
+    const state = !echelon?.loading
+    onLoading(state)
+  }, [echelon])
 
   return (
     <Formik
       innerRef={formikRef}
-      initialValues={formik.values}
-      validationSchema={formik.validationSchema}
-      onSubmit={formik.onSubmit}
+      initialValues={InitValue}
+      validationSchema={FormSchema}
+      onSubmit={() => {}}
     >
       {(formikProps) => (
         <LayoutPages
@@ -112,8 +235,10 @@ const MasterDataPositionAddComponent = ({
         >
           <Card>
             <MasterDataPositionForm
-              dataPermissions={role?.dataPermissions}
+              options={options}
               formikRef={formikRef}
+              isPositionsLoading={positions?.loading}
+              onChangeHierarchies={handleChangeHierarchies}
               {...formikProps}
             />
           </Card>
@@ -124,9 +249,11 @@ const MasterDataPositionAddComponent = ({
 }
 
 MasterDataPositionAddComponent.propTypes = {
-  role: PropTypes.object,
-  onLoading: PropTypes.func,
-  postRole: PropTypes.func
+  echelon: PropTypes.object,
+  position: PropTypes.object,
+  postPosition: PropTypes.func,
+  onFetchHierarchy: PropTypes.func,
+  onLoading: PropTypes.func
 }
 
 export default MasterDataPositionAddComponent
