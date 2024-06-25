@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { Fragment, useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import LayoutPages from '@/components/core/LayoutPages'
 import { Button } from '@/components/shared'
@@ -28,77 +28,40 @@ const styles = {
   fontItem: { fontWeight: 600 }
 }
 
+const dataEchelon = [
+  { name: 'Ahli Madya', qty: 3, availabel: 3 },
+  { name: 'Ahli Muda', qty: 5, availabel: 5 },
+  { name: 'Ahli Pertama', qty: 2, availabel: 0 }
+]
+
 const MasterDataPositionDetailComponent = ({
-  role,
-  getRole = () => {},
-  deleteRole = () => {},
-  clearRoleState = () => {},
+  position,
+  deletePosition = () => {},
+  getPosition = () => {},
+  clearPositionState = () => {},
   onLoading = () => {}
 }) => {
   const router = useRouter()
   const modal = useSelector((state) => state.modalReducer)
 
-  const [values, setValues] = useState([])
   const [modalDelete, setModalDelete] = useState(false)
-  const [deleteValue, setDeleteValue] = useState(null)
   const [deleteId, setDeleteId] = useState(null)
 
-  const handleSetValue = (val) => {
-    const data = role?.options.filter((itm) => itm?.name == val)[0]
-    setDeleteValue(data)
-  }
-
   const handleDelete = () => {
-    const payload = {
-      id: deleteId,
-      data: { role_id: deleteValue?.id }
-    }
-
-    deleteRole(payload)
+    deletePosition(deleteId)
   }
 
   const handleModal = () => {
     const newVal = !modalDelete
-
     setModalDelete(newVal)
 
-    if (!newVal) setDeleteValue(null)
+    if (!newVal) setDeleteId(null)
   }
 
-  const options = useMemo(() => {
-    let newOptions = []
-    const datas = role?.options
-
-    if (datas) {
-      const newData = datas
-        .filter((itm) => itm?.id !== parseInt(deleteId))
-        .map((itm) => itm?.name)
-      newOptions = newData
-    }
-
-    return newOptions
-  }, [role, deleteId, router])
-
   const data = useMemo(() => {
-    const detail = role?.detail
-    const access = role?.dataPermissions
-
-    if (detail?.permissions && access) {
-      const detailId = detail?.permissions.map((itm) => {
-        return itm?.id
-      })
-      const newAccess = access.filter((itm) => {
-        return detailId.includes(itm?.id)
-      })
-
-      return {
-        ...detail,
-        permissions: newAccess
-      }
-    }
-
-    return []
-  }, [role])
+    const detail = position?.detail
+    return detail
+  }, [position])
 
   const action = useMemo(() => {
     return (
@@ -121,50 +84,26 @@ const MasterDataPositionDetailComponent = ({
     )
   }, [])
 
-  const handleGetValueAccess = (id) => {
-    const filter = values?.filter((itm) => {
-      return itm?.id == id
-    })
-
-    return filter.length > 0 ? filter[0] : {}
-  }
-
   useEffect(() => {
     // Get Detail User
     const id = router?.query?.id
     if (id) {
-      getRole(atob(id))
+      getPosition(atob(id))
       setDeleteId(atob(id))
     }
 
     // Event clear state when url path changes
-    router.events.on('routeChangeComplete', clearRoleState)
+    router.events.on('routeChangeComplete', clearPositionState)
 
     return () => {
-      router.events.off('routeChangeComplete', clearRoleState)
+      router.events.off('routeChangeComplete', clearPositionState)
     }
   }, [router])
 
   useEffect(() => {
-    const dataPermissions = role?.dataPermissions
-    const state =
-      !role?.loading &&
-      dataPermissions.length > 0 &&
-      Object.entries(role?.detail).length > 0
-
+    const state = !position?.loading
     onLoading(state)
-  }, [role])
-
-  useEffect(() => {
-    const detail = role?.detail
-
-    if (detail?.permissions) {
-      const newPermissions = detail?.permissions.map((itm) => {
-        return { id: itm?.id, permitted_actions: itm?.permitted_actions }
-      })
-      setValues(newPermissions)
-    }
-  }, [role?.detail])
+  }, [position])
 
   useEffect(() => {
     if (modal?.code !== null) handleModal()
@@ -178,94 +117,143 @@ const MasterDataPositionDetailComponent = ({
         action={action}
       >
         <Paper style={{ padding: '24px 20px' }}>
-          <Grid container spacing={3}>
-            <Grid item xs={6}>
-              <Box sx={styles?.wrapperItem}>
-                <Typography>Nama Jabatan</Typography>
-                <Typography sx={styles?.fontItem}>
-                  {data?.name || '-'}
-                </Typography>
-              </Box>
+          {/* Position */}
+          <Box>
+            <Box sx={{ marginBottom: '10px' }}>
+              <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>
+                Jabatan
+              </Typography>
+            </Box>
+            <Grid container spacing={3}>
+              {/* Entity */}
+              <Grid item xs={6}>
+                <Box sx={styles?.wrapperItem}>
+                  <Typography>Tipe Entitas</Typography>
+                  <Typography sx={styles?.fontItem}>
+                    {data?.entity?.name || '-'}
+                  </Typography>
+                </Box>
+              </Grid>
+              {/* Name */}
+              <Grid item xs={6}>
+                <Box sx={styles?.wrapperItem}>
+                  <Typography>Nama Jabatan</Typography>
+                  <Typography sx={styles?.fontItem}>
+                    {data?.name || '-'}
+                  </Typography>
+                </Box>
+              </Grid>
+              {/* Type */}
+              <Grid item xs={6}>
+                <Box sx={styles?.wrapperItem}>
+                  <Typography>Tipe Jabatan</Typography>
+                  <Typography sx={styles?.fontItem}>
+                    {data?.type?.name || '-'}
+                  </Typography>
+                </Box>
+              </Grid>
             </Grid>
-
-            <Grid item xs={6}>
-              <Box sx={styles?.wrapperItem}>
-                <Typography>Jumlah yang diperlukan</Typography>
-                <Typography sx={styles?.fontItem}>
-                  {data?.name || '-'}
-                </Typography>
-              </Box>
+          </Box>
+          {/* Echelon */}
+          <Box sx={{ margin: '30px 0' }}>
+            <Box sx={{ marginBottom: '10px' }}>
+              <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>
+                Eselon
+              </Typography>
+            </Box>
+            <Grid container spacing={3}>
+              {data?.echelons ? (
+                data?.echelons.map((itm, idx) => (
+                  <Fragment key={idx}>
+                    {/* Echelon */}
+                    <Grid item xs={4}>
+                      <Box sx={styles?.wrapperItem}>
+                        <Typography>Eselon</Typography>
+                        <Typography sx={styles?.fontItem}>
+                          {itm?.name || '-'}
+                        </Typography>
+                      </Box>
+                    </Grid>
+                    {/* Position */}
+                    <Grid item xs={4}>
+                      <Box sx={styles?.wrapperItem}>
+                        <Typography>Jumlah yang diperlukan</Typography>
+                        <Typography sx={styles?.fontItem}>
+                          {itm?.available || 0}
+                        </Typography>
+                      </Box>
+                    </Grid>
+                    {/* Position */}
+                    <Grid item xs={4}>
+                      <Box sx={styles?.wrapperItem}>
+                        <Typography>Jumlah yang terisi</Typography>
+                        <Typography sx={styles?.fontItem}>
+                          {itm?.filled || 0}
+                        </Typography>
+                      </Box>
+                    </Grid>
+                  </Fragment>
+                ))
+              ) : (
+                <Grid item xs={12}>
+                  <Typography>-</Typography>
+                </Grid>
+              )}
             </Grid>
-
-            <Grid item xs={6}>
-              <Box sx={styles?.wrapperItem}>
-                <Typography>Eselon</Typography>
-                <Typography sx={styles?.fontItem}>
-                  {data?.name || '-'}
-                </Typography>
-              </Box>
+          </Box>
+          {/* Hierarchy */}
+          <Box>
+            <Box sx={{ marginBottom: '10px' }}>
+              <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>
+                Hierarki Jabatan
+              </Typography>
+            </Box>
+            <Grid container spacing={3}>
+              {/* Parent */}
+              <Grid item xs={12}>
+                <Box sx={styles?.wrapperItem}>
+                  <Typography>Parent</Typography>
+                  {data?.hierarchies ? (
+                    data?.hierarchies.map((itm, idx) => (
+                      <Typography sx={styles?.fontItem} key={idx}>
+                        {itm?.name || '-'}
+                      </Typography>
+                    ))
+                  ) : (
+                    <Typography>-</Typography>
+                  )}
+                </Box>
+              </Grid>
+              {/* Order */}
+              <Grid item xs={6}>
+                <Box sx={styles?.wrapperItem}>
+                  <Typography>Urutan</Typography>
+                  <Typography sx={styles?.fontItem}>
+                    {data?.order || '-'}
+                  </Typography>
+                </Box>
+              </Grid>
             </Grid>
-
-            <Grid item xs={6}>
-              <Box sx={styles?.wrapperItem}>
-                <Typography>Deputi</Typography>
-                <Typography sx={styles?.fontItem}>
-                  {data?.name || '-'}
-                </Typography>
-              </Box>
-            </Grid>
-
-            <Grid item xs={6}>
-              <Box sx={styles?.wrapperItem}>
-                <Typography>Biro</Typography>
-                <Typography sx={styles?.fontItem}>
-                  {data?.name || '-'}
-                </Typography>
-              </Box>
-            </Grid>
-
-            <Grid item xs={6}>
-              <Box sx={styles?.wrapperItem}>
-                <Typography>Bagian</Typography>
-                <Typography sx={styles?.fontItem}>
-                  {data?.name || '-'}
-                </Typography>
-              </Box>
-            </Grid>
-
-            <Grid item xs={6}>
-              <Box sx={styles?.wrapperItem}>
-                <Typography>Subagian</Typography>
-                <Typography sx={styles?.fontItem}>
-                  {data?.name || '-'}
-                </Typography>
-              </Box>
-            </Grid>
-
-          </Grid>
+          </Box>
         </Paper>
       </LayoutPages>
       <ModalConfirmDelete
-        label='Role Pengguna'
-        title='Hapus Data Role Pengguna'
-        copytext='Apakah anda yakin akan menghapus data role pengguna ? Jika ya, silahkan pilih role pengguna lain sebagai pengganti'
-        options={options}
+        title='Hapus Data Jabatan'
+        copytext='Apakah anda yakin akan menghapus data jabatan ?'
         open={modalDelete}
-        value={deleteValue?.name || null}
-        isLoading={role?.loading}
+        isLoading={position?.loading}
         handleModal={handleModal}
         handleDelete={handleDelete}
-        handleSetValue={handleSetValue}
       />
     </>
   )
 }
 
 MasterDataPositionDetailComponent.propTypes = {
-  role: PropTypes.object,
-  getRole: PropTypes.func,
-  deleteRole: PropTypes.func,
-  clearRoleState: PropTypes.func,
+  position: PropTypes.object,
+  getPosition: PropTypes.func,
+  deletePosition: PropTypes.func,
+  clearPositionState: PropTypes.func,
   onLoading: PropTypes.func
 }
 

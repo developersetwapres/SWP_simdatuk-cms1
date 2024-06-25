@@ -7,22 +7,14 @@ import Layout from '@/components/core/Layout'
 import MasterDataPositionDetailComponent from '@/components/MasterData/Position/MasterDataPositionDetailComponent'
 
 export default connect(
-  mapStateToProps('role'),
-  mapActions(
-    'getRole',
-    'deleteRole',
-    'getRolesOptions',
-    'getPermissions',
-    'clearRoleState'
-  )
+  mapStateToProps('position'),
+  mapActions('getPosition', 'deletePosition', 'clearRoleState')
 )(
   class MasterDataPositionDetailContainer extends Component {
     static propTypes = {
-      role: PropTypes.object,
-      getRole: PropTypes.func,
-      deleteRole: PropTypes.func,
-      getRolesOptions: PropTypes.func,
-      getPermissions: PropTypes.func,
+      position: PropTypes.object,
+      getPosition: PropTypes.func,
+      deletePosition: PropTypes.func,
       clearRoleState: PropTypes.func
     }
 
@@ -36,28 +28,13 @@ export default connect(
         },
         willRender: false
       }
-      this.fetch = this.fetch.bind(this)
       this.setLoading = this.setLoading.bind(this)
-      this.fetchGetRolesOptions = this.fetchGetRolesOptions.bind(this)
-    }
-
-    fetch() {
-      this.props.getPermissions()
-    }
-
-    fetchGetRolesOptions(queries) {
-      this.props.getRolesOptions(queries)
     }
 
     setLoading(val) {
       this.setState({
         willRender: val
       })
-    }
-
-    componentDidMount() {
-      this.fetch()
-      this.fetchGetRolesOptions(this.state.queries)
     }
 
     render() {
