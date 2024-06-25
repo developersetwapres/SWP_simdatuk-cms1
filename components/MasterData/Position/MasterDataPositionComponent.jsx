@@ -56,67 +56,32 @@ const styles = {
 }
 
 const MasterDataPositionComponent = ({
-  role,
+  position,
   queries,
   onFetch = () => {},
-  onFetchOptions = () => {},
   onSearch = () => {},
   onLoading = () => {},
+  deletePosition = () => {},
   onPaginationChange = () => {},
-  onRowsPerPageChange = () => {},
-  deleteRole = () => {}
+  onRowsPerPageChange = () => {}
 }) => {
   const classes = useStyles()
   const router = useRouter()
   const modal = useSelector((state) => state.modalReducer)
 
   const [modalDelete, setModalDelete] = useState(false)
-  const [deleteValue, setDeleteValue] = useState(null)
   const [deleteId, setDeleteId] = useState(null)
 
-  const handleSetValue = (val) => {
-    const data = role?.options.filter((itm) => itm?.name == val)[0]
-    setDeleteValue(data)
-  }
-
   const handleDelete = () => {
-    const payload = {
-      id: deleteId,
-      data: { role_id: deleteValue?.id }
-    }
-
-    deleteRole(payload)
+    deletePosition(deleteId)
   }
 
   const handleModal = () => {
     const newVal = !modalDelete
-
     setModalDelete(newVal)
 
-    if (!newVal) {
-      setDeleteId(null)
-      setDeleteValue(null)
-    }
+    if (!newVal) setDeleteId(null)
   }
-
-  const options = useMemo(() => {
-    let newOptions = []
-    const datas = role?.options
-
-    if (datas) {
-      if (deleteId) {
-        const newData = datas
-          .filter((itm) => itm?.id !== deleteId)
-          .map((itm) => itm?.name)
-        newOptions = newData
-      } else {
-        const newData = datas.map((itm) => itm?.name)
-        newOptions = newData
-      }
-    }
-
-    return newOptions
-  }, [role, deleteId])
 
   const columns = useMemo(() => {
     const col = [
@@ -126,17 +91,12 @@ const MasterDataPositionComponent = ({
         align: 'left'
       },
       {
-        Header: 'Eselon',
+        Header: 'Tipe Jabatan',
         width: 560,
         align: 'left'
       },
       {
-        Header: 'Deputi',
-        width: 560,
-        align: 'left'
-      },
-      {
-        Header: 'Biro',
+        Header: 'Hierarki Jabatan',
         width: 560,
         align: 'left'
       },
@@ -147,34 +107,30 @@ const MasterDataPositionComponent = ({
       }
     ]
     return col
-  }, [role])
+  }, [])
 
   const rows = useMemo(() => {
-    const dataMapping = role?.data.map((item) => {
+    const data = position?.data || []
+
+    const dataMapping = data.map((item) => {
       return [
         {
           Header: 'Nama Jabatan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.name}</Typography>
+          Cell: () => <Typography>{item?.name || '-'}</Typography>
         },
         {
           Header: 'Eselon',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.name}</Typography>
+          Cell: () => <Typography>{item?.type?.name || '-'}</Typography>
         },
         {
-          Header: 'Deputi',
+          Header: 'Hierarki Jabatan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.name}</Typography>
-        },
-        {
-          Header: 'Biro',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.name}</Typography>
+          Cell: () => <Typography>{item?.hierarchies || '-'}</Typography>
         },
         {
           Header: 'Aksi',
@@ -186,7 +142,7 @@ const MasterDataPositionComponent = ({
                 text='Detail'
                 color='primary'
                 onClick={() =>
-                  router.push(`/${router.pathname}/detail/${btoa(item?.id)}`)
+                  router.push(`${router.pathname}/detail/${btoa(item?.id)}`)
                 }
                 icon={<Info style={styles.iconButton} />}
                 sx={styles.buttonAction}
@@ -195,7 +151,7 @@ const MasterDataPositionComponent = ({
                 text='Edit'
                 color='sidatukDraweBase'
                 onClick={() =>
-                  router.push(`/${router.pathname}/edit/${btoa(item?.id)}`)
+                  router.push(`${router.pathname}/edit/${btoa(item?.id)}`)
                 }
                 icon={<Edit style={styles.iconButton} />}
                 sx={styles.buttonAction}
@@ -217,7 +173,7 @@ const MasterDataPositionComponent = ({
     })
 
     return dataMapping
-  }, [role])
+  }, [position])
 
   const action = useMemo(() => {
     return (
@@ -231,15 +187,14 @@ const MasterDataPositionComponent = ({
   }, [])
 
   useEffect(() => {
-    const state = !role?.loading
+    const state = !position?.loading
     onLoading(state)
-  }, [role])
+  }, [position])
 
   useEffect(() => {
     if (modal?.code !== null) handleModal()
-    if (!modal?.modal && role?.data.length > 0) {
-      onFetch(queries)
-      onFetchOptions()
+    if (!modal?.modal && position?.data.length > 0) {
+      onFetch({ ...queries, search })
     }
   }, [modal])
 
@@ -267,37 +222,32 @@ const MasterDataPositionComponent = ({
         <Table
           columns={columns}
           rows={rows}
-          pagination={role?.pagination}
+          pagination={position?.pagination}
           handlePagination={onPaginationChange}
           handleRows={onRowsPerPageChange}
         />
       </LayoutPages>
       <ModalConfirmDelete
-        label='Role Pengguna'
-        title='Hapus Data Role Pengguna'
-        copytext='Apakah anda yakin akan menghapus data role pengguna ? Jika ya, silahkan pilih role pengguna lain sebagai pengganti'
-        options={options}
+        title='Hapus Data Jabatan'
+        copytext='Apakah anda yakin akan menghapus data jabatan ?'
         open={modalDelete}
-        value={deleteValue?.name || null}
-        isLoading={role?.loading}
+        isLoading={position?.loading}
         handleModal={handleModal}
         handleDelete={handleDelete}
-        handleSetValue={handleSetValue}
       />
     </>
   )
 }
 
 MasterDataPositionComponent.propTypes = {
-  role: PropTypes.object,
+  position: PropTypes.object,
   queries: PropTypes.object,
   onFetch: PropTypes.func,
-  onFetchOptions: PropTypes.func,
   onSearch: PropTypes.func,
   onLoading: PropTypes.func,
+  deletePosition: PropTypes.func,
   onPaginationChange: PropTypes.func,
-  onRowsPerPageChange: PropTypes.func,
-  deleteRole: PropTypes.func
+  onRowsPerPageChange: PropTypes.func
 }
 
 export default MasterDataPositionComponent
