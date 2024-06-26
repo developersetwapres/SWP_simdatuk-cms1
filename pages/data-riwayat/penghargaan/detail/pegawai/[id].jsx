@@ -1,9 +1,9 @@
 import React from 'react'
-import RiwayatPenghargaanContainer from '@/containers/RiwayatContainer/PenghargaanContainer/RiwayatPenghargaanContainer'
+import RiwayatPenghargaanDetailPegawaiContainer from '@/containers/RiwayatContainer/PenghargaanContainer/RiwayatPenghargaanDetailPegawaiContainer'
 import WithAuth from '@/components/shared/WithAuth'
 
 const DetailPegawaiPenghargaan = () => {
-  return <RiwayatPenghargaanContainer />
+  return <RiwayatPenghargaanDetailPegawaiContainer />
 }
 
 export default WithAuth(DetailPegawaiPenghargaan)

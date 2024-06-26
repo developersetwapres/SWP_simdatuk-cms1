@@ -35,9 +35,9 @@ const styles = {
 const RiwayatPenghargaanDetailComponent = ({
   recognition,
   decree,
-  getRecognition = () => { },
-  clearRecognitionState = () => { },
-  onLoading = () => { }
+  getRecognition = () => {},
+  clearRecognitionState = () => {},
+  onLoading = () => {}
 }) => {
   const router = useRouter()
 
@@ -57,7 +57,7 @@ const RiwayatPenghargaanDetailComponent = ({
         align: 'left'
       },
       {
-        Header: 'Nama Pegawai',
+        Header: 'Nama Pegawai / NIP',
         width: 600,
         align: 'left'
       },
@@ -84,7 +84,11 @@ const RiwayatPenghargaanDetailComponent = ({
           Header: 'Nama',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.name || '-'}</Typography>
+          Cell: () => (
+            <Typography>{`${item?.name || '-'} / ${
+              item?.employee_id_number || '-'
+            }`}</Typography>
+          )
         },
         {
           Header: 'Aksi',
@@ -97,7 +101,9 @@ const RiwayatPenghargaanDetailComponent = ({
                 color='primary'
                 onClick={() =>
                   router.push(
-                    `/data-riwayat/penghargaan/detail/pegawai/${btoa(item?.user_id)}`
+                    `/data-riwayat/penghargaan/detail/pegawai/${btoa(
+                      item?.user_id
+                    )}`
                   )
                 }
                 icon={<Info style={styles.iconButton} />}
@@ -166,14 +172,16 @@ const RiwayatPenghargaanDetailComponent = ({
           {/* Nama Penghargaan */}
           <Grid item xs={6}>
             <Box sx={styles?.itemWrapper}>
-              <Typography>Nama Riwayat Jabatan</Typography>
-              <Typography sx={styles?.fontItem}>{data?.name || '-'}</Typography>
+              <Typography>Nama Penghargaan</Typography>
+              <Typography sx={styles?.fontItem}>
+                {data?.recognition_name || '-'}
+              </Typography>
             </Box>
           </Grid>
           {/* Periode */}
           <Grid item xs={6}>
             <Box sx={styles?.itemWrapper}>
-              <Typography>Periode Input Riwayat</Typography>
+              <Typography>Periode Riwayat</Typography>
               <Typography sx={styles?.fontItem}>
                 {handleParsePeriod(data?.period_month, data?.period_year)}
               </Typography>
