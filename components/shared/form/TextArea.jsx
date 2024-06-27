@@ -52,12 +52,13 @@ function TextArea({
   error = null,
   className,
   placeholder,
+  fullWidth = false,
   onChange = () => { },
   ...others
 }) {
   const classes = useStyles()
   return (
-    <FormGroup>
+    <FormGroup sx={{ width: fullWidth ? '100%' : 'unset' }}>
       {
         label && (
           <p className={classes.label}>{label}</p>
@@ -88,6 +89,7 @@ TextArea.propTypes = {
   name: PropTypes.string,
   placeholder: PropTypes.string,
   label: PropTypes.string,
+  fullWidth: PropTypes.bool,
   value: PropTypes.string,
   className: PropTypes.any,
   error: PropTypes.any,

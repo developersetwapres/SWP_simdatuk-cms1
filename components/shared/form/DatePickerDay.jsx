@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import React, { useState, Fragment, useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
 import { DayPicker } from 'react-day-picker'
 import 'react-day-picker/dist/style.css'
 import PropTypes from 'prop-types'
@@ -15,8 +15,9 @@ function DatePickerDay({
   placeholder,
   value,
   error,
+  fullWidth = false,
   mode = 'single',
-  onChange = () => {},
+  onChange = () => { },
   ...other
 }) {
   const [open, setOpen] = useState(false)
@@ -32,7 +33,7 @@ function DatePickerDay({
   }
 
   return (
-    <Fragment>
+    <Box sx={{ width: fullWidth ? '100%' : 'unset' }}>
       {label && (
         <Typography
           component='p'
@@ -51,8 +52,8 @@ function DatePickerDay({
             valueDate
               ? mode == 'range'
                 ? `${formatDate(valueDate?.from)} - ${formatDate(
-                    valueDate?.to
-                  )}`
+                  valueDate?.to
+                )}`
                 : formatDate(valueDate)
               : ''
           }
@@ -112,7 +113,7 @@ function DatePickerDay({
           style={{ margin: 0 }}
         />
       </Modal>
-    </Fragment>
+    </Box>
   )
 }
 
@@ -121,6 +122,7 @@ DatePickerDay.propTypes = {
   name: PropTypes.string,
   error: PropTypes.string,
   mode: PropTypes.string,
+  fullWidth: PropTypes.bool,
   placeholder: PropTypes.string,
   value: PropTypes.any,
   onChange: PropTypes.func
