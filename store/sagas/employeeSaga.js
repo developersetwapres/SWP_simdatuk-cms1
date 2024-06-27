@@ -93,15 +93,8 @@ function* getEmployee(action) {
     })
   } catch (err) {
     const status = err?.data?.meta
-    const errorData = err?.data
-    console.error('ERROR: ', err)
 
-    yield put({
-      type: CATCH_ERROR,
-      payload: `${errorData?.exception}: ${errorData?.message}\n${errorData?.file}\n(${errorData?.line})`
-    })
-
-    if (status?.code === 403) {
+    if (status?.code === 403 || status?.code === 401) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {

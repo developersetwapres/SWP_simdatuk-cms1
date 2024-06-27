@@ -168,3 +168,11 @@ export const formatDate = (date) => {
 
   return [day, month, year].join('-')
 }
+
+/**
+ * Capitalize first letter
+ *
+ * @param {*} string
+ * @returns
+ */
+export const capitalizeFirstLetter = string => string.charAt(0).toUpperCase() + string.slice(1)

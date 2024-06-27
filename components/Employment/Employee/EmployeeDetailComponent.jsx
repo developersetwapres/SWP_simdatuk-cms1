@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
-import React, { useMemo, useEffect } from 'react'
+import React, { useMemo, useEffect, useState } from 'react'
 import { Box, Grid, List, Typography } from '@mui/material'
 import BiodataPegawai from './Section/BiodataPegawai'
 import ListNavigation from '@/components/core/ListNavigation'
@@ -37,34 +37,20 @@ import {
   relationshipStatusOptions,
   religionOptions
 } from 'libs/types/options'
-
-const dataPegawai = [
-  'Data Pegawai',
-  'Riwayat Pendidikan',
-  'Riwayat Golongan',
-  'Riwayat Pelatihan Struktural',
-  'Riwayat Pelatihan Fungsional',
-  'Riwayat Pelatihan Teknis',
-  'Riwayat Penghargaan',
-  'Riwayat SKP',
-  'Riwayat Penilaian Prestasi Kerja',
-  'Riwayat Hukuman Disiplin',
-  'Riwayat Keluarga',
-  'Riwayat Cuti',
-  'Riwayat Catatan',
-  'Hasil Assessment',
-  'Hasil Uji Kompetensi',
-  'Hasil Talent Pool'
-]
+import ModalEditEmploymentStatus from '@/components/shared/Modal/ModalEditEmploymentStatus'
+import ModalAddNotes from '@/components/shared/Modal/ModalAddNotes'
+import { capitalizeFirstLetter } from '@/utils/index'
 
 const EmployeeDetailComponent = ({
   employee,
   institution,
-  residence,
   getEmployee = () => { },
+  updateEmployee = () => { },
+  clearEmployeeState = () => { },
   setRender = () => { }
 }) => {
   const router = useRouter()
+
   const options = useMemo(() => {
     const dataOptions = {
       month: monthOptions,
@@ -88,9 +74,6 @@ const EmployeeDetailComponent = ({
     if (type == 'marital_status')
       return options?.marital[val]
 
-    if (type == 'residence')
-      return residence?.data?.find(item => item?.id == val)?.name
-
     if (type == 'employment_status')
       return options?.employeeStatus[val]
 
@@ -111,7 +94,6 @@ const EmployeeDetailComponent = ({
       religion: getValue('religion', detailEmployee?.religion - 1),
       institution: getValue('institutions', detailEmployee?.institution_id),
       maritalStatus: getValue('marital_status', detailEmployee?.marital_status - 1),
-      residence: getValue('residence', detailEmployee?.residence_id),
       employmentStatus: getValue('employment_status', detailEmployee?.employment_status - 1),
       educationLevel: getValue('education', detailEmployee?.education_level - 1),
       educations:
@@ -126,141 +108,59 @@ const EmployeeDetailComponent = ({
     }
 
     return payload
-  }, [employee, residence, institution])
+  }, [employee])
 
   useEffect(() => {
     const id = router?.query?.id
     if (id) getEmployee(atob(id))
+
+    // Event clear state when url path changes
+    router.events.on('routeChangeComplete', clearEmployeeState)
+
+    return () => {
+      router.events.off('routeChangeComplete', clearEmployeeState)
+    }
   }, [router])
 
   useEffect(() => {
-    setRender(!(employee?.loading && institution?.loading && residence?.loading))
-  }, [employee?.loading, institution?.loading, residence?.loading])
+    setRender(!(employee?.loading || institution?.loading))
+  }, [employee, institution])
 
   const action = useMemo(() => {
     return (
       <Box sx={{ display: 'flex', gap: 1 }}>
-        <Button text='Edit Status Pegawai' color='primary' onClick={() => { }} />
-        <Button text='Edit' color='sidatukDraweBase' onClick={() => { }} />
-        <ButtonExport data={[{ name: 'PDF', action: () => { } }]} />
+        {router?.asPath?.includes('data-pegawai') && (
+          <>
+            <Button text='Edit Status Pegawai' color='primary' onClick={() => setEmploymentStatusModal(true)} />
+            <Button
+              text='Edit'
+              color='sidatukDraweBase'
+              onClick={() =>
+                router.push(`${router.pathname}/edit/${btoa(data?.id)}`)
+              }
+            />
+          </>
+        )}
+
+        <ButtonExport
+          data={[
+            { name: 'PDF', action: () => { } },
+            { name: 'XLS', action: () => { } },
+            { name: 'CSV', action: () => { } }
+          ]}
+        />
       </Box>
     )
-  }, [])
+  }, [employmentStatusModalOpen])
 
   const sectionComponents = () => {
-    const outsourcingPage = router?.asPath?.includes('outsourcing')
-
-    if (outsourcingPage) {
-      return (
-        <>
-          <Grid item xs={12} id='data_pegawai'>
-            <BiodataPegawai
-              detail={data}
-            />
-          </Grid>
-          <Grid item xs={12} id='riwayat_pendidikan'>
-            <RiwayatPendidikanSection
-              detail={data}
-            />
-          </Grid>
-          <Grid item xs={12} id='riwayat_catatan'>
-            <RiwayatCatatanSection
-              detail={data}
-            />
-          </Grid>
-        </>
-      )
-    }
-
-    return (
-      <>
-        <Grid item xs={12} id='data_pegawai'>
-          <BiodataPegawai
-            detail={data}
-          />
-        </Grid>
-        <Grid item xs={12} id='riwayat_pendidikan'>
-          <RiwayatPendidikanSection
-            detail={data}
-          />
-        </Grid>
-        <Grid item xs={12} id='riwayat_jabatan'>
-          <RiwayatJabatanSection
-            detail={data}
-          />
-        </Grid>
-        <Grid item xs={12} id='riwayat_golongan'>
-          <RiwayatGolonganSection
-            detail={data}
-          />
-        </Grid>
-        <Grid item xs={12} id='riwayat_pelatihan_struktural'>
-          <PelatihanStrukturalSection
-            detail={data}
-          />
-        </Grid>
-        <Grid item xs={12} id='riwayat_pelatihan_fungsional'>
-          <PelatihanFungsionalSection
-            detail={data}
-          />
-        </Grid>
-        <Grid item xs={12} id='riwayat_pelatihan_teknis'>
-          <RiwayatPelatihanTeknisSection
-            detail={data}
-          />
-        </Grid>
-        <Grid item xs={12} id='riwayat_penghargaan'>
-          <RiwayatPenghargaanSection
-            detail={data}
-          />
-        </Grid>
-        <Grid item xs={12} id='riwayat_skp'>
-          <RiwayatSKP
-            detail={data}
-          />
-        </Grid>
-        <Grid item xs={12} id='riwayat_penilaian_prestasi_kerja'>
-          <RiwayatPrestasiKerja
-            detail={data}
-          />
-        </Grid>
-        <Grid item xs={12} id='riwayat_hukuman_disiplin'>
-          <RiwayatHukumanDisiplin
-            detail={data}
-          />
-        </Grid>
-        <Grid item xs={12} id='riwayat_keluarga'>
-          <RiwayatKeluargaSection
-            detail={data}
-          />
-        </Grid>
-        <Grid item xs={12} id='riwayat_cuti'>
-          <RiwayatCutiSection
-            detail={data}
-          />
-        </Grid>
-        <Grid item xs={12} id='riwayat_catatan'>
-          <RiwayatCatatanSection
-            detail={data}
-          />
-        </Grid>
-        <Grid item xs={12} id='hasil_assessment'>
-          <RiwayatAssessmentSection
-            detail={data}
-          />
-        </Grid>
-        <Grid item xs={12} id='hasil_uji_kompetensi'>
-          <RiwayatUjikomSection
-            detail={data}
-          />
-        </Grid>
-        <Grid item xs={12} id='hasil_talent_pool'>
-          <RiwayatTalentPoolSection
-            detail={data}
-          />
-        </Grid>
-      </>
-    )
+    return sectionsList.map(item => (
+      <Grid item key={item.id} xs={12} id={item.id}>
+        <item.Section
+          data={item.data}
+        />
+      </Grid>
+    ))
   }
 
   const handleNavigationMenuClick = (id) => {
@@ -269,6 +169,138 @@ const EmployeeDetailComponent = ({
       block: 'center'
     })
   }
+
+  const [employmentStatusModalOpen, setEmploymentStatusModal] = useState(false)
+  const [notesModal, setNotesModal] = useState(false)
+
+  const sectionsList = useMemo(() => {
+    const sections = [
+      {
+        id: 'data_pegawai',
+        data: data,
+        Section: (props) => <BiodataPegawai {...props} />
+      },
+      {
+        id: 'riwayat_pendidikan',
+        data: data?.educations || [],
+        Section: (props) => <RiwayatPendidikanSection {...props} />
+      },
+      {
+        id: 'riwayat_jabatan',
+        data: data?.positions || [],
+        Section: (props) => <RiwayatJabatanSection {...props} />
+      },
+      {
+        id: 'riwayat_golongan',
+        data: data?.grades || [],
+        Section: (props) => <RiwayatGolonganSection {...props} />
+      },
+      {
+        id: 'riwayat_pelatihan_struktural',
+        data: data?.structurals || [],
+        Section: (props) => <PelatihanStrukturalSection {...props} />
+      },
+      {
+        id: 'riwayat_pelatihan_fungsional',
+        data: data?.functionals || [],
+        Section: (props) => <PelatihanFungsionalSection {...props} />
+      },
+      {
+        id: 'riwayat_pelatihan_teknis',
+        data: data?.technicals || [],
+        Section: (props) => <RiwayatPelatihanTeknisSection {...props} />
+      },
+      {
+        id: 'riwayat_penghargaan',
+        data: data?.recognitions || [],
+        Section: (props) => <RiwayatPenghargaanSection {...props} />
+      },
+      {
+        id: 'riwayat_skp',
+        data: data?.targets || [],
+        Section: (props) => <RiwayatSKP {...props} />
+      },
+      {
+        id: 'riwayat_penilaian_prestasi_kerja',
+        data: data?.performances || [],
+        Section: (props) => <RiwayatPrestasiKerja {...props} />
+      },
+      {
+        id: 'riwayat_hukuman_disiplin',
+        data: data?.disciplinaries || [],
+        Section: (props) => <RiwayatHukumanDisiplin {...props} />
+      },
+      {
+        id: 'riwayat_keluarga',
+        data: data?.families || [],
+        Section: (props) => <RiwayatKeluargaSection {...props} />
+      },
+      {
+        id: 'riwayat_cuti',
+        data: data?.leaves || [],
+        Section: (props) => <RiwayatCutiSection {...props} />
+      },
+      {
+        id: 'riwayat_catatan',
+        data: data?.notes || [],
+        Section: (props) => <RiwayatCatatanSection {...props} addNewNotes={() => setNotesModal(true)} />
+      },
+      {
+        id: 'hasil_assessment',
+        data: data?.assessments || [],
+        Section: (props) => <RiwayatAssessmentSection {...props} />
+      },
+      {
+        id: 'hasil_uji_kompetensi',
+        data: data?.competencies || [],
+        Section: (props) => <RiwayatUjikomSection {...props} />
+      },
+      {
+        id: 'hasil_talent_pool',
+        data: data?.talents || [],
+        Section: (props) => <RiwayatTalentPoolSection {...props} />
+      }
+    ]
+
+    const datas = sections
+      .filter((item) => {
+        const outsourcingPage = router?.asPath?.includes('outsourcing')
+        const outsourcingMenu = ['riwayat_pendidikan', 'riwayat_catatan']
+        const chosenRiwayatMenu = [
+          'riwayat_jabatan',
+          'riwayat_golongan',
+          'riwayat_pelatihan_struktural',
+          'riwayat_pelatihan_fungsional',
+          'riwayat_pelatihan_teknis',
+          'riwayat_penghargaan',
+          'riwayat_skp',
+          'riwayat_penilaian_prestasi_kerja',
+          'riwayat_hukuman_disiplin'
+        ]
+
+        // Filter by Outsourcing menus
+        if (outsourcingPage && outsourcingMenu?.includes(item?.id)) {
+          return true
+        }
+
+        if (!outsourcingPage) {
+          if (chosenRiwayatMenu.includes(item.id)) {
+            return Array.isArray(item?.data) && item.data.length > 0
+          } else {
+            return true
+          }
+        }
+
+        return false
+      })
+      .map(i => ({
+        ...i,
+        sideBarLabel:
+          i?.id?.split('_')?.map(item => capitalizeFirstLetter(item))?.join(' ')
+      }))
+
+    return datas
+  }, [data])
 
   return (
     <LayoutPages
@@ -293,7 +325,7 @@ const EmployeeDetailComponent = ({
               }}
             >
               <img
-                src={data?.photo_profile}
+                src={data?.photo_profile || '/simdatuk/userIcon.png'}
                 alt='Pegawai'
                 style={{
                   height: '100%',
@@ -312,7 +344,7 @@ const EmployeeDetailComponent = ({
                 {data?.name || '-'}
               </Typography>
               <Typography fontSize={14} fontWeight='500'>
-                {data?.position_name || '-'}
+                {data?.position_merged || '-'}
               </Typography>
               <Grid container sx={{ marginTop: '20px' }}>
                 <Grid item xs={4}>
@@ -321,10 +353,7 @@ const EmployeeDetailComponent = ({
                       Eselon
                     </Typography>
                     <Typography fontSize={14} fontWeight='600'>
-                      {
-                        data?.echelon_name && data?.echelon_effective_date ?
-                          `${data?.echelon_name}${data?.echelon_effective_date ? ', ' + data?.echelon_effective_date : ''}` : '-'
-                      }
+                      {data?.echelon_name || '-'}, {data?.echelon_effective_date || '-'}
                     </Typography>
                   </Box>
                 </Grid>
@@ -334,10 +363,7 @@ const EmployeeDetailComponent = ({
                       Golongan
                     </Typography>
                     <Typography fontSize={14} fontWeight='600'>
-                      {
-                        data?.grade_name && data?.grade_effective_date ?
-                          `${data?.grade_name || ''}${data?.grade_effective_date ? ', ' + data?.grade_effective_date : ''}` : '-'
-                      }
+                      {data?.grade_name || '-'} {data?.grade_code || '-'}, {data?.grade_effective_date || '-'}
                     </Typography>
                   </Box>
                 </Grid>
@@ -347,7 +373,7 @@ const EmployeeDetailComponent = ({
                       NIP/NRP
                     </Typography>
                     <Typography fontSize={14} fontWeight='600'>
-                      {data?.employee_registration_number || '-'}
+                      {data?.employee_id_number || '-'}/{data?.employee_registration_number || '-'}
                     </Typography>
                   </Box>
                 </Grid>
@@ -369,27 +395,18 @@ const EmployeeDetailComponent = ({
                   display: 'flex',
                   flexDirection: 'column',
                   gap: 1,
-                  height: () => {
-                    const outsourcingPage = router?.asPath?.includes('outsourcing')
-
-                    return outsourcingPage ? 'unset' : window.innerHeight * 0.70 + 'px'
-                  }
+                  height: 'fit-content',
+                  maxHeight: '88vh'
                 }}
               >
-                {dataPegawai
-                  .filter((item) => {
-                    const outsourcingPage = router?.asPath?.includes('outsourcing')
-                    const outsourcingMenu = ['Data Pegawai', 'Riwayat Pendidikan', 'Riwayat Catatan']
-                    return outsourcingPage ? outsourcingMenu?.includes(item) : item
-                  })
-                  .map((item, index) => {
-                    const id = item?.toLowerCase()?.split(' ')?.join('_')
-
+                {sectionsList
+                  .map((item) => {
                     return (
                       <ListNavigation
-                        key={index}
-                        name={item}
-                        handleClick={() => handleNavigationMenuClick(id)}
+                        key={item?.id}
+                        name={item?.sideBarLabel}
+                        handleClick={() => handleNavigationMenuClick(item?.id)}
+                        sx={{ height: '20px ' }}
                       />
                     )
                   })}
@@ -403,6 +420,20 @@ const EmployeeDetailComponent = ({
           </Grid>
         </Grid>
       </Grid>
+
+      <ModalEditEmploymentStatus
+        open={employmentStatusModalOpen}
+        handleCancel={() => setEmploymentStatusModal(false)}
+        handleSave={updateEmployee}
+        data={data}
+      />
+
+      <ModalAddNotes
+        open={notesModal}
+        handleCancel={() => setNotesModal(false)}
+        handleSave={updateEmployee}
+        data={data}
+      />
     </LayoutPages>
   )
 }
@@ -410,8 +441,9 @@ const EmployeeDetailComponent = ({
 EmployeeDetailComponent.propTypes = {
   employee: PropTypes.object,
   institution: PropTypes.object,
-  residence: PropTypes.object,
   getEmployee: PropTypes.func,
+  clearEmployeeState: PropTypes.func,
+  updateEmployee: PropTypes.func,
   setRender: PropTypes.func
 }
 

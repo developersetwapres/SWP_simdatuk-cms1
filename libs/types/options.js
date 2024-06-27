@@ -176,3 +176,5 @@ export const talentPoolsOptions = [
 export const entityOptions = ['Orang', 'Kelompok']
 
 export const positionTypeOptions = ['Struktural', 'Fungsional', 'Operasional']
+
+export const employeeTypeOptions = ['ASN', 'NON-ASN', 'OUTSOURCE']
