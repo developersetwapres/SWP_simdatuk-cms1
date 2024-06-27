@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useMemo } from 'react'
-import { Table } from '@/components/shared'
+import { Table, Button } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 
-const RiwayatPendidikanSection = ({ detail }) => {
+const RiwayatPendidikanSection = ({ data = [] }) => {
   const columns = useMemo(
     () => [
       {
@@ -56,8 +56,13 @@ const RiwayatPendidikanSection = ({ detail }) => {
     []
   )
 
+  const openInNewTab = url => {
+    if (!url) return
+
+    window.open(url, '_blank')
+  }
+
   const rows = useMemo(() => {
-    const data = detail?.educations || []
     const dataMapping = data?.map((item, index) => {
       return [
         {
@@ -113,17 +118,20 @@ const RiwayatPendidikanSection = ({ detail }) => {
           align: 'left',
           verticalAlign: 'top',
           Cell: () => (
-            <Typography>-</Typography>
-            // <Typography>
-            //   <Button text='Lihat File' />
-            // </Typography>
+            <>
+              {item?.decree_document ? (
+                <Button text='Lihat File' onClick={() => openInNewTab(item?.decree_document)} />
+              ) : (
+                <Typography>-</Typography>
+              )}
+            </>
           )
         }
       ]
     })
 
     return dataMapping
-  }, [detail])
+  }, [data])
 
   return (
     <Grid>
@@ -138,7 +146,7 @@ const RiwayatPendidikanSection = ({ detail }) => {
 }
 
 RiwayatPendidikanSection.propTypes = {
-  detail: PropTypes.object
+  data: PropTypes.array
 }
 
 export default RiwayatPendidikanSection

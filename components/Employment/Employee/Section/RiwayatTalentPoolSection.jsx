@@ -4,7 +4,7 @@ import { Table, Button } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 
-const RiwayatTalentPoolSection = ({ detail }) => {
+const RiwayatTalentPoolSection = ({ data = [] }) => {
   const columns = useMemo(
     () => [
       {
@@ -36,8 +36,13 @@ const RiwayatTalentPoolSection = ({ detail }) => {
     []
   )
 
+  const openInNewTab = url => {
+    if (!url) return
+
+    window.open(url, '_blank')
+  }
+
   const rows = useMemo(() => {
-    const data = detail?.talents || []
     const dataMapping = data?.map((item, index) => {
       return [
         {
@@ -50,35 +55,42 @@ const RiwayatTalentPoolSection = ({ detail }) => {
           Header: 'Tanggal',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tingkat}</Typography>
+          Cell: () => <Typography>{item?.event_date || '-'}</Typography>
         },
         {
           Header: 'Hasil',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.nama}</Typography>
+          Cell: () => <Typography>{item?.point || '-'}</Typography>
         },
         {
           Header: 'Penyelenggara',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.fakultas}</Typography>
+          Cell: () => <Typography>{item?.organizer || '-'}</Typography>
         },
         {
           Header: 'File Pendukung',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => (
-            <Typography>
-              <Button text='Lihat File' />
-            </Typography>
+            <>
+              {
+                item?.talent_document ?
+                  <Button
+                    text='Lihat File'
+                    onClick={() => openInNewTab(item?.talent_document)}
+                  /> :
+                  <Typography>-</Typography >
+              }
+            </>
           )
         }
       ]
     })
 
     return dataMapping
-  }, [detail])
+  }, [data])
 
   return (
     <Grid>
@@ -93,7 +105,7 @@ const RiwayatTalentPoolSection = ({ detail }) => {
 }
 
 RiwayatTalentPoolSection.propTypes = {
-  detail: PropTypes.object
+  data: PropTypes.array
 }
 
 export default RiwayatTalentPoolSection

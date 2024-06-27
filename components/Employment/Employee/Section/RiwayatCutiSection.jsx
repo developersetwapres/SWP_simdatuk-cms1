@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useMemo } from 'react'
-import { Table } from '@/components/shared'
+import { Table, Button } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
+import { leavesOptions } from 'libs/types/options'
 
-const RiwayatCutiSection = ({ detail }) => {
+const RiwayatCutiSection = ({ data = [] }) => {
   const columns = useMemo(
     () => [
       {
@@ -13,22 +14,12 @@ const RiwayatCutiSection = ({ detail }) => {
         align: 'left'
       },
       {
-        Header: 'Golongan',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'Jabatan',
-        width: 200,
-        align: 'left'
-      },
-      {
         Header: 'Periode',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Alasan',
+        Header: 'Jenis Cuti',
         width: 200,
         align: 'left'
       },
@@ -38,7 +29,7 @@ const RiwayatCutiSection = ({ detail }) => {
         align: 'left'
       },
       {
-        Header: 'Tujuan',
+        Header: 'Keterangan',
         width: 200,
         align: 'left'
       },
@@ -51,8 +42,19 @@ const RiwayatCutiSection = ({ detail }) => {
     []
   )
 
+  const options = useMemo(() => {
+    const data = {
+      leaves: leavesOptions
+    }
+
+    return data
+  }, [])
+
+  const getValueOptions = (value, type) => {
+    return options[type][value]
+  }
+
   const rows = useMemo(() => {
-    const data = detail?.leaves || []
     const dataMapping = data?.map((item, index) => {
       return [
         {
@@ -62,52 +64,50 @@ const RiwayatCutiSection = ({ detail }) => {
           Cell: () => <Typography>{index + 1}</Typography>
         },
         {
-          Header: 'Golongan',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tingkat}</Typography>
-        },
-        {
-          Header: 'Jabatan',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.nama}</Typography>
-        },
-        {
           Header: 'Periode',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.fakultas}</Typography>
+          Cell: () => <Typography>{item?.start_date || '-'}</Typography>
         },
         {
-          Header: 'Alasan',
+          Header: 'Jenis Cuti',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.jurusan}</Typography>
+          Cell: () => <Typography>{getValueOptions(item?.type, 'leaves')}</Typography>
         },
         {
           Header: 'No. Cuti',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.status}</Typography>
+          Cell: () => <Typography>{item?.number || '-'}</Typography>
         },
         {
-          Header: 'Tujuan',
+          Header: 'Keterangan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
+          Cell: () => <Typography>{item?.description || '-'}</Typography>
         },
         {
           Header: 'Surat Cuti',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
+          Cell: () => <Typography>
+            {
+              <>
+                {item?.letter ? (
+                  <Button text='Lihat File' onClick={() => openInNewTab(item?.letter)} />
+                ) : (
+                  <Typography>-</Typography>
+                )}
+              </>
+            }
+          </Typography>
         }
       ]
     })
 
     return dataMapping
-  }, [detail])
+  }, [data])
 
   return (
     <Grid>
@@ -122,7 +122,7 @@ const RiwayatCutiSection = ({ detail }) => {
 }
 
 RiwayatCutiSection.propTypes = {
-  detail: PropTypes.object
+  data: PropTypes.array
 }
 
 export default RiwayatCutiSection

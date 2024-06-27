@@ -4,7 +4,7 @@ import { Table } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 
-const RiwayatHukumanDisiplin = ({ detail }) => {
+const RiwayatHukumanDisiplin = ({ data = [] }) => {
   const columns = useMemo(
     () => [
       {
@@ -87,7 +87,6 @@ const RiwayatHukumanDisiplin = ({ detail }) => {
   )
 
   const rows = useMemo(() => {
-    const data = detail?.disciplinaries || []
     const dataMapping = data?.map((item, index) => {
       return [
         {
@@ -100,91 +99,91 @@ const RiwayatHukumanDisiplin = ({ detail }) => {
           Header: 'Golongan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tingkat}</Typography>
+          Cell: () => <Typography>{item?.grade || '-'}</Typography>
         },
         {
           Header: 'Jabatan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.nama}</Typography>
+          Cell: () => <Typography>{item?.position || '-'}</Typography>
         },
         {
           Header: 'Jenis Hukuman',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.fakultas}</Typography>
+          Cell: () => <Typography>{item?.disciplinary_name || '-'}</Typography>
         },
         {
           Header: 'Tingkat Hukuman',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.jurusan}</Typography>
+          Cell: () => <Typography>{item?.disciplinary_description || '-'}</Typography>
         },
         {
           Header: 'Pemotongan Tunjangan Kinerja(Persentase)',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.status}</Typography>
+          Cell: () => <Typography>{item?.performance_allowance_deduction || '-'}</Typography>
         },
         {
           Header: 'Jangka Waktu Pemotongan(Bulan)',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
+          Cell: () => <Typography>{item?.period_month || '-'}</Typography>
         },
         {
           Header: 'No. SK Hukuman Disiplin',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
+          Cell: () => <Typography>{item?.decree_number || '-'}</Typography>
         },
         {
           Header: 'Tanggal SK Hukuman Disiplin',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
+          Cell: () => <Typography>{item?.date_of_decree || '-'}</Typography>
         },
         {
           Header: 'Tanggal Hukuman Disiplin',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
+          Cell: () => <Typography>{item?.start_date || '-'}</Typography>
         },
         {
           Header: 'Status',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
+          Cell: () => <Typography>{item?.status || '-'}</Typography>
         },
         {
           Header: 'Masa Berlaku',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
+          Cell: () => <Typography>{item?.performance_allowance_duration || '-'}</Typography>
         },
         {
           Header: 'Pejabat Berwenang',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
+          Cell: () => <Typography>{item?.authorizing_officer || '-'}</Typography>
         },
         {
           Header: 'Nama Pejabat Berwenang',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
+          Cell: () => <Typography>{item?.name_of_authorizing_officer || '-'}</Typography>
         },
         {
           Header: 'Uraian',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
+          Cell: () => <Typography>{item?.description || '-'}</Typography>
         }
       ]
     })
 
     return dataMapping
-  }, [detail])
+  }, [data])
 
   return (
     <Grid>
@@ -199,7 +198,7 @@ const RiwayatHukumanDisiplin = ({ detail }) => {
 }
 
 RiwayatHukumanDisiplin.propTypes = {
-  detail: PropTypes.object
+  data: PropTypes.array
 }
 
 export default RiwayatHukumanDisiplin

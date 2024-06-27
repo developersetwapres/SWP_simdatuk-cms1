@@ -9,7 +9,7 @@ import {
   organizationalPerformanceOptions
 } from 'libs/types/options'
 
-const RiwayatSKP = ({ detail }) => {
+const RiwayatSKP = ({ data = [] }) => {
   const columns = useMemo(
     () => [
       {
@@ -62,7 +62,6 @@ const RiwayatSKP = ({ detail }) => {
   }
 
   const rows = useMemo(() => {
-    const data = detail?.targets || []
     const dataMapping = data?.map((item, index) => {
       return [
         {
@@ -105,7 +104,7 @@ const RiwayatSKP = ({ detail }) => {
     })
 
     return dataMapping
-  }, [detail])
+  }, [data])
 
   return (
     <Grid>
@@ -120,7 +119,7 @@ const RiwayatSKP = ({ detail }) => {
 }
 
 RiwayatSKP.propTypes = {
-  detail: PropTypes.object
+  data: PropTypes.array
 }
 
 export default RiwayatSKP

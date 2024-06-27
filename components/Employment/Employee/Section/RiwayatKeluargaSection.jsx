@@ -3,8 +3,9 @@ import React, { useMemo } from 'react'
 import { Table } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
+import { educationLevelOptions, genderOptions, maritalStatusOptions, relationshipStatusOptions, religionOptions } from 'libs/types/options'
 
-const RiwayatKeluargaSection = ({ detail }) => {
+const RiwayatKeluargaSection = ({ data = [] }) => {
   const columns = useMemo(
     () => [
       {
@@ -96,8 +97,23 @@ const RiwayatKeluargaSection = ({ detail }) => {
     []
   )
 
+  const options = useMemo(() => {
+    const data = {
+      gender: genderOptions,
+      religion: religionOptions,
+      relationship: relationshipStatusOptions,
+      education: educationLevelOptions,
+      marital_status: maritalStatusOptions
+    }
+
+    return data
+  }, [])
+
+  const getValueOptions = (value, type) => {
+    return options[type][value]
+  }
+
   const rows = useMemo(() => {
-    const data = detail?.families || []
     const dataMapping = data?.map((item, index) => {
       return [
         {
@@ -110,103 +126,103 @@ const RiwayatKeluargaSection = ({ detail }) => {
           Header: 'No. Kartu Keluarga',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tingkat}</Typography>
+          Cell: () => <Typography>{item?.card_number || '-'}</Typography>
         },
         {
           Header: 'Nama Anggota Keluarga',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.nama}</Typography>
+          Cell: () => <Typography>{item?.name || '-'}</Typography>
         },
         {
           Header: 'No. NIK',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.fakultas}</Typography>
+          Cell: () => <Typography>{item?.id_number || '-'}</Typography>
         },
         {
           Header: 'Jenis Kelamin',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.jurusan}</Typography>
+          Cell: () => <Typography>{getValueOptions(item?.gender - 1, 'gender')}</Typography>
         },
         {
           Header: 'Agama',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.status}</Typography>
+          Cell: () => <Typography>{getValueOptions(item?.religion - 1, 'religion')}</Typography>
         },
         {
           Header: 'Tempat Lahir',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
+          Cell: () => <Typography>{item?.place_of_birth || '-'}</Typography>
         },
         {
           Header: 'Tanggal Lahir',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
+          Cell: () => <Typography>{item?.date_of_birth || '-'}</Typography>
         },
         {
           Header: 'Nama Bapak',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
+          Cell: () => <Typography>{item?.name_of_father || '-'}</Typography>
         },
         {
           Header: 'Nama Ibu',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
+          Cell: () => <Typography>{item?.name_of_mother || '-'}</Typography>
         },
         {
           Header: 'Hubungan Keluarga',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
+          Cell: () => <Typography>{getValueOptions(item?.relationship_status - 1, 'relationship')}</Typography>
         },
         {
           Header: 'Pendidikan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
+          Cell: () => <Typography>{getValueOptions(item?.education - 1, 'education')}</Typography>
         },
         {
           Header: 'Jenis Pekerjaan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
+          Cell: () => <Typography>{item?.occupation || '-'}</Typography>
         },
         {
           Header: 'Keterangan Pekerjaan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
+          Cell: () => <Typography>{item?.occupation_description || '-'}</Typography>
         },
         {
           Header: 'Status Perkawinan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
+          Cell: () => <Typography>{getValueOptions(item?.marital_status - 1, 'marital_status')}</Typography>
         },
         {
           Header: 'No. HP',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
+          Cell: () => <Typography>{item?.mobile_phone || '-'}</Typography>
         },
         {
           Header: 'Urut Keluarga',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tahun}</Typography>
+          Cell: () => <Typography>{item?.sequence_number || '-'}</Typography>
         }
       ]
     })
 
     return dataMapping
-  }, [detail])
+  }, [data])
 
   return (
     <Grid>
@@ -221,7 +237,7 @@ const RiwayatKeluargaSection = ({ detail }) => {
 }
 
 RiwayatKeluargaSection.propTypes = {
-  detail: PropTypes.object
+  data: PropTypes.array
 }
 
 export default RiwayatKeluargaSection

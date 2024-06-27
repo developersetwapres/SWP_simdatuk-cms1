@@ -4,7 +4,7 @@ import { Table, Button } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 
-const RiwayatGolonganSection = ({ detail }) => {
+const RiwayatGolonganSection = ({ data = [] }) => {
   const columns = useMemo(
     () => [
       {
@@ -56,8 +56,13 @@ const RiwayatGolonganSection = ({ detail }) => {
     []
   )
 
+  const openInNewTab = url => {
+    if (!url) return
+
+    window.open(url, '_blank')
+  }
+
   const rows = useMemo(() => {
-    const data = detail?.grades || []
     const dataMapping = data.map((item, index) => {
       return [
         {
@@ -83,16 +88,22 @@ const RiwayatGolonganSection = ({ detail }) => {
           align: 'left',
           verticalAlign: 'top',
           Cell: () => (
-            <Typography>
-              {item?.decree_document ? <Button text='Lihat File' /> : '-'}
-            </Typography>
+            <>
+              {
+                item?.decree_document ?
+                  <Button
+                    text='Lihat File'
+                    onClick={() => openInNewTab(item?.decree_document)}
+                  /> : <Typography>-</Typography>
+              }
+            </>
           )
         },
         {
           Header: 'Jenis SK Golongan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.type_of_decree || '-'}</Typography>
+          Cell: () => <Typography>{item?.type_of_decree_name || '-'}</Typography>
         },
         {
           Header: 'No. SK Golongan',
@@ -116,13 +127,13 @@ const RiwayatGolonganSection = ({ detail }) => {
           Header: 'Status Golongan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.status || '-'}</Typography>
+          Cell: () => <Typography>{item?.status === 1 ? 'Aktif' : 'Tidak Aktif'}</Typography>
         }
       ]
     })
 
     return dataMapping
-  }, [detail])
+  }, [data])
 
   return (
     <Grid>
@@ -137,7 +148,7 @@ const RiwayatGolonganSection = ({ detail }) => {
 }
 
 RiwayatGolonganSection.propTypes = {
-  detail: PropTypes.object
+  data: PropTypes.array
 }
 
 export default RiwayatGolonganSection

@@ -4,7 +4,7 @@ import { Table } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 
-const RiwayatPrestasiKerja = ({ detail }) => {
+const RiwayatPrestasiKerja = ({ data = [] }) => {
   const columns = useMemo(
     () => [
       {
@@ -32,7 +32,6 @@ const RiwayatPrestasiKerja = ({ detail }) => {
   )
 
   const rows = useMemo(() => {
-    const data = detail?.performances || []
     const dataMapping = data?.map((item, index) => {
       return [
         {
@@ -57,13 +56,13 @@ const RiwayatPrestasiKerja = ({ detail }) => {
           Header: 'Keterangan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{'-'}</Typography>
+          Cell: () => <Typography>{item?.description || '-'}</Typography>
         }
       ]
     })
 
     return dataMapping
-  }, [detail])
+  }, [data])
 
   return (
     <Grid>
@@ -78,7 +77,7 @@ const RiwayatPrestasiKerja = ({ detail }) => {
 }
 
 RiwayatPrestasiKerja.propTypes = {
-  detail: PropTypes.object
+  data: PropTypes.array
 }
 
 export default RiwayatPrestasiKerja

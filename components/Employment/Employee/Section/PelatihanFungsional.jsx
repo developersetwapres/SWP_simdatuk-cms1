@@ -4,7 +4,7 @@ import { Table, Button } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 
-const PelatihanFungsionalSection = ({ detail }) => {
+const PelatihanFungsionalSection = ({ data = [] }) => {
   const columns = useMemo(
     () => [
       {
@@ -51,8 +51,13 @@ const PelatihanFungsionalSection = ({ detail }) => {
     []
   )
 
+  const openInNewTab = url => {
+    if (!url) return
+
+    window.open(url, '_blank')
+  }
+
   const rows = useMemo(() => {
-    const data = detail?.functionals || []
     const dataMapping = data?.map((item, index) => {
       return [
         {
@@ -102,16 +107,22 @@ const PelatihanFungsionalSection = ({ detail }) => {
           align: 'left',
           verticalAlign: 'top',
           Cell: () => (
-            <Typography>
-              {item?.certificate ? <Button text='Lihat File' /> : '-'}
-            </Typography>
+            <>
+              {
+                item?.certificate ?
+                  <Button
+                    text='Lihat File'
+                    onClick={() => openInNewTab(item?.certificate)}
+                  /> : <Typography>-</Typography>
+              }
+            </>
           )
         }
       ]
     })
 
     return dataMapping
-  }, [detail])
+  }, [data])
 
   return (
     <Grid>
@@ -126,7 +137,7 @@ const PelatihanFungsionalSection = ({ detail }) => {
 }
 
 PelatihanFungsionalSection.propTypes = {
-  detail: PropTypes.object
+  data: PropTypes.array
 }
 
 export default PelatihanFungsionalSection

@@ -3,8 +3,29 @@ import React, { useMemo } from 'react'
 import { Table, Button } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
+import { positionDescOptions } from 'libs/types/options'
 
-const RiwayatJabatanSection = ({ detail }) => {
+const RiwayatJabatanSection = ({
+  data = []
+}) => {
+  const openInNewTab = url => {
+    if (!url) return
+
+    window.open(url, '_blank')
+  }
+
+  const options = useMemo(() => {
+    const data = {
+      position_desc: positionDescOptions
+    }
+
+    return data
+  }, [])
+
+  const getValueOptions = (value, type) => {
+    return options[type][value]
+  }
+
   const columns = useMemo(
     () => [
       {
@@ -97,7 +118,6 @@ const RiwayatJabatanSection = ({ detail }) => {
   )
 
   const rows = useMemo(() => {
-    const data = detail?.positions || []
     const dataMapping = data?.map((item, index) => {
       return [
         {
@@ -122,13 +142,13 @@ const RiwayatJabatanSection = ({ detail }) => {
           Header: 'Jenjang Jabatan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.echelon || '-'}</Typography>
+          Cell: () => <Typography>{item?.echelon_name || '-'}</Typography>
         },
         {
           Header: 'Keterangan Jabatan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{'-'}</Typography>
+          Cell: () => <Typography>{getValueOptions(item?.position_status, 'position_desc')}</Typography>
         },
         {
           Header: 'TMT Menjabat',
@@ -147,9 +167,16 @@ const RiwayatJabatanSection = ({ detail }) => {
           align: 'left',
           verticalAlign: 'top',
           Cell: () => (
-            <Typography>
-              {item?.decree_document ? <Button text='Lihat File' /> : '-'}
-            </Typography>
+            <>
+              {
+                item?.decree_document ?
+                  <Button
+                    text='Lihat File'
+                    onClick={() => openInNewTab(item?.decree_document)}
+                  /> :
+                  <Typography>-</Typography >
+              }
+            </>
           )
         },
         {
@@ -174,7 +201,7 @@ const RiwayatJabatanSection = ({ detail }) => {
           Header: 'TMT Selesai',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{'-'}</Typography>
+          Cell: () => <Typography>{item?.termination_date || '-'}</Typography>
         },
         {
           Header: 'SK Selesai',
@@ -204,13 +231,13 @@ const RiwayatJabatanSection = ({ detail }) => {
           Header: 'Status Jabatan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{'-'}</Typography>
+          Cell: () => <Typography>{item?.status === 1 ? 'Aktif' : 'Tidak Aktif'}</Typography>
         }
       ]
     })
 
     return dataMapping
-  }, [detail])
+  }, [data])
 
   return (
     <Grid>
@@ -225,7 +252,7 @@ const RiwayatJabatanSection = ({ detail }) => {
 }
 
 RiwayatJabatanSection.propTypes = {
-  detail: PropTypes.object
+  data: PropTypes.array
 }
 
 export default RiwayatJabatanSection

@@ -1,10 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useMemo } from 'react'
-import { Table } from '@/components/shared'
+import { Table, Button } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 
-const RiwayatCatatanSection = ({ detail }) => {
+const RiwayatCatatanSection = ({
+  data = [],
+  addNewNotes = () => { }
+}) => {
   const columns = useMemo(
     () => [
       {
@@ -32,7 +35,6 @@ const RiwayatCatatanSection = ({ detail }) => {
   )
 
   const rows = useMemo(() => {
-    const data = detail?.notes || []
     const dataMapping = data?.map((item, index) => {
       return [
         {
@@ -45,30 +47,31 @@ const RiwayatCatatanSection = ({ detail }) => {
           Header: 'Tanggal',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tingkat}</Typography>
+          Cell: () => <Typography>{item?.created_at || '-'}</Typography>
         },
         {
           Header: 'Inputer',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.nama}</Typography>
+          Cell: () => <Typography>{item?.giver_name || '-'}</Typography>
         },
         {
           Header: 'Catatan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.fakultas}</Typography>
+          Cell: () => <Typography>{item?.description || '-'}</Typography>
         }
       ]
     })
 
     return dataMapping
-  }, [detail])
+  }, [data])
 
   return (
     <Grid>
       <Table
         title='Riwayat Catatan'
+        action={<Button text='+ Tambah' onClick={addNewNotes} />}
         columns={columns}
         rows={rows}
         isPagination={false}
@@ -78,7 +81,8 @@ const RiwayatCatatanSection = ({ detail }) => {
 }
 
 RiwayatCatatanSection.propTypes = {
-  detail: PropTypes.object
+  data: PropTypes.array,
+  addNewNotes: PropTypes.func
 }
 
 export default RiwayatCatatanSection

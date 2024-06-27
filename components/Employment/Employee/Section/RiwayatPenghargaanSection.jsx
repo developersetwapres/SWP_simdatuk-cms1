@@ -4,7 +4,7 @@ import { Table } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 
-const RiwayatPenghargaanSection = ({ detail }) => {
+const RiwayatPenghargaanSection = ({ data = [] }) => {
   const columns = useMemo(
     () => [
       {
@@ -57,7 +57,6 @@ const RiwayatPenghargaanSection = ({ detail }) => {
   )
 
   const rows = useMemo(() => {
-    const data = detail?.recognitions || []
     const dataMapping = data?.map((item, index) => {
       return [
         {
@@ -118,7 +117,7 @@ const RiwayatPenghargaanSection = ({ detail }) => {
     })
 
     return dataMapping
-  }, [detail])
+  }, [data])
 
   return (
     <Grid>
@@ -133,7 +132,7 @@ const RiwayatPenghargaanSection = ({ detail }) => {
 }
 
 RiwayatPenghargaanSection.propTypes = {
-  detail: PropTypes.object
+  data: PropTypes.array
 }
 
 export default RiwayatPenghargaanSection
