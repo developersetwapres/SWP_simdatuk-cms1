@@ -6,16 +6,24 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 export default connect(
-  mapStateToProps('employee', 'institution', 'residence'),
-  mapActions('getEmployee', 'getInstitutionsOptions', 'getResidences')
+  mapStateToProps(
+    'employee',
+    'institution'
+  ),
+  mapActions(
+    'getEmployee',
+    'clearEmployeeState',
+    'getInstitutionsOptions',
+    'updateEmployee'
+  )
 )(
   class EmployeeDetailContainers extends React.Component {
     static propTypes = {
       employee: PropTypes.object,
-      residence: PropTypes.object,
       getEmployee: PropTypes.func,
+      clearEmployeeState: PropTypes.func,
       getInstitutionsOptions: PropTypes.func,
-      getResidences: PropTypes.func
+      updateEmployee: PropTypes.func
     }
 
     constructor(props) {
@@ -38,7 +46,6 @@ export default connect(
 
     fetch(queries) {
       this.props.getInstitutionsOptions(queries)
-      this.props.getResidences(queries)
     }
 
     componentDidMount() {

@@ -7,12 +7,11 @@ import Layout from '@/components/core/Layout'
 import EmployeeDetailComponent from '@/components/Employment/Employee/EmployeeDetailComponent'
 
 export default connect(
-  mapStateToProps('employee', 'institution', 'residence'),
+  mapStateToProps('employee', 'institution'),
   mapActions(
     'getEmployee',
     'clearEmployeeState',
-    'getInstitutionsOptions',
-    'getResidences'
+    'getInstitutionsOptions'
   )
 )(
   class RiwayatPenghargaanDetailPegawaiContainer extends Component {
@@ -21,7 +20,6 @@ export default connect(
       residence: PropTypes.object,
       getEmployee: PropTypes.func,
       getInstitutionsOptions: PropTypes.func,
-      getResidences: PropTypes.func,
       clearEmployeeState: PropTypes.func
     }
 
@@ -45,7 +43,6 @@ export default connect(
 
     fetch(queries) {
       this.props.getInstitutionsOptions(queries)
-      this.props.getResidences(queries)
     }
 
     componentDidMount() {

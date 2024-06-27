@@ -7,16 +7,22 @@ import Layout from '@/components/core/Layout'
 import EmployeeDetailComponent from '@/components/Employment/Employee/EmployeeDetailComponent'
 
 export default connect(
-  mapStateToProps('employee', 'institution', 'residence'),
-  mapActions('getEmployee', 'getInstitutionsOptions', 'getResidences')
+  mapStateToProps(
+    'employee',
+    'institution'
+  ),
+  mapActions(
+    'getEmployee',
+    'clearEmployeeState',
+    'getInstitutionsOptions'
+  )
 )(
   class RiwayatHukumanDisiplinDetailPegawaiContainer extends Component {
     static propTypes = {
       employee: PropTypes.object,
-      residence: PropTypes.object,
       getEmployee: PropTypes.func,
-      getInstitutionsOptions: PropTypes.func,
-      getResidences: PropTypes.func
+      clearEmployeeState: PropTypes.func,
+      getInstitutionsOptions: PropTypes.func
     }
 
     constructor(props) {
@@ -39,7 +45,6 @@ export default connect(
 
     fetch(queries) {
       this.props.getInstitutionsOptions(queries)
-      this.props.getResidences(queries)
     }
 
     componentDidMount() {
