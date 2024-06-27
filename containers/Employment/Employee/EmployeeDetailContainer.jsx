@@ -8,22 +8,26 @@ import PropTypes from 'prop-types'
 export default connect(
   mapStateToProps(
     'employee',
-    'institution'
+    'institution',
+    'exportEmployeeData'
   ),
   mapActions(
     'getEmployee',
     'clearEmployeeState',
     'getInstitutionsOptions',
-    'updateEmployee'
+    'updateEmployee',
+    'exportEmployeeDetail'
   )
 )(
   class EmployeeDetailContainers extends React.Component {
     static propTypes = {
       employee: PropTypes.object,
+      exportEmployeeData: PropTypes.object,
       getEmployee: PropTypes.func,
       clearEmployeeState: PropTypes.func,
       getInstitutionsOptions: PropTypes.func,
-      updateEmployee: PropTypes.func
+      updateEmployee: PropTypes.func,
+      exportEmployeeDetail: PropTypes.func
     }
 
     constructor(props) {

@@ -39,17 +39,22 @@ import {
 } from 'libs/types/options'
 import ModalEditEmploymentStatus from '@/components/shared/Modal/ModalEditEmploymentStatus'
 import ModalAddNotes from '@/components/shared/Modal/ModalAddNotes'
-import { capitalizeFirstLetter } from '@/utils/index'
+import { capitalizeFirstLetter, dateTimeFormat } from '@/utils/index'
+import { useDispatch } from 'react-redux'
+import { CLEAR_EXPORT_EMPLOYEE_DETAIL_STATE } from '@/store/constants'
 
 const EmployeeDetailComponent = ({
   employee,
+  exportEmployeeData,
   institution,
   getEmployee = () => { },
   updateEmployee = () => { },
   clearEmployeeState = () => { },
+  exportEmployeeDetail = () => { },
   setRender = () => { }
 }) => {
   const router = useRouter()
+  const dispatch = useDispatch()
 
   const options = useMemo(() => {
     const dataOptions = {
@@ -123,8 +128,34 @@ const EmployeeDetailComponent = ({
   }, [router])
 
   useEffect(() => {
-    setRender(!(employee?.loading || institution?.loading))
-  }, [employee, institution])
+    setRender(!(employee?.loading || institution?.loading || exportEmployeeData?.loading))
+  }, [employee, institution, exportEmployeeData])
+
+  // Export
+  useEffect(() => {
+    if (exportEmployeeData?.detail) saveFile(exportEmployeeData?.detail)
+  }, [exportEmployeeData])
+
+  const saveFile = (resp) => {
+    // set the blog type to final pdf
+    const file = new Blob([resp], { type: 'application/pdf' })
+
+    // process to auto download it
+    const fileURL = URL.createObjectURL(file)
+    const link = document.createElement('a')
+    link.href = fileURL
+    link.download = getFileName()
+    link.click()
+    URL.revokeObjectURL(fileURL)
+    dispatch({ type: CLEAR_EXPORT_EMPLOYEE_DETAIL_STATE })
+  }
+
+  const getFileName = () => {
+    const dateNow = dateTimeFormat(new Date())?.replace(' ', '_')
+    const prefix = 'DATA_PEGAWAI_' + data?.id
+
+    return prefix + dateNow + '.pdf'
+  }
 
   const action = useMemo(() => {
     return (
@@ -144,14 +175,20 @@ const EmployeeDetailComponent = ({
 
         <ButtonExport
           data={[
-            { name: 'PDF', action: () => { } },
-            { name: 'XLS', action: () => { } },
-            { name: 'CSV', action: () => { } }
+            { name: 'PDF', action: () => exportAsPDF() }
           ]}
         />
       </Box>
     )
   }, [employmentStatusModalOpen])
+
+  const exportAsPDF = () => {
+    const id = router?.query?.id
+
+    if (id) {
+      exportEmployeeDetail(atob(id))
+    }
+  }
 
   const sectionComponents = () => {
     return sectionsList.map(item => (
@@ -440,9 +477,11 @@ const EmployeeDetailComponent = ({
 
 EmployeeDetailComponent.propTypes = {
   employee: PropTypes.object,
+  exportEmployeeData: PropTypes.object,
   institution: PropTypes.object,
   getEmployee: PropTypes.func,
   clearEmployeeState: PropTypes.func,
+  exportEmployeeDetail: PropTypes.func,
   updateEmployee: PropTypes.func,
   setRender: PropTypes.func
 }
