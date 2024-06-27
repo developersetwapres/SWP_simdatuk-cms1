@@ -41,6 +41,7 @@ import disciplinarySaga from './histories/disciplinarySaga'
 // Export
 import exportDRHSaga from './export/exportDRHSaga'
 import exportRecapSaga from './export/exportRecapSaga'
+import exportEmployeeSaga from './export/exportEmployeeSaga'
 
 export default function* rootSaga() {
   yield all([
@@ -67,6 +68,7 @@ export default function* rootSaga() {
     residenceSaga(),
     exportDRHSaga(),
     exportRecapSaga(),
+    exportEmployeeSaga(),
     positionSaga()
   ])
 }

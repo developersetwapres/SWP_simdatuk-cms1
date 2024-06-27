@@ -38,6 +38,7 @@ import * as responserReducer from './responserReducer'
 // Export
 import * as exportDRHReducer from './export/exportDRHReducer'
 import * as exportRecapReducer from './export/exportRecapReducer'
+import * as exportEmployeeReducer from './export/exportEmployeeReducer'
 
 /**
  *
@@ -70,6 +71,7 @@ const reducers = {
   ...residenceReducer,
   ...exportDRHReducer,
   ...exportRecapReducer,
+  ...exportEmployeeReducer,
   ...positionReducer
 }
 

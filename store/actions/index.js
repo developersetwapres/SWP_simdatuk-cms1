@@ -35,6 +35,7 @@ import * as disciplinary from './histories/disciplinary'
 // Export
 import * as exportDRH from './export/exportDRH'
 import * as exportRecap from './export/exportRecap'
+import * as exportEmployee from './export/exportEmployee'
 
 /**
  *
@@ -65,6 +66,7 @@ const actions = {
   ...employmentType,
   ...residence,
   ...exportDRH,
+  ...exportEmployee,
   ...exportRecap,
   ...position
 }
