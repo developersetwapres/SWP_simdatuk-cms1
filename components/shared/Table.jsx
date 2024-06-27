@@ -20,13 +20,14 @@ function Table({
   columns,
   rows,
   title,
+  action,
   isPagination = true,
   colorTitle = 'primary',
   paper = true,
   divider = false,
   pagination,
-  handlePagination = () => {},
-  handleRows = () => {}
+  handlePagination = () => { },
+  handleRows = () => { }
 }) {
   const handleChangePage = (e, page) => {
     handlePagination(page + 1)
@@ -40,7 +41,14 @@ function Table({
   const TableComponent = useMemo(() => {
     return (
       <Fragment>
-        <Box sx={{ marginBottom: '12px', display: title ? 'flex' : 'none' }}>
+        <Box
+          sx={{
+            marginBottom: '12px',
+            display: title ? 'flex' : 'none',
+            justifyContent: 'space-between',
+            alignItems: 'center'
+          }}
+        >
           <Typography
             component='h4'
             color={colorTitle}
@@ -51,6 +59,8 @@ function Table({
           >
             {title || ''}
           </Typography>
+
+          {action && action}
         </Box>
         {divider && (
           <Divider sx={{ marginBottom: '12px', border: '1px solid #929292' }} />
@@ -170,7 +180,8 @@ Table.propTypes = {
   paper: PropTypes.bool,
   pagination: PropTypes.object,
   handlePagination: PropTypes.func,
-  handleRows: PropTypes.func
+  handleRows: PropTypes.func,
+  action: PropTypes.any
 }
 
 export default Table
