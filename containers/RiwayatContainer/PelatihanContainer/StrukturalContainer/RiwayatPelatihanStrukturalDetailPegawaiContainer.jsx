@@ -12,6 +12,7 @@ export default connect(
     'institution'
   ),
   mapActions(
+    'updateEmployee',
     'getEmployee',
     'clearEmployeeState',
     'getInstitutionsOptions'

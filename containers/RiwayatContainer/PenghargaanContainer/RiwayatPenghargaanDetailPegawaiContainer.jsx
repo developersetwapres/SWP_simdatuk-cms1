@@ -9,6 +9,7 @@ import EmployeeDetailComponent from '@/components/Employment/Employee/EmployeeDe
 export default connect(
   mapStateToProps('employee', 'institution'),
   mapActions(
+    'updateEmployee',
     'getEmployee',
     'clearEmployeeState',
     'getInstitutionsOptions'
