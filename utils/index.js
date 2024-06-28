@@ -1,4 +1,5 @@
 /* eslint-disable indent */
+import axios from 'axios'
 
 /**
  *
@@ -175,4 +176,33 @@ export const formatDate = (date) => {
  * @param {*} string
  * @returns
  */
-export const capitalizeFirstLetter = string => string.charAt(0).toUpperCase() + string.slice(1)
+export const capitalizeFirstLetter = string =>
+  string.charAt(0).toUpperCase() + string.slice(1)
+
+/**
+ * Get blob from url
+ *
+ * @param {*} url
+ * @returns
+ */
+export const getBlobFromUrl = async (url) => {
+  const res = await axios.get(url, {
+    responseType: 'blob'
+  })
+
+  return res?.data
+}
+
+/**
+ * Convert dd-mm-yyyy to yyyy-mm-dd
+ *
+ * @param {*} date
+ * @returns
+ */
+export const dmyToYmd = (dateDMY) => {
+  if (!date) return '1970-10-10'
+
+  const date = dateDMY?.split('-')
+  const result = `${date[2]}-${date[1]}-${date[0]}`
+  return result
+}
