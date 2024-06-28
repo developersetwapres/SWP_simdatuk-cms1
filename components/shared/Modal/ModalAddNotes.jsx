@@ -1,11 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Modal } from '..'
 import { Box, Typography } from '@mui/material'
 import { CLOSE_ICON } from '@/utils/iconConstant'
 import NotesForm from '@/components/DataPegawai/Form/NotesForm'
 import { v4 as uuidv4 } from 'uuid'
+import { religionOptions } from 'libs/types/options'
+import { dmyToYmd } from '@/utils/index'
 
 const style = {
   containerModal: {
@@ -30,8 +33,16 @@ const ModalAddNotes = ({
   handleCancel = () => { },
   handleSave = () => { }
 }) => {
+  useEffect(() => {
+    setTimeout(() => {
+      setNotes([
+        ...(data?.notes || []).map(i => ({ ...i, content: i?.description })),
+        ...notes
+      ])
+    }, 1000)
+  }, [data])
+
   const [notes, setNotes] = useState([
-    ...(data?.notes || []).map(i => ({ ...i, content: i?.description })),
     {
       id: uuidv4(),
       giver_name: '',
@@ -41,17 +52,15 @@ const ModalAddNotes = ({
     }
   ])
 
-  const updateNotes = () => {
-    console.log('NOTES: ', notes)
+  const updateNotes = async () => {
     if (notes.some(i => !i?.content)) {
       setNotes(
         notes.map(n => {
-          if (!n?.content) {
+          if (!n?.content)
             return {
               ...n,
               error: 'Catatan tidak boleh kosong'
             }
-          }
 
           return n
         })
@@ -59,41 +68,83 @@ const ModalAddNotes = ({
       return
     }
 
-    const param = {
-      // Required params
-      name: data?.name,
-      employee_id_number: data?.employee_id_number,
-      place_of_birth: data?.place_of_birth,
-      date_of_birth: data?.date_of_birth,
-      religion: data?.religion,
-      gender: data?.gender,
-      marital_status: data?.marital_status,
-      grade_id: data?.grade_id,
-      grade_effective_date: data?.grade_effective_date,
-      position_id: data?.position_id,
-      institution_id: data?.institution_id,
-      organization_id: data?.organization_id,
-      work_unit_id: data?.work_unit_id,
-      employment_status: data?.employment_status,
-      residence_id: data?.residence_id,
-      emergency_contact: data?.emergency_contact,
-      type: data?.type,
-      employment_type_id: data?.employment_type_id,
-      quit_date: data?.quit_date,
-      // Data that being updated
-      notes: notes.map(i => {
-        if (i?.giver_name || i?.created_at) {
-          return {
-            id: i?.id,
-            description: i?.content
-          }
-        }
+    const formData = new FormData()
+    formData.append('photo_profile', '')
+    formData.append('name', data?.name || '')
+    formData.append('title_prefix', data?.title_prefix || '')
+    formData.append('title_suffix', data?.title_suffix || '')
+    formData.append('employee_id_number', data?.employee_id_number?.substring(0, 10) || '')
+    formData.append('employee_registration_number', data?.employee_registration_number?.substring(0, 10) || '')
+    formData.append('place_of_birth', data?.place_of_birth)
+    formData.append('date_of_birth', dmyToYmd(data?.date_of_birth))
+    formData.append('religion', religionOptions.indexOf(data?.religion) + 1)
+    formData.append('gender', data?.gender)
+    formData.append('marital_status', data?.marital_status)
+    formData.append('employment_type_id', data?.employment_type_id)
+    formData.append('cpns_effective_date', dmyToYmd(data?.cpns_effective_date))
+    formData.append('position_id', data?.position_id)
+    formData.append('position_effective_date', dmyToYmd(data?.position_effective_date))
+    formData.append('grade_id', data?.grade_id)
+    formData.append('grade_effective_date', dmyToYmd(data?.grade_effective_date))
+    formData.append('echelon_id', data?.echelon_id)
+    formData.append('echelon_effective_date', dmyToYmd(data?.echelon_effective_date))
+    formData.append('institution_id', data?.institution_id || '1')
+    formData.append('education_level', data?.education_level)
+    formData.append('education_name', data?.education_name)
+    formData.append('education_year', data?.education_year)
+    formData.append('employee_id_card_number', data?.employee_id_card_number)
+    formData.append('employee_id_card', '')
+    formData.append('karisu_number', data?.karisu_number?.replace(' ', '') || '')
+    formData.append('id_tax', data?.id_tax)
+    formData.append('employment_status', data?.employment_status)
+    formData.append('family_registration_number', data?.family_registration_number || '')
+    formData.append('id_number', data?.id_number)
+    formData.append('residence_id', data?.residence_id)
+    formData.append('residence_description', data?.residence_description)
+    formData.append('current_address', data?.current_address)
+    formData.append('home_phone_number', data?.home_phone_number || '')
+    formData.append('mobile_phone', data?.mobile_phone)
+    formData.append('office_address', data?.office_address)
+    formData.append('office_phone_number', data?.office_phone_number || '')
+    formData.append('email', data?.email || '')
+    formData.append('emergency_contact', data?.emergency_contact)
+    formData.append('office_email', data?.office_email || '')
+    formData.append('description', data?.description || '')
+    formData.append('type', data?.type)
+    formData.append('delete_employee_id_card', 0)
 
-        return { description: i?.content }
+    if (notes?.length > 0) {
+      notes.forEach((n, i) => {
+        if (i?.giver_name || i?.created_at) {
+          formData.append(`notes[${i}][id]`, n?.id)
+        }
+        formData.append(`notes[${i}][description]`, n?.content)
       })
+    } else {
+      formData.append('notes[]', '')
     }
-    console.log('PARAM: ', param)
-    handleSave(param)
+
+    // for (let pair of formData.entries()) {
+    //   console.log(pair[0] + ', ' + pair[1])
+    // }
+
+    handleSave({
+      id: data?.id,
+      data: formData
+    })
+    closeModal()
+  }
+
+  const closeModal = () => {
+    setNotes([
+      {
+        id: uuidv4(),
+        giver_name: '',
+        created_at: '',
+        content: '',
+        error: ''
+      }
+    ])
     handleCancel()
   }
 
@@ -111,13 +162,12 @@ const ModalAddNotes = ({
   const handleInputChanges = (index, e) => {
     setNotes(
       notes.map((n, i) => {
-        if (i === index) {
+        if (i === index)
           return {
             ...n,
             content: e?.target?.value,
             error: ''
           }
-        }
 
         return n
       })
@@ -148,7 +198,7 @@ const ModalAddNotes = ({
           }}
           src={CLOSE_ICON}
           alt='img close'
-          onClick={handleCancel}
+          onClick={closeModal}
         />
       </Box>
 
@@ -196,7 +246,7 @@ const ModalAddNotes = ({
           text='Batal'
           variant={'outlined'}
           style={{ width: '100%' }}
-          onClick={handleCancel}
+          onClick={closeModal}
         />
         <Button
           text='Simpan'
