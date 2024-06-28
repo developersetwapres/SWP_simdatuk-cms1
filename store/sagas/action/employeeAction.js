@@ -1,4 +1,4 @@
-import { get, del, post } from '@/utils/interceptors'
+import { get, del, post, put } from '@/utils/interceptors'
 import { queryParams } from '@/utils/'
 
 const basePath = '/employees'
@@ -52,5 +52,16 @@ export const postEmployeeAction = (payload) => {
  * @returns
  */
 export const updateEmployeeAction = (payload) => {
-  return post(`${basePath}`, payload)
+  const { id, data } = payload
+  return post(`${basePath}/${id}`, data)
+}
+
+/**
+ * Update Employee Status
+ *
+ * @param {*} payload
+ * @returns
+ */
+export const updateEmployeeStatusAction = (payload) => {
+  return put(`${basePath}/status`, payload)
 }

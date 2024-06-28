@@ -12,6 +12,9 @@ import {
   UPDATE_EMPLOYEE_REQUESTED,
   UPDATE_EMPLOYEE_SUCCESS,
   UPDATE_EMPLOYEE_FAILED,
+  UPDATE_EMPLOYEE_STATUS_REQUESTED,
+  UPDATE_EMPLOYEE_STATUS_SUCCESS,
+  UPDATE_EMPLOYEE_STATUS_FAILED,
   DELETE_EMPLOYEE_REQUESTED,
   DELETE_EMPLOYEE_SUCCESS,
   DELETE_EMPLOYEE_FAILED,
@@ -122,6 +125,22 @@ export const employee = (state = initialState, action) => {
         ...state,
         loading: false,
         isSubmit: false
+      }
+    case UPDATE_EMPLOYEE_STATUS_REQUESTED:
+      return {
+        ...state,
+        loading: true
+      }
+    case UPDATE_EMPLOYEE_STATUS_SUCCESS:
+      return {
+        ...state,
+        loading: false
+      }
+    case UPDATE_EMPLOYEE_STATUS_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: payload?.error
       }
     case CLEAR_EMPLOYEE_STATE:
       return {

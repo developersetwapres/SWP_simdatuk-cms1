@@ -4,7 +4,8 @@ import {
   POST_EMPLOYEE_REQUESTED,
   UPDATE_EMPLOYEE_REQUESTED,
   DELETE_EMPLOYEE_REQUESTED,
-  CLEAR_EMPLOYEE_STATE
+  CLEAR_EMPLOYEE_STATE,
+  UPDATE_EMPLOYEE_STATUS_REQUESTED
 } from '../constants'
 
 /**
@@ -59,6 +60,17 @@ export const postEmployee = (payload) => ({
  */
 export const updateEmployee = (payload) => ({
   type: UPDATE_EMPLOYEE_REQUESTED,
+  payload
+})
+
+/**
+ * Update Employee Status
+ *
+ * @param {*} payload
+ * @returns
+ */
+export const updateEmployeeStatus = (payload) => ({
+  type: UPDATE_EMPLOYEE_STATUS_REQUESTED,
   payload
 })
 

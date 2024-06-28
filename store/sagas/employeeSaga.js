@@ -22,14 +22,18 @@ import {
   DELETE_EMPLOYEE_SUCCESS,
   DELETE_EMPLOYEE_FAILED,
   CATCH_ERROR,
-  SET_MODAL
+  SET_MODAL,
+  UPDATE_EMPLOYEE_STATUS_REQUESTED,
+  UPDATE_EMPLOYEE_STATUS_FAILED,
+  UPDATE_EMPLOYEE_STATUS_SUCCESS
 } from '../constants'
 import {
   deleteEmployeeAction,
   getEmployeesAction,
   postEmployeeAction,
   getEmployeeAction,
-  updateEmployeeAction
+  updateEmployeeAction,
+  updateEmployeeStatusAction
 } from './action/employeeAction'
 
 /**
@@ -227,7 +231,7 @@ function* postEmployee(action) {
 }
 
 /**
- * Update Banner
+ * Update Employee
  *
  * @param {*} action
  * @returns
@@ -247,19 +251,19 @@ function* updateEmployee(action) {
     yield put({
       type: SET_MODAL,
       payload: {
-        code: res?.data?.meta?.code,
+        code: payload?.code,
         message: 'Pegawai berhasil diubah',
-        redirect: '/banner'
+        redirect: '/data-pegawai/asn'
       }
     })
   } catch (err) {
-    const status = err?.data?.meta
-    if (status?.code === 403) {
+    const errors = err?.data
+    if (errors?.code === 403) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {
-          code: err?.data?.meta?.code,
-          message: err?.data?.meta?.message,
+          code: errors?.code,
+          message: errors?.message,
           redirect: '/profile'
         }
       })
@@ -267,16 +271,71 @@ function* updateEmployee(action) {
       yield put({
         type: SET_MODAL,
         payload: {
-          code: err?.data?.meta?.code || err?.data?.statusCode,
+          code: errors?.code,
           message: 'Pegawai gagal diubah',
-          childMessage: err?.data?.meta?.message || err?.data?.message
+          childMessage: errors?.message
         }
       })
       yield put({
         type: UPDATE_EMPLOYEE_FAILED,
         payload: {
-          modal: true,
-          error: err?.data?.message
+          error: errors?.message
+        }
+      })
+    }
+  }
+}
+
+/**
+ * Update Employee Status
+ *
+ * @param {*} action
+ * @returns
+ *
+ */
+function* updateEmployeeStatus(action) {
+  try {
+    const res = yield call(updateEmployeeStatusAction, action?.payload)
+
+    const payload = res?.data
+
+    yield put({
+      type: UPDATE_EMPLOYEE_STATUS_SUCCESS,
+      payload: payload
+    })
+
+    yield put({
+      type: SET_MODAL,
+      payload: {
+        code: payload?.code,
+        message: 'Edit Status Pegawai Berhasil',
+        redirect: '/data-pegawai/asn'
+      }
+    })
+  } catch (err) {
+    const errors = err?.data
+    if (errors?.code === 403) {
+      yield put({
+        type: ACTION_RESPONSER,
+        payload: {
+          code: errors?.code,
+          message: errors?.message,
+          redirect: '/profile'
+        }
+      })
+    } else {
+      yield put({
+        type: SET_MODAL,
+        payload: {
+          code: errors?.code,
+          message: 'Pegawai gagal diubah',
+          childMessage: errors?.message
+        }
+      })
+      yield put({
+        type: UPDATE_EMPLOYEE_STATUS_FAILED,
+        payload: {
+          error: errors?.message
         }
       })
     }
@@ -289,6 +348,7 @@ function* employeeSaga() {
   yield takeEvery(DELETE_EMPLOYEE_REQUESTED, deleteEmployee)
   yield takeEvery(POST_EMPLOYEE_REQUESTED, postEmployee)
   yield takeEvery(UPDATE_EMPLOYEE_REQUESTED, updateEmployee)
+  yield takeEvery(UPDATE_EMPLOYEE_STATUS_REQUESTED, updateEmployeeStatus)
 }
 
 export default employeeSaga

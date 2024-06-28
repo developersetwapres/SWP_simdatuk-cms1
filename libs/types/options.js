@@ -37,7 +37,7 @@ export const employeeStatusOptions = [
   'Berhenti',
   'Meninggal',
   'Alih Status',
-  'Aktif PS',
+  'Aktif Perbantuan Setneg',
   'CLTN',
   'TBLN',
   'Non Aktif',
