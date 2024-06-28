@@ -23,14 +23,15 @@ const style = {
   borderRadius: '20px'
 }
 
-function ModalResponse({ modalReducer, closeModal = () => {} }) {
+function ModalResponse({ modalReducer, closeModal = () => { } }) {
   const router = useRouter()
   const path = router.asPath
 
   const [open, setOpen] = useState(false)
 
   const handleCallback = () => {
-    if (modalReducer?.redirect) router.push(modalReducer?.redirect || path)
+    if (modalReducer?.redirect === 'back') router.back()
+    else if (modalReducer?.redirect) router.push(modalReducer?.redirect || path)
     closeModal()
   }
 
@@ -43,7 +44,7 @@ function ModalResponse({ modalReducer, closeModal = () => {} }) {
       aria-labelledby='transition-modal-title'
       aria-describedby='transition-modal-description'
       open={open}
-      // {...(modalReducer?.redirect === null && { onClose: closeModal })}
+    // {...(modalReducer?.redirect === null && { onClose: closeModal })}
     >
       <Box sx={style}>
         <Box

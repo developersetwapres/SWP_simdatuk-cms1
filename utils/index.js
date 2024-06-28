@@ -72,6 +72,17 @@ export const getFileExtension = (filename) => {
 
 /**
  *
+ * Remove special characters
+ *
+ * @param {String} string
+ * @returns
+ */
+export const removeSpecials = (string) => {
+  return string.replace(/[^a-zA-Z0-9 ]/g, '')
+}
+
+/**
+ *
  * Regex Email
  *
  * @param {*} email

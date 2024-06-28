@@ -240,7 +240,6 @@ function* postEmployee(action) {
 function* updateEmployee(action) {
   try {
     const res = yield call(updateEmployeeAction, action?.payload)
-
     const payload = res?.data
 
     yield put({
@@ -253,7 +252,7 @@ function* updateEmployee(action) {
       payload: {
         code: payload?.code,
         message: 'Pegawai berhasil diubah',
-        redirect: '/data-pegawai/asn'
+        redirect: 'back'
       }
     })
   } catch (err) {
