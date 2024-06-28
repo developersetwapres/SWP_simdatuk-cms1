@@ -16,6 +16,7 @@ export default connect(
     'clearEmployeeState',
     'getInstitutionsOptions',
     'updateEmployee',
+    'updateEmployeeStatus',
     'exportEmployeeDetail'
   )
 )(
@@ -27,6 +28,7 @@ export default connect(
       clearEmployeeState: PropTypes.func,
       getInstitutionsOptions: PropTypes.func,
       updateEmployee: PropTypes.func,
+      updateEmployeeStatus: PropTypes.func,
       exportEmployeeDetail: PropTypes.func
     }
 

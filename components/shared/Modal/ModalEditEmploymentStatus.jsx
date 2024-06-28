@@ -6,6 +6,7 @@ import { Box, Typography } from '@mui/material'
 import { SUCCESS_ICON } from '@/utils/iconConstant'
 import { employeeStatusOptions } from 'libs/types/options'
 import DatePickerDay from '../form/DatePickerDay'
+import moment from 'moment'
 
 const style = {
   containerModal: {
@@ -36,7 +37,13 @@ const ModalEditEmploymentStatus = ({
   const [date, setDate] = useState('')
 
   const isActive = useMemo(() => {
-    const active = ['Aktif', 'Aktif PS', 'Hukdis']
+    const active = [
+      'Aktif',
+      'Aktif Perbantuan Setneg',
+      'CLTN',
+      'TBLN',
+      'Hukdis'
+    ]
 
     return active.includes(employeeStatus)
   }, [employeeStatus])
@@ -46,38 +53,28 @@ const ModalEditEmploymentStatus = ({
       setEmployeeStatusError('Status Pegawai tidak boleh kosong')
       return
     }
-
     if (!isActive && !date) {
       setDateError('Tanggal harus diisi')
       return
     }
     setDateError('')
     const param = {
-      // Required params
-      name: data?.name,
-      employee_id_number: data?.employee_id_number,
-      place_of_birth: data?.place_of_birth,
-      date_of_birth: data?.date_of_birth,
-      religion: data?.religion,
-      gender: data?.gender,
-      marital_status: data?.marital_status,
-      grade_id: data?.grade_id,
-      grade_effective_date: data?.grade_effective_date,
-      position_id: data?.position_id,
-      institution_id: data?.institution_id,
-      organization_id: data?.organization_id,
-      work_unit_id: data?.work_unit_id,
-      employment_status: data?.employment_status,
-      residence_id: data?.residence_id,
-      emergency_contact: data?.emergency_contact,
-      type: data?.type,
-      // Data that being updated
-      employment_type_id: employeeStatusOptions.indexOf(employeeStatus) + 1,
-      quit_date: date
+      id: data?.id,
+      employment_status: employeeStatusOptions.indexOf(employeeStatus) + 1
     }
-    console.log('PARAM: ', param)
-    // API BARU
+
+    if (!isActive)
+      param.quit_date = moment(date).format('YYYY-MM-DD')
+
     handleSave(param)
+    handleModalClose()
+  }
+
+  const handleModalClose = () => {
+    setEmployeeStatus('')
+    setEmployeeStatusError('')
+    setDate('')
+    setDateError('')
     handleCancel()
   }
 
@@ -184,7 +181,7 @@ const ModalEditEmploymentStatus = ({
           text='Batal'
           variant={'outlined'}
           style={{ width: '100%' }}
-          onClick={handleCancel}
+          onClick={handleModalClose}
         />
         <Button
           text='Simpan'

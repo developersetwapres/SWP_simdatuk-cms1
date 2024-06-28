@@ -49,6 +49,7 @@ const EmployeeDetailComponent = ({
   institution,
   getEmployee = () => { },
   updateEmployee = () => { },
+  updateEmployeeStatus = () => { },
   clearEmployeeState = () => { },
   exportEmployeeDetail = () => { },
   setRender = () => { }
@@ -461,7 +462,7 @@ const EmployeeDetailComponent = ({
       <ModalEditEmploymentStatus
         open={employmentStatusModalOpen}
         handleCancel={() => setEmploymentStatusModal(false)}
-        handleSave={updateEmployee}
+        handleSave={updateEmployeeStatus}
         data={data}
       />
 
@@ -483,6 +484,7 @@ EmployeeDetailComponent.propTypes = {
   clearEmployeeState: PropTypes.func,
   exportEmployeeDetail: PropTypes.func,
   updateEmployee: PropTypes.func,
+  updateEmployeeStatus: PropTypes.func,
   setRender: PropTypes.func
 }
 
