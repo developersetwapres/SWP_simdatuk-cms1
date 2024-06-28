@@ -8,7 +8,7 @@ import { CLOSE_ICON } from '@/utils/iconConstant'
 import NotesForm from '@/components/DataPegawai/Form/NotesForm'
 import { v4 as uuidv4 } from 'uuid'
 import { religionOptions } from 'libs/types/options'
-import { dmyToYmd } from '@/utils/index'
+import { dmyToYmd, removeSpecials } from '@/utils/index'
 
 const style = {
   containerModal: {
@@ -79,30 +79,30 @@ const ModalAddNotes = ({
     formData.append('date_of_birth', dmyToYmd(data?.date_of_birth))
     formData.append('religion', religionOptions.indexOf(data?.religion) + 1)
     formData.append('gender', data?.gender)
-    formData.append('marital_status', data?.marital_status)
+    formData.append('marital_status', data?.marital_status || '')
     formData.append('employment_type_id', data?.employment_type_id)
     formData.append('cpns_effective_date', dmyToYmd(data?.cpns_effective_date))
-    formData.append('position_id', data?.position_id)
+    formData.append('position_id', data?.position_id || '')
     formData.append('position_effective_date', dmyToYmd(data?.position_effective_date))
-    formData.append('grade_id', data?.grade_id)
+    formData.append('grade_id', data?.grade_id || '')
     formData.append('grade_effective_date', dmyToYmd(data?.grade_effective_date))
-    formData.append('echelon_id', data?.echelon_id)
+    formData.append('echelon_id', data?.echelon_id || '')
     formData.append('echelon_effective_date', dmyToYmd(data?.echelon_effective_date))
-    formData.append('institution_id', data?.institution_id || '1')
+    formData.append('institution_id', data?.institution_id || '')
     formData.append('education_level', data?.education_level)
     formData.append('education_name', data?.education_name)
     formData.append('education_year', data?.education_year)
     formData.append('employee_id_card_number', data?.employee_id_card_number)
     formData.append('employee_id_card', '')
     formData.append('karisu_number', data?.karisu_number?.replace(' ', '') || '')
-    formData.append('id_tax', data?.id_tax)
+    formData.append('id_tax', removeSpecials(data?.id_tax) || '')
     formData.append('employment_status', data?.employment_status)
     formData.append('family_registration_number', data?.family_registration_number || '')
-    formData.append('id_number', data?.id_number)
-    formData.append('residence_id', data?.residence_id)
+    formData.append('id_number', data?.id_number || '')
+    formData.append('residence_id', data?.residence_id || '')
     formData.append('residence_description', data?.residence_description)
     formData.append('current_address', data?.current_address)
-    formData.append('home_phone_number', data?.home_phone_number || '')
+    formData.append('home_phone_number', removeSpecials(data?.home_phone_number) || '')
     formData.append('mobile_phone', data?.mobile_phone)
     formData.append('office_address', data?.office_address)
     formData.append('office_phone_number', data?.office_phone_number || '')

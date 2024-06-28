@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
@@ -82,6 +83,7 @@ const ModalEditEmploymentStatus = ({
     if (data) {
       setTimeout(() => {
         setEmployeeStatus(data?.employmentStatus)
+        setDate(new Date(data?.quit_date) || '')
       }, 1000)
     }
   }, [data])
