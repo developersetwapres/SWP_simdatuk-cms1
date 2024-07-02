@@ -178,3 +178,13 @@ export const entityOptions = ['Orang', 'Kelompok']
 export const positionTypeOptions = ['Struktural', 'Fungsional', 'Operasional']
 
 export const employeeTypeOptions = ['ASN', 'NON-ASN', 'OUTSOURCE']
+
+export const statusOptions = ['Aktif', 'Tidak Aktif']
+
+export const periodCreditsOptions = [
+  'Triwulan 1',
+  'Triwulan 2',
+  'Triwulan 3',
+  'Triwulan 4',
+  'Tahunan'
+]
