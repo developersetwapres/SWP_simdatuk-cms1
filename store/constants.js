@@ -500,6 +500,14 @@ export const GET_RESIDENCES_FAILED = 'GET_RESIDENCES_FAILED'
 export const CLEAR_RESIDENCE_STATE = 'CLEAR_RESIDENCE_STATE'
 /* ======== RESIDENCE ========= */
 
+/* ======== GROUP ========= */
+export const GET_GROUPS_REQUESTED = 'GET_GROUPS_REQUESTED'
+export const GET_GROUPS_SUCCESS = 'GET_GROUPS_SUCCESS'
+export const GET_GROUPS_FAILED = 'GET_GROUPS_FAILED'
+
+export const CLEAR_GROUP_STATE = 'CLEAR_GROUP_STATE'
+/* ======== GROUP ========= */
+
 /* ======== MASTER DATA ========= */
 
 /* ======== EXPORT ========= */

@@ -194,19 +194,19 @@ function* postEmployee(action) {
     yield put({
       type: SET_MODAL,
       payload: {
-        code: res?.data?.meta?.code,
+        code: payload?.code,
         message: 'Pegawai berhasil ditambahkan',
-        redirect: '/'
+        redirect: '/data-pegawai/asn'
       }
     })
   } catch (err) {
-    const status = err?.data?.meta
-    if (status?.code === 403) {
+    const errors = err?.data
+    if (errors?.code === 403) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {
-          code: err?.data?.meta?.code,
-          message: err?.data?.meta?.message,
+          code: errors?.code,
+          message: errors?.message,
           redirect: '/profile'
         }
       })
@@ -214,17 +214,14 @@ function* postEmployee(action) {
       yield put({
         type: SET_MODAL,
         payload: {
-          code: err?.data?.meta?.code,
+          code: errors?.code,
           message: 'Pegawai gagal ditambahkan',
-          childMessage: err?.data?.meta?.message
+          childMessage: errors?.message
         }
       })
       yield put({
         type: POST_EMPLOYEE_FAILED,
-        payload: {
-          modal: true,
-          error: err?.data?.message
-        }
+        payload: errors
       })
     }
   }
@@ -277,9 +274,7 @@ function* updateEmployee(action) {
       })
       yield put({
         type: UPDATE_EMPLOYEE_FAILED,
-        payload: {
-          error: errors?.message
-        }
+        payload: errors
       })
     }
   }

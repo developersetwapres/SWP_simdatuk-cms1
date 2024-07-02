@@ -4,19 +4,26 @@ import { queryParams } from '@/utils/'
 const basePath = '/employees'
 
 /**
- * GET BANNERS ACTION
+ * Get Employees Action
  *
  * @param {*} payload
  * @returns
  */
 export const getEmployeesAction = (payload) => {
-  const { page, limit, search, type } = payload
-  const moreParams = type ? `&type=${type}` : ''
-  return get(`${basePath}${queryParams(page, limit, search)}${moreParams}`)
+  const paramsExclude = ['page', 'limit', 'search']
+  const { page, limit, search } = payload
+  const moreParams = Object.fromEntries(
+    Object.entries(payload).filter(([key, value]) => {
+      return !paramsExclude.includes(key)
+    })
+  )
+  const queryString = '&' + new URLSearchParams(moreParams).toString()
+
+  return get(`${basePath}${queryParams(page, limit, search)}${queryString}`)
 }
 
 /**
- * Get Employee detail
+ * Get Employee Action
  *
  * @param {*} id
  * @returns

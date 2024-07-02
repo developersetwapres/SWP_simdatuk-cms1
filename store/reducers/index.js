@@ -10,6 +10,7 @@ import * as echelonReducer from './masterData/echelonReducer'
 import * as institutionReducer from './masterData/institutionReducer'
 import * as employmentTypeReducer from './masterData/employmentTypeReducer'
 import * as positionReducer from './masterData/positionReducer'
+import * as groupReducer from './masterData/groupReducer'
 
 // Dashboard
 import * as dashboardReducer from './dashboardReducer'
@@ -72,7 +73,8 @@ const reducers = {
   ...exportDRHReducer,
   ...exportRecapReducer,
   ...exportEmployeeReducer,
-  ...positionReducer
+  ...positionReducer,
+  ...groupReducer
 }
 
 export default reducers

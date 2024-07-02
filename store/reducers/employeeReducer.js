@@ -25,6 +25,7 @@ const initialState = {
   loading: false,
   isSubmit: false,
   error: null,
+  errorForm: {},
   detail: {},
   pagination: {},
   data: []
@@ -80,14 +81,16 @@ export const employee = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        isSubmit: false
+        isSubmit: false,
+        errorForm: {}
       }
     case POST_EMPLOYEE_FAILED:
       return {
         ...state,
         loading: false,
         isSubmit: false,
-        error: payload?.error
+        error: payload?.error,
+        errorForm: payload?.data
       }
     case DELETE_EMPLOYEE_REQUESTED:
       return {
@@ -118,13 +121,15 @@ export const employee = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        isSubmit: false
+        isSubmit: false,
+        errorForm: {}
       }
     case UPDATE_EMPLOYEE_FAILED:
       return {
         ...state,
         loading: false,
-        isSubmit: false
+        isSubmit: false,
+        errorForm: payload?.data
       }
     case UPDATE_EMPLOYEE_STATUS_REQUESTED:
       return {
@@ -148,7 +153,8 @@ export const employee = (state = initialState, action) => {
         error: null,
         detail: {},
         pagination: {},
-        data: []
+        data: [],
+        errorForm: {}
       }
     default:
       return state

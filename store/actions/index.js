@@ -10,6 +10,7 @@ import * as echelon from './masterData/echelon'
 import * as institution from './masterData/institution'
 import * as employmentType from './masterData/employmentType'
 import * as position from './masterData/position'
+import * as group from './masterData/group'
 
 // Dashboard
 import * as dashboard from './dashboard'
@@ -68,7 +69,8 @@ const actions = {
   ...exportDRH,
   ...exportEmployee,
   ...exportRecap,
-  ...position
+  ...position,
+  ...group
 }
 
 export default actions

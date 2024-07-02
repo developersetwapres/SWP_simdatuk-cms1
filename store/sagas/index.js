@@ -16,6 +16,7 @@ import echelonSaga from './masterData/echelonSaga'
 import institutionSaga from './masterData/institutionSaga'
 import employmentTypeSaga from './masterData/employmentTypeSaga'
 import positionSaga from './masterData/positionSaga'
+import groupSaga from './masterData/groupSaga'
 
 // Dashboard
 import dashboardSaga from './dashboardSaga'
@@ -69,6 +70,7 @@ export default function* rootSaga() {
     exportDRHSaga(),
     exportRecapSaga(),
     exportEmployeeSaga(),
-    positionSaga()
+    positionSaga(),
+    groupSaga()
   ])
 }
