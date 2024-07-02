@@ -1,12 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import Search from '@/components/core/Search'
-import { Autocomplete, Button } from '@/components/shared'
+import { Autocomplete, Button, Input } from '@/components/shared'
 import { FilterAlt } from '@mui/icons-material'
-import { Box, Grid } from '@mui/material'
+import { Box, Grid, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { useRouter } from 'next/router'
+import { Formik } from 'formik'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -37,94 +38,89 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const EmployeeFilterComponent = ({ options, onSearch = () => {} }) => {
+const InitValue = {
+  position: null,
+  grade: null,
+  employmentType: null,
+  educationLevel: null,
+  religion: null,
+  months: null,
+  status: null,
+  age: { min: '', max: '' }
+}
+
+const EmployeeFilterComponent = ({
+  options,
+  onSearch = () => {},
+  onFilter = () => {}
+}) => {
   const router = useRouter()
   const classes = useStyles()
+  const formikRef = useRef()
+
+  const [isFilter, setIsFilter] = useState(false)
+
+  const path = useMemo(() => {
+    const pathname = {
+      ASN: router.pathname.split('/')[2].toUpperCase() == 'ASN',
+      NONASN: router.pathname.split('/')[2].toUpperCase() == 'NON-ASN',
+      OUTSOURCING: router.pathname.split('/')[2].toUpperCase() == 'OUTSOURCING'
+    }
+
+    return pathname
+  }, [router])
 
   const filterOptions = useMemo(() => {
     const newOptions = [
       {
         name: 'Jabatan',
-        key: 'jabatan',
+        key: 'position',
         placeholder: 'Pilih Jabatan',
-        options: ['Jabatan I', 'Jabatan II', 'Jabatan III', 'Jabatan IV']
-      },
-      {
-        name: 'Eselon',
-        key: 'eselon',
-        placeholder: 'Pilih Eselon',
-        options: options?.echelon
+        options: options?.positions
       },
       {
         name: 'Golongan',
-        key: 'golongan',
+        key: 'grade',
         placeholder: 'Pilih Golongan',
-        options: ['I', 'II', 'III', 'IV', 'V']
+        options: options?.grades
       },
       {
-        name: 'Jenis Perbantuan',
-        key: 'perbantuan',
-        placeholder: 'Pilih Jenis Perbantuan',
-        options: [
-          'Jenis Perbantuan I',
-          'Jenis Perbantuan II',
-          'Jenis Perbantuan III',
-          'Jenis Perbantuan IV'
-        ]
-      },
-      {
-        name: 'Jenis Outsourcing',
-        key: 'outsourcing',
-        placeholder: 'Pilih Jenis Outsourcing',
-        options: [
-          'Jenis Outsourcing I',
-          'Jenis Outsourcing II',
-          'Jenis Outsourcing III',
-          'Jenis Outsourcing IV'
-        ]
+        name: `Jenis ${path?.NONASN ? 'Perbantuan' : 'Outsourcing'}`,
+        key: 'employmentType',
+        placeholder: `Pilih Jenis ${
+          path?.NONASN ? 'Perbantuan' : 'Outsourcing'
+        }`,
+        options: options?.employmentType
       },
       {
         name: 'Tingkat Pendidikan',
-        key: 'pendidikan',
+        key: 'educationLevel',
         placeholder: 'Pilih Tingkat Pendidikan',
-        options: ['SD', 'SLTP', 'SLTA', 'S1/Sarjana', 'S2/Sarjana']
+        options: options?.educationLevel
       },
       {
         name: 'Agama',
-        key: 'agama',
+        key: 'religion',
         placeholder: 'Pilih Agama',
-        options: ['Islam', 'Kristen', 'Konghucu', 'Katolik', 'Budha']
+        options: options?.religion
       },
       {
         name: 'Umur',
-        key: 'umur',
+        key: 'age',
         placeholder: 'Pilih Umur',
-        options: ['1', '2', '3', '4', '5']
+        options: []
       },
       {
         name: 'Bulan Lahir',
-        key: 'month',
+        key: 'months',
         placeholder: 'Pilih Bulan Lahir',
-        options: [
-          'Januari',
-          'Februari',
-          'Maret',
-          'April',
-          'Mei',
-          'Juni',
-          'Juli',
-          'Agustus',
-          'September',
-          'Oktober',
-          'November',
-          'Desember'
-        ]
+        options: options?.months
       },
       {
         name: 'Status',
         key: 'status',
         placeholder: 'Pilih Status',
-        options: ['Aktif', 'Non Aktif']
+        options: options?.status
       }
     ]
 
@@ -133,38 +129,24 @@ const EmployeeFilterComponent = ({ options, onSearch = () => {} }) => {
 
   const filter = useMemo(() => {
     const filtersDefault = [
-      'golongan',
-      'pendidikan',
-      'agama',
-      'umur',
-      'month',
+      'position',
+      'grade',
+      'educationLevel',
+      'religion',
+      'age',
+      'months',
       'status'
     ]
-    const path = {
-      ASN: router.pathname.split('/')[2].toUpperCase() == 'ASN',
-      NONASN: router.pathname.split('/')[2].toUpperCase() == 'NON-ASN',
-      OUTSOURCING: router.pathname.split('/')[2].toUpperCase() == 'OUTSOURCING'
-    }
 
     if (path?.ASN) {
       const listFilter = filtersDefault
-      listFilter.unshift('eselon')
-
-      return filterOptions.filter((itm) => {
-        return listFilter.includes(itm?.key)
-      })
-    } else if (path?.NONASN) {
-      const listFilter = filtersDefault
-      listFilter.splice(0, 0, 'jabatan')
-      listFilter.splice(2, 0, 'perbantuan')
 
       return filterOptions.filter((itm) => {
         return listFilter.includes(itm?.key)
       })
     } else {
       const listFilter = filtersDefault
-      listFilter.splice(0, 0, 'jabatan')
-      listFilter.splice(1, 0, 'outsourcing')
+      listFilter.splice(2, 0, 'employmentType')
 
       return filterOptions.filter((itm) => {
         return listFilter.includes(itm?.key)
@@ -172,101 +154,158 @@ const EmployeeFilterComponent = ({ options, onSearch = () => {} }) => {
     }
   }, [router, filterOptions])
 
-  const [isFilter, setIsFilter] = useState(false)
-  // eslint-disable-next-line no-unused-vars
-  const [filterType, setFilterType] = useState('')
+  const handleFilter = (type, values) => {
+    if (type == 'reset') {
+      formikRef.current.resetForm()
+      onFilter(InitValue)
+    } else {
+      onFilter(values)
+    }
+  }
 
   return (
-    <Box>
-      <Box
-        sx={{
-          marginBottom: '10px',
-          width: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between'
-        }}
-      >
-        <Button
-          onClick={() => setIsFilter((isFilter) => !isFilter)}
-          variant='outlined'
-          text='Filter'
-          icon={<FilterAlt sx={{ marginRight: '6px', fontSize: '20px' }} />}
-          sx={{
-            fontSize: '14px',
-            textTransform: 'none',
-            borderWidth: '2px'
-          }}
-        />
-        <Search
-          inputParentClasses={classes.inputParent}
-          inputClass={classes.input}
-          iconStyle={classes.iconStyle}
-          placeholder='Cari Nama/Nip Pegawai'
-          onSearch={onSearch}
-        />
-      </Box>
-      <Box
-        sx={{
-          height: isFilter ? '400px' : 0,
-          transition: 'all 0.6s ease',
-          overflow: 'hidden'
-        }}
-      >
-        <Grid
-          container
-          spacing={3}
-          sx={{
-            opacity: isFilter ? 1 : 0,
-            transition: 'all 0.3s ease'
-          }}
-        >
-          {filter.map((item, index) => (
-            <Grid item xs={4} key={index}>
-              <Autocomplete
-                options={item?.options}
-                name={item?.key}
-                placeholder={item?.placeholder}
-                value={filterType[item?.name]}
-                multiple={true}
-                label={item?.name}
-                onChange={(val) => {
-                  console.log('val', val)
-                }}
-              />
-            </Grid>
-          ))}
-          <Grid item xs={12}>
-            <Box
+    <Formik innerRef={formikRef} initialValues={InitValue} onSubmit={() => {}}>
+      {({ values, setFieldValue = () => {} }) => (
+        <Box>
+          <Box
+            sx={{
+              marginBottom: '10px',
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}
+          >
+            <Button
+              onClick={() => setIsFilter((isFilter) => !isFilter)}
+              variant='outlined'
+              text='Filter'
+              icon={<FilterAlt sx={{ marginRight: '6px', fontSize: '20px' }} />}
               sx={{
-                width: '100%',
-                display: 'flex',
-                alignItems: 'start',
-                justifyContent: 'flex-end',
-                gap: 1
+                fontSize: '14px',
+                textTransform: 'none',
+                borderWidth: '2px'
+              }}
+            />
+            <Search
+              inputParentClasses={classes.inputParent}
+              inputClass={classes.input}
+              iconStyle={classes.iconStyle}
+              placeholder='Cari Nama/Nip Pegawai'
+              onSearch={onSearch}
+            />
+          </Box>
+          <Box
+            sx={{
+              height: isFilter ? '400px' : 0,
+              transition: 'all 0.6s ease',
+              overflow: 'hidden'
+            }}
+          >
+            <Grid
+              container
+              spacing={3}
+              sx={{
+                opacity: isFilter ? 1 : 0,
+                transition: 'all 0.3s ease'
               }}
             >
-              <Button
-                text='Reset Filter'
-                color='danger'
-                onClick={() => handleAction('sync')}
-              />
-              <Button
-                text='Selesai'
-                color='primary'
-                onClick={() => console.log('filterType', filterType)}
-              />
-            </Box>
-          </Grid>
-        </Grid>
-      </Box>
-    </Box>
+              {filter.map((item, index) => (
+                <Grid item xs={4} key={index}>
+                  {item?.key !== 'age' ? (
+                    <Autocomplete
+                      options={item?.options}
+                      name={item?.key}
+                      placeholder={item?.placeholder}
+                      value={values[item?.key]}
+                      // multiple={true}
+                      label={item?.name}
+                      onChange={(val) => {
+                        setFieldValue(`${item?.key}`, val, false)
+                      }}
+                    />
+                  ) : (
+                    <Box>
+                      <Typography
+                        sx={{
+                          marginBottom: '8px',
+                          fontSize: '14px',
+                          fontWeight: 500
+                        }}
+                      >
+                        {item?.name}
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          flexDirection: 'row',
+                          gap: '8px'
+                        }}
+                      >
+                        <Input
+                          type='number'
+                          inputProps={{ min: 0, maxLength: 2 }}
+                          placeholder='Min.'
+                          name={`${item?.key}.min`}
+                          value={values[item?.key]?.min}
+                          onChange={(e) => {
+                            const val = e?.target?.value
+                            setFieldValue(`${item?.key}.min`, val, false)
+                          }}
+                        />
+                        <Typography>-</Typography>
+                        <Input
+                          type='number'
+                          inputProps={{ min: 0, maxLength: 2 }}
+                          placeholder='Max.'
+                          name={`${item?.key}.max`}
+                          value={values[item?.key]?.max}
+                          onChange={(e) => {
+                            const val = e?.target?.value
+                            setFieldValue(`${item?.key}.max`, val, false)
+                          }}
+                        />
+                      </Box>
+                    </Box>
+                  )}
+                </Grid>
+              ))}
+              <Grid item xs={12}>
+                <Box
+                  sx={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'start',
+                    justifyContent: 'flex-end',
+                    gap: 1
+                  }}
+                >
+                  <Button
+                    text='Reset Filter'
+                    color='danger'
+                    onClick={() => handleFilter('reset', {})}
+                  />
+                  <Button
+                    text='Selesai'
+                    color='primary'
+                    onClick={() => handleFilter('filter', values)}
+                  />
+                </Box>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      )}
+    </Formik>
   )
 }
 
 EmployeeFilterComponent.propTypes = {
   options: PropTypes.object,
-  onSearch: PropTypes.func
+  onSearch: PropTypes.func,
+  onFilter: PropTypes.func
 }
 
 export default EmployeeFilterComponent

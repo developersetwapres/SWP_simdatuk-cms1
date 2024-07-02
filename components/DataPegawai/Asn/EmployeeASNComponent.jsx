@@ -9,6 +9,12 @@ import { Edit, Info } from '@mui/icons-material'
 import { Typography } from '@mui/material'
 import EmployeeFilterComponent from '../EmployeeFilterComponent'
 import { useRouter } from 'next/router'
+import {
+  employeeEducationLevelOptions,
+  employeeStatusOptions,
+  monthOptions,
+  religionOptions
+} from 'libs/types/options'
 
 const styles = {
   iconStyle: {
@@ -27,21 +33,40 @@ const styles = {
 
 const EmployeeASNComponent = ({
   employee,
-  echelon,
-  onLoading = () => { },
-  onSearch = () => { },
-  onPaginationChange = () => { },
-  onRowsPerPageChange = () => { }
+  grade,
+  position,
+  onLoading = () => {},
+  onSearch = () => {},
+  onFilter = () => {},
+  onPaginationChange = () => {},
+  onRowsPerPageChange = () => {}
 }) => {
   const router = useRouter()
 
+  const handleMapOptions = (val) => {
+    const arr = []
+
+    val.map((itm) => {
+      arr.push(itm?.name)
+    })
+
+    return arr
+  }
+
   const options = useMemo(() => {
-    const newEchelon = echelon?.data.map((itm) => itm?.name)
+    const newPosition = handleMapOptions(position?.data)
+    const newGrade = handleMapOptions(grade?.options)
 
     return {
-      echelon: newEchelon
+      positions: newPosition,
+      grades: newGrade,
+      educationLevel: employeeEducationLevelOptions,
+      religion: religionOptions,
+      months: monthOptions,
+      status: employeeStatusOptions,
+      employmentType: []
     }
-  }, [echelon])
+  }, [position, grade])
 
   const columns = useMemo(
     () => [
@@ -146,9 +171,7 @@ const EmployeeASNComponent = ({
                 icon={<Info style={styles.iconButton} />}
                 sx={styles.buttonAction}
                 onClick={() =>
-                  router.push(
-                    `${router.pathname}/detail/${btoa(item?.id)}`
-                  )
+                  router.push(`${router.pathname}/detail/${btoa(item?.id)}`)
                 }
               />
               <Button
@@ -157,9 +180,7 @@ const EmployeeASNComponent = ({
                 icon={<Edit style={styles.iconButton} />}
                 sx={styles.buttonAction}
                 onClick={() =>
-                  router.push(
-                    `${router.pathname}/edit/${btoa(item?.id)}`
-                  )
+                  router.push(`${router.pathname}/edit/${btoa(item?.id)}`)
                 }
               />
             </Box>
@@ -177,26 +198,73 @@ const EmployeeASNComponent = ({
         <Button
           text='Sinkronisasi Data'
           sx={{ backgroundColor: '#F16637' }}
-          onClick={() => { }}
+          onClick={() => {}}
         />
         <Button
           text='Tambah Massal'
           color='sidatukDraweBase'
           onClick={() => router.push(`${router.asPath}/add-bulk`)}
         />
-        <Button text='Tambah' color='primary' onClick={() => router.push(`${router.asPath}/add`)} />
+        <Button
+          text='Tambah'
+          color='primary'
+          onClick={() => router.push(`${router.asPath}/add`)}
+        />
       </Box>
     )
   }, [])
 
+  const handleGetValueID = (type, val) => {
+    if (val) {
+      if (type == 'position') {
+        const item =
+          position?.data && position?.data.find((itm) => itm?.name == val)?.id
+        return item
+      } else if (type == 'grade') {
+        const item =
+          grade?.options && grade?.options.find((itm) => itm?.name == val)?.id
+        return item
+      } else if (type == 'employmentType') {
+        const item =
+          (employmentType?.data &&
+            employmentType?.data.find((itm) => itm?.name == val)?.id) ||
+          null
+        return item
+      } else {
+        const item = options[type].findIndex((itm) => itm == val) + 1
+        return item
+      }
+    } else {
+      return val
+    }
+  }
+
+  const handleFilter = (val) => {
+    const newFilter = Object.fromEntries(
+      Object.entries(val).map(([key, value]) => {
+        if (key !== 'age') {
+          return [key, handleGetValueID(key, value)]
+        } else {
+          return [key, value]
+        }
+      })
+    )
+
+    onFilter(newFilter)
+  }
+
   useEffect(() => {
-    const state = !employee?.loading
+    const state = !employee?.loading && !grade?.loading && !position?.loading
     onLoading(state)
-  }, [employee])
+  }, [employee, grade, position])
 
   return (
     <LayoutPages summary={'Data Pegawai ASN'} action={action}>
-      <EmployeeFilterComponent onSearch={onSearch} options={options} />
+      <EmployeeFilterComponent
+        onFilter={handleFilter}
+        onSearch={onSearch}
+        options={options}
+      />
       <Table
         columns={columns}
         rows={rows}
@@ -210,9 +278,10 @@ const EmployeeASNComponent = ({
 
 EmployeeASNComponent.propTypes = {
   employee: PropTypes.object,
-  echelon: PropTypes.object,
+  position: PropTypes.object,
   onLoading: PropTypes.func,
   onSearch: PropTypes.func,
+  onFilter: PropTypes.func,
   onPaginationChange: PropTypes.func,
   onRowsPerPageChange: PropTypes.func
 }

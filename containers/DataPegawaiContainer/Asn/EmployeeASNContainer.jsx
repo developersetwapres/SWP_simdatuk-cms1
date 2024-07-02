@@ -6,15 +6,17 @@ import { mapActions, mapStateToProps } from '@/store/index'
 import Layout from '@/components/core/Layout'
 
 export default connect(
-  mapStateToProps('employee', 'echelon'),
-  mapActions('getEmployees', 'getEchelons')
+  mapStateToProps('employee', 'grade', 'position'),
+  mapActions('getEmployees', 'getGradesOptions', 'getPositions')
 )(
   class EmployeeASNContainer extends Component {
     static propTypes = {
       employee: PropTypes.object,
-      echelon: PropTypes.object,
+      grade: PropTypes.object,
+      position: PropTypes.object,
       getEmployees: PropTypes.func,
-      getEchelons: PropTypes.func
+      getGradesOptions: PropTypes.func,
+      getPositions: PropTypes.func
     }
 
     constructor(props) {
@@ -29,15 +31,26 @@ export default connect(
           page: 1,
           limit: 10,
           search: '',
-          type: 1
+          type: 1,
+          positionId: '',
+          gradeId: '',
+          employmentType: '',
+          religion: '',
+          months: '',
+          status: '',
+          educationLevel: '',
+          ageMin: '',
+          ageMax: ''
         },
         willRender: false
       }
       this.fetch = this.fetch.bind(this)
       this.fetchFilter = this.fetchFilter.bind(this)
+      this.mapKey = this.mapKey.bind(this)
       this.onPaginationChange = this.onPaginationChange.bind(this)
       this.onRowsPerPageChange = this.onRowsPerPageChange.bind(this)
       this.onSearch = this.onSearch.bind(this)
+      this.onFilter = this.onFilter.bind(this)
       this.onClearState = this.onClearState.bind(this)
       this.setLoading = this.setLoading.bind(this)
     }
@@ -47,7 +60,47 @@ export default connect(
     }
 
     fetchFilter(queries) {
-      this.props.getEchelons(queries)
+      this.props.getGradesOptions(queries)
+      this.props.getPositions({ ...queries, filterParent: false, parentId: '' })
+    }
+
+    mapKey(val) {
+      switch (val) {
+        case 'positionId':
+          return 'position_id'
+        case 'gradeId':
+          return 'grade_id'
+        case 'employmentType':
+          return 'employment_type_id'
+        case 'months':
+          return 'month_of_birth'
+        case 'status':
+          return 'employment_status'
+        case 'ageMin':
+          return 'min_age'
+        case 'ageMax':
+          return 'max_age'
+        case 'educationLevel':
+          return 'education_level'
+        default:
+          return val
+      }
+    }
+
+    filterParams(val) {
+      const valuesFilter = Object.fromEntries(
+        Object.entries(val)
+          .filter(([key, val]) => {
+            if (!['page', 'limit', 'search', 'type'].includes(key)) {
+              return val !== null && val !== ''
+            } else {
+              return [key, val]
+            }
+          })
+          .map(([key, val]) => [this.mapKey(key), val])
+      )
+
+      return valuesFilter
     }
 
     onPaginationChange(page) {
@@ -56,7 +109,7 @@ export default connect(
         page
       }
       this.setState({ queriesEmployees })
-      this.fetch(queriesEmployees)
+      this.fetch(this.filterParams(queriesEmployees))
     }
 
     onRowsPerPageChange(limit) {
@@ -66,27 +119,62 @@ export default connect(
         limit
       }
       this.setState({ queriesEmployees })
-      this.fetch(queriesEmployees)
+      this.fetch(this.filterParams(queriesEmployees))
     }
 
     onSearch(value) {
       const queriesEmployees = {
         ...this.state.queriesEmployees,
-        search: value || '',
-        page: 1
+        page: 1,
+        limit: 10,
+        search: value || ''
       }
       this.setState({ queriesEmployees })
-      this.fetch(queriesEmployees)
+      this.fetch(this.filterParams(queriesEmployees))
+    }
+
+    onFilter(val) {
+      const { search, type } = this.state?.queriesEmployees
+      const {
+        position,
+        grade,
+        employmentType,
+        educationLevel,
+        religion,
+        months,
+        status,
+        age
+      } = val
+      const newFilter = {
+        page: 1,
+        limit: 10,
+        search,
+        type,
+        positionId: position,
+        gradeId: grade,
+        employmentType: employmentType,
+        religion: religion,
+        months: months,
+        status: status,
+        educationLevel: educationLevel,
+        ageMin: age?.min,
+        ageMax: age?.max
+      }
+      const valuesFilter = this.filterParams(newFilter)
+
+      this.setState({ queriesEmployees: newFilter })
+      this.fetch(valuesFilter)
     }
 
     onClearState() {
       const queriesEmployees = {
         ...this.state.queriesEmployees,
-        search: '',
-        page: 1
+        page: 1,
+        limit: 10,
+        search: ''
       }
       this.setState({ queriesEmployees })
-      this.fetch(queriesEmployees)
+      this.fetch(this.filterParams(queriesEmployees))
     }
 
     setLoading(val) {
@@ -96,7 +184,7 @@ export default connect(
     }
 
     componentDidMount() {
-      this.fetch(this.state.queriesEmployees)
+      this.fetch(this.filterParams(this.state.queriesEmployees))
       this.fetchFilter(this.state.queries)
     }
 
@@ -105,6 +193,7 @@ export default connect(
         <Layout willRender={this.state.willRender}>
           <EmployeeASNComponent
             onSearch={this.onSearch}
+            onFilter={this.onFilter}
             onLoading={this.setLoading}
             onPaginationChange={this.onPaginationChange}
             onRowsPerPageChange={this.onRowsPerPageChange}
