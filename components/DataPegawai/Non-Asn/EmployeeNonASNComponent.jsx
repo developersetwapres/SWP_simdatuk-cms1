@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import LayoutPages from '../../core/LayoutPages'
@@ -9,6 +7,12 @@ import { Edit, Info } from '@mui/icons-material'
 import { Typography } from '@mui/material'
 import EmployeeFilterComponent from '../EmployeeFilterComponent'
 import { useRouter } from 'next/router'
+import {
+  employeeEducationLevelOptions,
+  employeeStatusOptions,
+  monthOptions,
+  religionOptions
+} from 'libs/types/options'
 
 const styles = {
   iconStyle: {
@@ -27,12 +31,42 @@ const styles = {
 
 const EmployeeNonASNComponent = ({
   employee,
+  grade,
+  position,
+  employmentType,
   onLoading = () => {},
   onSearch = () => {},
+  onFilter = () => {},
   onPaginationChange = () => {},
   onRowsPerPageChange = () => {}
 }) => {
   const router = useRouter()
+
+  const handleMapOptions = (val) => {
+    const arr = []
+
+    val.map((itm) => {
+      arr.push(itm?.name)
+    })
+
+    return arr
+  }
+
+  const options = useMemo(() => {
+    const newPosition = handleMapOptions(position?.data)
+    const newGrade = handleMapOptions(grade?.options)
+    const newEmploymentType = handleMapOptions(employmentType?.data)
+
+    return {
+      positions: newPosition,
+      grades: newGrade,
+      educationLevel: employeeEducationLevelOptions,
+      religion: religionOptions,
+      months: monthOptions,
+      status: employeeStatusOptions,
+      employmentType: newEmploymentType
+    }
+  }, [position, grade, employmentType])
 
   const columns = useMemo(
     () => [
@@ -175,14 +209,61 @@ const EmployeeNonASNComponent = ({
     )
   }, [])
 
+  const handleGetValueID = (type, val) => {
+    if (val) {
+      if (type == 'position') {
+        const item =
+          position?.data && position?.data.find((itm) => itm?.name == val)?.id
+        return item
+      } else if (type == 'grade') {
+        const item =
+          grade?.options && grade?.options.find((itm) => itm?.name == val)?.id
+        return item
+      } else if (type == 'employmentType') {
+        const item =
+          (employmentType?.data &&
+            employmentType?.data.find((itm) => itm?.name == val)?.id) ||
+          null
+        return item
+      } else {
+        const item = options[type].findIndex((itm) => itm == val) + 1
+        return item
+      }
+    } else {
+      return val
+    }
+  }
+
+  const handleFilter = (val) => {
+    const newFilter = Object.fromEntries(
+      Object.entries(val).map(([key, value]) => {
+        if (key !== 'age') {
+          return [key, handleGetValueID(key, value)]
+        } else {
+          return [key, value]
+        }
+      })
+    )
+
+    onFilter(newFilter)
+  }
+
   useEffect(() => {
-    const state = !employee?.loading
+    const state =
+      !employee?.loading &&
+      !grade?.loading &&
+      !position?.loading &&
+      !employmentType?.loading
     onLoading(state)
-  }, [employee])
+  }, [employee, grade, position, employmentType])
 
   return (
     <LayoutPages summary={'Data Pegawai Non ASN'} action={action}>
-      <EmployeeFilterComponent onSearch={onSearch} options={{ echelon: [] }} />
+      <EmployeeFilterComponent
+        onFilter={handleFilter}
+        onSearch={onSearch}
+        options={options}
+      />
       <Table
         columns={columns}
         rows={rows}
@@ -196,8 +277,11 @@ const EmployeeNonASNComponent = ({
 
 EmployeeNonASNComponent.propTypes = {
   employee: PropTypes.object,
+  position: PropTypes.object,
+  employmentType: PropTypes.object,
   onLoading: PropTypes.func,
   onSearch: PropTypes.func,
+  onFilter: PropTypes.func,
   onPaginationChange: PropTypes.func,
   onRowsPerPageChange: PropTypes.func
 }
