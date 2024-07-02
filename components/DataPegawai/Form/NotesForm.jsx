@@ -1,93 +1,95 @@
+/* eslint-disable no-unused-vars */
 import React from 'react'
-import { Button, TextArea, Input } from '@/components/shared'
-import { Box, Typography, Divider, Grid } from '@mui/material'
 import PropTypes from 'prop-types'
+import { TextArea } from '@/components/shared'
+import { Grid } from '@mui/material'
+import CardAccordion from './CardAccordion'
+import HeaderForm from './HeaderForm'
 
-function NotesForm({
-  note,
-  index,
-  fullWidth = false,
-  handleDeleteNote = () => { },
-  handleInputsChanged = () => { }
-}) {
+const NotesForm = ({
+  values,
+  errors,
+  touched,
+  handleChange,
+  handleBlur,
+  handleSubmit,
+  isSubmitting,
+  setFieldValue,
+  formikRef,
+  options
+}) => {
+  const handleData = (data, type, indexItem) => {
+    if (type == 'add') {
+      const newData = { description: '' }
+      const updateData = [...data, newData]
+      setFieldValue('notes', updateData, false)
+    } else {
+      const newData = data.filter((item, index) => index !== indexItem)
+      setFieldValue('notes', newData, false)
+    }
+  }
+
+  const handleDeleteData = (idx) => {
+    const error = errors?.notes
+    if (error) error.splice(idx, 1)
+    handleData(values?.notes, 'delete', idx)
+  }
+
   return (
-    <>
-      <Box
-        sx={{
-          width: fullWidth ? '100%' : 'unset',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between'
-        }}
-      >
-        <Typography color='#895700' fontWeight={700}>Catatan</Typography>
-
-        <Button
-          text='Hapus'
-          color='danger'
-          onClick={handleDeleteNote}
-          sx={{ textTransform: 'none' }}
-        />
-      </Box>
-
-      <Divider sx={{ width: '100%', border: '1px solid #929292', margin: '10px 0px' }} />
-
-      <Grid
-        container
-        spacing={2}
-        sx={{
-          marginBottom: '20px'
-        }}
-      >
-        {(note?.giver_name || note?.created_at) && (
-          <>
-            <Grid item xs={6}>
-              <Input
-                disabled
-                label='Tanggal'
-                placeholder='dd-mm-yyyy'
-                name='input_date'
-                value={note?.created_at}
-                error={''}
-                onChange={(val) => console.log(val)}
-              />
+    <CardAccordion
+      footer
+      title='Catatan'
+      textAdd='Tambah Catatan Baru'
+      handleAdd={() => handleData(values?.notes, 'add')}
+    >
+      <Grid container spacing={3}>
+        {values?.notes &&
+          values?.notes.map((itm, idx) => (
+            <Grid item container xs={12} spacing={3} key={idx}>
+              <Grid item xs={12} sx={{ padding: 0, margin: 0 }}>
+                <HeaderForm
+                  title='Catatan'
+                  handleDelete={() => handleDeleteData(idx)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextArea
+                  label='Catatan *'
+                  placeholder='Masukkan Catatan'
+                  rows={3}
+                  name={`notes[${idx}].description`}
+                  value={itm?.description}
+                  error={errors?.notes && errors?.notes[idx]?.description}
+                  onChange={(e) => {
+                    const val = e?.target?.value
+                    setFieldValue(`notes[${idx}].description`, val, false)
+                    setTimeout(() => {
+                      formikRef.current.validateField(
+                        `notes[${idx}].description`
+                      )
+                    }, 1)
+                  }}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={6}>
-              <Input
-                disabled
-                label='Inputer'
-                placeholder='dd-mm-yyyy'
-                name='inputer'
-                value={note?.giver_name}
-                error={''}
-                onChange={(val) => console.log(val)}
-              />
-            </Grid>
-          </>
-        )}
-
-        <Grid item xs={12}>
-          <TextArea
-            label='Catatan *'
-            placeholder='Masukkan Catatan'
-            rows={3}
-            name='notes'
-            value={note?.content}
-            onChange={(e) => handleInputsChanged(index, e)}
-            error={note?.error || ''}
-          />
-        </Grid>
+          ))}
       </Grid>
-    </>
+    </CardAccordion>
   )
 }
 
 NotesForm.propTypes = {
-  index: PropTypes.number,
-  note: PropTypes.object,
-  fullWidth: PropTypes.bool,
-  handleDeleteNote: PropTypes.func,
-  handleInputsChanged: PropTypes.func
+  values: PropTypes.object,
+  errors: PropTypes.object,
+  touched: PropTypes.object,
+  handleChange: PropTypes.func,
+  handleBlur: PropTypes.func,
+  handleSubmit: PropTypes.func,
+  handleField: PropTypes.func,
+  setFieldValue: PropTypes.func,
+  isSubmitting: PropTypes.bool,
+  formikRef: PropTypes.any,
+  options: PropTypes.object
 }
 
 export default NotesForm

@@ -1,133 +1,293 @@
+/* eslint-disable no-unused-vars */
 import React from 'react'
-import { Autocomplete, Input, Button } from '@/components/shared'
-import { Box, Typography, Divider, Grid } from '@mui/material'
+import PropTypes from 'prop-types'
+import CardAccordion from './CardAccordion'
+import { Grid } from '@mui/material'
+import { Autocomplete, Input } from '@/components/shared'
 import UploadFile from '@/components/shared/form/UploadFile'
+import HeaderForm from './HeaderForm'
+import DatepickerYear from '@/components/shared/form/DatepickerYear'
 
-function EducationForm() {
+const EducationForm = ({
+  values,
+  errors,
+  touched,
+  handleChange,
+  handleBlur,
+  handleSubmit,
+  isSubmitting,
+  setFieldValue,
+  formikRef,
+  options
+}) => {
+  const handleData = (data, type, indexItem) => {
+    if (type == 'add') {
+      const newData = {
+        educationLevel: null,
+        educationName: '',
+        educationFaculty: '',
+        educationMajor: '',
+        educationStatus: null,
+        educationYear: null,
+        educationDescription: '',
+        educationCertificate: null
+      }
+
+      const updateData = [...data, newData]
+      setFieldValue('educations', updateData, false)
+    } else {
+      const newData = data.filter((item, index) => index !== indexItem)
+      setFieldValue('educations', newData, false)
+    }
+  }
+
+  const handleDeleteData = (idx) => {
+    const error = errors?.educations
+    error.splice(idx, 1)
+
+    handleData(values?.notes, 'educations', idx)
+  }
+
   return (
-    <>
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Typography color='#895700' fontWeight={700}>Pendidikan</Typography>
-
-        <Button
-          text='Hapus'
-          color='danger'
-          onClick={() => { }}
-          sx={{ textTransform: 'none' }}
-        />
-      </Box>
-
-      <Divider sx={{ border: '1px solid #929292', margin: '10px 0px' }} />
-
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <Autocomplete
-            options={['a', 'b']}
-            name={`name`}
-            placeholder='Pilih Tingkat'
-            multiple={true}
-            label='Tingkat *'
-            error={''}
-            onChange={(val) => console.log(val)}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <Input
-            label='Nama Sekolah *'
-            placeholder='Masukkan Nama Sekolah *'
-            name='name'
-            value={''}
-            error={''}
-            onChange={(val) => console.log(val)}
-          />
-        </Grid>
-
-        <Grid item xs={6}>
-          <Input
-            label='Fakultas'
-            placeholder='Masukkan Fakultas'
-            name='name'
-            value={''}
-            error={''}
-            onChange={(val) => console.log(val)}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <Input
-            label='Jurusan'
-            placeholder='Masukkan Jurusan'
-            name='name'
-            value={''}
-            error={''}
-            onChange={(val) => console.log(val)}
-          />
-        </Grid>
-
-        <Grid item xs={6}>
-          <Autocomplete
-            options={['a', 'b']}
-            name={`name`}
-            placeholder='Pilih Status'
-            multiple={true}
-            label='Status *'
-            error={''}
-            onChange={(val) => console.log(val)}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <Input
-            label='Tahun Lulus *'
-            placeholder='Masukkan Tahun Lulus'
-            name='name'
-            value={''}
-            error={''}
-            onChange={(val) => console.log(val)}
-          />
-        </Grid>
-
-        <Grid item xs={6}>
-          <Input
-            label='Keterangan Sekolah'
-            placeholder='Masukkan Keterangan Sekolah'
-            name='name'
-            value={''}
-            error={''}
-            onChange={(val) => console.log(val)}
-          />
-        </Grid>
-
-        <Grid item xs={6}>
-          <UploadFile
-            label='Ijazah'
-            maxSize={2}
-            dataUnit='MB'
-            formatFile={['.png', '.jpg', '.pdf']}
-            name={'name'}
-            value={''}
-            error={''}
-            onDelete={() => { }}
-            onChange={(val) => {
-              console.log(val)
-            }}
-          />
-        </Grid>
-
-        <Grid item xs={12}>
-          <Button
-            color='primary'
-            variant='outlined'
-            text='Tambah Pendidikan Baru'
-            sx={{
-              width: '100%',
-              display: 'block',
-              fontWeight: 'bold'
-            }}
-            onClick={() => { }}
-          />
-        </Grid>
+    <CardAccordion
+      footer
+      title='Riwayat Pendidikan'
+      textAdd='Tambah Pendidikan Baru'
+      handleAdd={() => handleData(values?.educations, 'add')}
+    >
+      <Grid container spacing={3}>
+        {values?.educations &&
+          values?.educations.map((itm, idx) => (
+            <Grid item container xs={12} spacing={3} key={idx}>
+              <Grid item xs={12} sx={{ padding: 0, margin: 0 }}>
+                <HeaderForm
+                  title='Riwayat Pendidikan'
+                  handleDelete={() => handleDeleteData(idx)}
+                />
+              </Grid>
+              {/* Education Level */}
+              <Grid item xs={6}>
+                <Autocomplete
+                  options={options?.employeeEducationLevel}
+                  label='Tingkat *'
+                  placeholder='Pilih Tingkat'
+                  name={`educations[${idx}].educationLevel`}
+                  value={itm?.educationLevel}
+                  error={
+                    errors?.educations &&
+                    errors?.educations[idx]?.educationLevel
+                  }
+                  onChange={(val) => {
+                    setFieldValue(
+                      `educations[${idx}].educationLevel`,
+                      val,
+                      false
+                    )
+                    setTimeout(() => {
+                      formikRef.current.validateField(
+                        `educations[${idx}].educationLevel`
+                      )
+                    }, 1)
+                  }}
+                />
+              </Grid>
+              {/* Education Name */}
+              <Grid item xs={6}>
+                <Input
+                  label='Nama Sekolah/Universitas *'
+                  placeholder='Masukkan Nama Sekolah/Universitas'
+                  name={`educations[${idx}].educationName`}
+                  value={itm?.educationName}
+                  error={
+                    errors?.educations && errors?.educations[idx]?.educationName
+                  }
+                  onChange={(e) => {
+                    const val = e?.target?.value
+                    setFieldValue(
+                      `educations[${idx}].educationName`,
+                      val,
+                      false
+                    )
+                    setTimeout(() => {
+                      formikRef.current.validateField(
+                        `educations[${idx}].educationName`
+                      )
+                    }, 1)
+                  }}
+                />
+              </Grid>
+              {/* Education Faculty */}
+              <Grid item xs={6}>
+                <Input
+                  label='Fakultas'
+                  placeholder='Masukkan Fakultas'
+                  name={`educations[${idx}].educationFaculty`}
+                  value={itm?.educationFaculty}
+                  error={
+                    errors?.educations &&
+                    errors?.educations[idx]?.educationFaculty
+                  }
+                  onChange={(e) => {
+                    const val = e?.target?.value
+                    setFieldValue(
+                      `educations[${idx}].educationFaculty`,
+                      val,
+                      false
+                    )
+                  }}
+                />
+              </Grid>
+              {/* Education Major */}
+              <Grid item xs={6}>
+                <Input
+                  label='Jurusan'
+                  placeholder='Masukkan Jurusan'
+                  name={`educations[${idx}].educationMajor`}
+                  value={itm?.educationMajor}
+                  error={
+                    errors?.educations &&
+                    errors?.educations[idx]?.educationMajor
+                  }
+                  onChange={(e) => {
+                    const val = e?.target?.value
+                    setFieldValue(
+                      `educations[${idx}].educationMajor`,
+                      val,
+                      false
+                    )
+                  }}
+                />
+              </Grid>
+              {/* Education Status */}
+              <Grid item xs={6}>
+                <Autocomplete
+                  options={options?.educationStatus}
+                  label='Status *'
+                  placeholder='Pilih Status'
+                  name={`educations[${idx}].educationStatus`}
+                  value={itm?.educationStatus}
+                  error={
+                    errors?.educations &&
+                    errors?.educations[idx]?.educationStatus
+                  }
+                  onChange={(val) => {
+                    setFieldValue(
+                      `educations[${idx}].educationStatus`,
+                      val,
+                      false
+                    )
+                    setTimeout(() => {
+                      formikRef.current.validateField(
+                        `educations[${idx}].educationStatus`
+                      )
+                    }, 1)
+                  }}
+                />
+              </Grid>
+              {/* Education Year */}
+              <Grid item xs={6}>
+                <DatepickerYear
+                  isClear
+                  label='Tahun Lulus *'
+                  placeholder='Pilih Tahun Lulus'
+                  nname={`educations[${idx}].educationYear`}
+                  value={itm?.educationYear}
+                  error={
+                    errors?.educations && errors?.educations[idx]?.educationYear
+                  }
+                  onChange={(val) => {
+                    setFieldValue(
+                      `educations[${idx}].educationYear`,
+                      val,
+                      false
+                    )
+                    setTimeout(() => {
+                      formikRef.current.validateField(
+                        `educations[${idx}].educationYear`
+                      )
+                    }, 1)
+                  }}
+                />
+              </Grid>
+              {/* Education Description */}
+              <Grid item xs={6}>
+                <Input
+                  label='Keterangan Sekolah'
+                  placeholder='Masukkan Keterangan Sekolah'
+                  name={`educations[${idx}].educationDescription`}
+                  value={itm?.educationDescription}
+                  error={
+                    errors?.educations &&
+                    errors?.educations[idx]?.educationDescription
+                  }
+                  onChange={(e) => {
+                    const val = e?.target?.value
+                    setFieldValue(
+                      `educations[${idx}].educationDescription`,
+                      val,
+                      false
+                    )
+                  }}
+                />
+              </Grid>
+              {/* Education Certificate */}
+              <Grid item xs={6}>
+                <UploadFile
+                  label='Ijazah'
+                  maxSize={2}
+                  dataUnit='MB'
+                  formatFile={['.png', '.jpg', '.pdf']}
+                  name={`educations[${idx}].educationCertificate`}
+                  value={itm?.educationCertificate}
+                  error={
+                    errors?.educations &&
+                    errors?.educations[idx]?.educationCertificate
+                  }
+                  onDelete={() => {
+                    setFieldValue(
+                      `educations[${idx}].educationCertificate`,
+                      null,
+                      false
+                    )
+                    setTimeout(() => {
+                      formikRef.current.validateField(
+                        `educations[${idx}].educationCertificate`
+                      )
+                    }, 1)
+                  }}
+                  onChange={(val) => {
+                    setFieldValue(
+                      `educations[${idx}].educationCertificate`,
+                      val,
+                      false
+                    )
+                    setTimeout(() => {
+                      formikRef.current.validateField(
+                        `educations[${idx}].educationCertificate`
+                      )
+                    }, 1)
+                  }}
+                />
+              </Grid>
+            </Grid>
+          ))}
       </Grid>
-    </>
+    </CardAccordion>
   )
+}
+
+EducationForm.propTypes = {
+  values: PropTypes.object,
+  errors: PropTypes.object,
+  touched: PropTypes.object,
+  handleChange: PropTypes.func,
+  handleBlur: PropTypes.func,
+  handleSubmit: PropTypes.func,
+  handleField: PropTypes.func,
+  setFieldValue: PropTypes.func,
+  isSubmitting: PropTypes.bool,
+  formikRef: PropTypes.any,
+  options: PropTypes.object
 }
 
 export default EducationForm
