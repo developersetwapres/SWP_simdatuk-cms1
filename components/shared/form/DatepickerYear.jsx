@@ -10,6 +10,7 @@ const DatepickerYear = ({
   name,
   error,
   placeholder,
+  disabled = false,
   isClear = false,
   isQuarter = false,
   onChange = () => {}
@@ -35,7 +36,7 @@ const DatepickerYear = ({
           margin: 0,
           padding: 0,
           border: '1.2px solid',
-          borderColor: error ? 'red' : '#394346',
+          borderColor: error ? 'red' : disabled ? '#C4C4C4' : '#394346',
           borderRadius: '6px',
           overflow: 'hidden',
           '& > div.react-datepicker-wrapper': {
@@ -47,12 +48,16 @@ const DatepickerYear = ({
             border: 'none',
             padding: '14px 12px',
             fontSize: '16px',
+            background: disabled ? '#E9E9E9' : 'inherit',
+            '&::placeholder': {
+              color: disabled ? '#C4C4C4' : 'inherit'
+            },
             '&:focus-visible': {
               outline: 'unset'
             }
           },
           '& .react-datepicker__close-icon::after': {
-            background: '#394346'
+            background: disabled ? '#C4C4C4' : '#394346'
           }
         }}
       >
@@ -64,6 +69,7 @@ const DatepickerYear = ({
           onChange={(date) => onChange(date)}
           placeholderText={placeholder}
           isClearable={isClear}
+          disabled={disabled}
           {...(isQuarter
             ? {
                 showQuarterYearPicker: true
@@ -91,6 +97,7 @@ DatepickerYear.propTypes = {
   name: PropTypes.string,
   error: PropTypes.string,
   placeholder: PropTypes.string,
+  disabled: PropTypes.bool,
   isClear: PropTypes.bool,
   isQuarter: PropTypes.bool,
   onChange: PropTypes.func

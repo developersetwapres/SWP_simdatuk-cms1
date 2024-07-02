@@ -16,7 +16,7 @@ const useStyles = makeStyles({
     // fontWeight: '700',
     fontFamily: 'roboto',
     resize: 'none',
-    border: (props) => props.error ? '1px solid #000' : '1px solid #BABABA',
+    border: (props) => (props.error ? '1px solid #000' : '1px solid #BABABA'),
     // '&:hover': {
     //   border: (props) => props.error ? '1px solid #000' : '1px solid #fff'
     // },
@@ -30,9 +30,7 @@ const useStyles = makeStyles({
   },
   label: {
     fontSize: '16px',
-    lineHeight: '24px',
-    // fontWeight: 'bold',
-    marginBottom: '8px',
+    margin: '0 0 8px 0',
     color: '#000'
   },
   helperText: {
@@ -53,17 +51,13 @@ function TextArea({
   className,
   placeholder,
   fullWidth = false,
-  onChange = () => { },
+  onChange = () => {},
   ...others
 }) {
   const classes = useStyles()
   return (
     <FormGroup sx={{ width: fullWidth ? '100%' : 'unset' }}>
-      {
-        label && (
-          <p className={classes.label}>{label}</p>
-        )
-      }
+      {label && <p className={classes.label}>{label}</p>}
       <TextareaAutosize
         className={className || classes.root}
         minRows={rows}
@@ -73,13 +67,7 @@ function TextArea({
         onChange={onChange}
         {...others}
       />
-      {
-        error && (
-          <p className={classes.helperText}>
-            {error}
-          </p>
-        )
-      }
+      {error && <p className={classes.helperText}>{error}</p>}
     </FormGroup>
   )
 }

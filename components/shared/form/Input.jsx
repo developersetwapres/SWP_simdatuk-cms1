@@ -18,6 +18,7 @@ const useStyles = makeStyles({
         border: 'none'
       },
       '&.Mui-disabled': {
+        border: 'none',
         background: 'rgba(146, 146, 146, 0.15)'
       },
       '& input': {

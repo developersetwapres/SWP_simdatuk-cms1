@@ -18,6 +18,11 @@ const useStyles = makeStyles(() => ({
         border: 'none'
       },
 
+      '&.Mui-disabled': {
+        border: 'none',
+        background: '#E9E9E9'
+      },
+
       '& input': {
         padding: 'unset'
       }
@@ -35,6 +40,7 @@ function MuiAutocomplete({
   error = false,
   onChange = () => {},
   multiple = false,
+  loading = false,
   ...other
 }) {
   const classes = useStyles()
@@ -57,10 +63,13 @@ function MuiAutocomplete({
         getOptionLabel={(option) => option}
         filterSelectedOptions
         onChange={(e, val) => onChange(val)}
+        disabled={disabled}
+        loading={loading}
         renderInput={(params) => (
           <TextField
             {...params}
             name={name}
+            disabled={disabled}
             placeholder={placeholder}
             className={classes.input}
             {...(error && { error: true, helperText: error })}
@@ -102,6 +111,7 @@ MuiAutocomplete.propTypes = {
   name: PropTypes.any,
   disabled: PropTypes.bool,
   multiple: PropTypes.bool,
+  loading: PropTypes.bool,
   error: PropTypes.any,
   onChange: PropTypes.func
 }

@@ -73,6 +73,7 @@ const UploadFile = ({
   maxSize,
   dataUnit,
   formatFile = [],
+  dimension,
   onChange = () => {},
   onDelete = () => {}
 }) => {
@@ -139,7 +140,7 @@ const UploadFile = ({
           </Typography>
         )}
       </Box>
-      {(formatFile || (dataUnit && maxSize)) && (
+      {(formatFile || (dataUnit && maxSize) || dimension) && (
         <Box>
           {formatFile && (
             <Typography sx={style?.font}>{`Format File : ${
@@ -150,6 +151,11 @@ const UploadFile = ({
             <Typography
               sx={style?.font}
             >{`Maksimum Size : ${maxSize}${dataUnit}`}</Typography>
+          )}
+          {dimension && (
+            <Typography
+              sx={style?.font}
+            >{`Dimensi : ${dimension?.width}px x ${dimension?.height}px`}</Typography>
           )}
         </Box>
       )}
@@ -166,7 +172,8 @@ UploadFile.propTypes = {
   formatFile: PropTypes.array,
   maxSize: PropTypes.number,
   onChange: PropTypes.func,
-  onDelete: PropTypes.func
+  onDelete: PropTypes.func,
+  dimension: PropTypes.object
 }
 
 export default UploadFile

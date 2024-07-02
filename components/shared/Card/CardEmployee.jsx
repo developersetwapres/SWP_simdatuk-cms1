@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 /* eslint-disable @next/next/no-img-element */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -37,7 +38,23 @@ const CardEmployee = ({ data, otherStyle }) => {
       <CardContent sx={style.cardContent}>
         <Box sx={style.imageBox}>
           {data?.image?.length > 0 ? (
-            <img src={data?.image} alt='profile' height={200} width={150} />
+            <Box
+              sx={{
+                width: '150px',
+                height: '180px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                overflow: 'hidden'
+              }}
+            >
+              <img
+                src={data?.image}
+                alt='profile'
+                srcset='/simdatuk/userIcon.png'
+                style={{ height: '100%', width: '100%' }}
+              />
+            </Box>
           ) : (
             <Box
               height={200}
