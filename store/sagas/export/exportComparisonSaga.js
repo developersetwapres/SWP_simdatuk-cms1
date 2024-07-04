@@ -1,29 +1,29 @@
 /**
  *
- * @module Saga/exportRecapSaga
+ * @module Saga/exportComparisonSaga
  *
- * @desc Export Recap
+ * @desc Export Comparison
  */
 import { call, put, takeEvery } from '@redux-saga/core/effects'
 import {
-  EXPORT_RECAP_REQUESTED,
-  EXPORT_RECAP_SUCCESS,
-  EXPORT_RECAP_FAILED
+  EXPORT_COMPARISON_REQUESTED,
+  EXPORT_COMPARISON_SUCCESS,
+  EXPORT_COMPARISON_FAILED
 } from '../../constants'
-import { getRecapExport } from '../action/export/exportRecapAction'
+import { getComparisonExportAction } from '../action/export/exportComparisonAction'
 
 /**
- * Export Recap
+ * Export Comparison
  *
  * @param {*} action
  * @returns
  */
-function* exportRecap(action) {
+function* exportComparison(action) {
   try {
-    const res = yield call(getRecapExport, action?.payload)
+    const res = yield call(getComparisonExportAction, action?.payload)
 
     yield put({
-      type: EXPORT_RECAP_SUCCESS,
+      type: EXPORT_COMPARISON_SUCCESS,
       payload: res
     })
   } catch (err) {
@@ -45,7 +45,7 @@ function* exportRecap(action) {
         })
       } else {
         yield put({
-          type: EXPORT_RECAP_FAILED,
+          type: EXPORT_COMPARISON_FAILED,
           payload: errors?.message
         })
       }
@@ -53,8 +53,8 @@ function* exportRecap(action) {
   }
 }
 
-function* exportRecapSaga() {
-  yield takeEvery(EXPORT_RECAP_REQUESTED, exportRecap)
+function* exportComparisonSaga() {
+  yield takeEvery(EXPORT_COMPARISON_REQUESTED, exportComparison)
 }
 
-export default exportRecapSaga
+export default exportComparisonSaga
