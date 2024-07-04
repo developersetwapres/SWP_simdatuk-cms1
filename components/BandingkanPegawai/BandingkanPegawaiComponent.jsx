@@ -1,18 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import Search from '../core/Search'
+import Search from '@/components/core/Search'
 import {
   Box,
   Checkbox,
   FormControlLabel,
   Grid,
   IconButton,
-  Typography
+  Typography,
+  TablePagination
 } from '@mui/material'
 import { makeStyles } from '@mui/styles'
-import FilterAltIcon from '@mui/icons-material/FilterAlt'
 import BandingPegawaiForm from './BandingPegawaiForm'
 import { Button } from '../shared'
 import { FilterAlt } from '@mui/icons-material'
@@ -56,44 +56,46 @@ const styles = {
   }
 }
 
-const BandingkanPegawaiComponent = ({ data }) => {
+const BandingkanPegawaiComponent = ({
+  promotions,
+  echelon,
+  disciplinary,
+  grade,
+  employee,
+  dataFromStorage,
+  onSearch = () => { },
+  onLoading = () => { },
+  onPaginationChange = () => { },
+  onRowsPerPageChange = () => { },
+  getBriefEmployees = () => { }
+}) => {
   const router = useRouter()
   const classes = useStyles()
-
+  const COLLECT_LIMIT = 5
   const [expandFilter, setExpandFilter] = useState(false)
   const [collectData, setCollectData] = useState([])
 
   const isSelectAll = useMemo(() => {
-    return collectData.length == 3
-  }, [collectData])
+    return (promotions?.employees?.length >= COLLECT_LIMIT && collectData?.length == COLLECT_LIMIT) ||
+      (promotions?.employees?.length < COLLECT_LIMIT && collectData?.length > 1)
+  }, [collectData, promotions])
 
   const handleFilterClick = () => {
     setExpandFilter(!expandFilter)
   }
 
-  const handleSelectedAll = (e) => {
-    if (e && collectData.length < 3) {
-      const newData = data
-        .map((item) => {
-          return item?.children[0]
-        })
-        .slice(0, 3)
-      let newCollectData = []
-
-      newData.map((item) => {
-        const checkItem = collectData.some((itm) => {
-          return item?.name === itm?.name
-        })
-
-        if (!checkItem) {
-          newCollectData = [...newCollectData, item]
-        }
-      })
-
-      setCollectData([
+  const handleSelectedAll = (checked) => {
+    if (checked) {
+      const merged = [
         ...collectData,
-        ...newData.slice(0, 3 - collectData.length)
-      ])
+        ...employees
+          ?.slice(0, COLLECT_LIMIT - collectData?.length)
+          ?.map(item => {
+            const [data, itemObject] = getFlattenedObject(item)
+            return itemObject
+          })
+      ]
+      setCollectData(merged)
     } else {
       setCollectData([])
     }
@@ -101,30 +103,28 @@ const BandingkanPegawaiComponent = ({ data }) => {
 
   const handleGetCheckBox = (value) => {
     return collectData.some((item) => {
-      return item?.name === value?.name
+      return item?.id === value?.id
     })
   }
 
-  const handleCheckBox = (e, value) => {
-    const checkValue = collectData.some((item) => {
-      return item?.name === value?.name
-    })
+  const handleCheckBox = (checked, item) => {
+    if (collectData.length >= COLLECT_LIMIT) return
 
-    if (collectData.length == 3 && !checkValue) {
-      const collectDataSlice = collectData.slice(1)
-      setCollectData([...collectDataSlice, value])
-    } else if (!checkValue) {
-      setCollectData([...collectData, value])
+    if (checked) {
+      const newCollectData = [...collectData, item]
+      setCollectData(newCollectData)
     } else {
-      const filterData = collectData.filter((item) => {
-        return item?.name !== value?.name
-      })
-      setCollectData(filterData)
+      const newCollectData = collectData?.filter(itm => itm?.id !== item?.id)
+      setCollectData(newCollectData)
+
+      if (!newCollectData?.length) {
+        localStorage.removeItem('dataPegawai')
+      }
     }
   }
 
   const handleRedirectCompare = () => {
-    if (collectData.length > 0) {
+    if (collectData.length > 1) {
       localStorage.setItem('dataPegawai', JSON.stringify(collectData))
       router.push(`${router.asPath}/data-pegawai`)
     }
@@ -142,10 +142,72 @@ const BandingkanPegawaiComponent = ({ data }) => {
             textTransform: 'none',
             fontSize: '14px'
           }}
+          isBusy={collectData.length < 2}
         />
       </Box>
     )
   }, [collectData])
+
+  const handleChangePage = (e, page) => {
+    onPaginationChange(page + 1)
+  }
+
+  const handleChangeRowsPerPage = (e) => {
+    const row = e?.target?.value
+    onRowsPerPageChange(row)
+  }
+
+  const getFlattenedObject = (item) => {
+    const itemObject = {
+      ...item,
+      eselon: `${item?.echelon_name || '-'}, ${item?.echelon_effective_date || '-'}`,
+      golongan: `${item?.grade_name || '-'}, ${item?.grade_effective_date || '-'}`,
+      image: [item?.photo_profile || '/simdatuk/userIcon.png'],
+      name: `${item?.title_prefix || ''} ${item?.name} ${item?.title_suffix || ''}` || '-',
+      nip: `${item?.employee_id_number || '-'}/${item?.employee_registration_number || '-'}`,
+      isCheck: true
+    }
+
+    return [
+      {
+        type: CardTypes.PROFILE1,
+        position: item?.position_name || '-',
+        children: [itemObject]
+      },
+      itemObject
+    ]
+  }
+
+  const employees = useMemo(() => {
+    const data = promotions?.employees
+    const newData = data?.filter((item) =>
+      !collectData?.some(itm => item?.id == itm?.id)
+    )
+    return newData
+  }, [promotions, collectData])
+
+  const echelons = useMemo(() => {
+    return echelon?.options || []
+  }, [echelon])
+
+  const disciplinaries = useMemo(() => {
+    return disciplinary?.options || []
+  }, [disciplinary])
+
+  const grades = useMemo(() => {
+    return grade?.options || []
+  }, [grade])
+
+  useEffect(() => {
+    const state = !(promotions?.loading)
+    onLoading(state)
+  }, [promotions])
+
+  useEffect(() => {
+    if (dataFromStorage?.length) {
+      setCollectData(dataFromStorage)
+    }
+  }, [dataFromStorage])
 
   return (
     <LayoutPages summary={'Bandingkan Pegawai'} action={action}>
@@ -177,12 +239,42 @@ const BandingkanPegawaiComponent = ({ data }) => {
               inputClass={classes.input}
               iconStyle={styles.iconStyle}
               placeholder='Cari Nama/Nip Pegawai'
+              onSearch={onSearch}
             />
           </Box>
-          <BandingPegawaiForm expand={expandFilter} />
+          <BandingPegawaiForm
+            expand={expandFilter}
+            echelons={echelons}
+            disciplinaries={disciplinaries}
+            grades={grades}
+            handleSubmit={(val) => console.log(val)}
+          />
         </Box>
-        {/* Employees Card */}
+        {/* Selected Employees Card */}
         <Grid container spacing={3}>
+          {collectData?.map((item, index) => {
+            return (
+              <Grid item xs={12} sm={3} key={index}>
+                <CardProfile
+                  data={{
+                    type: CardTypes.PROFILE1,
+                    position: item?.position_name,
+                    children: [item]
+                  }}
+                  key={index}
+                  isCheck={handleGetCheckBox(item)}
+                  handleCheck={(checked) => handleCheckBox(checked, item)}
+                />
+              </Grid>
+            )
+          })}
+        </Grid>
+        {/* Employees Card */}
+        <Grid
+          container
+          spacing={3}
+          sx={{ marginTop: '12px' }}
+        >
           <Grid item xs={12}>
             <Box
               sx={{
@@ -201,24 +293,49 @@ const BandingkanPegawaiComponent = ({ data }) => {
               />
             </Box>
           </Grid>
-          {data.map((item, index) => (
-            <Grid item xs={12} sm={3} key={index}>
-              <CardProfile
-                data={item}
-                key={index}
-                isCheck={handleGetCheckBox(item?.children[0])}
-                handleCheck={handleCheckBox}
-              />
-            </Grid>
-          ))}
+          {employees?.map((item, index) => {
+            const [data, itemObject] = getFlattenedObject(item)
+            return (
+              <Grid item xs={12} sm={3} key={index}>
+                <CardProfile
+                  data={data}
+                  key={index}
+                  isCheck={handleGetCheckBox(itemObject)}
+                  handleCheck={handleCheckBox}
+                />
+              </Grid>
+            )
+          })}
         </Grid>
+
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component='div'
+          count={promotions?.pagination?.total || 0}
+          rowsPerPage={promotions?.pagination?.per_page || 10}
+          page={promotions?.pagination?.current_page - 1 || 0}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          sx={{ marginTop: '12px' }}
+        />
       </Box>
     </LayoutPages>
   )
 }
 
 BandingkanPegawaiComponent.propTypes = {
-  data: PropTypes.array
+  promotions: PropTypes.object,
+  echelon: PropTypes.object,
+  disciplinary: PropTypes.object,
+  grade: PropTypes.object,
+  employee: PropTypes.object,
+  dataFromStorage: PropTypes.array,
+  onSearch: PropTypes.func,
+  onLoading: PropTypes.func,
+  onPaginationChange: PropTypes.func,
+  onRowsPerPageChange: PropTypes.func,
+  getEmployee: PropTypes.func,
+  getBriefEmployees: PropTypes.func
 }
 
 export default BandingkanPegawaiComponent

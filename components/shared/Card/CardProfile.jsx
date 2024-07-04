@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useMemo } from 'react'
@@ -47,8 +48,8 @@ const CardProfile = ({
   onCLick,
   isCheck,
   checkLabel,
-  handleModal = () => {},
-  handleCheck = () => {}
+  handleModal = () => { },
+  handleCheck = () => { }
 }) => {
   const ExpandModal = useMemo(() => {
     if (data?.slot > 1) return true
@@ -108,17 +109,6 @@ const CardProfile = ({
             <HiArrowsExpand color='#895700' />
           </Box>
         </Box>
-        {/* {isExpand ? (
-          // data?.children.map((itm, idx) => (
-          // <ContentProfile
-          //   data={data?.children[0]}
-          //   type={data?.type}
-          //   // key={idx}
-          // />
-          // ))
-        ) : (
-          <ContentProfile data={data} type={data?.type} />
-        )} */}
         <ContentProfile
           data={data?.children ? data?.children[0] : data}
           type={data?.type}
@@ -134,21 +124,35 @@ const ItemDetail = ({ title, value }) => {
   return (
     <Grid item xs={12}>
       <Typography fontSize={14}>{title}</Typography>
-      <Typography variant='p' component='div' fontSize={14} fontWeight='600'>
+      <Typography
+        variant='p'
+        component='div'
+        fontSize={14}
+        fontWeight='600'
+        sx={{
+          wordWrap: 'break-word'
+        }}
+      >
         {value || '-'}
       </Typography>
     </Grid>
   )
 }
 
-const ContentProfile = ({ data, type, detailCard, isCheck, handleCheck }) => {
+const ContentProfile = ({
+  data,
+  type,
+  detailCard,
+  isCheck,
+  handleCheck
+}) => {
   const router = useRouter()
 
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={style.imageBox}>
         {data?.image?.length > 0 ? (
-          <Image src={data?.image} alt='profile' height={200} width={150} />
+          <img src={data?.image[0]} alt='profile' height={200} width={150} />
         ) : (
           <Box
             height={200}
@@ -261,7 +265,6 @@ const ContentProfile = ({ data, type, detailCard, isCheck, handleCheck }) => {
 }
 
 CardProfile.propTypes = {
-  summary: PropTypes.string.isRequired,
   rootStyle: PropTypes.object,
   isExpand: PropTypes.bool,
   onCLick: PropTypes.func,
