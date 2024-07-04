@@ -35,6 +35,17 @@ import {
   updateEmployeeAction,
   updateEmployeeStatusAction
 } from './action/employeeAction'
+import Router from 'next/router'
+
+/**
+ * Get Pathname
+ *
+ *
+ * @returns
+ */
+function* pathname() {
+  return ''
+}
 
 /**
  * Fetch banner
@@ -182,6 +193,8 @@ function* deleteEmployee(action) {
  */
 function* postEmployee(action) {
   try {
+    const pathname = Router?.pathname
+    const path = pathname.split('/').slice(0, 3).join('/')
     const res = yield call(postEmployeeAction, action?.payload)
 
     const payload = res?.data
@@ -196,7 +209,7 @@ function* postEmployee(action) {
       payload: {
         code: payload?.code,
         message: 'Pegawai berhasil ditambahkan',
-        redirect: '/data-pegawai/asn'
+        redirect: path
       }
     })
   } catch (err) {
@@ -236,6 +249,8 @@ function* postEmployee(action) {
  */
 function* updateEmployee(action) {
   try {
+    const pathname = Router?.pathname
+    const path = pathname.split('/').slice(0, 3).join('/')
     const res = yield call(updateEmployeeAction, action?.payload)
     const payload = res?.data
 
@@ -249,7 +264,7 @@ function* updateEmployee(action) {
       payload: {
         code: payload?.code,
         message: 'Pegawai berhasil diubah',
-        redirect: 'back'
+        redirect: path
       }
     })
   } catch (err) {
@@ -289,6 +304,8 @@ function* updateEmployee(action) {
  */
 function* updateEmployeeStatus(action) {
   try {
+    const pathname = Router?.pathname
+    const path = pathname.split('/').slice(0, 3).join('/')
     const res = yield call(updateEmployeeStatusAction, action?.payload)
 
     const payload = res?.data
@@ -303,7 +320,7 @@ function* updateEmployeeStatus(action) {
       payload: {
         code: payload?.code,
         message: 'Edit Status Pegawai Berhasil',
-        redirect: '/data-pegawai/asn'
+        redirect: ''
       }
     })
   } catch (err) {

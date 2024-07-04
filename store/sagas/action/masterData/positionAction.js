@@ -22,9 +22,14 @@ export const getPositionsOrdersAction = (payload) => {
  * @returns
  */
 export const getPositionsAction = (payload) => {
-  const { page, limit, search, filterParent, parentId } = payload
-  const moreParams = `&filter_parent=${filterParent}&parent_id=${parentId}`
-  return get(`${basePath}${queryParams(page, limit, search)}${moreParams}`)
+  const { page, limit, search, filterParent, parentId, type } = payload
+  const moreParams = {
+    filter_parent: filterParent,
+    parent_id: parentId,
+    type: type.join(',')
+  }
+  const queryString = '&' + new URLSearchParams(moreParams).toString()
+  return get(`${basePath}${queryParams(page, limit, search)}${queryString}`)
 }
 
 /**
