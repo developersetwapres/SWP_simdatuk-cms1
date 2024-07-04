@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import Footer from '@/components/core/Footer'
 import { Box, Container, List, Toolbar, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
@@ -133,6 +133,14 @@ function Layout({ children, window, willRender }) {
 
   const container =
     window !== undefined ? () => window().document.body : undefined
+
+  useEffect(() => {
+    const path = router?.asPath
+
+    if (!path?.includes('/rekapitulasi/bandingkan-pegawai')) {
+      localStorage.removeItem('dataPegawai')
+    }
+  }, [router])
 
   const drawer = (
     <Fragment>

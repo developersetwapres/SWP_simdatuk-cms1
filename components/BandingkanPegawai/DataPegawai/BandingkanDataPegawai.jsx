@@ -1,78 +1,233 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from 'react'
 import { Box, Paper, Typography } from '@mui/material'
+import PropTypes from 'prop-types'
 import FilterAltIcon from '@mui/icons-material/FilterAlt'
-import InputTags from '@/components/core/InputTags'
 import ListDataPegawai from './ListDataPegawai'
-import { dummyDataPegawai } from './DummydataPegawai'
 import { useRouter } from 'next/router'
-import { Button } from '@/components/shared'
+import { Button, Autocomplete } from '@/components/shared'
 import LayoutPages from '@/components/core/LayoutPages'
 import ButtonExport from '@/components/core/ButtonExport'
+import { v4 as uuidv4, validate as uuidValidate } from 'uuid'
+import { SaveAs, saveFile } from '@/utils/fileSaver'
+import { dateTimeFormat } from '@/utils/index'
 
 // Dummy Data
 const filterData = [
-  { title: 'Jabatan' },
-  { title: 'Eselon' },
-  { title: 'Golongan' },
-  { title: 'NIP/NRP' },
-  { title: 'Riwayat Pendidikan' },
-  { title: 'Riwayat Pekerjaan' }
+  { id: uuidv4(), title: 'Jabatan' },
+  { id: uuidv4(), title: 'Eselon' },
+  { id: uuidv4(), title: 'Golongan' },
+  { id: uuidv4(), title: 'Pendidikan Terakhir' },
+  { id: uuidv4(), title: 'Riwayat Jabatan' },
+  { id: uuidv4(), title: 'Riwayat Pelatihan Struktural' },
+  { id: uuidv4(), title: 'Riwayat Pelatihan Fungsional' },
+  { id: uuidv4(), title: 'Riwayat Pelatihan Teknis' },
+  { id: uuidv4(), title: 'Catatan' },
+  { id: uuidv4(), title: 'Hasil Assessment' },
+  { id: uuidv4(), title: 'Hasil Uji Kompetensi' },
+  { id: uuidv4(), title: 'Hasil Talent Pool' }
 ]
 
 // End Dummy Data
 
-const BandingkanDataPegawai = () => {
+const BandingkanDataPegawai = ({
+  exportComparisonStore,
+  employee,
+  notes,
+  employeesDetails,
+  setLoading = () => { },
+  getNotesByUserID = () => { },
+  updateNotesByUserID = () => { },
+  exportComparison = () => { },
+  clearExportComparisonState = () => { }
+}) => {
   const router = useRouter()
   const [expandFilter, setExpandFilter] = useState(false)
-  const [pegawaiData, setPegawaiData] = useState({
-    id: [],
-    name: [],
-    image: [],
-    jabatan: [],
-    eselon: [],
-    golongan: [],
-    nip: [],
-    riwayatPendidikan: [],
-    riwayatJabatan: [],
-    pelatihanStruktural: [],
-    pelatihanFungsional: [],
-    pelatihanTeknis: [],
-    riwayatCatatan: []
-  })
+  const [filters, setFilters] = useState([])
+
+  const employees = useMemo(() => {
+    return employeesDetails
+  }, [employeesDetails])
+
+  const employeesIds = useMemo(() => {
+    return employeesDetails?.map(item => item?.id) || []
+  }, [employeesDetails])
+
+  const getFileName = (type) => {
+    const dateNow = dateTimeFormat(new Date())?.replace(' ', '_')
+    const prefix = 'PERBANDINGAN_PEGAWAI_' + employeesIds?.join('_') + '_'
+    let ext = '.pdf'
+
+    if (type?.includes('pdf')) {
+      ext = '.pdf'
+    } else if (type?.includes('sheet')) {
+      ext = '.xlsx'
+    } else {
+      ext = '.csv'
+    }
+
+    return prefix + dateNow + ext
+  }
+
+  useEffect(() => {
+    if (exportComparisonStore?.data) {
+      const responseType = exportComparisonStore?.data?.type
+      let type = SaveAs.PDF
+
+      if (type?.includes('pdf')) {
+        type = SaveAs.PDF
+      } else if (type?.includes('sheet')) {
+        type = SaveAs.XLS
+      } else {
+        type = SaveAs.CSV
+      }
+
+      saveFile(
+        exportComparisonStore?.data,
+        getFileName(responseType),
+        type
+      )
+
+      clearExportComparisonState()
+    }
+  }, [exportComparisonStore])
+
+  const exportAsPDF = () => {
+    exportComparison({
+      ids: employeesIds?.join(', '),
+      output: '.pdf'
+    })
+  }
+
+  const exportAsXLS = () => {
+    exportComparison({
+      ids: employeesIds?.join(', '),
+      output: '.xlsx'
+    })
+  }
+
+  const exportAsCSV = () => {
+    exportComparison({
+      ids: employeesIds?.join(', '),
+      output: '.csv'
+    })
+  }
 
   const action = useMemo(() => {
     return (
       <Box sx={{ display: 'flex', gap: 1 }}>
-        <Button text='Tambah Pegawai' color='primary' onClick={() => {}} />
+        <Button text='Tambah Pegawai' color='primary' onClick={router.back} />
         <Button
           text='Reset Pegawai'
           color='sidatukDraweBase'
-          onClick={() => {}}
+          onClick={() => {
+            localStorage.removeItem('dataPegawai')
+            router.back()
+          }}
         />
         <ButtonExport
           data={[
-            { name: 'PDF', action: () => {} },
-            { name: 'XLS', action: () => {} },
-            { name: 'CSV', action: () => {} }
+            {
+              name: 'PDF',
+              action: () => exportAsPDF()
+            },
+            {
+              name: 'XLS',
+              action: () => exportAsXLS()
+            },
+            {
+              name: 'CSV',
+              action: () => exportAsCSV()
+            }
           ]}
         />
       </Box>
     )
-  }, [])
+  }, [employeesDetails])
 
   const handleFilterClick = () => {
     setExpandFilter(!expandFilter)
   }
 
+  const handleFilterChange = (vals) => {
+    setFilters(vals)
+  }
+
+  const resetFilter = () => {
+    setFilters([])
+  }
+
   useEffect(() => {
-    setPegawaiData((prevState) => {
-      const newData = { ...prevState }
-      for (const key in dummyDataPegawai[0]) {
-        newData[key] = dummyDataPegawai.map((item) => item[key])
+    setLoading(
+      !(employee?.loading || notes?.loading || exportComparisonStore?.loading)
+    )
+  }, [employee, notes, exportComparisonStore])
+
+  // Modal Notes
+  const [notesModalOpen, setNotesModalOpen] = useState(false)
+  const newNote = () => ({
+    id: uuidv4(),
+    giver_name: '',
+    created_at: '',
+    description: '',
+    error: ''
+  })
+  const [userNotes, setUserNotes] = useState([newNote()])
+
+  const clearCurrentNotes = () => setUserNotes([newNote()])
+
+  const openNotesModal = (userId) => {
+    clearCurrentNotes()
+    getNotesByUserID(userId)
+    setNotesModalOpen(true)
+  }
+
+  const closeNotesModal = () => {
+    setNotesModalOpen(false)
+    clearCurrentNotes()
+  }
+
+  const updateNotes = () => {
+    const param = userNotes?.map(i => {
+      if (uuidValidate(i?.id))
+        return { description: i?.description }
+
+      return {
+        id: i?.id,
+        description: i?.description
       }
-      return newData
     })
-  }, [])
+    console.log('NOTES: ', param)
+    // TODO: continue
+    // updateNotesByUserID({
+    //   id: 
+    //   data: param
+    // })
+  }
+
+  const addNote = () =>
+    setUserNotes([...userNotes, newNote()])
+
+  const deleteNote = (id) =>
+    setUserNotes(userNotes?.filter(n => n?.id !== id))
+
+  const handleNotesInputChanged = (noteId, e) => {
+    const value = e?.target?.value
+
+    setUserNotes(userNotes?.map(n => {
+      if (n?.id == noteId)
+        return { ...n, description: value }
+
+      return n
+    }))
+  }
+
+  useEffect(() => {
+    setUserNotes([
+      ...notes?.data,
+      ...userNotes
+    ])
+  }, [notes])
 
   return (
     <LayoutPages
@@ -137,10 +292,15 @@ const BandingkanDataPegawai = () => {
               >
                 <Typography fontWeight='500'>Filter Data</Typography>
                 <Box width='90%'>
-                  <InputTags
-                    id='filter'
-                    listValue={filterData}
+                  <Autocomplete
+                    multiple
+                    options={filterData?.map(i => i?.title)}
+                    name='filter'
                     placeholder='Pilih Filter Data'
+                    label=''
+                    error={''}
+                    value={filters}
+                    onChange={handleFilterChange}
                   />
                 </Box>
               </Box>
@@ -158,30 +318,33 @@ const BandingkanDataPegawai = () => {
                   sx={{
                     backgroundColor: '#d32f2f'
                   }}
+                  onClick={resetFilter}
                 />
-                <Button text='Selesai' />
+                {/* <Button text='Selesai' /> */}
               </Box>
             </Box>
           )}
         </Box>
         <ListDataPegawai
-          id={pegawaiData.id}
-          imageSource={pegawaiData?.image}
-          jabatan={pegawaiData.jabatan}
-          names={pegawaiData.name}
-          eselon={pegawaiData.eselon}
-          golongan={pegawaiData.golongan}
-          nip={pegawaiData.nip}
-          riwayatPendidikan={pegawaiData.riwayatPendidikan}
-          riwayatJabatan={pegawaiData.riwayatJabatan}
-          pelatihanStruktural={pegawaiData.pelatihanStruktural}
-          pelatihanFungsional={pegawaiData.pelatihanFungsional}
-          pelatihanTeknis={pegawaiData.pelatihanTeknis}
-          riwayatCatatan={pegawaiData.riwayatCatatan}
+          employees={employees}
+          filters={filters}
+          openNotesModal={openNotesModal}
         />
       </Paper>
     </LayoutPages>
   )
+}
+
+BandingkanDataPegawai.propTypes = {
+  notes: PropTypes.object,
+  exportComparisonStore: PropTypes.object,
+  employee: PropTypes.object,
+  employeesDetails: PropTypes.array,
+  setLoading: PropTypes.func,
+  getNotesByUserID: PropTypes.func,
+  updateNotesByUserID: PropTypes.func,
+  exportComparison: PropTypes.func,
+  clearExportComparisonState: PropTypes.func
 }
 
 export default BandingkanDataPegawai
