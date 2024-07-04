@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import LayoutPages from '../../core/LayoutPages'
@@ -278,6 +280,7 @@ const EmployeeOutsourcingComponent = ({
 EmployeeOutsourcingComponent.propTypes = {
   employee: PropTypes.object,
   position: PropTypes.object,
+  grade: PropTypes.object,
   employmentType: PropTypes.object,
   onLoading: PropTypes.func,
   onSearch: PropTypes.func,

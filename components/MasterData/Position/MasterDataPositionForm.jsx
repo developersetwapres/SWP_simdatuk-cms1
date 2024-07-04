@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { Fragment, useEffect, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import {

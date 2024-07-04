@@ -64,7 +64,7 @@ const ModalAddNotes = ({
       const notes = values?.notes
 
       const payload = {
-        notes: notes.map((itm, idx) => {
+        notes: notes.map((itm) => {
           return {
             id: itm?.id || '',
             description: itm?.description
@@ -226,7 +226,7 @@ const ModalAddNotes = ({
 ModalAddNotes.propTypes = {
   open: PropTypes.bool,
   data: PropTypes.object,
-  handleCancel: PropTypes.func,
+  handleModal: PropTypes.func,
   handleSave: PropTypes.func
 }
 

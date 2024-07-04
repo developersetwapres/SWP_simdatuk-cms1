@@ -279,6 +279,7 @@ const EmployeeASNComponent = ({
 EmployeeASNComponent.propTypes = {
   employee: PropTypes.object,
   position: PropTypes.object,
+  grade: PropTypes.object,
   onLoading: PropTypes.func,
   onSearch: PropTypes.func,
   onFilter: PropTypes.func,

@@ -1,8 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useSelector } from 'react'
-import {
-  Grid, Box, Container, Typography
-} from '@mui/material'
+import { Grid, Box, Container, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 import LoginModal from './LoginModal'
 import Image from 'next/image'
@@ -12,13 +10,11 @@ import { useForm } from '@/hooks/index'
 // import { setStorages, getStorage } from '@/utils/storage'
 
 const LoginComponent = ({
-  authentication = () => { },
-  forgetPassword = () => { }
+  authentication = () => {},
+  forgetPassword = () => {}
 }) => {
-
   const errorState = ''
   // const rememberMeState = getStorage('remember_setneg') ? JSON.parse(getStorage('remember_setneg')) : null
-
 
   const [initialValues, setInitialValues] = useState({
     // username: rememberMeState?.username === '' ? '' : rememberMeState?.username,
@@ -33,7 +29,6 @@ const LoginComponent = ({
   const [modalResetEmailFinish, setResetEmailFinish] = useState(false)
   const [modal2FA, setModal2FA] = useState(false)
 
-
   // const classes = useStyles()
 
   const validate = (fieldOfValues = values) => {
@@ -45,17 +40,17 @@ const LoginComponent = ({
         : 'username tidak boleh kosong'
     }
 
-
     if ('password' in fieldOfValues)
-      temp.password = fieldOfValues.password ? '' : 'Password tidak boleh kosong'
-
+      temp.password = fieldOfValues.password
+        ? ''
+        : 'Password tidak boleh kosong'
 
     setErrors({
       ...temp
     })
 
     if (fieldOfValues === values)
-      return Object.values(temp).every(x => x === '')
+      return Object.values(temp).every((x) => x === '')
   }
 
   const {
@@ -65,7 +60,6 @@ const LoginComponent = ({
     // resetForm,
     handleInputChange
   } = useForm(initialValues, true, validate)
-
 
   const handleLogin = (e) => {
     e.preventDefault()
@@ -89,7 +83,7 @@ const LoginComponent = ({
       //    else {
       //   localStorage.removeItem('remember_setneg')
       // }
-      
+
       authentication(payload)
       // qrCode(payload)
 
@@ -98,12 +92,8 @@ const LoginComponent = ({
       } else {
         setModal2FA(false)
       }
-
     }
   }
-
-
-
 
   const handleResetEmail = () => {
     setModalResetEmail(true)
@@ -114,44 +104,40 @@ const LoginComponent = ({
     setModalResetEmail(false)
   }
 
-
-
-
   return (
-    <Box sx={{
-      display: 'flex',
-      height: '100vh',
-      width: '100vw',
-      justifyContent: 'center',
-      alignItems: {
-        xs: 'start',
-        sm: 'center',
-        md: 'center',
-        lg: 'center',
-        xl: 'center'
-      }
-    }}>
+    <Box
+      sx={{
+        display: 'flex',
+        height: '100vh',
+        width: '100vw',
+        justifyContent: 'center',
+        alignItems: {
+          xs: 'start',
+          sm: 'center',
+          md: 'center',
+          lg: 'center',
+          xl: 'center'
+        }
+      }}
+    >
       <Box>
-        <Image
-          src={authHero}
-          layout='fill'
-          alt='background'
-        />
+        <Image src={authHero} layout='fill' alt='background' />
       </Box>
       <Container
         sx={{
           height: '60%',
           position: 'relative',
           zIndex: 100
-        }}>
+        }}
+      >
         <Grid
           container
           columnSpacing={5}
           sx={{
             height: '100%',
             alignItems: 'center'
-
-          }}>
+          }}
+        >
           <Grid
             item
             xs={12}
@@ -197,12 +183,7 @@ const LoginComponent = ({
             </Typography>
             {/* end Text Banner */}
           </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={6}
-          >
+          <Grid item xs={12} sm={6} md={6}>
             <Box
               sx={{
                 height: '100%',
@@ -219,8 +200,8 @@ const LoginComponent = ({
                 handleLogin={handleLogin}
                 handleResetEmail={handleResetEmail}
                 stateLoading={errorState}
-              // rememberMe={rememberMe}
-              // setRememberMe={setRememberMe}
+                // rememberMe={rememberMe}
+                // setRememberMe={setRememberMe}
               />
               {/* End Form Component */}
 
@@ -237,7 +218,7 @@ const LoginComponent = ({
           </Grid>
         </Grid>
       </Container>
-    </Box >
+    </Box>
   )
 }
 
@@ -247,5 +228,3 @@ LoginComponent.propTypes = {
 }
 
 export default LoginComponent
-
-

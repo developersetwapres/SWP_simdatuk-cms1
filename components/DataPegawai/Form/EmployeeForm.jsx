@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable indent */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo } from 'react'
 import { Grid } from '@mui/material'
 import PropTypes from 'prop-types'

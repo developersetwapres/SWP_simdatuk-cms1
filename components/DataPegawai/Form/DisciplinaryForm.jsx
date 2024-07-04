@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Input, Autocomplete } from '@/components/shared'
@@ -7,7 +8,7 @@ import DatePickerDay from '@/components/shared/form/DatePickerDay'
 import CardAccordion from './CardAccordion'
 import HeaderForm from './HeaderForm'
 
-function DisciplinaryForm({
+const DisciplinaryForm = ({
   values,
   errors,
   touched,
@@ -18,7 +19,7 @@ function DisciplinaryForm({
   setFieldValue,
   formikRef,
   options
-}) {
+}) => {
   return (
     <CardAccordion title='Riwayat Hukuman Disiplin'>
       <Grid container spacing={3} sx={{ paddingBottom: '12px' }}>
@@ -398,6 +399,20 @@ function DisciplinaryForm({
       </Grid>
     </CardAccordion>
   )
+}
+
+DisciplinaryForm.propTypes = {
+  values: PropTypes.object,
+  errors: PropTypes.object,
+  touched: PropTypes.object,
+  handleChange: PropTypes.func,
+  handleBlur: PropTypes.func,
+  handleSubmit: PropTypes.func,
+  handleField: PropTypes.func,
+  setFieldValue: PropTypes.func,
+  isSubmitting: PropTypes.bool,
+  formikRef: PropTypes.any,
+  options: PropTypes.object
 }
 
 export default DisciplinaryForm

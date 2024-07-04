@@ -148,7 +148,8 @@ Notes.propTypes = {
   errors: PropTypes.object,
   setFieldValue: PropTypes.func,
   formikRef: PropTypes.any,
-  isEdit: PropTypes.bool
+  isEdit: PropTypes.bool,
+  handleDeleteData: PropTypes.func
 }
 
 NotesForm.propTypes = {
@@ -162,7 +163,8 @@ NotesForm.propTypes = {
   setFieldValue: PropTypes.func,
   isSubmitting: PropTypes.bool,
   formikRef: PropTypes.any,
-  isAccordion: PropTypes.bool
+  isAccordion: PropTypes.bool,
+  isEdit: PropTypes.bool
 }
 
 export default NotesForm

@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import LayoutPages from '@/components/core/LayoutPages'
@@ -528,7 +530,7 @@ const EmployeeAddComponent = ({
     return dataOptions
   }, [positions, echelon, grade, institution, residence, employmentType])
 
-  const handleGetValue = (type, val, idx) => {
+  const handleGetValue = (type, val) => {
     if (val) {
       if (type == 'position') {
         const dataPosition = positions.flat(1)

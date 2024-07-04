@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable indent */
 import React, { useEffect, useMemo } from 'react'
 import { Box } from '@mui/material'
 import PropTypes from 'prop-types'
@@ -227,6 +228,10 @@ const FormComponent = (props) => {
     formikProps.setErrors(mappedErrors)
   }
 
+  useEffect(() => {
+    if (Object.entries(errorsForm).length > 0) handleSetErrorsForm(errorsForm)
+  }, [errorsForm])
+
   if (pageType == 'OUTSOURCING') {
     return (
       <Box sx={containerStyles}>
@@ -239,10 +244,6 @@ const FormComponent = (props) => {
       </Box>
     )
   }
-
-  useEffect(() => {
-    if (Object.entries(errorsForm).length > 0) handleSetErrorsForm(errorsForm)
-  }, [errorsForm])
 
   return (
     <Box sx={containerStyles}>
@@ -304,6 +305,7 @@ FormComponent.propTypes = {
   formikRef: PropTypes.any,
   formikProps: PropTypes.any,
   options: PropTypes.object,
+  errorsForm: PropTypes.object,
   onGetPositionType: PropTypes.func
 }
 
