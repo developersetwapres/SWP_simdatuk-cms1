@@ -27,6 +27,7 @@ import compositionSaga from './recap/compositionSaga'
 import asnSaga from './recap/asnSaga'
 import nonASNSaga from './recap/nonASNSaga'
 import outsourceSaga from './recap/outsourceSaga'
+import promotionSaga from './recap/promotionSaga'
 
 // Employee
 import employeeSaga from './employeeSaga'
@@ -44,6 +45,7 @@ import disciplinarySaga from './histories/disciplinarySaga'
 import exportDRHSaga from './export/exportDRHSaga'
 import exportRecapSaga from './export/exportRecapSaga'
 import exportEmployeeSaga from './export/exportEmployeeSaga'
+import exportComparisonSaga from './export/exportComparisonSaga'
 
 export default function* rootSaga() {
   yield all([
@@ -58,6 +60,7 @@ export default function* rootSaga() {
     asnSaga(),
     nonASNSaga(),
     outsourceSaga(),
+    promotionSaga(),
     positionHistoriesSaga(),
     gradeSaga(),
     recognitionSaga(),
@@ -72,6 +75,7 @@ export default function* rootSaga() {
     exportDRHSaga(),
     exportRecapSaga(),
     exportEmployeeSaga(),
+    exportComparisonSaga(),
     positionSaga(),
     groupSaga()
   ])
