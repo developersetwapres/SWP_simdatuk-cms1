@@ -46,16 +46,45 @@ import { CLEAR_EXPORT_EMPLOYEE_DETAIL_STATE } from '@/store/constants'
 const EmployeeDetailComponent = ({
   employee,
   exportEmployeeData,
-  institution,
-  getEmployee = () => { },
-  updateEmployee = () => { },
-  updateEmployeeStatus = () => { },
-  clearEmployeeState = () => { },
-  exportEmployeeDetail = () => { },
-  setRender = () => { }
+  getEmployee = () => {},
+  updateNotesByUserID = () => {},
+  updateEmployeeStatus = () => {},
+  clearEmployeeState = () => {},
+  exportEmployeeDetail = () => {},
+  setRender = () => {}
 }) => {
   const router = useRouter()
   const dispatch = useDispatch()
+
+  const [employmentStatusModalOpen, setEmploymentStatusModal] = useState(false)
+  const [notesModal, setNotesModal] = useState(false)
+
+  const handleNotesModal = () => {
+    setNotesModal((notesModal) => !notesModal)
+  }
+
+  const getValue = (type, val) => {
+    if (type == 'marital_status') return options?.marital[val]
+
+    if (type == 'employment_status') return options?.employeeStatus[val]
+
+    if (type == 'education') return options?.educationLevel[val]
+
+    if (type == 'education_status') return options?.educationStatus[val]
+
+    return options[type][val]
+  }
+
+  const path = useMemo(() => {
+    const pathname = router?.pathname.split('/')[2]
+    const data = {
+      ASN: pathname == 'asn',
+      NonASN: pathname == 'non-asn',
+      Outsource: pathname == 'outsourcing'
+    }
+
+    return data
+  }, [router])
 
   const options = useMemo(() => {
     const dataOptions = {
@@ -73,143 +102,66 @@ const EmployeeDetailComponent = ({
     return dataOptions
   }, [])
 
-  const getValue = (type, val) => {
-    if (type == 'institutions')
-      return institution?.options?.find((itm) => itm?.id == val)?.name
-
-    if (type == 'marital_status')
-      return options?.marital[val]
-
-    if (type == 'employment_status')
-      return options?.employeeStatus[val]
-
-    if (type == 'education')
-      return options?.educationLevel[val]
-
-    if (type == 'education_status')
-      return options?.educationStatus[val]
-
-    return options[type][val]
-  }
-
   const data = useMemo(() => {
     const detailEmployee = employee?.detail
 
     const payload = {
       ...detailEmployee,
       religion: getValue('religion', detailEmployee?.religion - 1),
-      institution: getValue('institutions', detailEmployee?.institution_id),
-      maritalStatus: getValue('marital_status', detailEmployee?.marital_status - 1),
-      employmentStatus: getValue('employment_status', detailEmployee?.employment_status - 1),
-      educationLevel: getValue('education', detailEmployee?.education_level - 1),
-      educations:
-        !!detailEmployee?.educations?.length ?
-          [...detailEmployee?.educations?.map(
-            i => ({
+      maritalStatus: getValue(
+        'marital_status',
+        detailEmployee?.marital_status - 1
+      ),
+      employmentStatus: getValue(
+        'employment_status',
+        detailEmployee?.employment_status - 1
+      ),
+      educationLevel: getValue(
+        'education',
+        detailEmployee?.education_level - 1
+      ),
+      educations: !!detailEmployee?.educations?.length
+        ? [
+            ...detailEmployee?.educations?.map((i) => ({
               ...i,
               level: getValue('education', i?.level - 1),
               status: getValue('education_status', i?.status - 1)
-            })
-          )] : []
+            }))
+          ]
+        : []
     }
 
     return payload
   }, [employee])
-
-  useEffect(() => {
-    const id = router?.query?.id
-    if (id) getEmployee(atob(id))
-
-    // Event clear state when url path changes
-    router.events.on('routeChangeComplete', clearEmployeeState)
-
-    return () => {
-      router.events.off('routeChangeComplete', clearEmployeeState)
-    }
-  }, [router])
-
-  useEffect(() => {
-    setRender(!(employee?.loading || institution?.loading || exportEmployeeData?.loading))
-  }, [employee, institution, exportEmployeeData])
-
-  // Export
-  useEffect(() => {
-    if (exportEmployeeData?.detail) saveFile(exportEmployeeData?.detail)
-  }, [exportEmployeeData])
-
-  const saveFile = (resp) => {
-    // set the blog type to final pdf
-    const file = new Blob([resp], { type: 'application/pdf' })
-
-    // process to auto download it
-    const fileURL = URL.createObjectURL(file)
-    const link = document.createElement('a')
-    link.href = fileURL
-    link.download = getFileName()
-    link.click()
-    URL.revokeObjectURL(fileURL)
-    dispatch({ type: CLEAR_EXPORT_EMPLOYEE_DETAIL_STATE })
-  }
-
-  const getFileName = () => {
-    const dateNow = dateTimeFormat(new Date())?.replace(' ', '_')
-    const prefix = 'DATA_PEGAWAI_' + data?.id
-
-    return prefix + dateNow + '.pdf'
-  }
 
   const action = useMemo(() => {
     return (
       <Box sx={{ display: 'flex', gap: 1 }}>
         {router?.asPath?.includes('data-pegawai') && (
           <>
-            <Button text='Edit Status Pegawai' color='primary' onClick={() => setEmploymentStatusModal(true)} />
+            <Button
+              text='Edit Status Pegawai'
+              color='primary'
+              onClick={() => setEmploymentStatusModal(true)}
+            />
             <Button
               text='Edit'
               color='sidatukDraweBase'
-              onClick={() =>
-                router.push(`${router.pathname}/edit/${btoa(data?.id)}`)
-              }
+              onClick={() => {
+                const id = router?.query?.id
+                const path = router.pathname
+                const pathSplit = path.split('/')
+                const pathname = pathSplit.slice(0, 3).join('/')
+                router.push(`${pathname}/edit/${id}`)
+              }}
             />
           </>
         )}
 
-        <ButtonExport
-          data={[
-            { name: 'PDF', action: () => exportAsPDF() }
-          ]}
-        />
+        <ButtonExport data={[{ name: 'PDF', action: () => exportAsPDF() }]} />
       </Box>
     )
   }, [employmentStatusModalOpen])
-
-  const exportAsPDF = () => {
-    const id = router?.query?.id
-
-    if (id) {
-      exportEmployeeDetail(atob(id))
-    }
-  }
-
-  const sectionComponents = () => {
-    return sectionsList.map(item => (
-      <Grid item key={item.id} xs={12} id={item.id}>
-        <item.Section
-          data={item.data}
-        />
-      </Grid>
-    ))
-  }
-
-  const handleNavigationMenuClick = (id) => {
-    document.getElementById(id).scrollIntoView({
-      behavior: 'smooth',
-      block: 'center'
-    })
-  }
-
-  const [employmentStatusModalOpen, setEmploymentStatusModal] = useState(false)
-  const [notesModal, setNotesModal] = useState(false)
 
   const sectionsList = useMemo(() => {
     const sections = [
@@ -281,7 +233,9 @@ const EmployeeDetailComponent = ({
       {
         id: 'riwayat_catatan',
         data: data?.notes || [],
-        Section: (props) => <RiwayatCatatanSection {...props} addNewNotes={() => setNotesModal(true)} />
+        Section: (props) => (
+          <RiwayatCatatanSection {...props} addNewNotes={handleNotesModal} />
+        )
       },
       {
         id: 'hasil_assessment',
@@ -303,7 +257,11 @@ const EmployeeDetailComponent = ({
     const datas = sections
       .filter((item) => {
         const outsourcingPage = router?.asPath?.includes('outsourcing')
-        const outsourcingMenu = ['riwayat_pendidikan', 'riwayat_catatan']
+        const outsourcingMenu = [
+          'data_pegawai',
+          'riwayat_pendidikan',
+          'riwayat_catatan'
+        ]
         const chosenRiwayatMenu = [
           'riwayat_jabatan',
           'riwayat_golongan',
@@ -331,14 +289,81 @@ const EmployeeDetailComponent = ({
 
         return false
       })
-      .map(i => ({
+      .map((i) => ({
         ...i,
-        sideBarLabel:
-          i?.id?.split('_')?.map(item => capitalizeFirstLetter(item))?.join(' ')
+        sideBarLabel: i?.id
+          ?.split('_')
+          ?.map((item) => capitalizeFirstLetter(item))
+          ?.join(' ')
       }))
 
     return datas
   }, [data])
+
+  const saveFile = (resp) => {
+    // set the blog type to final pdf
+    const file = new Blob([resp], { type: 'application/pdf' })
+
+    // process to auto download it
+    const fileURL = URL.createObjectURL(file)
+    const link = document.createElement('a')
+    link.href = fileURL
+    link.download = getFileName()
+    link.click()
+    URL.revokeObjectURL(fileURL)
+    dispatch({ type: CLEAR_EXPORT_EMPLOYEE_DETAIL_STATE })
+  }
+
+  const getFileName = () => {
+    const dateNow = dateTimeFormat(new Date())?.replace(' ', '_')
+    const prefix = 'DATA_PEGAWAI_' + data?.id
+
+    return prefix + dateNow + '.pdf'
+  }
+
+  const exportAsPDF = () => {
+    const id = router?.query?.id
+
+    if (id) {
+      exportEmployeeDetail(atob(id))
+    }
+  }
+
+  const sectionComponents = () => {
+    return sectionsList.map((item) => (
+      <Grid item key={item.id} xs={12} id={item.id}>
+        <item.Section data={item.data} />
+      </Grid>
+    ))
+  }
+
+  const handleNavigationMenuClick = (id) => {
+    document.getElementById(id).scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    })
+  }
+
+  useEffect(() => {
+    const id = router?.query?.id
+    if (id) getEmployee(atob(id))
+
+    // Event clear state when url path changes
+    router.events.on('routeChangeComplete', clearEmployeeState)
+
+    return () => {
+      router.events.off('routeChangeComplete', clearEmployeeState)
+    }
+  }, [router])
+
+  useEffect(() => {
+    const state = !(employee?.loading && exportEmployeeData?.loading)
+    setRender(state)
+  }, [employee, exportEmployeeData])
+
+  useEffect(() => {
+    if (exportEmployeeData?.detail) saveFile(exportEmployeeData?.detail)
+  }, [exportEmployeeData])
 
   return (
     <LayoutPages
@@ -373,45 +398,68 @@ const EmployeeDetailComponent = ({
             </Box>
             {/* Detail Bio */}
             <Box sx={{ width: '100%' }}>
+              {/* Name */}
               <Typography
                 component='h5'
                 fontSize={20}
                 fontWeight='bold'
                 color='primary'
               >
-                {data?.name || '-'}
+                {[data?.title_prefix, data?.name, data?.title_suffix].join(' ')}
               </Typography>
+              {/* Position */}
               <Typography fontSize={14} fontWeight='500'>
                 {data?.position_merged || '-'}
               </Typography>
               <Grid container sx={{ marginTop: '20px' }}>
+                {/* Echelon / Grade */}
+                {!path?.Outsource && (
+                  <>
+                    <Grid item xs={4}>
+                      <Box>
+                        <Typography component='h5' sx={{ fontSize: '14px' }}>
+                          Eselon
+                        </Typography>
+                        <Typography fontSize={14} fontWeight='600'>
+                          {[
+                            data?.echelon_name || '-',
+                            data?.echelon_effective_date || '-'
+                          ].join(', ')}
+                        </Typography>
+                      </Box>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Box>
+                        <Typography component='h5' sx={{ fontSize: '14px' }}>
+                          Golongan
+                        </Typography>
+                        <Typography fontSize={14} fontWeight='600'>
+                          {[
+                            [
+                              data?.grade_name || '-',
+                              data?.grade_code || '-'
+                            ].join(' '),
+                            data?.grade_effective_date || '-'
+                          ].join(', ')}
+                        </Typography>
+                      </Box>
+                    </Grid>
+                  </>
+                )}
+                {/* NIP/NRP */}
                 <Grid item xs={4}>
                   <Box>
                     <Typography component='h5' sx={{ fontSize: '14px' }}>
-                      Eselon
+                      {`NIP${!path?.Outsource ? '/NRP' : ''}`}
                     </Typography>
                     <Typography fontSize={14} fontWeight='600'>
-                      {data?.echelon_name || '-'}, {data?.echelon_effective_date || '-'}
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={4}>
-                  <Box>
-                    <Typography component='h5' sx={{ fontSize: '14px' }}>
-                      Golongan
-                    </Typography>
-                    <Typography fontSize={14} fontWeight='600'>
-                      {data?.grade_name || '-'} {data?.grade_code || '-'}, {data?.grade_effective_date || '-'}
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={4}>
-                  <Box>
-                    <Typography component='h5' sx={{ fontSize: '14px' }}>
-                      NIP/NRP
-                    </Typography>
-                    <Typography fontSize={14} fontWeight='600'>
-                      {data?.employee_id_number || '-'}/{data?.employee_registration_number || '-'}
+                      {[
+                        data?.employee_id_number || '-',
+                        !path?.Outsource
+                          ? data?.employee_registration_number || '-'
+                          : null
+                      ].join('/')}
+                      {}
                     </Typography>
                   </Box>
                 </Grid>
@@ -419,42 +467,39 @@ const EmployeeDetailComponent = ({
             </Box>
           </Paper>
         </Grid>
-        <Grid item xs={12}>
-          <Grid container spacing={3}>
-            <Grid item xs={2}>
-              <List
-                sx={{
-                  padding: '12px',
-                  borderRadius: '12px',
-                  overflow: 'scroll',
-                  backgroundColor: '#fff',
-                  position: 'sticky !important',
-                  top: 10,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 1,
-                  height: 'fit-content',
-                  maxHeight: '88vh'
-                }}
-              >
-                {sectionsList
-                  .map((item) => {
-                    return (
-                      <ListNavigation
-                        key={item?.id}
-                        name={item?.sideBarLabel}
-                        handleClick={() => handleNavigationMenuClick(item?.id)}
-                        sx={{ height: '20px ' }}
-                      />
-                    )
-                  })}
-              </List>
-            </Grid>
-            <Grid item xs={10}>
-              <Grid container gap={3}>
-                {sectionComponents()}
-              </Grid>
-            </Grid>
+        <Grid container item xs={12} spacing={3}>
+          {/* Navigation */}
+          <Grid item xs={2}>
+            <List
+              sx={{
+                padding: '12px',
+                borderRadius: '12px',
+                overflow: 'scroll',
+                backgroundColor: '#fff',
+                position: 'sticky !important',
+                top: 10,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 1,
+                height: 'fit-content',
+                maxHeight: '88vh'
+              }}
+            >
+              {sectionsList.map((item) => {
+                return (
+                  <ListNavigation
+                    key={item?.id}
+                    name={item?.sideBarLabel}
+                    handleClick={() => handleNavigationMenuClick(item?.id)}
+                    sx={{ height: '20px ' }}
+                  />
+                )
+              })}
+            </List>
+          </Grid>
+          {/* Section */}
+          <Grid container item xs={10} gap={3}>
+            {sectionComponents()}
           </Grid>
         </Grid>
       </Grid>
@@ -468,8 +513,8 @@ const EmployeeDetailComponent = ({
 
       <ModalAddNotes
         open={notesModal}
-        handleCancel={() => setNotesModal(false)}
-        handleSave={updateEmployee}
+        handleModal={handleNotesModal}
+        handleSave={updateNotesByUserID}
         data={data}
       />
     </LayoutPages>
@@ -479,11 +524,10 @@ const EmployeeDetailComponent = ({
 EmployeeDetailComponent.propTypes = {
   employee: PropTypes.object,
   exportEmployeeData: PropTypes.object,
-  institution: PropTypes.object,
   getEmployee: PropTypes.func,
   clearEmployeeState: PropTypes.func,
   exportEmployeeDetail: PropTypes.func,
-  updateEmployee: PropTypes.func,
+  updateNotesByUserID: PropTypes.func,
   updateEmployeeStatus: PropTypes.func,
   setRender: PropTypes.func
 }

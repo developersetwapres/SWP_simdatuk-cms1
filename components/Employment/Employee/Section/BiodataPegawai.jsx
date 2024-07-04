@@ -6,10 +6,19 @@ import PropTypes from 'prop-types'
 import { useRouter } from 'next/router'
 import { employeeTypeOptions } from 'libs/types/options'
 
-const BiodataPegawai = ({
-  data
-}) => {
+const BiodataPegawai = ({ data }) => {
   const router = useRouter()
+
+  const path = useMemo(() => {
+    const pathname = router?.pathname.split('/')[2]
+    const data = {
+      ASN: pathname == 'asn',
+      NonASN: pathname == 'non-asn',
+      Outsource: pathname == 'outsourcing'
+    }
+
+    return data
+  }, [router])
 
   const options = useMemo(() => {
     const data = {
@@ -23,7 +32,7 @@ const BiodataPegawai = ({
     return options[type][value]
   }
 
-  const openInNewTab = url => {
+  const openInNewTab = (url) => {
     if (!url) return
 
     window.open(url, '_blank')
@@ -40,7 +49,9 @@ const BiodataPegawai = ({
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Tempat, Tanggal Lahir</Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {(data?.place_of_birth || '-') + ', ' + (data?.date_of_birth || '-')}
+            {[data?.place_of_birth || '-', data?.date_of_birth || '-'].join(
+              ', '
+            )}
           </Typography>
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
@@ -62,21 +73,33 @@ const BiodataPegawai = ({
           </Typography>
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
-          <Typography>Jenis Pegawai</Typography>
+          <Typography>
+            {path?.ASN
+              ? 'Jenis Pegawai'
+              : path?.NonASN
+              ? 'Jenis Perbantuan'
+              : 'Jenis Outsourcing'}
+          </Typography>
           <Typography fontWeight='500' marginTop={1}>
             {getValueOptions(data?.type - 1, 'type')}
           </Typography>
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>TMT Menjabat</Typography>
-          <Typography fontWeight='500' marginTop={1}>{data?.position_effective_date || '-'}</Typography>
+          <Typography fontWeight='500' marginTop={1}>
+            {data?.position_effective_date || '-'}
+          </Typography>
         </Grid>
+        {!path?.Outsource && (
+          <Grid item xs={12} md={4} paddingY={1}>
+            <Typography>Instansi Induk</Typography>
+            <Typography fontWeight='500' marginTop={1}>
+              {data?.institution_name || '-'}
+            </Typography>
+          </Grid>
+        )}
         <Grid item xs={12} md={4} paddingY={1}>
-          <Typography>Instansi Induk</Typography>
-          <Typography fontWeight='500' marginTop={1}>{data?.institution_name || '-'}</Typography>
-        </Grid>
-        <Grid item xs={12} md={4} paddingY={1}>
-          <Typography>Tingkat</Typography>
+          <Typography>Tingkat Pendidikan Terakhir</Typography>
           <Typography fontWeight='500' marginTop={1}>
             {data?.educationLevel || '-'}
           </Typography>
@@ -93,16 +116,22 @@ const BiodataPegawai = ({
             {data?.education_year || '-'}
           </Typography>
         </Grid>
-        <Grid item xs={12} md={4} paddingY={1}>
-          <Typography>No. Karpeg/No. Karsu</Typography>
-          <Typography fontWeight='500' marginTop={1}>
-            {data?.employee_id_card_number || '-'}/{data?.karisu_number || '-'}
-          </Typography>
-        </Grid>
+        {!path?.Outsource && (
+          <Grid item xs={12} md={4} paddingY={1}>
+            <Typography>No. Karpeg/No. Karsu</Typography>
+            <Typography fontWeight='500' marginTop={1}>
+              {data?.employee_id_card_number || '-'}/
+              {data?.karisu_number || '-'}
+            </Typography>
+          </Grid>
+        )}
         {data?.employee_id_card && (
           <Grid item xs={12} md={4} paddingY={1}>
             <Typography>Kartu Pegawai</Typography>
-            <Button text='Lihat File' onClick={() => openInNewTab(data?.employee_id_card)} />
+            <Button
+              text='Lihat File'
+              onClick={() => openInNewTab(data?.employee_id_card)}
+            />
           </Grid>
         )}
         <Grid item xs={12} md={4} paddingY={1}>
@@ -181,6 +210,12 @@ const BiodataPegawai = ({
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Email</Typography>
+          <Typography fontWeight='500' marginTop={1}>
+            {data?.email || '-'}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={4} paddingY={1}>
+          <Typography>Keterangan</Typography>
           <Typography fontWeight='500' marginTop={1}>
             {data?.email || '-'}
           </Typography>

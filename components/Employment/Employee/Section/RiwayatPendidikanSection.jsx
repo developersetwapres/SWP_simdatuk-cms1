@@ -15,48 +15,56 @@ const RiwayatPendidikanSection = ({ data = [] }) => {
       {
         Header: 'Tingkat',
         width: 200,
+        minWidth: 130,
         align: 'left'
       },
       {
         Header: 'Nama Sekolah',
         width: 200,
+        minWidth: 130,
         align: 'left'
       },
       {
         Header: 'Fakultas',
         width: 200,
+        minWidth: 100,
         align: 'left'
       },
       {
         Header: 'Jurusan',
-        width: 200,
+        width: 350,
+        minWidth: 100,
         align: 'left'
       },
       {
         Header: 'Status',
         width: 200,
+        minWidth: 100,
         align: 'left'
       },
       {
         Header: 'Tahun Lulus',
-        width: 200,
+        width: 300,
+        minWidth: 130,
         align: 'left'
       },
       {
         Header: 'Keterangan Sekolah',
-        width: 200,
+        width: 400,
+        minWidth: 180,
         align: 'left'
       },
       {
         Header: 'Ijazah',
-        width: 200,
+        width: 300,
+        minWidth: 120,
         align: 'left'
       }
     ],
     []
   )
 
-  const openInNewTab = url => {
+  const openInNewTab = (url) => {
     if (!url) return
 
     window.open(url, '_blank')
@@ -120,7 +128,10 @@ const RiwayatPendidikanSection = ({ data = [] }) => {
           Cell: () => (
             <>
               {item?.decree_document ? (
-                <Button text='Lihat File' onClick={() => openInNewTab(item?.decree_document)} />
+                <Button
+                  text='Lihat File'
+                  onClick={() => openInNewTab(item?.decree_document)}
+                />
               ) : (
                 <Typography>-</Typography>
               )}

@@ -26,8 +26,8 @@ function Table({
   paper = true,
   divider = false,
   pagination,
-  handlePagination = () => { },
-  handleRows = () => { }
+  handlePagination = () => {},
+  handleRows = () => {}
 }) {
   const handleChangePage = (e, page) => {
     handlePagination(page + 1)

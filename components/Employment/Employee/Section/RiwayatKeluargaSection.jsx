@@ -3,7 +3,13 @@ import React, { useMemo } from 'react'
 import { Table } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
-import { educationLevelOptions, genderOptions, maritalStatusOptions, relationshipStatusOptions, religionOptions } from 'libs/types/options'
+import {
+  educationLevelOptions,
+  genderOptions,
+  maritalStatusOptions,
+  relationshipStatusOptions,
+  religionOptions
+} from 'libs/types/options'
 
 const RiwayatKeluargaSection = ({ data = [] }) => {
   const columns = useMemo(
@@ -15,12 +21,13 @@ const RiwayatKeluargaSection = ({ data = [] }) => {
       },
       {
         Header: 'No. Kartu Keluarga',
-        width: 200,
+        width: 300,
         align: 'left'
       },
       {
         Header: 'Nama Anggota Keluarga',
-        width: 200,
+        width: 400,
+        minWidth: 200,
         align: 'left'
       },
       {
@@ -31,6 +38,7 @@ const RiwayatKeluargaSection = ({ data = [] }) => {
       {
         Header: 'Jenis Kelamin',
         width: 200,
+        minWidth: 130,
         align: 'left'
       },
       {
@@ -41,46 +49,55 @@ const RiwayatKeluargaSection = ({ data = [] }) => {
       {
         Header: 'Tempat Lahir',
         width: 200,
+        minWidth: 130,
         align: 'left'
       },
       {
         Header: 'Tanggal Lahir',
         width: 200,
+        minWidth: 130,
         align: 'left'
       },
       {
         Header: 'Nama Bapak',
         width: 200,
+        minWidth: 130,
         align: 'left'
       },
       {
         Header: 'Nama Ibu',
         width: 200,
+        minWidth: 130,
         align: 'left'
       },
       {
         Header: 'Hubungan Keluarga',
         width: 200,
+        minWidth: 160,
         align: 'left'
       },
       {
         Header: 'Pendidikan',
         width: 200,
+        minWidth: 170,
         align: 'left'
       },
       {
         Header: 'Jenis Pekerjaan',
         width: 200,
+        minWidth: 140,
         align: 'left'
       },
       {
         Header: 'Keterangan Pekerjaan',
         width: 200,
+        minWidth: 180,
         align: 'left'
       },
       {
         Header: 'Status Perkawinan',
         width: 200,
+        minWidth: 160,
         align: 'left'
       },
       {
@@ -91,6 +108,7 @@ const RiwayatKeluargaSection = ({ data = [] }) => {
       {
         Header: 'Urut Keluarga',
         width: 200,
+        minWidth: 130,
         align: 'left'
       }
     ],
@@ -144,13 +162,21 @@ const RiwayatKeluargaSection = ({ data = [] }) => {
           Header: 'Jenis Kelamin',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{getValueOptions(item?.gender - 1, 'gender')}</Typography>
+          Cell: () => (
+            <Typography>
+              {getValueOptions(item?.gender - 1, 'gender')}
+            </Typography>
+          )
         },
         {
           Header: 'Agama',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{getValueOptions(item?.religion - 1, 'religion')}</Typography>
+          Cell: () => (
+            <Typography>
+              {getValueOptions(item?.religion - 1, 'religion')}
+            </Typography>
+          )
         },
         {
           Header: 'Tempat Lahir',
@@ -180,13 +206,21 @@ const RiwayatKeluargaSection = ({ data = [] }) => {
           Header: 'Hubungan Keluarga',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{getValueOptions(item?.relationship_status - 1, 'relationship')}</Typography>
+          Cell: () => (
+            <Typography>
+              {getValueOptions(item?.relationship_status - 1, 'relationship')}
+            </Typography>
+          )
         },
         {
           Header: 'Pendidikan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{getValueOptions(item?.education - 1, 'education')}</Typography>
+          Cell: () => (
+            <Typography>
+              {getValueOptions(item?.education - 1, 'education')}
+            </Typography>
+          )
         },
         {
           Header: 'Jenis Pekerjaan',
@@ -198,13 +232,19 @@ const RiwayatKeluargaSection = ({ data = [] }) => {
           Header: 'Keterangan Pekerjaan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.occupation_description || '-'}</Typography>
+          Cell: () => (
+            <Typography>{item?.occupation_description || '-'}</Typography>
+          )
         },
         {
           Header: 'Status Perkawinan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{getValueOptions(item?.marital_status - 1, 'marital_status')}</Typography>
+          Cell: () => (
+            <Typography>
+              {getValueOptions(item?.marital_status - 1, 'marital_status')}
+            </Typography>
+          )
         },
         {
           Header: 'No. HP',

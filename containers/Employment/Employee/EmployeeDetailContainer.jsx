@@ -6,30 +6,26 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 export default connect(
-  mapStateToProps(
-    'employee',
-    'institution',
-    'exportEmployeeData'
-  ),
+  mapStateToProps('employee', 'exportEmployeeData', 'notes'),
   mapActions(
     'getEmployee',
     'clearEmployeeState',
-    'getInstitutionsOptions',
     'updateEmployee',
     'updateEmployeeStatus',
-    'exportEmployeeDetail'
+    'exportEmployeeDetail',
+    'updateNotesByUserID'
   )
 )(
   class EmployeeDetailContainers extends React.Component {
     static propTypes = {
       employee: PropTypes.object,
       exportEmployeeData: PropTypes.object,
+      notes: PropTypes.object,
       getEmployee: PropTypes.func,
       clearEmployeeState: PropTypes.func,
-      getInstitutionsOptions: PropTypes.func,
-      updateEmployee: PropTypes.func,
       updateEmployeeStatus: PropTypes.func,
-      exportEmployeeDetail: PropTypes.func
+      exportEmployeeDetail: PropTypes.func,
+      updateNotesByUserID: PropTypes.func
     }
 
     constructor(props) {
@@ -43,19 +39,10 @@ export default connect(
         }
       }
       this.setRender = this.setRender.bind(this)
-      this.fetch = this.fetch.bind(this)
     }
 
     setRender(val) {
       this.setState({ willRender: val })
-    }
-
-    fetch(queries) {
-      this.props.getInstitutionsOptions(queries)
-    }
-
-    componentDidMount() {
-      this.fetch(this.state.queries)
     }
 
     render() {
