@@ -59,7 +59,12 @@ export default connect(
     }
 
     fetch(queries) {
-      this.props.getPositions({ ...queries, filterParent: true, parentId: '' })
+      this.props.getPositions({
+        ...queries,
+        filterParent: true,
+        parentId: '',
+        type: [1, 2]
+      })
       this.props.getEchelonsOptions(queries)
       this.props.getGradesOptions(queries)
       this.props.getInstitutionsOptions(queries)
@@ -71,7 +76,8 @@ export default connect(
       this.props.getPositions({
         ...this.state.queries,
         filterParent: true,
-        parentId: val
+        parentId: val,
+        type: []
       })
     }
 

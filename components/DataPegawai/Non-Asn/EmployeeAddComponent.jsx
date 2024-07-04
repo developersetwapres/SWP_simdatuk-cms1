@@ -682,7 +682,10 @@ const EmployeeAddComponent = ({
         'employee_id_card_number',
         values?.employee?.employeeIdCardNumber
       )
-      formData.append('employee_id_card', values?.employee?.employeeIdCard)
+      formData.append(
+        'employee_id_card',
+        values?.employee?.employeeIdCard || ''
+      )
       formData.append('karisu_number', values?.employee?.karisu)
       formData.append('id_tax', values?.employee?.taxId)
       formData.append(

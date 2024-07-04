@@ -68,7 +68,12 @@ export default connect(
 
     fetchFilter(queries) {
       this.props.getGradesOptions(queries)
-      this.props.getPositions({ ...queries, filterParent: false, parentId: '' })
+      this.props.getPositions({
+        ...queries,
+        filterParent: false,
+        parentId: '',
+        type: [1, 2]
+      })
       this.props.getEmploymentTypes({ ...queries, type: 2 })
     }
 

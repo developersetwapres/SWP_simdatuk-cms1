@@ -42,7 +42,12 @@ export default connect(
     }
 
     fetch(queries) {
-      this.props.getPositions({ ...queries, filterParent: true, parentId: '' })
+      this.props.getPositions({
+        ...queries,
+        filterParent: true,
+        parentId: '',
+        type: [3]
+      })
       this.props.getResidences(queries)
       this.props.getEmploymentTypes({ ...queries, type: 3 })
     }
@@ -51,7 +56,8 @@ export default connect(
       this.props.getPositions({
         ...this.state.queries,
         filterParent: true,
-        parentId: val
+        parentId: val,
+        type: []
       })
     }
 
