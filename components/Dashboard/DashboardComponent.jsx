@@ -15,7 +15,7 @@ import { v4 as uuidv4 } from 'uuid'
 const data = [
   {
     title: 'Jumlah Pegawai ASN',
-    copytext: 'Pegawai ASN aktif (PNS Setwapres dan Perbantuan Setneg) + PPPK + Perbantuan TNI/POLRI (Pelaksana)',
+    copytext: 'Pegawai ASN aktif (PNS Setwapres, Perbantuan Setneg, dan PPPK) + Perbantuan TNI/POLRI (Pelaksana)',
     image: COUNT_ICON,
     count: [
       {
@@ -137,9 +137,9 @@ function DashboardComponent({
   datas,
   month,
   dashboardReducer,
-  handleChangeMonth = () => {},
-  setDatas = () => {},
-  setRender = () => {}
+  handleChangeMonth = () => { },
+  setDatas = () => { },
+  setRender = () => { }
 }) {
   useEffect(() => {
     const state = !dashboardReducer?.loading

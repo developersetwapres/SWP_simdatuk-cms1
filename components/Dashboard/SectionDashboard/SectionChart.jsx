@@ -67,7 +67,7 @@ const SectionChart = ({ data, datas }) => {
       }, {}),
       children: counts?.map((item, index) => ({
         ...item,
-        count: item.quantity,
+        count: item.total,
         color: generateRandomColor(item?.name, index)
       }))
     }
