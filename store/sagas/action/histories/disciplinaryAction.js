@@ -9,8 +9,9 @@ const basePath = '/disciplinary-histories'
  * @param {*} payload
  * @returns
  */
-export const getDisciplinariesOptionsAction = () => {
-  return get(`/disciplinaries`)
+export const getDisciplinariesOptionsAction = (payload) => {
+  const { page, limit, search } = payload
+  return get(`/disciplinaries${queryParams(page, limit, search)}`)
 }
 
 /**

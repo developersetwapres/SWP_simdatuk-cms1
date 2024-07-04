@@ -22,6 +22,7 @@ import groupSaga from './masterData/groupSaga'
 import dashboardSaga from './dashboardSaga'
 
 // Recap
+import notesSaga from './recap/notesSaga'
 import compositionSaga from './recap/compositionSaga'
 import asnSaga from './recap/asnSaga'
 import nonASNSaga from './recap/nonASNSaga'
@@ -52,6 +53,7 @@ export default function* rootSaga() {
     echelonSaga(),
     employeeSaga(),
     dashboardSaga(),
+    notesSaga(),
     compositionSaga(),
     asnSaga(),
     nonASNSaga(),

@@ -16,6 +16,7 @@ import * as groupReducer from './masterData/groupReducer'
 import * as dashboardReducer from './dashboardReducer'
 
 // Recap
+import * as notesReducer from './recap/notesReducer'
 import * as compositionReducer from './recap/compositionReducer'
 import * as asnReducer from './recap/asnReducer'
 import * as nonASNReducer from './recap/nonASNReducer'
@@ -52,6 +53,7 @@ const reducers = {
   ...responserReducer,
   ...roleReducer,
   ...dashboardReducer,
+  ...notesReducer,
   ...compositionReducer,
   ...asnReducer,
   ...nonASNReducer,

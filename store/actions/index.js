@@ -16,6 +16,7 @@ import * as group from './masterData/group'
 import * as dashboard from './dashboard'
 
 // Recap
+import * as recapNotes from './recap/notes'
 import * as recapComposition from './recap/composition'
 import * as recapASN from './recap/asn'
 import * as recapNonASN from './recap/non_asn'
@@ -48,6 +49,7 @@ const actions = {
   ...responser,
   ...user,
   ...role,
+  ...recapNotes,
   ...recapComposition,
   ...recapASN,
   ...recapNonASN,
