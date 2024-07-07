@@ -15,6 +15,7 @@ const initialState = {
   loading: false,
   error: null,
   employees: [],
+  employeesPagination: {},
   unoccupiedPositions: [],
   unoccupiedPositionsDetail: [],
   message: '',
@@ -57,7 +58,8 @@ export const promotions = (state = initialState, actions) => {
       return {
         ...state,
         loading: false,
-        employees: payload?.data
+        employees: payload?.data,
+        employeesPagination: payload?.pagination
       }
 
     case GET_UNOCCUPIED_POSITIONS_FAILED:

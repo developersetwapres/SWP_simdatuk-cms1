@@ -120,10 +120,12 @@ function* getBriefEmployees(action) {
   try {
     const res = yield call(getBriefEmployeesAction, action?.payload)
     const payload = res?.data
+    const pagination = res?.pagination
 
     yield put({
       type: GET_BRIEF_USERS_SUCCESS,
-      payload: payload
+      payload,
+      pagination
     })
   } catch (err) {
     const error = err?.data
