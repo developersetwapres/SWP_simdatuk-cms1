@@ -1,9 +1,9 @@
 import React from 'react'
 import WithAuth from '@/components/shared/WithAuth'
-import PositionsContainer from '@/containers/PromosiPegawaiContainer/PositionsContainer'
+import ComparisonsContainer from '@/containers/PromosiPegawaiContainer/ComparisonsContainer'
 
 const index = () => {
-  return <PositionsContainer />
+  return <ComparisonsContainer />
 }
 
 export default WithAuth(index)

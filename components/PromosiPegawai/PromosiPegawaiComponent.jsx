@@ -1,4 +1,5 @@
-import React from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useMemo } from 'react'
 import { makeStyles } from '@mui/styles'
 import { Box, Grid, Paper, Typography } from '@mui/material'
 import { Button } from '@/components/shared'
@@ -29,66 +30,46 @@ const useStyles = makeStyles({
   }
 })
 
-function PromosiPegawaiComponent() {
-  const list = [
-    {
-      id: 1,
-      title: 'Jabatan A',
-      unfilledPositions: 10,
-      positions: [
-        { id: 1, position: 'Posisi A', count: 10 },
-        { id: 2, position: 'Posisi B', count: 0 }
-      ]
-    },
-    {
-      id: 2,
-      title: 'B',
-      unfilledPositions: 10,
-      positions: [
-        { id: 1, position: 'A', count: 10 },
-        { id: 2, position: 'B', count: 0 },
-        { id: 3, position: 'C', count: 10 }
-      ]
-    },
-    {
-      id: 3,
-      title: 'C',
-      unfilledPositions: 10,
-      positions: [
-        { id: 1, position: 'A', count: 10 },
-        { id: 2, position: 'B', count: 10 },
-        { id: 3, position: 'C', count: 0 },
-        { id: 4, position: 'D', count: 10 }
-      ]
-    }
-  ]
+function PromosiPegawaiComponent({
+  promotions,
+  setLoading = () => { }
+}) {
   const classes = useStyles()
   const router = useRouter()
 
-  const navigateToPositions = positionId => {
-    router.push(`${router.asPath}/positions/${positionId}`)
+  const navigateToPositions = (positionId, echelonId) => {
+    const ids = btoa(`${positionId}-${echelonId}`)
+    router.push(`${router.asPath}/positions/${ids}`)
   }
+
+  const unoccupiedPositions = useMemo(() => {
+    return promotions?.unoccupiedPositions
+  }, [promotions])
+
+  useEffect(() => {
+    setLoading(!(promotions?.loading))
+  }, [promotions])
 
   return (
     <>
       <Typography variant='h6' component='h1' fontWeight='bold'>Promosi Pegawai</Typography>
 
-      {list.map(item => (
+      {unoccupiedPositions?.map(item => (
         <Paper className={classes.section} key={item.id}>
           <Box className={classes.sectionText}>
-            <Typography fontWeight='bold' color='#895700'>{item.title}</Typography>
+            <Typography fontWeight='bold' color='#895700'>{item?.name || '-'}</Typography>
             <Typography fontWeight='bold' color='#895700'>
-              Total jabatan kosong: {item.unfilledPositions}
+              Total jabatan kosong: {item?.total || 0}
             </Typography>
           </Box>
 
           <Grid container sx={{ marginTop: '-10px' }} spacing={2}>
-            {item.positions.map(pos => (
-              <Grid item key={pos.id} xs={12 / item.positions.length}>
+            {item?.cards?.map(pos => (
+              <Grid item key={pos?.id} xs={12 / item?.cards?.length}>
                 <PositionCard
-                  position={pos.position}
-                  count={pos.count}
-                  handleClick={() => navigateToPositions(pos.id)}
+                  position={pos?.name}
+                  count={pos?.unoccupied}
+                  handleClick={() => navigateToPositions(item?.id, pos?.id)}
                 />
               </Grid>
             ))}
@@ -127,6 +108,11 @@ const PositionCard = ({ position, count, handleClick }) => {
       />
     </Box>
   )
+}
+
+PromosiPegawaiComponent.propTypes = {
+  promotions: PropTypes.object,
+  setLoading: PropTypes.func
 }
 
 PositionCard.propTypes = {

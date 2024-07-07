@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useMemo } from 'react'
 import LayoutPages from '../core/LayoutPages'
 import { Box, Typography, Grid } from '@mui/material'
 import { useRouter } from 'next/router'
@@ -41,57 +42,11 @@ const useStyles = makeStyles({
   }
 })
 
-function PositionsComponent() {
-  const list = [
-    {
-      id: 1,
-      position: 'Position A',
-      unit: 'Unit',
-      count: 10
-    },
-    {
-      id: 2,
-      position: 'Position B',
-      unit: 'Unit',
-      count: 10
-    },
-    {
-      id: 3,
-      position: 'Position C',
-      unit: 'Unit',
-      count: 0
-    },
-    {
-      id: 4,
-      position: 'Position D',
-      unit: 'Unit',
-      count: 10
-    },
-    {
-      id: 1,
-      position: 'Position A',
-      unit: 'Unit',
-      count: 10
-    },
-    {
-      id: 2,
-      position: 'Position B',
-      unit: 'Unit',
-      count: 10
-    },
-    {
-      id: 3,
-      position: 'Position C',
-      unit: 'Unit',
-      count: 0
-    },
-    {
-      id: 4,
-      position: 'Position D',
-      unit: 'Unit',
-      count: 10
-    }
-  ]
+function PositionsComponent({
+  promotions,
+  fetch = () => { },
+  setLoading = () => { }
+}) {
   const router = useRouter()
   const classes = useStyles()
   const action = useMemo(() => {
@@ -100,12 +55,23 @@ function PositionsComponent() {
         <Typography fontWeight='bold'>Total Jabatan Kosong: 10</Typography>
       </Box>
     )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const navigateToCompare = () => {
-    router.push(`/rekapitulasi/bandingkan-pegawai`)
+  const navigateToCompare = (positionId) => {
+    router.push(`/rekapitulasi/promosi-pegawai/bandingkan-pegawai/${btoa(positionId)}`)
   }
+
+  const unoccupiedPositions = useMemo(() => {
+    return promotions?.unoccupiedPositionsDetail || []
+  }, [promotions])
+
+  useEffect(() => {
+    fetch(router)
+  }, [router])
+
+  useEffect(() => {
+    setLoading(!(promotions?.loading))
+  }, [promotions])
 
   return (
     <LayoutPages
@@ -123,13 +89,13 @@ function PositionsComponent() {
       </Box>
 
       <Grid container spacing={2}>
-        {list.map(pos => (
-          <Grid item key={pos.id} xs={3}>
+        {unoccupiedPositions?.map(pos => (
+          <Grid item key={pos?.id} xs={3}>
             <PositionCard
-              position={pos.position}
-              unit={pos.unit}
-              count={pos.count}
-              handleClick={() => navigateToCompare()}
+              position={pos?.name}
+              unit={pos?.hierarchy}
+              count={pos?.unoccupied}
+              handleClick={() => navigateToCompare(pos?.position_id)}
             />
           </Grid>
         ))}
@@ -155,7 +121,7 @@ const PositionCard = ({ position, unit, count, handleClick }) => {
         fontSize={14}
         color='sidatukDraweBase'
         sx={{ marginTop: 2 }}
-      >Unit Kerja</Typography>
+      >Hierarki Jabatan</Typography>
 
       <Typography
         fontWeight='700'
@@ -187,6 +153,12 @@ const PositionCard = ({ position, unit, count, handleClick }) => {
       />
     </Card>
   )
+}
+
+PositionsComponent.propTypes = {
+  promotions: PropTypes.object,
+  fetch: PropTypes.func,
+  setLoading: PropTypes.func
 }
 
 PositionCard.propTypes = {

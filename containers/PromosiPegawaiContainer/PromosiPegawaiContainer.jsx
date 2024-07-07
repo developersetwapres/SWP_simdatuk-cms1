@@ -1,15 +1,19 @@
 import React, { Component } from 'react'
 import PromosiPegawaiComponent from '@/components/PromosiPegawai/PromosiPegawaiComponent'
+import PropTypes from 'prop-types'
 import Layout from '@/components/core/Layout'
 import { connect } from 'react-redux'
 import { mapStateToProps, mapActions } from '@/store'
 
 export default connect(
-  mapStateToProps(),
-  mapActions()
+  mapStateToProps('promotions'),
+  mapActions('getUnoccupiedPositions')
 )(
   class PromosiPegawaiContainer extends Component {
-    static propTypes = {}
+    static propTypes = {
+      promotions: PropTypes.object,
+      getUnoccupiedPositions: PropTypes.func
+    }
 
     constructor(props) {
       super(props)
@@ -18,7 +22,9 @@ export default connect(
       }
     }
 
-    componentDidMount() { }
+    componentDidMount() {
+      this.props.getUnoccupiedPositions()
+    }
 
     setLoading = (val) => {
       this.setState({ willRender: val })
