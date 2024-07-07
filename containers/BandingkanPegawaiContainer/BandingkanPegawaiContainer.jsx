@@ -13,27 +13,32 @@ export default connect(
     'echelon',
     'disciplinary',
     'grade',
+    'group'
   ),
   mapActions(
     'getBriefEmployees',
     'getEmployees',
     'getEchelonsOptions',
     'getDisciplinariesOptions',
-    'getGradesOptions'
+    'getGradesOptions',
+    'getGroups'
   )
 )(
   class BandingkanPegawaiContainer extends Component {
     static propTypes = {
+      router: PropTypes.object,
       promotions: PropTypes.object,
       employee: PropTypes.object,
       echelon: PropTypes.object,
       grade: PropTypes.object,
+      group: PropTypes.object,
       disciplinary: PropTypes.object,
       getEmployees: PropTypes.func,
       getBriefEmployees: PropTypes.func,
       getEchelonsOptions: PropTypes.func,
       getDisciplinariesOptions: PropTypes.func,
-      getGradesOptions: PropTypes.func
+      getGradesOptions: PropTypes.func,
+      getGroups: PropTypes.func
     }
 
     constructor(props) {
@@ -70,6 +75,7 @@ export default connect(
       this.onPaginationChange = this.onPaginationChange.bind(this)
       this.onRowsPerPageChange = this.onRowsPerPageChange.bind(this)
       this.onSearch = this.onSearch.bind(this)
+      this.onFilter = this.onFilter.bind(this)
       this.onClearState = this.onClearState.bind(this)
       this.setLoading = this.setLoading.bind(this)
     }
@@ -91,6 +97,7 @@ export default connect(
       this.props.getEchelonsOptions(queries)
       this.props.getDisciplinariesOptions(queries)
       this.props.getGradesOptions(queries)
+      this.props.getGroups(queries)
     }
 
     onPaginationChange(page) {
@@ -99,7 +106,7 @@ export default connect(
         page
       }
       this.setState({ queries })
-      this.fetch(queries)
+      this.fetch({ ...queries, data: this.state.filters })
     }
 
     onRowsPerPageChange(limit) {
@@ -109,7 +116,7 @@ export default connect(
         limit
       }
       this.setState({ queries })
-      this.fetch(queries)
+      this.fetch({ ...queries, data: this.state.filters })
     }
 
     onSearch(value) {
@@ -119,7 +126,17 @@ export default connect(
         page: 1
       }
       this.setState({ queries })
-      this.fetch(queries)
+      this.fetch({ ...queries, data: this.state.filters })
+    }
+
+    onFilter(filters) {
+      const queries = {
+        ...this.state.queries,
+        filters
+      }
+      console.log('QUERIES: ', queries)
+      this.setState({ queries })
+      this.fetch({ ...queries, data: filters })
     }
 
     onClearState() {
@@ -129,7 +146,7 @@ export default connect(
         page: 1
       }
       this.setState({ queries })
-      this.fetch(queries)
+      this.fetch({ ...queries, data: this.state.filters })
     }
 
     setLoading(val) {
@@ -139,8 +156,20 @@ export default connect(
     }
 
     componentDidMount() {
+      const echelonId = this.props.router?.query?.echelon_id
       this.fetchStorage()
-      this.fetch({ ...this.state.queries, data: this.state.filters })
+
+      if (echelonId) {
+        this.fetch({
+          ...this.state.queries,
+          data: {
+            ...this.state.filters,
+            echelon_id: atob(echelonId)
+          }
+        })
+      } else {
+        this.fetch({ ...this.state.queries, data: this.state.filters })
+      }
       this.fetchMasterData(this.state.allDataQuery)
     }
 
@@ -149,6 +178,7 @@ export default connect(
         <Layout willRender={this.state.willRender}>
           <BandingkanPegawaiComponent
             onSearch={this.onSearch}
+            onFilter={this.onFilter}
             onLoading={this.setLoading}
             onPaginationChange={this.onPaginationChange}
             onRowsPerPageChange={this.onRowsPerPageChange}

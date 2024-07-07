@@ -9,7 +9,8 @@ import { useRouter } from 'next/router'
 import { Button, Autocomplete } from '@/components/shared'
 import LayoutPages from '@/components/core/LayoutPages'
 import ButtonExport from '@/components/core/ButtonExport'
-import { v4 as uuidv4, validate as uuidValidate } from 'uuid'
+import ModalAddNotes from '@/components/shared/Modal/ModalAddNotes'
+import { v4 as uuidv4 } from 'uuid'
 import { SaveAs, saveFile } from '@/utils/fileSaver'
 import { dateTimeFormat } from '@/utils/index'
 
@@ -45,6 +46,7 @@ const BandingkanDataPegawai = ({
   const router = useRouter()
   const [expandFilter, setExpandFilter] = useState(false)
   const [filters, setFilters] = useState([])
+  const [currentUserId, setCurrentUserId] = useState('')
 
   const employees = useMemo(() => {
     return employeesDetails
@@ -173,61 +175,19 @@ const BandingkanDataPegawai = ({
     description: '',
     error: ''
   })
-  const [userNotes, setUserNotes] = useState([newNote()])
 
-  const clearCurrentNotes = () => setUserNotes([newNote()])
+  const handleNotesModal = (userId) => {
+    if (userId) {
+      getNotesByUserID(userId)
+      setCurrentUserId(userId)
+    }
 
-  const openNotesModal = (userId) => {
-    clearCurrentNotes()
-    getNotesByUserID(userId)
-    setNotesModalOpen(true)
+    setNotesModalOpen(v => !v)
   }
 
-  const closeNotesModal = () => {
-    setNotesModalOpen(false)
-    clearCurrentNotes()
-  }
-
-  const updateNotes = () => {
-    const param = userNotes?.map(i => {
-      if (uuidValidate(i?.id))
-        return { description: i?.description }
-
-      return {
-        id: i?.id,
-        description: i?.description
-      }
-    })
-    console.log('NOTES: ', param)
-    // TODO: continue
-    // updateNotesByUserID({
-    //   id: 
-    //   data: param
-    // })
-  }
-
-  const addNote = () =>
-    setUserNotes([...userNotes, newNote()])
-
-  const deleteNote = (id) =>
-    setUserNotes(userNotes?.filter(n => n?.id !== id))
-
-  const handleNotesInputChanged = (noteId, e) => {
-    const value = e?.target?.value
-
-    setUserNotes(userNotes?.map(n => {
-      if (n?.id == noteId)
-        return { ...n, description: value }
-
-      return n
-    }))
-  }
-
-  useEffect(() => {
-    setUserNotes([
-      ...notes?.data,
-      ...userNotes
-    ])
+  const currentNotes = useMemo(() => {
+    const allNotes = [...notes?.data, newNote()]
+    return allNotes
   }, [notes])
 
   return (
@@ -329,9 +289,16 @@ const BandingkanDataPegawai = ({
         <ListDataPegawai
           employees={employees}
           filters={filters}
-          openNotesModal={openNotesModal}
+          openNotesModal={handleNotesModal}
         />
       </Paper>
+
+      <ModalAddNotes
+        open={notesModalOpen}
+        handleModal={() => handleNotesModal(null)}
+        handleSave={updateNotesByUserID}
+        data={{ notes: currentNotes, userId: btoa(currentUserId) }}
+      />
     </LayoutPages>
   )
 }

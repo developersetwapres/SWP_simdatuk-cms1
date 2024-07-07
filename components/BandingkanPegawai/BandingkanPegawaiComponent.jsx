@@ -8,8 +8,6 @@ import {
   Checkbox,
   FormControlLabel,
   Grid,
-  IconButton,
-  Typography,
   TablePagination
 } from '@mui/material'
 import { makeStyles } from '@mui/styles'
@@ -20,6 +18,7 @@ import CardProfile from '../shared/Card/CardProfile'
 import { CardTypes } from 'libs/types/CardTypes'
 import { useRouter } from 'next/router'
 import LayoutPages from '../core/LayoutPages'
+import { employeeEducationLevelOptions, predicateOptions } from 'libs/types/options'
 
 const useStyles = makeStyles((theme) => ({
   inputParent: {
@@ -57,17 +56,19 @@ const styles = {
 }
 
 const BandingkanPegawaiComponent = ({
+  filters,
+  queries,
+  group,
   promotions,
   echelon,
   disciplinary,
   grade,
-  employee,
   dataFromStorage,
   onSearch = () => { },
   onLoading = () => { },
   onPaginationChange = () => { },
   onRowsPerPageChange = () => { },
-  getBriefEmployees = () => { }
+  onFilter = () => { }
 }) => {
   const router = useRouter()
   const classes = useStyles()
@@ -124,7 +125,9 @@ const BandingkanPegawaiComponent = ({
   }
 
   const handleRedirectCompare = () => {
-    if (collectData.length > 1) {
+    if (router?.query?.echelon_id) {
+      router.push(`/rekapitulasi/promosi-pegawai/comparisons`)
+    } else if (collectData.length > 1) {
       localStorage.setItem('dataPegawai', JSON.stringify(collectData))
       router.push(`${router.asPath}/data-pegawai`)
     }
@@ -155,6 +158,45 @@ const BandingkanPegawaiComponent = ({
   const handleChangeRowsPerPage = (e) => {
     const row = e?.target?.value
     onRowsPerPageChange(row)
+  }
+
+  const options = useMemo(() => {
+    return {
+      education: employeeEducationLevelOptions,
+      predicate: predicateOptions,
+      echelon: echelon?.options || [],
+      grade: grade?.options || [],
+      disciplinary: disciplinary?.options || [],
+      group: group?.data || []
+    }
+  }, [echelon, grade, disciplinary, group])
+
+  const getIDByName = (type, name) => {
+    if (!name) return ''
+
+    if (
+      type === 'education' ||
+      type === 'predicate'
+    ) {
+      return options[type]?.findIndex(item => item === name) + 1
+    }
+
+    return options[type]?.find(item => item?.name === name)?.id || ''
+  }
+
+  const doFilter = (values) => {
+    const params = {
+      group_id: getIDByName('group', values?.group),
+      echelon_id: getIDByName('echelon', values?.echelon),
+      grade_id: getIDByName('grade', values?.grade),
+      education_level: getIDByName('education', values?.education),
+      disciplinary_id: getIDByName('disciplinary', values?.disciplinary),
+      target_predicate_id: getIDByName('predicate', values?.predicate),
+      max_age: values?.maxAge || '',
+      credit_score: values?.credits || '',
+      competency_point: values?.competences || ''
+    }
+    onFilter(params)
   }
 
   const getFlattenedObject = (item) => {
@@ -198,10 +240,26 @@ const BandingkanPegawaiComponent = ({
     return grade?.options || []
   }, [grade])
 
+  const groups = useMemo(() => {
+    return group?.data || []
+  }, [group])
+
   useEffect(() => {
-    const state = !(promotions?.loading)
+    const state = !(
+      promotions?.loading ||
+      echelon?.loading ||
+      disciplinary?.loading ||
+      grade?.loading ||
+      group?.loading
+    )
     onLoading(state)
-  }, [promotions])
+  }, [
+    promotions,
+    echelon,
+    disciplinary,
+    grade,
+    group
+  ])
 
   useEffect(() => {
     if (dataFromStorage?.length) {
@@ -210,7 +268,13 @@ const BandingkanPegawaiComponent = ({
   }, [dataFromStorage])
 
   return (
-    <LayoutPages summary={'Bandingkan Pegawai'} action={action}>
+    <LayoutPages
+      summary={'Bandingkan Pegawai'}
+      action={action}
+      handleBack={
+        router?.query?.echelon_id ? router.back : null
+      }
+    >
       <Box>
         {/* Filter */}
         <Box sx={{ marginBottom: '20px' }}>
@@ -247,7 +311,8 @@ const BandingkanPegawaiComponent = ({
             echelons={echelons}
             disciplinaries={disciplinaries}
             grades={grades}
-            handleSubmit={(val) => console.log(val)}
+            groups={groups}
+            handleSubmit={doFilter}
           />
         </Box>
         {/* Selected Employees Card */}
@@ -311,9 +376,9 @@ const BandingkanPegawaiComponent = ({
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component='div'
-          count={promotions?.pagination?.total || 0}
-          rowsPerPage={promotions?.pagination?.per_page || 10}
-          page={promotions?.pagination?.current_page - 1 || 0}
+          count={promotions?.employeesPagination?.total || 0}
+          rowsPerPage={promotions?.employeesPagination?.per_page || 10}
+          page={promotions?.employeesPagination?.current_page - 1 || 0}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
           sx={{ marginTop: '12px' }}
@@ -324,18 +389,20 @@ const BandingkanPegawaiComponent = ({
 }
 
 BandingkanPegawaiComponent.propTypes = {
+  group: PropTypes.object,
+  filters: PropTypes.object,
+  queries: PropTypes.object,
   promotions: PropTypes.object,
   echelon: PropTypes.object,
   disciplinary: PropTypes.object,
   grade: PropTypes.object,
-  employee: PropTypes.object,
   dataFromStorage: PropTypes.array,
   onSearch: PropTypes.func,
   onLoading: PropTypes.func,
   onPaginationChange: PropTypes.func,
   onRowsPerPageChange: PropTypes.func,
   getEmployee: PropTypes.func,
-  getBriefEmployees: PropTypes.func
+  onFilter: PropTypes.func
 }
 
 export default BandingkanPegawaiComponent
