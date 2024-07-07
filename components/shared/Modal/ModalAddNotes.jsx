@@ -10,6 +10,7 @@ import { Formik } from 'formik'
 import * as Yup from 'yup'
 import moment from 'moment'
 import { useRouter } from 'next/router'
+import { validate as uuidValidate } from 'uuid'
 
 const InitValue = {
   notes: []
@@ -49,8 +50,8 @@ const style = {
 const ModalAddNotes = ({
   open,
   data,
-  handleModal = () => {},
-  handleSave = () => {}
+  handleModal = () => { },
+  handleSave = () => { }
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -60,11 +61,18 @@ const ModalAddNotes = ({
       await FormSchema.validate(values, { abortEarly: false })
       formikRef.current.setErrors({})
 
-      const id = router?.query?.id
+      const id = router?.query?.id || data?.userId
       const notes = values?.notes
 
       const payload = {
-        notes: notes.map((itm) => {
+        notes: notes.map((itm, idx) => {
+          if (uuidValidate(itm?.id)) {
+            return {
+              id: idx + 1,
+              description: itm?.description
+            }
+          }
+
           return {
             id: itm?.id || '',
             description: itm?.description
@@ -92,6 +100,7 @@ const ModalAddNotes = ({
       firstErrorEl &&
         firstErrorEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
+    handleModal()
   }
 
   // useEffect(() => {
@@ -137,7 +146,7 @@ const ModalAddNotes = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => {}}
+      onSubmit={() => { }}
     >
       {(formikProps) => (
         <Modal
@@ -173,9 +182,8 @@ const ModalAddNotes = ({
           <Box
             sx={{
               width: '100%',
-              margin: `20px 0 ${
-                formikProps?.values?.notes.length > 0 ? '30px' : 0
-              } 0`,
+              margin: `20px 0 ${formikProps?.values?.notes.length > 0 ? '30px' : 0
+                } 0`,
               maxHeight: '60vh',
               overflow: 'auto'
             }}
