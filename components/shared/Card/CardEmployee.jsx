@@ -49,9 +49,8 @@ const CardEmployee = ({ data, otherStyle }) => {
               }}
             >
               <img
-                src={data?.image}
+                src={data?.image || '/simdatuk/userIcon.png'}
                 alt='profile'
-                srcset='/simdatuk/userIcon.png'
                 style={{ height: '100%', width: '100%' }}
               />
             </Box>
