@@ -84,7 +84,8 @@ function* updateNotesByUserID(action) {
       payload: {
         code: payload?.code,
         message: payload?.message,
-        childMessage: 'Anda telah berhasil menyimpan catatan'
+        childMessage: 'Anda telah berhasil menyimpan catatan',
+        redirect: 'refresh'
       }
     })
   } catch (err) {

@@ -38,16 +38,6 @@ import {
 import Router from 'next/router'
 
 /**
- * Get Pathname
- *
- *
- * @returns
- */
-function* pathname() {
-  return ''
-}
-
-/**
  * Fetch banner
  *
  * @param {*} action
@@ -304,10 +294,7 @@ function* updateEmployee(action) {
  */
 function* updateEmployeeStatus(action) {
   try {
-    const pathname = Router?.pathname
-    const path = pathname.split('/').slice(0, 3).join('/')
     const res = yield call(updateEmployeeStatusAction, action?.payload)
-
     const payload = res?.data
 
     yield put({
@@ -320,7 +307,7 @@ function* updateEmployeeStatus(action) {
       payload: {
         code: payload?.code,
         message: 'Edit Status Pegawai Berhasil',
-        redirect: ''
+        redirect: 'refresh'
       }
     })
   } catch (err) {
