@@ -1,28 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable indent */
-/* eslint-disable no-unused-vars */
 import {
   Box,
   Table,
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TableRow,
   Typography
 } from '@mui/material'
 import { tableCellClasses } from '@mui/material/TableCell'
-import Image from 'next/image'
 import React, { useEffect, useMemo, useState } from 'react'
 import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 import { Close } from '@mui/icons-material'
-import { useRouter } from 'next/router'
 import { v4 as uuidv4 } from 'uuid'
 import { PENCIL_SQUARE_ALT, ADD_SQUARE } from '@/utils/iconConstant'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   list: {
     paddingLeft: 15,
     margin: 0,
@@ -79,9 +75,9 @@ const title = [
 const ListDataPegawai = ({
   employees,
   filters,
-  openNotesModal = () => { }
+  openNotesModal = () => { },
+  removeEmployee = () => { }
 }) => {
-  const router = useRouter()
   const classes = useStyles()
   const [employeesState, setEmployeesState] = useState([])
 
@@ -96,21 +92,6 @@ const ListDataPegawai = ({
 
     return title
   }, [filters])
-
-  const backPage = () => {
-    localStorage.removeItem('dataPegawai')
-    router.back()
-  }
-
-  const removeEmployee = (id) => {
-    if (employeesState?.length <= 1) {
-      backPage()
-    } else {
-      setEmployeesState(
-        employeesState?.filter(i => i?.id != id)
-      )
-    }
-  }
 
   useEffect(() => {
     setEmployeesState(employees)
@@ -137,7 +118,7 @@ const ListDataPegawai = ({
               >
                 <Typography>{item?.title}</Typography>
               </TableCell>
-              {employeesState?.map((itm, idx) => {
+              {employeesState?.map((itm) => {
                 switch (item?.title) {
                   case '':
                     return (
@@ -162,7 +143,7 @@ const ListDataPegawai = ({
                             color='primary'
                             sx={{ marginTop: '12px' }}
                           >
-                            {itm?.name || '-'}
+                            {`${itm?.title_prefix || ''} ${itm?.name} ${itm?.title_suffix || ''}` || '-'}
                           </Typography>
                         </Box>
                         <Box
@@ -190,11 +171,11 @@ const ListDataPegawai = ({
                   case 'Jabatan':
                     return <CellString key={itm?.id} value={itm?.position_name || '-'} data={employees} />
                   case 'Eselon':
-                    return <CellString key={itm?.id} value={itm?.echelon_name || '-'} data={employees} />
+                    return <CellString key={itm?.id} value={itm?.echelon?.name || '-'} data={employees} />
                   case 'Golongan':
-                    return <CellString key={itm?.id} value={itm?.grade_name || '-'} data={employees} />
+                    return <CellString key={itm?.id} value={`${itm?.grade?.name || '-'}, ${itm?.grade_effective_date?.name}` || '-'} data={employees} />
                   case 'Pendidikan Terakhir':
-                    return <CellString key={itm?.id} value={itm?.educations[0]?.major || '-'} data={employees} />
+                    return <CellString key={itm?.id} value={itm?.education_level?.name || '-'} data={employees} />
                   case 'Riwayat Jabatan':
                     return (
                       <CellList
@@ -342,7 +323,7 @@ const CellList = ({
             >
               {`${index + 1}. ${item}`}
             </Typography>
-            {isNotes && (
+            {isNotes && index === 0 && (
               <img
                 src={PENCIL_SQUARE_ALT}
                 alt='Icon edit catatan'
@@ -361,7 +342,8 @@ const CellList = ({
 ListDataPegawai.propTypes = {
   employees: PropTypes.array,
   filters: PropTypes.array,
-  openNotesModal: PropTypes.func
+  openNotesModal: PropTypes.func,
+  removeEmployee: PropTypes.func
 }
 
 CellString.propTypes = {

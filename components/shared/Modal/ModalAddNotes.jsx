@@ -10,7 +10,6 @@ import { Formik } from 'formik'
 import * as Yup from 'yup'
 import moment from 'moment'
 import { useRouter } from 'next/router'
-import { validate as uuidValidate } from 'uuid'
 
 const InitValue = {
   notes: []
@@ -61,20 +60,13 @@ const ModalAddNotes = ({
       await FormSchema.validate(values, { abortEarly: false })
       formikRef.current.setErrors({})
 
-      const id = router?.query?.id || data?.userId
+      const id = router?.query?.id || btoa(data?.id)
       const notes = values?.notes
 
       const payload = {
-        notes: notes.map((itm, idx) => {
-          if (uuidValidate(itm?.id)) {
-            return {
-              id: idx + 1,
-              description: itm?.description
-            }
-          }
-
+        notes: notes.map((itm) => {
           return {
-            id: itm?.id || '',
+            id: itm?.id || null,
             description: itm?.description
           }
         })

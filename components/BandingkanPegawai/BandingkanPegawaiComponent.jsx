@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
 import React, { useMemo, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Search from '@/components/core/Search'
@@ -20,7 +19,7 @@ import { useRouter } from 'next/router'
 import LayoutPages from '../core/LayoutPages'
 import { employeeEducationLevelOptions, predicateOptions } from 'libs/types/options'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   inputParent: {
     display: 'flex',
     alignItems: 'center',
@@ -56,8 +55,6 @@ const styles = {
 }
 
 const BandingkanPegawaiComponent = ({
-  filters,
-  queries,
   group,
   promotions,
   echelon,
@@ -92,6 +89,7 @@ const BandingkanPegawaiComponent = ({
         ...employees
           ?.slice(0, COLLECT_LIMIT - collectData?.length)
           ?.map(item => {
+            // eslint-disable-next-line no-unused-vars
             const [data, itemObject] = getFlattenedObject(item)
             return itemObject
           })
@@ -108,8 +106,11 @@ const BandingkanPegawaiComponent = ({
     })
   }
 
-  const handleCheckBox = (checked, item) => {
-    if (collectData.length >= COLLECT_LIMIT) return
+  const handleCheckBox = (checked, item, type) => {
+    if (
+      type == 'unselected' &&
+      collectData.length >= COLLECT_LIMIT
+    ) return
 
     if (checked) {
       const newCollectData = [...collectData, item]
@@ -128,7 +129,8 @@ const BandingkanPegawaiComponent = ({
     if (router?.query?.echelon_id) {
       router.push(`/rekapitulasi/promosi-pegawai/comparisons`)
     } else if (collectData.length > 1) {
-      localStorage.setItem('dataPegawai', JSON.stringify(collectData))
+      const data = JSON.stringify(collectData?.map(item => btoa(item?.id)))
+      localStorage.setItem('dataPegawai', data)
       router.push(`${router.asPath}/data-pegawai`)
     }
   }
@@ -262,8 +264,16 @@ const BandingkanPegawaiComponent = ({
   ])
 
   useEffect(() => {
-    if (dataFromStorage?.length) {
-      setCollectData(dataFromStorage)
+    if (dataFromStorage?.length && promotions?.employees?.length) {
+      const collection = promotions
+        ?.employees
+        ?.filter(item => dataFromStorage?.includes(item?.id))
+        ?.map(item => {
+          // eslint-disable-next-line no-unused-vars
+          const [data, itemObject] = getFlattenedObject(item)
+          return itemObject
+        })
+      setCollectData(collection)
     }
   }, [dataFromStorage])
 
@@ -328,7 +338,7 @@ const BandingkanPegawaiComponent = ({
                   }}
                   key={index}
                   isCheck={handleGetCheckBox(item)}
-                  handleCheck={(checked) => handleCheckBox(checked, item)}
+                  handleCheck={(checked) => handleCheckBox(checked, item, 'selected')}
                 />
               </Grid>
             )
@@ -366,7 +376,7 @@ const BandingkanPegawaiComponent = ({
                   data={data}
                   key={index}
                   isCheck={handleGetCheckBox(itemObject)}
-                  handleCheck={handleCheckBox}
+                  handleCheck={(e, item) => handleCheckBox(e, item, 'unselected')}
                 />
               </Grid>
             )

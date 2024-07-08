@@ -10,12 +10,14 @@ export default connect(
   mapStateToProps(
     'exportComparisonStore',
     'employee',
-    'notes'
+    'notes',
+    'promotions',
   ),
   mapActions(
     'exportComparison',
     'clearExportComparisonState',
     'getEmployee',
+    'getEmployeesCompare',
     'getNotesByUserID',
     'updateNotesByUserID'
   )
@@ -23,20 +25,21 @@ export default connect(
   class BandingkanDataPegawaiContainer extends Component {
     static propTypes = {
       exportComparisonStore: PropTypes.object,
+      promotions: PropTypes.object,
       employee: PropTypes.object,
       notes: PropTypes.object,
       getEmployee: PropTypes.func,
       exportComparison: PropTypes.func,
       clearExportComparisonState: PropTypes.func,
       getNotesByUserID: PropTypes.func,
-      updateNotesByUserID: PropTypes.func
+      updateNotesByUserID: PropTypes.func,
+      getEmployeesCompare: PropTypes.func
     }
 
     constructor(props) {
       super(props)
       this.state = {
-        willRender: false,
-        employeesDetails: []
+        willRender: false
       }
       this.fetch = this.fetch.bind(this)
       this.setLoading = this.setLoading.bind(this)
@@ -45,13 +48,14 @@ export default connect(
 
     getEmployeesFromStorage() {
       const storedData = localStorage.getItem('dataPegawai')
-      return storedData ? JSON.parse(storedData) : []
+      const employeesIds = storedData ? JSON.parse(storedData) : []
+      const decodedIds = employeesIds?.map(id => parseInt(atob(id)))
+      return decodedIds
     }
 
     fetch() {
-      this.getEmployeesFromStorage()?.forEach((item) => {
-        this.props.getEmployee(item?.id)
-      })
+      const ids = this.getEmployeesFromStorage()
+      this.props.getEmployeesCompare({ user_id: ids })
     }
 
     setLoading(val) {
@@ -63,29 +67,6 @@ export default connect(
     componentDidMount() {
       this.fetch()
     }
-
-    componentDidUpdate(prevProps) {
-      const employee = this.props?.employee
-
-      if (employee !== prevProps.employee) {
-        const hasItem = this.state.employeesDetails
-          ?.filter(i => i?.id == employee?.detail?.id)
-          ?.length > 0
-        const availableInStorage = this.getEmployeesFromStorage()
-          ?.filter(e => e?.id == employee?.detail?.id)
-          ?.length > 0
-
-        if (employee?.detail?.id && !hasItem && availableInStorage) {
-          this.setState({
-            employeesDetails: [
-              ...this.state.employeesDetails,
-              employee?.detail
-            ]
-          })
-        }
-      }
-    }
-
 
     render() {
       return (

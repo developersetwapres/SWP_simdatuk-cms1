@@ -89,7 +89,7 @@ export default connect(
       const retrievedArray = storedData ? JSON.parse(storedData) : []
 
       this.setState({
-        dataFromStorage: retrievedArray
+        dataFromStorage: retrievedArray?.map(id => parseInt(atob(id)))
       })
     }
 
@@ -134,7 +134,6 @@ export default connect(
         ...this.state.queries,
         filters
       }
-      console.log('QUERIES: ', queries)
       this.setState({ queries })
       this.fetch({ ...queries, data: filters })
     }

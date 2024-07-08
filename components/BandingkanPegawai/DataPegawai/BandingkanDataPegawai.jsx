@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from 'react'
 import { Box, Paper, Typography } from '@mui/material'
@@ -36,7 +35,7 @@ const BandingkanDataPegawai = ({
   exportComparisonStore,
   employee,
   notes,
-  employeesDetails,
+  promotions,
   setLoading = () => { },
   getNotesByUserID = () => { },
   updateNotesByUserID = () => { },
@@ -47,18 +46,11 @@ const BandingkanDataPegawai = ({
   const [expandFilter, setExpandFilter] = useState(false)
   const [filters, setFilters] = useState([])
   const [currentUserId, setCurrentUserId] = useState('')
-
-  const employees = useMemo(() => {
-    return employeesDetails
-  }, [employeesDetails])
-
-  const employeesIds = useMemo(() => {
-    return employeesDetails?.map(item => item?.id) || []
-  }, [employeesDetails])
+  const [employees, setEmployees] = useState([])
 
   const getFileName = (type) => {
     const dateNow = dateTimeFormat(new Date())?.replace(' ', '_')
-    const prefix = 'PERBANDINGAN_PEGAWAI_' + employeesIds?.join('_') + '_'
+    const prefix = 'PERBANDINGAN_PEGAWAI_'
     let ext = '.pdf'
 
     if (type?.includes('pdf')) {
@@ -71,6 +63,48 @@ const BandingkanDataPegawai = ({
 
     return prefix + dateNow + ext
   }
+
+  const backPage = () => {
+    localStorage.removeItem('dataPegawai')
+    router.back()
+  }
+
+  const removeEmployee = (id) => {
+    if (employees?.length <= 2) {
+      backPage()
+    } else {
+      updateStorage(id)
+      setEmployees(() => employees?.filter(i => i?.id != id))
+    }
+  }
+
+  const updateStorage = (id) => {
+    const storedData = localStorage.getItem('dataPegawai')
+    const retrievedArray = storedData ? JSON.parse(storedData) : []
+    const employeesData = retrievedArray?.filter(item => item?.id != id)
+    localStorage.setItem('dataPegawai', JSON.stringify(employeesData))
+  }
+
+  const exportFileAs = (type, data) => {
+    let output = '.pdf'
+
+    if (type === SaveAs.PDF) {
+      output = '.pdf'
+    } else if (type === SaveAs.XLS) {
+      output = '.xlsx'
+    } else {
+      output = '.csv'
+    }
+
+    exportComparison({
+      ids: data?.map(e => e?.id)?.join(', '),
+      output
+    })
+  }
+
+  useEffect(() => {
+    setEmployees(promotions?.employeesDetail)
+  }, [promotions])
 
   useEffect(() => {
     if (exportComparisonStore?.data) {
@@ -95,27 +129,6 @@ const BandingkanDataPegawai = ({
     }
   }, [exportComparisonStore])
 
-  const exportAsPDF = () => {
-    exportComparison({
-      ids: employeesIds?.join(', '),
-      output: '.pdf'
-    })
-  }
-
-  const exportAsXLS = () => {
-    exportComparison({
-      ids: employeesIds?.join(', '),
-      output: '.xlsx'
-    })
-  }
-
-  const exportAsCSV = () => {
-    exportComparison({
-      ids: employeesIds?.join(', '),
-      output: '.csv'
-    })
-  }
-
   const action = useMemo(() => {
     return (
       <Box sx={{ display: 'flex', gap: 1 }}>
@@ -132,21 +145,21 @@ const BandingkanDataPegawai = ({
           data={[
             {
               name: 'PDF',
-              action: () => exportAsPDF()
+              action: () => exportFileAs(SaveAs.PDF, employees)
             },
             {
               name: 'XLS',
-              action: () => exportAsXLS()
+              action: () => exportFileAs(SaveAs.XLS, employees)
             },
             {
               name: 'CSV',
-              action: () => exportAsCSV()
+              action: () => exportFileAs(SaveAs.CSV, employees)
             }
           ]}
         />
       </Box>
     )
-  }, [employeesDetails])
+  }, [promotions, employees])
 
   const handleFilterClick = () => {
     setExpandFilter(!expandFilter)
@@ -168,13 +181,6 @@ const BandingkanDataPegawai = ({
 
   // Modal Notes
   const [notesModalOpen, setNotesModalOpen] = useState(false)
-  const newNote = () => ({
-    id: uuidv4(),
-    giver_name: '',
-    created_at: '',
-    description: '',
-    error: ''
-  })
 
   const handleNotesModal = (userId) => {
     if (userId) {
@@ -184,11 +190,6 @@ const BandingkanDataPegawai = ({
 
     setNotesModalOpen(v => !v)
   }
-
-  const currentNotes = useMemo(() => {
-    const allNotes = [...notes?.data, newNote()]
-    return allNotes
-  }, [notes])
 
   return (
     <LayoutPages
@@ -290,6 +291,7 @@ const BandingkanDataPegawai = ({
           employees={employees}
           filters={filters}
           openNotesModal={handleNotesModal}
+          removeEmployee={removeEmployee}
         />
       </Paper>
 
@@ -297,7 +299,7 @@ const BandingkanDataPegawai = ({
         open={notesModalOpen}
         handleModal={() => handleNotesModal(null)}
         handleSave={updateNotesByUserID}
-        data={{ notes: currentNotes, userId: btoa(currentUserId) }}
+        data={employees.find(item => item?.id === currentUserId)}
       />
     </LayoutPages>
   )
@@ -307,7 +309,7 @@ BandingkanDataPegawai.propTypes = {
   notes: PropTypes.object,
   exportComparisonStore: PropTypes.object,
   employee: PropTypes.object,
-  employeesDetails: PropTypes.array,
+  promotions: PropTypes.object,
   setLoading: PropTypes.func,
   getNotesByUserID: PropTypes.func,
   updateNotesByUserID: PropTypes.func,
