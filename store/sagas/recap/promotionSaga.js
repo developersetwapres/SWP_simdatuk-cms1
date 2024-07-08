@@ -16,12 +16,16 @@ import {
   GET_BRIEF_USERS_SUCCESS,
   GET_BRIEF_USERS_FAILED,
   ACTION_RESPONSER,
-  SET_MODAL
+  SET_MODAL,
+  GET_COMPARE_USERS_REQUESTED,
+  GET_COMPARE_USERS_SUCCESS,
+  GET_COMPARE_USERS_FAILED
 } from '../../constants'
 import {
   getUnoccupiedPositionsAction,
   getUnoccupiedPositionsDetailAction,
-  getBriefEmployeesAction
+  getBriefEmployeesAction,
+  getEmployeesCompareAction
 } from '../action/recap/promotionAction'
 
 /**
@@ -156,10 +160,55 @@ function* getBriefEmployees(action) {
   }
 }
 
+/**
+ * POST GET EMPLOYEES DETAIL
+ *
+ * @param {*} action
+ * @returns
+ */
+function* getCompareUsers(action) {
+  try {
+    const res = yield call(getEmployeesCompareAction, action?.payload)
+    const payload = res?.data
+
+    yield put({
+      type: GET_COMPARE_USERS_SUCCESS,
+      payload
+    })
+  } catch (err) {
+    const error = err?.data
+    if (error?.code === 403) {
+      yield put({
+        type: ACTION_RESPONSER,
+        payload: {
+          code: error?.code,
+          message: error?.message
+        }
+      })
+    } else {
+      if (error?.code === 401 || error?.code === 403) {
+        yield put({
+          type: SET_MODAL,
+          payload: {
+            message: error?.message
+
+          }
+        })
+      } else {
+        yield put({
+          type: GET_COMPARE_USERS_FAILED,
+          payload: { error: error?.message }
+        })
+      }
+    }
+  }
+}
+
 function* promotionSaga() {
   yield takeEvery(GET_UNOCCUPIED_POSITIONS_REQUESTED, getUnoccupiedPositions)
   yield takeEvery(GET_UNOCCUPIED_POSITIONS_DETAILS_REQUESTED, getUnoccupiedPositionsDetail)
   yield takeEvery(GET_BRIEF_USERS_REQUESTED, getBriefEmployees)
+  yield takeEvery(GET_COMPARE_USERS_REQUESTED, getCompareUsers)
 }
 
 export default promotionSaga

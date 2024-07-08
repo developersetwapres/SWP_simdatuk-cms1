@@ -31,3 +31,13 @@ export const getBriefEmployeesAction = (payload) => {
   const { page, limit, search, data } = payload
   return post(`/promotions/users${queryParams(page, limit, search)}`, data)
 }
+
+/**
+ * GET USERS DETAIL
+ *
+ * @param {*} payload
+ * @returns
+ */
+export const getEmployeesCompareAction = (payload) => {
+  return post(`/promotions/compare`, payload)
+}

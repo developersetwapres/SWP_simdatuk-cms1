@@ -1,7 +1,8 @@
 import {
   GET_UNOCCUPIED_POSITIONS_REQUESTED,
   GET_UNOCCUPIED_POSITIONS_DETAILS_REQUESTED,
-  GET_BRIEF_USERS_REQUESTED
+  GET_BRIEF_USERS_REQUESTED,
+  GET_COMPARE_USERS_REQUESTED
 } from '../../constants'
 
 /**
@@ -32,5 +33,16 @@ export const getUnoccupiedPositionsDetail = (payload) => ({
  */
 export const getBriefEmployees = (payload) => ({
   type: GET_BRIEF_USERS_REQUESTED,
+  payload
+})
+
+/**
+ * Get Detail List of Employees
+ *
+ * @param {*} payload
+ * @returns
+ */
+export const getEmployeesCompare = (payload) => ({
+  type: GET_COMPARE_USERS_REQUESTED,
   payload
 })
