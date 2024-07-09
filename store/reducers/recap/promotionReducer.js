@@ -11,14 +11,18 @@ import {
   GET_BRIEF_USERS_FAILED,
   GET_COMPARE_USERS_REQUESTED,
   GET_COMPARE_USERS_SUCCESS,
-  GET_COMPARE_USERS_FAILED
+  GET_COMPARE_USERS_FAILED,
+  GET_PROMOTION_USERS_REQUESTED,
+  GET_PROMOTION_USERS_SUCCESS,
+  GET_PROMOTION_USERS_FAILED
 } from '@/store/constants'
 
 const initialState = {
   loading: false,
   error: null,
   employees: [],
-  employeesDetail: [],
+  employeesDetailCompare: [],
+  employeesDetailPromotion: [],
   employeesPagination: {},
   unoccupiedPositions: [],
   unoccupiedPositionsDetail: [],
@@ -30,6 +34,7 @@ export const promotions = (state = initialState, actions) => {
   const payload = actions?.payload
 
   switch (actions.type) {
+    // REQUESTED
     case GET_UNOCCUPIED_POSITIONS_REQUESTED:
       return {
         ...state,
@@ -50,7 +55,12 @@ export const promotions = (state = initialState, actions) => {
         ...state,
         loading: true
       }
-
+    case GET_PROMOTION_USERS_REQUESTED:
+      return {
+        ...state,
+        loading: true
+      }
+    // SUCCESS
     case GET_UNOCCUPIED_POSITIONS_SUCCESS:
       return {
         ...state,
@@ -63,12 +73,6 @@ export const promotions = (state = initialState, actions) => {
         loading: false,
         unoccupiedPositionsDetail: payload?.data
       }
-    case GET_COMPARE_USERS_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        employeesDetail: payload?.data
-      }
     case GET_BRIEF_USERS_SUCCESS:
       return {
         ...state,
@@ -76,7 +80,19 @@ export const promotions = (state = initialState, actions) => {
         employees: payload?.data,
         employeesPagination: payload?.pagination
       }
-
+    case GET_COMPARE_USERS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        employeesDetailCompare: payload?.data
+      }
+    case GET_PROMOTION_USERS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        employeesDetailPromotion: payload?.data
+      }
+    // FAILED
     case GET_UNOCCUPIED_POSITIONS_FAILED:
       return {
         ...state,
@@ -90,6 +106,12 @@ export const promotions = (state = initialState, actions) => {
         error: payload?.error
       }
     case GET_COMPARE_USERS_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: payload?.error
+      }
+    case GET_PROMOTION_USERS_FAILED:
       return {
         ...state,
         loading: false,

@@ -1,4 +1,4 @@
-import { getBlob } from '@/utils/interceptors'
+import { post } from '@/utils/interceptors'
 
 /**
  *
@@ -7,5 +7,7 @@ import { getBlob } from '@/utils/interceptors'
  * @returns
  */
 export const getComparisonExportAction = (payload) => {
-  return getBlob(`/export/comparisons`, payload)
+  return post(`/export/comparisons`, payload, {
+    responseType: 'blob'
+  })
 }

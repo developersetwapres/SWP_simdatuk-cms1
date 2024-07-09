@@ -40,6 +40,7 @@ import * as exportDRH from './export/exportDRH'
 import * as exportRecap from './export/exportRecap'
 import * as exportEmployee from './export/exportEmployee'
 import * as exportComparison from './export/exportComparison'
+import * as exportPromotion from './export/exportPromotion'
 
 /**
  *
@@ -74,6 +75,7 @@ const actions = {
   ...exportDRH,
   ...exportEmployee,
   ...exportRecap,
+  ...exportPromotion,
   ...exportComparison,
   ...position,
   ...group

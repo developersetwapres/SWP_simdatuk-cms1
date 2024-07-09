@@ -46,6 +46,7 @@ import exportDRHSaga from './export/exportDRHSaga'
 import exportRecapSaga from './export/exportRecapSaga'
 import exportEmployeeSaga from './export/exportEmployeeSaga'
 import exportComparisonSaga from './export/exportComparisonSaga'
+import exportPromotionSaga from './export/exportPromotionSaga'
 
 export default function* rootSaga() {
   yield all([
@@ -76,6 +77,7 @@ export default function* rootSaga() {
     exportRecapSaga(),
     exportEmployeeSaga(),
     exportComparisonSaga(),
+    exportPromotionSaga(),
     positionSaga(),
     groupSaga()
   ])

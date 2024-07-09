@@ -29,15 +29,25 @@ export const getUnoccupiedPositionsDetailAction = (payload) => {
  */
 export const getBriefEmployeesAction = (payload) => {
   const { page, limit, search, data } = payload
-  return post(`/promotions/users${queryParams(page, limit, search)}`, data)
+  return get(`/comparisons${queryParams(page, limit, search)}`, data)
 }
 
 /**
- * GET USERS DETAIL
+ * GET COMPARE USERS DETAIL
  *
  * @param {*} payload
  * @returns
  */
 export const getEmployeesCompareAction = (payload) => {
-  return post(`/promotions/compare`, payload)
+  return post(`/comparisons/detail`, payload)
+}
+
+/**
+ * GET PROMOTION USERS DETAIL
+ *
+ * @param {*} payload
+ * @returns
+ */
+export const getEmployeesPromotionAction = (payload) => {
+  return post(`/comparisons/detail-promotions`, payload)
 }

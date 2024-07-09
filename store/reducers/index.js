@@ -43,6 +43,7 @@ import * as exportDRHReducer from './export/exportDRHReducer'
 import * as exportRecapReducer from './export/exportRecapReducer'
 import * as exportEmployeeReducer from './export/exportEmployeeReducer'
 import * as exportComparisonReducer from './export/exportComparisonReducer'
+import * as exportPromotionReducer from './export/exportPromotionReducer'
 
 /**
  *
@@ -79,6 +80,7 @@ const reducers = {
   ...exportRecapReducer,
   ...exportEmployeeReducer,
   ...exportComparisonReducer,
+  ...exportPromotionReducer,
   ...positionReducer,
   ...groupReducer
 }
