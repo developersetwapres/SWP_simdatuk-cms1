@@ -171,11 +171,19 @@ const ListDataPegawai = ({
                   case 'Jabatan':
                     return <CellString key={itm?.id} value={itm?.position_name || '-'} data={employees} />
                   case 'Eselon':
-                    return <CellString key={itm?.id} value={itm?.echelon?.name || '-'} data={employees} />
+                    return <CellString
+                      key={itm?.id}
+                      value={`${itm?.echelon_name || '-'}, ${itm?.echelon_effective_date || '-'}`}
+                      data={employees}
+                    />
                   case 'Golongan':
-                    return <CellString key={itm?.id} value={`${itm?.grade?.name || '-'}, ${itm?.grade_effective_date?.name}` || '-'} data={employees} />
+                    return <CellString
+                      key={itm?.id}
+                      value={`${itm?.grade_name || '-'}, ${itm?.grade_effective_date}` || '-'}
+                      data={employees}
+                    />
                   case 'Pendidikan Terakhir':
-                    return <CellString key={itm?.id} value={itm?.education_level?.name || '-'} data={employees} />
+                    return <CellString key={itm?.id} value={itm?.education_level || '-'} data={employees} />
                   case 'Riwayat Jabatan':
                     return (
                       <CellList

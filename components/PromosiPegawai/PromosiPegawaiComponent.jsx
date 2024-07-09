@@ -65,7 +65,7 @@ function PromosiPegawaiComponent({
 
           <Grid container sx={{ marginTop: '-10px' }} spacing={2}>
             {item?.cards?.map(pos => (
-              <Grid item key={pos?.id} xs={12 / item?.cards?.length}>
+              <Grid item key={pos?.id} xs={item?.cards?.length > 2 ? 4 : 6}>
                 <PositionCard
                   position={pos?.name}
                   count={pos?.unoccupied}

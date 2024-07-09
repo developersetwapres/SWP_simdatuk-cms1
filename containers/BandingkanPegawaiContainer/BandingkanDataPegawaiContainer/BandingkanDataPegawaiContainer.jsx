@@ -18,6 +18,7 @@ export default connect(
     'clearExportComparisonState',
     'getEmployee',
     'getEmployeesCompare',
+    'getEmployeesPromotion',
     'getNotesByUserID',
     'updateNotesByUserID'
   )
@@ -33,7 +34,8 @@ export default connect(
       clearExportComparisonState: PropTypes.func,
       getNotesByUserID: PropTypes.func,
       updateNotesByUserID: PropTypes.func,
-      getEmployeesCompare: PropTypes.func
+      getEmployeesCompare: PropTypes.func,
+      getEmployeesPromotion: PropTypes.func
     }
 
     constructor(props) {
@@ -46,26 +48,30 @@ export default connect(
       this.getEmployeesFromStorage = this.getEmployeesFromStorage.bind(this)
     }
 
-    getEmployeesFromStorage() {
-      const storedData = localStorage.getItem('dataPegawai')
+    getEmployeesFromStorage(isPromotion) {
+      const storedData = localStorage.getItem(
+        isPromotion ? 'dataPegawaiPromosi' : 'dataPegawai'
+      )
       const employeesIds = storedData ? JSON.parse(storedData) : []
       const decodedIds = employeesIds?.map(id => parseInt(atob(id)))
       return decodedIds
     }
 
-    fetch() {
-      const ids = this.getEmployeesFromStorage()
-      this.props.getEmployeesCompare({ user_id: ids })
+    fetch(router) {
+      const isPromotion = router?.asPath?.includes('/promosi-pegawai')
+      const ids = this.getEmployeesFromStorage(isPromotion)
+
+      if (isPromotion) {
+        this.props.getEmployeesPromotion({ user_id: ids })
+      } else {
+        this.props.getEmployeesCompare({ user_id: ids })
+      }
     }
 
     setLoading(val) {
       this.setState({
         willRender: val
       })
-    }
-
-    componentDidMount() {
-      this.fetch()
     }
 
     render() {
@@ -75,6 +81,8 @@ export default connect(
             {...this.state}
             {...this.props}
             setLoading={this.setLoading}
+            fetch={this.fetch}
+            getEmployeesFromStorage={this.getEmployeesFromStorage}
           />
         </Layout>
       )

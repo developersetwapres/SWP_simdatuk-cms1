@@ -1,137 +1,83 @@
-import React, { useMemo, useState, useEffect } from 'react'
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useMemo, useState, useEffect, Fragment } from 'react'
 import LayoutPages from '../core/LayoutPages'
 import { useRouter } from 'next/router'
-import { Box, Grid, Paper, Typography, LinearProgress, List, ListItem, ListItemText } from '@mui/material'
+import { Box, Grid, Paper, Typography, List, ListItem, ListItemText } from '@mui/material'
 import ButtonExport from '../core/ButtonExport'
 import { Button } from '../shared'
-import Image from 'next/image'
 import { Close } from '@mui/icons-material'
 import PropTypes from 'prop-types'
+import { SaveAs, saveFile } from '@/utils/fileSaver'
+import { dateTimeFormat } from '@/utils/index'
+import Card from '../shared/Card/Index'
+import { v4 as uuidv4 } from 'uuid'
+import LinearProgressBar from '../core/LinearProgressBar'
+import { Tooltip } from 'react-tooltip'
 
-function ComparisonsComponent() {
+const baseColors = [
+  '#F16637',
+  '#74B856',
+  '#2D9DD1',
+  '#F8A232',
+  '#506CB2',
+  '#C22551'
+]
+
+const stats = [
+  {
+    id: uuidv4(),
+    title: 'Umum',
+    sections: [
+      {
+        id: uuidv4(),
+        label: 'Eselon',
+        name: 'echelon'
+      },
+      {
+        id: uuidv4(),
+        label: 'Golongan',
+        name: 'grade'
+      },
+      {
+        id: uuidv4(),
+        label: 'Pendidikan Terakhir',
+        name: 'education'
+      }
+    ]
+  },
+  {
+    id: uuidv4(),
+    title: 'Nilai Manajemen Talenta',
+    sections: [
+      {
+        id: uuidv4(),
+        label: 'Hasil Assessment',
+        name: 'assessments'
+      },
+      {
+        id: uuidv4(),
+        label: 'Hasil Uji Kompetensi',
+        name: 'competencies'
+      },
+      {
+        id: uuidv4(),
+        label: 'Hasil Talent Pool',
+        name: 'talents'
+      }
+    ]
+  }
+]
+
+function ComparisonsComponent({
+  promotions,
+  exportPromotionData,
+  setLoading = () => { },
+  exportPromotionUsers = () => { },
+  clearExportPromotionState = () => { }
+}) {
   const router = useRouter()
-  const [employees, setEmployees] = useState([
-    {
-      id: 1,
-      image: '/simdatuk/imagePegawai.png',
-      registration_number: '1209381209381029831',
-      colorCode: '#ffff',
-      name: 'AA, S.E',
-      echelon: '',
-      totalWorkingPeriods: 10,
-      type: 10,
-      typeWorkingPeriods: 7,
-      managementScore: 9,
-      highestEducation: 5
-    },
-    {
-      id: 2,
-      image: '/simdatuk/imagePegawai.png',
-      registration_number: '1209381209381029831',
-      colorCode: '#ffff',
-      name: 'AA, S.E',
-      echelon: '',
-      totalWorkingPeriods: 10,
-      type: 10,
-      typeWorkingPeriods: 7,
-      managementScore: 9,
-      highestEducation: 5
-    },
-    {
-      id: 3,
-      image: '/simdatuk/imagePegawai.png',
-      registration_number: '1209381209381029831',
-      colorCode: '#ffff',
-      name: 'AA, S.E',
-      echelon: '',
-      totalWorkingPeriods: 10,
-      type: 10,
-      typeWorkingPeriods: 7,
-      managementScore: 9,
-      highestEducation: 5
-    },
-    {
-      id: 4,
-      image: '/simdatuk/imagePegawai.png',
-      registration_number: '1209381209381029831',
-      colorCode: '#ffff',
-      name: 'AA, S.E',
-      echelon: '',
-      totalWorkingPeriods: 10,
-      type: 10,
-      typeWorkingPeriods: 7,
-      managementScore: 9,
-      highestEducation: 5
-    }
-  ])
-
-  const stats = [
-    {
-      id: 1,
-      label: 'Eselon',
-      name: 'echelon'
-    },
-    {
-      id: 2,
-      label: 'Golongan',
-      name: 'type'
-    },
-    {
-      id: 3,
-      label: 'Masa Kerja Golongan',
-      name: 'typeWorkingPeriods'
-    },
-    {
-      id: 4,
-      label: 'Masa Kerja Keseluruhan',
-      name: 'totalWorkingPeriods'
-    },
-    {
-      id: 5,
-      label: 'Nilai Manajemen Talenta',
-      name: 'totalWorkingPeriods'
-    },
-    {
-      id: 6,
-      label: 'Pendidikan Terakhir',
-      name: 'highestEducation'
-    }
-  ]
-
-  const notes = [
-    {
-      id: 1,
-      name: 'AA, S.H',
-      notes: [
-        'Notes X',
-        'Notes X',
-        'Notes X',
-        'Notes X',
-        'Notes X',
-        'Notes X'
-      ]
-    },
-    {
-      id: 2,
-      name: 'AA, S.H',
-      notes: ['Notes X', 'Notes X']
-    },
-    {
-      id: 3,
-      name: 'AA, S.H',
-      notes: ['Notes X', 'Notes X']
-    },
-    {
-      id: 4,
-      name: 'AA, S.H',
-      notes: ['Notes X', 'Notes X']
-    },
-    {
-      id: 5,
-      name: 'AA, S.H',
-      notes: ['Notes X', 'Notes X']
-    }
-  ]
+  const [employees, setEmployees] = useState([])
 
   const getRandomColor = () => {
     const letters = '0123456789ABCDEF'
@@ -142,43 +88,94 @@ function ComparisonsComponent() {
     return color
   }
 
-  const baseColors = [
-    '#FF0000', // Merah
-    '#FFA500', // Oranye
-    '#FFFF00', // Kuning
-    '#008000', // Hijau
-    '#0000FF', // Biru
-    '#800080', // Ungu
-    '#FF4500', // Jingga
-    '#A52A2A', // Coklat
-    '#FFC0CB', // Pink
-    '#808080' // Abu-abu
-  ]
+  const getFileName = (type) => {
+    const dateNow = dateTimeFormat(new Date())?.replace(' ', '_')
+    const prefix = 'PERBANDINGAN_PEGAWAI_PROMOSI'
+    let ext = '.pdf'
+
+    if (type?.includes('pdf')) {
+      ext = '.pdf'
+    } else if (type?.includes('sheet')) {
+      ext = '.xlsx'
+    } else {
+      ext = '.csv'
+    }
+
+    return prefix + dateNow + ext
+  }
+
+  const exportFileAs = (type, data) => {
+    let output = '.pdf'
+
+    if (type === SaveAs.PDF) {
+      output = '.pdf'
+    } else if (type === SaveAs.XLS) {
+      output = '.xlsx'
+    } else {
+      output = '.csv'
+    }
+
+    exportPromotionUsers({
+      user_id: data?.map(e => e?.id),
+      output
+    })
+  }
 
   const action = useMemo(() => {
     return (
       <Box sx={{ display: 'flex', gap: 1 }}>
-        <Button text='Tambah Pegawai' color='primary' onClick={() => { }} />
+        <Button text='Tambah Pegawai' color='primary' onClick={router.back} />
         <Button
           text='Reset Pegawai'
           color='sidatukDraweBase'
-          onClick={() => { }}
+          onClick={() => {
+            localStorage.removeItem('dataPegawaiPromosi')
+            router.back()
+          }}
         />
         <ButtonExport
           data={[
-            { name: 'PDF', action: () => { } },
-            { name: 'XLS', action: () => { } },
-            { name: 'CSV', action: () => { } }
+            { name: 'PDF', action: () => exportFileAs(SaveAs.PDF, employees) },
+            { name: 'XLS', action: () => exportFileAs(SaveAs.XLS, employees) },
+            { name: 'CSV', action: () => exportFileAs(SaveAs.CSV, employees) }
           ]}
         />
       </Box>
     )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [employees])
+
+  const removeEmployee = (id) => {
+    setEmployees(
+      employees?.filter(item => item?.id !== id)
+    )
+  }
+
+  useEffect(() => {
+    if (exportPromotionData?.data) {
+      const responseType = exportPromotionData?.data?.type
+      let type = SaveAs.PDF
+
+      if (type?.includes('pdf')) {
+        type = SaveAs.PDF
+      } else if (type?.includes('sheet')) {
+        type = SaveAs.XLS
+      } else {
+        type = SaveAs.CSV
+      }
+
+      saveFile(
+        exportPromotionData?.data,
+        getFileName(responseType),
+        type
+      )
+
+      clearExportPromotionState()
+    }
+  }, [exportPromotionData])
 
   useEffect(() => {
     setEmployees(
-      employees.map((item, index) => {
+      promotions?.employeesDetailPromotion?.map((item, index) => {
         const colorCode = index > (baseColors.length - 1) ?
           getRandomColor() : baseColors[index]
 
@@ -188,8 +185,11 @@ function ComparisonsComponent() {
         }
       })
     )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [promotions])
+
+  useEffect(() => {
+    setLoading(!(promotions?.loading || exportPromotionData?.loading))
+  }, [promotions, exportPromotionData])
 
   return (
     <LayoutPages
@@ -199,17 +199,20 @@ function ComparisonsComponent() {
     >
       <Paper sx={{ padding: '20px' }}>
         <Grid container spacing={2} sx={{ paddingLeft: 20 }}>
-          {employees.map(employee => {
-            const columnSize = 12 / employees.length
-            const columnWidth = employees.length >= 3 ? 4 : columnSize
+          {employees?.map((employee, index) => {
+            const columnSize = 12 / employees?.length
+            const columnWidth = employees?.length >= 3 ? 4 : columnSize
+            const colorCode = index > (baseColors?.length - 1) ?
+              getRandomColor() : baseColors[index]
+
             return (
-              <Grid key={employee.id} item xs={columnWidth}>
+              <Grid key={employee?.id} item xs={columnWidth}>
                 <EmployeeDataComponent
-                  name={employee.name}
-                  titleColor={employee.colorCode}
-                  image={employee.image}
-                  registrationNumber={employee.registration_number}
-                  handleClick={() => { }}
+                  name={employee?.name}
+                  titleColor={colorCode}
+                  image={employee?.photo_profile}
+                  registrationNumber={employee?.employee_registration_number}
+                  handleRemove={() => removeEmployee(employee?.id)}
                 />
               </Grid>
             )
@@ -218,27 +221,58 @@ function ComparisonsComponent() {
 
         <Typography fontWeight={700} variant='h5' component='h5' sx={{ marginTop: 2 }}>Grafik</Typography>
 
-        <Grid container spacing={2} sx={{ marginTop: 1, padding: 2 }}>
-          {stats.map(item => (
-            <StatsComponent
-              key={item.id}
-              label={item.label}
-            />
-          ))}
-        </Grid>
+        {stats?.map((item) => (
+          <Card
+            key={item?.id}
+            otherStyle={{ marginTop: '16px' }}
+          >
+            <Grid container spacing={2} sx={{ marginTop: 1, padding: 2 }}>
+              <Grid item xs={12}>
+                <Typography
+                  color='#895700'
+                  fontWeight={700}
+                  fontSize={14}
+                >
+                  {item?.title}
+                </Typography>
+              </Grid>
+
+              {item?.sections?.map((section) => {
+                return (
+                  <StatsComponent
+                    key={section?.id}
+                    label={section?.label}
+                    data={employees}
+                    type={section?.name}
+                  />
+                )
+              })}
+            </Grid>
+          </Card>
+        ))}
 
         <Typography fontWeight={700} variant='h5' component='h5' sx={{ marginTop: 2 }}>Catatan</Typography>
 
         <Grid container spacing={2} sx={{ marginTop: 1, padding: 2 }}>
-          {notes.map(item => (
-            <NotesComponent
-              key={item.id}
-              notes={item.notes}
-              name={item.name}
-            />
-          ))}
+          {employees?.map((item, index) => {
+            const colorCode = index > (baseColors?.length - 1) ?
+              getRandomColor() : baseColors[index]
+
+            return (
+              <NotesComponent
+                key={item.id}
+                notes={item?.notes}
+                name={item?.name}
+                textNameColor={colorCode}
+              />
+            )
+          })}
         </Grid>
       </Paper>
+
+      <PercentageTooltip
+        data={employees}
+      />
     </LayoutPages>
   )
 }
@@ -261,7 +295,7 @@ const NotesComponent = ({
         </Typography>
 
         <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', marginTop: 2 }}>
-          {notes.map((value, index) => (
+          {notes?.map((value, index) => (
             <ListItem
               key={value}
               disableGutters
@@ -270,21 +304,168 @@ const NotesComponent = ({
               <ListItemText primary={`${index + 1}. ${value}`} />
             </ListItem>
           ))}
+
+          {!notes?.length && (
+            <Typography fontSize={14} fontWeight={600}>-</Typography>
+          )}
         </List>
       </Box>
     </Grid>
   )
 }
 
-NotesComponent.propTypes = {
-  name: PropTypes.string,
-  textNameColor: PropTypes.string,
-  notes: PropTypes.array
+const PercentageTooltip = ({ data = [] }) => {
+  const getValueByType = (type, item) => {
+    if (type === 'echelon')
+      return item?.echelon?.percentage
+
+    if (type === 'grade')
+      return item?.grade?.percentage
+
+    if (type === 'education')
+      return item?.education_level?.percentage
+
+    if (type === 'assessments')
+      return item?.assessment?.percentage
+
+    if (type === 'competencies')
+      return item?.competency?.percentage
+
+    if (type === 'talents')
+      return item?.talent?.percentage
+
+    return ''
+  }
+
+  return (
+    <Tooltip
+      id='percentage-tooltip'
+      style={{
+        backgroundColor: '#ffffff',
+        color: '#000000',
+        boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
+        maxWidth: '300px'
+      }}
+      render={({ activeAnchor }) => (
+        <>
+          <Typography
+            fontWeight='700'
+            color='#895700'
+          >
+            {activeAnchor?.getAttribute('data-label') || ''}
+          </Typography>
+
+          <Grid
+            container
+            spacing={2}
+            sx={{
+              marginTop: '12px'
+            }}
+          >
+            {data?.map((item, index) => {
+              const colorCode = index > (baseColors?.length - 1) ?
+                getRandomColor() : baseColors[index]
+
+              return (
+                <Fragment key={item?.id}>
+                  <Grid item xs={2}>
+                    <LinearProgressBar
+                      value={100}
+                      bgColor={colorCode}
+                      baseBgColor='#FFF'
+                    />
+                  </Grid>
+
+                  <Grid item xs={7}>
+                    <Typography>{activeAnchor?.getAttribute('data-name') || ''}</Typography>
+                  </Grid>
+
+                  <Grid item xs={3} justifyContent='flex-end'>
+                    <Typography textAlign='right'>
+                      {getValueByType(activeAnchor?.getAttribute('data-type'), item)}
+                    </Typography>
+                  </Grid>
+                </Fragment>
+              )
+            })}
+          </Grid>
+        </>
+      )}
+    />
+  )
 }
 
 const StatsComponent = ({
-  label = ''
+  label = '',
+  type = '',
+  data = []
 }) => {
+  const getPercentageDataByType = (item) => {
+    if (type === 'echelon')
+      return item?.echelon?.percentage
+
+    if (type === 'grade')
+      return item?.grade?.percentage
+
+    if (type === 'education')
+      return item?.education_level?.percentage
+
+    if (type === 'assessments')
+      return item?.assessment?.percentage
+
+    if (type === 'competencies')
+      return item?.competency?.percentage
+
+    if (type === 'talents')
+      return item?.talent?.percentage
+
+    return 0
+  }
+
+  const getLabelByType = (type) => {
+    if (type === 'echelon')
+      return 'Eselon'
+
+    if (type === 'grade')
+      return 'Golongan'
+
+    if (type === 'education')
+      return 'Pendidikan Terakhir'
+
+    if (type === 'assessments')
+      return 'Hasil Assessment'
+
+    if (type === 'competencies')
+      return 'Hasil Uji Kompetensi'
+
+    if (type === 'talents')
+      return 'Hasil Talent Pool'
+
+    return 0
+  }
+
+  const getDataByType = (type, item) => {
+    if (type === 'echelon')
+      return item?.echelon?.name
+
+    if (type === 'grade')
+      return item?.grade?.name
+
+    if (type === 'education')
+      return item?.education_level?.name
+
+    if (type === 'assessments')
+      return item?.assessment?.name
+
+    if (type === 'competencies')
+      return item?.competency?.name
+
+    if (type === 'talents')
+      return item?.talent?.name
+
+    return ''
+  }
+
   return (
     <Grid
       container
@@ -298,17 +479,30 @@ const StatsComponent = ({
       </Grid>
       <Grid item xs={7}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-          <LinearProgress value={10} variant='determinate' color='secondary' sx={{ height: 10 }} />
-          <LinearProgress variant='determinate' color='success' sx={{ height: 10 }} />
-          <LinearProgress variant='determinate' color='inherit' sx={{ height: 10 }} />
+          {data?.map((item, index) => {
+            const colorCode = index > (baseColors?.length - 1) ?
+              getRandomColor() : baseColors[index]
+
+            return (
+              <Box
+                key={item?.id}
+                data-tooltip-id='percentage-tooltip'
+                data-type={type}
+                data-label={getLabelByType(type)}
+                data-name={getDataByType(type, item)}
+              >
+                <LinearProgressBar
+                  value={getPercentageDataByType(item)}
+                  bgColor={colorCode}
+                  baseBgColor='#FFF'
+                />
+              </Box>
+            )
+          })}
         </Box>
       </Grid>
     </Grid>
   )
-}
-
-StatsComponent.propTypes = {
-  label: PropTypes.string
 }
 
 const EmployeeDataComponent = ({
@@ -316,7 +510,7 @@ const EmployeeDataComponent = ({
   image = '/simdatuk/imagePegawai.png',
   registrationNumber = '',
   name = '',
-  handleClick = () => { }
+  handleRemove = () => { }
 }) => {
   return (
     <Box
@@ -327,11 +521,13 @@ const EmployeeDataComponent = ({
       }}
     >
       <Box sx={{ width: '30%' }}>
-        <Image
+        <img
           src={image}
           alt='Foto Pegawai'
-          width={72}
-          height={96}
+          style={{
+            width: '72px',
+            height: '96px'
+          }}
         />
       </Box>
 
@@ -369,7 +565,7 @@ const EmployeeDataComponent = ({
         }}
       >
         <Box
-          onClick={handleClick}
+          onClick={handleRemove}
           sx={{
             height: '30px',
             width: '30px',
@@ -390,12 +586,36 @@ const EmployeeDataComponent = ({
   )
 }
 
+NotesComponent.propTypes = {
+  name: PropTypes.string,
+  textNameColor: PropTypes.string,
+  notes: PropTypes.array
+}
+
+StatsComponent.propTypes = {
+  label: PropTypes.string,
+  type: PropTypes.string,
+  data: PropTypes.array
+}
+
+PercentageTooltip.propTypes = {
+  data: PropTypes.array
+}
+
+ComparisonsComponent.propTypes = {
+  promotions: PropTypes.object,
+  exportPromotionData: PropTypes.object,
+  setLoading: PropTypes.func,
+  exportPromotionUsers: PropTypes.func,
+  clearExportPromotionState: PropTypes.func
+}
+
 EmployeeDataComponent.propTypes = {
   name: PropTypes.string,
   registrationNumber: PropTypes.string,
   image: PropTypes.string,
   titleColor: PropTypes.string,
-  handleClick: PropTypes.func
+  handleRemove: PropTypes.func
 }
 
 export default ComparisonsComponent

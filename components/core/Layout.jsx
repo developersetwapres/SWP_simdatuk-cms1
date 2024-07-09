@@ -137,9 +137,12 @@ function Layout({ children, window, willRender }) {
   useEffect(() => {
     const path = router?.asPath
 
-    if (!path?.includes('/rekapitulasi/bandingkan-pegawai')) {
+    if (!path?.includes('/rekapitulasi/bandingkan-pegawai'))
       localStorage.removeItem('dataPegawai')
-    }
+
+    if (!path?.includes('/rekapitulasi/promosi-pegawai'))
+      localStorage.removeItem('dataPegawaiPromosi')
+
   }, [router])
 
   const drawer = (
