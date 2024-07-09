@@ -40,7 +40,8 @@ const BandingkanDataPegawai = ({
   getNotesByUserID = () => { },
   updateNotesByUserID = () => { },
   exportComparison = () => { },
-  clearExportComparisonState = () => { }
+  clearExportComparisonState = () => { },
+  fetch = () => { }
 }) => {
   const router = useRouter()
   const [expandFilter, setExpandFilter] = useState(false)
@@ -97,37 +98,10 @@ const BandingkanDataPegawai = ({
     }
 
     exportComparison({
-      ids: data?.map(e => e?.id)?.join(', '),
+      user_id: data?.map(e => e?.id),
       output
     })
   }
-
-  useEffect(() => {
-    setEmployees(promotions?.employeesDetail)
-  }, [promotions])
-
-  useEffect(() => {
-    if (exportComparisonStore?.data) {
-      const responseType = exportComparisonStore?.data?.type
-      let type = SaveAs.PDF
-
-      if (type?.includes('pdf')) {
-        type = SaveAs.PDF
-      } else if (type?.includes('sheet')) {
-        type = SaveAs.XLS
-      } else {
-        type = SaveAs.CSV
-      }
-
-      saveFile(
-        exportComparisonStore?.data,
-        getFileName(responseType),
-        type
-      )
-
-      clearExportComparisonState()
-    }
-  }, [exportComparisonStore])
 
   const action = useMemo(() => {
     return (
@@ -173,13 +147,6 @@ const BandingkanDataPegawai = ({
     setFilters([])
   }
 
-  useEffect(() => {
-    setLoading(
-      !(employee?.loading || notes?.loading || exportComparisonStore?.loading)
-    )
-  }, [employee, notes, exportComparisonStore])
-
-  // Modal Notes
   const [notesModalOpen, setNotesModalOpen] = useState(false)
 
   const handleNotesModal = (userId) => {
@@ -190,6 +157,54 @@ const BandingkanDataPegawai = ({
 
     setNotesModalOpen(v => !v)
   }
+
+  useEffect(() => {
+    const isPromotion = router?.asPath?.includes('/promosi-pegawai')
+
+    if (isPromotion) {
+      setEmployees(promotions?.employeesDetailPromotion)
+    } else {
+      setEmployees(promotions?.employeesDetailCompare)
+    }
+  }, [promotions, router])
+
+  useEffect(() => {
+    fetch(router)
+  }, [router])
+
+  useEffect(() => {
+    if (exportComparisonStore?.data) {
+      const responseType = exportComparisonStore?.data?.type
+      let type = SaveAs.PDF
+
+      if (type?.includes('pdf')) {
+        type = SaveAs.PDF
+      } else if (type?.includes('sheet')) {
+        type = SaveAs.XLS
+      } else {
+        type = SaveAs.CSV
+      }
+
+      saveFile(
+        exportComparisonStore?.data,
+        getFileName(responseType),
+        type
+      )
+
+      clearExportComparisonState()
+    }
+  }, [exportComparisonStore])
+
+  useEffect(() => {
+    setLoading(
+      !(
+        employee?.loading ||
+        notes?.loading ||
+        exportComparisonStore?.loading ||
+        promotions?.loading
+      )
+    )
+  }, [employee, notes, exportComparisonStore, promotions])
 
   return (
     <LayoutPages
@@ -299,7 +314,7 @@ const BandingkanDataPegawai = ({
         open={notesModalOpen}
         handleModal={() => handleNotesModal(null)}
         handleSave={updateNotesByUserID}
-        data={employees.find(item => item?.id === currentUserId)}
+        data={employees?.find(item => item?.id === currentUserId)}
       />
     </LayoutPages>
   )
@@ -311,6 +326,7 @@ BandingkanDataPegawai.propTypes = {
   employee: PropTypes.object,
   promotions: PropTypes.object,
   setLoading: PropTypes.func,
+  fetch: PropTypes.func,
   getNotesByUserID: PropTypes.func,
   updateNotesByUserID: PropTypes.func,
   exportComparison: PropTypes.func,

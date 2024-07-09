@@ -7,7 +7,8 @@ import {
   Checkbox,
   FormControlLabel,
   Grid,
-  TablePagination
+  TablePagination,
+  Typography
 } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import BandingPegawaiForm from './BandingPegawaiForm'
@@ -18,6 +19,8 @@ import { CardTypes } from 'libs/types/CardTypes'
 import { useRouter } from 'next/router'
 import LayoutPages from '../core/LayoutPages'
 import { employeeEducationLevelOptions, predicateOptions } from 'libs/types/options'
+import Card from '../shared/Card/Index'
+import Image from 'next/image'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -61,7 +64,9 @@ const BandingkanPegawaiComponent = ({
   disciplinary,
   grade,
   dataFromStorage,
+  queries,
   onSearch = () => { },
+  initData = () => { },
   onLoading = () => { },
   onPaginationChange = () => { },
   onRowsPerPageChange = () => { },
@@ -127,6 +132,8 @@ const BandingkanPegawaiComponent = ({
 
   const handleRedirectCompare = () => {
     if (router?.query?.echelon_id) {
+      const data = JSON.stringify(collectData?.map(item => btoa(item?.id)))
+      localStorage.setItem('dataPegawaiPromosi', data)
       router.push(`/rekapitulasi/promosi-pegawai/comparisons`)
     } else if (collectData.length > 1) {
       const data = JSON.stringify(collectData?.map(item => btoa(item?.id)))
@@ -277,6 +284,11 @@ const BandingkanPegawaiComponent = ({
     }
   }, [dataFromStorage])
 
+  useEffect(() => {
+    const isPromotion = router?.asPath?.includes('/promosi-pegawai')
+    initData(isPromotion)
+  }, [router])
+
   return (
     <LayoutPages
       summary={'Bandingkan Pegawai'}
@@ -381,6 +393,50 @@ const BandingkanPegawaiComponent = ({
               </Grid>
             )
           })}
+          {!employees?.length && (
+            <Grid item xs={12}>
+              <Card
+                otherStyle={{
+                  display: 'flex',
+                  minHeight: '600px',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexDirection: 'column'
+                }}
+              >
+                <Image
+                  src='/simdatuk/empty_illustration.svg'
+                  width={480}
+                  height={240}
+                  alt='Empty Image'
+                />
+                <Typography
+                  sx={{ marginTop: '20px' }}
+                  fontSize='24px'
+                  fontWeight={700}
+                >
+                  {queries?.search ?
+                    'Tidak ada hasil pencarian mengenai' :
+                    'Tidak ada hasil yang ditampilkan'}
+                </Typography>
+                {queries?.search && (
+                  <Typography
+                    fontSize='24px'
+                    fontWeight={700}
+                  >
+                    {`"${queries?.search}"`}
+                  </Typography>
+                )}
+                <Typography
+                  sx={{ marginTop: '12px' }}
+                >
+                  {queries?.search ?
+                    'Kami tidak menemukan kata kunci yang Anda cari' :
+                    'Kami tidak menemukan data yang Anda cari'}
+                </Typography>
+              </Card>
+            </Grid>
+          )}
         </Grid>
 
         <TablePagination
@@ -403,12 +459,14 @@ BandingkanPegawaiComponent.propTypes = {
   filters: PropTypes.object,
   queries: PropTypes.object,
   promotions: PropTypes.object,
+  queries: PropTypes.object,
   echelon: PropTypes.object,
   disciplinary: PropTypes.object,
   grade: PropTypes.object,
   dataFromStorage: PropTypes.array,
   onSearch: PropTypes.func,
   onLoading: PropTypes.func,
+  initData: PropTypes.func,
   onPaginationChange: PropTypes.func,
   onRowsPerPageChange: PropTypes.func,
   getEmployee: PropTypes.func,

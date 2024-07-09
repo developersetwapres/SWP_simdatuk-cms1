@@ -78,14 +78,16 @@ export default connect(
       this.onFilter = this.onFilter.bind(this)
       this.onClearState = this.onClearState.bind(this)
       this.setLoading = this.setLoading.bind(this)
+      this.initData = this.initData.bind(this)
     }
 
     fetch(queries) {
       this.props.getBriefEmployees(queries)
     }
 
-    fetchStorage() {
-      const storedData = localStorage.getItem('dataPegawai')
+    fetchStorage(isPromotion) {
+      const key = isPromotion ? 'dataPegawaiPromosi' : 'dataPegawai'
+      const storedData = localStorage.getItem(key)
       const retrievedArray = storedData ? JSON.parse(storedData) : []
 
       this.setState({
@@ -154,21 +156,9 @@ export default connect(
       })
     }
 
-    componentDidMount() {
-      const echelonId = this.props.router?.query?.echelon_id
-      this.fetchStorage()
-
-      if (echelonId) {
-        this.fetch({
-          ...this.state.queries,
-          data: {
-            ...this.state.filters,
-            echelon_id: atob(echelonId)
-          }
-        })
-      } else {
-        this.fetch({ ...this.state.queries, data: this.state.filters })
-      }
+    initData(isPromotion) {
+      this.fetchStorage(isPromotion)
+      this.fetch({ ...this.state.queries, data: this.state.filters })
       this.fetchMasterData(this.state.allDataQuery)
     }
 
@@ -176,13 +166,14 @@ export default connect(
       return (
         <Layout willRender={this.state.willRender}>
           <BandingkanPegawaiComponent
+            {...this.state}
+            {...this.props}
             onSearch={this.onSearch}
             onFilter={this.onFilter}
             onLoading={this.setLoading}
             onPaginationChange={this.onPaginationChange}
             onRowsPerPageChange={this.onRowsPerPageChange}
-            {...this.state}
-            {...this.props}
+            initData={this.initData}
           />
         </Layout>
       )
