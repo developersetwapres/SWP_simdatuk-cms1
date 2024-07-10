@@ -45,10 +45,10 @@ const ModalEmployee = ({ data, isModal, handleModal }) => {
           fontWeight='600'
           sx={{ height: '26px' }}
         >
-          {data?.position || '-'}
+          {data?.name || '-'}
         </Typography>
         <Typography variant='h6' textAlign='center' fontWeight='600'>
-          {`(${data?.children?.length}/${data?.slot})`}
+          {`(${data?.available}/${data?.filled})`}
         </Typography>
         <IconButton
           onClick={handleModal}
@@ -64,34 +64,33 @@ const ModalEmployee = ({ data, isModal, handleModal }) => {
       </Box>
       <Grid
         container
-        gap={3}
+        spacing={3}
         sx={style?.containerEmployee}
-        justifyContent={
-          data?.children.length > 2 ? 'space-between' : 'flex-start'
-        }
+        justifyContent={'flex-start'}
       >
-        {data?.children.map((item, index) => {
+        {data?.users.map((item, index) => {
           const payload = {
-            ...item,
-            type: data?.type,
-            position: data?.position
+            ...data,
+            position_name: null,
+            available: 1,
+            name: null,
+            users: data?.users.filter((itm) => itm?.id == item?.id)
           }
 
           return (
             <Grid
               item
-              xs={12}
-              sm={data?.children.length > 2 ? 4 : 6}
+              xs={data?.filled > 2 ? 4 : 6}
+              sx={{ position: 'relative' }}
               key={index}
-              sx={{
-                maxWidth: {
-                  md: data?.children.length > 2 ? '18vw' : '48%',
-                  sm: '25vw',
-                  xs: '50vw'
-                }
-              }}
             >
-              <CardProfile rootStyle={style?.card} data={payload} isProfile />
+              <CardProfile
+                isBorder={true}
+                isShadow={false}
+                rootStyle={style?.card}
+                data={payload}
+                isProfile
+              />
             </Grid>
           )
         })}

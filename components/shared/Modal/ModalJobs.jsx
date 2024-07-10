@@ -14,8 +14,7 @@ const style = {
     borderRadius: '10px'
   },
   containerModal: {
-    paddingBottom: '32px',
-    minHeight: '320px',
+    minHeight: '300px',
     background: '#F6EBDA',
     position: 'relative'
   },
@@ -46,7 +45,7 @@ const ModalJobs = ({ data, isModal, handleModal }) => {
           fontWeight='600'
           sx={{ marginTop: '8px' }}
         >
-          {data?.title || 'Jabatan Fungsional'}
+          Jabatan Fungsional
         </Typography>
         <IconButton
           onClick={handleModal}
@@ -61,13 +60,23 @@ const ModalJobs = ({ data, isModal, handleModal }) => {
         </IconButton>
       </Box>
       <Grid container spacing={3}>
-        {data?.children.map((item, index) => (
+        {data?.childs.map((item, index) => (
           <Grid item xs={12} sm={6} key={index}>
-            <CardListJobs
-              data={item}
-              handleModal={handleModal}
-              otherStyle={{ height: '200px', padding: '14px 20px' }}
-            />
+            <Box
+              sx={{
+                backgroundColor: '#FFF',
+                border: '1px solid #000',
+                borderRadius: '10px'
+              }}
+            >
+              <CardListJobs
+                isStyle={false}
+                data={item}
+                isModal={isModal}
+                handleModal={handleModal}
+                otherStyle={{ height: '200px', padding: '14px 20px' }}
+              />
+            </Box>
           </Grid>
         ))}
       </Grid>
