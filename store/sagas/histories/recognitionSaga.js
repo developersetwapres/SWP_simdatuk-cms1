@@ -22,15 +22,62 @@ import {
   DELETE_RECOGNITION_SUCCESS,
   DELETE_RECOGNITION_FAILED,
   SET_MODAL,
-  ACTION_RESPONSER
+  ACTION_RESPONSER,
+  GET_RECOGNITIONS_OPTIONS_REQUESTED,
+  GET_RECOGNITIONS_OPTIONS_SUCCESS,
+  GET_RECOGNITIONS_OPTIONS_FAILED
 } from '../../constants'
 import {
   deleteRecognitionAction,
   getRecognitionAction,
   getRecognitionsAction,
+  getRecognitionsOptionsAction,
   postRecognitionAction,
   updateRecognitionAction
 } from '../action/histories/recognitionAction'
+
+/**
+ * Get Recognitions Options
+ *
+ * @param {*} action
+ * @returns
+ */
+function* getRecognitionsOptions(action) {
+  try {
+    const res = yield call(getRecognitionsOptionsAction, action?.payload)
+
+    const payload = res?.data
+
+    yield put({
+      type: GET_RECOGNITIONS_OPTIONS_SUCCESS,
+      payload
+    })
+  } catch (err) {
+    const errors = err?.data
+    if (errors?.code === 403) {
+      yield put({
+        type: ACTION_RESPONSER,
+        payload: {
+          code: errors?.code,
+          message: errors?.message,
+          redirect: '/profile'
+        }
+      })
+    } else {
+      if (errors?.code === 400) {
+        yield put({
+          type: CATCH_ERROR,
+          payload: errors?.message
+        })
+      } else {
+        yield put({
+          type: GET_RECOGNITIONS_OPTIONS_FAILED,
+          payload: errors?.message
+        })
+      }
+    }
+  }
+}
 
 /**
  * Get Recognitions
@@ -293,6 +340,7 @@ function* updateRecognition(action) {
 }
 
 function* recognitionSaga() {
+  yield takeEvery(GET_RECOGNITIONS_OPTIONS_REQUESTED, getRecognitionsOptions)
   yield takeEvery(GET_RECOGNITIONS_REQUESTED, getRecognitions)
   yield takeEvery(GET_RECOGNITION_REQUESTED, getRecognition)
   yield takeEvery(DELETE_RECOGNITION_REQUESTED, deleteRecognition)

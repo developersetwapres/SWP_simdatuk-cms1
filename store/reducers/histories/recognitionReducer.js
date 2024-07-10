@@ -15,7 +15,10 @@ import {
   DELETE_RECOGNITION_REQUESTED,
   DELETE_RECOGNITION_SUCCESS,
   DELETE_RECOGNITION_FAILED,
-  CLEAR_RECOGNITION_STATE
+  CLEAR_RECOGNITION_STATE,
+  GET_RECOGNITIONS_OPTIONS_REQUESTED,
+  GET_RECOGNITIONS_OPTIONS_SUCCESS,
+  GET_RECOGNITIONS_OPTIONS_FAILED
 } from '../../constants'
 
 const initialState = {
@@ -24,7 +27,8 @@ const initialState = {
   error: null,
   detail: {},
   pagination: {},
-  data: []
+  data: [],
+  options: []
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -32,6 +36,23 @@ export const recognition = (state = initialState, action) => {
   const payload = action?.payload
 
   switch (action.type) {
+    case GET_RECOGNITIONS_OPTIONS_REQUESTED:
+      return {
+        ...state,
+        loading: true
+      }
+    case GET_RECOGNITIONS_OPTIONS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        options: payload?.data
+      }
+    case GET_RECOGNITIONS_OPTIONS_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: payload?.error
+      }
     case GET_RECOGNITIONS_REQUESTED:
       return {
         ...state,
@@ -130,7 +151,8 @@ export const recognition = (state = initialState, action) => {
         error: null,
         detail: {},
         pagination: {},
-        data: []
+        data: [],
+        options: []
       }
     default:
       return state

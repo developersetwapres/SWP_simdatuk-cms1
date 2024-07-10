@@ -4,8 +4,20 @@ import {
   POST_RECOGNITION_REQUESTED,
   UPDATE_RECOGNITION_REQUESTED,
   DELETE_RECOGNITION_REQUESTED,
-  CLEAR_RECOGNITION_STATE
+  CLEAR_RECOGNITION_STATE,
+  GET_RECOGNITIONS_OPTIONS_REQUESTED
 } from '../../constants'
+
+/**
+ * Get Recognitions Options
+ *
+ * @param {*} payload
+ * @returns
+ */
+export const getRecognitionsOptions = (payload) => ({
+  type: GET_RECOGNITIONS_OPTIONS_REQUESTED,
+  payload
+})
 
 /**
  * Get Recognitions

@@ -4,6 +4,17 @@ import { queryParams } from '@/utils/'
 const basePath = '/recognition-histories'
 
 /**
+ * GET Recognitions Options ACTION
+ *
+ * @param {*} payload
+ * @returns
+ */
+export const getRecognitionsOptionsAction = (payload) => {
+  const { page, limit, search } = payload
+  return get(`/recognitions${queryParams(page, limit, search)}`)
+}
+
+/**
  * GET Recognitions ACTION
  *
  * @param {*} payload
