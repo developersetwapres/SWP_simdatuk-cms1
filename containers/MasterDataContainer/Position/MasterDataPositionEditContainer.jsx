@@ -45,20 +45,16 @@ export default connect(
     }
 
     fetch(queries) {
-      this.props.getPositions({
-        ...queries,
-        filterParent: true,
-        parentId: ''
-      })
       this.props.getPositionsOrders({ id: null })
       this.props.getEchelonsOptions(queries)
     }
 
-    fetchHierarchy(id) {
+    fetchHierarchy(id, type) {
       this.props.getPositions({
         ...this.state.queries,
         filterParent: true,
-        parentId: id
+        parentId: id,
+        type: type
       })
     }
 

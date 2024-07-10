@@ -25,7 +25,8 @@ export default connect(
           limit: 10,
           search: '',
           filterParent: false,
-          parentId: ''
+          parentId: '',
+          type: []
         },
         willRender: false
       }

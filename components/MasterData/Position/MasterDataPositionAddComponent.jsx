@@ -170,7 +170,7 @@ const MasterDataPositionAddComponent = ({
     }
   }
 
-  const handleChangeHierarchies = (val) => {
+  const handleChangeHierarchies = (val, type) => {
     const datas = val.filter((itm) => itm?.name !== null)
 
     if (datas.length > 0) {
@@ -187,11 +187,21 @@ const MasterDataPositionAddComponent = ({
 
       if (dataPosition.length > 0) {
         const itemId = dataPosition.find((itm) => itm?.name == item)?.id
-        onFetchHierarchy(itemId)
+        onFetchHierarchy(itemId, type)
       }
     } else {
       const newPositions = positions.length > 0 ? positions.slice(0, 1) : []
       setPositions(newPositions)
+    }
+  }
+
+  const handleFetchHierarchies = (positionType) => {
+    if (positionType) {
+      const type = positionType !== 'Outsourcing' ? [1, 2] : [3]
+      onFetchHierarchy('', type)
+      setPositions([])
+    } else {
+      setPositions([])
     }
   }
 
@@ -239,6 +249,7 @@ const MasterDataPositionAddComponent = ({
               formikRef={formikRef}
               isPositionsLoading={positions?.loading}
               onChangeHierarchies={handleChangeHierarchies}
+              onFetchHierarchy={handleFetchHierarchies}
               {...formikProps}
             />
           </Card>

@@ -24,7 +24,8 @@ const MasterDataPositionForm = ({
   formikRef,
   options,
   isPositionsLoading,
-  onChangeHierarchies = () => {}
+  onChangeHierarchies = () => {},
+  onFetchHierarchy = () => {}
 }) => {
   const isShow = useMemo(() => {
     return values?.show
@@ -57,7 +58,10 @@ const MasterDataPositionForm = ({
     const datas = values?.parent || []
     const hierarchiesNull = datas.filter((itm) => itm?.name == null)
 
-    onChangeHierarchies(datas)
+    onChangeHierarchies(
+      datas,
+      values?.position !== 'Outsourcing' ? [1, 2] : [3]
+    )
 
     if (hierarchiesNull.length == 0) {
       const newValues = [...datas, { name: null }]
@@ -121,6 +125,8 @@ const MasterDataPositionForm = ({
                 error={errors?.position}
                 onChange={(val) => {
                   setFieldValue('position', val, false)
+                  setFieldValue('parent', [{ name: null }], false)
+                  onFetchHierarchy(val)
                   // setTimeout(() => {
                   //   formikRef.current.validateField('position')
                   // }, 1)
@@ -323,7 +329,8 @@ MasterDataPositionForm.propTypes = {
   formikRef: PropTypes.any,
   options: PropTypes.object,
   isPositionsLoading: PropTypes.bool,
-  onChangeHierarchies: PropTypes.func
+  onChangeHierarchies: PropTypes.func,
+  onFetchHierarchy: PropTypes.func
 }
 
 export default MasterDataPositionForm

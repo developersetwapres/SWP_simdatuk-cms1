@@ -215,7 +215,7 @@ const MasterDataPositionEditComponent = ({
     }
   }
 
-  const handleChangeHierarchies = (val) => {
+  const handleChangeHierarchies = (val, type) => {
     const datas = val.filter((itm) => itm?.name !== null)
 
     if (datas.length > 0) {
@@ -232,7 +232,7 @@ const MasterDataPositionEditComponent = ({
 
       if (dataPosition.length > 0) {
         const itemId = dataPosition.find((itm) => itm?.name == item)?.id
-        onFetchHierarchy(itemId)
+        onFetchHierarchy(itemId, type)
       }
     } else {
       const newPositions = positions.length > 0 ? positions.slice(0, 1) : []
@@ -243,6 +243,16 @@ const MasterDataPositionEditComponent = ({
   const handleClear = () => {
     formikRef.current.resetForm()
     clearPositionState()
+  }
+
+  const handleFetchHierarchies = (positionType) => {
+    if (positionType) {
+      const type = positionType !== 'Outsourcing' ? [1, 2] : [3]
+      onFetchHierarchy('', type)
+      setPositions([])
+    } else {
+      setPositions([])
+    }
   }
 
   useEffect(() => {
@@ -279,6 +289,8 @@ const MasterDataPositionEditComponent = ({
       formikRef.current?.setFieldValue('order', `${detail?.order}`, false)
       formikRef.current?.setFieldValue('position', detail?.type?.name, false)
 
+      handleFetchHierarchies(detail?.type?.name)
+
       echelons.map((itm, idx) => {
         formikRef.current?.setFieldValue(
           `echelons[${idx}].name`,
@@ -293,7 +305,10 @@ const MasterDataPositionEditComponent = ({
       })
 
       hierarchies.map((itm, idx) => {
-        onFetchHierarchy(itm?.id)
+        onFetchHierarchy(
+          itm?.id,
+          detail?.type?.name !== 'Outsourcing' ? [1, 2] : [3]
+        )
         formikRef.current?.setFieldValue(
           `parent[${idx}].name`,
           itm?.name,
@@ -342,6 +357,7 @@ const MasterDataPositionEditComponent = ({
               formikRef={formikRef}
               isPositionsLoading={positions?.loading}
               onChangeHierarchies={handleChangeHierarchies}
+              onFetchHierarchy={handleFetchHierarchies}
               {...formikProps}
             />
           </Card>
