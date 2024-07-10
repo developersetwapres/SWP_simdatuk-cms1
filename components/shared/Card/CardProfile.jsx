@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React, { useMemo } from 'react'
-import Card from '@mui/material/Card'
+/* eslint-disable indent */
+import React, { useEffect, useMemo } from 'react'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import { Button } from '..'
@@ -13,6 +13,9 @@ import Checkbox from '@mui/material/Checkbox'
 import { CardTypes } from 'libs/types/CardTypes'
 import { HiArrowsExpand } from 'react-icons/hi'
 import { useRouter } from 'next/router'
+import Card from './Index'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Pagination } from 'swiper/modules'
 
 const style = {
   cardParent: {
@@ -21,7 +24,8 @@ const style = {
       sm: '25vw',
       xs: '50vw'
     },
-    height: 'fit-content'
+    height: 'fit-content',
+    padding: 0
   },
   imageBox: {
     display: 'flex',
@@ -36,8 +40,7 @@ const style = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    position: 'relative'
+    justifyContent: 'space-between'
   }
 }
 
@@ -47,72 +50,92 @@ const CardProfile = ({
   isExpand,
   onCLick,
   isCheck,
+  isShadow = true,
+  isBorder = false,
   checkLabel,
-  handleModal = () => { },
-  handleCheck = () => { }
+  handleModal = () => {},
+  handleCheck = () => {}
 }) => {
-  const ExpandModal = useMemo(() => {
-    if (data?.slot > 1) return true
-    return false
+  const isMultipleEmployee = useMemo(() => {
+    return data?.available > 1
+  }, [data])
+
+  const hasChilds = useMemo(() => {
+    return data?.filled > 1
   }, [data])
 
   return (
-    <Card sx={rootStyle || style.cardParent}>
+    <Card
+      otherStyle={{
+        ...style.cardParent,
+        boxShadow: isShadow ? '0px 0px 12px 0px #9F9F9F26' : 'none',
+        paddingBottom: isMultipleEmployee ? '16px' : 0,
+        position: 'relative'
+      }}
+    >
       <CardContent sx={style.cardContent}>
         <Box
           sx={{
             width: '90%',
-            minHeight: '10px',
-            marginBottom: '20px',
+            marginBottom: data?.name ? '20px' : 0,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'space-between'
           }}
         >
-          {data?.position && (
+          {data?.name && (
             <Typography
               fontWeight='bold'
               gutterBottom
               textAlign='center'
               sx={{
                 width: '90%',
-                minHeight: '40px',
+                // minHeight: '40px',
                 margin: '0 auto',
                 fontSize: 14
               }}
             >
-              {data?.position}
+              {data?.name || '-'}
             </Typography>
           )}
-          {data?.slot > 1 && (
+          {isMultipleEmployee && (
             <Typography
               fontWeight='bold'
               gutterBottom
               textAlign='center'
               sx={{ margin: '4px auto 0 auto', fontSize: 14 }}
             >
-              {`(${data?.children.length}/${data?.slot})`}
+              {`(${data?.filled}/${data?.available})`}
             </Typography>
           )}
-          <Box
-            onClick={() => handleModal(data?.type, data)}
-            fontSize={18}
-            sx={{
-              display: isExpand && ExpandModal ? 'block' : 'none',
-              cursor: 'pointer',
-              position: 'absolute',
-              top: 15,
-              right: 15
-            }}
-          >
-            <HiArrowsExpand color='#895700' />
-          </Box>
+          {isShadow && hasChilds && (
+            <Box
+              onClick={() =>
+                handleModal(
+                  data?.type == 2
+                    ? CardTypes?.FUNGSIONAL
+                    : CardTypes?.STRUCTURAL,
+                  data
+                )
+              }
+              fontSize={18}
+              sx={{
+                cursor: 'pointer',
+                position: 'absolute',
+                top: 15,
+                right: 15
+              }}
+            >
+              <HiArrowsExpand color='#895700' />
+            </Box>
+          )}
         </Box>
         <ContentProfile
-          data={data?.children ? data?.children[0] : data}
-          type={data?.type}
+          data={data}
           isCheck={isCheck}
+          isBorder={isMultipleEmployee ? true : isBorder}
+          isMultipleEmployee={isMultipleEmployee}
           handleCheck={handleCheck}
         />
       </CardContent>
@@ -144,122 +167,226 @@ const ContentProfile = ({
   type,
   detailCard,
   isCheck,
+  isBorder,
   handleCheck
 }) => {
   const router = useRouter()
 
+  const employee = useMemo(() => {
+    const payload = {
+      ...data,
+      users: data?.users.length > 0 ? data?.users : [{}]
+    }
+
+    return payload
+  }, [data])
+
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={style.imageBox}>
-        {data?.image?.length > 0 ? (
-          <img src={data?.image[0]} alt='profile' height={200} width={150} />
-        ) : (
-          <Box
-            height={200}
-            width={150}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              overflow: 'hidden',
-              backgroundColor: '#f0f0f0'
-            }}
-          >
-            <Image
-              src='/simdatuk/userIcon.png'
-              alt='profile'
-              height={70}
-              width={70}
-            />
-          </Box>
-        )}
-        <Typography
-          color='primary'
-          fontWeight='600'
-          textAlign='center'
-          sx={{ height: '40px' }}
-        >
-          {data?.name || '-'}
-        </Typography>
-      </Box>
-      <Grid container spacing={1} marginY={2}>
-        {type == CardTypes?.PROFILE1 ? (
-          <>
-            <ItemDetail title='Eselon' value={data?.eselon} />
-            <ItemDetail title='Golongan' value={data?.golongan} />
-            <ItemDetail title='NIP/NRP' value={data?.nip} />
-          </>
-        ) : type == CardTypes?.PROFILE2 ? (
-          <>
-            {data?.golongan && (
-              <ItemDetail title='Jabatan' value={data?.golongan} />
-            )}
-            <ItemDetail title='TMT' value={data?.tmt} />
-            <ItemDetail title='NRP' value={data?.nip} />
-          </>
-        ) : type == CardTypes?.PROFILE3 ? (
-          <>
-            <ItemDetail title='TMT' value={data?.tmt} />
-            <ItemDetail title='Golongan' value={data?.golongan} />
-            <ItemDetail title='NIP/NRP' value={data?.nip} />
-          </>
-        ) : (
-          <ItemDetail title='TMT' value={data?.tmt} />
-        )}
-      </Grid>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          flexDirection: 'row',
-          width: '100%',
-          gap: '5px'
+    <Box
+      sx={{
+        width: '100%',
+        height: '100%',
+        border: isBorder ? '1px solid #000' : 'none',
+        borderRadius: isBorder ? '12px' : 0,
+        position: 'relative'
+      }}
+    >
+      <Swiper
+        pagination={{
+          dynamicBullets: true,
+          clickable: true
         }}
+        modules={[Pagination]}
       >
-        {data?.isProfile && (
-          <Button
-            onClick={() => router.push(data?.pathProfil)}
-            text='Lihat Profile'
-            color='sidatukDraweBase'
-            fullWidth
-            type='submit'
-            sx={{
-              color: '#fff',
-              textTransform: 'none',
-              fontSize: '10px'
+        {employee?.users.map((item, index) => (
+          <SwiperSlide
+            style={{
+              width: '100%',
+              borderRadius: isBorder ? '12px' : 0
             }}
-          />
-        )}
-        {data?.isDetail && (
-          <Button
-            onClick={() =>
-              router.push(
-                `/rekapitulasi/peta-jabatan/${btoa(data?.pathDetail)}`
-              )
-            }
-            text='Lihat Detail'
-            color='primary'
-            fullWidth
-            type='submit'
-            sx={{
-              color: '#fff',
-              textTransform: 'none',
-              fontSize: '10px'
-            }}
-          />
-        )}
-        {data?.isCheck && (
-          <FormControlLabel
-            label={'Bandingkan'}
-            control={
-              <Checkbox
-                onClick={(e) => handleCheck(e.target.checked, data)}
-                checked={isCheck}
-              />
-            }
-          />
-        )}
-      </Box>
+            key={index}
+          >
+            <Box sx={{ padding: isBorder ? '14px' : 0 }}>
+              <Box sx={style.imageBox}>
+                {/* Photo Profile */}
+                <Box
+                  sx={{
+                    width: '150px',
+                    height: '200px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    overflow: 'hidden'
+                  }}
+                >
+                  {item?.photo_profile ? (
+                    <img
+                      src={item?.photo_profile}
+                      alt='Employee Profile'
+                      style={{ width: '100%', height: 'fit-content' }}
+                    />
+                  ) : (
+                    <Image
+                      src='/simdatuk/userIcon.png'
+                      alt='profile'
+                      height={70}
+                      width={70}
+                    />
+                  )}
+                </Box>
+                {/* Name */}
+                <Typography
+                  color='primary'
+                  fontWeight='600'
+                  textAlign='center'
+                  sx={{ height: '40px' }}
+                >
+                  {item?.name
+                    ? [item?.title_prefix, item?.name, item?.title_suffix].join(
+                        ' '
+                      )
+                    : '-'}
+                </Typography>
+              </Box>
+              <Grid container spacing={1} marginY={2}>
+                {/* Detail Position */}
+                {/* 1. ASN, 2. Non ASN, 3. Outsourcing */}
+                {item?.type == 2 ? (
+                  <>
+                    {item?.position_name && (
+                      <ItemDetail title='Jabatan' value={item?.position_name} />
+                    )}
+                    <ItemDetail
+                      title='TMT'
+                      value={item?.position_effective_date || '-'}
+                    />
+                    {item?.employee_id_number && (
+                      <ItemDetail
+                        title='NRP'
+                        value={item?.employee_id_number || '-'}
+                      />
+                    )}
+                  </>
+                ) : item?.type == 3 ? (
+                  <>
+                    <ItemDetail
+                      title='Jabatan'
+                      value={item?.position_name || '-'}
+                    />
+                    <ItemDetail
+                      title='TMT'
+                      value={item?.position_effective_date || '-'}
+                    />
+                    <ItemDetail
+                      title='Golongan'
+                      value={
+                        item?.grade_name
+                          ? `${item?.grade_name} ${item?.grade_code || ''}${
+                              item?.position_effective_date
+                                ? `, ${item?.position_effective_date}`
+                                : ''
+                            }`
+                          : '-'
+                      }
+                    />
+                    <ItemDetail
+                      title='NIP/NRP'
+                      value={item?.employee_id_number || '-'}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <ItemDetail
+                      title='Eselon'
+                      value={item?.echelon_name || '-'}
+                    />
+                    <ItemDetail
+                      title='Golongan'
+                      value={
+                        item?.grade_name
+                          ? `${item?.grade_name} ${item?.grade_code || ''}${
+                              item?.position_effective_date
+                                ? `, ${item?.position_effective_date}`
+                                : ''
+                            }`
+                          : '-'
+                      }
+                    />
+                    <ItemDetail
+                      title='NIP/NRP'
+                      value={
+                        !item?.employee_id_number &&
+                        !item?.employee_register_number
+                          ? '-'
+                          : !item?.employee_register_number
+                          ? item?.employee_id_number
+                          : `${item?.employee_id_number}/${item?.employee_register_number}`
+                      }
+                    />
+                  </>
+                )}
+              </Grid>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  flexDirection: 'row',
+                  width: '100%',
+                  gap: '5px'
+                }}
+              >
+                {item?.id && (
+                  <Button
+                    onClick={() =>
+                      router.push(
+                        `/rekapitulasi/peta-jabatan/detail/${btoa(item?.id)}`
+                      )
+                    }
+                    text='Lihat Profile'
+                    color='sidatukDraweBase'
+                    fullWidth
+                    type='submit'
+                    sx={{
+                      color: '#fff',
+                      textTransform: 'none',
+                      fontSize: '10px'
+                    }}
+                  />
+                )}
+                {employee?.has_child && (
+                  <Button
+                    onClick={() =>
+                      router.push(
+                        `/rekapitulasi/peta-jabatan/${btoa(data?.id)}`
+                      )
+                    }
+                    text='Lihat Detail'
+                    color='primary'
+                    fullWidth
+                    type='submit'
+                    sx={{
+                      color: '#fff',
+                      textTransform: 'none',
+                      fontSize: '10px'
+                    }}
+                  />
+                )}
+                {isCheck && (
+                  <FormControlLabel
+                    label={'Bandingkan'}
+                    control={
+                      <Checkbox
+                        onClick={(e) => handleCheck(e.target.checked, data)}
+                        checked={isCheck}
+                      />
+                    }
+                  />
+                )}
+              </Box>
+            </Box>
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </Box>
   )
 }

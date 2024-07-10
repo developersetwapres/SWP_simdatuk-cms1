@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import PetaJabatanLayout from '@/components/PetaJabatan/PetaJabatanLayout'
 import StrukturPetaJabatan from '@/components/PetaJabatan/StrukturPetaJabatan'
@@ -11,6 +11,32 @@ const JobChart = ({ datas }) => {
   const [isModal, setIsModal] = useState(false)
   const [isTypeModal, setIsTypeModal] = useState(null)
   const [data, setData] = useState(null)
+
+  const employee = useMemo(() => {
+    if (`${datas?.id}` == '4') {
+      const payload = {
+        ...datas,
+        childs:
+          datas?.childs &&
+          datas?.childs.map((item) => {
+            return {
+              ...item,
+              type: 3,
+              users: item?.users.map((itm) => {
+                return {
+                  ...itm,
+                  type: 3
+                }
+              })
+            }
+          })
+      }
+
+      return payload
+    }
+
+    return datas
+  }, [datas])
 
   const handleModal = (type, data) => {
     setIsModal((isModal) => !isModal)
@@ -25,11 +51,15 @@ const JobChart = ({ datas }) => {
   return (
     <>
       <PetaJabatanLayout data={datas}>
-        <StrukturPetaJabatan data={datas?.children} handleModal={handleModal} />
+        <StrukturPetaJabatan
+          data={employee?.childs || []}
+          isModal={isModal}
+          handleModal={handleModal}
+        />
       </PetaJabatanLayout>
       {isTypeModal &&
         data &&
-        (isTypeModal == CardTypes?.CARDJOBS ? (
+        (isTypeModal == CardTypes?.FUNGSIONAL ? (
           <ModalJobs isModal={isModal} handleModal={handleModal} data={data} />
         ) : (
           <ModalEmployee

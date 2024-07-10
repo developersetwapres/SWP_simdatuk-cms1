@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Typography } from '@mui/material'
 import { Button } from '../shared'
@@ -6,6 +7,7 @@ import JobChart from '../shared/JobChart'
 import { useRouter } from 'next/router'
 import LayoutPages from '../core/LayoutPages'
 import ButtonExport from '../core/ButtonExport'
+import { saveFile } from '@/utils/fileSaver'
 
 const styles = {
   headerMap: {
@@ -26,8 +28,25 @@ const styles = {
   }
 }
 
-const PetaJabatanComponent = ({ data }) => {
+const PetaJabatanComponent = ({
+  diagram,
+  onFetch = () => {},
+  exportDiagrams = () => {}
+}) => {
   const router = useRouter()
+
+  const isDetail = useMemo(() => {
+    return router?.pathname.includes('[staff]')
+  }, [router])
+
+  const datas = useMemo(() => {
+    const diagramData = diagram?.data
+    if (Array.isArray(diagramData)) {
+      return diagramData
+    } else {
+      return [diagramData]
+    }
+  }, [diagram])
 
   const staffParams = useMemo(() => {
     return router?.query?.staff
@@ -36,10 +55,26 @@ const PetaJabatanComponent = ({ data }) => {
   const action = useMemo(() => {
     return (
       <Box>
-        <ButtonExport data={[{ name: 'PDF', action: () => {} }]} />
+        <ButtonExport
+          data={[{ name: 'PDF', action: () => exportDiagrams() }]}
+        />
       </Box>
     )
   }, [])
+
+  useEffect(() => {
+    const isStaff = router?.pathname.includes('[staff]')
+    const staffId = router?.query?.staff
+
+    if (staffId && isStaff) onFetch(atob(staffId))
+
+    if (!isStaff) onFetch('')
+  }, [router])
+
+  useEffect(() => {
+    const exportFile = diagram?.export
+    if (exportFile) saveFile(exportFile)
+  }, [diagram])
 
   return (
     <LayoutPages
@@ -48,19 +83,18 @@ const PetaJabatanComponent = ({ data }) => {
       action={action}
     >
       <Box sx={styles.boxParent}>
-        {!staffParams && (
-          <CardEmployment
-            title='Pejabat Kemensetneg yang Diperbantukan di Sekretariat Wakil Presiden'
-            path={`${router.asPath}/${btoa('staff-khusus-wakil-presiden')}`}
-          />
-        )}
-        <JobChart datas={data} />
-        {!staffParams && (
-          <CardEmployment
-            title='Pejabat Kemensetneg yang Diperbantukan di Sekretariat Wakil Presiden'
-            path={`${router.asPath}/${btoa('pejabat-kemensetneg-perbantuan')}`}
-          />
-        )}
+        {datas &&
+          datas.map((item, index) =>
+            item?.entity == 2 && !isDetail ? (
+              <CardEmployment
+                title={item?.name}
+                path={`${router.asPath}/${btoa(item?.id)}`}
+                key={index}
+              />
+            ) : (
+              <JobChart datas={item} key={index} />
+            )
+          )}
       </Box>
     </LayoutPages>
   )
@@ -90,7 +124,9 @@ CardEmployment.propTypes = {
 }
 
 PetaJabatanComponent.propTypes = {
-  data: PropTypes.object
+  diagram: PropTypes.object,
+  onFetch: PropTypes.func,
+  exportDiagrams: PropTypes.func
 }
 
 export default PetaJabatanComponent

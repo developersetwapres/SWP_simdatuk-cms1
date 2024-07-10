@@ -1,12 +1,43 @@
 /* eslint-disable indent */
-import React from 'react'
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useMemo } from 'react'
 import { Box } from '@mui/material'
 import PropTypes from 'prop-types'
-import { CardTypes } from 'libs/types/CardTypes'
 import CardProfile from '../shared/Card/CardProfile'
 import CardJobs from '../shared/Card/CardJobs'
 
-const StrukturPetaJabatan = ({ data, styleBoxProfile, handleModal }) => {
+const StrukturPetaJabatan = ({
+  data,
+  isModal,
+  styleBoxProfile,
+  handleModal
+}) => {
+  if (data.length == 0) return null
+
+  const datas = useMemo(() => {
+    const arr = []
+    let grouping = null
+
+    data.map((item) => {
+      if (item?.type == 2) {
+        if (!grouping) {
+          grouping = {
+            ...item,
+            childs: [item]
+          }
+        } else {
+          grouping?.childs?.push(item)
+        }
+      } else {
+        arr.push(item)
+      }
+    })
+
+    if (grouping?.childs?.length > 0) arr.unshift(grouping)
+
+    return arr
+  }, [data])
+
   return (
     <>
       <hr
@@ -60,83 +91,92 @@ const StrukturPetaJabatan = ({ data, styleBoxProfile, handleModal }) => {
             gap: '30px'
           }}
         >
-          {data.map((item, index) => (
-            <Box
-              key={index}
-              sx={{
-                minWidth: {
-                  md: data.length < 3 ? `${100 / 2}%` : '18vw',
-                  sm: '25vw',
-                  xs: '50vw'
-                }
-              }}
-            >
+          {datas &&
+            datas.map((item, index) => (
               <Box
+                key={index}
                 sx={{
-                  display: 'flex',
-                  justifyContent:
-                    index == '0'
-                      ? 'flex-start'
-                      : index + 1 == data.length
-                      ? 'flex-end'
-                      : 'center',
-                  padding: 0,
-                  margin: 0
+                  width: {
+                    sm:
+                      datas.length == 1
+                        ? `${100 / 2}%`
+                        : datas.length > 1 && datas.length <= 3
+                        ? `${100 / datas.length}%`
+                        : '18vw',
+                    xs: '50vw'
+                  },
+                  height: 'git-content'
                 }}
               >
-                <hr
-                  style={{
-                    width:
-                      index == '0' || index + 1 == data.length
-                        ? '49.6%'
-                        : '100%',
-                    height: '2px',
-                    border: 0,
-                    margin: 0,
-                    backgroundColor:
-                      index == '0' || index + 1 == data.length
-                        ? '#F4F4F4'
-                        : '#394346'
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent:
+                      index == '0'
+                        ? 'flex-start'
+                        : index + 1 == datas.length
+                        ? 'flex-end'
+                        : 'center',
+                    padding: 0,
+                    margin: 0
                   }}
-                />
-              </Box>
-
-              {item?.type == CardTypes?.CARDJOBS ? (
-                <>
+                >
                   <hr
                     style={{
-                      height: '50px',
-                      backgroundColor: '#394346',
-                      width: '2px',
+                      width:
+                        index == '0' || index + 1 == datas.length
+                          ? '49.6%'
+                          : '100%',
+                      height: '2px',
                       border: 0,
-                      margin: '0 auto'
+                      margin: 0,
+                      backgroundColor:
+                        index == '0' || index + 1 == datas.length
+                          ? '#F4F4F4'
+                          : '#394346'
                     }}
-                  />
-                  <CardJobs data={item} handleModal={handleModal} />
-                </>
-              ) : (
-                <Box>
-                  <hr
-                    style={{
-                      height: '50px',
-                      width: '2px',
-                      border: 0,
-                      backgroundColor: '#394346',
-                      margin: '0 auto'
-                    }}
-                  />
-                  <CardProfile
-                    rootStyle={styleBoxProfile}
-                    data={item}
-                    isProfile
-                    isDetail
-                    handleModal={handleModal}
-                    isExpand={item?.slot > 1}
                   />
                 </Box>
-              )}
-            </Box>
-          ))}
+                {item?.type == 2 ? (
+                  <>
+                    <hr
+                      style={{
+                        height: '50px',
+                        backgroundColor: '#394346',
+                        width: '2px',
+                        border: 0,
+                        margin: '0 auto'
+                      }}
+                    />
+                    <CardJobs
+                      data={item}
+                      isModal={isModal}
+                      handleModal={handleModal}
+                    />
+                  </>
+                ) : (
+                  <Box>
+                    <hr
+                      style={{
+                        height: '50px',
+                        width: '2px',
+                        border: 0,
+                        backgroundColor: '#394346',
+                        margin: '0 auto'
+                      }}
+                    />
+                    <CardProfile
+                      rootStyle={styleBoxProfile}
+                      data={item}
+                      isProfile
+                      isDetail
+                      handleModal={handleModal}
+                      isExpand={item?.slot > 1}
+                    />
+                  </Box>
+                )}
+              </Box>
+            ))}
         </Box>
       </Box>
     </>
@@ -145,6 +185,7 @@ const StrukturPetaJabatan = ({ data, styleBoxProfile, handleModal }) => {
 
 StrukturPetaJabatan.propTypes = {
   data: PropTypes.array,
+  isModal: PropTypes.bool,
   handleModal: PropTypes.func,
   styleBoxProfile: PropTypes.object
 }

@@ -1,10 +1,12 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect } from 'react'
+/* eslint-disable indent */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @next/next/no-img-element */
+import React, { useMemo } from 'react'
 import { Box, Grid, Typography } from '@mui/material'
 import Image from 'next/image'
 import { Button } from '../shared'
 import PropTypes from 'prop-types'
-import { CardTypes } from 'libs/types/CardTypes'
 import { useRouter } from 'next/router'
 
 const styles = {
@@ -17,6 +19,8 @@ const styles = {
     gap: '15px'
   },
   leaderBox: {
+    width: '700px',
+    padding: '20px',
     backgroundColor: '#fff',
     justifyContent: {
       xs: 'center',
@@ -24,189 +28,228 @@ const styles = {
       md: 'center',
       lg: 'flex-start',
       xl: 'flex-start'
-    }
+    },
+    gap: '20px',
+    borderRadius: '12px'
   }
 }
 
 const PetaJabatanLayout = ({ data, children }) => {
   const router = useRouter()
 
-  useEffect(() => {
-    console.log('router', router)
+  const isDetail = useMemo(() => {
+    return router?.pathname.includes('[staff]')
   }, [router])
 
-  return (
-    <>
-      <Grid
-        container
-        direction='column'
-        justifyContent='center'
-        alignItems='center'
-      >
-        {data?.name == null ? (
-          <Box width='40vw' borderRadius={3} sx={styles.headerMap}>
-            <Typography textAlign='center' fontWeight='bold'>
-              {data?.position}
-            </Typography>
-            {data?.isDetail && <Button text='Lihat Detail' marginBottom={4} />}
-          </Box>
-        ) : (
-          <Grid
-            item
-            container
-            padding={2}
-            width='40vw'
-            borderRadius={3}
-            sx={styles.leaderBox}
-            columnSpacing={2}
-          >
-            {/* Jabatan */}
-            <Grid item xs={12}>
-              <Typography
-                variant='h6'
-                component='p'
-                fontSize='16px'
-                fontWeight='600'
-                textAlign='center'
-                color='#394346'
-              >
-                {data?.position || '-'}
-              </Typography>
-            </Grid>
-            <Grid container item spacing={3} sx={{ marginY: '20px' }}>
-              {/* Avatar */}
-              <Grid item xs={3}>
-                {data?.image ? (
-                  <Box
-                    height={200}
-                    width={150}
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      overflow: 'hidden',
-                      backgroundColor: '#f0f0f0'
-                    }}
-                  >
-                    <Image
-                      src={data?.image}
-                      width={150}
-                      height={200}
-                      alt='avatar'
-                    />
-                  </Box>
-                ) : (
-                  <Box
-                    height={200}
-                    width={150}
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      overflow: 'hidden',
-                      backgroundColor: '#f0f0f0'
-                    }}
-                  >
-                    <Image
-                      src='/simdatuk/userIcon.png'
-                      alt='profile'
-                      height={70}
-                      width={70}
-                    />
-                  </Box>
-                )}
-              </Grid>
-              {/* Bio */}
-              <Grid item xs={9}>
-                <Typography color='primary' fontSize='16px' fontWeight='600'>
-                  {data?.name || '-'}
-                </Typography>
-                <Grid
-                  item
-                  container
-                  paddingY={2}
-                  justifyContent='space-between'
-                >
-                  {data?.type == CardTypes?.PROFILE4 ? (
-                    <Grid item xs={12}>
-                      <Typography fontSize={16}>TMT</Typography>
-                      <Typography fontWeight='600' fontSize={14}>
-                        {data?.tmt || '-'}
-                      </Typography>
-                    </Grid>
-                  ) : (
-                    <>
-                      <Grid item lg={3} xs={4}>
-                        <Typography fontSize={16}>Eselon</Typography>
-                        <Typography fontWeight='600' fontSize={14}>
-                          {data?.eselon || '-'}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={4}>
-                        <Typography>Golongan</Typography>
-                        <Typography fontWeight='600' fontSize={14}>
-                          {data?.golongan || '-'}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={4}>
-                        <Typography>NIP/NRP</Typography>
-                        <Typography
-                          fontWeight='600'
-                          fontSize={14}
-                          sx={{
-                            whiteSpace: 'pre-wrap',
-                            wordWrap: 'break-word'
-                          }}
-                        >
-                          {data?.nip || '-'}
-                        </Typography>
-                      </Grid>
-                    </>
-                  )}
-                </Grid>
-              </Grid>
-            </Grid>
+  const employee = useMemo(() => {
+    const payload = {
+      ...data,
+      user: { ...data?.users[0], has_child: data?.has_child } || {}
+    }
+    return payload
+  }, [data, router])
 
-            {/* Action */}
-            {(data?.isDetail || data?.isProfile) && (
-              <Grid container item xs={12} columnSpacing={2}>
-                {data?.isProfile && (
-                  <Grid item xs={data?.isDetail ? 6 : 12}>
-                    <Button
-                      text='Lihat Profil'
-                      onClick={() =>
-                        router.push(`/rekapitulasi/peta-jabatan/detail/${btoa(1)}`)
-                      }
-                      sx={{
-                        backgroundColor: '#394346',
-                        width: '100%'
-                      }}
-                    />
+  return (
+    <Grid
+      container
+      direction='column'
+      justifyContent='center'
+      alignItems='center'
+    >
+      {employee?.entity == 2 ? (
+        <Box width='40vw' borderRadius={3} sx={styles.headerMap}>
+          <Typography textAlign='center' fontWeight='bold'>
+            {employee?.name}
+          </Typography>
+          {data?.isDetail && <Button text='Lihat Detail' marginBottom={4} />}
+        </Box>
+      ) : (
+        <Grid item container sx={styles.leaderBox}>
+          {/* Jabatan */}
+          <Grid item xs={12}>
+            <Typography
+              variant='h6'
+              component='p'
+              sx={{
+                width: '70%',
+                margin: '0 auto',
+                fontSize: '16px',
+                fontWeight: 600,
+                color: '#394346',
+                textAlign: 'center'
+              }}
+            >
+              {employee?.name || '-'}
+            </Typography>
+          </Grid>
+          <Grid container item spacing={3}>
+            {/* Avatar */}
+            <Grid item xs={3}>
+              {employee?.user?.photo_profile ? (
+                <Box
+                  height={200}
+                  width={150}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    overflow: 'hidden',
+                    backgroundColor: '#f0f0f0'
+                  }}
+                >
+                  <img
+                    src={employee?.user?.photo_profile}
+                    alt='Employee Profile'
+                    style={{ width: '100%', height: 'fit-content' }}
+                  />
+                </Box>
+              ) : (
+                <Box
+                  height={200}
+                  width={150}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    overflow: 'hidden',
+                    backgroundColor: '#f0f0f0'
+                  }}
+                >
+                  <Image
+                    src='/simdatuk/userIcon.png'
+                    alt='profile'
+                    height={70}
+                    width={70}
+                  />
+                </Box>
+              )}
+            </Grid>
+            {/* Bio */}
+            <Grid item container xs={9} paddingY={2} sx={{ paddingX: '20px' }}>
+              {/* Name */}
+              <Grid item xs={12}>
+                <Typography color='primary' fontSize='16px' fontWeight='600'>
+                  {employee?.user?.name
+                    ? [
+                        employee?.user?.title_prefix,
+                        employee?.user?.name,
+                        employee?.user?.title_suffix
+                      ].join(' ')
+                    : '-'}
+                </Typography>
+              </Grid>
+              {employee?.user?.type == 1 ? (
+                <>
+                  {/* Echelon */}
+                  <Grid item xs={4}>
+                    <Typography fontSize={16}>Eselon</Typography>
+                    <Typography fontWeight='600' fontSize={14}>
+                      {employee?.user?.echelon_name || '-'}
+                    </Typography>
                   </Grid>
-                )}
-                {data?.isDetail && (
-                  <Grid item xs={data?.isProfile ? 6 : 12}>
-                    <Button
-                      text='Lihat Detail'
-                      onClick={() =>
-                        router.push(
-                          `/rekapitulasi/peta-jabatan/${btoa(data?.pathDetail)}`
-                        )
-                      }
-                      sx={{
-                        width: '100%'
-                      }}
-                    />
+                  {/* Grade */}
+                  <Grid item xs={4}>
+                    <Typography>Golongan</Typography>
+                    <Typography fontWeight='600' fontSize={14}>
+                      {employee?.user?.grade_name || '-'}
+                      {employee?.user?.grade_code
+                        ? ` ${employee?.user?.grade_code}`
+                        : ''}
+                      {employee?.user?.position_effective_date
+                        ? `, ${employee?.user?.position_effective_date}`
+                        : ''}
+                    </Typography>
                   </Grid>
-                )}
+                  {/* NIP/NRP */}
+                  <Grid item xs={4}>
+                    <Typography>NIP/NRP</Typography>
+                    <Typography
+                      fontWeight='600'
+                      fontSize={14}
+                      sx={{
+                        whiteSpace: 'pre-wrap',
+                        wordWrap: 'break-word'
+                      }}
+                    >
+                      {`${employee?.user?.employee_id_number || '-'}${
+                        employee?.user?.employee_register_number ? '/' : ''
+                      }`}
+                    </Typography>
+                    {employee?.user?.employee_register_number && (
+                      <Typography
+                        fontWeight='600'
+                        fontSize={14}
+                        sx={{
+                          whiteSpace: 'pre-wrap',
+                          wordWrap: 'break-word'
+                        }}
+                      >
+                        {employee?.user?.employee_register_number}
+                      </Typography>
+                    )}
+                  </Grid>
+                </>
+              ) : (
+                <>
+                  {/* NIP/NRP */}
+                  <Grid item xs={4}>
+                    <Typography>TMT</Typography>
+                    <Typography
+                      fontWeight='600'
+                      fontSize={14}
+                      sx={{
+                        whiteSpace: 'pre-wrap',
+                        wordWrap: 'break-word'
+                      }}
+                    >
+                      {employee?.user?.position_effective_date || '-'}
+                    </Typography>
+                  </Grid>
+                </>
+              )}
+            </Grid>
+          </Grid>
+          {/* Action */}
+          <Grid container item xs={12} columnSpacing={2}>
+            {employee?.user?.id && (
+              <Grid item xs={employee?.has_child && !isDetail ? 6 : 12}>
+                <Button
+                  text='Lihat Profil'
+                  onClick={() =>
+                    router.push(
+                      `/rekapitulasi/peta-jabatan/detail/${btoa(
+                        employee?.user?.id
+                      )}`
+                    )
+                  }
+                  sx={{
+                    backgroundColor: '#394346',
+                    width: '100%'
+                  }}
+                />
+              </Grid>
+            )}
+            {employee?.has_child && !isDetail && (
+              <Grid item xs={6}>
+                <Button
+                  text='Lihat Detail'
+                  onClick={() => {
+                    router.push(
+                      `/rekapitulasi/peta-jabatan/${btoa(employee?.id)}`
+                    )
+                  }}
+                  sx={{
+                    width: '100%'
+                  }}
+                />
               </Grid>
             )}
           </Grid>
-        )}
+        </Grid>
+      )}
 
-        {children}
-      </Grid>
-    </>
+      {children}
+    </Grid>
   )
 }
 

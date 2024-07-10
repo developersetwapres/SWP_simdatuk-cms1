@@ -7,15 +7,14 @@ import Layout from '@/components/core/Layout'
 import PetaJabatanComponent from '@/components/PetaJabatan/PetaJabatanComponent'
 
 export default connect(
-  mapStateToProps(),
-  mapActions()
+  mapStateToProps('diagram'),
+  mapActions('getDiagrams', 'exportDiagrams')
 )(
   class PetaJabatanContainer extends Component {
     static propTypes = {
-      banner: PropTypes.object,
-      data: PropTypes.object,
-      getBanners: PropTypes.func,
-      deleteListBanner: PropTypes.func
+      diagram: PropTypes.object,
+      exportDiagrams: PropTypes.func,
+      getDiagrams: PropTypes.func
     }
 
     constructor(props) {
@@ -23,6 +22,11 @@ export default connect(
       this.state = {
         willRender: false
       }
+      this.fetch = this.fetch.bind(this)
+    }
+
+    fetch(id) {
+      this.props.getDiagrams(id)
     }
 
     componentDidMount() {
@@ -36,7 +40,11 @@ export default connect(
     render() {
       return (
         <Layout willRender={this.state.willRender}>
-          <PetaJabatanComponent {...this.state} {...this.props} />
+          <PetaJabatanComponent
+            onFetch={this.fetch}
+            {...this.state}
+            {...this.props}
+          />
         </Layout>
       )
     }
