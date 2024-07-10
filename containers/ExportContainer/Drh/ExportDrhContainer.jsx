@@ -7,15 +7,24 @@ import Layout from '@/components/core/Layout'
 import ExportDrhComponent from '@/components/ExportComponent/Drh/ExportDrhComponent'
 
 export default connect(
-  mapStateToProps('role'),
-  mapActions('getRoles', 'getRolesOptions', 'deleteRole')
+  mapStateToProps('exportDRH', 'echelon', 'grade', 'position'),
+  mapActions(
+    'exportDRH',
+    'getEchelonsOptions',
+    'getGradesOptions',
+    'getPositions'
+  )
 )(
   class ExportDrhContainer extends Component {
     static propTypes = {
-      role: PropTypes.object,
-      getRoles: PropTypes.func,
-      getRolesOptions: PropTypes.func,
-      deleteRole: PropTypes.func
+      echelon: PropTypes.object,
+      grade: PropTypes.object,
+      position: PropTypes.object,
+      exportDRH: PropTypes.object,
+      getPositions: PropTypes.func,
+      getEchelonsOptions: PropTypes.func,
+      getGradesOptions: PropTypes.func,
+      exportDRH: PropTypes.func
     }
 
     constructor(props) {
@@ -23,69 +32,19 @@ export default connect(
       this.state = {
         queries: {
           page: 1,
-          limit: 10,
+          limit: 10000,
           search: ''
         },
         willRender: false
       }
       this.fetch = this.fetch.bind(this)
-      this.fetchGetRolesOptions = this.fetchGetRolesOptions.bind(this)
-      this.onPaginationChange = this.onPaginationChange.bind(this)
-      this.onRowsPerPageChange = this.onRowsPerPageChange.bind(this)
-      this.onSearch = this.onSearch.bind(this)
-      this.onClearState = this.onClearState.bind(this)
       this.setLoading = this.setLoading.bind(this)
     }
 
     fetch(queries) {
-      this.props.getRoles(queries)
-    }
-
-    fetchGetRolesOptions() {
-      this.props.getRolesOptions({
-        page: 1,
-        limit: 10000,
-        search: ''
-      })
-    }
-
-    onPaginationChange(page) {
-      const queries = {
-        ...this.state.queries,
-        page: page
-      }
-      this.setState({ queries })
-      this.fetch(queries)
-    }
-
-    onRowsPerPageChange(limit) {
-      const queries = {
-        ...this.state.queries,
-        page: 1,
-        limit
-      }
-      this.setState({ queries })
-      this.fetch(queries)
-    }
-
-    onSearch(value) {
-      const queries = {
-        ...this.state.queries,
-        search: value || '',
-        page: 1
-      }
-      this.setState({ queries })
-      this.fetch(queries)
-    }
-
-    onClearState() {
-      const queries = {
-        ...this.state.queries,
-        search: '',
-        page: 1
-      }
-      this.setState({ queries })
-      this.fetch(queries)
+      this.props.getEchelonsOptions(queries)
+      this.props.getGradesOptions(queries)
+      this.props.getPositions({ ...queries, filterParent: false, parentId: '' })
     }
 
     setLoading(val) {
@@ -96,19 +55,13 @@ export default connect(
 
     componentDidMount() {
       this.fetch(this.state.queries)
-      this.fetchGetRolesOptions()
     }
 
     render() {
       return (
         <Layout willRender={this.state.willRender}>
           <ExportDrhComponent
-            onSearch={this.onSearch}
             onLoading={this.setLoading}
-            onFetch={this.fetch}
-            onFetchOptions={this.fetchGetRolesOptions}
-            onPaginationChange={this.onPaginationChange}
-            onRowsPerPageChange={this.onRowsPerPageChange}
             {...this.state}
             {...this.props}
           />

@@ -1,292 +1,249 @@
+/* eslint-disable indent */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 import PropTypes from 'prop-types'
 import LayoutPages from '@/components/core/LayoutPages'
 import { Button } from '@/components/shared'
-import { Box, Paper, Typography, Divider, Grid } from '@mui/material'
-import { Autocomplete } from '@/components/shared'
-import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
-import { useSelector } from 'react-redux'
+import { Box } from '@mui/material'
+import Card from '@/components/shared/Card/Index'
+import ExportDrfForm from './ExportDrfForm'
+import { Formik } from 'formik'
+import * as Yup from 'yup'
+import { retirementAge } from 'libs/types/options'
 
-const ExportDrhComponent = ({
-  role,
-  queries,
-  onFetch = () => {},
-  onFetchOptions = () => {},
-  onSearch = () => {},
-  onLoading = () => {},
-  onPaginationChange = () => {},
-  onRowsPerPageChange = () => {},
-  deleteRole = () => {}
-}) => {
-  const modal = useSelector((state) => state.modalReducer)
-
-  const [modalDelete, setModalDelete] = useState(false)
-  const [deleteValue, setDeleteValue] = useState(null)
-  const [deleteId, setDeleteId] = useState(null)
-
-  const handleSetValue = (val) => {
-    const data = role?.options.filter((itm) => itm?.name == val)[0]
-    setDeleteValue(data)
-  }
-
-  const handleDelete = () => {
-    const payload = {
-      id: deleteId,
-      data: { role_id: deleteValue?.id }
-    }
-
-    deleteRole(payload)
-  }
-
-  const handleModal = () => {
-    const newVal = !modalDelete
-
-    setModalDelete(newVal)
-
-    if (!newVal) {
-      setDeleteId(null)
-      setDeleteValue(null)
-    }
-  }
-
-  const options = useMemo(() => {
-    let newOptions = []
-    const datas = role?.options
-
-    if (datas) {
-      if (deleteId) {
-        const newData = datas
-          .filter((itm) => itm?.id !== deleteId)
-          .map((itm) => itm?.name)
-        newOptions = newData
-      } else {
-        const newData = datas.map((itm) => itm?.name)
-        newOptions = newData
-      }
-    }
-
-    return newOptions
-  }, [role, deleteId])
-
-  const action = useMemo(() => {
-    return (
-      <Box sx={{ display: 'flex', gap: 1 }}>
-        <Button text='Reset' color='danger' onClick={() => {}} />
-        <Button text='Export' onClick={() => {}} />
-      </Box>
-    )
-  }, [])
-
-  useEffect(() => {
-    const state = !role?.loading
-    onLoading(state)
-  }, [role])
-
-  useEffect(() => {
-    if (modal?.code !== null) handleModal()
-    if (!modal?.modal && role?.data.length > 0) {
-      onFetch(queries)
-      onFetchOptions()
-    }
-  }, [modal])
-
-  return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-      <LayoutPages summary='Export DRH' action={action}>
-        <Paper sx={{ padding: 2 }}>
-          <Typography fontSize='12' color='#895700' fontWeight='700'>
-            Filter Data
-          </Typography>
-          <Divider sx={{ border: '1px solid #929292', margin: '10px 0px' }} />
-
-          <Grid container direction='row' spacing={3} rowSpacing={2}>
-            <Grid item xs={6}>
-              <Autocomplete
-                options={['a', 'b']}
-                name={`name`}
-                placeholder='Pilih Satuan Organisasi'
-                multiple={true}
-                label='Satuan Organisasi'
-                error={''}
-                onChange={(val) => {}}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <Autocomplete
-                options={['a', 'b']}
-                name={`name`}
-                placeholder='Pilih Pegawai'
-                multiple={true}
-                label='Pegawai'
-                error={''}
-                onChange={(val) => {}}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <Autocomplete
-                options={['a', 'b']}
-                name={`name`}
-                placeholder='Pilih Deputi'
-                multiple={true}
-                label='Deputi'
-                error={''}
-                onChange={(val) => {}}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <Autocomplete
-                options={['a', 'b']}
-                name={`name`}
-                placeholder='Pilih Eselon'
-                multiple={true}
-                label='Eselon'
-                error={''}
-                onChange={(val) => {}}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <Autocomplete
-                options={['a', 'b']}
-                name={`name`}
-                placeholder='Pilih Golongan'
-                multiple={true}
-                label='Golongan'
-                error={''}
-                onChange={(val) => {}}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <Autocomplete
-                options={['a', 'b']}
-                name={`name`}
-                placeholder='Pilih Keterangan Jabatan'
-                multiple={true}
-                label='Keterangan Jabatan'
-                error={''}
-                onChange={(val) => {}}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <Autocomplete
-                options={['a', 'b']}
-                name={`name`}
-                placeholder='Pilih Riwayat Pendidikan'
-                multiple={true}
-                label='Riwayat Pendidikan'
-                error={''}
-                onChange={(val) => {}}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <Autocomplete
-                options={['a', 'b']}
-                name={`name`}
-                placeholder='Pilih Jenis Kelamin'
-                multiple={true}
-                label='Jenis Kelamin'
-                error={''}
-                onChange={(val) => {}}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <Autocomplete
-                options={['a', 'b']}
-                name={`name`}
-                placeholder='Pilih Umur'
-                multiple={true}
-                label='Umur'
-                error={''}
-                onChange={(val) => {}}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <Autocomplete
-                options={['a', 'b']}
-                name={`name`}
-                placeholder='Pilih Status Perkawinan'
-                multiple={true}
-                label='Status Perkawinan'
-                error={''}
-                onChange={(val) => {}}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <Autocomplete
-                options={['a', 'b']}
-                name={`name`}
-                placeholder='Pilih Batas Usia Pensiun'
-                multiple={true}
-                label='Batas Usia Pensiun'
-                error={''}
-                onChange={(val) => {}}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <Autocomplete
-                options={['a', 'b']}
-                name={`name`}
-                placeholder='Pilih Masa Kerja Keseluruhan'
-                multiple={true}
-                label='Masa Kerja Keseluruhan'
-                error={''}
-                onChange={(val) => {}}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <Autocomplete
-                options={['a', 'b']}
-                name={`name`}
-                placeholder='Pilih Masa Kerja Golongan'
-                multiple={true}
-                label='Masa Kerja Golongan'
-                error={''}
-                onChange={(val) => {}}
-              />
-            </Grid>
-          </Grid>
-        </Paper>
-      </LayoutPages>
-
-      <ModalConfirmDelete
-        label='Role Pengguna'
-        title='Hapus Data Role Pengguna'
-        copytext='Apakah anda yakin akan menghapus data role pengguna ? Jika ya, silahkan pilih role pengguna lain sebagai pengganti'
-        options={options}
-        open={modalDelete}
-        value={deleteValue?.name || null}
-        isLoading={role?.loading}
-        handleModal={handleModal}
-        handleDelete={handleDelete}
-        handleSetValue={handleSetValue}
-      />
-    </Box>
-  )
+const InitValue = {
+  organization: [],
+  employeeType: [],
+  deputy: [],
+  echelon: [],
+  grade: [],
+  positionDesc: [],
+  educationHistory: [],
+  gender: [],
+  age: { min: '', max: '' },
+  retirementAge: [],
+  maritalStatus: [],
+  totalWorkingTime: [],
+  gradeWorkingTime: []
 }
 
+const FormSchema = Yup.object().shape({
+  age: Yup.object().shape({
+    min: Yup.string()
+      .nullable()
+      .test('min', 'Umur minimal tidak boleh kosong', function (value) {
+        const { max } = this.parent
+        if (max && !value) return false
+        return true
+      }),
+    max: Yup.string()
+      .nullable()
+      .test('max', 'Umur maksimal tidak boleh kosong', function (value) {
+        const { min } = this.parent
+        if (min && !value) return false
+        return true
+      })
+  })
+})
+
+const ExportDrhComponent = ({
+  echelon,
+  grade,
+  position,
+  exportDRH = () => {},
+  onLoading = () => {}
+}) => {
+  const formikRef = useRef(null)
+
+  const options = useMemo(() => {
+    const newEchelon =
+      (echelon?.options && echelon?.options.map((itm) => itm?.name)) || []
+    const newGrade =
+      (grade?.options && grade?.options.map((itm) => itm?.name)) || []
+    const newPosition =
+      (position?.data && position?.data.map((itm) => itm?.name)) || []
+
+    const data = {
+      employeeType: ['ASN', 'Non ASN', 'Outsourcing'],
+      gender: ['Laki-Laki', 'Perempuan'],
+      educationHistory: [
+        'SD/Sederajat',
+        'SLTP/Sederajat',
+        'SLTA/Sederajat',
+        'Akademik/D3/S.Muda',
+        'Diploma IV',
+        'Strata I',
+        'Strata II',
+        'Strata III'
+      ],
+      maritalStatus: ['Belum Menikah', 'Menikah', 'Cerai', 'Janda', 'Duda'],
+      organization: ['A', 'B', 'C'],
+      deputy: newPosition,
+      echelon: newEchelon,
+      grade: newGrade,
+      positionDesc: ['Mutasi', 'Promosi', 'Inpassing', 'Konversi'],
+      age: [],
+      retirementAge,
+      totalWorkingTime: [],
+      gradeWorkingTime: []
+    }
+
+    return data
+  }, [echelon, grade, position])
+
+  const handleGetValueID = (type, val) => {
+    if (type == 'echelon') {
+      const item = echelon?.options
+        .filter((itm) => val.includes(itm?.name))
+        .map((itm) => itm?.id)
+
+      return item
+    } else if (type == 'grade') {
+      const item = grade?.options
+        .filter((itm) => val.includes(itm?.name))
+        .map((itm) => itm?.id)
+
+      return item
+    } else {
+      const index = options[type]
+        .map((itm, idx) => {
+          if (val.includes(itm)) return idx + 1
+        })
+        .filter((itm) => itm !== undefined)
+
+      return index
+    }
+  }
+
+  const handleParseKey = (val) => {
+    switch (val) {
+      case 'organization':
+        return 'organization'
+      case 'employeeType':
+        return 'employee_type'
+      case 'deputy':
+        return 'deputy'
+      case 'echelon':
+        return 'echelons'
+      case 'grade':
+        return 'grades'
+      case 'positionDesc':
+        return 'position_status'
+      case 'educationHistory':
+        return 'education'
+      case 'gender':
+        return 'gender'
+      case 'age':
+        return 'age'
+      case 'retirementAge':
+        return 'retirement_age'
+      case 'maritalStatus':
+        return 'marital_status'
+      case 'total_working_time':
+        return 'total_working_time'
+      case 'grade_working_time':
+        return 'grade_working_time'
+      default:
+        return null
+    }
+  }
+
+  const handleSubmit = async (values) => {
+    try {
+      await FormSchema.validate(values, { abortEarly: false })
+      formikRef.current.setErrors({})
+
+      const payload = Object.fromEntries(
+        Object.entries(values)
+          .filter((itm) => itm[1].length > 0)
+          .map((itm) => {
+            const newValue = handleGetValueID(itm[0], itm[1])
+            return [handleParseKey(itm[0]), newValue]
+          })
+      )
+      exportDRH(payload)
+    } catch (err) {
+      if (!err.inner || err.inner.length === 0) return
+
+      const newErrors = {}
+      err.inner.forEach((error) => {
+        newErrors[error.path] = error.message
+        formikRef.current.setFieldError(error.path, error.message)
+      })
+
+      const firstErrorField = err.inner[0].path
+      const firstErrorEl = document.querySelector(`[name="${firstErrorField}"]`)
+      firstErrorEl &&
+        firstErrorEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
+  }
+
+  const handleReset = () => {
+    formikRef.current.resetForm()
+  }
+
+  const handleAction = (values) => {
+    const state = Object.values(values).every((value) => {
+      if (Array.isArray(value)) {
+        return value.length === 0
+      } else if (typeof value === 'object' && value !== null) {
+        return Object.values(value).every((v) => v === '')
+      } else {
+        return value === ''
+      }
+    })
+
+    return state
+  }
+
+  useEffect(() => {
+    const state = !echelon?.loading && !grade?.loading && !position?.loading
+    onLoading(state)
+  }, [echelon, grade, position])
+
+  return (
+    <Formik
+      innerRef={formikRef}
+      initialValues={InitValue}
+      validationSchema={FormSchema}
+      onSubmit={() => {}}
+    >
+      {(formikProps) => (
+        <LayoutPages
+          summary='Export DRH'
+          action={
+            <Box sx={{ display: 'flex', gap: 1 }}>
+              <Button
+                text='Reset'
+                color='danger'
+                sx={{ width: '65px', height: '43px' }}
+                isBusy={handleAction(formikProps?.values)}
+                onClick={handleReset}
+              />
+              <Button
+                text='Export'
+                sx={{ width: '65px', height: '43px' }}
+                isBusy={handleAction(formikProps?.values)}
+                onClick={() => handleSubmit(formikProps?.values)}
+              />
+            </Box>
+          }
+        >
+          <Card>
+            <ExportDrfForm options={options} {...formikProps} />
+          </Card>
+        </LayoutPages>
+      )}
+    </Formik>
+  )
+}
 ExportDrhComponent.propTypes = {
-  role: PropTypes.object,
-  queries: PropTypes.object,
-  onFetch: PropTypes.func,
-  onFetchOptions: PropTypes.func,
-  onSearch: PropTypes.func,
-  onLoading: PropTypes.func,
-  onPaginationChange: PropTypes.func,
-  onRowsPerPageChange: PropTypes.func,
-  deleteRole: PropTypes.func
+  echelon: PropTypes.object,
+  grade: PropTypes.object,
+  position: PropTypes.object,
+  exportDRH: PropTypes.func,
+  onLoading: PropTypes.func
 }
 
 export default ExportDrhComponent
