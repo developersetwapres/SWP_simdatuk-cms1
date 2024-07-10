@@ -22,6 +22,7 @@ import * as asnReducer from './recap/asnReducer'
 import * as nonASNReducer from './recap/nonASNReducer'
 import * as outsourceReducer from './recap/outsourceReducer'
 import * as promotionReducer from './recap/promotionReducer'
+import * as diagramReducer from './recap/diagramReducer'
 
 // Emplyee
 import * as employeeReducer from './employeeReducer'
@@ -82,7 +83,8 @@ const reducers = {
   ...exportComparisonReducer,
   ...exportPromotionReducer,
   ...positionReducer,
-  ...groupReducer
+  ...groupReducer,
+  ...diagramReducer
 }
 
 export default reducers

@@ -28,6 +28,7 @@ import asnSaga from './recap/asnSaga'
 import nonASNSaga from './recap/nonASNSaga'
 import outsourceSaga from './recap/outsourceSaga'
 import promotionSaga from './recap/promotionSaga'
+import diagramSaga from './recap/diagramSaga'
 
 // Employee
 import employeeSaga from './employeeSaga'
@@ -79,6 +80,7 @@ export default function* rootSaga() {
     exportComparisonSaga(),
     exportPromotionSaga(),
     positionSaga(),
-    groupSaga()
+    groupSaga(),
+    diagramSaga()
   ])
 }

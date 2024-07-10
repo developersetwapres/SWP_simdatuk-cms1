@@ -22,6 +22,7 @@ import * as recapASN from './recap/asn'
 import * as recapNonASN from './recap/non_asn'
 import * as recapOutsource from './recap/outsource'
 import * as recapPromotion from './recap/promotion'
+import * as recapDiagram from './recap/diagram'
 
 // Employee
 import * as employee from './employee'
@@ -78,7 +79,8 @@ const actions = {
   ...exportPromotion,
   ...exportComparison,
   ...position,
-  ...group
+  ...group,
+  ...recapDiagram
 }
 
 export default actions
