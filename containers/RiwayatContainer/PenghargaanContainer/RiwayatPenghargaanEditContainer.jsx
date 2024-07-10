@@ -10,6 +10,7 @@ export default connect(
   mapStateToProps('recognition', 'employee', 'decree'),
   mapActions(
     'getRecognition',
+    'getRecognitionsOptions',
     'updateRecognition',
     'getEmployees',
     'getDecrees',
@@ -22,6 +23,7 @@ export default connect(
       employee: PropTypes.object,
       decree: PropTypes.object,
       getRecognition: PropTypes.func,
+      getRecognitionsOptions: PropTypes.func,
       updateRecognition: PropTypes.func,
       getEmployees: PropTypes.func,
       getDecrees: PropTypes.func,
@@ -43,6 +45,7 @@ export default connect(
     }
 
     fetch(queries) {
+      this.props.getRecognitionsOptions(queries)
       this.props.getEmployees(queries)
       this.props.getDecrees(queries)
     }

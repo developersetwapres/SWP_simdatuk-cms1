@@ -8,7 +8,12 @@ import RiwayatPenghargaanAddComponent from '@/components/Riwayat/Penghargaan/Riw
 
 export default connect(
   mapStateToProps('recognition', 'employee', 'decree'),
-  mapActions('postRecognition', 'getEmployees', 'getDecrees')
+  mapActions(
+    'postRecognition',
+    'getRecognitionsOptions',
+    'getEmployees',
+    'getDecrees'
+  )
 )(
   class RiwayatPenghargaanAddContainer extends Component {
     static propTypes = {
@@ -16,6 +21,7 @@ export default connect(
       employee: PropTypes.object,
       decree: PropTypes.object,
       postRecognition: PropTypes.func,
+      getRecognitionsOptions: PropTypes.func,
       getEmployees: PropTypes.func,
       getDecrees: PropTypes.func
     }
@@ -35,6 +41,7 @@ export default connect(
     }
 
     fetch(queries) {
+      this.props.getRecognitionsOptions(queries)
       this.props.getEmployees(queries)
       this.props.getDecrees(queries)
     }

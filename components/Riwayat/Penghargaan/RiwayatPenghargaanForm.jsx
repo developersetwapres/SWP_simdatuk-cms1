@@ -43,17 +43,17 @@ const RiwayatJabatanForm = ({
       <Grid container spacing={3}>
         {/* Nama Penghargaan */}
         <Grid item xs={6}>
-          <Input
-            label='Nama Penghargaan *'
-            placeholder='Masukkan Nama Penghargaan'
+          <Autocomplete
+            options={options?.recognitions}
             name='namaPenghargaan'
+            placeholder='Pilih Nama Penghargaan '
+            label='Nama Penghargaan *'
             value={values?.namaPenghargaan}
             error={errors?.namaPenghargaan}
-            onChange={(e) => {
-              const val = e?.target?.value
-              setFieldValue(`namaPenghargaan`, val, false)
+            onChange={(val) => {
+              setFieldValue('namaPenghargaan', val, false)
               setTimeout(() => {
-                formikRef.current.validateField(`namaPenghargaan`)
+                formikRef.current.validateField('namaPenghargaan')
               }, 1)
             }}
           />

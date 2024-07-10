@@ -14,7 +14,7 @@ import moment from 'moment'
 import { monthOptions } from 'libs/types/options'
 
 const InitValue = {
-  namaPenghargaan: '',
+  namaPenghargaan: null,
   keteranganPenghargaan: '',
   jenisSk: null,
   tanggalSk: '',
@@ -63,22 +63,30 @@ const RiwayatPenghargaanEditComponent = ({
   const formikRef = useRef(null)
 
   const options = useMemo(() => {
-    const newEmployees = employee?.data.map((itm) => {
-      return `${itm?.name} - ${itm?.employee_id_number}`
-    })
-    const newDecree = decree?.data.map((itm) => itm?.name)
+    const newEmployees =
+      employee?.data &&
+      employee?.data.map((itm) => {
+        return `${itm?.name} - ${itm?.employee_id_number}`
+      })
+    const newDecree = decree?.data && decree?.data.map((itm) => itm?.name)
+    const newRecognitions =
+      recognition?.options && recognition?.options.map((item) => item?.name)
 
     const data = {
       employee: newEmployees || [],
       decree: newDecree || [],
-      month: monthOptions || []
+      month: monthOptions || [],
+      recognitions: newRecognitions || []
     }
 
     return data
-  }, [employee, decree])
+  }, [employee, decree, recognition])
 
   const handleGetValueId = (val, type) => {
-    if (type == 'employee') {
+    if (type == 'recognition') {
+      const dataFilter = recognition?.options.find((item) => item?.name == val)
+      return dataFilter?.id
+    } else if (type == 'employee') {
       const dataFilter = employee?.data.find(
         (itm) => itm?.name == val.split(' - ')[0]
       )?.id
@@ -92,6 +100,13 @@ const RiwayatPenghargaanEditComponent = ({
       const dataFilter = decree?.data.find((itm) => itm?.name == val)?.id
 
       return dataFilter
+    }
+  }
+
+  const handleGetValue = (type, id) => {
+    if (type == 'recognition') {
+      const item = recognition?.options.find((item) => item?.id == id)
+      return item?.name
     }
   }
 
@@ -194,7 +209,11 @@ const RiwayatPenghargaanEditComponent = ({
         ? new Date(detail?.date_of_receipt)
         : ''
 
-      formikRef.current?.setFieldValue('namaPenghargaan', detail?.name, false)
+      formikRef.current?.setFieldValue(
+        'namaPenghargaan',
+        handleGetValue('recognition', detail?.recognition_id),
+        false
+      )
       formikRef.current?.setFieldValue('periode.bulan', periodMonth, false)
       formikRef.current?.setFieldValue('periode.tahun', periodYear, false)
       formikRef.current?.setFieldValue(
