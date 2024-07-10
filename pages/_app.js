@@ -11,6 +11,9 @@ import ModalResponse from '@/components/shared/Modal/ModalResponse'
 import ModalCatchError from '@/components/core/ModalCatchError'
 import Snackbar from '@/components/shared/Snackbar'
 import 'react-datepicker/dist/react-datepicker.css'
+import 'swiper/css'
+import 'swiper/css/pagination'
+import '../styles/globals.css'
 
 const __REDUX_STORE__ = '__REDUX_STORE__'
 

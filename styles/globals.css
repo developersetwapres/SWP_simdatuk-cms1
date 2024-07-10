@@ -14,3 +14,28 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.swiper {
+  position: unset;
+}
+
+.swiper .swiper-pagination {
+  height: 20pxN;
+  position: absolute;
+  bottom: -20px;
+  right: 0;
+  left: 0;
+}
+
+.swiper .swiper-pagination .swiper-pagination-bullet {
+  background: #929292;
+  opacity: 1;
+}
+
+.swiper
+  .swiper-pagination
+  .swiper-pagination-bullet.swiper-pagination-bullet-active-main {
+  width: 24px;
+  border-radius: 10px;
+  background: #895700;
+}
