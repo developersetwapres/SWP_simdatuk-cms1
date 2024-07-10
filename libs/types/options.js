@@ -41,7 +41,7 @@ export const employeeStatusOptions = [
   'CLTN',
   'TBLN',
   'Non Aktif',
-  'Hukdis'
+  'Hukuman Disiplin'
 ]
 
 export const employeeEducationLevelOptions = [
@@ -175,7 +175,7 @@ export const talentPoolsOptions = [
 
 export const entityOptions = ['Orang', 'Kelompok']
 
-export const positionTypeOptions = ['Struktural', 'Fungsional', 'Operasional']
+export const positionTypeOptions = ['Struktural', 'Fungsional', 'Outsourcing']
 
 export const employeeTypeOptions = ['ASN', 'NON-ASN', 'OUTSOURCE']
 
