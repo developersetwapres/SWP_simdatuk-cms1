@@ -49,7 +49,11 @@ function ModalCatchError({ responserReducer, closeModal = () => {} }) {
       router.reload('/auth/login')
       closeModal()
     } else {
-      router.push(responserReducer?.redirect)
+      if (responserReducer?.redirect) {
+        router.push(responserReducer?.redirect)
+      } else {
+        router.reload()
+      }
       closeModal()
     }
   }
@@ -78,7 +82,7 @@ function ModalCatchError({ responserReducer, closeModal = () => {} }) {
               <Button
                 text='Tutup'
                 type='button'
-                color='warning'
+                color='primary'
                 sx={{
                   padding: '12px',
                   width: '440px',
