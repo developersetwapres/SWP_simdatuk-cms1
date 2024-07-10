@@ -188,3 +188,5 @@ export const periodCreditsOptions = [
   'Triwulan 4',
   'Tahunan'
 ]
+
+export const retirementAge = ['53', '58', '60', '65']
