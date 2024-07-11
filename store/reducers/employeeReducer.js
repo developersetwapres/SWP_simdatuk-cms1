@@ -18,7 +18,10 @@ import {
   DELETE_EMPLOYEE_REQUESTED,
   DELETE_EMPLOYEE_SUCCESS,
   DELETE_EMPLOYEE_FAILED,
-  CLEAR_EMPLOYEE_STATE
+  CLEAR_EMPLOYEE_STATE,
+  SYNC_EMPLOYEES_REQUESTED,
+  SYNC_EMPLOYEES_SUCCESS,
+  SYNC_EMPLOYEES_FAILED
 } from '../constants'
 
 const initialState = {
@@ -31,11 +34,26 @@ const initialState = {
   data: []
 }
 
-// eslint-disable-next-line no-unused-vars
 export const employee = (state = initialState, action) => {
   const payload = action?.payload
 
   switch (action.type) {
+    case SYNC_EMPLOYEES_REQUESTED:
+      return {
+        ...state,
+        loading: true
+      }
+    case SYNC_EMPLOYEES_SUCCESS:
+      return {
+        ...state,
+        loading: false
+      }
+    case SYNC_EMPLOYEES_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: payload?.error
+      }
     case GET_EMPLOYEES_REQUESTED:
       return {
         ...state,

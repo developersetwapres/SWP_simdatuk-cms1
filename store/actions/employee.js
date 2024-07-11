@@ -5,7 +5,8 @@ import {
   UPDATE_EMPLOYEE_REQUESTED,
   DELETE_EMPLOYEE_REQUESTED,
   CLEAR_EMPLOYEE_STATE,
-  UPDATE_EMPLOYEE_STATUS_REQUESTED
+  UPDATE_EMPLOYEE_STATUS_REQUESTED,
+  SYNC_EMPLOYEES_REQUESTED
 } from '../constants'
 
 /**
@@ -82,4 +83,13 @@ export const updateEmployeeStatus = (payload) => ({
  */
 export const clearEmployeeState = () => ({
   type: CLEAR_EMPLOYEE_STATE
+})
+
+/**
+ * Synchronize Employees Data
+ *
+ * @returns
+ */
+export const synchronizeEmployees = () => ({
+  type: SYNC_EMPLOYEES_REQUESTED
 })

@@ -25,7 +25,10 @@ import {
   SET_MODAL,
   UPDATE_EMPLOYEE_STATUS_REQUESTED,
   UPDATE_EMPLOYEE_STATUS_FAILED,
-  UPDATE_EMPLOYEE_STATUS_SUCCESS
+  UPDATE_EMPLOYEE_STATUS_SUCCESS,
+  SYNC_EMPLOYEES_REQUESTED,
+  SYNC_EMPLOYEES_SUCCESS,
+  SYNC_EMPLOYEES_FAILED
 } from '../constants'
 import {
   deleteEmployeeAction,
@@ -33,12 +36,61 @@ import {
   postEmployeeAction,
   getEmployeeAction,
   updateEmployeeAction,
-  updateEmployeeStatusAction
+  updateEmployeeStatusAction,
+  synchronizeEmployeesAction
 } from './action/employeeAction'
 import Router from 'next/router'
 
 /**
- * Fetch banner
+ * Synchronize Employees Data
+ *
+ * @returns
+ */
+function* synchronizeEmployees() {
+  try {
+    const res = yield call(synchronizeEmployeesAction)
+    const payload = res?.data
+
+    yield put({
+      type: SYNC_EMPLOYEES_SUCCESS,
+      payload: payload,
+      redirect: 'refresh'
+    })
+  } catch (err) {
+    const errors = err?.data
+
+    yield put({
+      type: SYNC_EMPLOYEES_FAILED,
+      payload: errors?.message
+    })
+
+    if (errors?.code === 403) {
+      yield put({
+        type: ACTION_RESPONSER,
+        payload: {
+          code: errors?.code,
+          message: errors?.message,
+          redirect: '/profile'
+        }
+      })
+    } else {
+      if (errors?.code === 400) {
+        yield put({
+          type: CATCH_ERROR,
+          payload: errors?.message
+        })
+      } else {
+        yield put({
+          type: SYNC_EMPLOYEES_FAILED,
+          payload: errors?.message
+        })
+      }
+    }
+  }
+}
+
+/**
+ * Get Employees Data
  *
  * @param {*} action
  * @returns
@@ -341,6 +393,7 @@ function* updateEmployeeStatus(action) {
 }
 
 function* employeeSaga() {
+  yield takeEvery(SYNC_EMPLOYEES_REQUESTED, synchronizeEmployees)
   yield takeEvery(GET_EMPLOYEES_REQUESTED, getEmployees)
   yield takeEvery(GET_EMPLOYEE_REQUESTED, getEmployee)
   yield takeEvery(DELETE_EMPLOYEE_REQUESTED, deleteEmployee)

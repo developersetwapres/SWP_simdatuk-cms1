@@ -7,7 +7,12 @@ import Layout from '@/components/core/Layout'
 
 export default connect(
   mapStateToProps('employee', 'grade', 'position'),
-  mapActions('getEmployees', 'getGradesOptions', 'getPositions')
+  mapActions(
+    'synchronizeEmployees',
+    'getEmployees',
+    'getGradesOptions',
+    'getPositions'
+  )
 )(
   class EmployeeASNContainer extends Component {
     static propTypes = {
@@ -16,7 +21,8 @@ export default connect(
       position: PropTypes.object,
       getEmployees: PropTypes.func,
       getGradesOptions: PropTypes.func,
-      getPositions: PropTypes.func
+      getPositions: PropTypes.func,
+      synchronizeEmployees: PropTypes.func
     }
 
     constructor(props) {

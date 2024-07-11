@@ -35,11 +35,12 @@ const EmployeeASNComponent = ({
   employee,
   grade,
   position,
-  onLoading = () => {},
-  onSearch = () => {},
-  onFilter = () => {},
-  onPaginationChange = () => {},
-  onRowsPerPageChange = () => {}
+  synchronizeEmployees = () => { },
+  onLoading = () => { },
+  onSearch = () => { },
+  onFilter = () => { },
+  onPaginationChange = () => { },
+  onRowsPerPageChange = () => { }
 }) => {
   const router = useRouter()
 
@@ -198,7 +199,7 @@ const EmployeeASNComponent = ({
         <Button
           text='Sinkronisasi Data'
           sx={{ backgroundColor: '#F16637' }}
-          onClick={() => {}}
+          onClick={() => synchronizeEmployees()}
         />
         <Button
           text='Tambah Massal'
@@ -254,7 +255,9 @@ const EmployeeASNComponent = ({
   }
 
   useEffect(() => {
-    const state = !employee?.loading && !grade?.loading && !position?.loading
+    const state = !(
+      employee?.loading || grade?.loading || position?.loading
+    )
     onLoading(state)
   }, [employee, grade, position])
 
@@ -281,6 +284,7 @@ EmployeeASNComponent.propTypes = {
   position: PropTypes.object,
   grade: PropTypes.object,
   onLoading: PropTypes.func,
+  synchronizeEmployees: PropTypes.func,
   onSearch: PropTypes.func,
   onFilter: PropTypes.func,
   onPaginationChange: PropTypes.func,
