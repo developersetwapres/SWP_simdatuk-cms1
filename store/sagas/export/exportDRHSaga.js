@@ -21,12 +21,13 @@ import { exportDRHAction } from '../action/export/exportDRHAction'
 function* exportDrh(action) {
   try {
     const res = yield call(exportDRHAction, action?.payload)
-
     const payload = res?.data
+    const pagination = res?.pagination
 
     yield put({
       type: EXPORT_DRH_SUCCESS,
-      payload: payload
+      payload,
+      pagination
     })
   } catch (err) {
     const errors = err?.data

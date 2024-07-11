@@ -15,8 +15,7 @@ const initialState = {
   data: []
 }
 
-// eslint-disable-next-line no-unused-vars
-export const exportDRH = (state = initialState, action) => {
+export const exportDRHData = (state = initialState, action) => {
   const payload = action?.payload
 
   switch (action.type) {

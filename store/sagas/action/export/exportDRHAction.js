@@ -1,6 +1,6 @@
-import { getWithBody } from '@/utils/interceptors'
+import { post } from '@/utils/interceptors'
 
-const basePath = '/export/employees-zip'
+const basePath = '/export/employees-drh'
 
 /**
  * Export DRH Action
@@ -9,5 +9,7 @@ const basePath = '/export/employees-zip'
  * @returns
  */
 export const exportDRHAction = (payload) => {
-  return getWithBody(`${basePath}`, null, payload)
+  return post(`${basePath}`, payload, {
+    responseType: 'blob'
+  })
 }
