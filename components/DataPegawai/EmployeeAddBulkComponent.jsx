@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import LayoutPages from '@/components/core/LayoutPages'
 import { useRouter } from 'next/router'
 import { Button, Table } from '@/components/shared'
@@ -13,6 +13,8 @@ import {
 import Paper from '@/components/shared/overrides/Paper'
 import { styled } from '@mui/styles'
 import { FiberManualRecord } from '@mui/icons-material'
+import PropTypes from 'prop-types'
+import { SaveAs, saveFile } from '@/utils/fileSaver'
 
 const data = [
   {
@@ -96,7 +98,12 @@ const style = {
   }
 }
 
-const EmployeeAddBulkComponent = () => {
+const EmployeeAddBulkComponent = ({
+  employee,
+  downloadTemplate = () => { },
+  clearTemplate = () => { },
+  setLoading = () => { }
+}) => {
   const router = useRouter()
 
   const [selectedFile, setSelectedFile] = useState(null)
@@ -154,6 +161,37 @@ const EmployeeAddBulkComponent = () => {
     return dataMapping
   }, [data])
 
+  const downloadTemplateFile = () => {
+    const path = router?.asPath
+    let employeeType = 1
+
+    if (path?.includes('/data-pegawai/asn')) {
+      employeeType = 1
+    } else if (path?.includes('/data-pegawai/non-asn')) {
+      employeeType = 2
+    } else {
+      employeeType = 3
+    }
+
+    downloadTemplate(employeeType)
+  }
+
+  const getFileName = () => {
+    const prefix = 'TEMPLATE_PEGAWAI'
+    return prefix + '.xlsx'
+  }
+
+  useEffect(() => {
+    if (employee?.template) {
+      saveFile(employee?.template, getFileName(), SaveAs.XLS)
+      clearTemplate()
+    }
+  }, [employee])
+
+  useEffect(() => {
+    setLoading(!(employee?.loading))
+  }, [employee])
+
   return (
     <LayoutPages
       handleBack={() => router.back()}
@@ -172,7 +210,7 @@ const EmployeeAddBulkComponent = () => {
             <Button
               text='Download File Template'
               color='sidatukDraweBase'
-              onClick={() => {}}
+              onClick={downloadTemplateFile}
               sx={{ textTransform: 'none' }}
             />
             <MuiButton
@@ -198,7 +236,7 @@ const EmployeeAddBulkComponent = () => {
             <Button
               text='Update File'
               color='success'
-              onClick={() => {}}
+              onClick={() => { }}
               sx={{ textTransform: 'none' }}
             />
             <Button
@@ -274,6 +312,13 @@ const EmployeeAddBulkComponent = () => {
       </Box>
     </LayoutPages>
   )
+}
+
+EmployeeAddBulkComponent.propTypes = {
+  employee: PropTypes.object,
+  downloadTemplate: PropTypes.func,
+  clearTemplate: PropTypes.func,
+  setLoading: PropTypes.func
 }
 
 export default EmployeeAddBulkComponent

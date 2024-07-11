@@ -6,33 +6,38 @@ import Layout from '@/components/core/Layout'
 import EmployeeAddBulkComponent from '@/components/DataPegawai/EmployeeAddBulkComponent'
 
 export default connect(
-  mapStateToProps(),
-  mapActions()
+  mapStateToProps('employee'),
+  mapActions('downloadTemplate', 'clearTemplate')
 )(
   class EmployeeASNContainer extends Component {
     static propTypes = {
-      data: PropTypes.object
+      employee: PropTypes.object,
+      downloadTemplate: PropTypes.func,
+      clearTemplate: PropTypes.func
     }
 
     constructor(props) {
       super(props)
       this.state = {
-        willRender: false
+        willRender: true
       }
+      this.setLoading = this.setLoading.bind(this)
     }
 
-    componentDidMount() {
-      setTimeout(() => {
-        this.setState({
-          willRender: true
-        })
-      }, 2000)
+    componentDidMount() { }
+
+    setLoading(val) {
+      this.setState({ willRender: val })
     }
 
     render() {
       return (
         <Layout willRender={this.state.willRender}>
-          <EmployeeAddBulkComponent {...this.state} {...this.props} />
+          <EmployeeAddBulkComponent
+            {...this.state}
+            {...this.props}
+            setLoading={this.setLoading}
+          />
         </Layout>
       )
     }
