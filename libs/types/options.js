@@ -190,3 +190,17 @@ export const periodCreditsOptions = [
 ]
 
 export const retirementAge = ['53', '58', '60', '65']
+
+export const deputyOptions = [
+  'Deputi Bidang Dukungan Kebijakan Pembangunan Ekonomi dan Peningkatan Daya Saing',
+  'Deputi Bidang Dukungan Kebijakan Pembangunan Manusia dan Pemerataan Pembangunan',
+  'Deputi Bidang Dukungan Kebijakan Pemerintahan dan Wawasan Kebangsaan',
+  'Deputi Bidang Administrasi'
+]
+
+export const workingPeriodOptions = [
+  '0 - 5 Tahun', '5 - 10 Tahun', '10 - 15 Tahun', '15 - 20 Tahun',
+  '20 - 25 Tahun', '25 - 30 Tahun', '30 - 35 Tahun',
+  '35 - 40 Tahun', '45 - 50 Tahun', '50 - 55 Tahun',
+  '55 - 60 Tahun', '65 - 70 Tahun'
+]
