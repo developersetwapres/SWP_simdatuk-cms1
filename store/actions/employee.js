@@ -6,7 +6,9 @@ import {
   DELETE_EMPLOYEE_REQUESTED,
   CLEAR_EMPLOYEE_STATE,
   UPDATE_EMPLOYEE_STATUS_REQUESTED,
-  SYNC_EMPLOYEES_REQUESTED
+  SYNC_EMPLOYEES_REQUESTED,
+  DOWNLOAD_TEMPLATE_REQUESTED,
+  CLEAR_TEMPLATE
 } from '../constants'
 
 /**
@@ -92,4 +94,23 @@ export const clearEmployeeState = () => ({
  */
 export const synchronizeEmployees = () => ({
   type: SYNC_EMPLOYEES_REQUESTED
+})
+
+/**
+ * Synchronize Employees Data
+ *
+ * @returns
+ */
+export const downloadTemplate = (payload) => ({
+  type: DOWNLOAD_TEMPLATE_REQUESTED,
+  payload
+})
+
+/**
+ * Clear Template
+ *
+ * @returns
+ */
+export const clearTemplate = () => ({
+  type: CLEAR_TEMPLATE
 })

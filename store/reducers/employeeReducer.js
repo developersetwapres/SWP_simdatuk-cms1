@@ -21,7 +21,11 @@ import {
   CLEAR_EMPLOYEE_STATE,
   SYNC_EMPLOYEES_REQUESTED,
   SYNC_EMPLOYEES_SUCCESS,
-  SYNC_EMPLOYEES_FAILED
+  SYNC_EMPLOYEES_FAILED,
+  DOWNLOAD_TEMPLATE_REQUESTED,
+  DOWNLOAD_TEMPLATE_SUCCESS,
+  DOWNLOAD_TEMPLATE_FAILED,
+  CLEAR_TEMPLATE
 } from '../constants'
 
 const initialState = {
@@ -31,13 +35,32 @@ const initialState = {
   errorForm: {},
   detail: {},
   pagination: {},
-  data: []
+  data: [],
+  template: null
 }
 
 export const employee = (state = initialState, action) => {
   const payload = action?.payload
 
   switch (action.type) {
+    case DOWNLOAD_TEMPLATE_REQUESTED:
+      return {
+        ...state,
+        loading: true
+      }
+    case DOWNLOAD_TEMPLATE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        template: payload
+      }
+    case DOWNLOAD_TEMPLATE_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: payload?.error
+      }
+    // SYNC
     case SYNC_EMPLOYEES_REQUESTED:
       return {
         ...state,
@@ -54,6 +77,7 @@ export const employee = (state = initialState, action) => {
         loading: false,
         error: payload?.error
       }
+    // EMPLOYEES
     case GET_EMPLOYEES_REQUESTED:
       return {
         ...state,
@@ -72,6 +96,7 @@ export const employee = (state = initialState, action) => {
         loading: false,
         error: payload?.error
       }
+    // EMPLOYEE DETAIL
     case GET_EMPLOYEE_REQUESTED:
       return {
         ...state,
@@ -89,6 +114,7 @@ export const employee = (state = initialState, action) => {
         loading: false,
         error: payload?.error
       }
+    // POST EMPLOYEE
     case POST_EMPLOYEE_REQUESTED:
       return {
         ...state,
@@ -110,6 +136,7 @@ export const employee = (state = initialState, action) => {
         error: payload?.error,
         errorForm: payload?.data
       }
+    // DELETE EMPLOYEE
     case DELETE_EMPLOYEE_REQUESTED:
       return {
         ...state,
@@ -129,6 +156,7 @@ export const employee = (state = initialState, action) => {
         isSubmit: false,
         error: payload?.error
       }
+    // UPDATE EMPLOYEE
     case UPDATE_EMPLOYEE_REQUESTED:
       return {
         ...state,
@@ -149,6 +177,7 @@ export const employee = (state = initialState, action) => {
         isSubmit: false,
         errorForm: payload?.data
       }
+    // UPDATE STATUS
     case UPDATE_EMPLOYEE_STATUS_REQUESTED:
       return {
         ...state,
@@ -164,6 +193,12 @@ export const employee = (state = initialState, action) => {
         ...state,
         loading: false,
         error: payload?.error
+      }
+    // CLEAR STATE
+    case CLEAR_TEMPLATE:
+      return {
+        ...state,
+        template: null
       }
     case CLEAR_EMPLOYEE_STATE:
       return {

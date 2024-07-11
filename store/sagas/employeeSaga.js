@@ -28,7 +28,10 @@ import {
   UPDATE_EMPLOYEE_STATUS_SUCCESS,
   SYNC_EMPLOYEES_REQUESTED,
   SYNC_EMPLOYEES_SUCCESS,
-  SYNC_EMPLOYEES_FAILED
+  SYNC_EMPLOYEES_FAILED,
+  DOWNLOAD_TEMPLATE_REQUESTED,
+  DOWNLOAD_TEMPLATE_SUCCESS,
+  DOWNLOAD_TEMPLATE_FAILED
 } from '../constants'
 import {
   deleteEmployeeAction,
@@ -37,9 +40,57 @@ import {
   getEmployeeAction,
   updateEmployeeAction,
   updateEmployeeStatusAction,
-  synchronizeEmployeesAction
+  synchronizeEmployeesAction,
+  downloadTemplateAction
 } from './action/employeeAction'
 import Router from 'next/router'
+
+/**
+ * Download Template
+ *
+ * @returns
+ */
+function* downloadTemplate(action) {
+  try {
+    const res = yield call(downloadTemplateAction, action?.payload)
+    const payload = res?.data
+
+    yield put({
+      type: DOWNLOAD_TEMPLATE_SUCCESS,
+      payload: payload
+    })
+  } catch (err) {
+    const errors = err?.data
+
+    yield put({
+      type: DOWNLOAD_TEMPLATE_FAILED,
+      payload: errors?.message
+    })
+
+    if (errors?.code === 403) {
+      yield put({
+        type: ACTION_RESPONSER,
+        payload: {
+          code: errors?.code,
+          message: errors?.message,
+          redirect: '/profile'
+        }
+      })
+    } else {
+      if (errors?.code === 400) {
+        yield put({
+          type: CATCH_ERROR,
+          payload: errors?.message
+        })
+      } else {
+        yield put({
+          type: DOWNLOAD_TEMPLATE_FAILED,
+          payload: errors?.message
+        })
+      }
+    }
+  }
+}
 
 /**
  * Synchronize Employees Data
@@ -393,6 +444,7 @@ function* updateEmployeeStatus(action) {
 }
 
 function* employeeSaga() {
+  yield takeEvery(DOWNLOAD_TEMPLATE_REQUESTED, downloadTemplate)
   yield takeEvery(SYNC_EMPLOYEES_REQUESTED, synchronizeEmployees)
   yield takeEvery(GET_EMPLOYEES_REQUESTED, getEmployees)
   yield takeEvery(GET_EMPLOYEE_REQUESTED, getEmployee)

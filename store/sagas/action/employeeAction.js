@@ -1,4 +1,5 @@
-import { get, del, post, put, patch } from '@/utils/interceptors'
+/* eslint-disable no-unused-vars */
+import { get, del, post, put, patch, getBlob } from '@/utils/interceptors'
 import { queryParams } from '@/utils/'
 
 const basePath = '/employees'
@@ -80,4 +81,13 @@ export const updateEmployeeStatusAction = (payload) => {
  */
 export const synchronizeEmployeesAction = () => {
   return patch('/employees/synchronization')
+}
+
+/**
+ * Download Template of Employees
+ *
+ * @returns
+ */
+export const downloadTemplateAction = (type) => {
+  return getBlob(`/employees/import/download-template/${type}`)
 }
