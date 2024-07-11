@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import LayoutPages from '@/components/core/LayoutPages'
 import { Button, Table } from '@/components/shared'
@@ -13,71 +13,143 @@ import {
   Checkbox,
   Button as MuiButton
 } from '@mui/material'
-import { Autocomplete } from '@/components/shared'
+import { Autocomplete, Input } from '@/components/shared'
 import FormControlLabel from '@mui/material/FormControlLabel'
-import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
-import { useSelector } from 'react-redux'
+import { Formik } from 'formik'
+import {
+  deputyOptions,
+  employeeEducationLevelOptions,
+  employeeTypeOptions,
+  genderOptions,
+  maritalStatusOptions,
+  periodOptions,
+  positionDescOptions,
+  predicateOptions,
+  ratingOptions,
+  ratingOrganizationOptions,
+  retirementAge,
+  workingPeriodOptions
+} from 'libs/types/options'
+import { v4 as uuidv4 } from 'uuid'
+
+const checkboxes = [
+  {
+    title: 'Data Diri',
+    checkbox: 'personalData',
+    children: [
+      { name: 'name', label: 'Nama' },
+      { name: 'registrationNumber', label: 'NIP/NRP' },
+      { name: 'birthInfo', label: 'Tempat, Tanggal Lahir' },
+      { name: 'age', label: 'Umur' },
+      { name: 'religion', label: 'Agama' },
+      { name: 'gender', label: 'Jenis Kelamin' },
+      { name: 'maritalStatus', label: 'Status Perkawinan' },
+      { name: 'employeeType', label: 'Jenis Pegawai' },
+      { name: 'assistanceType', label: 'Jenis Perbantuan' },
+      { name: 'outsourcingType', label: 'Jenis Outsourcing' },
+      { name: 'cpnsEffectiveDate', label: 'TMT CPNS' },
+      { name: 'firstDateOfWorking', label: 'Tanggal Mulai Bekerja' },
+      { name: 'lastDateOfWorking', label: 'Tanggal Terakhir Bekerja' },
+      { name: 'totalWorkingPeriod', label: 'Masa Kerja Keseluruhan' },
+      { name: 'groupWorkingPeriod', label: 'Masa Kerja Golongan' },
+      { name: 'position', label: 'Jabatan' },
+      { name: 'positionEffectiveDate', label: 'TMT Menjabat' },
+      { name: 'grade', label: 'Golongan' },
+      { name: 'gradeEffectiveDate', label: 'TMT Golongan' },
+      { name: 'parentOrganization', label: 'Instansi Induk' },
+      { name: 'employeeCardNumber', label: 'No. Karpeg' },
+      { name: 'employeePartnerCard', label: 'No. Karisu' },
+      { name: 'taxNumber', label: 'NPWP' },
+      { name: 'employmentStatus', label: 'Status Pegawai' },
+      { name: 'familyCardNumber', label: 'No. KK' },
+      { name: 'identityNumber', label: 'No. NIK' },
+      { name: 'residence', label: 'Nama Komplek' },
+      { name: 'domicile', label: 'Alamat Tempat Tinggal Saat Ini' },
+      { name: 'homePhoneNumber', label: 'No. Telepon Rumah' },
+      { name: 'phoneNumber', label: 'No. HP' },
+      { name: 'office', label: 'Alamat Kantor' },
+      { name: 'officePhone', label: 'No. Telepon Kantor' },
+      { name: 'email', label: 'Email' },
+      { name: 'workEmail', label: 'Email Dinas' },
+      { name: 'description', label: 'Keterangan' },
+      { name: 'emergencyContact', label: 'Kontak Darurat' },
+      { name: 'retirementLimitAge', label: 'Batas Usia Pensiun' }
+    ]
+  },
+  {
+    title: 'Data Riwayat',
+    checkbox: 'historyData',
+    children: [
+      { name: 'educationHistory', label: 'Riwayat Pendidikan' },
+      { name: 'positionHistory', label: 'Riwayat Jabatan' },
+      { name: 'gradeHistory', label: 'Riwayat Golongan' },
+      { name: 'structuralHistory', label: 'Riwayat Pelatihan Struktural' },
+      { name: 'functionalHistory', label: 'Riwayat Pelatihan Fungsional' },
+      { name: 'technicalHistory', label: 'Riwayat Pelatihan Teknis' },
+      { name: 'awardHistory', label: 'Riwayat Penghargaan' },
+      { name: 'skpHistory', label: 'Riwayat SKP' },
+      { name: 'paktHistory', label: 'Riwayat Penetapan Angka Kredit Terakhir' },
+      { name: 'recognitionHistory', label: 'Riwayat Penilaian Prestasi Kerja' },
+      { name: 'disciplinaryHistory', label: 'Riwayat Hukuman Disiplin' },
+      { name: 'familyHistory', label: 'Keluarga' },
+      { name: 'leaveHistory', label: 'Cuti' },
+      { name: 'notesHistory', label: 'Catatan' },
+      { name: 'assessmentHistory', label: 'Hasil Assessment' },
+      { name: 'competenceHistory', label: 'Hasil Uji Kompetensi' },
+      { name: 'talentHistory', label: 'Hasil Talent Pool' }
+    ]
+  }
+]
+
+const InitValue = {
+  // Data
+  employeeType: null,
+  deputy: null,
+  echelon: null,
+  grade: null,
+  positionDescription: null,
+  education: null,
+  gender: null,
+  minAge: null,
+  maxAge: null,
+  maritalStatus: null,
+  retirementLimitAge: null,
+  totalWorkingPeriod: null,
+  gradeWorkingPeriod: null,
+  // SKP
+  assessmentPeriod: null,
+  skpYear: null,
+  workBehaviorRating: null,
+  employeePerformancePredicate: null,
+  organizationalPerformanceAchievements: null,
+  // Angka Kredit Terakhir
+  creditPeriod: null,
+  creditYear: null,
+  // Output
+  output: null,
+  // Checkboxes
+  checkboxes: []
+}
 
 const ExportEmployeeComponent = ({
-  role,
-  queries,
-  onFetch = () => {},
-  onFetchOptions = () => {},
-  onSearch = () => {},
-  onLoading = () => {},
-  onPaginationChange = () => {},
-  onRowsPerPageChange = () => {},
-  deleteRole = () => {}
+  grade,
+  echelon,
+  exportEmployeeData,
+  onLoading = () => { },
+  onPaginationChange = () => { },
+  onRowsPerPageChange = () => { },
+  clearExportEmployeesState = () => { }
 }) => {
-  const modal = useSelector((state) => state.modalReducer)
+  const formikRef = useRef()
+  const [showPreview, setShowPreview] = useState(false)
 
-  const [modalDelete, setModalDelete] = useState(false)
-  const [deleteValue, setDeleteValue] = useState(null)
-  const [deleteId, setDeleteId] = useState(null)
-
-  const handleSetValue = (val) => {
-    const data = role?.options.filter((itm) => itm?.name == val)[0]
-    setDeleteValue(data)
+  const togglePreview = () => {
+    setShowPreview(!showPreview)
   }
 
-  const handleDelete = () => {
-    const payload = {
-      id: deleteId,
-      data: { role_id: deleteValue?.id }
-    }
-
-    deleteRole(payload)
+  const exportFile = (values) => {
+    console.log('VALUES: ', values)
   }
-
-  const handleModal = () => {
-    const newVal = !modalDelete
-
-    setModalDelete(newVal)
-
-    if (!newVal) {
-      setDeleteId(null)
-      setDeleteValue(null)
-    }
-  }
-
-  const options = useMemo(() => {
-    let newOptions = []
-    const datas = role?.options
-
-    if (datas) {
-      if (deleteId) {
-        const newData = datas
-          .filter((itm) => itm?.id !== deleteId)
-          .map((itm) => itm?.name)
-        newOptions = newData
-      } else {
-        const newData = datas.map((itm) => itm?.name)
-        newOptions = newData
-      }
-    }
-
-    return newOptions
-  }, [role, deleteId])
 
   const columns = useMemo(() => {
     const col = [
@@ -93,10 +165,10 @@ const ExportEmployeeComponent = ({
       }
     ]
     return col
-  }, [role])
+  }, [exportEmployeeData])
 
   const rows = useMemo(() => {
-    const dataMapping = role?.data.map((item) => {
+    const dataMapping = [].map((item) => {
       return [
         {
           Header: 'No',
@@ -114,607 +186,508 @@ const ExportEmployeeComponent = ({
     })
 
     return dataMapping
-  }, [role])
+  }, [exportEmployeeData])
 
-  const action = useMemo(() => {
-    return (
-      <Box sx={{ display: 'flex', gap: 1 }}>
-        <Button text='Reset' color='danger' onClick={() => {}} />
-        <Button text='Export' onClick={() => {}} />
-      </Box>
-    )
-  }, [])
-
-  useEffect(() => {
-    const state = !role?.loading
-    onLoading(state)
-  }, [role])
-
-  useEffect(() => {
-    if (modal?.code !== null) handleModal()
-    if (!modal?.modal && role?.data.length > 0) {
-      onFetch(queries)
-      onFetchOptions()
+  const options = useMemo(() => {
+    return {
+      echelons: echelon?.options?.map(e => e?.name) || [],
+      grades: grade?.options?.map(e => e?.name) || []
     }
-  }, [modal])
+  }, [echelon])
+
+  useEffect(() => {
+    const state = !(
+      exportEmployeeData?.loading ||
+      echelon?.loading ||
+      grade?.loading
+    )
+    onLoading(state)
+  }, [
+    grade,
+    echelon,
+    exportEmployeeData
+  ])
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-      <LayoutPages summary='Export Pegawai' action={action}>
-        <Paper sx={{ padding: 2 }}>
-          <Typography fontSize='12' color='#895700' fontWeight='700'>
-            Filter Data
-          </Typography>
-          <Divider sx={{ border: '1px solid #929292', margin: '10px 0px' }} />
-
-          <Grid container direction='row' spacing={3} rowSpacing={2}>
-            <Grid item xs={6}>
-              <Autocomplete
-                options={['a', 'b']}
-                name={`name`}
-                placeholder='Pilih Satuan Organisasi'
-                multiple={true}
-                label='Satuan Organisasi'
-                error={''}
-                onChange={(val) => {}}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <Autocomplete
-                options={['a', 'b']}
-                name={`name`}
-                placeholder='Pilih Pegawai'
-                multiple={true}
-                label='Pegawai'
-                error={''}
-                onChange={(val) => {}}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <Autocomplete
-                options={['a', 'b']}
-                name={`name`}
-                placeholder='Pilih Deputi'
-                multiple={true}
-                label='Deputi'
-                error={''}
-                onChange={(val) => {}}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <Autocomplete
-                options={['a', 'b']}
-                name={`name`}
-                placeholder='Pilih Eselon'
-                multiple={true}
-                label='Eselon'
-                error={''}
-                onChange={(val) => {}}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <Autocomplete
-                options={['a', 'b']}
-                name={`name`}
-                placeholder='Pilih Golongan'
-                multiple={true}
-                label='Golongan'
-                error={''}
-                onChange={(val) => {}}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <Autocomplete
-                options={['a', 'b']}
-                name={`name`}
-                placeholder='Pilih Keterangan Jabatan'
-                multiple={true}
-                label='Keterangan Jabatan'
-                error={''}
-                onChange={(val) => {}}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <Autocomplete
-                options={['a', 'b']}
-                name={`name`}
-                placeholder='Pilih Riwayat Pendidikan'
-                multiple={true}
-                label='Riwayat Pendidikan'
-                error={''}
-                onChange={(val) => {}}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <Autocomplete
-                options={['a', 'b']}
-                name={`name`}
-                placeholder='Pilih Jenis Kelamin'
-                multiple={true}
-                label='Jenis Kelamin'
-                error={''}
-                onChange={(val) => {}}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <Autocomplete
-                options={['a', 'b']}
-                name={`name`}
-                placeholder='Pilih Umur'
-                multiple={true}
-                label='Umur'
-                error={''}
-                onChange={(val) => {}}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <Autocomplete
-                options={['a', 'b']}
-                name={`name`}
-                placeholder='Pilih Status Perkawinan'
-                multiple={true}
-                label='Status Perkawinan'
-                error={''}
-                onChange={(val) => {}}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <Autocomplete
-                options={['a', 'b']}
-                name={`name`}
-                placeholder='Pilih Batas Usia Pensiun'
-                multiple={true}
-                label='Batas Usia Pensiun'
-                error={''}
-                onChange={(val) => {}}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <Autocomplete
-                options={['a', 'b']}
-                name={`name`}
-                placeholder='Pilih Masa Kerja Keseluruhan'
-                multiple={true}
-                label='Masa Kerja Keseluruhan'
-                error={''}
-                onChange={(val) => {}}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <Autocomplete
-                options={['a', 'b']}
-                name={`name`}
-                placeholder='Pilih Masa Kerja Golongan'
-                multiple={true}
-                label='Masa Kerja Golongan'
-                error={''}
-                onChange={(val) => {}}
-              />
-            </Grid>
-          </Grid>
-        </Paper>
-
-        <Paper sx={{ padding: 2 }}>
-          <Typography fontSize='12' color='#895700' fontWeight='700'>
-            Jenis File Export
-          </Typography>
-          <Divider sx={{ border: '1px solid #929292', margin: '10px 0px' }} />
-          <Grid container spacing={3}>
-            <Grid item xs={4}>
-              <FormControlLabel control={<Checkbox />} label='CSV' />
-            </Grid>
-
-            <Grid item xs={4}>
-              <FormControlLabel control={<Checkbox />} label='XLSX' />
-            </Grid>
-
-            <Grid item xs={4}>
-              <FormControlLabel control={<Checkbox />} label='PDF' />
-            </Grid>
-          </Grid>
-        </Paper>
-
-        <Paper sx={{ padding: 2 }}>
-          <Typography fontSize='12' color='#895700' fontWeight='700'>
-            Hasil Export Data
-          </Typography>
-          <Divider sx={{ border: '1px solid #929292', margin: '10px 0px' }} />
-
-          <Box
-            sx={{
-              border: '1px solid #000',
-              borderRadius: 1,
-              padding: '0px 6px'
-            }}
+    <Formik innerRef={formikRef} initialValues={InitValue} onSubmit={() => { }}>
+      {({ values, resetForm = () => { }, setFieldValue = () => { } }) => (
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <LayoutPages
+            summary='Export Pegawai'
+            action={
+              <Box sx={{ display: 'flex', gap: 1 }}>
+                <Button text='Reset' color='danger' onClick={() => resetForm()} />
+                <Button text='Export' onClick={() => exportFile(values)} />
+              </Box>
+            }
           >
-            <Box
-              sx={{
-                width: '100%',
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center'
-              }}
-            >
-              <Typography fontWeight='700'>Data Diri</Typography>
-              <FormControlLabel control={<Checkbox />} label='Pilih Semua' />
-            </Box>
+            <Paper sx={{ padding: 2 }}>
+              <Typography fontSize='12' color='#895700' fontWeight='700'>
+                Filter Data
+              </Typography>
+              <Divider sx={{ border: '1px solid #929292', margin: '10px 0px' }} />
 
-            <Grid container>
-              <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Nama' />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Jabatan' />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='Keterangan Jabatan'
-                />
-              </Grid>
-
-              <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Eselon' />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Golongan' />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='NIP/NRP' />
-              </Grid>
-
-              <Grid item xs={4}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='Tempat, Tanggal Lahir'
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Umur' />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Agama' />
-              </Grid>
-
-              <Grid item xs={4}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='Jenis Kelamin'
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='Status Perkawinan'
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='Instansi Induk'
-                />
-              </Grid>
-
-              <Grid item xs={4}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='Satuan Organisasi'
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Unit Kerja' />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='No. Karpeg/No. Karis/No. Karsu'
-                />
-              </Grid>
-
-              <Grid item xs={4}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='Masa Kerja Keseluruhan'
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='Masa Kerja Golongan'
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='NPWP' />
-              </Grid>
-
-              <Grid item xs={4}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='Status Pegawai'
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='Alamat Tempat Tinggal Saat Ini'
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Komplek' />
-              </Grid>
-
-              <Grid item xs={4}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='No. Telepon Rumah'
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='No. HP' />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='Alamat Kantor'
-                />
-              </Grid>
-
-              <Grid item xs={4}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='No. Telepon Kantor'
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Email' />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='Batas Usia Pensiun'
-                />
-              </Grid>
-            </Grid>
-          </Box>
-
-          <Box
-            sx={{
-              border: '1px solid #000',
-              borderRadius: 1,
-              padding: '0px 6px',
-              marginTop: 2
-            }}
-          >
-            <Box
-              sx={{
-                width: '100%',
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center'
-              }}
-            >
-              <Typography fontWeight='700'>Data Riwayat</Typography>
-              <FormControlLabel control={<Checkbox />} label='Pilih Semua' />
-            </Box>
-
-            <Grid container>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='Riwayat Pendidikan'
-                />
-              </Grid>
-
-              <Grid container sx={{ paddingLeft: 4 }}>
-                <Grid item xs={4}>
-                  <FormControlLabel control={<Checkbox />} label='Strata III' />
+              <Grid container direction='row' spacing={3} rowSpacing={2}>
+                <Grid item xs={6}>
+                  <Autocomplete
+                    options={employeeTypeOptions}
+                    name='employeeType'
+                    placeholder='Pilih Pegawai'
+                    multiple={true}
+                    label='Pegawai'
+                    value={values?.employeeType || []}
+                    onChange={(val) => {
+                      setFieldValue('employeeType', val || [], false)
+                    }}
+                  />
                 </Grid>
-                <Grid item xs={4}>
-                  <FormControlLabel control={<Checkbox />} label='Strata II' />
+
+                <Grid item xs={6}>
+                  <Autocomplete
+                    options={deputyOptions}
+                    name='deputy'
+                    placeholder='Pilih Deputi'
+                    multiple={true}
+                    label='Deputi'
+                    value={values.deputy || []}
+                    onChange={(val) => {
+                      setFieldValue('deputy', val || [], false)
+                    }}
+                  />
                 </Grid>
+
+                <Grid item xs={6}>
+                  <Autocomplete
+                    options={options?.echelons}
+                    name='echelon'
+                    placeholder='Pilih Eselon'
+                    multiple={true}
+                    label='Eselon'
+                    value={values?.echelon || []}
+                    onChange={(val) => {
+                      setFieldValue('echelon', val || [], false)
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <Autocomplete
+                    options={options?.grades}
+                    name='grade'
+                    placeholder='Pilih Golongan'
+                    multiple={true}
+                    label='Golongan'
+                    value={values?.grade || []}
+                    onChange={(val) => {
+                      setFieldValue('grade', val || [], false)
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <Autocomplete
+                    options={positionDescOptions}
+                    name='positionDescription'
+                    placeholder='Pilih Keterangan Jabatan'
+                    multiple={true}
+                    label='Keterangan Jabatan'
+                    value={values?.positionDescription || []}
+                    onChange={(val) => {
+                      setFieldValue('positionDescription', val || [], false)
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <Autocomplete
+                    options={employeeEducationLevelOptions}
+                    name='education'
+                    placeholder='Pilih Riwayat Pendidikan'
+                    multiple={true}
+                    label='Riwayat Pendidikan'
+                    value={values?.education || []}
+                    onChange={(val) => {
+                      setFieldValue('education', val || [], false)
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <Autocomplete
+                    options={genderOptions}
+                    name='gender'
+                    placeholder='Pilih Jenis Kelamin'
+                    multiple={true}
+                    label='Jenis Kelamin'
+                    value={values?.gender || []}
+                    onChange={(val) => {
+                      setFieldValue('gender', val || [], false)
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <Input
+                    label='Umur Minimum'
+                    placeholder='Masukkan Umur Minimum'
+                    name='minAge'
+                    value={values?.minAge}
+                    onChange={(e) => {
+                      const val = e?.target?.value
+                      setFieldValue('minAge', val, false)
+                    }}
+                    inputProps={{
+                      min: 0
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <Input
+                    label='Umur Maksimum'
+                    placeholder='Masukkan Umur Maksimum'
+                    name='maxAge'
+                    value={values?.maxAge}
+                    onChange={(e) => {
+                      const val = e?.target?.value
+                      setFieldValue('maxAge', val, false)
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <Autocomplete
+                    options={maritalStatusOptions}
+                    name='maritalStatus'
+                    placeholder='Pilih Status Perkawinan'
+                    multiple={true}
+                    label='Status Perkawinan'
+                    value={values?.maritalStatus || []}
+                    onChange={(val) => {
+                      setFieldValue('maritalStatus', val || [], false)
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <Autocomplete
+                    options={retirementAge}
+                    name='retirementLimitAge'
+                    placeholder='Pilih Batas Usia Pensiun'
+                    multiple={true}
+                    label='Batas Usia Pensiun'
+                    value={values?.retirementLimitAge || []}
+                    onChange={(val) => {
+                      setFieldValue('retirementLimitAge', val || [], false)
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <Autocomplete
+                    options={workingPeriodOptions}
+                    name='totalWorkingPeriod'
+                    placeholder='Pilih Masa Kerja Keseluruhan'
+                    multiple={true}
+                    label='Masa Kerja Keseluruhan'
+                    value={values?.totalWorkingPeriod || []}
+                    onChange={(val) => {
+                      setFieldValue('totalWorkingPeriod', val || [], false)
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <Autocomplete
+                    options={workingPeriodOptions}
+                    name='gradeWorkingPeriod'
+                    placeholder='Pilih Masa Kerja Golongan'
+                    multiple={true}
+                    label='Masa Kerja Golongan'
+                    value={values?.gradeWorkingPeriod || []}
+                    onChange={(val) => {
+                      setFieldValue('gradeWorkingPeriod', val || [], false)
+                    }}
+                  />
+                </Grid>
+              </Grid>
+
+              <Typography
+                fontSize='12'
+                color='#895700'
+                fontWeight='700'
+                sx={{
+                  marginTop: '20px'
+                }}
+              >
+                Filter SKP
+              </Typography>
+              <Divider sx={{ border: '1px solid #929292', margin: '10px 0px' }} />
+
+              <Grid container direction='row' spacing={3} rowSpacing={2}>
+                <Grid item xs={6}>
+                  <Autocomplete
+                    options={periodOptions}
+                    name='assessmentPeriod'
+                    placeholder='Pilih Periode Penilaian'
+                    multiple={true}
+                    label='Periode Penilaian'
+                    value={values?.assessmentPeriod || []}
+                    onChange={(val) => {
+                      setFieldValue('assessmentPeriod', val || [], false)
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <Input
+                    label='Tahun'
+                    placeholder='Masukkan Tahun'
+                    name='skpYear'
+                    value={values?.skpYear}
+                    onChange={(e) => {
+                      const val = e?.target?.value
+                      setFieldValue('skpYear', val, false)
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <Autocomplete
+                    options={ratingOptions}
+                    name='workBehaviorRating'
+                    placeholder='Pilih Rating Perilaku Kerja'
+                    multiple={true}
+                    label='Rating Perilaku Kerja'
+                    value={values?.workBehaviorRating || []}
+                    onChange={(val) => {
+                      setFieldValue('workBehaviorRating', val || [], false)
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <Autocomplete
+                    options={predicateOptions}
+                    name='employeePerformancePredicate'
+                    placeholder='Pilih Predikat Kinerja Pegawai'
+                    multiple={true}
+                    label='Predikat Kinerja Pegawai'
+                    value={values?.employeePerformancePredicate || []}
+                    onChange={(val) => {
+                      setFieldValue('employeePerformancePredicate', val || [], false)
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <Autocomplete
+                    options={ratingOrganizationOptions}
+                    name='organizationalPerformanceAchievements'
+                    placeholder='Pilih Capaian Kinerja Organisasi'
+                    multiple={true}
+                    label='Capaian Kinerja Organisasi'
+                    value={values?.organizationalPerformanceAchievements || []}
+                    onChange={(val) => {
+                      setFieldValue('organizationalPerformanceAchievements', val || [], false)
+                    }}
+                  />
+                </Grid>
+              </Grid>
+            </Paper>
+
+            <Paper sx={{ padding: 2 }}>
+              <Typography fontSize='12' color='#895700' fontWeight='700'>
+                Jenis File Export
+              </Typography>
+              <Divider sx={{ border: '1px solid #929292', margin: '10px 0px' }} />
+              <Grid container spacing={3}>
                 <Grid item xs={4}>
                   <FormControlLabel
-                    control={<Checkbox />}
-                    label='Diploma IV/Strata I'
+                    control={
+                      <Checkbox
+                        checked={values?.output === 'CSV'}
+                        onChange={(e) => {
+                          const val = e?.target?.checked
+                          if (val) {
+                            setFieldValue('output', 'CSV', false)
+                          } else {
+                            setFieldValue('output', null, false)
+                          }
+                        }}
+                      />
+                    }
+                    label='CSV'
                   />
                 </Grid>
 
                 <Grid item xs={4}>
                   <FormControlLabel
-                    control={<Checkbox />}
-                    label='Akademi/Diploma III/Sarjana Muda'
+                    control={
+                      <Checkbox
+                        checked={values?.output === 'XLSX'}
+                        onChange={(e) => {
+                          const val = e?.target?.checked
+                          if (val) {
+                            setFieldValue('output', 'XLSX', false)
+                          } else {
+                            setFieldValue('output', null, false)
+                          }
+                        }}
+                      />
+                    }
+                    label='XLSX'
                   />
                 </Grid>
+
                 <Grid item xs={4}>
                   <FormControlLabel
-                    control={<Checkbox />}
-                    label='Diploma I/II'
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label='SLTA/Sederajat'
-                  />
-                </Grid>
-
-                <Grid item xs={4}>
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label='SLTP/Sederajat'
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label='SD/Sederajat'
+                    control={
+                      <Checkbox
+                        checked={values?.output === 'PDF'}
+                        onChange={(e) => {
+                          const val = e?.target?.checked
+                          if (val) {
+                            setFieldValue('output', 'PDF', false)
+                          } else {
+                            setFieldValue('output', null, false)
+                          }
+                        }}
+                      />
+                    }
+                    label='PDF'
                   />
                 </Grid>
               </Grid>
+            </Paper>
 
-              <Grid item xs={4}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='Riwayat Jabatan'
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='Riwayat Golongan'
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='Riwayat Pelatihan Struktural'
-                />
-              </Grid>
+            <Paper sx={{ padding: 2 }}>
+              <Typography
+                fontSize='12'
+                color='#895700'
+                fontWeight='700'
+              >
+                Hasil Export Data
+              </Typography>
+              <Divider sx={{ border: '1px solid #929292', margin: '10px 0px' }} />
 
-              <Grid item xs={4}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='Riwayat Pelatihan Fungsional'
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='Riwayat Pelatihan Teknis'
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='Riwayat Penghargaan'
-                />
-              </Grid>
+              {checkboxes?.map((parent, idx) => (
+                <Box
+                  key={uuidv4()}
+                  sx={{
+                    border: '1px solid #000',
+                    borderRadius: 1,
+                    padding: '0px 6px',
+                    marginTop: idx > 0 ? '12px' : ''
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: '100%',
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'center'
+                    }}
+                  >
+                    <Typography fontWeight='700'>{parent?.title}</Typography>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          name={parent?.checkbox}
+                          checked={values[parent?.checkbox]}
+                          onChange={(e) => {
+                            const checked = e?.target?.checked
 
-              <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Riwayat SKP' />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='Riwayat Penetapan Angka Kredit Terakhir'
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='Riwayat Penilaian Prestasi Kerja'
-                />
-              </Grid>
+                            if (checked) {
+                              const allItems = parent?.children?.map(i => i?.name)
+                              setFieldValue('checkboxes', allItems, false)
+                            } else {
+                              setFieldValue('checkboxes', [], false)
+                            }
 
-              <Grid item xs={4}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='Riwayat Hukuman Disiplin'
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='Riwayat Keluarga'
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Riwayat Cuti' />
-              </Grid>
+                            setFieldValue(parent?.checkbox, checked, false)
+                          }}
+                        />
+                      }
+                      label='Pilih Semua'
+                    />
+                  </Box>
 
-              <Grid item xs={4}>
-                <FormControlLabel control={<Checkbox />} label='Catatan' />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='Hasil Assessment'
+                  <Grid container>
+                    {parent?.children?.map((item) => (
+                      <Grid
+                        item
+                        key={uuidv4()}
+                        xs={4}
+                      >
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              name={item?.name}
+                              checked={values?.checkboxes.includes(item?.name)}
+                              onChange={(e) => {
+                                const checked = e?.target?.checked
+
+                                if (checked) {
+                                  setFieldValue(`checkboxes`, [...values?.checkboxes, item?.name], false)
+                                } else {
+                                  const filterCheckboxes = values?.checkboxes?.filter(i => i !== item?.name)
+                                  setFieldValue(`checkboxes`, filterCheckboxes, false)
+                                }
+                              }}
+                            />
+                          }
+                          label={item?.label}
+                        />
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Box>
+              ))}
+
+              <MuiButton
+                component='label'
+                color='sidatukDraweBase'
+                variant='contained'
+                onClick={togglePreview}
+                sx={{ textTransform: 'none', marginTop: 3 }}
+              >
+                Lihat Preview
+              </MuiButton>
+            </Paper>
+          </LayoutPages>
+
+          {showPreview && (
+            <LayoutPages>
+              <Paper>
+                <Table
+                  divider
+                  title='Preview Data'
+                  columns={columns}
+                  rows={rows}
+                  pagination={exportEmployeeData?.pagination}
+                  handlePagination={onPaginationChange}
+                  handleRows={onRowsPerPageChange}
                 />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='Hasil Uji Kompetensi'
-                />
-              </Grid>
-
-              <Grid item xs={4}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label='Hasil Talent Pool'
-                />
-              </Grid>
-            </Grid>
-          </Box>
-
-          <MuiButton
-            component='label'
-            role={undefined}
-            color='sidatukDraweBase'
-            variant='contained'
-            tabIndex={-1}
-            onChange={() => {}}
-            sx={{ textTransform: 'none', marginTop: 3 }}
-          >
-            Lihat Preview
-          </MuiButton>
-        </Paper>
-      </LayoutPages>
-
-      <LayoutPages>
-        <Paper>
-          <Table
-            divider
-            title='Preview Data'
-            columns={columns}
-            rows={rows}
-            pagination={role?.pagination}
-            handlePagination={onPaginationChange}
-            handleRows={onRowsPerPageChange}
-          />
-        </Paper>
-      </LayoutPages>
-
-      <ModalConfirmDelete
-        label='Role Pengguna'
-        title='Hapus Data Role Pengguna'
-        copytext='Apakah anda yakin akan menghapus data role pengguna ? Jika ya, silahkan pilih role pengguna lain sebagai pengganti'
-        options={options}
-        open={modalDelete}
-        value={deleteValue?.name || null}
-        isLoading={role?.loading}
-        handleModal={handleModal}
-        handleDelete={handleDelete}
-        handleSetValue={handleSetValue}
-      />
-    </Box>
+              </Paper>
+            </LayoutPages>
+          )}
+        </Box>
+      )}
+    </Formik>
   )
 }
 
 ExportEmployeeComponent.propTypes = {
-  role: PropTypes.object,
-  queries: PropTypes.object,
-  onFetch: PropTypes.func,
-  onFetchOptions: PropTypes.func,
-  onSearch: PropTypes.func,
+  echelon: PropTypes.object,
+  grade: PropTypes.object,
+  exportEmployeeData: PropTypes.object,
   onLoading: PropTypes.func,
+  clearExportEmployeesState: PropTypes.func,
   onPaginationChange: PropTypes.func,
-  onRowsPerPageChange: PropTypes.func,
-  deleteRole: PropTypes.func
+  onSearch: PropTypes.func,
+  onRowsPerPageChange: PropTypes.func
 }
 
 export default ExportEmployeeComponent
