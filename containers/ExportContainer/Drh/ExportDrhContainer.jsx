@@ -7,7 +7,12 @@ import Layout from '@/components/core/Layout'
 import ExportDrhComponent from '@/components/ExportComponent/Drh/ExportDrhComponent'
 
 export default connect(
-  mapStateToProps('exportDRH', 'echelon', 'grade', 'position'),
+  mapStateToProps(
+    'exportDRHData',
+    'echelon',
+    'grade',
+    'position'
+  ),
   mapActions(
     'exportDRH',
     'getEchelonsOptions',
@@ -19,6 +24,7 @@ export default connect(
     static propTypes = {
       echelon: PropTypes.object,
       grade: PropTypes.object,
+      exportDRHData: PropTypes.object,
       position: PropTypes.object,
       exportDRH: PropTypes.object,
       getPositions: PropTypes.func,

@@ -18,21 +18,6 @@ const ExportDrfForm = ({
 }) => {
   return (
     <Grid container direction='row' spacing={3}>
-      {/* Organization */}
-      <Grid item xs={6}>
-        <Autocomplete
-          options={options?.organization}
-          multiple={true}
-          placeholder='Pilih Satuan Organisasi'
-          label='Satuan Organisasi'
-          name='organization'
-          value={values?.organization}
-          error={errors?.organization}
-          onChange={(val) => {
-            setFieldValue('organization', val, false)
-          }}
-        />
-      </Grid>
       {/* Employee Type */}
       <Grid item xs={6}>
         <Autocomplete
@@ -138,39 +123,35 @@ const ExportDrfForm = ({
           }}
         />
       </Grid>
-      {/* Age */}
+      {/* Min Age */}
       <Grid item xs={6}>
-        <Box>
-          <Typography
-            sx={{ fontSize: '14px', fontWeight: 500, margin: '0 0 8px 0' }}
-          >
-            Umur
-          </Typography>
-          <Box sx={{ display: 'flex', gap: '12px' }}>
-            <Input
-              type='number'
-              inputProps={{ min: '0' }}
-              placeholder='Min'
-              name='age.min'
-              value={values?.age?.min}
-              error={errors?.age?.min}
-              onChange={(val) => {
-                setFieldValue('age.min', val?.target?.value, false)
-              }}
-            />
-            <Input
-              type='number'
-              inputProps={{ min: '0' }}
-              placeholder='Max'
-              name='age.max'
-              value={values?.age?.max}
-              error={errors?.age?.max}
-              onChange={(val) => {
-                setFieldValue('age.max', val?.target?.value, false)
-              }}
-            />
-          </Box>
-        </Box>
+        <Input
+          type='number'
+          inputProps={{ min: '0' }}
+          label='Umur Minimum'
+          name='age.min'
+          placeholder='0'
+          value={values?.age?.min}
+          error={errors?.age?.min}
+          onChange={(val) => {
+            setFieldValue('age.min', val?.target?.value, false)
+          }}
+        />
+      </Grid>
+      {/* Max Age */}
+      <Grid item xs={6}>
+        <Input
+          type='number'
+          inputProps={{ min: '0' }}
+          label='Umur Maksimum'
+          name='age.max'
+          placeholder='0'
+          value={values?.age?.max}
+          error={errors?.age?.max}
+          onChange={(val) => {
+            setFieldValue('age.max', val?.target?.value, false)
+          }}
+        />
       </Grid>
       {/* Marital Status */}
       <Grid item xs={6}>

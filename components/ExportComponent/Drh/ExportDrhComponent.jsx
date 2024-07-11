@@ -10,7 +10,7 @@ import Card from '@/components/shared/Card/Index'
 import ExportDrfForm from './ExportDrfForm'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
-import { retirementAge } from 'libs/types/options'
+import { deputyOptions, retirementAge, workingPeriodOptions } from 'libs/types/options'
 
 const InitValue = {
   organization: [],
@@ -48,11 +48,11 @@ const FormSchema = Yup.object().shape({
 })
 
 const ExportDrhComponent = ({
+  exportDRHData,
   echelon,
   grade,
-  position,
-  exportDRH = () => {},
-  onLoading = () => {}
+  exportDRH = () => { },
+  onLoading = () => { }
 }) => {
   const formikRef = useRef(null)
 
@@ -61,8 +61,6 @@ const ExportDrhComponent = ({
       (echelon?.options && echelon?.options.map((itm) => itm?.name)) || []
     const newGrade =
       (grade?.options && grade?.options.map((itm) => itm?.name)) || []
-    const newPosition =
-      (position?.data && position?.data.map((itm) => itm?.name)) || []
 
     const data = {
       employeeType: ['ASN', 'Non ASN', 'Outsourcing'],
@@ -79,18 +77,18 @@ const ExportDrhComponent = ({
       ],
       maritalStatus: ['Belum Menikah', 'Menikah', 'Cerai', 'Janda', 'Duda'],
       organization: ['A', 'B', 'C'],
-      deputy: newPosition,
+      deputy: deputyOptions,
       echelon: newEchelon,
       grade: newGrade,
       positionDesc: ['Mutasi', 'Promosi', 'Inpassing', 'Konversi'],
       age: [],
       retirementAge,
-      totalWorkingTime: [],
-      gradeWorkingTime: []
+      totalWorkingTime: workingPeriodOptions,
+      gradeWorkingTime: workingPeriodOptions
     }
 
     return data
-  }, [echelon, grade, position])
+  }, [echelon, grade])
 
   const handleGetValueID = (type, val) => {
     if (type == 'echelon') {
@@ -162,6 +160,7 @@ const ExportDrhComponent = ({
             return [handleParseKey(itm[0]), newValue]
           })
       )
+      console.log('PAYLOAD: ', payload)
       exportDRH(payload)
     } catch (err) {
       if (!err.inner || err.inner.length === 0) return
@@ -198,16 +197,24 @@ const ExportDrhComponent = ({
   }
 
   useEffect(() => {
-    const state = !echelon?.loading && !grade?.loading && !position?.loading
+    console.log('EXPORT: ', exportDRHData)
+  }, [exportDRHData])
+
+  useEffect(() => {
+    const state = !(
+      echelon?.loading ||
+      grade?.loading ||
+      exportDRHData?.loading
+    )
     onLoading(state)
-  }, [echelon, grade, position])
+  }, [echelon, grade, exportDRHData])
 
   return (
     <Formik
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => {}}
+      onSubmit={() => { }}
     >
       {(formikProps) => (
         <LayoutPages
@@ -241,7 +248,7 @@ const ExportDrhComponent = ({
 ExportDrhComponent.propTypes = {
   echelon: PropTypes.object,
   grade: PropTypes.object,
-  position: PropTypes.object,
+  exportDRHData: PropTypes.object,
   exportDRH: PropTypes.func,
   onLoading: PropTypes.func
 }
