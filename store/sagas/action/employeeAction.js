@@ -91,3 +91,12 @@ export const synchronizeEmployeesAction = () => {
 export const downloadTemplateAction = (type) => {
   return getBlob(`/employees/import/download-template/${type}`)
 }
+
+/**
+ * Upload Template of Employees
+ *
+ * @returns
+ */
+export const uploadTemplateAction = (payload) => {
+  return post('/employees/import', payload)
+}

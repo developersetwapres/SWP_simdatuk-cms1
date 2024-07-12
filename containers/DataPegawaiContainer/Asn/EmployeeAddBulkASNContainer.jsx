@@ -7,13 +7,20 @@ import EmployeeAddBulkComponent from '@/components/DataPegawai/EmployeeAddBulkCo
 
 export default connect(
   mapStateToProps('employee'),
-  mapActions('downloadTemplate', 'clearTemplate')
+  mapActions(
+    'downloadTemplate',
+    'uploadTemplate',
+    'clearTemplate',
+    'clearEmployeeState',
+  )
 )(
   class EmployeeASNContainer extends Component {
     static propTypes = {
       employee: PropTypes.object,
       downloadTemplate: PropTypes.func,
-      clearTemplate: PropTypes.func
+      uploadTemplate: PropTypes.func,
+      clearTemplate: PropTypes.func,
+      clearEmployeeState: PropTypes.func
     }
 
     constructor(props) {

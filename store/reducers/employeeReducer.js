@@ -25,6 +25,9 @@ import {
   DOWNLOAD_TEMPLATE_REQUESTED,
   DOWNLOAD_TEMPLATE_SUCCESS,
   DOWNLOAD_TEMPLATE_FAILED,
+  UPLOAD_TEMPLATE_REQUESTED,
+  UPLOAD_TEMPLATE_SUCCESS,
+  UPLOAD_TEMPLATE_FAILED,
   CLEAR_TEMPLATE
 } from '../constants'
 
@@ -36,13 +39,36 @@ const initialState = {
   detail: {},
   pagination: {},
   data: [],
-  template: null
+  template: null,
+  uploading: false,
+  uploaded: false
 }
 
 export const employee = (state = initialState, action) => {
   const payload = action?.payload
 
   switch (action.type) {
+    // UPLOAD TEMPLATE
+    case UPLOAD_TEMPLATE_REQUESTED:
+      return {
+        ...state,
+        uploading: true,
+        uploaded: false
+      }
+    case UPLOAD_TEMPLATE_SUCCESS:
+      return {
+        ...state,
+        uploading: false,
+        uploaded: true
+      }
+    case UPLOAD_TEMPLATE_FAILED:
+      return {
+        ...state,
+        uploading: false,
+        uploaded: false,
+        error: payload
+      }
+    // DOWNLOAD TEMPLATE
     case DOWNLOAD_TEMPLATE_REQUESTED:
       return {
         ...state,
@@ -58,7 +84,7 @@ export const employee = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        error: payload?.error
+        error: payload
       }
     // SYNC
     case SYNC_EMPLOYEES_REQUESTED:
@@ -207,7 +233,9 @@ export const employee = (state = initialState, action) => {
         detail: {},
         pagination: {},
         data: [],
-        errorForm: {}
+        errorForm: {},
+        uploading: false,
+        uploaded: false
       }
     default:
       return state

@@ -8,6 +8,7 @@ import {
   UPDATE_EMPLOYEE_STATUS_REQUESTED,
   SYNC_EMPLOYEES_REQUESTED,
   DOWNLOAD_TEMPLATE_REQUESTED,
+  UPLOAD_TEMPLATE_REQUESTED,
   CLEAR_TEMPLATE
 } from '../constants'
 
@@ -97,12 +98,22 @@ export const synchronizeEmployees = () => ({
 })
 
 /**
- * Synchronize Employees Data
+ * Download Template
  *
  * @returns
  */
 export const downloadTemplate = (payload) => ({
   type: DOWNLOAD_TEMPLATE_REQUESTED,
+  payload
+})
+
+/**
+ * Download Template
+ *
+ * @returns
+ */
+export const uploadTemplate = (payload) => ({
+  type: UPLOAD_TEMPLATE_REQUESTED,
   payload
 })
 

@@ -31,7 +31,10 @@ import {
   SYNC_EMPLOYEES_FAILED,
   DOWNLOAD_TEMPLATE_REQUESTED,
   DOWNLOAD_TEMPLATE_SUCCESS,
-  DOWNLOAD_TEMPLATE_FAILED
+  DOWNLOAD_TEMPLATE_FAILED,
+  UPLOAD_TEMPLATE_REQUESTED,
+  UPLOAD_TEMPLATE_SUCCESS,
+  UPLOAD_TEMPLATE_FAILED
 } from '../constants'
 import {
   deleteEmployeeAction,
@@ -41,9 +44,55 @@ import {
   updateEmployeeAction,
   updateEmployeeStatusAction,
   synchronizeEmployeesAction,
-  downloadTemplateAction
+  downloadTemplateAction,
+  uploadTemplateAction
 } from './action/employeeAction'
 import Router from 'next/router'
+
+/**
+ * Upload Template
+ *
+ * @returns
+ */
+function* uploadTemplate(action) {
+  try {
+    const res = yield call(uploadTemplateAction, action?.payload)
+    const payload = res?.data
+
+    yield put({
+      type: UPLOAD_TEMPLATE_SUCCESS,
+      payload: payload
+    })
+  } catch (err) {
+    const errors = err?.data
+
+    if (errors?.code === 403) {
+      yield put({
+        type: ACTION_RESPONSER,
+        payload: {
+          code: errors?.code,
+          message: errors?.message,
+          redirect: '/profile'
+        }
+      })
+    } else {
+      yield put({
+        type: SET_MODAL,
+        payload: {
+          code: errors?.code,
+          message: errors?.message,
+          childMessage: errors?.message
+        }
+      })
+
+      yield put({
+        type: UPLOAD_TEMPLATE_FAILED,
+        payload: errors?.message
+      })
+    }
+  }
+}
+
 
 /**
  * Download Template
@@ -444,6 +493,7 @@ function* updateEmployeeStatus(action) {
 }
 
 function* employeeSaga() {
+  yield takeEvery(UPLOAD_TEMPLATE_REQUESTED, uploadTemplate)
   yield takeEvery(DOWNLOAD_TEMPLATE_REQUESTED, downloadTemplate)
   yield takeEvery(SYNC_EMPLOYEES_REQUESTED, synchronizeEmployees)
   yield takeEvery(GET_EMPLOYEES_REQUESTED, getEmployees)
