@@ -9,6 +9,7 @@ import {
   SYNC_EMPLOYEES_REQUESTED,
   DOWNLOAD_TEMPLATE_REQUESTED,
   UPLOAD_TEMPLATE_REQUESTED,
+  GET_ACTIVITIES_REQUESTED,
   CLEAR_TEMPLATE
 } from '../constants'
 
@@ -124,4 +125,15 @@ export const uploadTemplate = (payload) => ({
  */
 export const clearTemplate = () => ({
   type: CLEAR_TEMPLATE
+})
+
+/**
+ * Get Activities History
+ *
+ * @param {*} payload
+ * @returns
+ */
+export const getActivitiesHistory = (payload) => ({
+  type: GET_ACTIVITIES_REQUESTED,
+  payload
 })

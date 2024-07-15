@@ -28,6 +28,9 @@ import {
   UPLOAD_TEMPLATE_REQUESTED,
   UPLOAD_TEMPLATE_SUCCESS,
   UPLOAD_TEMPLATE_FAILED,
+  GET_ACTIVITIES_REQUESTED,
+  GET_ACTIVITIES_SUCCESS,
+  GET_ACTIVITIES_FAILED,
   CLEAR_TEMPLATE
 } from '../constants'
 
@@ -41,13 +44,32 @@ const initialState = {
   data: [],
   template: null,
   uploading: false,
-  uploaded: false
+  uploaded: false,
+  activities: []
 }
 
 export const employee = (state = initialState, action) => {
   const payload = action?.payload
 
   switch (action.type) {
+    // ACTIVITIES
+    case GET_ACTIVITIES_REQUESTED:
+      return {
+        ...state,
+        loading: true
+      }
+    case GET_ACTIVITIES_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        activities: payload?.data
+      }
+    case GET_ACTIVITIES_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: payload?.error
+      }
     // UPLOAD TEMPLATE
     case UPLOAD_TEMPLATE_REQUESTED:
       return {

@@ -12,6 +12,7 @@ export default connect(
     'uploadTemplate',
     'clearTemplate',
     'clearEmployeeState',
+    'getActivitiesHistory',
   )
 )(
   class EmployeeASNContainer extends Component {
@@ -19,6 +20,7 @@ export default connect(
       employee: PropTypes.object,
       downloadTemplate: PropTypes.func,
       uploadTemplate: PropTypes.func,
+      getActivitiesHistory: PropTypes.func,
       clearTemplate: PropTypes.func,
       clearEmployeeState: PropTypes.func
     }
@@ -26,12 +28,68 @@ export default connect(
     constructor(props) {
       super(props)
       this.state = {
-        willRender: true
+        willRender: true,
+        queries: {
+          page: 1,
+          limit: 10,
+          type: 1,
+          search: ''
+        }
       }
       this.setLoading = this.setLoading.bind(this)
+      this.onPaginationChange = this.onPaginationChange.bind(this)
+      this.onRowsPerPageChange = this.onRowsPerPageChange.bind(this)
+      this.onSearch = this.onSearch.bind(this)
+      this.onClearState = this.onClearState.bind(this)
+      this.fetch = this.fetch.bind(this)
     }
 
-    componentDidMount() { }
+    onPaginationChange(page) {
+      const queries = {
+        ...this.state.queries,
+        page
+      }
+      this.setState({ queries })
+      this.fetch(queries)
+    }
+
+    onRowsPerPageChange(limit) {
+      const queries = {
+        ...this.state.queries,
+        page: 1,
+        limit
+      }
+      this.setState({ queries })
+      this.fetch(queries)
+    }
+
+    onSearch(value) {
+      const queries = {
+        ...this.state.queries,
+        search: value || '',
+        page: 1
+      }
+      this.setState({ queries })
+      this.fetch(queries)
+    }
+
+    onClearState() {
+      const queries = {
+        ...this.state.queries,
+        search: '',
+        page: 1
+      }
+      this.setState({ queries })
+      this.fetch(queries)
+    }
+
+    fetch(queries) {
+      this.props.getActivitiesHistory(queries)
+    }
+
+    componentDidMount() {
+      this.fetch(this.state.queries)
+    }
 
     setLoading(val) {
       this.setState({ willRender: val })
@@ -44,6 +102,8 @@ export default connect(
             {...this.state}
             {...this.props}
             setLoading={this.setLoading}
+            onPaginationChange={this.onPaginationChange}
+            onRowsPerPageChange={this.onRowsPerPageChange}
           />
         </Layout>
       )

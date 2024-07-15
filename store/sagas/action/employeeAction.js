@@ -100,3 +100,20 @@ export const downloadTemplateAction = (type) => {
 export const uploadTemplateAction = (payload) => {
   return post('/employees/import', payload)
 }
+
+/**
+ * Upload Template of Employees
+ *
+ * @returns
+ */
+export const getActivitiesHistoryAction = (payload) => {
+  const paramsExclude = ['page', 'limit', 'search']
+  const { page, limit, search, type } = payload
+  const moreParams = Object.fromEntries(
+    Object.entries(payload).filter(([key, value]) => {
+      return !paramsExclude.includes(key)
+    })
+  )
+  const queryString = '&' + new URLSearchParams(moreParams).toString()
+  return get(`/employees/import/histories${queryParams(page, limit, search)}${queryString}`, payload)
+}

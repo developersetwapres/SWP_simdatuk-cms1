@@ -18,39 +18,6 @@ import { SaveAs, saveFile } from '@/utils/fileSaver'
 import Image from 'next/image'
 import { INFORMATION_ICON, PROCESSING, SUCCESS_ICON } from '@/utils/iconConstant'
 
-const data = [
-  {
-    id: 123,
-    nama: 'John',
-    tanggal: '19-12-2023 13:31:19',
-    aktifitas: 'Tambah Massal Data Pegawai'
-  },
-  {
-    id: 123,
-    nama: 'Chris',
-    tanggal: '19-12-2023 13:31:19',
-    aktifitas: 'Tambah Massal Data Pegawai'
-  },
-  {
-    id: 123,
-    nama: 'Evan',
-    tanggal: '19-12-2023 13:31:19',
-    aktifitas: 'Tambah Massal Data Pegawai'
-  },
-  {
-    id: 123,
-    nama: 'Martin',
-    tanggal: '19-12-2023 13:31:19',
-    aktifitas: 'Tambah Massal Data Pegawai'
-  },
-  {
-    id: 123,
-    nama: 'Emily',
-    tanggal: '19-12-2023 13:31:19',
-    aktifitas: 'Tambah Massal Data Pegawai'
-  }
-]
-
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
@@ -106,10 +73,11 @@ const EmployeeAddBulkComponent = ({
   uploadTemplate = () => { },
   clearTemplate = () => { },
   clearEmployeeState = () => { },
+  onPaginationChange = () => { },
+  onRowsPerPageChange = () => { },
   setLoading = () => { }
 }) => {
   const router = useRouter()
-
   const [selectedFile, setSelectedFile] = useState(null)
   const [modalOpen, setModalOpen] = useState(false)
   const [modalMode, setModalMode] = useState(DynamicModalMode.CONFIRM)
@@ -141,31 +109,32 @@ const EmployeeAddBulkComponent = ({
   }
 
   const rows = useMemo(() => {
-    const dataMapping = data.map((item) => {
+    const data = employee?.activities?.data || []
+    const dataMapping = data?.map((item) => {
       return [
         {
           Header: 'Tanggal',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.tanggal}</Typography>
+          Cell: () => <Typography>{item?.created_at || '-'}</Typography>
         },
         {
           Header: 'Nama',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.nama}</Typography>
+          Cell: () => <Typography>{item?.name || '-'}</Typography>
         },
         {
           Header: 'Aktifitas',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.aktifitas}</Typography>
+          Cell: () => <Typography>{item?.description || '-'}</Typography>
         }
       ]
     })
 
     return dataMapping
-  }, [data])
+  }, [employee])
 
   const employeeType = useMemo(() => {
     const path = router?.asPath
@@ -187,7 +156,17 @@ const EmployeeAddBulkComponent = ({
   }
 
   const getFileName = () => {
-    const prefix = 'TEMPLATE_PEGAWAI'
+    let employeeTypeLabel = 'ASN'
+
+    if (employeeType === 1) {
+      employeeTypeLabel = 'ASN'
+    } else if (employeeType === 2) {
+      employeeTypeLabel = 'NON_ASN'
+    } else {
+      employeeTypeLabel = 'OUTSOURCE'
+    }
+
+    const prefix = `TEMPLATE_PEGAWAI_${employeeTypeLabel}`
     return prefix + '.xlsx'
   }
 
@@ -207,7 +186,20 @@ const EmployeeAddBulkComponent = ({
     uploadTemplate(formData)
   }
 
+  const handleChangePage = (e, page) => {
+    onPaginationChange(page + 1)
+  }
+
+  const handleChangeRowsPerPage = (e) => {
+    const row = e?.target?.value
+    onRowsPerPageChange(row)
+  }
+
   useEffect(() => {
+    console.log('EMPLOYEES: ', employee)
+    // ACTIVITIES
+
+    // UPLOAD FILE
     if (employee?.uploaded) {
       setModalMode(DynamicModalMode.INFO)
       setSelectedFile(null)
@@ -220,6 +212,7 @@ const EmployeeAddBulkComponent = ({
       clearEmployeeState()
     }
 
+    // EXPORT
     if (employee?.template) {
       saveFile(employee?.template, getFileName(), SaveAs.XLS)
       clearTemplate()
@@ -280,12 +273,14 @@ const EmployeeAddBulkComponent = ({
                 color='success'
                 onClick={() => uploadTemplateFile()}
                 sx={{ textTransform: 'none' }}
+                isBusy={!selectedFile}
               />
               <Button
                 text='Reset File'
                 color='danger'
                 onClick={() => setSelectedFile(null)}
                 sx={{ textTransform: 'none' }}
+                isBusy={!selectedFile}
               />
             </Box>
             <Box>
@@ -350,7 +345,14 @@ const EmployeeAddBulkComponent = ({
               </List>
             </Box>
           </Paper>
-          <Table title='Riwayat Aktivitas' columns={columns} rows={rows} />
+          <Table
+            title='Riwayat Aktivitas'
+            columns={columns}
+            rows={rows}
+            pagination={employee?.activities?.data?.pagination}
+            handlePagination={handleChangePage}
+            handleRows={handleChangeRowsPerPage}
+          />
         </Box>
       </LayoutPages>
 
@@ -473,7 +475,9 @@ EmployeeAddBulkComponent.propTypes = {
   uploadTemplate: PropTypes.func,
   clearTemplate: PropTypes.func,
   clearEmployeeState: PropTypes.func,
-  setLoading: PropTypes.func
+  setLoading: PropTypes.func,
+  onPaginationChange: PropTypes.func,
+  onRowsPerPageChange: PropTypes.func
 }
 
 export default EmployeeAddBulkComponent

@@ -21,7 +21,6 @@ import {
   DELETE_EMPLOYEE_REQUESTED,
   DELETE_EMPLOYEE_SUCCESS,
   DELETE_EMPLOYEE_FAILED,
-  CATCH_ERROR,
   SET_MODAL,
   UPDATE_EMPLOYEE_STATUS_REQUESTED,
   UPDATE_EMPLOYEE_STATUS_FAILED,
@@ -34,7 +33,10 @@ import {
   DOWNLOAD_TEMPLATE_FAILED,
   UPLOAD_TEMPLATE_REQUESTED,
   UPLOAD_TEMPLATE_SUCCESS,
-  UPLOAD_TEMPLATE_FAILED
+  UPLOAD_TEMPLATE_FAILED,
+  GET_ACTIVITIES_REQUESTED,
+  GET_ACTIVITIES_SUCCESS,
+  GET_ACTIVITIES_FAILED
 } from '../constants'
 import {
   deleteEmployeeAction,
@@ -45,9 +47,62 @@ import {
   updateEmployeeStatusAction,
   synchronizeEmployeesAction,
   downloadTemplateAction,
-  uploadTemplateAction
+  uploadTemplateAction,
+  getActivitiesHistoryAction
 } from './action/employeeAction'
 import Router from 'next/router'
+
+/**
+ * Get Activities History
+ *
+ * @returns
+ */
+function* getActivitiesHistory(action) {
+  try {
+    const res = yield call(getActivitiesHistoryAction, action?.payload)
+    const payload = res?.data
+    const pagination = res?.pagination
+
+    yield put({
+      type: GET_ACTIVITIES_SUCCESS,
+      payload: {
+        data: payload,
+        pagination
+      }
+    })
+  } catch (err) {
+    const errors = err?.data
+
+    if (
+      errors?.code === 403 ||
+      errors?.code === 401
+    ) {
+      yield put({
+        type: ACTION_RESPONSER,
+        payload: {
+          code: errors?.code,
+          message: errors?.message,
+          redirect: '/profile'
+        }
+      })
+    } else {
+      const errorMessage = errors?.message || 'Terjadi Kesalahan'
+
+      yield put({
+        type: SET_MODAL,
+        payload: {
+          code: errors?.code,
+          message: errorMessage
+        }
+      })
+
+      yield put({
+        type: GET_ACTIVITIES_FAILED,
+        payload: errorMessage
+      })
+    }
+  }
+}
 
 /**
  * Upload Template
@@ -65,8 +120,12 @@ function* uploadTemplate(action) {
     })
   } catch (err) {
     const errors = err?.data
+    const errorCode = errors?.code
 
-    if (errors?.code === 403) {
+    if (
+      errorCode === 403 ||
+      errorCode === 401
+    ) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {
@@ -76,23 +135,23 @@ function* uploadTemplate(action) {
         }
       })
     } else {
+      const errorMessage = errors?.message || 'Terjadi Kesalahan'
+
       yield put({
         type: SET_MODAL,
         payload: {
           code: errors?.code,
-          message: errors?.message,
-          childMessage: errors?.message
+          message: errorMessage
         }
       })
 
       yield put({
         type: UPLOAD_TEMPLATE_FAILED,
-        payload: errors?.message
+        payload: errorMessage
       })
     }
   }
 }
-
 
 /**
  * Download Template
@@ -110,13 +169,12 @@ function* downloadTemplate(action) {
     })
   } catch (err) {
     const errors = err?.data
+    const errorCode = errors?.code
 
-    yield put({
-      type: DOWNLOAD_TEMPLATE_FAILED,
-      payload: errors?.message
-    })
-
-    if (errors?.code === 403) {
+    if (
+      errorCode === 403 ||
+      errorCode === 401
+    ) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {
@@ -126,17 +184,20 @@ function* downloadTemplate(action) {
         }
       })
     } else {
-      if (errors?.code === 400) {
-        yield put({
-          type: CATCH_ERROR,
-          payload: errors?.message
-        })
-      } else {
-        yield put({
-          type: DOWNLOAD_TEMPLATE_FAILED,
-          payload: errors?.message
-        })
-      }
+      const errorMessage = errors?.message || 'Terjadi Kesalahan'
+
+      yield put({
+        type: SET_MODAL,
+        payload: {
+          code: errors?.code,
+          message: errorMessage
+        }
+      })
+
+      yield put({
+        type: DOWNLOAD_TEMPLATE_FAILED,
+        payload: errorMessage
+      })
     }
   }
 }
@@ -158,13 +219,12 @@ function* synchronizeEmployees() {
     })
   } catch (err) {
     const errors = err?.data
+    const errorCode = errors?.code
 
-    yield put({
-      type: SYNC_EMPLOYEES_FAILED,
-      payload: errors?.message
-    })
-
-    if (errors?.code === 403) {
+    if (
+      errorCode === 403 ||
+      errorCode === 401
+    ) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {
@@ -174,17 +234,20 @@ function* synchronizeEmployees() {
         }
       })
     } else {
-      if (errors?.code === 400) {
-        yield put({
-          type: CATCH_ERROR,
-          payload: errors?.message
-        })
-      } else {
-        yield put({
-          type: SYNC_EMPLOYEES_FAILED,
-          payload: errors?.message
-        })
-      }
+      const errorMessage = errors?.message || 'Terjadi Kesalahan'
+
+      yield put({
+        type: SET_MODAL,
+        payload: {
+          code: errors?.code,
+          message: errorMessage
+        }
+      })
+
+      yield put({
+        type: SYNC_EMPLOYEES_FAILED,
+        payload: errorMessage
+      })
     }
   }
 }
@@ -207,7 +270,12 @@ function* getEmployees(action) {
     })
   } catch (err) {
     const errors = err?.data
-    if (errors?.code === 403) {
+    const errorCode = errors?.code
+
+    if (
+      errorCode === 403 ||
+      errorCode === 401
+    ) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {
@@ -217,17 +285,20 @@ function* getEmployees(action) {
         }
       })
     } else {
-      if (errors?.code === 400) {
-        yield put({
-          type: CATCH_ERROR,
-          payload: errors?.message
-        })
-      } else {
-        yield put({
-          type: GET_EMPLOYEES_FAILED,
-          payload: errors?.message
-        })
-      }
+      const errorMessage = errors?.message || 'Terjadi Kesalahan'
+
+      yield put({
+        type: SET_MODAL,
+        payload: {
+          code: errors?.code,
+          message: errorMessage
+        }
+      })
+
+      yield put({
+        type: GET_EMPLOYEES_FAILED,
+        payload: errorMessage
+      })
     }
   }
 }
@@ -249,24 +320,35 @@ function* getEmployee(action) {
       payload: payload
     })
   } catch (err) {
-    const status = err?.data?.meta
+    const errors = err?.data
+    const errorCode = errors?.code
 
-    if (status?.code === 403 || status?.code === 401) {
+    if (
+      errorCode === 403 ||
+      errorCode === 401
+    ) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {
-          code: err?.data?.meta?.code,
-          message: err?.data?.meta?.message,
+          code: errors?.code,
+          message: errors?.message,
           redirect: '/profile'
         }
       })
     } else {
+      const errorMessage = errors?.message || 'Terjadi Kesalahan'
+
+      yield put({
+        type: SET_MODAL,
+        payload: {
+          code: errors?.code,
+          message: errorMessage
+        }
+      })
+
       yield put({
         type: GET_EMPLOYEE_FAILED,
-        payload: {
-          modal: true,
-          error: err?.meta?.message
-        }
+        payload: errorMessage
       })
     }
   }
@@ -493,6 +575,7 @@ function* updateEmployeeStatus(action) {
 }
 
 function* employeeSaga() {
+  yield takeEvery(GET_ACTIVITIES_REQUESTED, getActivitiesHistory)
   yield takeEvery(UPLOAD_TEMPLATE_REQUESTED, uploadTemplate)
   yield takeEvery(DOWNLOAD_TEMPLATE_REQUESTED, downloadTemplate)
   yield takeEvery(SYNC_EMPLOYEES_REQUESTED, synchronizeEmployees)
