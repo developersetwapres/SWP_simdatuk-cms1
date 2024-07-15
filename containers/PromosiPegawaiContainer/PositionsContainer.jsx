@@ -18,7 +18,8 @@ export default connect(
     constructor(props) {
       super(props)
       this.state = {
-        willRender: true
+        willRender: true,
+        positionInfo: {}
       }
       this.fetch = this.fetch.bind(this)
     }
@@ -28,11 +29,22 @@ export default connect(
 
       if (id) {
         const ids = atob(id)?.split('-')
-        const echelonId = ids[1]
         const positionId = ids[0]
-        this.props.getUnoccupiedPositionsDetail({
-          echelon_id: echelonId,
-          position_id: positionId
+        const echelonId = ids[1]
+        const name = ids[2] || '-'
+        const total = ids[3] || '0'
+
+        this.setState({
+          ...this.state,
+          positionInfo: {
+            name,
+            total
+          }
+        }, () => {
+          this.props.getUnoccupiedPositionsDetail({
+            echelon_id: echelonId,
+            position_id: positionId
+          })
         })
       }
     }

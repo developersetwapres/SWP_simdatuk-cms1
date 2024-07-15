@@ -6,7 +6,6 @@ import { useRouter } from 'next/router'
 import { makeStyles } from '@mui/styles'
 import { Button } from '../shared'
 import Card from '../shared/Card/Index'
-import Search from '../core/Search'
 import PropTypes from 'prop-types'
 
 const useStyles = makeStyles({
@@ -43,19 +42,23 @@ const useStyles = makeStyles({
 })
 
 function PositionsComponent({
+  positionInfo,
   promotions,
   fetch = () => { },
   setLoading = () => { }
 }) {
   const router = useRouter()
   const classes = useStyles()
+
   const action = useMemo(() => {
     return (
       <Box className={classes.heading}>
-        <Typography fontWeight='bold'>Total Jabatan Kosong: 10</Typography>
+        <Typography fontWeight='bold'>
+          Total Jabatan Kosong: {positionInfo?.total || 0}
+        </Typography>
       </Box>
     )
-  }, [])
+  }, [positionInfo])
 
   const navigateToCompare = (positionId) => {
     router.push(`/rekapitulasi/promosi-pegawai/bandingkan-pegawai/${btoa(positionId)}`)
@@ -76,18 +79,9 @@ function PositionsComponent({
   return (
     <LayoutPages
       handleBack={router.back}
-      summary='Jabatan Fungsional Analis Kebijakan: Ahli Madya'
+      summary={positionInfo?.name || '-'}
       action={action}
     >
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <Search
-          inputParentClasses={classes.inputParent}
-          inputClass={classes.input}
-          iconStyle={{ fontSize: '20px' }}
-          placeholder='Cari Jabatan'
-        />
-      </Box>
-
       <Grid container spacing={2}>
         {unoccupiedPositions?.map(pos => (
           <Grid item key={pos?.id} xs={3}>
@@ -156,6 +150,7 @@ const PositionCard = ({ position, unit, count, handleClick }) => {
 }
 
 PositionsComponent.propTypes = {
+  positionInfo: PropTypes.object,
   promotions: PropTypes.object,
   fetch: PropTypes.func,
   setLoading: PropTypes.func

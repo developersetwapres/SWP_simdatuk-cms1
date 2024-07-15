@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo } from 'react'
 import { makeStyles } from '@mui/styles'
-import { Box, Grid, Paper, Typography } from '@mui/material'
+import { Box, Grid, Typography } from '@mui/material'
 import { Button } from '@/components/shared'
 import PropTypes from 'prop-types'
 import { useRouter } from 'next/router'
@@ -38,11 +38,11 @@ const useStyles = makeStyles({
   }
 })
 
-function PromosiPegawaiComponent({ promotions, setLoading = () => {} }) {
+function PromosiPegawaiComponent({ promotions, setLoading = () => { } }) {
   const router = useRouter()
 
-  const navigateToPositions = (positionId, echelonId) => {
-    const ids = btoa(`${positionId}-${echelonId}`)
+  const navigateToPositions = (positionId, echelonId, positionItem) => {
+    const ids = btoa(`${positionId}-${echelonId}-${positionItem?.name}-${positionItem?.total}`)
     router.push(`${router.asPath}/positions/${ids}`)
   }
 
@@ -104,14 +104,18 @@ function PromosiPegawaiComponent({ promotions, setLoading = () => {} }) {
                       item?.cards?.length == 2
                         ? 6
                         : item?.cards?.length == 3
-                        ? 4
-                        : 3
+                          ? 4
+                          : 3
                     }
                   >
                     <PositionCard
                       position={pos?.name}
                       count={pos?.unoccupied}
-                      handleClick={() => navigateToPositions(item?.id, pos?.id)}
+                      handleClick={
+                        () => navigateToPositions(
+                          item?.id, pos?.id, item
+                        )
+                      }
                     />
                   </Grid>
                 ))}
