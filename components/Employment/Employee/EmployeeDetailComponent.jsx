@@ -47,12 +47,12 @@ import { CLEAR_EXPORT_EMPLOYEE_DETAIL_STATE } from '@/store/constants'
 const EmployeeDetailComponent = ({
   employee,
   exportEmployeeData,
-  getEmployee = () => {},
-  updateNotesByUserID = () => {},
-  updateEmployeeStatus = () => {},
-  clearEmployeeState = () => {},
-  exportEmployeeDetail = () => {},
-  setRender = () => {}
+  getEmployee = () => { },
+  updateNotesByUserID = () => { },
+  updateEmployeeStatus = () => { },
+  clearEmployeeState = () => { },
+  exportEmployeeDetail = () => { },
+  setRender = () => { }
 }) => {
   const router = useRouter()
   const dispatch = useDispatch()
@@ -123,12 +123,12 @@ const EmployeeDetailComponent = ({
       ),
       educations: !!detailEmployee?.educations?.length
         ? [
-            ...detailEmployee?.educations?.map((i) => ({
-              ...i,
-              level: getValue('education', i?.level - 1),
-              status: getValue('education_status', i?.status - 1)
-            }))
-          ]
+          ...detailEmployee?.educations?.map((i) => ({
+            ...i,
+            level: getValue('education', i?.level - 1),
+            status: getValue('education_status', i?.status - 1)
+          }))
+        ]
         : []
     }
 
@@ -358,7 +358,7 @@ const EmployeeDetailComponent = ({
   }, [router])
 
   useEffect(() => {
-    const state = !(employee?.loading && exportEmployeeData?.loading)
+    const state = !(employee?.loading || exportEmployeeData?.loading)
     setRender(state)
   }, [employee, exportEmployeeData])
 
@@ -376,7 +376,7 @@ const EmployeeDetailComponent = ({
     >
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <Paper sx={{ height: '200px', display: 'flex', gap: '20px' }}>
+          <Paper sx={{ minHeight: '200px', display: 'flex', gap: '20px' }}>
             {/* Image Profile */}
             <Box
               sx={{
@@ -412,11 +412,11 @@ const EmployeeDetailComponent = ({
               <Typography fontSize={14} fontWeight='500'>
                 {data?.position_merged || '-'}
               </Typography>
-              <Grid container sx={{ marginTop: '20px' }}>
+              <Grid container sx={{ marginTop: '20px' }} spacing={1}>
                 {/* Echelon / Grade */}
                 {!path?.Outsource && (
                   <>
-                    <Grid item xs={4}>
+                    <Grid item xs={12} md={4}>
                       <Box>
                         <Typography component='h5' sx={{ fontSize: '14px' }}>
                           Eselon
@@ -429,7 +429,7 @@ const EmployeeDetailComponent = ({
                         </Typography>
                       </Box>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={12} md={4}>
                       <Box>
                         <Typography component='h5' sx={{ fontSize: '14px' }}>
                           Golongan
@@ -448,19 +448,25 @@ const EmployeeDetailComponent = ({
                   </>
                 )}
                 {/* NIP/NRP */}
-                <Grid item xs={4}>
+                <Grid item xs={12} md={4}>
                   <Box>
                     <Typography component='h5' sx={{ fontSize: '14px' }}>
                       {`NIP${!path?.Outsource ? '/NRP' : ''}`}
                     </Typography>
-                    <Typography fontSize={14} fontWeight='600'>
+                    <Typography
+                      fontSize={14}
+                      fontWeight='600'
+                      sx={{
+                        wordWrap: 'break-word'
+                      }}
+                    >
                       {[
                         data?.employee_id_number || '-',
                         !path?.Outsource
                           ? data?.employee_registration_number || '-'
                           : null
                       ].join('/')}
-                      {}
+                      { }
                     </Typography>
                   </Box>
                 </Grid>
