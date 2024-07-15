@@ -135,10 +135,10 @@ const ExportEmployeeComponent = ({
   grade,
   echelon,
   exportEmployeeData,
-  onLoading = () => { },
-  onPaginationChange = () => { },
-  onRowsPerPageChange = () => { },
-  clearExportEmployeesState = () => { }
+  onLoading = () => {},
+  onPaginationChange = () => {},
+  onRowsPerPageChange = () => {},
+  clearExportEmployeesState = () => {}
 }) => {
   const formikRef = useRef()
   const [showPreview, setShowPreview] = useState(false)
@@ -147,9 +147,7 @@ const ExportEmployeeComponent = ({
     setShowPreview(!showPreview)
   }
 
-  const exportFile = (values) => {
-    console.log('VALUES: ', values)
-  }
+  const exportFile = (values) => {}
 
   const columns = useMemo(() => {
     const col = [
@@ -190,8 +188,8 @@ const ExportEmployeeComponent = ({
 
   const options = useMemo(() => {
     return {
-      echelons: echelon?.options?.map(e => e?.name) || [],
-      grades: grade?.options?.map(e => e?.name) || []
+      echelons: echelon?.options?.map((e) => e?.name) || [],
+      grades: grade?.options?.map((e) => e?.name) || []
     }
   }, [echelon])
 
@@ -202,21 +200,21 @@ const ExportEmployeeComponent = ({
       grade?.loading
     )
     onLoading(state)
-  }, [
-    grade,
-    echelon,
-    exportEmployeeData
-  ])
+  }, [grade, echelon, exportEmployeeData])
 
   return (
-    <Formik innerRef={formikRef} initialValues={InitValue} onSubmit={() => { }}>
-      {({ values, resetForm = () => { }, setFieldValue = () => { } }) => (
+    <Formik innerRef={formikRef} initialValues={InitValue} onSubmit={() => {}}>
+      {({ values, resetForm = () => {}, setFieldValue = () => {} }) => (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <LayoutPages
             summary='Export Pegawai'
             action={
               <Box sx={{ display: 'flex', gap: 1 }}>
-                <Button text='Reset' color='danger' onClick={() => resetForm()} />
+                <Button
+                  text='Reset'
+                  color='danger'
+                  onClick={() => resetForm()}
+                />
                 <Button text='Export' onClick={() => exportFile(values)} />
               </Box>
             }
@@ -225,7 +223,9 @@ const ExportEmployeeComponent = ({
               <Typography fontSize='12' color='#895700' fontWeight='700'>
                 Filter Data
               </Typography>
-              <Divider sx={{ border: '1px solid #929292', margin: '10px 0px' }} />
+              <Divider
+                sx={{ border: '1px solid #929292', margin: '10px 0px' }}
+              />
 
               <Grid container direction='row' spacing={3} rowSpacing={2}>
                 <Grid item xs={6}>
@@ -422,7 +422,9 @@ const ExportEmployeeComponent = ({
               >
                 Filter SKP
               </Typography>
-              <Divider sx={{ border: '1px solid #929292', margin: '10px 0px' }} />
+              <Divider
+                sx={{ border: '1px solid #929292', margin: '10px 0px' }}
+              />
 
               <Grid container direction='row' spacing={3} rowSpacing={2}>
                 <Grid item xs={6}>
@@ -475,7 +477,11 @@ const ExportEmployeeComponent = ({
                     label='Predikat Kinerja Pegawai'
                     value={values?.employeePerformancePredicate || []}
                     onChange={(val) => {
-                      setFieldValue('employeePerformancePredicate', val || [], false)
+                      setFieldValue(
+                        'employeePerformancePredicate',
+                        val || [],
+                        false
+                      )
                     }}
                   />
                 </Grid>
@@ -489,7 +495,11 @@ const ExportEmployeeComponent = ({
                     label='Capaian Kinerja Organisasi'
                     value={values?.organizationalPerformanceAchievements || []}
                     onChange={(val) => {
-                      setFieldValue('organizationalPerformanceAchievements', val || [], false)
+                      setFieldValue(
+                        'organizationalPerformanceAchievements',
+                        val || [],
+                        false
+                      )
                     }}
                   />
                 </Grid>
@@ -500,7 +510,9 @@ const ExportEmployeeComponent = ({
               <Typography fontSize='12' color='#895700' fontWeight='700'>
                 Jenis File Export
               </Typography>
-              <Divider sx={{ border: '1px solid #929292', margin: '10px 0px' }} />
+              <Divider
+                sx={{ border: '1px solid #929292', margin: '10px 0px' }}
+              />
               <Grid container spacing={3}>
                 <Grid item xs={4}>
                   <FormControlLabel
@@ -562,14 +574,12 @@ const ExportEmployeeComponent = ({
             </Paper>
 
             <Paper sx={{ padding: 2 }}>
-              <Typography
-                fontSize='12'
-                color='#895700'
-                fontWeight='700'
-              >
+              <Typography fontSize='12' color='#895700' fontWeight='700'>
                 Hasil Export Data
               </Typography>
-              <Divider sx={{ border: '1px solid #929292', margin: '10px 0px' }} />
+              <Divider
+                sx={{ border: '1px solid #929292', margin: '10px 0px' }}
+              />
 
               {checkboxes?.map((parent, idx) => (
                 <Box
@@ -600,7 +610,9 @@ const ExportEmployeeComponent = ({
                             const checked = e?.target?.checked
 
                             if (checked) {
-                              const allItems = parent?.children?.map(i => i?.name)
+                              const allItems = parent?.children?.map(
+                                (i) => i?.name
+                              )
                               setFieldValue('checkboxes', allItems, false)
                             } else {
                               setFieldValue('checkboxes', [], false)
@@ -616,11 +628,7 @@ const ExportEmployeeComponent = ({
 
                   <Grid container>
                     {parent?.children?.map((item) => (
-                      <Grid
-                        item
-                        key={uuidv4()}
-                        xs={4}
-                      >
+                      <Grid item key={uuidv4()} xs={4}>
                         <FormControlLabel
                           control={
                             <Checkbox
@@ -630,10 +638,21 @@ const ExportEmployeeComponent = ({
                                 const checked = e?.target?.checked
 
                                 if (checked) {
-                                  setFieldValue(`checkboxes`, [...values?.checkboxes, item?.name], false)
+                                  setFieldValue(
+                                    `checkboxes`,
+                                    [...values?.checkboxes, item?.name],
+                                    false
+                                  )
                                 } else {
-                                  const filterCheckboxes = values?.checkboxes?.filter(i => i !== item?.name)
-                                  setFieldValue(`checkboxes`, filterCheckboxes, false)
+                                  const filterCheckboxes =
+                                    values?.checkboxes?.filter(
+                                      (i) => i !== item?.name
+                                    )
+                                  setFieldValue(
+                                    `checkboxes`,
+                                    filterCheckboxes,
+                                    false
+                                  )
                                 }
                               }}
                             />

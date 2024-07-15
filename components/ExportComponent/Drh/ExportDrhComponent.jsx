@@ -10,7 +10,11 @@ import Card from '@/components/shared/Card/Index'
 import ExportDrfForm from './ExportDrfForm'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
-import { deputyOptions, retirementAge, workingPeriodOptions } from 'libs/types/options'
+import {
+  deputyOptions,
+  retirementAge,
+  workingPeriodOptions
+} from 'libs/types/options'
 
 const InitValue = {
   organization: [],
@@ -51,8 +55,8 @@ const ExportDrhComponent = ({
   exportDRHData,
   echelon,
   grade,
-  exportDRH = () => { },
-  onLoading = () => { }
+  exportDRH = () => {},
+  onLoading = () => {}
 }) => {
   const formikRef = useRef(null)
 
@@ -160,7 +164,6 @@ const ExportDrhComponent = ({
             return [handleParseKey(itm[0]), newValue]
           })
       )
-      console.log('PAYLOAD: ', payload)
       exportDRH(payload)
     } catch (err) {
       if (!err.inner || err.inner.length === 0) return
@@ -196,9 +199,7 @@ const ExportDrhComponent = ({
     return state
   }
 
-  useEffect(() => {
-    console.log('EXPORT: ', exportDRHData)
-  }, [exportDRHData])
+  useEffect(() => {}, [exportDRHData])
 
   useEffect(() => {
     const state = !(
@@ -214,7 +215,7 @@ const ExportDrhComponent = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => { }}
+      onSubmit={() => {}}
     >
       {(formikProps) => (
         <LayoutPages

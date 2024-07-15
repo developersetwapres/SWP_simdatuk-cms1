@@ -15,8 +15,6 @@ function CheckboxCard({
     getChekAll()
   }
 
-  console.log(checkedParent)
-
   // const children = (
   //   <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
   //     <FormControlLabel

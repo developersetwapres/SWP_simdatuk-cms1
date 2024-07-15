@@ -6,8 +6,6 @@ import PropTypes from 'prop-types'
 import { Icon } from '../shared'
 import { makeStyles } from '@mui/styles'
 
-
-
 const useStyles = makeStyles({
   icon: {
     cursor: 'pointer',
@@ -15,7 +13,6 @@ const useStyles = makeStyles({
     top: '70%',
     right: '1%',
     transform: 'translate(-50%, -50%)'
-
   }
 })
 function ButtonEdit() {
@@ -24,12 +21,8 @@ function ButtonEdit() {
 
   const classes = useStyles()
 
+  const handleClick = () => {}
 
-  const handleClick = () => {
-    console.log('ok')
-  }
-
-  console.log(anchorEl)
   return (
     <Fragment>
       <Button
@@ -52,11 +45,7 @@ function ButtonEdit() {
             color: 'white'
           }}
         >
-          <Icon
-          
-            maxWidth={20}
-            classes={classes.icon}
-          />
+          <Icon maxWidth={20} classes={classes.icon} />
           Edit
         </div>
       </Button>
