@@ -32,8 +32,8 @@ const CardListJobs = ({ data, otherStyle, isModal, handleModal }) => {
           {data?.childs &&
             data?.childs.map((itm, idx) => (
               <Typography key={idx} fontWeight='600'>
-                {`${idx + 1}. ${itm?.name || '-'} (${itm?.filled}/${
-                  itm?.available
+                {`${idx + 1}. ${itm?.name || '-'} (${itm?.available}/${
+                  itm?.filled
                 })`}
               </Typography>
             ))}

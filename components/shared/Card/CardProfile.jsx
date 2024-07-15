@@ -45,14 +45,12 @@ const style = {
 }
 
 const CardProfile = ({
-  rootStyle,
   data,
-  isExpand,
-  onCLick,
-  isCheck,
+  isProfile = true,
   isShadow = true,
   isBorder = false,
-  checkLabel,
+  checked = false,
+  isCheck = false,
   handleModal = () => {},
   handleCheck = () => {}
 }) => {
@@ -106,7 +104,7 @@ const CardProfile = ({
               textAlign='center'
               sx={{ margin: '4px auto 0 auto', fontSize: 14 }}
             >
-              {`(${data?.filled}/${data?.available})`}
+              {`(${data?.available}/${data?.filled})`}
             </Typography>
           )}
           {isShadow && hasChilds && (
@@ -133,7 +131,9 @@ const CardProfile = ({
         </Box>
         <ContentProfile
           data={data}
+          checked={checked}
           isCheck={isCheck}
+          isProfile={isProfile}
           isBorder={isMultipleEmployee ? true : isBorder}
           isMultipleEmployee={isMultipleEmployee}
           handleCheck={handleCheck}
@@ -164,9 +164,9 @@ const ItemDetail = ({ title, value }) => {
 
 const ContentProfile = ({
   data,
-  type,
-  detailCard,
+  checked,
   isCheck,
+  isProfile,
   isBorder,
   handleCheck
 }) => {
@@ -316,68 +316,70 @@ const ContentProfile = ({
                       title='NIP/NRP'
                       value={
                         !item?.employee_id_number &&
-                        !item?.employee_register_number
+                        !item?.employee_registration_number
                           ? '-'
-                          : !item?.employee_register_number
+                          : !item?.employee_registration_number
                           ? item?.employee_id_number
-                          : `${item?.employee_id_number}/${item?.employee_register_number}`
+                          : `${item?.employee_id_number} / ${item?.employee_registration_number}`
                       }
                     />
                   </>
                 )}
               </Grid>
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  flexDirection: 'row',
-                  width: '100%',
-                  gap: '5px'
-                }}
-              >
-                {item?.id && (
-                  <Button
-                    onClick={() =>
-                      router.push(
-                        `/rekapitulasi/peta-jabatan/detail/${btoa(item?.id)}`
-                      )
-                    }
-                    text='Lihat Profile'
-                    color='sidatukDraweBase'
-                    fullWidth
-                    type='submit'
-                    sx={{
-                      color: '#fff',
-                      textTransform: 'none',
-                      fontSize: '10px'
-                    }}
-                  />
-                )}
-                {employee?.has_child && (
-                  <Button
-                    onClick={() =>
-                      router.push(
-                        `/rekapitulasi/peta-jabatan/${btoa(data?.id)}`
-                      )
-                    }
-                    text='Lihat Detail'
-                    color='primary'
-                    fullWidth
-                    type='submit'
-                    sx={{
-                      color: '#fff',
-                      textTransform: 'none',
-                      fontSize: '10px'
-                    }}
-                  />
-                )}
+              <Box>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    flexDirection: 'row',
+                    width: '100%',
+                    gap: '5px'
+                  }}
+                >
+                  {item?.id && isProfile && (
+                    <Button
+                      onClick={() =>
+                        router.push(
+                          `/rekapitulasi/peta-jabatan/detail/${btoa(item?.id)}`
+                        )
+                      }
+                      text='Lihat Profile'
+                      color='sidatukDraweBase'
+                      fullWidth
+                      type='submit'
+                      sx={{
+                        color: '#fff',
+                        textTransform: 'none',
+                        fontSize: '10px'
+                      }}
+                    />
+                  )}
+                  {employee?.has_child && (
+                    <Button
+                      onClick={() =>
+                        router.push(
+                          `/rekapitulasi/peta-jabatan/${btoa(data?.id)}`
+                        )
+                      }
+                      text='Lihat Detail'
+                      color='primary'
+                      fullWidth
+                      type='submit'
+                      sx={{
+                        color: '#fff',
+                        textTransform: 'none',
+                        fontSize: '10px'
+                      }}
+                    />
+                  )}
+                </Box>
                 {isCheck && (
                   <FormControlLabel
                     label={'Bandingkan'}
                     control={
                       <Checkbox
-                        onClick={(e) => handleCheck(e.target.checked, data)}
-                        checked={isCheck}
+                        onClick={(e) => handleCheck(e.target.checked, item?.id)}
+                        checked={checked}
                       />
                     }
                   />

@@ -172,10 +172,10 @@ const PetaJabatanLayout = ({ data, children }) => {
                       }}
                     >
                       {`${employee?.user?.employee_id_number || '-'}${
-                        employee?.user?.employee_register_number ? '/' : ''
+                        employee?.user?.employee_registration_number ? '/' : ''
                       }`}
                     </Typography>
-                    {employee?.user?.employee_register_number && (
+                    {employee?.user?.employee_registration_number && (
                       <Typography
                         fontWeight='600'
                         fontSize={14}
@@ -184,7 +184,7 @@ const PetaJabatanLayout = ({ data, children }) => {
                           wordWrap: 'break-word'
                         }}
                       >
-                        {employee?.user?.employee_register_number}
+                        {employee?.user?.employee_registration_number}
                       </Typography>
                     )}
                   </Grid>

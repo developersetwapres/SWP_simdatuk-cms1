@@ -75,9 +75,9 @@ const BiodataPegawai = ({ data }) => {
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>
-            {path?.ASN
+            {data?.type == 1
               ? 'Jenis Pegawai'
-              : path?.NonASN
+              : data?.type == 2
               ? 'Jenis Perbantuan'
               : 'Jenis Outsourcing'}
           </Typography>
