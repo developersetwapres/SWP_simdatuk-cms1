@@ -32,7 +32,7 @@ export const exportEmployeesPreviewAction = (payload) => {
  * @returns
  */
 export const exportEmployeeDetailAction = (id) => {
-  return post(`${basePath}/${id}`, null, {
+  return post(`/export/employees-drh/${id}`, null, {
     responseType: 'blob'
   })
 }
