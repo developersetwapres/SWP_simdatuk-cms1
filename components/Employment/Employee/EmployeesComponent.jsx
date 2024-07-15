@@ -5,9 +5,7 @@ import { useRouter } from 'next/router'
 import CardProfile from '../../shared/Card/CardProfile'
 import LayoutPages from '../../core/LayoutPages'
 
-const EmployeesComponent = ({
-  datas
-}) => {
+const EmployeesComponent = ({ datas }) => {
   const router = useRouter()
 
   const totalCount = useMemo(() => {
@@ -29,12 +27,10 @@ const EmployeesComponent = ({
               data={{
                 ...item,
                 children: [
-                  ...item.children.map(
-                    c => ({
-                      ...c,
-                      pathProfil: router.asPath + `/${btoa(index + 1)}`
-                    })
-                  )
+                  ...item.children.map((c) => ({
+                    ...c,
+                    pathProfil: router.asPath + `/${btoa(index + 1)}`
+                  }))
                 ]
               }}
             />

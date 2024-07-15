@@ -1,9 +1,18 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useMemo, useState, useEffect, Fragment } from 'react'
+import React, { useMemo, useState, useEffect, Fragment, useRef } from 'react'
 import LayoutPages from '../core/LayoutPages'
 import { useRouter } from 'next/router'
-import { Box, Grid, Paper, Typography, List, ListItem, ListItemText } from '@mui/material'
+import {
+  Box,
+  Grid,
+  Paper,
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+  Tooltip
+} from '@mui/material'
 import ButtonExport from '../core/ButtonExport'
 import { Button } from '../shared'
 import { Close } from '@mui/icons-material'
@@ -13,7 +22,20 @@ import { dateTimeFormat } from '@/utils/index'
 import Card from '../shared/Card/Index'
 import { v4 as uuidv4 } from 'uuid'
 import LinearProgressBar from '../core/LinearProgressBar'
-import { Tooltip } from 'react-tooltip'
+import { clearStorages, setStorages } from '@/utils/storage'
+import { styled } from '@mui/styles'
+
+const CustomTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))({
+  [`& .MuiTooltip-tooltip`]: {
+    padding: '12px',
+    backgroundColor: '#FFF',
+    color: 'rgba(57, 67, 70, 1)',
+    fontSize: '1em',
+    boxShadow: '0 0 12px rgba(57, 51, 51, 0.15)'
+  }
+})
 
 const baseColors = [
   '#F16637',
@@ -72,12 +94,16 @@ const stats = [
 function ComparisonsComponent({
   promotions,
   exportPromotionData,
-  setLoading = () => { },
-  exportPromotionUsers = () => { },
-  clearExportPromotionState = () => { }
+  setLoading = () => {},
+  exportPromotionUsers = () => {},
+  clearExportPromotionState = () => {}
 }) {
   const router = useRouter()
   const [employees, setEmployees] = useState([])
+
+  const isBussy = useMemo(() => {
+    return employees.length == 5
+  }, [employees])
 
   const getRandomColor = () => {
     const letters = '0123456789ABCDEF'
@@ -116,7 +142,7 @@ function ComparisonsComponent({
     }
 
     exportPromotionUsers({
-      user_id: data?.map(e => e?.id),
+      user_id: data?.map((e) => e?.id),
       output
     })
   }
@@ -124,7 +150,12 @@ function ComparisonsComponent({
   const action = useMemo(() => {
     return (
       <Box sx={{ display: 'flex', gap: 1 }}>
-        <Button text='Tambah Pegawai' color='primary' onClick={router.back} />
+        <Button
+          text='Tambah Pegawai'
+          color='primary'
+          isBusy={isBussy}
+          onClick={router.back}
+        />
         <Button
           text='Reset Pegawai'
           color='sidatukDraweBase'
@@ -145,9 +176,12 @@ function ComparisonsComponent({
   }, [employees])
 
   const removeEmployee = (id) => {
-    setEmployees(
-      employees?.filter(item => item?.id !== id)
-    )
+    if (employees.length > 2) {
+      setEmployees(employees?.filter((item) => item?.id !== id))
+    } else {
+      clearStorages(['dataPegawaiPromosi'])
+      router.back()
+    }
   }
 
   useEffect(() => {
@@ -163,11 +197,7 @@ function ComparisonsComponent({
         type = SaveAs.CSV
       }
 
-      saveFile(
-        exportPromotionData?.data,
-        getFileName(responseType),
-        type
-      )
+      saveFile(exportPromotionData?.data, getFileName(responseType), type)
 
       clearExportPromotionState()
     }
@@ -176,8 +206,8 @@ function ComparisonsComponent({
   useEffect(() => {
     setEmployees(
       promotions?.employeesDetailPromotion?.map((item, index) => {
-        const colorCode = index > (baseColors.length - 1) ?
-          getRandomColor() : baseColors[index]
+        const colorCode =
+          index > baseColors.length - 1 ? getRandomColor() : baseColors[index]
 
         return {
           ...item,
@@ -191,6 +221,13 @@ function ComparisonsComponent({
     setLoading(!(promotions?.loading || exportPromotionData?.loading))
   }, [promotions, exportPromotionData])
 
+  useEffect(() => {
+    if (employees.length > 1) {
+      const data = JSON.stringify(employees?.map((item) => btoa(item?.id)))
+      setStorages([{ name: 'dataPegawaiPromosi', value: data }])
+    }
+  }, [employees])
+
   return (
     <LayoutPages
       handleBack={router.back}
@@ -202,16 +239,33 @@ function ComparisonsComponent({
           {employees?.map((employee, index) => {
             const columnSize = 12 / employees?.length
             const columnWidth = employees?.length >= 3 ? 4 : columnSize
-            const colorCode = index > (baseColors?.length - 1) ?
-              getRandomColor() : baseColors[index]
+            const colorCode =
+              index > baseColors?.length - 1
+                ? getRandomColor()
+                : baseColors[index]
 
             return (
               <Grid key={employee?.id} item xs={columnWidth}>
                 <EmployeeDataComponent
-                  name={employee?.name}
+                  name={
+                    employee?.name
+                      ? [
+                          employee?.title_prefix,
+                          employee?.name,
+                          employee?.title_suffix
+                        ].join(' ')
+                      : '-'
+                  }
                   titleColor={colorCode}
                   image={employee?.photo_profile}
-                  registrationNumber={employee?.employee_registration_number}
+                  registrationNumber={
+                    !employee?.employee_id_number &&
+                    !employee?.employee_registration_number
+                      ? '-'
+                      : !employee?.employee_registration_number
+                      ? employee?.employee_id_number
+                      : `${employee?.employee_id_number} / ${employee?.employee_registration_number}`
+                  }
                   handleRemove={() => removeEmployee(employee?.id)}
                 />
               </Grid>
@@ -219,20 +273,20 @@ function ComparisonsComponent({
           })}
         </Grid>
 
-        <Typography fontWeight={700} variant='h5' component='h5' sx={{ marginTop: 2 }}>Grafik</Typography>
+        <Typography
+          fontWeight={700}
+          variant='h5'
+          component='h5'
+          sx={{ marginTop: 2 }}
+        >
+          Grafik
+        </Typography>
 
         {stats?.map((item) => (
-          <Card
-            key={item?.id}
-            otherStyle={{ marginTop: '16px' }}
-          >
+          <Card key={item?.id} otherStyle={{ marginTop: '16px' }}>
             <Grid container spacing={2} sx={{ marginTop: 1, padding: 2 }}>
               <Grid item xs={12}>
-                <Typography
-                  color='#895700'
-                  fontWeight={700}
-                  fontSize={14}
-                >
+                <Typography color='#895700' fontWeight={700} fontSize={14}>
                   {item?.title}
                 </Typography>
               </Grid>
@@ -251,39 +305,50 @@ function ComparisonsComponent({
           </Card>
         ))}
 
-        <Typography fontWeight={700} variant='h5' component='h5' sx={{ marginTop: 2 }}>Catatan</Typography>
+        <Typography
+          fontWeight={700}
+          variant='h5'
+          component='h5'
+          sx={{ marginTop: 2 }}
+        >
+          Catatan
+        </Typography>
 
         <Grid container spacing={2} sx={{ marginTop: 1, padding: 2 }}>
           {employees?.map((item, index) => {
-            const colorCode = index > (baseColors?.length - 1) ?
-              getRandomColor() : baseColors[index]
+            const colorCode =
+              index > baseColors?.length - 1
+                ? getRandomColor()
+                : baseColors[index]
 
             return (
               <NotesComponent
                 key={item.id}
                 notes={item?.notes}
-                name={item?.name}
+                name={
+                  item?.name
+                    ? [item?.title_prefix, item?.name, item?.title_suffix].join(
+                        ' '
+                      )
+                    : '-'
+                }
                 textNameColor={colorCode}
               />
             )
           })}
         </Grid>
       </Paper>
-
-      <PercentageTooltip
-        data={employees}
-      />
     </LayoutPages>
   )
 }
 
-const NotesComponent = ({
-  name,
-  textNameColor = 'primary',
-  notes = []
-}) => {
+const NotesComponent = ({ name, textNameColor = 'primary', notes = [] }) => {
   return (
-    <Grid item xs={6} sx={{ borderBottom: '1px solid #F0F0F0', paddingBottom: 2 }}>
+    <Grid
+      item
+      xs={6}
+      sx={{ borderBottom: '1px solid #F0F0F0', paddingBottom: 2 }}
+    >
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
         <Typography
           sx={{ wordWrap: 'break-word' }}
@@ -294,19 +359,24 @@ const NotesComponent = ({
           {name}
         </Typography>
 
-        <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', marginTop: 2 }}>
+        <List
+          sx={{
+            width: '100%',
+            maxWidth: 360,
+            bgcolor: 'background.paper',
+            marginTop: 2
+          }}
+        >
           {notes?.map((value, index) => (
-            <ListItem
-              key={value}
-              disableGutters
-              disablePadding
-            >
+            <ListItem key={value} disableGutters disablePadding>
               <ListItemText primary={`${index + 1}. ${value}`} />
             </ListItem>
           ))}
 
           {!notes?.length && (
-            <Typography fontSize={14} fontWeight={600}>-</Typography>
+            <Typography fontSize={14} fontWeight={600}>
+              -
+            </Typography>
           )}
         </List>
       </Box>
@@ -314,156 +384,92 @@ const NotesComponent = ({
   )
 }
 
-const PercentageTooltip = ({ data = [] }) => {
-  const getValueByType = (type, item) => {
-    if (type === 'echelon')
-      return item?.echelon?.percentage
-
-    if (type === 'grade')
-      return item?.grade?.percentage
-
-    if (type === 'education')
-      return item?.education_level?.percentage
-
-    if (type === 'assessments')
-      return item?.assessment?.percentage
-
-    if (type === 'competencies')
-      return item?.competency?.percentage
-
-    if (type === 'talents')
-      return item?.talent?.percentage
-
-    return ''
+const PercentageTooltip = ({ label, type, data }) => {
+  const getValueByType = (item) => {
+    switch (type) {
+      case 'echelon':
+        return item?.echelon
+      case 'grade':
+        return item?.grade
+      case 'education':
+        return item?.education_level
+      case 'assessments':
+        return item?.assessment
+      case 'competencies':
+        return item?.competency
+      case 'talents':
+        return item?.talent
+      default:
+        return {}
+    }
   }
 
   return (
-    <Tooltip
-      id='percentage-tooltip'
-      style={{
-        backgroundColor: '#ffffff',
-        color: '#000000',
-        boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
-        maxWidth: '300px'
-      }}
-      render={({ activeAnchor }) => (
-        <>
-          <Typography
-            fontWeight='700'
-            color='#895700'
-          >
-            {activeAnchor?.getAttribute('data-label') || ''}
-          </Typography>
+    <Box>
+      <Typography fontWeight='700' color='#895700'>
+        {label || ''}
+      </Typography>
 
-          <Grid
-            container
-            spacing={2}
-            sx={{
-              marginTop: '12px'
-            }}
-          >
-            {data?.map((item, index) => {
-              const colorCode = index > (baseColors?.length - 1) ?
-                getRandomColor() : baseColors[index]
+      <Grid
+        container
+        spacing={2}
+        sx={{
+          marginTop: '12px'
+        }}
+      >
+        {data?.map((item, index) => {
+          const colorCode =
+            index > baseColors?.length - 1
+              ? getRandomColor()
+              : baseColors[index]
 
-              return (
-                <Fragment key={item?.id}>
-                  <Grid item xs={2}>
-                    <LinearProgressBar
-                      value={100}
-                      bgColor={colorCode}
-                      baseBgColor='#FFF'
-                    />
-                  </Grid>
+          return (
+            <Fragment key={item?.id}>
+              <Grid item xs={2}>
+                <LinearProgressBar
+                  value={100}
+                  bgColor={colorCode}
+                  baseBgColor='#FFF'
+                />
+              </Grid>
 
-                  <Grid item xs={7}>
-                    <Typography>{activeAnchor?.getAttribute('data-name') || ''}</Typography>
-                  </Grid>
+              <Grid item xs={7}>
+                <Typography>{getValueByType(item)?.name || 0}</Typography>
+              </Grid>
 
-                  <Grid item xs={3} justifyContent='flex-end'>
-                    <Typography textAlign='right'>
-                      {getValueByType(activeAnchor?.getAttribute('data-type'), item)}
-                    </Typography>
-                  </Grid>
-                </Fragment>
-              )
-            })}
-          </Grid>
-        </>
-      )}
-    />
+              <Grid item xs={3} justifyContent='flex-end'>
+                <Typography textAlign='right'>
+                  {getValueByType(item)?.percentage || 0}
+                </Typography>
+              </Grid>
+            </Fragment>
+          )
+        })}
+      </Grid>
+    </Box>
   )
 }
 
-const StatsComponent = ({
-  label = '',
-  type = '',
-  data = []
-}) => {
+const StatsComponent = ({ label = '', type = '', data = [] }) => {
+  const progressBarRef = useRef(null)
+
   const getPercentageDataByType = (item) => {
-    if (type === 'echelon')
-      return item?.echelon?.percentage
-
-    if (type === 'grade')
-      return item?.grade?.percentage
-
-    if (type === 'education')
-      return item?.education_level?.percentage
-
-    if (type === 'assessments')
-      return item?.assessment?.percentage
-
-    if (type === 'competencies')
-      return item?.competency?.percentage
-
-    if (type === 'talents')
-      return item?.talent?.percentage
-
-    return 0
-  }
-
-  const getLabelByType = (type) => {
-    if (type === 'echelon')
-      return 'Eselon'
-
-    if (type === 'grade')
-      return 'Golongan'
-
-    if (type === 'education')
-      return 'Pendidikan Terakhir'
-
-    if (type === 'assessments')
-      return 'Hasil Assessment'
-
-    if (type === 'competencies')
-      return 'Hasil Uji Kompetensi'
-
-    if (type === 'talents')
-      return 'Hasil Talent Pool'
-
-    return 0
-  }
-
-  const getDataByType = (type, item) => {
-    if (type === 'echelon')
-      return item?.echelon?.name
-
-    if (type === 'grade')
-      return item?.grade?.name
-
-    if (type === 'education')
-      return item?.education_level?.name
-
-    if (type === 'assessments')
-      return item?.assessment?.name
-
-    if (type === 'competencies')
-      return item?.competency?.name
-
-    if (type === 'talents')
-      return item?.talent?.name
-
-    return ''
+    switch (type) {
+      case 'echelon':
+        return item?.echelon?.percentage
+      case 'grade':
+        return item?.grade?.percentage
+      case 'education':
+        return item?.education_level?.percentage
+      case 'assessments':
+        return item?.assessment?.percentage
+      case 'competencies':
+        return item?.competency?.percentage
+      case 'talents':
+        return item?.talent?.percentage
+      default:
+        return 0
+    }
   }
 
   return (
@@ -480,23 +486,53 @@ const StatsComponent = ({
       <Grid item xs={7}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           {data?.map((item, index) => {
-            const colorCode = index > (baseColors?.length - 1) ?
-              getRandomColor() : baseColors[index]
+            const colorCode =
+              index > baseColors?.length - 1
+                ? getRandomColor()
+                : baseColors[index]
 
             return (
-              <Box
-                key={item?.id}
-                data-tooltip-id='percentage-tooltip'
-                data-type={type}
-                data-label={getLabelByType(type)}
-                data-name={getDataByType(type, item)}
-              >
-                <LinearProgressBar
-                  value={getPercentageDataByType(item)}
-                  bgColor={colorCode}
-                  baseBgColor='#FFF'
-                />
-              </Box>
+              <>
+                {getPercentageDataByType(item) > 0 ? (
+                  <CustomTooltip
+                    key={item?.id}
+                    followCursor
+                    title={
+                      <PercentageTooltip
+                        label={label}
+                        type={type}
+                        data={data}
+                      />
+                    }
+                    PopperProps={{
+                      modifiers: [
+                        {
+                          name: 'offset',
+                          options: {
+                            offset: [0, 8]
+                          }
+                        }
+                      ]
+                    }}
+                  >
+                    <Box ref={progressBarRef}>
+                      <LinearProgressBar
+                        value={getPercentageDataByType(item)}
+                        bgColor={colorCode}
+                        baseBgColor='#FFF'
+                      />
+                    </Box>
+                  </CustomTooltip>
+                ) : (
+                  <Box ref={progressBarRef}>
+                    <LinearProgressBar
+                      value={getPercentageDataByType(item)}
+                      bgColor={colorCode}
+                      baseBgColor='#FFF'
+                    />
+                  </Box>
+                )}
+              </>
             )
           })}
         </Box>
@@ -510,7 +546,7 @@ const EmployeeDataComponent = ({
   image = '/simdatuk/imagePegawai.png',
   registrationNumber = '',
   name = '',
-  handleRemove = () => { }
+  handleRemove = () => {}
 }) => {
   return (
     <Box

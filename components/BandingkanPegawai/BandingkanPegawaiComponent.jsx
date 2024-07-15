@@ -18,9 +18,13 @@ import CardProfile from '../shared/Card/CardProfile'
 import { CardTypes } from 'libs/types/CardTypes'
 import { useRouter } from 'next/router'
 import LayoutPages from '../core/LayoutPages'
-import { employeeEducationLevelOptions, predicateOptions } from 'libs/types/options'
+import {
+  employeeEducationLevelOptions,
+  predicateOptions
+} from 'libs/types/options'
 import Card from '../shared/Card/Index'
 import Image from 'next/image'
+import { setStorages } from '@/utils/storage'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -65,12 +69,12 @@ const BandingkanPegawaiComponent = ({
   grade,
   dataFromStorage,
   queries,
-  onSearch = () => { },
-  initData = () => { },
-  onLoading = () => { },
-  onPaginationChange = () => { },
-  onRowsPerPageChange = () => { },
-  onFilter = () => { }
+  onSearch = () => {},
+  initData = () => {},
+  onLoading = () => {},
+  onPaginationChange = () => {},
+  onRowsPerPageChange = () => {},
+  onFilter = () => {}
 }) => {
   const router = useRouter()
   const classes = useStyles()
@@ -78,10 +82,60 @@ const BandingkanPegawaiComponent = ({
   const [expandFilter, setExpandFilter] = useState(false)
   const [collectData, setCollectData] = useState([])
 
+  const getFlattenedObject = (item) => {
+    const itemObject = {
+      available: 0,
+      childs: [],
+      entity: 1,
+      filled: 1,
+      has_child: false,
+      id: item?.id,
+      name: item?.position_name,
+      type: item?.type,
+      users: [
+        {
+          echelon_name: item?.echelon_name,
+          echelon_effective_date: item?.echelon_effective_date,
+          employee_id_number: item?.employee_id_number,
+          employee_registration_number: item?.employee_registration_number,
+          grade_code: item?.grade_code,
+          grade_name: item?.grade_name,
+          id: item?.id,
+          name: item?.name,
+          photo_profile: item?.photo_profile,
+          position_effective_date: '',
+          position_name: item?.position_name,
+          title_prefix: item?.title_prefix,
+          title_suffix: item?.title_suffix,
+          type: item?.type
+        }
+      ]
+    }
+
+    return itemObject
+  }
+
+  const employees = useMemo(() => {
+    const data = promotions?.employees
+      ? promotions?.employees.map((item) => getFlattenedObject(item))
+      : []
+    const newData = data?.filter((item) => !collectData.includes(item?.id))
+
+    return newData
+  }, [promotions, collectData])
+
+  const employeesSelected = useMemo(() => {
+    const data = promotions?.employees
+      ? promotions?.employees.map((item) => getFlattenedObject(item))
+      : []
+    const newData = data?.filter((item) => collectData.includes(item?.id))
+
+    return newData
+  }, [promotions, collectData])
+
   const isSelectAll = useMemo(() => {
-    return (promotions?.employees?.length >= COLLECT_LIMIT && collectData?.length == COLLECT_LIMIT) ||
-      (promotions?.employees?.length < COLLECT_LIMIT && collectData?.length > 1)
-  }, [collectData, promotions])
+    return collectData.length == COLLECT_LIMIT
+  }, [collectData])
 
   const handleFilterClick = () => {
     setExpandFilter(!expandFilter)
@@ -93,12 +147,9 @@ const BandingkanPegawaiComponent = ({
         ...collectData,
         ...employees
           ?.slice(0, COLLECT_LIMIT - collectData?.length)
-          ?.map(item => {
-            // eslint-disable-next-line no-unused-vars
-            const [data, itemObject] = getFlattenedObject(item)
-            return itemObject
-          })
+          .map((item) => item?.id)
       ]
+
       setCollectData(merged)
     } else {
       setCollectData([])
@@ -106,38 +157,31 @@ const BandingkanPegawaiComponent = ({
   }
 
   const handleGetCheckBox = (value) => {
-    return collectData.some((item) => {
-      return item?.id === value?.id
-    })
+    return collectData.some((item) => item == value)
   }
 
-  const handleCheckBox = (checked, item, type) => {
-    if (
-      type == 'unselected' &&
-      collectData.length >= COLLECT_LIMIT
-    ) return
+  const handleCheckBox = (checked, id) => {
+    if (checked && collectData.length >= COLLECT_LIMIT) return
 
     if (checked) {
-      const newCollectData = [...collectData, item]
+      const newCollectData = [...collectData, id]
       setCollectData(newCollectData)
     } else {
-      const newCollectData = collectData?.filter(itm => itm?.id !== item?.id)
+      const newCollectData = collectData?.filter((itm) => itm !== id)
       setCollectData(newCollectData)
 
-      if (!newCollectData?.length) {
-        localStorage.removeItem('dataPegawai')
-      }
+      if (!newCollectData?.length) localStorage.removeItem('dataPegawai')
     }
   }
 
   const handleRedirectCompare = () => {
+    const data = JSON.stringify(collectData?.map((item) => btoa(item)))
+
     if (router?.query?.echelon_id) {
-      const data = JSON.stringify(collectData?.map(item => btoa(item?.id)))
-      localStorage.setItem('dataPegawaiPromosi', data)
+      setStorages([{ name: 'dataPegawaiPromosi', value: data }])
       router.push(`/rekapitulasi/promosi-pegawai/comparisons`)
     } else if (collectData.length > 1) {
-      const data = JSON.stringify(collectData?.map(item => btoa(item?.id)))
-      localStorage.setItem('dataPegawai', data)
+      setStorages([{ name: 'dataPegawai', value: data }])
       router.push(`${router.asPath}/data-pegawai`)
     }
   }
@@ -183,14 +227,11 @@ const BandingkanPegawaiComponent = ({
   const getIDByName = (type, name) => {
     if (!name) return ''
 
-    if (
-      type === 'education' ||
-      type === 'predicate'
-    ) {
-      return options[type]?.findIndex(item => item === name) + 1
+    if (type === 'education' || type === 'predicate') {
+      return options[type]?.findIndex((item) => item === name) + 1
     }
 
-    return options[type]?.find(item => item?.name === name)?.id || ''
+    return options[type]?.find((item) => item?.name === name)?.id || ''
   }
 
   const doFilter = (values) => {
@@ -207,35 +248,6 @@ const BandingkanPegawaiComponent = ({
     }
     onFilter(params)
   }
-
-  const getFlattenedObject = (item) => {
-    const itemObject = {
-      ...item,
-      eselon: `${item?.echelon_name || '-'}, ${item?.echelon_effective_date || '-'}`,
-      golongan: `${item?.grade_name || '-'}, ${item?.grade_effective_date || '-'}`,
-      image: [item?.photo_profile || '/simdatuk/userIcon.png'],
-      name: `${item?.title_prefix || ''} ${item?.name} ${item?.title_suffix || ''}` || '-',
-      nip: `${item?.employee_id_number || '-'}/${item?.employee_registration_number || '-'}`,
-      isCheck: true
-    }
-
-    return [
-      {
-        type: CardTypes.PROFILE1,
-        position: item?.position_name || '-',
-        children: [itemObject]
-      },
-      itemObject
-    ]
-  }
-
-  const employees = useMemo(() => {
-    const data = promotions?.employees
-    const newData = data?.filter((item) =>
-      !collectData?.some(itm => item?.id == itm?.id)
-    )
-    return newData
-  }, [promotions, collectData])
 
   const echelons = useMemo(() => {
     return echelon?.options || []
@@ -262,26 +274,10 @@ const BandingkanPegawaiComponent = ({
       group?.loading
     )
     onLoading(state)
-  }, [
-    promotions,
-    echelon,
-    disciplinary,
-    grade,
-    group
-  ])
+  }, [promotions, echelon, disciplinary, grade, group])
 
   useEffect(() => {
-    if (dataFromStorage?.length && promotions?.employees?.length) {
-      const collection = promotions
-        ?.employees
-        ?.filter(item => dataFromStorage?.includes(item?.id))
-        ?.map(item => {
-          // eslint-disable-next-line no-unused-vars
-          const [data, itemObject] = getFlattenedObject(item)
-          return itemObject
-        })
-      setCollectData(collection)
-    }
+    if (dataFromStorage?.length) setCollectData(dataFromStorage)
   }, [dataFromStorage])
 
   useEffect(() => {
@@ -293,9 +289,7 @@ const BandingkanPegawaiComponent = ({
     <LayoutPages
       summary={'Bandingkan Pegawai'}
       action={action}
-      handleBack={
-        router?.query?.echelon_id ? router.back : null
-      }
+      handleBack={router?.query?.echelon_id ? router.back : null}
     >
       <Box>
         {/* Filter */}
@@ -337,31 +331,27 @@ const BandingkanPegawaiComponent = ({
             handleSubmit={doFilter}
           />
         </Box>
+
         {/* Selected Employees Card */}
         <Grid container spacing={3}>
-          {collectData?.map((item, index) => {
+          {employeesSelected?.map((item, index) => {
             return (
               <Grid item xs={12} sm={3} key={index}>
                 <CardProfile
-                  data={{
-                    type: CardTypes.PROFILE1,
-                    position: item?.position_name,
-                    children: [item]
-                  }}
-                  key={index}
-                  isCheck={handleGetCheckBox(item)}
-                  handleCheck={(checked) => handleCheckBox(checked, item, 'selected')}
+                  key={item?.id}
+                  isCheck={true}
+                  isProfile={false}
+                  data={item}
+                  checked={handleGetCheckBox(item?.id)}
+                  handleCheck={(checked, id) => handleCheckBox(checked, id)}
                 />
               </Grid>
             )
           })}
         </Grid>
+
         {/* Employees Card */}
-        <Grid
-          container
-          spacing={3}
-          sx={{ marginTop: '12px' }}
-        >
+        <Grid container spacing={3} sx={{ marginTop: '12px' }}>
           <Grid item xs={12}>
             <Box
               sx={{
@@ -380,20 +370,21 @@ const BandingkanPegawaiComponent = ({
               />
             </Box>
           </Grid>
-          {employees?.map((item, index) => {
-            const [data, itemObject] = getFlattenedObject(item)
+          {employees?.map((item) => {
             return (
-              <Grid item xs={12} sm={3} key={index}>
+              <Grid item xs={12} sm={3} key={item?.id}>
                 <CardProfile
-                  data={data}
-                  key={index}
-                  isCheck={handleGetCheckBox(itemObject)}
-                  handleCheck={(e, item) => handleCheckBox(e, item, 'unselected')}
+                  key={item?.id}
+                  isCheck={true}
+                  isProfile={false}
+                  data={item}
+                  checked={handleGetCheckBox(item?.id)}
+                  handleCheck={(checked, id) => handleCheckBox(checked, id)}
                 />
               </Grid>
             )
           })}
-          {!employees?.length && (
+          {!employees?.length && !collectData.length && (
             <Grid item xs={12}>
               <Card
                 otherStyle={{
@@ -415,24 +406,19 @@ const BandingkanPegawaiComponent = ({
                   fontSize='24px'
                   fontWeight={700}
                 >
-                  {queries?.search ?
-                    'Tidak ada hasil pencarian mengenai' :
-                    'Tidak ada hasil yang ditampilkan'}
+                  {queries?.search
+                    ? 'Tidak ada hasil pencarian mengenai'
+                    : 'Tidak ada hasil yang ditampilkan'}
                 </Typography>
                 {queries?.search && (
-                  <Typography
-                    fontSize='24px'
-                    fontWeight={700}
-                  >
+                  <Typography fontSize='24px' fontWeight={700}>
                     {`"${queries?.search}"`}
                   </Typography>
                 )}
-                <Typography
-                  sx={{ marginTop: '12px' }}
-                >
-                  {queries?.search ?
-                    'Kami tidak menemukan kata kunci yang Anda cari' :
-                    'Kami tidak menemukan data yang Anda cari'}
+                <Typography sx={{ marginTop: '12px' }}>
+                  {queries?.search
+                    ? 'Kami tidak menemukan kata kunci yang Anda cari'
+                    : 'Kami tidak menemukan data yang Anda cari'}
                 </Typography>
               </Card>
             </Grid>

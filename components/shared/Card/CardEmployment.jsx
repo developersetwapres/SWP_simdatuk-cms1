@@ -32,7 +32,7 @@ function CardEmployment({ data, path, cardStyle }) {
             fontWeight: 600
           }}
         >
-          {data?.title || '-'}
+          {data?.name || '-'}
         </Typography>
         <Typography
           variant='h3'
@@ -43,9 +43,9 @@ function CardEmployment({ data, path, cardStyle }) {
             fontWeight: 800
           }}
         >
-          {data?.count || 0}
+          {data?.total || 0}
         </Typography>
-        {data?.count > 0 && (
+        {data?.total > 0 && (
           <Button
             onClick={() => router.push(path)}
             text='Lihat Detail'

@@ -5,22 +5,30 @@ import { Box, Grid, Paper, Typography } from '@mui/material'
 import { Button } from '@/components/shared'
 import PropTypes from 'prop-types'
 import { useRouter } from 'next/router'
+import Card from '../shared/Card/Index'
+import LayoutPages from '../core/LayoutPages'
 
 const useStyles = makeStyles({
   section: {
     marginTop: '12px',
-    padding: '16px 12px 12px 12px'
+    padding: '20px'
   },
   sectionText: {
+    marginBottom: '12px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center'
   },
   positionCard: {
-    border: '1px solid black',
+    height: '200px',
+    padding: '20px',
+    border: '2px solid black',
     borderRadius: '6px',
-    padding: '8px',
-    textAlign: 'center'
+    textAlign: 'center',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'column'
   },
   cardButton: {
     width: '100%'
@@ -30,11 +38,7 @@ const useStyles = makeStyles({
   }
 })
 
-function PromosiPegawaiComponent({
-  promotions,
-  setLoading = () => { }
-}) {
-  const classes = useStyles()
+function PromosiPegawaiComponent({ promotions, setLoading = () => {} }) {
   const router = useRouter()
 
   const navigateToPositions = (positionId, echelonId) => {
@@ -47,36 +51,76 @@ function PromosiPegawaiComponent({
   }, [promotions])
 
   useEffect(() => {
-    setLoading(!(promotions?.loading))
+    setLoading(!promotions?.loading)
   }, [promotions])
 
   return (
-    <>
-      <Typography variant='h6' component='h1' fontWeight='bold'>Promosi Pegawai</Typography>
+    <LayoutPages summary={'Promosi Pegawai'}>
+      <Typography variant='h6' component='h1' fontWeight='bold'></Typography>
+      <Grid container spacing={3}>
+        {unoccupiedPositions?.map((item) => (
+          <Grid item xs={12} key={item.id}>
+            <Card>
+              <Box
+                sx={{
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'start',
+                  justifyContent: 'space-between'
+                }}
+              >
+                <Typography
+                  variant='h3'
+                  component='h3'
+                  color='primary'
+                  sx={{
+                    marginBottom: '12px',
+                    fontSize: '16px',
+                    fontWeight: 800
+                  }}
+                >
+                  {item?.name || '-'}
+                </Typography>
+                <Typography
+                  variant='h3'
+                  component='h3'
+                  color='primary'
+                  sx={{
+                    marginBottom: '12px',
+                    fontSize: '16px',
+                    fontWeight: 800
+                  }}
+                >
+                  {`Total jabatan kosong: ${item?.total || 0}`}
+                </Typography>
+              </Box>
 
-      {unoccupiedPositions?.map(item => (
-        <Paper className={classes.section} key={item.id}>
-          <Box className={classes.sectionText}>
-            <Typography fontWeight='bold' color='#895700'>{item?.name || '-'}</Typography>
-            <Typography fontWeight='bold' color='#895700'>
-              Total jabatan kosong: {item?.total || 0}
-            </Typography>
-          </Box>
-
-          <Grid container sx={{ marginTop: '-10px' }} spacing={2}>
-            {item?.cards?.map(pos => (
-              <Grid item key={pos?.id} xs={item?.cards?.length > 2 ? 4 : 6}>
-                <PositionCard
-                  position={pos?.name}
-                  count={pos?.unoccupied}
-                  handleClick={() => navigateToPositions(item?.id, pos?.id)}
-                />
+              <Grid container spacing={3}>
+                {item?.cards?.map((pos) => (
+                  <Grid
+                    item
+                    key={pos?.id}
+                    xs={
+                      item?.cards?.length == 2
+                        ? 6
+                        : item?.cards?.length == 3
+                        ? 4
+                        : 3
+                    }
+                  >
+                    <PositionCard
+                      position={pos?.name}
+                      count={pos?.unoccupied}
+                      handleClick={() => navigateToPositions(item?.id, pos?.id)}
+                    />
+                  </Grid>
+                ))}
               </Grid>
-            ))}
+            </Card>
           </Grid>
-        </Paper>
-      ))}
-    </>
+        ))}
+      </Grid>
+    </LayoutPages>
   )
 }
 
@@ -85,16 +129,18 @@ const PositionCard = ({ position, count, handleClick }) => {
 
   return (
     <Box className={classes.positionCard}>
-      <Typography
-        fontWeight='600'
-        fontSize={16}
-      >{position}</Typography>
+      <Typography fontWeight='600' fontSize={16}>
+        {position}
+      </Typography>
 
       <Typography
         fontWeight='600'
         fontSize={28}
         color='#895700'
-        sx={{ marginTop: 2 }}>{count}</Typography>
+        sx={{ marginTop: 2 }}
+      >
+        {count}
+      </Typography>
 
       <Button
         text='Lihat Detail'
