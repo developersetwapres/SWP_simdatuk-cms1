@@ -1,31 +1,31 @@
 /**
  *
- * @module Saga/DecreeSaga
+ * @module Saga/EmployeesRecapitulationsSaga
  *
- * @desc Decree
+ * @desc Employees Recapitulations
  */
 import { call, put, takeEvery } from '@redux-saga/core/effects'
 import {
-  GET_DIAGRAMS_FAILED,
-  GET_DIAGRAMS_REQUESTED,
-  GET_DIAGRAMS_SUCCESS
+  GET_EMPLOYEES_RECAP_FAILED,
+  GET_EMPLOYEES_RECAP_REQUESTED,
+  GET_EMPLOYEES_RECAP_SUCCESS
 } from '../../constants'
-import { getDiagramsAction } from '../action/recap/diagramAction'
+import { getEmployeesRecapAction } from '../action/recap/employeesRecap'
 
 /**
- * Get Diagrams
+ * Get Employees Recapitulations
  *
  * @param {*} action
  * @returns
  */
-function* getDiagrams(action) {
+function* getEmployeesRecapitulations(action) {
   try {
-    const res = yield call(getDiagramsAction, action?.payload)
+    const res = yield call(getEmployeesRecapAction, action?.payload)
 
     const payload = res?.data
 
     yield put({
-      type: GET_DIAGRAMS_SUCCESS,
+      type: GET_EMPLOYEES_RECAP_SUCCESS,
       payload
     })
   } catch (err) {
@@ -47,7 +47,7 @@ function* getDiagrams(action) {
         })
       } else {
         yield put({
-          type: GET_DIAGRAMS_FAILED,
+          type: GET_EMPLOYEES_RECAP_FAILED,
           payload: errors?.message
         })
       }
@@ -55,8 +55,8 @@ function* getDiagrams(action) {
   }
 }
 
-function* diagramSaga() {
-  yield takeEvery(GET_DIAGRAMS_REQUESTED, getDiagrams)
+function* employeesRecapitulationsSaga() {
+  yield takeEvery(GET_EMPLOYEES_RECAP_REQUESTED, getEmployeesRecapitulations)
 }
 
-export default diagramSaga
+export default employeesRecapitulationsSaga

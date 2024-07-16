@@ -23,6 +23,7 @@ import * as recapNonASN from './recap/non_asn'
 import * as recapOutsource from './recap/outsource'
 import * as recapPromotion from './recap/promotion'
 import * as recapDiagram from './recap/diagram'
+import * as employeesRecap from './recap/employeesRecap'
 
 // Employee
 import * as employee from './employee'
@@ -42,6 +43,7 @@ import * as exportRecap from './export/exportRecap'
 import * as exportEmployee from './export/exportEmployee'
 import * as exportComparison from './export/exportComparison'
 import * as exportPromotion from './export/exportPromotion'
+import * as exportDiagram from './export/exportDiagram'
 
 /**
  *
@@ -80,7 +82,9 @@ const actions = {
   ...exportComparison,
   ...position,
   ...group,
-  ...recapDiagram
+  ...recapDiagram,
+  ...employeesRecap,
+  ...exportDiagram
 }
 
 export default actions

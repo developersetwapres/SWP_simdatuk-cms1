@@ -29,6 +29,7 @@ import nonASNSaga from './recap/nonASNSaga'
 import outsourceSaga from './recap/outsourceSaga'
 import promotionSaga from './recap/promotionSaga'
 import diagramSaga from './recap/diagramSaga'
+import employeesRecapSaga from './recap/employeesRecapSaga'
 
 // Employee
 import employeeSaga from './employeeSaga'
@@ -48,6 +49,7 @@ import exportRecapSaga from './export/exportRecapSaga'
 import exportEmployeeSaga from './export/exportEmployeeSaga'
 import exportComparisonSaga from './export/exportComparisonSaga'
 import exportPromotionSaga from './export/exportPromotionSaga'
+import exportDiagramSaga from './export/exportDiagramSaga'
 
 export default function* rootSaga() {
   yield all([
@@ -81,6 +83,8 @@ export default function* rootSaga() {
     exportPromotionSaga(),
     positionSaga(),
     groupSaga(),
-    diagramSaga()
+    diagramSaga(),
+    employeesRecapSaga(),
+    exportDiagramSaga()
   ])
 }

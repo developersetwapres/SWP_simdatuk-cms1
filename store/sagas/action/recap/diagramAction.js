@@ -1,4 +1,4 @@
-import { get, post } from '@/utils/interceptors'
+import { get } from '@/utils/interceptors'
 
 const basePath = '/diagrams'
 
@@ -10,14 +10,4 @@ const basePath = '/diagrams'
  */
 export const getDiagramsAction = (id) => {
   return get(`${basePath}?id=${id}`)
-}
-
-/**
- * Export Diagram Action
- *
- * @param {*} payload
- * @returns
- */
-export const exportDiagramsAction = () => {
-  return get(`${basePath}/export`)
 }

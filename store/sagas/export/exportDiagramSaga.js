@@ -1,36 +1,34 @@
 /**
  *
- * @module Saga/DecreeSaga
+ * @module Saga/exportDiagramSaga
  *
- * @desc Decree
+ * @desc Export Diagram
  */
 import { call, put, takeEvery } from '@redux-saga/core/effects'
 import {
-  GET_DIAGRAMS_FAILED,
-  GET_DIAGRAMS_REQUESTED,
-  GET_DIAGRAMS_SUCCESS
+  EXPORT_DIAGRAMS_FAILED,
+  EXPORT_DIAGRAMS_REQUESTED,
+  EXPORT_DIAGRAMS_SUCCESS
 } from '../../constants'
-import { getDiagramsAction } from '../action/recap/diagramAction'
+import { exportDiagramsAction } from '../action/export/exportDiagramAction'
 
 /**
- * Get Diagrams
+ * Export Diagram
  *
  * @param {*} action
  * @returns
  */
-function* getDiagrams(action) {
+function* exportDiagrams(action) {
   try {
-    const res = yield call(getDiagramsAction, action?.payload)
-
-    const payload = res?.data
+    const res = yield call(exportDiagramsAction, action?.payload)
 
     yield put({
-      type: GET_DIAGRAMS_SUCCESS,
-      payload
+      type: EXPORT_DIAGRAMS_SUCCESS,
+      payload: res
     })
   } catch (err) {
     const errors = err?.data
-    if (errors?.code === 403) {
+    if (errors?.code === 401 || errors?.code === 403) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {
@@ -47,7 +45,7 @@ function* getDiagrams(action) {
         })
       } else {
         yield put({
-          type: GET_DIAGRAMS_FAILED,
+          type: EXPORT_DIAGRAMS_FAILED,
           payload: errors?.message
         })
       }
@@ -55,8 +53,8 @@ function* getDiagrams(action) {
   }
 }
 
-function* diagramSaga() {
-  yield takeEvery(GET_DIAGRAMS_REQUESTED, getDiagrams)
+function* exportDiagramSaga() {
+  yield takeEvery(EXPORT_DIAGRAMS_REQUESTED, exportDiagrams)
 }
 
-export default diagramSaga
+export default exportDiagramSaga
