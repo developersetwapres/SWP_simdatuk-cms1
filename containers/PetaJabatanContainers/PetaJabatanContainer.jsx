@@ -7,12 +7,13 @@ import Layout from '@/components/core/Layout'
 import PetaJabatanComponent from '@/components/PetaJabatan/PetaJabatanComponent'
 
 export default connect(
-  mapStateToProps('diagram'),
+  mapStateToProps('diagram', 'exportDiagram'),
   mapActions('getDiagrams', 'exportDiagrams')
 )(
   class PetaJabatanContainer extends Component {
     static propTypes = {
       diagram: PropTypes.object,
+      exportDiagram: PropTypes.object,
       exportDiagrams: PropTypes.func,
       getDiagrams: PropTypes.func
     }

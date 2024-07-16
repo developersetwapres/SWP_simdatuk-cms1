@@ -21,11 +21,48 @@ const JobChart = ({ datas }) => {
           datas?.childs.map((item) => {
             return {
               ...item,
-              type: 3,
+              users: item?.users.map((itm) => {
+                return {
+                  ...itm,
+                  type: 4
+                }
+              })
+            }
+          })
+      }
+
+      return payload
+    } else if (datas?.id.toString() == '1' || datas?.id.toString() == '3') {
+      const payload = {
+        ...datas,
+        childs:
+          datas?.childs &&
+          datas?.childs.map((item) => {
+            return {
+              ...item,
               users: item?.users.map((itm) => {
                 return {
                   ...itm,
                   type: 3
+                }
+              })
+            }
+          })
+      }
+
+      return payload
+    } else if (datas?.type.toString() == '2') {
+      const payload = {
+        ...datas,
+        childs:
+          datas?.childs &&
+          datas?.childs.map((item) => {
+            return {
+              ...item,
+              users: item?.users.map((itm) => {
+                return {
+                  ...itm,
+                  type: 2
                 }
               })
             }

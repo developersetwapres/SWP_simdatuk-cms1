@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 import Card from './Index'
 import { Box } from '@mui/material'
 
-function CardEmployment({ data, path, cardStyle }) {
+function CardEmployment({ data, cardStyle, handleRedirect = () => {} }) {
   const router = useRouter()
 
   const style = {
@@ -47,7 +47,7 @@ function CardEmployment({ data, path, cardStyle }) {
         </Typography>
         {data?.total > 0 && (
           <Button
-            onClick={() => router.push(path)}
+            onClick={handleRedirect}
             text='Lihat Detail'
             color='primary'
             fullWidth
@@ -65,7 +65,7 @@ function CardEmployment({ data, path, cardStyle }) {
 
 CardEmployment.propTypes = {
   data: PropTypes.object,
-  path: PropTypes.string,
+  handleRedirect: PropTypes.func,
   cardStyle: PropTypes.object
 }
 

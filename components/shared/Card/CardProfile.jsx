@@ -82,7 +82,22 @@ const CardProfile = ({
             justifyContent: 'space-between'
           }}
         >
-          {data?.name && (
+          {data?.type == 1 && (
+            <Typography
+              fontWeight='bold'
+              gutterBottom
+              textAlign='center'
+              sx={{
+                width: '90%',
+                // minHeight: '40px',
+                margin: '0 auto',
+                fontSize: 14
+              }}
+            >
+              {data?.name || '-'}
+            </Typography>
+          )}
+          {data?.type !== 1 && data?.name && (
             <Typography
               fontWeight='bold'
               gutterBottom
@@ -250,12 +265,38 @@ const ContentProfile = ({
               </Box>
               <Grid container spacing={1} marginY={2}>
                 {/* Detail Position */}
-                {/* 1. ASN, 2. Non ASN, 3. Outsourcing */}
                 {item?.type == 2 ? (
                   <>
-                    {item?.position_name && (
-                      <ItemDetail title='Jabatan' value={item?.position_name} />
-                    )}
+                    <ItemDetail
+                      title='TMT'
+                      value={item?.echelon_effective_date || '-'}
+                    />
+                    <ItemDetail
+                      title='Golongan'
+                      value={
+                        item?.grade_name
+                          ? `${item?.grade_name} ${item?.grade_code || ''}${
+                              item?.position_effective_date
+                                ? `, ${item?.position_effective_date}`
+                                : ''
+                            }`
+                          : '-'
+                      }
+                    />
+                    <ItemDetail
+                      title='NIP/NRP'
+                      value={
+                        !item?.employee_id_number &&
+                        !item?.employee_registration_number
+                          ? '-'
+                          : !item?.employee_registration_number
+                          ? item?.employee_id_number
+                          : `${item?.employee_id_number} / ${item?.employee_registration_number}`
+                      }
+                    />
+                  </>
+                ) : item?.type == 3 ? (
+                  <>
                     <ItemDetail
                       title='TMT'
                       value={item?.position_effective_date || '-'}
@@ -267,7 +308,7 @@ const ContentProfile = ({
                       />
                     )}
                   </>
-                ) : item?.type == 3 ? (
+                ) : item?.type == 4 ? (
                   <>
                     <ItemDetail
                       title='Jabatan'
@@ -298,7 +339,14 @@ const ContentProfile = ({
                   <>
                     <ItemDetail
                       title='Eselon'
-                      value={item?.echelon_name || '-'}
+                      value={
+                        item?.echelon_name && item?.echelon_effective_date
+                          ? [
+                              item?.echelon_name,
+                              item?.echelon_effective_date
+                            ].join(', ')
+                          : item?.echelon_name || '-'
+                      }
                     />
                     <ItemDetail
                       title='Golongan'

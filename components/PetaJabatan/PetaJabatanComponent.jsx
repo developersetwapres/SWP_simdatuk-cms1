@@ -7,7 +7,9 @@ import JobChart from '../shared/JobChart'
 import { useRouter } from 'next/router'
 import LayoutPages from '../core/LayoutPages'
 import ButtonExport from '../core/ButtonExport'
-import { saveFile } from '@/utils/fileSaver'
+import { SaveAs, saveFile } from '@/utils/fileSaver'
+import { useDispatch } from 'react-redux'
+import { CLEAR_DIAGRAMS_EXPORT_STATE } from '@/store/constants'
 
 const styles = {
   headerMap: {
@@ -30,9 +32,11 @@ const styles = {
 
 const PetaJabatanComponent = ({
   diagram,
+  exportDiagram,
   onFetch = () => {},
   exportDiagrams = () => {}
 }) => {
+  const dispatch = useDispatch()
   const router = useRouter()
 
   const isDetail = useMemo(() => {
@@ -46,7 +50,7 @@ const PetaJabatanComponent = ({
     } else {
       return [diagramData]
     }
-  }, [diagram])
+  }, [diagram?.data])
 
   const staffParams = useMemo(() => {
     return router?.query?.staff
@@ -62,6 +66,21 @@ const PetaJabatanComponent = ({
     )
   }, [])
 
+  const getFileName = (type) => {
+    const prefix = 'PETA_JABATAN'
+    let ext = '.pdf'
+
+    if (type?.includes('pdf')) {
+      ext = '.pdf'
+    } else if (type?.includes('sheet')) {
+      ext = '.xlsx'
+    } else {
+      ext = '.csv'
+    }
+
+    return `${prefix}${ext}`
+  }
+
   useEffect(() => {
     const isStaff = router?.pathname.includes('[staff]')
     const staffId = router?.query?.staff
@@ -72,9 +91,12 @@ const PetaJabatanComponent = ({
   }, [router])
 
   useEffect(() => {
-    const exportFile = diagram?.export
-    if (exportFile) saveFile(exportFile)
-  }, [diagram])
+    const exportFile = exportDiagram?.data
+    if (exportFile) {
+      saveFile(exportFile, getFileName(exportFile?.type), SaveAs?.PDF)
+      dispatch({ type: CLEAR_DIAGRAMS_EXPORT_STATE })
+    }
+  }, [exportDiagram?.data])
 
   return (
     <LayoutPages
@@ -125,6 +147,7 @@ CardEmployment.propTypes = {
 
 PetaJabatanComponent.propTypes = {
   diagram: PropTypes.object,
+  exportDiagrams: PropTypes.object,
   onFetch: PropTypes.func,
   exportDiagrams: PropTypes.func
 }
