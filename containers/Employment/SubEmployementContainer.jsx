@@ -6,12 +6,17 @@ import Layout from '@/components/core/Layout'
 import SubEmploymentComponent from '@/components/Employment/SubEmploymentComponent'
 
 export default connect(
-  mapStateToProps('recapComposition', 'recapASN', 'recapNonASN', 'recapOutsource'),
+  mapStateToProps(
+    'recapComposition',
+    'recapASN',
+    'recapNonASN',
+    'recapOutsource'
+  ),
   mapActions(
     'getCompositionsCategories',
     'getASNRecapByCategory',
     'getNonASNRecapByCategory',
-    'getOutsourceRecapByCategory',
+    'getOutsourceRecapByCategory'
   )
 )(
   class SubEmploymentContainer extends Component {
@@ -29,41 +34,13 @@ export default connect(
     constructor(props) {
       super(props)
       this.state = {
-        willRender: true,
-        recapData: {}
+        willRender: true
       }
-      this.getRecapData = this.getRecapData.bind(this)
       this.setRender = this.setRender.bind(this)
-      this.setRecapData = this.setRecapData.bind(this)
-    }
-
-    componentDidMount() { }
-
-    setRecapData(data) {
-      this.setState({ recapData: data })
     }
 
     setRender(val) {
       this.setState({ willRender: val })
-    }
-
-    getRecapData(router) {
-      const pagePath = router.asPath
-      if (!router.query?.subEmployment) return
-
-      const query = window.atob(router.query?.subEmployment)
-
-      if (pagePath?.includes('komposisi')) {
-        this.props.getCompositionsCategories(query)
-      } else if (pagePath?.includes('pegawai-asn')) {
-        this.props.getASNRecapByCategory(query)
-      } else if (pagePath?.includes('pegawai-non-asn')) {
-        // this.props.getNonASNRecapByCategory(query)
-        router.replace(`${router.asPath}/pegawai`)
-      } else if (pagePath?.includes('pegawai-outsourcing')) {
-        // this.props.getOutsourceRecapByCategory(query)
-        router.replace(`${router.asPath}/pegawai`)
-      }
     }
 
     render() {
@@ -72,9 +49,7 @@ export default connect(
           <SubEmploymentComponent
             {...this.state}
             {...this.props}
-            getRecapData={this.getRecapData}
             setRender={this.setRender}
-            setRecapData={this.setRecapData}
           />
         </Layout>
       )

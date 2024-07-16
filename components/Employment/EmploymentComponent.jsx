@@ -14,67 +14,31 @@ import { CLEAR_EXPORT_RECAP_STATE } from '@/store/constants'
 import { dateTimeFormat } from '@/utils/index'
 
 const EmploymentComponent = ({
-  recapData,
   recapComposition,
   recapASN,
   recapNonASN,
   recapOutsource,
   exportRecapData,
-  getRecapData = () => { },
-  setRecapData = () => { },
-  exportRecap = () => { },
-  setRender = () => { }
+  getCompositions = () => {},
+  getASNRecap = () => {},
+  getNonASNRecap = () => {},
+  getOutsourceRecap = () => {},
+  exportRecap = () => {},
+  setRender = () => {}
 }) => {
   const router = useRouter()
   const dispatch = useDispatch()
-  // Path
-  useEffect(() => {
-    getRecapData(router.asPath)
-  }, [router])
 
-  // Loading
-  useEffect(() => {
-    setRender(
-      !(
-        recapComposition?.loading ||
-        recapASN?.loading ||
-        recapNonASN?.loading ||
-        recapOutsource?.loading ||
-        exportRecapData?.loading
-      )
-    )
-  }, [
-    recapComposition?.loading,
-    recapASN?.loading,
-    recapNonASN?.loading,
-    recapOutsource?.loading,
-    exportRecapData?.loading
-  ])
+  const datas = useMemo(() => {
+    const path = router.asPath
 
-  // Composition
-  useEffect(() => {
-    setRecapData(recapComposition?.data)
-  }, [recapComposition?.data])
+    if (path?.includes('komposisi')) return recapComposition?.data
+    if (path?.includes('pegawai-asn')) return recapASN?.data
+    if (path?.includes('pegawai-non-asn')) return recapNonASN?.data
+    if (path?.includes('pegawai-outsourcing')) return recapOutsource?.data
 
-  // ASN
-  useEffect(() => {
-    setRecapData(recapASN?.data)
-  }, [recapASN?.data])
-
-  // NON-ASN
-  useEffect(() => {
-    setRecapData(recapNonASN?.data)
-  }, [recapNonASN?.data])
-
-  // OUTSOURCE
-  useEffect(() => {
-    setRecapData(recapOutsource?.data)
-  }, [recapOutsource?.data])
-
-  // Recap Data
-  useEffect(() => {
-    if (exportRecapData?.data) saveFile(exportRecapData?.data)
-  }, [exportRecapData])
+    return {}
+  }, [router, recapComposition, recapASN, recapNonASN, recapOutsource])
 
   const saveFile = (resp) => {
     // set the blog type to final pdf
@@ -128,29 +92,57 @@ const EmploymentComponent = ({
   const action = useMemo(() => {
     return (
       <Box sx={{ marginTop: '12px', display: 'flex', gap: 1 }}>
-        <ButtonExport
-          data={[
-            { name: 'PDF', action: () => exportPDF() }
-          ]}
-        />
+        <ButtonExport data={[{ name: 'PDF', action: () => exportPDF() }]} />
       </Box>
     )
   }, [router])
 
+  // Path
+  useEffect(() => {
+    const path = router.asPath
+
+    if (path?.includes('komposisi')) getCompositions()
+    if (path?.includes('pegawai-asn')) getASNRecap()
+    if (path?.includes('pegawai-non-asn')) getNonASNRecap()
+    if (path?.includes('pegawai-outsourcing')) getOutsourceRecap()
+  }, [router])
+
+  // Loading
+  useEffect(() => {
+    setRender(
+      !(
+        recapComposition?.loading ||
+        recapASN?.loading ||
+        recapNonASN?.loading ||
+        recapOutsource?.loading ||
+        exportRecapData?.loading
+      )
+    )
+  }, [
+    recapComposition?.loading,
+    recapASN?.loading,
+    recapNonASN?.loading,
+    recapOutsource?.loading,
+    exportRecapData?.loading
+  ])
+
+  // Recap Data
+  useEffect(() => {
+    if (exportRecapData?.data) saveFile(exportRecapData?.data)
+  }, [exportRecapData])
+
   return (
     <LayoutPages
-      summary={recapData?.name || ''}
-      count={`Total Keseluruhan : ${recapData?.total || 0}`}
+      summary={datas?.name || ''}
+      count={`Total Keseluruhan : ${datas?.total || 0}`}
       action={action}
     >
       <Grid container spacing={3}>
-        {recapData?.cards?.map(item => (
+        {datas?.cards?.map((item) => (
           <RecapItem
             key={uuidv4()}
-            showBackground={recapData?.cards?.length > 1}
-            count={item?.total}
-            cards={item?.cards?.map(i => ({ title: i?.name, count: i?.total }))}
-            title={item?.name}
+            showBackground={datas?.cards?.length > 1}
+            data={item}
           />
         ))}
       </Grid>
@@ -158,16 +150,51 @@ const EmploymentComponent = ({
   )
 }
 
-const RecapItem = ({
-  showBackground,
-  title,
-  count,
-  cards
-}) => {
+const RecapItem = ({ showBackground, data }) => {
   const router = useRouter()
 
-  const nextPagePath = (title, idx) => {
-    return `${router?.asPath}/${btoa(idx + 1)}`
+  const nextPagePath = (value) => {
+    const path = router?.asPath
+
+    if (
+      (path?.includes('pegawai-asn') &&
+        !data?.name.toLowerCase().includes('keterangan jabatan')) ||
+      path?.includes('pegawai-non-asn') ||
+      path?.includes('pegawai-outsourcing')
+    ) {
+      const query = router?.query
+
+      const pages = () => {
+        switch (query?.employment) {
+          case 'pegawai-asn':
+            return 'asn'
+          case 'pegawai-non-asn':
+            return 'nonasn'
+          case 'pegawai-outsourcing':
+            return 'outsource'
+          default:
+            return null
+        }
+      }
+
+      const payload = {
+        name: value?.name,
+        page: pages(),
+        categoryId: '',
+        sectionId: data?.id,
+        cardId: value?.id
+      }
+
+      const jsonString = JSON.stringify(payload)
+      const params = btoa(jsonString)
+      router.push(
+        `/rekapitulasi/${query?.employment}/${btoa(
+          0
+        )}/pegawai?category=${params}`
+      )
+    } else {
+      router.push(`${router?.asPath}/${btoa(value?.id)}`)
+    }
   }
 
   return (
@@ -176,9 +203,7 @@ const RecapItem = ({
         otherStyle={{
           padding: showBackground ? '20px' : '4px 0',
           backgroundColor: showBackground ? '#FFF' : 'transparent',
-          boxShadow: showBackground
-            ? '0px 4px 10px rgba(0, 0, 0, 0.1)'
-            : 'none'
+          boxShadow: showBackground ? '0px 4px 10px rgba(0, 0, 0, 0.1)' : 'none'
         }}
       >
         <Box
@@ -199,7 +224,7 @@ const RecapItem = ({
               fontWeight: 800
             }}
           >
-            {title || '-'}
+            {data?.name || '-'}
           </Typography>
           <Typography
             variant='h3'
@@ -211,26 +236,22 @@ const RecapItem = ({
               fontWeight: 800
             }}
           >
-            Total: {count}
+            {`Total: ${data?.total || 0}`}
           </Typography>
         </Box>
         <Grid container spacing={3}>
-          {cards?.map((itm, idx) => (
+          {data?.cards?.map((itm, idx) => (
             <Grid
               item
               key={idx}
               xs={6}
               sm={
-                cards?.length == 2
-                  ? 6
-                  : cards?.length == 3
-                    ? 4
-                    : 3
+                data?.cards?.length == 2 ? 6 : data?.cards?.length == 3 ? 4 : 3
               }
             >
               <CardEmployment
                 data={itm}
-                path={nextPagePath(title, idx)}
+                handleRedirect={() => nextPagePath(itm)}
                 cardStyle={{
                   border: showBackground ? '2px solid #394346' : 'none',
                   boxShadow: !showBackground
@@ -248,13 +269,14 @@ const RecapItem = ({
 
 EmploymentComponent.propTypes = {
   exportRecapData: PropTypes.object,
-  recapData: PropTypes.object,
   recapComposition: PropTypes.object,
   recapASN: PropTypes.object,
   recapNonASN: PropTypes.object,
   recapOutsource: PropTypes.object,
-  getRecapData: PropTypes.func,
-  setRecapData: PropTypes.func,
+  getCompositions: PropTypes.func,
+  getASNRecap: PropTypes.func,
+  getNonASNRecap: PropTypes.func,
+  getOutsourceRecap: PropTypes.func,
   exportRecap: PropTypes.func,
   setRender: PropTypes.func
 }

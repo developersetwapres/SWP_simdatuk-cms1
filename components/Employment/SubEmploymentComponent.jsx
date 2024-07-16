@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable indent */
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Grid, Typography } from '@mui/material'
 import CardEmployment from '../shared/Card/CardEmployment'
@@ -10,76 +10,59 @@ import LayoutPages from '../core/LayoutPages'
 import { v4 as uuidv4 } from 'uuid'
 
 const SubEmploymentComponent = ({
-  recapData,
   recapComposition,
   recapASN,
   recapNonASN,
   recapOutsource,
-  getRecapData = () => { },
-  setRecapData = () => { },
-  setRender = () => { }
+  setRender = () => {},
+  getCompositionsCategories = () => {},
+  getASNRecapByCategory = () => {}
 }) => {
   const router = useRouter()
-  // Path
+
+  const datas = useMemo(() => {
+    const path = router.asPath
+
+    if (path?.includes('komposisi')) return recapComposition?.data
+    if (path?.includes('pegawai-asn')) return recapASN?.data
+    if (path?.includes('pegawai-non-asn')) return recapNonASN?.data
+    if (path?.includes('pegawai-outsourcing')) return recapOutsource?.data
+
+    return {}
+  }, [router, recapComposition, recapASN, recapNonASN, recapOutsource])
+
   useEffect(() => {
-    console.log('ROUTER: ', router)
-    getRecapData(router)
+    const path = router.asPath
+    const id = router.query?.subEmployment
+
+    if (path?.includes('komposisi')) getCompositionsCategories(atob(id))
+    if (path?.includes('pegawai-asn')) getASNRecapByCategory(atob(id))
   }, [router])
 
   // Loading
   useEffect(() => {
-    setRender(!recapComposition?.loading)
-  }, [recapComposition?.loading])
-
-  useEffect(() => {
-    setRender(!recapASN?.loading)
-  }, [recapASN?.loading])
-
-  useEffect(() => {
-    setRender(!recapNonASN?.loading)
-  }, [recapNonASN?.loading])
-
-  useEffect(() => {
-    setRender(!recapOutsource?.loading)
-  }, [recapOutsource?.loading])
-
-  // Composition
-  useEffect(() => {
-    setRecapData(recapComposition?.data)
-  }, [recapComposition?.data])
-
-  // ASN
-  useEffect(() => {
-    setRecapData(recapASN?.data)
-  }, [recapASN?.data])
-
-  // NON-ASN
-  useEffect(() => {
-    setRecapData(recapNonASN?.data)
-  }, [recapNonASN?.data])
-
-  // OUTSOURCE
-  useEffect(() => {
-    setRecapData(recapOutsource?.data)
-  }, [recapOutsource?.data])
+    setRender(
+      !(
+        recapComposition?.loading &&
+        recapASN?.loading &&
+        recapNonASN?.loading &&
+        recapOutsource?.loading
+      )
+    )
+  }, [recapComposition, recapASN, recapNonASN, recapOutsource])
 
   return (
     <LayoutPages
       handleBack={() => router.back()}
-      summary={recapData?.name}
-      count={`Total Keseluruhan: ${recapData?.total}`}
+      summary={datas?.name}
+      count={`Total Keseluruhan: ${datas?.total}`}
     >
-      <Grid
-        container
-        spacing={3}
-      >
-        {recapData?.cards?.map((item) => (
+      <Grid container spacing={3}>
+        {datas?.cards?.map((item) => (
           <RecapItem
             key={uuidv4()}
-            showBackground={recapData?.cards?.length > 1}
-            count={item?.total}
-            cards={item?.cards?.map(i => ({ title: i?.name, count: i?.total }))}
-            title={item?.name}
+            showBackground={datas?.cards?.length > 1}
+            data={item}
           />
         ))}
       </Grid>
@@ -87,22 +70,45 @@ const SubEmploymentComponent = ({
   )
 }
 
-const RecapItem = ({
-  showBackground,
-  title,
-  count,
-  cards
-}) => {
+const RecapItem = ({ showBackground, data }) => {
   const router = useRouter()
+
+  const pathRedirect = (value) => {
+    const query = router?.query
+
+    const pages = () => {
+      switch (query?.employment) {
+        case 'komposisi-pegawai':
+          return 'recapitulation'
+        case 'pegawai-asn':
+          return 'asn'
+        case 'pegawai-non-asn':
+          return 'nonasn'
+        case 'pegawai-outsourcing':
+          return 'outsource'
+        default:
+          return null
+      }
+    }
+
+    const payload = {
+      page: pages(),
+      categoryId: atob(query?.subEmployment) || null,
+      sectionId: data?.id,
+      cardId: value?.id
+    }
+    const jsonString = JSON.stringify(payload)
+    const params = btoa(jsonString)
+    router.push(`${router?.asPath}/pegawai?category=${params}`)
+  }
+
   return (
     <Grid item xs={12}>
       <Card
         otherStyle={{
           padding: showBackground ? '20px' : '4px 0',
           backgroundColor: showBackground ? '#FFF' : 'transparent',
-          boxShadow: showBackground
-            ? '0px 4px 10px rgba(0, 0, 0, 0.1)'
-            : 'none'
+          boxShadow: showBackground ? '0px 4px 10px rgba(0, 0, 0, 0.1)' : 'none'
         }}
       >
         <Box
@@ -123,7 +129,7 @@ const RecapItem = ({
               fontWeight: 800
             }}
           >
-            {title || '-'}
+            {data?.name || '-'}
           </Typography>
           <Typography
             variant='h3'
@@ -135,7 +141,7 @@ const RecapItem = ({
               fontWeight: 800
             }}
           >
-            Total: {count}
+            {`Total: ${data?.total || 0}`}
           </Typography>
         </Box>
         <Grid
@@ -144,22 +150,16 @@ const RecapItem = ({
           alignItems='start'
           justifyContent='flex-start'
         >
-          {cards?.map((itm, idx) => (
+          {data?.cards?.map((itm, idx) => (
             <Grid
               item
               key={idx}
               xs={6}
-              sm={
-                cards.length == 2
-                  ? 6
-                  : cards.length == 3
-                    ? 4
-                    : 3
-              }
+              sm={data?.cards.length == 2 ? 6 : data?.cards.length == 3 ? 4 : 3}
             >
               <CardEmployment
                 data={itm}
-                path={`/rekapitulasi/${router?.query?.employment}/${btoa(idx + 1)}/pegawai`}
+                handleRedirect={() => pathRedirect(itm)}
                 cardStyle={{
                   border: showBackground ? '2px solid #394346' : 'none',
                   boxShadow: !showBackground

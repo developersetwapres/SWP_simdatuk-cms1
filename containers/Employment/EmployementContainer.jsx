@@ -50,12 +50,11 @@ export default connect(
         willRender: false,
         recapData: {}
       }
-      this.getRecapData = this.getRecapData.bind(this)
       this.setRender = this.setRender.bind(this)
       this.setRecapData = this.setRecapData.bind(this)
     }
 
-    componentDidMount() { }
+    componentDidMount() {}
 
     setRecapData(data) {
       this.setState({ recapData: data })
@@ -65,25 +64,12 @@ export default connect(
       this.setState({ willRender: val })
     }
 
-    getRecapData(pagePath) {
-      if (pagePath?.includes('komposisi')) {
-        this.props.getCompositions()
-      } else if (pagePath?.includes('pegawai-asn')) {
-        this.props.getASNRecap()
-      } else if (pagePath?.includes('pegawai-non-asn')) {
-        this.props.getNonASNRecap()
-      } else if (pagePath?.includes('pegawai-outsourcing')) {
-        this.props.getOutsourceRecap()
-      }
-    }
-
     render() {
       return (
         <Layout willRender={this.state.willRender}>
           <EmploymentComponent
             {...this.state}
             {...this.props}
-            getRecapData={this.getRecapData}
             setRender={this.setRender}
             setRecapData={this.setRecapData}
           />

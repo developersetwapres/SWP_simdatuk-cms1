@@ -1,15 +1,20 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { mapActions, mapStateToProps } from '@/store/index'
 import Layout from '@/components/core/Layout'
 import EmployeesComponent from '@/components/Employment/Employee/EmployeesComponent'
 
 export default connect(
-  mapStateToProps(),
-  mapActions()
+  mapStateToProps('employeesRecap'),
+  mapActions('getEmployeesRecap', 'clearEmployeesRecap')
 )(
   class EmployeesContainer extends Component {
-    static propTypes = {}
+    static propTypes = {
+      employeesRecap: PropTypes.object,
+      getEmployeesRecap: PropTypes.func,
+      clearEmployeesRecap: PropTypes.func
+    }
 
     constructor(props) {
       super(props)
@@ -19,20 +24,23 @@ export default connect(
           employees: []
         }
       }
+      this.setLoading = this.setLoading.bind(this)
     }
 
-    componentDidMount() {
-      setTimeout(() => {
-        this.setState({
-          willRender: true
-        })
-      }, 1000)
+    setLoading(val) {
+      this.setState({
+        willRender: val
+      })
     }
 
     render() {
       return (
         <Layout willRender={this.state.willRender}>
-          <EmployeesComponent {...this.state} {...this.props} />
+          <EmployeesComponent
+            onLoading={this.setLoading}
+            {...this.state}
+            {...this.props}
+          />
         </Layout>
       )
     }
