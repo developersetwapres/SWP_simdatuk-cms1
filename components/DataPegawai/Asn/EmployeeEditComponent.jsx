@@ -108,7 +108,10 @@ const InitValue = {
 const FormSchema = Yup.object().shape({
   employee: Yup.object().shape({
     name: Yup.string().required('Nama tidak boleh kosong'),
-    nip: Yup.string().required('NIP tidak boleh kosong'),
+    nip: Yup.string()
+      .required('NIP tidak boleh kosong')
+      .min(5, 'NIP tidak boleh kurang dari 5 digit')
+      .max(18, 'NIP tidak boleh lebih dari 18 digit'),
     placeOfBirth: Yup.string().required('Tempat Lahir tidak boleh kosong'),
     dateOfBirth: Yup.string().required('Tanggal Lahir tidak boleh kosong'),
     religion: Yup.string().required('Agama tidak boleh kosong'),
@@ -166,10 +169,12 @@ const FormSchema = Yup.object().shape({
       }
     ),
     familyRegistNumber: Yup.string()
-      .min(16, 'No KK harus memiliki minimal 16 digit')
+      .min(16, 'No KK harus tediri dari 16 digit angka')
+      .max(16, 'No KK harus tediri dari 16 digit angka')
       .required('No KK tidak boleh kosong'),
     idNumber: Yup.string()
-      .min(16, 'No NIK harus memiliki minimal 16 digit')
+      .min(16, 'No NIK harus terdiri dari 16 digit angka')
+      .max(16, 'No NIK harus terdiri dari 16 digit angka')
       .required('No NIK tidak boleh kosong'),
     residence: Yup.string().required('Komplek tidak boleh kosong'),
     emergencyContact: Yup.string().required(
@@ -177,18 +182,64 @@ const FormSchema = Yup.object().shape({
     ),
     email: Yup.string().email('Email tidak valid'),
     officeEmail: Yup.string().email('Email Dinas tidak valid'),
+    employeeIdCardNumber: Yup.lazy((taxId) => {
+      if (Array.isArray(taxId) && taxId.length > 0) {
+        return Yup.string()
+          .nullable()
+          .when('employeeIdCardNumber', {
+            is: (value) => value && value.length > 0,
+            then: Yup.string()
+              .min(5, 'No. Karpeg tidak boleh kurang dari 5 digit')
+              .max(18, 'No. Karpeg tidak boleh lebih dari 18 digit')
+          })
+      } else {
+        return Yup.string()
+      }
+    }),
+    karisu: Yup.lazy((taxId) => {
+      if (Array.isArray(taxId) && taxId.length > 0) {
+        return Yup.string()
+          .nullable()
+          .when('karisu', {
+            is: (value) => value && value.length > 0,
+            then: Yup.string()
+              .min(
+                5,
+                'No. Kartu Istri / Kartu Suami tidak boleh kurang dari 5 digit'
+              )
+              .max(
+                18,
+                'No. Kartu Istri / Kartu Suami tidak boleh lebih dari 18 digit'
+              )
+          })
+      } else {
+        return Yup.string()
+      }
+    }),
+    taxId: Yup.lazy((taxId) => {
+      if (Array.isArray(taxId) && taxId.length > 0) {
+        return Yup.string()
+          .nullable()
+          .when('taxId', {
+            is: (value) => value && value.length > 0,
+            then: Yup.string()
+              .min(15, 'NPWP tidak boleh kurang dari 15 digit')
+              .max(16, 'NPWP tidak boleh lebih dari 16 digit')
+          })
+      } else {
+        return Yup.string()
+      }
+    }),
     image: Yup.mixed()
       .nullable()
       .test('fileType', 'Format file harus PNG, JPG', (value) => {
         if (!value || !isFile(value)) return true
-
         const fileType = value && value.type
         return fileType === 'image/png' || fileType === 'image/jpeg'
       })
       .test('fileSize', 'Ukuran file tidak boleh lebih dari 2MB', (value) => {
-        if (!value || !isFile(value)) return true
-
         const maxSize = 2 * 1024 * 1024
+        if (!value || !isFile(value)) return true
         return value.size <= maxSize
       })
       .test(
@@ -219,14 +270,18 @@ const FormSchema = Yup.object().shape({
       ),
     employeeIdCard: Yup.mixed()
       .nullable()
-      .test('fileType', 'Format file harus PNG, JPG', (value) => {
+      .test('fileType', 'Format file harus PNG, JPG, atau PDF', (value) => {
         if (!value || !isFile(value)) return true
         const fileType = value && value.type
-        return fileType === 'image/png' || fileType === 'image/jpeg'
+        return (
+          fileType === 'image/png' ||
+          fileType === 'image/jpeg' ||
+          fileType === 'application/pdf'
+        )
       })
       .test('fileSize', 'Ukuran file tidak boleh lebih dari 2MB', (value) => {
-        if (!value || !isFile(value)) return true
         const maxSize = 2 * 1024 * 1024
+        if (!value || !isFile(value)) return true
         return value.size <= maxSize
       })
   }),
@@ -275,7 +330,8 @@ const FormSchema = Yup.object().shape({
       return Yup.array().of(
         Yup.object().shape({
           familyRegistNumber: Yup.string()
-            .min(16, 'No KK harus memiliki minimal 16 digit')
+            .min(16, 'No KK harus tediri dari 16 digit angka')
+            .max(16, 'No KK harus tediri dari 16 digit angka')
             .required('No Kartu Keluarga tidak boleh kosong'),
           name: Yup.string().required(
             'Nama Anggota Keluarga tidak boleh kosong'
@@ -353,15 +409,17 @@ const FormSchema = Yup.object().shape({
     if (Array.isArray(notes) && notes.length > 0) {
       return Yup.array().of(
         Yup.object().shape({
-          description: Yup.string().required('Catatan tidak boleh kosong')
+          description: Yup.string()
+            .required('Catatan tidak boleh kosong')
+            .max(160, 'Catatan tidak boleh lebih dari 160 karakter')
         })
       )
     } else {
       return Yup.array()
     }
   }),
-  assessments: Yup.lazy((assessments) => {
-    if (Array.isArray(assessments) && assessments.length > 0) {
+  assessments: Yup.lazy((assesments) => {
+    if (Array.isArray(assesments) && assesments.length > 0) {
       return Yup.array().of(
         Yup.object().shape({
           date: Yup.string().required('Tanggal tidak boleh kosong'),
@@ -474,240 +532,6 @@ const FormSchema = Yup.object().shape({
         Yup.object().shape({
           period: Yup.string().required('Periode tidak boleh kosong'),
           year: Yup.string().required('Tahun tidak boleh kosong')
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  positions: Yup.lazy((credits) => {
-    if (Array.isArray(credits) && credits.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          position: Yup.string().required('Jabatan tidak boleh kosong'),
-          group: Yup.string().required('Rumpun tidak boleh kosong'),
-          effectiveDate: Yup.string().required(
-            'TMT Menjabat tidak boleh kosong'
-          ),
-          decreeDocument: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value || !isFile(value)) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value || !isFile(value)) return true
-                return value.size <= maxSize
-              }
-            )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  grades: Yup.lazy((credits) => {
-    if (Array.isArray(credits) && credits.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          grade: Yup.string().required('Golongan tidak boleh kosong'),
-          effectiveDate: Yup.string().required(
-            'TMT Golongan tidak boleh kosong'
-          ),
-          decreeType: Yup.string().required(
-            'Jenis SK Golongan tidak boleh kosong'
-          ),
-          decreeNumber: Yup.string().required(
-            'No. SK Golongan tidak boleh kosong'
-          ),
-          status: Yup.string().required('Status Golongan tidak boleh kosong'),
-          decreeDocument: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value || !isFile(value)) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value || !isFile(value)) return true
-                return value.size <= maxSize
-              }
-            )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  trainingStructurals: Yup.lazy((credits) => {
-    if (Array.isArray(credits) && credits.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          certificate: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value || !isFile(value)) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value || !isFile(value)) return true
-                return value.size <= maxSize
-              }
-            )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  trainingFungsionals: Yup.lazy((credits) => {
-    if (Array.isArray(credits) && credits.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          certificate: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value || !isFile(value)) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value || !isFile(value)) return true
-                return value.size <= maxSize
-              }
-            )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  trainingTechnicals: Yup.lazy((credits) => {
-    if (Array.isArray(credits) && credits.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          certificate: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value || !isFile(value)) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value || !isFile(value)) return true
-                return value.size <= maxSize
-              }
-            )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  targets: Yup.lazy((credits) => {
-    if (Array.isArray(credits) && credits.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          workBehavior: Yup.string().required(
-            'Rating Perilaku Kerja tidak boleh kosong'
-          ),
-          performance: Yup.string().required(
-            'Predikat Kinerja Pegawai tidak boleh kosong'
-          ),
-          performanceAchievement: Yup.string().required(
-            'Capaian Kinerja Organisasi tidak boleh kosong'
-          )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  performances: Yup.lazy((credits) => {
-    if (Array.isArray(credits) && credits.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          point: Yup.string().required(
-            'Nilai Prestasi Kerja tidak boleh kosong'
-          )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  disciplinaries: Yup.lazy((credits) => {
-    if (Array.isArray(credits) && credits.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          discipleType: Yup.string().required(
-            'Jenis Hukuman tidak boleh kosong'
-          ),
-          discipleDate: Yup.string().required(
-            'Tanggal Hukuman Disiplin tidak boleh kosong'
-          )
         })
       )
     } else {

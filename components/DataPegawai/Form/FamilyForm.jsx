@@ -51,7 +51,7 @@ const FamilyForm = ({
   const handleDeleteData = (idx) => {
     const error = errors?.families
     if (error) error.splice(idx, 1)
-    handleData(values?.notes, 'families', idx)
+    handleData(values?.families, 'families', idx)
   }
 
   return (

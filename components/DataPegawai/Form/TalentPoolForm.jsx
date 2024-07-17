@@ -41,7 +41,7 @@ const TalentPoolForm = ({
   const handleDeleteData = (idx) => {
     const error = errors?.talentPools
     if (error) error.splice(idx, 1)
-    handleData(values?.notes, 'talentPools', idx)
+    handleData(values?.talentPools, 'delete', idx)
   }
 
   return (

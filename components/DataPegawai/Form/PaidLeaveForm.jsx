@@ -41,7 +41,7 @@ function PaidLeaveForm({
   const handleDeleteData = (idx) => {
     const error = errors?.leaves
     if (error) error.splice(idx, 1)
-    handleData(values?.notes, 'leaves', idx)
+    handleData(values?.leaves, 'leaves', idx)
   }
 
   const handleGetError = (value) => {

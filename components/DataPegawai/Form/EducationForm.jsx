@@ -45,7 +45,7 @@ const EducationForm = ({
     const error = errors?.educations
     error.splice(idx, 1)
 
-    handleData(values?.notes, 'educations', idx)
+    handleData(values?.educations, 'educations', idx)
   }
 
   return (

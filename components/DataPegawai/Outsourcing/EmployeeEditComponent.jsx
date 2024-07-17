@@ -91,7 +91,10 @@ const InitValue = {
 const FormSchema = Yup.object().shape({
   employee: Yup.object().shape({
     name: Yup.string().required('Nama tidak boleh kosong'),
-    nip: Yup.string().required('NIP tidak boleh kosong'),
+    nip: Yup.string()
+      .required('NIP tidak boleh kosong')
+      .min(5, 'NIP tidak boleh kurang dari 5 digit')
+      .max(18, 'NIP tidak boleh lebih dari 18 digit'),
     placeOfBirth: Yup.string().required('Tempat Lahir tidak boleh kosong'),
     dateOfBirth: Yup.string().required('Tanggal Lahir tidak boleh kosong'),
     religion: Yup.string().required('Agama tidak boleh kosong'),
@@ -143,16 +146,32 @@ const FormSchema = Yup.object().shape({
       }
     ),
     familyRegistNumber: Yup.string()
-      .min(16, 'No KK harus memiliki minimal 16 digit')
+      .min(16, 'No KK harus tediri dari 16 digit angka')
+      .max(16, 'No KK harus tediri dari 16 digit angka')
       .required('No KK tidak boleh kosong'),
     idNumber: Yup.string()
-      .min(16, 'No NIK harus memiliki minimal 16 digit')
+      .min(16, 'No NIK harus terdiri dari 16 digit angka')
+      .max(16, 'No NIK harus terdiri dari 16 digit angka')
       .required('No NIK tidak boleh kosong'),
     residence: Yup.string().required('Komplek tidak boleh kosong'),
     emergencyContact: Yup.string().required(
       'Kontak Darurat tidak boleh kosong'
     ),
     email: Yup.string().email('Email tidak valid'),
+    taxId: Yup.lazy((taxId) => {
+      if (Array.isArray(taxId) && taxId.length > 0) {
+        return Yup.string()
+          .nullable()
+          .when('taxId', {
+            is: (value) => value && value.length > 0,
+            then: Yup.string()
+              .min(15, 'NPWP tidak boleh kurang dari 15 digit')
+              .max(16, 'NPWP tidak boleh lebih dari 16 digit')
+          })
+      } else {
+        return Yup.string()
+      }
+    }),
     image: Yup.mixed()
       .nullable()
       .test('fileType', 'Format file harus PNG, JPG', (value) => {
@@ -236,7 +255,9 @@ const FormSchema = Yup.object().shape({
     if (Array.isArray(notes) && notes.length > 0) {
       return Yup.array().of(
         Yup.object().shape({
-          description: Yup.string().required('Catatan tidak boleh kosong')
+          description: Yup.string()
+            .required('Catatan tidak boleh kosong')
+            .max(160, 'Catatan tidak boleh lebih dari 160 karakter')
         })
       )
     } else {

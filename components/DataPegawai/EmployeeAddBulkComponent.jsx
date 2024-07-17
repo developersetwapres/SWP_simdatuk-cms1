@@ -16,7 +16,11 @@ import { FiberManualRecord } from '@mui/icons-material'
 import PropTypes from 'prop-types'
 import { SaveAs, saveFile } from '@/utils/fileSaver'
 import Image from 'next/image'
-import { INFORMATION_ICON, PROCESSING, SUCCESS_ICON } from '@/utils/iconConstant'
+import {
+  INFORMATION_ICON,
+  PROCESSING,
+  SUCCESS_ICON
+} from '@/utils/iconConstant'
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -69,13 +73,13 @@ const style = {
 
 const EmployeeAddBulkComponent = ({
   employee,
-  downloadTemplate = () => { },
-  uploadTemplate = () => { },
-  clearTemplate = () => { },
-  clearEmployeeState = () => { },
-  onPaginationChange = () => { },
-  onRowsPerPageChange = () => { },
-  setLoading = () => { }
+  downloadTemplate = () => {},
+  uploadTemplate = () => {},
+  clearTemplate = () => {},
+  clearEmployeeState = () => {},
+  onPaginationChange = () => {},
+  onRowsPerPageChange = () => {},
+  setLoading = () => {}
 }) => {
   const router = useRouter()
   const [selectedFile, setSelectedFile] = useState(null)
@@ -196,9 +200,6 @@ const EmployeeAddBulkComponent = ({
   }
 
   useEffect(() => {
-    console.log('EMPLOYEES: ', employee)
-    // ACTIVITIES
-
     // UPLOAD FILE
     if (employee?.uploaded) {
       setModalMode(DynamicModalMode.INFO)
@@ -220,7 +221,7 @@ const EmployeeAddBulkComponent = ({
   }, [employee])
 
   useEffect(() => {
-    setLoading(!(employee?.loading))
+    setLoading(!employee?.loading)
   }, [employee])
 
   return (
@@ -264,7 +265,9 @@ const EmployeeAddBulkComponent = ({
               </Typography>
             </Box>
             <Box>
-              <Typography sx={style?.font}>Format File : .csv, .xlsx</Typography>
+              <Typography sx={style?.font}>
+                Format File : .csv, .xlsx
+              </Typography>
               <Typography sx={style?.font}>Maksimum Size : 2 MB</Typography>
             </Box>
             <Box sx={{ display: 'flex', gap: 1 }}>
@@ -375,8 +378,8 @@ const DynamicModalMode = {
 const DynamicModal = ({
   open = true,
   mode = DynamicModalMode.CONFIRM,
-  handleCancel = () => { },
-  handleConfirm = () => { }
+  handleCancel = () => {},
+  handleConfirm = () => {}
 }) => {
   const dynamicItems = useMemo(() => {
     let icon = INFORMATION_ICON
@@ -386,7 +389,8 @@ const DynamicModal = ({
     if (mode === DynamicModalMode.CONFIRM) {
       icon = INFORMATION_ICON
       title = 'Tambah Data Pegawai'
-      copytext = 'Apakah anda yakin akan menambah data pegawai secara massal? Pastikan anda berada dalam jaringan yang stabil sebelum melanjutkan proses ini'
+      copytext =
+        'Apakah anda yakin akan menambah data pegawai secara massal? Pastikan anda berada dalam jaringan yang stabil sebelum melanjutkan proses ini'
     } else if (mode === DynamicModalMode.UPLOAD) {
       icon = PROCESSING
       title = 'Tambah Data Pegawai Sedang Diproses'
@@ -421,11 +425,7 @@ const DynamicModal = ({
           alt='Info Icon'
         />
 
-        <Typography
-          fontWeight={600}
-          fontSize={24}
-          sx={{ marginTop: '16px' }}
-        >
+        <Typography fontWeight={600} fontSize={24} sx={{ marginTop: '16px' }}>
           {dynamicItems?.title}
         </Typography>
 

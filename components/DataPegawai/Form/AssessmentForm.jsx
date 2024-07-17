@@ -41,7 +41,7 @@ const AssessmentForm = ({
   const handleDeleteData = (idx) => {
     const error = errors?.assessments
     if (error) error.splice(idx, 1)
-    handleData(values?.notes, 'assessments', idx)
+    handleData(values?.assessments, 'delete', idx)
   }
 
   return (

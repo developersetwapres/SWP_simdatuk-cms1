@@ -42,7 +42,7 @@ const CreditsForm = ({
   const handleDeleteData = (idx) => {
     const error = errors?.educations
     if (error) error.splice(idx, 1)
-    handleData(values?.notes, 'educations', idx)
+    handleData(values?.credits, 'educations', idx)
   }
 
   return (

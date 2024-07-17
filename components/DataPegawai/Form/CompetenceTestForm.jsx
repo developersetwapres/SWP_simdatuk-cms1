@@ -41,7 +41,7 @@ const CompetenceTestForm = ({
   const handleDeleteData = (idx) => {
     const error = errors?.competences
     if (error) error.splice(idx, 1)
-    handleData(values?.notes, 'competences', idx)
+    handleData(values?.competences, 'delete', idx)
   }
 
   return (

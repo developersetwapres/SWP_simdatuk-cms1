@@ -340,12 +340,20 @@ const EmployeeForm = ({
                         { name: null },
                         false
                       )
+                      setTimeout(() => {
+                        formikRef.current.validateField(
+                          `employee.positions[${idx}].name`
+                        )
+                      }, 1)
                     } else {
                       const data = values?.employee?.positions
                       const dataSlice = data.slice(0, idx)
                       const newData = [...dataSlice, { name: null }]
 
                       setFieldValue(`employee.positions`, newData, false)
+                      setTimeout(() => {
+                        formikRef.current.validateField(`employee.positions`)
+                      }, 1)
                     }
                   }}
                 />
@@ -522,6 +530,11 @@ const EmployeeForm = ({
                 onChange={(e) => {
                   const val = e?.target?.value
                   setFieldValue('employee.employeeIdCardNumber', val, false)
+                  setTimeout(() => {
+                    formikRef.current.validateField(
+                      'employee.employeeIdCardNumber'
+                    )
+                  }, 1)
                 }}
               />
             </Grid>
@@ -557,6 +570,9 @@ const EmployeeForm = ({
                 onChange={(e) => {
                   const val = e?.target?.value
                   setFieldValue('employee.karisu', val, false)
+                  setTimeout(() => {
+                    formikRef.current.validateField('employee.karisu')
+                  }, 1)
                 }}
               />
             </Grid>
@@ -574,6 +590,9 @@ const EmployeeForm = ({
             onChange={(e) => {
               const val = e?.target?.value
               setFieldValue('employee.taxId', val, false)
+              setTimeout(() => {
+                formikRef.current.validateField('employee.taxId')
+              }, 1)
             }}
           />
         </Grid>
