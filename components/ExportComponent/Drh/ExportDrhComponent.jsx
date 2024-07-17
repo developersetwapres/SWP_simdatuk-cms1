@@ -12,9 +12,16 @@ import { Formik } from 'formik'
 import * as Yup from 'yup'
 import {
   deputyOptions,
+  educationLevelOptions,
+  employeeTypeOptions,
+  genderOptions,
+  maritalStatusOptions,
+  positionDescOptions,
   retirementAge,
   workingPeriodOptions
 } from 'libs/types/options'
+import { SaveAs, saveFile } from '@/utils/fileSaver'
+import { dateTimeFormat } from '@/utils/index'
 
 const InitValue = {
   organization: [],
@@ -55,8 +62,9 @@ const ExportDrhComponent = ({
   exportDRHData,
   echelon,
   grade,
-  exportDRH = () => {},
-  onLoading = () => {}
+  exportDRH = () => { },
+  clearExportDrhState = () => { },
+  onLoading = () => { }
 }) => {
   const formikRef = useRef(null)
 
@@ -67,25 +75,14 @@ const ExportDrhComponent = ({
       (grade?.options && grade?.options.map((itm) => itm?.name)) || []
 
     const data = {
-      employeeType: ['ASN', 'Non ASN', 'Outsourcing'],
-      gender: ['Laki-Laki', 'Perempuan'],
-      educationHistory: [
-        'SD/Sederajat',
-        'SLTP/Sederajat',
-        'SLTA/Sederajat',
-        'Akademik/D3/S.Muda',
-        'Diploma IV',
-        'Strata I',
-        'Strata II',
-        'Strata III'
-      ],
-      maritalStatus: ['Belum Menikah', 'Menikah', 'Cerai', 'Janda', 'Duda'],
-      organization: ['A', 'B', 'C'],
+      employeeType: employeeTypeOptions,
+      gender: genderOptions,
+      educationHistory: educationLevelOptions,
+      maritalStatus: maritalStatusOptions,
       deputy: deputyOptions,
       echelon: newEchelon,
       grade: newGrade,
-      positionDesc: ['Mutasi', 'Promosi', 'Inpassing', 'Konversi'],
-      age: [],
+      positionDesc: positionDescOptions,
       retirementAge,
       totalWorkingTime: workingPeriodOptions,
       gradeWorkingTime: workingPeriodOptions
@@ -95,7 +92,14 @@ const ExportDrhComponent = ({
   }, [echelon, grade])
 
   const handleGetValueID = (type, val) => {
-    if (type == 'echelon') {
+    if (type === 'gender') {
+      return val?.map(gender => gender === 'Laki-Laki' ? 1 : 0)
+    } else if (
+      type === 'totalWorkingTime' ||
+      type === 'gradeWorkingTime'
+    ) {
+      return val?.map(i => i?.replace(/ |Tahun/g, ''))
+    } else if (type == 'echelon') {
       const item = echelon?.options
         .filter((itm) => val.includes(itm?.name))
         .map((itm) => itm?.id)
@@ -131,7 +135,7 @@ const ExportDrhComponent = ({
       case 'grade':
         return 'grades'
       case 'positionDesc':
-        return 'position_status'
+        return 'job_description'
       case 'educationHistory':
         return 'education'
       case 'gender':
@@ -142,10 +146,10 @@ const ExportDrhComponent = ({
         return 'retirement_age'
       case 'maritalStatus':
         return 'marital_status'
-      case 'total_working_time':
-        return 'total_working_time'
-      case 'grade_working_time':
-        return 'grade_working_time'
+      case 'totalWorkingTime':
+        return 'total_working_duration'
+      case 'gradeWorkingTime':
+        return 'grade_range'
       default:
         return null
     }
@@ -156,14 +160,27 @@ const ExportDrhComponent = ({
       await FormSchema.validate(values, { abortEarly: false })
       formikRef.current.setErrors({})
 
-      const payload = Object.fromEntries(
-        Object.entries(values)
-          .filter((itm) => itm[1].length > 0)
-          .map((itm) => {
-            const newValue = handleGetValueID(itm[0], itm[1])
-            return [handleParseKey(itm[0]), newValue]
-          })
-      )
+      const payload = {
+        ...Object.fromEntries(
+          Object.entries(values)
+            .filter((itm) =>
+              itm[1]?.length > 0
+            )
+            .map(([key, value]) => {
+              const newValue = handleGetValueID(key, value)
+              return [handleParseKey(key), newValue]
+            })
+        )
+      }
+
+      if (values?.age?.max) {
+        payload.max_age = parseInt(values?.age?.max)
+      }
+
+      if (values?.age?.min) {
+        payload.min_age = parseInt(values?.age?.min)
+      }
+
       exportDRH(payload)
     } catch (err) {
       if (!err.inner || err.inner.length === 0) return
@@ -199,7 +216,48 @@ const ExportDrhComponent = ({
     return state
   }
 
-  useEffect(() => {}, [exportDRHData])
+  const getFileName = (type) => {
+    const dateNow = dateTimeFormat(new Date())?.replace(' ', '_')
+    const prefix = 'DATA_DRH_'
+    let ext = '.pdf'
+
+    if (type?.includes('pdf')) {
+      ext = '.pdf'
+    } else if (type?.includes('sheet')) {
+      ext = '.xlsx'
+    } else if (type?.includes('zip')) {
+      ext = '.zip'
+    } else {
+      ext = '.csv'
+    }
+
+    return prefix + dateNow + ext
+  }
+
+  useEffect(() => {
+    if (exportDRHData?.data) {
+      const responseType = exportDRHData?.data?.type
+      let type = SaveAs.PDF
+
+      if (responseType?.includes('pdf')) {
+        type = SaveAs.PDF
+      } else if (responseType?.includes('sheet')) {
+        type = SaveAs.XLS
+      } else if (responseType?.includes('zip')) {
+        type = SaveAs.ZIP
+      } else {
+        type = SaveAs.CSV
+      }
+
+      saveFile(
+        exportDRHData?.data,
+        getFileName(responseType),
+        type
+      )
+
+      clearExportDrhState()
+    }
+  }, [exportDRHData])
 
   useEffect(() => {
     const state = !(
@@ -215,7 +273,7 @@ const ExportDrhComponent = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => {}}
+      onSubmit={() => { }}
     >
       {(formikProps) => (
         <LayoutPages
@@ -251,6 +309,7 @@ ExportDrhComponent.propTypes = {
   grade: PropTypes.object,
   exportDRHData: PropTypes.object,
   exportDRH: PropTypes.func,
+  clearExportDrhState: PropTypes.func,
   onLoading: PropTypes.func
 }
 

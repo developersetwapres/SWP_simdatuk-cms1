@@ -12,7 +12,7 @@ const initialState = {
   error: null,
   detail: {},
   pagination: {},
-  data: []
+  data: null
 }
 
 export const exportDRHData = (state = initialState, action) => {
@@ -28,14 +28,13 @@ export const exportDRHData = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        data: payload?.data,
-        pagination: payload?.pagination
+        data: payload
       }
     case EXPORT_DRH_FAILED:
       return {
         ...state,
         loading: false,
-        error: payload?.error
+        error: payload
       }
     case CLEAR_EXPORT_DRH_STATE:
       return {
@@ -43,7 +42,7 @@ export const exportDRHData = (state = initialState, action) => {
         error: null,
         detail: {},
         pagination: {},
-        data: []
+        data: null
       }
     default:
       return state

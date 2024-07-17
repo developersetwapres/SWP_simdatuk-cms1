@@ -1,7 +1,8 @@
 export const SaveAs = {
   PDF: 'application/pdf',
   XLS: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;',
-  CSV: 'text/csv'
+  CSV: 'text/csv',
+  ZIP: 'application/zip'
 }
 
 export const saveFile = (blob, fileName, type = SaveAs.PDF) => {

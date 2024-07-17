@@ -127,14 +127,20 @@ const ExportDrfForm = ({
       <Grid item xs={6}>
         <Input
           type='number'
-          inputProps={{ min: '0' }}
+          inputProps={{ min: 10 }}
           label='Umur Minimum'
           name='age.min'
           placeholder='0'
           value={values?.age?.min}
           error={errors?.age?.min}
-          onChange={(val) => {
-            setFieldValue('age.min', val?.target?.value, false)
+          onChange={(e) => {
+            const value = e?.target?.value
+
+            setFieldValue(
+              'age.min',
+              value,
+              false
+            )
           }}
         />
       </Grid>

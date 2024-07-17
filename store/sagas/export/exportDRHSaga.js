@@ -8,7 +8,8 @@ import { call, put, takeEvery } from '@redux-saga/core/effects'
 import {
   EXPORT_DRH_REQUESTED,
   EXPORT_DRH_SUCCESS,
-  EXPORT_DRH_FAILED
+  EXPORT_DRH_FAILED,
+  SET_MODAL
 } from '../../constants'
 import { exportDRHAction } from '../action/export/exportDRHAction'
 
@@ -31,7 +32,11 @@ function* exportDrh(action) {
     })
   } catch (err) {
     const errors = err?.data
-    if (errors?.code === 403) {
+
+    if (
+      errors?.code === 403 ||
+      errors?.code === 401
+    ) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {
@@ -41,17 +46,28 @@ function* exportDrh(action) {
         }
       })
     } else {
-      if (errors?.code === 400) {
-        yield put({
-          type: CATCH_ERROR,
-          payload: errors?.message
-        })
+      let errorMessage = errors?.message
+
+      if (errors?.message) {
+        errorMessage = errors?.message
+      } else if (err?.status === 400) {
+        errorMessage = 'Data Tidak Ditemukan'
       } else {
-        yield put({
-          type: EXPORT_DRH_FAILED,
-          payload: errors?.message
-        })
+        errorMessage = 'Terjadi Kesalahan'
       }
+
+      yield put({
+        type: SET_MODAL,
+        payload: {
+          code: errors?.code,
+          message: errorMessage
+        }
+      })
+
+      yield put({
+        type: EXPORT_DRH_FAILED,
+        payload: errors
+      })
     }
   }
 }

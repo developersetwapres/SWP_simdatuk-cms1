@@ -10,14 +10,13 @@ export default connect(
   mapStateToProps(
     'exportDRHData',
     'echelon',
-    'grade',
-    'position'
+    'grade'
   ),
   mapActions(
     'exportDRH',
     'getEchelonsOptions',
     'getGradesOptions',
-    'getPositions'
+    'clearExportDrhState',
   )
 )(
   class ExportDrhContainer extends Component {
@@ -25,9 +24,6 @@ export default connect(
       echelon: PropTypes.object,
       grade: PropTypes.object,
       exportDRHData: PropTypes.object,
-      position: PropTypes.object,
-      exportDRH: PropTypes.object,
-      getPositions: PropTypes.func,
       getEchelonsOptions: PropTypes.func,
       getGradesOptions: PropTypes.func,
       exportDRH: PropTypes.func
@@ -50,7 +46,6 @@ export default connect(
     fetch(queries) {
       this.props.getEchelonsOptions(queries)
       this.props.getGradesOptions(queries)
-      this.props.getPositions({ ...queries, filterParent: false, parentId: '' })
     }
 
     setLoading(val) {
@@ -67,9 +62,9 @@ export default connect(
       return (
         <Layout willRender={this.state.willRender}>
           <ExportDrhComponent
-            onLoading={this.setLoading}
             {...this.state}
             {...this.props}
+            onLoading={this.setLoading}
           />
         </Layout>
       )

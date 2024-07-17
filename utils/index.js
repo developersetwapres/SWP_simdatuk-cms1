@@ -217,3 +217,27 @@ export const dmyToYmd = (dateDMY) => {
   const result = `${date[2]}-${date[1]}-${date[0]}`
   return result
 }
+
+/**
+ * Convert Blob to JSON
+ *
+ * @param {*} blob
+ * @returns
+ */
+export function blobToJSON(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = function () {
+      try {
+        const errorJSON = JSON.parse(reader.result)
+        resolve(errorJSON)
+      } catch (e) {
+        reject(e)
+      }
+    }
+    reader.onerror = function () {
+      reject(new Error('Failed to read the Blob'))
+    }
+    reader.readAsText(blob)
+  })
+}
