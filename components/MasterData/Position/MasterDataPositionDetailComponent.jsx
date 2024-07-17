@@ -36,10 +36,10 @@ const dataEchelon = [
 
 const MasterDataPositionDetailComponent = ({
   position,
-  deletePosition = () => {},
-  getPosition = () => {},
-  clearPositionState = () => {},
-  onLoading = () => {}
+  deletePosition = () => { },
+  getPosition = () => { },
+  clearPositionState = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
   const modal = useSelector((state) => state.modalReducer)
@@ -149,6 +149,15 @@ const MasterDataPositionDetailComponent = ({
                   <Typography>Tipe Jabatan</Typography>
                   <Typography sx={styles?.fontItem}>
                     {data?.type?.name || '-'}
+                  </Typography>
+                </Box>
+              </Grid>
+              {/* Show On Peta Jabatan */}
+              <Grid item xs={6}>
+                <Box sx={styles?.wrapperItem}>
+                  <Typography>Tampilkan di Halaman Peta Jabatan</Typography>
+                  <Typography sx={styles?.fontItem}>
+                    {data?.status === 1 ? 'Tampil' : 'Tidak'}
                   </Typography>
                 </Box>
               </Grid>

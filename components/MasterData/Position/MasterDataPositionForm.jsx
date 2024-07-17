@@ -24,8 +24,8 @@ const MasterDataPositionForm = ({
   formikRef,
   options,
   isPositionsLoading,
-  onChangeHierarchies = () => {},
-  onFetchHierarchy = () => {}
+  onChangeHierarchies = () => { },
+  onFetchHierarchy = () => { }
 }) => {
   const isShow = useMemo(() => {
     return values?.show
@@ -134,6 +134,24 @@ const MasterDataPositionForm = ({
               />
             </Grid>
           )}
+          {/* Show on Peta Jabatan */}
+          <Grid
+            item
+            xs={6}
+            alignContent='flex-end'
+          >
+            <FormControlLabel
+              label={'Tampilkan di Peta Jabatan'}
+              control={
+                <Checkbox
+                  checked={values?.showOnPetaJabatan}
+                  onClick={(e) =>
+                    setFieldValue('showOnPetaJabatan', e.target.checked, false)
+                  }
+                />
+              }
+            />
+          </Grid>
         </Grid>
       </Grid>
       {/* Echelon */}

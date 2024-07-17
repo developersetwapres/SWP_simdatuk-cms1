@@ -58,12 +58,12 @@ const styles = {
 const MasterDataPositionComponent = ({
   position,
   queries,
-  onFetch = () => {},
-  onSearch = () => {},
-  onLoading = () => {},
-  deletePosition = () => {},
-  onPaginationChange = () => {},
-  onRowsPerPageChange = () => {}
+  onFetch = () => { },
+  onSearch = () => { },
+  onLoading = () => { },
+  deletePosition = () => { },
+  onPaginationChange = () => { },
+  onRowsPerPageChange = () => { }
 }) => {
   const classes = useStyles()
   const router = useRouter()
@@ -110,9 +110,9 @@ const MasterDataPositionComponent = ({
   }, [])
 
   const rows = useMemo(() => {
+    console.log('POSITION: ', position)
     const data = position?.data || []
-
-    const dataMapping = data.map((item) => {
+    const dataMapping = data?.map((item) => {
       return [
         {
           Header: 'Nama Jabatan',

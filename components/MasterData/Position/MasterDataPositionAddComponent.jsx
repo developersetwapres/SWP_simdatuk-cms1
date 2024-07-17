@@ -15,6 +15,7 @@ import { entityOptions, positionTypeOptions } from 'libs/types/options'
 
 const InitValue = {
   show: false,
+  showOnPetaJabatan: false,
   entity: null,
   name: '',
   order: null,
@@ -30,6 +31,7 @@ const InitValue = {
 
 const FormSchema = Yup.object().shape({
   show: Yup.boolean(),
+  showOnPetaJabatan: Yup.boolean(),
   entity: Yup.string().required('Tipe Entitas tidak boleh kosong'),
   name: Yup.string().required('Nama Jabatan tidak boleh kosong')
   // position: Yup.string().when('entity', {
@@ -61,9 +63,9 @@ const FormSchema = Yup.object().shape({
 const MasterDataPositionAddComponent = ({
   echelon,
   position,
-  postPosition = () => {},
-  onFetchHierarchy = () => {},
-  onLoading = () => {}
+  postPosition = () => { },
+  onFetchHierarchy = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -87,8 +89,8 @@ const MasterDataPositionAddComponent = ({
     const newEchelons = echelon?.options ? handleMapping(echelon?.options) : []
     const newOrders = position?.orders
       ? position?.orders.map((itm) => {
-          return `${itm}`
-        })
+        return `${itm}`
+      })
       : []
 
     const dataOptions = {
@@ -133,6 +135,7 @@ const MasterDataPositionAddComponent = ({
       const parent = isParents && parents[parents?.length - 1]
       const entity = handleGetValue('entity', values?.entity)
       const isShow = values?.show
+      const showOnPetaJabatan = values?.showOnPetaJabatan ? 1 : 0
 
       const payload = {
         name: values.name,
@@ -141,16 +144,16 @@ const MasterDataPositionAddComponent = ({
         type: position ? handleGetValue('positionType', position) : 1,
         entity,
         order: values?.order,
+        status: showOnPetaJabatan,
         position_echelons: isShow
           ? echelons.map((itm) => {
-              return {
-                echelon_id: handleGetValue('echelon', itm?.name),
-                available: itm?.quantity
-              }
-            })
+            return {
+              echelon_id: handleGetValue('echelon', itm?.name),
+              available: itm?.quantity
+            }
+          })
           : []
       }
-
       postPosition(payload)
     } catch (err) {
       if (!err.inner || err.inner.length === 0) {
@@ -228,7 +231,7 @@ const MasterDataPositionAddComponent = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => {}}
+      onSubmit={() => { }}
     >
       {(formikProps) => (
         <LayoutPages

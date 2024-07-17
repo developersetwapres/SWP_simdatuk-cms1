@@ -15,6 +15,7 @@ import { entityOptions, positionTypeOptions } from 'libs/types/options'
 
 const InitValue = {
   show: false,
+  showOnPetaJabatan: false,
   entity: null,
   name: '',
   order: null,
@@ -30,6 +31,7 @@ const InitValue = {
 
 const FormSchema = Yup.object().shape({
   show: Yup.boolean(),
+  showOnPetaJabatan: Yup.boolean(),
   entity: Yup.string().required('Tipe Entitas tidak boleh kosong'),
   name: Yup.string().required('Nama Jabatan tidak boleh kosong')
   // position: Yup.string().when('entity', {
@@ -61,11 +63,11 @@ const FormSchema = Yup.object().shape({
 const MasterDataPositionEditComponent = ({
   echelon,
   position,
-  getPosition = () => {},
-  updatePosition = () => {},
-  onFetchHierarchy = () => {},
-  clearPositionState = () => {},
-  onLoading = () => {}
+  getPosition = () => { },
+  updatePosition = () => { },
+  onFetchHierarchy = () => { },
+  clearPositionState = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -118,8 +120,8 @@ const MasterDataPositionEditComponent = ({
       : []
     const newOrders = position?.orders
       ? position?.orders.map((itm) => {
-          return `${itm}`
-        })
+        return `${itm}`
+      })
       : []
 
     const dataOptions = {
@@ -167,6 +169,7 @@ const MasterDataPositionEditComponent = ({
       const parent = isParents && parents[parents?.length - 1]
       const entity = handleGetValue('entity', values?.entity)
       const isShow = values?.show
+      const showOnPetaJabatan = values?.showOnPetaJabatan ? 1 : 0
 
       const deletedEchelon = echelonsDetail
         .filter((item) => !echelons.some((itm) => itm?.name == item?.name))
@@ -182,20 +185,20 @@ const MasterDataPositionEditComponent = ({
           entity,
           order: values?.order,
           deleted_echelon_id: deletedEchelon,
+          status: showOnPetaJabatan,
           position_echelons: isShow
             ? echelons.map((itm) => {
-                return {
-                  id:
-                    echelonsDetail.find((item) => item?.name == itm?.name)
-                      ?.id || null,
-                  echelon_id: handleGetValue('echelon', itm?.name),
-                  available: itm?.quantity
-                }
-              })
+              return {
+                id:
+                  echelonsDetail.find((item) => item?.name == itm?.name)
+                    ?.id || null,
+                echelon_id: handleGetValue('echelon', itm?.name),
+                available: itm?.quantity
+              }
+            })
             : []
         }
       }
-
       updatePosition(payload)
     } catch (err) {
       if (!err.inner || err.inner.length === 0) {
@@ -282,8 +285,10 @@ const MasterDataPositionEditComponent = ({
       const echelons = detail?.echelons || []
       const echelon = echelons ? echelons[0] : []
       const isShow = echelon?.name ? true : false
+      const isShowingOnPetaJabatan = detail?.status === 1
 
       formikRef.current?.setFieldValue('show', isShow, false)
+      formikRef.current?.setFieldValue('showOnPetaJabatan', isShowingOnPetaJabatan, false)
       formikRef.current?.setFieldValue('name', detail?.name, false)
       formikRef.current?.setFieldValue('entity', detail?.entity?.name, false)
       formikRef.current?.setFieldValue('order', `${detail?.order}`, false)
@@ -336,7 +341,7 @@ const MasterDataPositionEditComponent = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => {}}
+      onSubmit={() => { }}
     >
       {(formikProps) => (
         <LayoutPages
