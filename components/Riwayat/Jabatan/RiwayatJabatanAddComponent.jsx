@@ -77,10 +77,10 @@ const FormSchema = Yup.object().shape({
 })
 
 const RiwayatJabatanAddComponent = ({
-  position,
+  positionHistories,
   echelon,
   employee,
-  postPosition = () => {},
+  postPositionHistories = () => {},
   onLoading = () => {}
 }) => {
   const router = useRouter()
@@ -146,7 +146,7 @@ const RiwayatJabatanAddComponent = ({
         users
       }
 
-      postPosition(payload)
+      postPositionHistories(payload)
     } catch (err) {
       if (!err.inner || err.inner.length === 0) return
 
@@ -164,9 +164,10 @@ const RiwayatJabatanAddComponent = ({
   }
 
   useEffect(() => {
-    const state = !employee?.loading && !echelon?.loading && !position?.isSubmit
+    const state =
+      !employee?.loading && !echelon?.loading && !positionHistories?.isSubmit
     onLoading(state)
-  }, [employee, echelon, position])
+  }, [employee, echelon, positionHistories])
 
   return (
     <Formik
@@ -202,10 +203,10 @@ const RiwayatJabatanAddComponent = ({
 }
 
 RiwayatJabatanAddComponent.propTypes = {
-  position: PropTypes.object,
+  positionHistories: PropTypes.object,
   echelon: PropTypes.object,
   employee: PropTypes.object,
-  postPosition: PropTypes.func,
+  postPositionHistories: PropTypes.func,
   onLoading: PropTypes.func
 }
 

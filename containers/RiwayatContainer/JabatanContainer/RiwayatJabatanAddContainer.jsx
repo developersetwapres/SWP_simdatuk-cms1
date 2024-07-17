@@ -7,15 +7,15 @@ import Layout from '@/components/core/Layout'
 import RiwayatJabatanAddComponent from '@/components/Riwayat/Jabatan/RiwayatJabatanAddComponent'
 
 export default connect(
-  mapStateToProps('position', 'echelon', 'employee'),
-  mapActions('postPosition', 'getEchelons', 'getEmployees')
+  mapStateToProps('positionHistories', 'echelon', 'employee'),
+  mapActions('postPositionHistories', 'getEchelons', 'getEmployees')
 )(
   class RiwayatJabatanAddContainer extends Component {
     static propTypes = {
-      position: PropTypes.object,
+      positionHistories: PropTypes.object,
       echelon: PropTypes.object,
       employee: PropTypes.object,
-      postPosition: PropTypes.func,
+      postPositionHistories: PropTypes.func,
       getEchelons: PropTypes.func,
       getEmployees: PropTypes.func
     }

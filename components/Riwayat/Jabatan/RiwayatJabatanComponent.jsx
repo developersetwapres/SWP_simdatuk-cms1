@@ -55,7 +55,7 @@ const styles = {
 }
 
 const RiwayatJabatanComponent = ({
-  position,
+  positionHistories,
   onSearch = () => {},
   onLoading = () => {},
   onPaginationChange = () => {},
@@ -96,7 +96,7 @@ const RiwayatJabatanComponent = ({
   )
 
   const rows = useMemo(() => {
-    const data = position?.data || []
+    const data = positionHistories?.data || []
 
     const dataMapping = data.map((item) => {
       return [
@@ -161,7 +161,7 @@ const RiwayatJabatanComponent = ({
     })
 
     return dataMapping
-  }, [position])
+  }, [positionHistories])
 
   const action = useMemo(() => {
     return (
@@ -175,9 +175,9 @@ const RiwayatJabatanComponent = ({
   }, [])
 
   useEffect(() => {
-    const state = !position?.loading
+    const state = !positionHistories?.loading
     onLoading(state)
-  }, [position])
+  }, [positionHistories])
 
   return (
     <LayoutPages summary='Data Riwayat Jabatan' action={action}>
@@ -202,7 +202,7 @@ const RiwayatJabatanComponent = ({
       <Table
         columns={columns}
         rows={rows}
-        pagination={position?.pagination}
+        pagination={positionHistories?.pagination}
         handlePagination={onPaginationChange}
         handleRows={onRowsPerPageChange}
       />
@@ -211,7 +211,7 @@ const RiwayatJabatanComponent = ({
 }
 
 RiwayatJabatanComponent.propTypes = {
-  position: PropTypes.object,
+  positionHistories: PropTypes.object,
   onSearch: PropTypes.func,
   onLoading: PropTypes.func,
   onPaginationChange: PropTypes.func,

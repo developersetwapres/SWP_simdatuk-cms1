@@ -7,13 +7,13 @@ import Layout from '@/components/core/Layout'
 import RiwayatJabatanComponent from '@/components/Riwayat/Jabatan/RiwayatJabatanComponent'
 
 export default connect(
-  mapStateToProps('position'),
-  mapActions('getPositions')
+  mapStateToProps('positionHistories'),
+  mapActions('getPositionsHistories')
 )(
   class RiwayatJabatanContainer extends Component {
     static propTypes = {
-      position: PropTypes.object,
-      getPositions: PropTypes.func
+      positionHistories: PropTypes.object,
+      getPositionsHistories: PropTypes.func
     }
 
     constructor(props) {
@@ -35,7 +35,7 @@ export default connect(
     }
 
     fetch(queries) {
-      this.props.getPositions(queries)
+      this.props.getPositionsHistories(queries)
     }
 
     onPaginationChange(page) {

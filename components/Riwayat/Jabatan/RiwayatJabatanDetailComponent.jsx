@@ -25,11 +25,11 @@ const styles = {
 }
 
 const RiwayatJabatanDetailComponent = ({
-  position,
+  positionHistories,
   echelon,
-  getPosition = () => { },
-  clearPositionState = () => { },
-  onLoading = () => { }
+  getPositionHistories = () => {},
+  clearPositionState = () => {},
+  onLoading = () => {}
 }) => {
   const router = useRouter()
 
@@ -60,8 +60,8 @@ const RiwayatJabatanDetailComponent = ({
   }
 
   const data = useMemo(() => {
-    return position?.detail
-  }, [position])
+    return positionHistories?.detail
+  }, [positionHistories])
 
   const columns = useMemo(
     () => [
@@ -110,7 +110,7 @@ const RiwayatJabatanDetailComponent = ({
   )
 
   const rows = useMemo(() => {
-    const data = position?.detail?.users || []
+    const data = positionHistories?.detail?.users || []
     const dataMapping = data.map((item, index) => {
       return [
         {
@@ -176,7 +176,9 @@ const RiwayatJabatanDetailComponent = ({
                 color='primary'
                 onClick={() =>
                   router.push(
-                    `/data-riwayat/jabatan/detail/pegawai/${btoa(item?.user_id)}`
+                    `/data-riwayat/jabatan/detail/pegawai/${btoa(
+                      item?.user_id
+                    )}`
                   )
                 }
                 icon={<Info style={styles.iconButton} />}
@@ -189,7 +191,7 @@ const RiwayatJabatanDetailComponent = ({
     })
 
     return dataMapping
-  }, [position])
+  }, [positionHistories])
 
   const action = useMemo(() => {
     return (
@@ -213,7 +215,7 @@ const RiwayatJabatanDetailComponent = ({
   useEffect(() => {
     // Get Detail User
     const id = router?.query?.id
-    if (id) getPosition(atob(id))
+    if (id) getPositionHistories(atob(id))
 
     // Event clear state when url path changes
     router.events.on('routeChangeComplete', clearPositionState)
@@ -225,9 +227,10 @@ const RiwayatJabatanDetailComponent = ({
 
   useEffect(() => {
     const state =
-      !position?.loading && Object.entries(position?.detail).length > 0
+      !positionHistories?.loading &&
+      Object.entries(positionHistories?.detail).length > 0
     onLoading(state)
-  }, [position])
+  }, [positionHistories])
 
   return (
     <LayoutPages
@@ -267,9 +270,9 @@ const RiwayatJabatanDetailComponent = ({
 }
 
 RiwayatJabatanDetailComponent.propTypes = {
-  position: PropTypes.object,
+  positionHistories: PropTypes.object,
   echelon: PropTypes.object,
-  getPosition: PropTypes.func,
+  getPositionHistories: PropTypes.func,
   clearPositionState: PropTypes.func,
   onLoading: PropTypes.func
 }

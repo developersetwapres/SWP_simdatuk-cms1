@@ -77,12 +77,12 @@ const FormSchema = Yup.object().shape({
 })
 
 const RiwayatJabatanEditComponent = ({
-  position,
+  positionHistories,
   echelon,
   employee,
-  getPosition = () => {},
-  updatePosition = () => {},
-  clearPositionState = () => {},
+  getPositionHistories = () => {},
+  updatePositionHistories = () => {},
+  clearPositionHistoriesState = () => {},
   onLoading = () => {}
 }) => {
   const router = useRouter()
@@ -110,8 +110,11 @@ const RiwayatJabatanEditComponent = ({
       return dataFilter?.id
     } else if (type == 'employee') {
       const dataFilter = employee?.data.find(
-        (itm) => itm?.name == val.split(' - ')[0]
+        (itm) =>
+          itm?.name == val.split(' - ')[0] ||
+          itm?.name.includes(val.split(' - ')[0])
       )
+
       return dataFilter?.id
     } else if (type == 'month') {
       const index = options['month'].findIndex((itm) => itm == val)
@@ -127,13 +130,14 @@ const RiwayatJabatanEditComponent = ({
       await FormSchema.validate(values, { abortEarly: false })
       formikRef.current.setErrors({})
 
-      const usersData = position?.detail?.users
+      const usersData = positionHistories?.detail?.users
 
       const id = atob(router?.query?.id)
       const users = values?.pegawai.map((itm) => {
         return {
-          id: usersData.find((item) => item?.name == itm?.nama.split(' - ')[0])
-            ?.id,
+          id:
+            usersData.find((item) => item?.name == itm?.nama.split(' - ')[0])
+              ?.id || null,
           user_id: handleGetValueId(itm?.nama, 'employee'),
           position: itm?.jabatan,
           echelon: handleGetValueId(itm?.jenjangJabatan, 'echelon'),
@@ -156,7 +160,7 @@ const RiwayatJabatanEditComponent = ({
         }
       }
 
-      updatePosition(payload)
+      updatePositionHistories(payload)
     } catch (err) {
       if (!err.inner || err.inner.length === 0) return
 
@@ -175,13 +179,13 @@ const RiwayatJabatanEditComponent = ({
 
   const handleClearState = () => {
     formikRef.current.resetForm()
-    clearPositionState()
+    clearPositionHistoriesState()
   }
 
   useEffect(() => {
     // Get Detail User
     const id = router?.query?.id
-    if (id) getPosition(atob(id))
+    if (id) getPositionHistories(atob(id))
 
     // Event clear state when url path changes
     router.events.on('routeChangeComplete', handleClearState)
@@ -195,13 +199,13 @@ const RiwayatJabatanEditComponent = ({
     const state =
       !employee?.loading &&
       !echelon?.loading &&
-      !position?.loading &&
-      Object.entries(position?.detail).length > 0
+      !positionHistories?.loading &&
+      Object.entries(positionHistories?.detail).length > 0
     onLoading(state)
-  }, [employee, echelon, position])
+  }, [employee, echelon, positionHistories])
 
   useEffect(() => {
-    const detail = position?.detail
+    const detail = positionHistories?.detail
 
     if (echelon && detail && Object.entries(detail).length > 0) {
       const periodYear = new Date(detail?.period_year, detail?.period_month - 1)
@@ -260,7 +264,7 @@ const RiwayatJabatanEditComponent = ({
           )
         })
     }
-  }, [position?.detail, echelon])
+  }, [positionHistories?.detail, echelon])
 
   return (
     <Formik
@@ -296,12 +300,12 @@ const RiwayatJabatanEditComponent = ({
 }
 
 RiwayatJabatanEditComponent.propTypes = {
-  position: PropTypes.object,
+  positionHistories: PropTypes.object,
   echelon: PropTypes.object,
   employee: PropTypes.object,
-  getPosition: PropTypes.func,
-  updatePosition: PropTypes.func,
-  clearPositionState: PropTypes.func,
+  getPositionHistories: PropTypes.func,
+  updatePositionHistories: PropTypes.func,
+  clearPositionHistoriesState: PropTypes.func,
   onLoading: PropTypes.func
 }
 

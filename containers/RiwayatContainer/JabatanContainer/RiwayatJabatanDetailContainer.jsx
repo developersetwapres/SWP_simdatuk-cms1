@@ -7,14 +7,14 @@ import Layout from '@/components/core/Layout'
 import RiwayatJabatanDetailComponent from '@/components/Riwayat/Jabatan/RiwayatJabatanDetailComponent'
 
 export default connect(
-  mapStateToProps('position', 'echelon'),
-  mapActions('getPosition', 'clearPositionState', 'getEchelons')
+  mapStateToProps('positionHistories', 'echelon'),
+  mapActions('getPositionHistories', 'clearPositionState', 'getEchelons')
 )(
   class RiwayatJabatanDetailContainer extends Component {
     static propTypes = {
-      position: PropTypes.object,
+      positionHistories: PropTypes.object,
       echelon: PropTypes.object,
-      getPosition: PropTypes.func,
+      getPositionHistories: PropTypes.func,
       clearPositionState: PropTypes.func,
       getEchelons: PropTypes.func
     }
