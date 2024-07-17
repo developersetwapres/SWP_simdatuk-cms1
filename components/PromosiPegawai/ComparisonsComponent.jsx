@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable indent */
@@ -96,9 +97,9 @@ const stats = [
 function ComparisonsComponent({
   promotions,
   exportPromotionData,
-  setLoading = () => {},
-  exportPromotionUsers = () => {},
-  clearExportPromotionState = () => {}
+  setLoading = () => { },
+  exportPromotionUsers = () => { },
+  clearExportPromotionState = () => { }
 }) {
   const router = useRouter()
   const [employees, setEmployees] = useState([])
@@ -168,9 +169,9 @@ function ComparisonsComponent({
         />
         <ButtonExport
           data={[
-            { name: 'PDF', action: () => exportFileAs(SaveAs.PDF, employees) },
-            { name: 'XLS', action: () => exportFileAs(SaveAs.XLS, employees) },
-            { name: 'CSV', action: () => exportFileAs(SaveAs.CSV, employees) }
+            { name: 'PDF', action: () => exportFileAs(SaveAs.PDF, employees) }
+            // { name: 'XLS', action: () => exportFileAs(SaveAs.XLS, employees) },
+            // { name: 'CSV', action: () => exportFileAs(SaveAs.CSV, employees) }
           ]}
         />
       </Box>
@@ -191,9 +192,9 @@ function ComparisonsComponent({
       const responseType = exportPromotionData?.data?.type
       let type = SaveAs.PDF
 
-      if (type?.includes('pdf')) {
+      if (responseType?.includes('pdf')) {
         type = SaveAs.PDF
-      } else if (type?.includes('sheet')) {
+      } else if (responseType?.includes('sheet')) {
         type = SaveAs.XLS
       } else {
         type = SaveAs.CSV
@@ -252,21 +253,21 @@ function ComparisonsComponent({
                   name={
                     employee?.name
                       ? [
-                          employee?.title_prefix,
-                          employee?.name,
-                          employee?.title_suffix
-                        ].join(' ')
+                        employee?.title_prefix,
+                        employee?.name,
+                        employee?.title_suffix
+                      ].join(' ')
                       : '-'
                   }
                   titleColor={colorCode}
                   image={employee?.photo_profile}
                   registrationNumber={
                     !employee?.employee_id_number &&
-                    !employee?.employee_registration_number
+                      !employee?.employee_registration_number
                       ? '-'
                       : !employee?.employee_registration_number
-                      ? employee?.employee_id_number
-                      : `${employee?.employee_id_number} / ${employee?.employee_registration_number}`
+                        ? employee?.employee_id_number
+                        : `${employee?.employee_id_number} / ${employee?.employee_registration_number}`
                   }
                   handleRemove={() => removeEmployee(employee?.id)}
                 />
@@ -330,8 +331,8 @@ function ComparisonsComponent({
                 name={
                   item?.name
                     ? [item?.title_prefix, item?.name, item?.title_suffix].join(
-                        ' '
-                      )
+                      ' '
+                    )
                     : '-'
                 }
                 textNameColor={colorCode}
@@ -548,7 +549,7 @@ const EmployeeDataComponent = ({
   image = '/simdatuk/imagePegawai.png',
   registrationNumber = '',
   name = '',
-  handleRemove = () => {}
+  handleRemove = () => { }
 }) => {
   return (
     <Box
@@ -637,7 +638,9 @@ StatsComponent.propTypes = {
 }
 
 PercentageTooltip.propTypes = {
-  data: PropTypes.array
+  data: PropTypes.array,
+  label: PropTypes.string,
+  type: PropTypes.string
 }
 
 ComparisonsComponent.propTypes = {

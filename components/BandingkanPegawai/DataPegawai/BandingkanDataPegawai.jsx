@@ -177,9 +177,9 @@ const BandingkanDataPegawai = ({
       const responseType = exportComparisonStore?.data?.type
       let type = SaveAs.PDF
 
-      if (type?.includes('pdf')) {
+      if (responseType?.includes('pdf')) {
         type = SaveAs.PDF
-      } else if (type?.includes('sheet')) {
+      } else if (responseType?.includes('sheet')) {
         type = SaveAs.XLS
       } else {
         type = SaveAs.CSV
