@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
@@ -19,84 +18,91 @@ import { Formik } from 'formik'
 import {
   deputyOptions,
   employeeEducationLevelOptions,
+  employeeStatusOptions,
   employeeTypeOptions,
   genderOptions,
   maritalStatusOptions,
+  periodCreditsOptions,
   periodOptions,
   positionDescOptions,
   predicateOptions,
   ratingOptions,
   ratingOrganizationOptions,
+  religionOptions,
   retirementAge,
   workingPeriodOptions
 } from 'libs/types/options'
 import { v4 as uuidv4 } from 'uuid'
+import { SaveAs, saveFile } from '@/utils/fileSaver'
+import { dateTimeFormat } from '@/utils/index'
 
 const checkboxes = [
   {
     title: 'Data Diri',
     checkbox: 'personalData',
     children: [
-      { name: 'name', label: 'Nama' },
-      { name: 'registrationNumber', label: 'NIP/NRP' },
-      { name: 'birthInfo', label: 'Tempat, Tanggal Lahir' },
-      { name: 'age', label: 'Umur' },
-      { name: 'religion', label: 'Agama' },
-      { name: 'gender', label: 'Jenis Kelamin' },
-      { name: 'maritalStatus', label: 'Status Perkawinan' },
-      { name: 'employeeType', label: 'Jenis Pegawai' },
-      { name: 'assistanceType', label: 'Jenis Perbantuan' },
-      { name: 'outsourcingType', label: 'Jenis Outsourcing' },
-      { name: 'cpnsEffectiveDate', label: 'TMT CPNS' },
-      { name: 'firstDateOfWorking', label: 'Tanggal Mulai Bekerja' },
-      { name: 'lastDateOfWorking', label: 'Tanggal Terakhir Bekerja' },
-      { name: 'totalWorkingPeriod', label: 'Masa Kerja Keseluruhan' },
-      { name: 'groupWorkingPeriod', label: 'Masa Kerja Golongan' },
-      { name: 'position', label: 'Jabatan' },
-      { name: 'positionEffectiveDate', label: 'TMT Menjabat' },
-      { name: 'grade', label: 'Golongan' },
-      { name: 'gradeEffectiveDate', label: 'TMT Golongan' },
-      { name: 'parentOrganization', label: 'Instansi Induk' },
-      { name: 'employeeCardNumber', label: 'No. Karpeg' },
-      { name: 'employeePartnerCard', label: 'No. Karisu' },
-      { name: 'taxNumber', label: 'NPWP' },
-      { name: 'employmentStatus', label: 'Status Pegawai' },
-      { name: 'familyCardNumber', label: 'No. KK' },
-      { name: 'identityNumber', label: 'No. NIK' },
-      { name: 'residence', label: 'Nama Komplek' },
-      { name: 'domicile', label: 'Alamat Tempat Tinggal Saat Ini' },
-      { name: 'homePhoneNumber', label: 'No. Telepon Rumah' },
-      { name: 'phoneNumber', label: 'No. HP' },
-      { name: 'office', label: 'Alamat Kantor' },
-      { name: 'officePhone', label: 'No. Telepon Kantor' },
-      { name: 'email', label: 'Email' },
-      { name: 'workEmail', label: 'Email Dinas' },
-      { name: 'description', label: 'Keterangan' },
-      { name: 'emergencyContact', label: 'Kontak Darurat' },
-      { name: 'retirementLimitAge', label: 'Batas Usia Pensiun' }
+      { name: 'isName', label: 'Nama' },
+      { name: 'isNip', label: 'NIP/NRP' },
+      { name: 'isBirthPlaceDate', label: 'Tempat, Tanggal Lahir' },
+      { name: 'isAge', label: 'Umur' },
+      { name: 'isReligion', label: 'Agama' },
+      { name: 'isGender', label: 'Jenis Kelamin' },
+      { name: 'isMaritalStatus', label: 'Status Perkawinan' },
+      { name: 'isEmployeeType', label: 'Jenis Pegawai' },
+      { name: 'isAssistanceType', label: 'Jenis Perbantuan' },
+      { name: 'isOutsourcingType', label: 'Jenis Outsourcing' },
+      { name: 'isDateCPNS', label: 'TMT CPNS' },
+      { name: 'isStartDate', label: 'Tanggal Mulai Bekerja' },
+      { name: 'isEndDate', label: 'Tanggal Terakhir Bekerja' },
+      { name: 'isWorkDuration', label: 'Masa Kerja Keseluruhan' },
+      { name: 'isGradeDuration', label: 'Masa Kerja Golongan' },
+      { name: 'isPosition', label: 'Jabatan' },
+      { name: 'isDatePosition', label: 'TMT Menjabat' },
+      { name: 'isEchelons', label: 'Eselon' },
+      { name: 'isEchelonDate', label: 'TMT Eselon' },
+      { name: 'isGrade', label: 'Golongan' },
+      { name: 'isGradeDate', label: 'TMT Golongan' },
+      { name: 'isAgency', label: 'Instansi Induk' },
+      { name: 'isNoWorker', label: 'No. Karpeg' },
+      { name: 'isKarisu', label: 'No. Karisu' },
+      { name: 'isNPWP', label: 'NPWP' },
+      { name: 'isEmployeeStatus', label: 'Status Pegawai' },
+      { name: 'isNoFamily', label: 'No. KK' },
+      { name: 'isNIK', label: 'No. NIK' },
+      { name: 'isComplex', label: 'Nama Komplek' },
+      { name: 'isCurrentAddress', label: 'Alamat Tempat Tinggal Saat Ini' },
+      { name: 'isHomeNumber', label: 'No. Telepon Rumah' },
+      { name: 'isPhoneNumber', label: 'No. HP' },
+      { name: 'isOfficeAddress', label: 'Alamat Kantor' },
+      { name: 'isOfficeNumber', label: 'No. Telepon Kantor' },
+      { name: 'isEmail', label: 'Email' },
+      { name: 'isOfficeEmail', label: 'Email Dinas' },
+      { name: 'isPositionDescription', label: 'Keterangan' },
+      { name: 'isEmergencyContact', label: 'Kontak Darurat' },
+      { name: 'isPensionCap', label: 'Batas Usia Pensiun' }
     ]
   },
   {
     title: 'Data Riwayat',
     checkbox: 'historyData',
     children: [
-      { name: 'educationHistory', label: 'Riwayat Pendidikan' },
-      { name: 'positionHistory', label: 'Riwayat Jabatan' },
-      { name: 'gradeHistory', label: 'Riwayat Golongan' },
-      { name: 'structuralHistory', label: 'Riwayat Pelatihan Struktural' },
-      { name: 'functionalHistory', label: 'Riwayat Pelatihan Fungsional' },
-      { name: 'technicalHistory', label: 'Riwayat Pelatihan Teknis' },
-      { name: 'awardHistory', label: 'Riwayat Penghargaan' },
-      { name: 'skpHistory', label: 'Riwayat SKP' },
-      { name: 'paktHistory', label: 'Riwayat Penetapan Angka Kredit Terakhir' },
-      { name: 'recognitionHistory', label: 'Riwayat Penilaian Prestasi Kerja' },
-      { name: 'disciplinaryHistory', label: 'Riwayat Hukuman Disiplin' },
-      { name: 'familyHistory', label: 'Keluarga' },
-      { name: 'leaveHistory', label: 'Cuti' },
-      { name: 'notesHistory', label: 'Catatan' },
-      { name: 'assessmentHistory', label: 'Hasil Assessment' },
-      { name: 'competenceHistory', label: 'Hasil Uji Kompetensi' },
-      { name: 'talentHistory', label: 'Hasil Talent Pool' }
+      { name: 'isEducationHistory', label: 'Riwayat Pendidikan' },
+      { name: 'isPositionHistory', label: 'Riwayat Jabatan' },
+      { name: 'isGradeHistory', label: 'Riwayat Golongan' },
+      { name: 'isTrainingStructural', label: 'Riwayat Pelatihan Struktural' },
+      { name: 'isTrainingFunctional', label: 'Riwayat Pelatihan Fungsional' },
+      { name: 'isTrainingTechnique', label: 'Riwayat Pelatihan Teknis' },
+      { name: 'isRecognition', label: 'Riwayat Penghargaan' },
+      { name: 'isSKP', label: 'Riwayat SKP' },
+      { name: 'isCredit', label: 'Riwayat Penetapan Angka Kredit Terakhir' },
+      { name: 'isPerformance', label: 'Riwayat Penilaian Prestasi Kerja' },
+      { name: 'isDisciplinary', label: 'Riwayat Hukuman Disiplin' },
+      { name: 'isFamilyHistory', label: 'Keluarga' },
+      { name: 'isLeave', label: 'Cuti' },
+      { name: 'isNotes', label: 'Catatan' },
+      { name: 'isAssessment', label: 'Hasil Assessment' },
+      { name: 'isCompetency', label: 'Hasil Uji Kompetensi' },
+      { name: 'isTalentPool', label: 'Hasil Talent Pool' }
     ]
   }
 ]
@@ -135,63 +141,544 @@ const ExportEmployeeComponent = ({
   grade,
   echelon,
   exportEmployeeData,
-  onLoading = () => {},
-  onPaginationChange = () => {},
-  onRowsPerPageChange = () => {},
-  clearExportEmployeesState = () => {}
+  onLoading = () => { },
+  onPaginationChange = () => { },
+  onRowsPerPageChange = () => { },
+  exportEmployees = () => { },
+  exportEmployeesPreview = () => { },
+  clearExportEmployeesState = () => { }
 }) => {
   const formikRef = useRef()
   const [showPreview, setShowPreview] = useState(false)
 
-  const togglePreview = () => {
-    setShowPreview(!showPreview)
+  const convertKeyToPayload = (key) => {
+    if (key === 'employeeType')
+      return 'employee_type'
+
+    if (key === 'echelon')
+      return 'echelons'
+
+    if (key === 'grade')
+      return 'grades'
+
+    if (key === 'positionDescription')
+      return 'position_status'
+
+    if (key === 'minAge')
+      return 'min_age'
+
+    if (key === 'maxAge')
+      return 'max_age'
+
+    if (key === 'maritalStatus')
+      return 'marital_status'
+
+    if (key === 'retirementLimitAge')
+      return 'retirement_age'
+
+    if (key === 'gradeWorkingPeriod')
+      return 'grade_range'
+
+    if (key === 'totalWorkingPeriod')
+      return 'total_working_duration'
+
+    if (key === 'assessmentPeriod')
+      return 'target_period'
+
+    if (key === 'skpYear')
+      return 'target_year'
+
+    if (key === 'workBehaviorRating')
+      return 'work_behavior_rating'
+
+    if (key === 'employeePerformancePredicate')
+      return 'employee_performance_predicate'
+
+    if (key === 'organizationalPerformanceAchievements')
+      return 'organizational_performance_achievement'
+
+    if (key === 'creditPeriod')
+      return 'credit_period'
+
+    if (key === 'creditYear')
+      return 'credit_year'
+
+    return key
   }
 
-  const exportFile = (values) => {}
+  const togglePreview = (values) => {
+    if (!showPreview) {
+      const payload = {}
 
-  const columns = useMemo(() => {
-    const col = [
+      Object
+        .entries(values)
+        .filter(([key, value]) =>
+          // Excludes unecessary items
+          typeof value !== 'boolean' &&
+          key !== 'output'
+        )
+        .forEach(([key, value]) => {
+          // Mapping checkboxes
+          if (key === 'checkboxes') {
+            value?.forEach((item) => {
+              payload[item] = 1
+            })
+          } else if (
+            (Array.isArray(value) && value?.length > 0) ||
+            value
+          ) {
+            payload[convertKeyToPayload(key)] = getIDsByType(key, value)
+          }
+        })
+
+      exportEmployeesPreview(payload)
+    } else {
+      setShowPreview(false)
+    }
+  }
+
+  const formKeyToOptionsKey = (key) => {
+    if (key === 'employeeType')
+      return 'employeeTypes'
+
+    if (key === 'deputy')
+      return 'deputies'
+
+    if (key === 'positionDescription')
+      return 'positionDescriptions'
+
+    if (key === 'education')
+      return 'educations'
+
+    if (key === 'gender')
+      return 'genders'
+
+    if (key === 'maritalStatus')
+      return 'maritalStatuses'
+
+    if (key === 'retirementLimitAge')
+      return 'retirementAges'
+
+    if (
+      key === 'totalWorkingPeriod' ||
+      key === 'gradeWorkingPeriod'
+    ) return 'workingPeriods'
+
+    if (key === 'assessmentPeriod')
+      return 'periods'
+
+    if (key === 'workBehaviorRating')
+      return 'workBehaviors'
+
+    if (key === 'employeePerformancePredicate')
+      return 'workPredicates'
+
+    if (key === 'organizationalPerformanceAchievements')
+      return 'organizationalPerformances'
+
+    if (key === 'creditPeriod')
+      return 'creditPeriods'
+
+    return ''
+  }
+
+  const getIDsByType = (key, value) => {
+    if (key === 'gender') {
+      return value?.map(g => g === 'Laki-Laki' ? 1 : 0)
+    }
+
+    if (key === 'echelon') {
+      return echelon
+        ?.options
+        ?.filter(item => value?.includes(item?.name))
+        ?.map(item => item?.id)
+    }
+
+    if (key === 'grade') {
+      return grade
+        ?.options
+        ?.filter(item => value?.includes(item?.name))
+        ?.map(item => item?.id)
+    }
+
+    if (Array.isArray(value)) {
+      return value
+        ?.map(val => {
+          return options[formKeyToOptionsKey(key)]
+            .findIndex(item => item === val) + 1
+        })
+    }
+
+    return value
+  }
+
+  const exportFile = (values) => {
+    const payload = {}
+
+    Object
+      .entries(values)
+      .filter(([key, value]) =>
+        // Excludes unecessary items
+        typeof value !== 'boolean' &&
+        key !== 'output'
+      )
+      .forEach(([key, value]) => {
+        // Mapping checkboxes
+        if (key === 'checkboxes') {
+          value?.forEach((item) => {
+            payload[item] = 1
+          })
+        } else if (
+          (Array.isArray(value) && value?.length > 0) ||
+          value
+        ) {
+          payload[convertKeyToPayload(key)] = getIDsByType(key, value)
+        }
+      })
+
+    exportEmployees({
+      type: values?.output,
+      data: payload
+    })
+  }
+
+  const options = useMemo(() => {
+    return {
+      employeeTypes: employeeTypeOptions,
+      deputies: deputyOptions,
+      positionDescriptions: positionDescOptions,
+      educations: employeeEducationLevelOptions,
+      genders: genderOptions,
+      maritalStatuses: maritalStatusOptions,
+      retirementAges: retirementAge,
+      workingPeriods: workingPeriodOptions,
+      periods: periodOptions,
+      workBehaviors: ratingOptions,
+      workPredicates: predicateOptions,
+      creditPeriods: periodCreditsOptions,
+      organizationalPerformances: ratingOrganizationOptions,
+      echelons: echelon?.options?.map((e) => e?.name) || [],
+      grades: grade?.options?.map((e) => e?.name) || [],
+      // Only For Response
+      employeeStatusOptions: employeeStatusOptions,
+      religionOptions: religionOptions
+    }
+  }, [echelon])
+
+  const getFileName = (type) => {
+    const dateNow = dateTimeFormat(new Date())?.replace(' ', '_')
+    const prefix = 'DATA_PEGAWAI_'
+    let ext = '.pdf'
+
+    if (type?.includes('pdf')) {
+      ext = '.pdf'
+    } else if (type?.includes('sheet')) {
+      ext = '.xlsx'
+    } else {
+      ext = '.csv'
+    }
+
+    return prefix + dateNow + ext
+  }
+
+  const getLabeledCheckboxes = (values) => {
+    const cols = [
       {
         Header: 'No',
-        width: 600,
+        width: 200,
         align: 'left'
       },
-      {
-        Header: 'Nama',
-        width: 600,
-        align: 'left'
-      }
+      ...checkboxes
+        .flatMap(item => item?.children)
+        .filter(item => values?.checkboxes?.includes(item?.name))
+        .map(item => ({
+          Header: item?.label,
+          width: 200,
+          align: 'left'
+        }))
     ]
-    return col
-  }, [exportEmployeeData])
 
-  const rows = useMemo(() => {
-    const dataMapping = [].map((item) => {
+    return cols
+  }
+
+  const getRows = (values) => {
+    if (!exportEmployeeData?.preview) return []
+
+    return exportEmployeeData?.preview?.data?.map((data, index) => {
       return [
         {
           Header: 'No',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.name}</Typography>
+          Cell: () => <Typography>{index + 1}</Typography>
         },
-        {
-          Header: 'Name',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.name}</Typography>
-        }
+        ...checkboxes
+          .flatMap(item => item?.children)
+          .filter(item => values?.checkboxes?.includes(item?.name))
+          .map(item => ({
+            Header: item?.label,
+            align: 'left',
+            verticalAlign: 'top',
+            Cell: () => <Typography>{getRowItem(item?.label, data)}</Typography>
+          }))
       ]
     })
+  }
 
-    return dataMapping
-  }, [exportEmployeeData])
-
-  const options = useMemo(() => {
-    return {
-      echelons: echelon?.options?.map((e) => e?.name) || [],
-      grades: grade?.options?.map((e) => e?.name) || []
+  const getRowItem = (label, response) => {
+    if (label === 'Nama') {
+      return response?.name || '-'
     }
-  }, [echelon])
+
+    if (label === 'NIP/NRP') {
+      return `${response?.employee_id_number || '-'}/${response?.employee_registration_number || '-'}`
+    }
+
+    if (label === 'Tempat, Tanggal Lahir') {
+      return `${response?.place_of_birth || '-'}, ${response?.date_of_birth || '-'}`
+    }
+
+    if (label === 'Tempat, Tanggal Lahir') {
+      return `${response?.place_of_birth || '-'}, ${response?.date_of_birth || '-'}`
+    }
+
+    if (label === 'Umur') {
+      return response?.age || '-'
+    }
+
+    if (label === 'Agama') {
+      return options?.religionOptions[response?.religion - 1]
+    }
+
+    if (label === 'Jenis Kelamin') {
+      return response?.gender === 1 ? 'Laki-Laki' : 'Perempuan'
+    }
+
+    if (label === 'Status Perkawinan') {
+      return options.maritalStatuses[response?.maritalStatus - 1]
+    }
+
+    if (label === 'Jenis Pegawai') {
+      return response?.employee_type || '-'
+    }
+
+    if (label === 'Jenis Perbantuan') {
+      return response?.assistance_type || '-'
+    }
+
+    if (label === 'Jenis Outsourcing') {
+      return response?.outsource_type || '-'
+    }
+
+    if (label === 'TMT CPNS') {
+      return response?.cpns_effective_date || '-'
+    }
+
+    if (label === 'Tanggal Mulai Bekerja') {
+      return response?.pns_effective_date || '-'
+    }
+
+    if (label === 'Tanggal Terakhir Bekerja') {
+      return response?.retirement_effective_date || '-'
+    }
+
+    if (label === 'Masa Kerja Keseluruhan') {
+      return response?.work_duration || '-'
+    }
+
+    if (label === 'Masa Kerja Golongan') {
+      return response?.grade_duration || '-'
+    }
+
+    if (label === 'Jabatan') {
+      return response?.position_name || '-'
+    }
+
+    if (label === 'TMT Menjabat') {
+      return response?.position_effective_date || '-'
+    }
+
+    if (label === 'Eselon') {
+      return response?.echelons_name || '-'
+    }
+
+    if (label === 'TMT Eselon') {
+      return response?.echelon_effective_date || '-'
+    }
+
+    if (label === 'Golongan') {
+      return response?.grade_name || '-'
+    }
+
+    if (label === 'TMT Golongan') {
+      return response?.grade_effective_date || '-'
+    }
+
+    if (label === 'Instansi Induk') {
+      return response?.institution_name || '-'
+    }
+
+    if (label === 'No. Karpeg') {
+      return response?.employee_id_card_number || '-'
+    }
+
+    if (label === 'No. Karisu') {
+      return response?.karisu_number || '-'
+    }
+
+    if (label === 'NPWP') {
+      return response?.id_tax || '-'
+    }
+
+    if (label === 'Status Pegawai') {
+      return options.employeeStatusOptions[response?.employment_status - 1]
+    }
+
+    if (label === 'No. KK') {
+      return response?.family_registration_number || '-'
+    }
+
+    if (label === 'No. NIK') {
+      return response?.id_number || '-'
+    }
+
+    if (label === 'Nama Komplek') {
+      return response?.residence_name || '-'
+    }
+
+    if (label === 'Alamat Tempat Tinggal Saat Ini') {
+      return response?.current_address || '-'
+    }
+
+    if (label === 'No. Telepon Rumah') {
+      return response?.home_phone_number || '-'
+    }
+
+    if (label === 'No. HP') {
+      return response?.mobile_phone || '-'
+    }
+
+    if (label === 'Alamat Kantor') {
+      return response?.office_address || '-'
+    }
+
+    if (label === 'No. Telepon Kantor') {
+      return response?.office_phone_number || '-'
+    }
+
+    if (label === 'Email') {
+      return response?.email || '-'
+    }
+
+    if (label === 'Email Dinas') {
+      return response?.office_email || '-'
+    }
+
+    if (label === 'Keterangan') {
+      return response?.description || '-'
+    }
+
+    if (label === 'Kontak Darurat') {
+      return response?.emergency_contact || '-'
+    }
+
+    if (label === 'Batas Usia Pensiun') {
+      return response?.pension_cap || '-'
+    }
+
+    // Riwayat
+
+    if (label === 'Riwayat Pendidikan') {
+      return <RenderHTMLList html={response?.education_history} />
+    }
+
+    if (label === 'Riwayat Jabatan') {
+      return <RenderHTMLList html={response?.position_history} />
+    }
+
+    if (label === 'Riwayat Golongan') {
+      return <RenderHTMLList html={response?.grade_history} />
+    }
+
+    if (label === 'Riwayat Pelatihan Fungsional') {
+      return <RenderHTMLList html={response?.functional_training_history} />
+    }
+
+    if (label === 'Riwayat Pelatihan Teknis') {
+      return <RenderHTMLList html={response?.technique_training_history} />
+    }
+
+    if (label === 'Riwayat Penghargaan') {
+      return <RenderHTMLList html={response?.recognition_history} />
+    }
+
+    if (label === 'Riwayat SKP') {
+      return <RenderHTMLList html={response?.skp_history} />
+    }
+
+    if (label === 'Riwayat Penetapan Angka Kredit Terakhir') {
+      return <RenderHTMLList html={response?.credit_history} />
+    }
+
+    if (label === 'Riwayat Penilaian Prestasi Kerja') {
+      return <RenderHTMLList html={response?.performance_history} />
+    }
+
+    if (label === 'Riwayat Hukuman Disiplin') {
+      return <RenderHTMLList html={response?.disciplinary_history} />
+    }
+
+    if (label === 'Keluarga') {
+      return <RenderHTMLList html={response?.family_history} />
+    }
+
+    if (label === 'Catatan') {
+      return <RenderHTMLList html={response?.notes} />
+    }
+
+    if (label === 'Hasil Assessment') {
+      return <RenderHTMLList html={response?.assessment_history} />
+    }
+
+    if (label === 'Hasil Uji Kompetensi') {
+      return <RenderHTMLList html={response?.competency_history} />
+    }
+
+    if (label === 'Hasil Talent Pool') {
+      return <RenderHTMLList html={response?.talent_pool_history} />
+    }
+
+    return '-'
+  }
+
+  useEffect(() => {
+    // PREVIEW
+    if (exportEmployeeData?.preview?.data?.length > 0) {
+      setShowPreview(true)
+    }
+
+    // EXPORT FILE
+    if (exportEmployeeData?.employees) {
+      const responseType = exportEmployeeData?.employees?.type
+      let type = SaveAs.PDF
+
+      if (responseType?.includes('pdf')) {
+        type = SaveAs.PDF
+      } else if (responseType?.includes('sheet')) {
+        type = SaveAs.XLS
+      } else {
+        type = SaveAs.CSV
+      }
+
+      saveFile(
+        exportEmployeeData?.employees,
+        getFileName(responseType),
+        type
+      )
+
+      clearExportEmployeesState()
+    }
+  }, [exportEmployeeData])
 
   useEffect(() => {
     const state = !(
@@ -203,8 +690,8 @@ const ExportEmployeeComponent = ({
   }, [grade, echelon, exportEmployeeData])
 
   return (
-    <Formik innerRef={formikRef} initialValues={InitValue} onSubmit={() => {}}>
-      {({ values, resetForm = () => {}, setFieldValue = () => {} }) => (
+    <Formik innerRef={formikRef} initialValues={InitValue} onSubmit={() => { }}>
+      {({ values, resetForm = () => { }, setFieldValue = () => { } }) => (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <LayoutPages
             summary='Export Pegawai'
@@ -215,7 +702,11 @@ const ExportEmployeeComponent = ({
                   color='danger'
                   onClick={() => resetForm()}
                 />
-                <Button text='Export' onClick={() => exportFile(values)} />
+                <Button
+                  text='Export'
+                  onClick={() => exportFile(values)}
+                  isBusy={!values?.output}
+                />
               </Box>
             }
           >
@@ -422,9 +913,7 @@ const ExportEmployeeComponent = ({
               >
                 Filter SKP
               </Typography>
-              <Divider
-                sx={{ border: '1px solid #929292', margin: '10px 0px' }}
-              />
+              <Divider sx={{ border: '1px solid #929292', margin: '10px 0px' }} />
 
               <Grid container direction='row' spacing={3} rowSpacing={2}>
                 <Grid item xs={6}>
@@ -504,6 +993,45 @@ const ExportEmployeeComponent = ({
                   />
                 </Grid>
               </Grid>
+
+              <Typography
+                fontSize='12'
+                color='#895700'
+                fontWeight='700'
+                sx={{ marginTop: '20px' }}
+              >
+                Filter Angka Kredit Terakhir
+              </Typography>
+              <Divider sx={{ border: '1px solid #929292', margin: '10px 0px' }} />
+
+              <Grid container direction='row' spacing={3} rowSpacing={2}>
+                <Grid item xs={6}>
+                  <Autocomplete
+                    options={periodCreditsOptions}
+                    name='creditPeriod'
+                    placeholder='Pilih Periode'
+                    multiple={true}
+                    label='Periode'
+                    value={values?.creditPeriod || []}
+                    onChange={(val) => {
+                      setFieldValue('creditPeriod', val || [], false)
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <Input
+                    label='Tahun'
+                    placeholder='Masukkan Tahun'
+                    name='creditYear'
+                    value={values?.creditYear}
+                    onChange={(e) => {
+                      const val = e?.target?.value
+                      setFieldValue('creditYear', val, false)
+                    }}
+                  />
+                </Grid>
+              </Grid>
             </Paper>
 
             <Paper sx={{ padding: 2 }}>
@@ -518,11 +1046,11 @@ const ExportEmployeeComponent = ({
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={values?.output === 'CSV'}
+                        checked={values?.output === 'csv'}
                         onChange={(e) => {
                           const val = e?.target?.checked
                           if (val) {
-                            setFieldValue('output', 'CSV', false)
+                            setFieldValue('output', 'csv', false)
                           } else {
                             setFieldValue('output', null, false)
                           }
@@ -537,11 +1065,11 @@ const ExportEmployeeComponent = ({
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={values?.output === 'XLSX'}
+                        checked={values?.output === 'xlsx'}
                         onChange={(e) => {
                           const val = e?.target?.checked
                           if (val) {
-                            setFieldValue('output', 'XLSX', false)
+                            setFieldValue('output', 'xlsx', false)
                           } else {
                             setFieldValue('output', null, false)
                           }
@@ -556,11 +1084,11 @@ const ExportEmployeeComponent = ({
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={values?.output === 'PDF'}
+                        checked={values?.output === 'pdf'}
                         onChange={(e) => {
                           const val = e?.target?.checked
                           if (val) {
-                            setFieldValue('output', 'PDF', false)
+                            setFieldValue('output', 'pdf', false)
                           } else {
                             setFieldValue('output', null, false)
                           }
@@ -605,19 +1133,34 @@ const ExportEmployeeComponent = ({
                       control={
                         <Checkbox
                           name={parent?.checkbox}
-                          checked={values[parent?.checkbox]}
+                          checked={
+                            values[parent?.checkbox]
+                          }
                           onChange={(e) => {
                             const checked = e?.target?.checked
+                            const allItems = parent?.children?.map((i) => i?.name)
+
+                            console.log('CHECKED: ', checked)
 
                             if (checked) {
-                              const allItems = parent?.children?.map(
-                                (i) => i?.name
+                              setFieldValue(
+                                'checkboxes',
+                                [...values?.checkboxes, ...allItems],
+                                false
                               )
-                              setFieldValue('checkboxes', allItems, false)
                             } else {
-                              setFieldValue('checkboxes', [], false)
+                              const itemsPerSection = values
+                                ?.checkboxes
+                                ?.filter(i => !allItems?.includes(i))
+
+                              setFieldValue(
+                                'checkboxes',
+                                itemsPerSection,
+                                false
+                              )
                             }
 
+                            setShowPreview(false)
                             setFieldValue(parent?.checkbox, checked, false)
                           }}
                         />
@@ -644,6 +1187,9 @@ const ExportEmployeeComponent = ({
                                     false
                                   )
                                 } else {
+                                  // Uncheck the select all
+                                  setFieldValue(parent?.checkbox, false, false)
+                                  // Individual children checkboxes
                                   const filterCheckboxes =
                                     values?.checkboxes?.filter(
                                       (i) => i !== item?.name
@@ -654,6 +1200,8 @@ const ExportEmployeeComponent = ({
                                     false
                                   )
                                 }
+
+                                setShowPreview(false)
                               }}
                             />
                           }
@@ -669,8 +1217,13 @@ const ExportEmployeeComponent = ({
                 component='label'
                 color='sidatukDraweBase'
                 variant='contained'
-                onClick={togglePreview}
+                onClick={() => togglePreview(values)}
                 sx={{ textTransform: 'none', marginTop: 3 }}
+                disabled={
+                  values?.checkboxes?.length < 1 ||
+                  !values?.minAge ||
+                  !values?.maxAge
+                }
               >
                 Lihat Preview
               </MuiButton>
@@ -683,9 +1236,9 @@ const ExportEmployeeComponent = ({
                 <Table
                   divider
                   title='Preview Data'
-                  columns={columns}
-                  rows={rows}
-                  pagination={exportEmployeeData?.pagination}
+                  columns={getLabeledCheckboxes(values)}
+                  rows={getRows(values)}
+                  pagination={exportEmployeeData?.preview?.pagination}
                   handlePagination={onPaginationChange}
                   handleRows={onRowsPerPageChange}
                 />
@@ -698,12 +1251,24 @@ const ExportEmployeeComponent = ({
   )
 }
 
+const RenderHTMLList = (data) => {
+  if (!data?.html) return '-'
+
+  return (
+    <Box>
+      <div dangerouslySetInnerHTML={{ __html: `<ol>${data?.html}</ol>` }} />
+    </Box>
+  )
+}
+
 ExportEmployeeComponent.propTypes = {
   echelon: PropTypes.object,
   grade: PropTypes.object,
   exportEmployeeData: PropTypes.object,
   onLoading: PropTypes.func,
   clearExportEmployeesState: PropTypes.func,
+  exportEmployees: PropTypes.func,
+  exportEmployeesPreview: PropTypes.func,
   onPaginationChange: PropTypes.func,
   onSearch: PropTypes.func,
   onRowsPerPageChange: PropTypes.func

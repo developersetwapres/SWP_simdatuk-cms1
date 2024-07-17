@@ -14,7 +14,9 @@ import {
   EXPORT_EMPLOYEES_FAILED,
   EXPORT_EMPLOYEES_PREVIEW_REQUESTED,
   EXPORT_EMPLOYEES_PREVIEW_SUCCESS,
-  EXPORT_EMPLOYEES_PREVIEW_FAILED
+  EXPORT_EMPLOYEES_PREVIEW_FAILED,
+  CATCH_ERROR,
+  SET_MODAL
 } from '../../constants'
 import {
   exportEmployeeDetailAction,
@@ -89,17 +91,20 @@ function* exportEmployeesPreview(action) {
         }
       })
     } else {
-      if (errors?.code === 400) {
-        yield put({
-          type: CATCH_ERROR,
-          payload: errors?.message
-        })
-      } else {
-        yield put({
-          type: EXPORT_EMPLOYEES_PREVIEW_FAILED,
-          payload: errors?.message
-        })
-      }
+      const errorMessage = errors?.message || 'Terjadi Kesalahan'
+
+      yield put({
+        type: SET_MODAL,
+        payload: {
+          code: errors?.code,
+          message: errorMessage
+        }
+      })
+
+      yield put({
+        type: EXPORT_EMPLOYEES_PREVIEW_FAILED,
+        payload: errorMessage
+      })
     }
   }
 }
