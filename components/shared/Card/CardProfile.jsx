@@ -269,15 +269,15 @@ const ContentProfile = ({
                   <>
                     <ItemDetail
                       title='TMT'
-                      value={item?.echelon_effective_date || '-'}
+                      value={item?.position_effective_date || '-'}
                     />
                     <ItemDetail
                       title='Golongan'
                       value={
                         item?.grade_name
                           ? `${item?.grade_name} ${item?.grade_code || ''}${
-                              item?.position_effective_date
-                                ? `, ${item?.position_effective_date}`
+                              item?.grade_effective_date
+                                ? `, ${item?.grade_effective_date}`
                                 : ''
                             }`
                           : '-'
@@ -323,8 +323,8 @@ const ContentProfile = ({
                       value={
                         item?.grade_name
                           ? `${item?.grade_name} ${item?.grade_code || ''}${
-                              item?.position_effective_date
-                                ? `, ${item?.position_effective_date}`
+                              item?.grade_effective_date
+                                ? `, ${item?.grade_effective_date}`
                                 : ''
                             }`
                           : '-'
@@ -353,8 +353,8 @@ const ContentProfile = ({
                       value={
                         item?.grade_name
                           ? `${item?.grade_name} ${item?.grade_code || ''}${
-                              item?.position_effective_date
-                                ? `, ${item?.position_effective_date}`
+                              item?.grade_effective_date
+                                ? `, ${item?.grade_effective_date}`
                                 : ''
                             }`
                           : '-'
