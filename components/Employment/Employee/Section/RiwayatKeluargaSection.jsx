@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import {
   educationLevelOptions,
   genderOptions,
-  maritalStatusOptions,
+  maritalStatuFamilysOptions,
   relationshipStatusOptions,
   religionOptions
 } from 'libs/types/options'
@@ -121,7 +121,7 @@ const RiwayatKeluargaSection = ({ data = [] }) => {
       religion: religionOptions,
       relationship: relationshipStatusOptions,
       education: educationLevelOptions,
-      marital_status: maritalStatusOptions
+      marital_status: maritalStatuFamilysOptions
     }
 
     return data

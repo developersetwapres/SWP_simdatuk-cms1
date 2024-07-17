@@ -33,7 +33,8 @@ import {
   ratingOrganizationOptions,
   relationshipStatusOptions,
   religionOptions,
-  talentPoolsOptions
+  talentPoolsOptions,
+  maritalStatuFamilysOptions
 } from 'libs/types/options'
 
 const isFile = (value) => {
@@ -819,6 +820,7 @@ const EmployeeEditComponent = ({
       religion: religionOptions,
       gender: genderOptions,
       marital: maritalStatusOptions,
+      maritalFamily: maritalStatuFamilysOptions,
       employeeStatus: employeeStatusOptions,
       employeeEducationLevel: employeeEducationLevelOptions,
       educationLevel: educationLevelOptions,
@@ -1193,7 +1195,7 @@ const EmployeeEditComponent = ({
         )
         formData.append(
           `families[${index}][marital_status]`,
-          handleGetValueID('marital', item?.maritalStatus)
+          handleGetValueID('maritalFamily', item?.maritalStatus)
         )
         formData.append(`families[${index}][mobile_phone]`, item?.mobilePhone)
         formData.append(
@@ -2775,7 +2777,7 @@ const EmployeeEditComponent = ({
         formikRef.current?.setFieldValue(
           `families[${idx}].maritalStatus`,
           itm?.marital_status
-            ? handleGetValue('marital', itm?.marital_status)
+            ? handleGetValue('maritalFamily', itm?.marital_status)
             : null,
           false
         )

@@ -32,6 +32,7 @@ import {
   employeeEducationLevelOptions,
   employeeStatusOptions,
   genderOptions,
+  maritalStatuFamilysOptions,
   maritalStatusOptions,
   monthOptions,
   organizationOptions,
@@ -47,12 +48,12 @@ import { CLEAR_EXPORT_EMPLOYEE_DETAIL_STATE } from '@/store/constants'
 const EmployeeDetailComponent = ({
   employee,
   exportEmployeeData,
-  getEmployee = () => { },
-  updateNotesByUserID = () => { },
-  updateEmployeeStatus = () => { },
-  clearEmployeeState = () => { },
-  exportEmployeeDetail = () => { },
-  setRender = () => { }
+  getEmployee = () => {},
+  updateNotesByUserID = () => {},
+  updateEmployeeStatus = () => {},
+  clearEmployeeState = () => {},
+  exportEmployeeDetail = () => {},
+  setRender = () => {}
 }) => {
   const router = useRouter()
   const dispatch = useDispatch()
@@ -94,6 +95,7 @@ const EmployeeDetailComponent = ({
       religion: religionOptions,
       gender: genderOptions,
       marital: maritalStatusOptions,
+      maritalFamily: maritalStatuFamilysOptions,
       employeeStatus: employeeStatusOptions,
       educationLevel: employeeEducationLevelOptions,
       educationStatus: educationStatusOptions,
@@ -123,12 +125,12 @@ const EmployeeDetailComponent = ({
       ),
       educations: !!detailEmployee?.educations?.length
         ? [
-          ...detailEmployee?.educations?.map((i) => ({
-            ...i,
-            level: getValue('education', i?.level - 1),
-            status: getValue('education_status', i?.status - 1)
-          }))
-        ]
+            ...detailEmployee?.educations?.map((i) => ({
+              ...i,
+              level: getValue('education', i?.level - 1),
+              status: getValue('education_status', i?.status - 1)
+            }))
+          ]
         : []
     }
 
@@ -466,7 +468,7 @@ const EmployeeDetailComponent = ({
                           ? data?.employee_registration_number || '-'
                           : null
                       ].join('/')}
-                      { }
+                      {}
                     </Typography>
                   </Box>
                 </Grid>

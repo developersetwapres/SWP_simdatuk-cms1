@@ -19,6 +19,7 @@ import {
   employeeStatusOptions,
   genderOptions,
   leavesOptions,
+  maritalStatuFamilysOptions,
   maritalStatusOptions,
   monthOptions,
   organizationOptions,
@@ -516,6 +517,7 @@ const EmployeeAddComponent = ({
       religion: religionOptions,
       gender: genderOptions,
       marital: maritalStatusOptions,
+      maritalFamily: maritalStatuFamilysOptions,
       employeeStatus: employeeStatusOptions,
       employeeEducationLevel: employeeEducationLevelOptions,
       educationLevel: educationLevelOptions,
@@ -797,7 +799,7 @@ const EmployeeAddComponent = ({
         )
         formData.append(
           `families[${index}][marital_status]`,
-          handleGetValue('marital', item?.maritalStatus)
+          handleGetValue('maritalFamily', item?.maritalStatus)
         )
         formData.append(`families[${index}][mobile_phone]`, item?.mobilePhone)
         formData.append(

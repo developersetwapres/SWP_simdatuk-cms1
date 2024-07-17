@@ -31,6 +31,13 @@ export const maritalStatusOptions = [
   'Duda'
 ]
 
+export const maritalStatuFamilysOptions = [
+  'Belum Menikah',
+  'Menikah',
+  'Cerai Hidup',
+  'Cerai Mati'
+]
+
 export const employeeStatusOptions = [
   'Aktif',
   'Pensiun',
@@ -199,8 +206,16 @@ export const deputyOptions = [
 ]
 
 export const workingPeriodOptions = [
-  '0 - 5 Tahun', '5 - 10 Tahun', '10 - 15 Tahun', '15 - 20 Tahun',
-  '20 - 25 Tahun', '25 - 30 Tahun', '30 - 35 Tahun',
-  '35 - 40 Tahun', '45 - 50 Tahun', '50 - 55 Tahun',
-  '55 - 60 Tahun', '65 - 70 Tahun'
+  '0 - 5 Tahun',
+  '5 - 10 Tahun',
+  '10 - 15 Tahun',
+  '15 - 20 Tahun',
+  '20 - 25 Tahun',
+  '25 - 30 Tahun',
+  '30 - 35 Tahun',
+  '35 - 40 Tahun',
+  '45 - 50 Tahun',
+  '50 - 55 Tahun',
+  '55 - 60 Tahun',
+  '65 - 70 Tahun'
 ]

@@ -329,7 +329,7 @@ const FamilyForm = ({
               {/* Marital Status */}
               <Grid item xs={6}>
                 <Autocomplete
-                  options={options?.marital}
+                  options={options?.maritalFamily}
                   placeholder='Pilih Status Perkawinan'
                   label='Status Perkawinan *'
                   name={`families[${idx}].maritalStatus`}
