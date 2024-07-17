@@ -181,6 +181,12 @@ const BiodataPegawai = ({ data }) => {
           </Typography>
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
+          <Typography>Nama Komplek</Typography>
+          <Typography fontWeight='500' marginTop={1}>
+            {data?.residence_description || '-'}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Alamat Tempat Tinggal Saat Ini</Typography>
           <Typography fontWeight='500' marginTop={1}>
             {data?.current_address || '-'}

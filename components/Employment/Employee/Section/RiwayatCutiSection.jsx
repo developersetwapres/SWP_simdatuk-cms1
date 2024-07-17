@@ -6,6 +6,12 @@ import PropTypes from 'prop-types'
 import { leavesOptions } from 'libs/types/options'
 
 const RiwayatCutiSection = ({ data = [] }) => {
+  const openInNewTab = (url) => {
+    if (!url) return
+
+    window.open(url, '_blank')
+  }
+
   const columns = useMemo(
     () => [
       {
@@ -73,7 +79,9 @@ const RiwayatCutiSection = ({ data = [] }) => {
           Header: 'Jenis Cuti',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{getValueOptions(item?.type, 'leaves')}</Typography>
+          Cell: () => (
+            <Typography>{getValueOptions(item?.type, 'leaves')}</Typography>
+          )
         },
         {
           Header: 'No. Cuti',
@@ -91,17 +99,22 @@ const RiwayatCutiSection = ({ data = [] }) => {
           Header: 'Surat Cuti',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>
-            {
-              <>
-                {item?.letter ? (
-                  <Button text='Lihat File' onClick={() => openInNewTab(item?.letter)} />
-                ) : (
-                  <Typography>-</Typography>
-                )}
-              </>
-            }
-          </Typography>
+          Cell: () => (
+            <Typography>
+              {
+                <>
+                  {item?.letter ? (
+                    <Button
+                      text='Lihat File'
+                      onClick={() => openInNewTab(item?.letter)}
+                    />
+                  ) : (
+                    <Typography>-</Typography>
+                  )}
+                </>
+              }
+            </Typography>
+          )
         }
       ]
     })

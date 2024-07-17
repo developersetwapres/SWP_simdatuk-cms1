@@ -127,10 +127,10 @@ const RiwayatPendidikanSection = ({ data = [] }) => {
           verticalAlign: 'top',
           Cell: () => (
             <>
-              {item?.decree_document ? (
+              {item?.degree_document ? (
                 <Button
                   text='Lihat File'
-                  onClick={() => openInNewTab(item?.decree_document)}
+                  onClick={() => openInNewTab(item?.degree_document)}
                 />
               ) : (
                 <Typography>-</Typography>

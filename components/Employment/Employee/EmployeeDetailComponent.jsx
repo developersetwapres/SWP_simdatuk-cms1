@@ -137,6 +137,22 @@ const EmployeeDetailComponent = ({
     return payload
   }, [employee])
 
+  const titleSummary = useMemo(() => {
+    if (router?.pathname.includes('data-pegawai')) {
+      const type = data?.type
+        ? data?.type == 1
+          ? 'ASN'
+          : data?.type == 2
+          ? 'Non ASN'
+          : 'Outsourcing'
+        : ''
+
+      return `Detail Pegawai ${type} ${data?.employmentStatus || ''}`
+    } else {
+      return 'Detail Profil'
+    }
+  }, [data])
+
   const action = useMemo(() => {
     return (
       <Box sx={{ display: 'flex', gap: 1 }}>
@@ -371,7 +387,7 @@ const EmployeeDetailComponent = ({
   return (
     <LayoutPages
       handleBack={() => router.back()}
-      summary={'Detail Profil'}
+      summary={titleSummary}
       formatExport={['PDF']}
       otherStyle={{ alignItems: 'center' }}
       action={action}
