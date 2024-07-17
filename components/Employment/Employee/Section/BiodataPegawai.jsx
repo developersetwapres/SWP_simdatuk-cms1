@@ -6,6 +6,7 @@ import Paper from '@/components/shared/overrides/Paper'
 import PropTypes from 'prop-types'
 import { useRouter } from 'next/router'
 import { employeeTypeOptions } from 'libs/types/options'
+import moment from 'moment'
 
 const BiodataPegawai = ({ data }) => {
   const router = useRouter()
@@ -216,11 +217,19 @@ const BiodataPegawai = ({ data }) => {
           </Typography>
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
-          <Typography>Keterangan</Typography>
+          <Typography>Email Dinas</Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {data?.email || '-'}
+            {data?.office_email || '-'}
           </Typography>
         </Grid>
+        {data?.description && data?.description !== 'null' && (
+          <Grid item xs={12} md={4} paddingY={1}>
+            <Typography>Keterangan</Typography>
+            <Typography fontWeight='500' marginTop={1}>
+              {data?.description || '-'}
+            </Typography>
+          </Grid>
+        )}
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Kontak Darurat</Typography>
           <Typography fontWeight='500' marginTop={1}>
@@ -230,7 +239,9 @@ const BiodataPegawai = ({ data }) => {
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Batas Usia Pensiun</Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {data?.retirement_effective_date || '-'}
+            {data?.retirement_age
+              ? moment(data?.retirement_age, 'DD-MM-YYYY').format('MMMM YYYY')
+              : '-'}
           </Typography>
         </Grid>
       </Grid>
