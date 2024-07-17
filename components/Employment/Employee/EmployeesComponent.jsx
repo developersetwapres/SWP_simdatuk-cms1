@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { Grid } from '@mui/material'

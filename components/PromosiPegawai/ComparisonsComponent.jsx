@@ -1,5 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable indent */
+/* eslint-disable react/prop-types */
 import React, { useMemo, useState, useEffect, Fragment, useRef } from 'react'
 import LayoutPages from '../core/LayoutPages'
 import { useRouter } from 'next/router'

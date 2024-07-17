@@ -15,7 +15,6 @@ import BandingPegawaiForm from './BandingPegawaiForm'
 import { Button } from '../shared'
 import { FilterAlt } from '@mui/icons-material'
 import CardProfile from '../shared/Card/CardProfile'
-import { CardTypes } from 'libs/types/CardTypes'
 import { useRouter } from 'next/router'
 import LayoutPages from '../core/LayoutPages'
 import {

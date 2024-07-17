@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable indent */
+/* eslint-disable react/prop-types */
 import React, { useEffect, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Grid, Typography } from '@mui/material'

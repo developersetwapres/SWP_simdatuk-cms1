@@ -3,13 +3,10 @@ import Typography from '@mui/material/Typography'
 import { Button } from '..'
 import { primaryButtonStyle } from '@/utils/theme'
 import PropTypes from 'prop-types'
-import { useRouter } from 'next/router'
 import Card from './Index'
 import { Box } from '@mui/material'
 
 function CardEmployment({ data, cardStyle, handleRedirect = () => {} }) {
-  const router = useRouter()
-
   const style = {
     container: {
       width: '100%',
