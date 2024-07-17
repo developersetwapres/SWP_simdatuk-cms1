@@ -1,4 +1,4 @@
-import { get, post, del } from '@/utils/interceptors'
+import { get, post, del, put } from '@/utils/interceptors'
 import { queryParams } from '@/utils/'
 
 /**
@@ -54,4 +54,15 @@ export const deleteUserAction = (id) => {
  */
 export const updateUserAction = (payload) => {
   return post(`/users/${payload.id}`, payload.body)
+}
+
+/**
+ * Update User Status
+ *
+ * @param {*} id
+ * @param {*} body
+ * @returns
+ */
+export const updateUserStatusAction = (payload) => {
+  return put(`/users/status`, payload)
 }

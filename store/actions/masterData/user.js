@@ -4,7 +4,8 @@ import {
   POST_USER_REQUESTED,
   DELETE_USER_REQUESTED,
   UPDATE_USER_REQUESTED,
-  CLEAR_USER_STATE
+  CLEAR_USER_STATE,
+  UPDATE_USER_STATUS_REQUESTED
 } from '@/store/constants'
 
 /**
@@ -65,6 +66,18 @@ export const updateUser = (id, payload) => ({
     id: id,
     body: payload
   }
+})
+
+/**
+ * Update User Status
+ *
+ * @param {*} payload
+ * @param {*} id
+ * @returns
+ */
+export const updateUserStatus = (payload) => ({
+  type: UPDATE_USER_STATUS_REQUESTED,
+  payload
 })
 
 /**

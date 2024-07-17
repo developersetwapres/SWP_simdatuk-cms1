@@ -15,7 +15,10 @@ import {
   DELETE_USER_REQUESTED,
   DELETE_USER_SUCCESS,
   DELETE_USER_FAILED,
-  CLEAR_USER_STATE
+  CLEAR_USER_STATE,
+  UPDATE_USER_STATUS_REQUESTED,
+  UPDATE_USER_STATUS_SUCCESS,
+  UPDATE_USER_STATUS_FAILED
 } from '@/store/constants'
 
 const initialState = {
@@ -111,6 +114,22 @@ export const user = (state = initialState, actions) => {
         loading: false
       }
     case UPDATE_USER_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: payload?.error
+      }
+    case UPDATE_USER_STATUS_REQUESTED:
+      return {
+        ...state,
+        loading: true
+      }
+    case UPDATE_USER_STATUS_SUCCESS:
+      return {
+        ...state,
+        loading: false
+      }
+    case UPDATE_USER_STATUS_FAILED:
       return {
         ...state,
         loading: false,

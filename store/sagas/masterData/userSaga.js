@@ -22,14 +22,18 @@ import {
   DELETE_USER_SUCCESS,
   DELETE_USER_FAILED,
   ACTION_RESPONSER,
-  SET_MODAL
+  SET_MODAL,
+  UPDATE_USER_STATUS_REQUESTED,
+  UPDATE_USER_STATUS_SUCCESS,
+  UPDATE_USER_STATUS_FAILED
 } from '../../constants'
 import {
   getUsersAction,
   getUserAction,
   postUserAction,
   deleteUserAction,
-  updateUserAction
+  updateUserAction,
+  updateUserStatusAction
 } from '../action/users/userAction'
 
 /**
@@ -277,12 +281,67 @@ function* updateUser(action) {
   }
 }
 
+/**
+ * Update User Status
+ *
+ * @param {*} action
+ * @returns
+ */
+function* updateUserStatus(action) {
+  try {
+    const res = yield call(updateUserStatusAction, action?.payload)
+
+    const payload = res?.data
+
+    yield put({
+      type: UPDATE_USER_STATUS_SUCCESS,
+      payload: payload
+    })
+
+    yield put({
+      type: SET_MODAL,
+      payload: {
+        code: payload?.code,
+        message: payload?.message,
+        childMessage: 'Status pengguna berhasil diubah',
+        redirect: 'refresh'
+      }
+    })
+  } catch (err) {
+    const error = err?.data
+    if (error?.code === 403) {
+      yield put({
+        type: ACTION_RESPONSER,
+        payload: {
+          code: error?.code,
+          message: error?.message,
+          redirect: '/profile'
+        }
+      })
+    } else {
+      yield put({
+        type: SET_MODAL,
+        payload: {
+          code: error?.code,
+          message: `Status pengguna gagal diubah`,
+          childMessage: error?.message
+        }
+      })
+      yield put({
+        type: UPDATE_USER_STATUS_FAILED,
+        payload: { error: error?.message }
+      })
+    }
+  }
+}
+
 function* userSaga() {
   yield takeEvery(GET_USERS_REQUESTED, getUsers)
   yield takeEvery(GET_USER_REQUESTED, getUser)
   yield takeEvery(POST_USER_REQUESTED, postUser)
   yield takeEvery(DELETE_USER_REQUESTED, deleteUser)
   yield takeEvery(UPDATE_USER_REQUESTED, updateUser)
+  yield takeEvery(UPDATE_USER_STATUS_REQUESTED, updateUserStatus)
 }
 
 export default userSaga

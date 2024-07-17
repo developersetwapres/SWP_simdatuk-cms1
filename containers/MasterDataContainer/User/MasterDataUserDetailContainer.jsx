@@ -8,12 +8,13 @@ import MasterDataUserDetailComponent from '@/components/MasterData/User/MasterDa
 
 export default connect(
   mapStateToProps('user'),
-  mapActions('getUser', 'clearUserState')
+  mapActions('getUser', 'updateUserStatus', 'clearUserState')
 )(
   class MasterDataUserDetailContainer extends Component {
     static propTypes = {
       user: PropTypes.object,
       getUser: PropTypes.func,
+      updateUserStatus: PropTypes.func,
       clearUserState: PropTypes.func
     }
 
