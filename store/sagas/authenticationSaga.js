@@ -47,7 +47,7 @@ import {
 import { delay } from './sagaUtils'
 import Router from 'next/router'
 import { clearStorages, setStorages } from '@/utils/storage'
-import { encryptedItem } from '@/utils/crypt'
+import { encryptItem } from '@/utils/crypt'
 
 function* postAuthentication(action) {
   try {
@@ -59,23 +59,17 @@ function* postAuthentication(action) {
         type: AUTHENTICATION_SUCCESS,
         payload: payload
       })
-      setStorages([
-        {
-          name: 'user_info',
-          value: JSON.stringify(payload.user)
-        }
-      ])
+      encryptItem(
+        process.env.NEXT_PUBLIC_USER_INFO_SERCRET_KEY,
+        '__ui',
+        JSON.stringify(payload.user)
+      )
       setStorages([
         {
           name: 'setneg_token',
           value: payload.token
         }
       ])
-      encryptedItem(
-        'my-menu',
-        'setneg_menu',
-        JSON.stringify({ access: payload?.menu_access })
-      )
       yield delay(1000)
       yield put({ type: GET_USER_INFORMATION_REQUESTED })
       Router.push('/dashboard')
@@ -285,7 +279,7 @@ function* updateProfileSagas(action) {
  * @returns
  */
 function* authenticationLogout() {
-  clearStorages(['setneg_token', 'setneg_menu'])
+  clearStorages(['setneg_token', 'setneg_menu', '__ui'])
   Router.push('/auth/login')
 }
 

@@ -13,6 +13,7 @@ import PropTypes from 'prop-types'
 import { useRouter } from 'next/router'
 import { onlyRole } from '@/utils/index'
 import { decryptItem } from '@/utils/crypt'
+import { Access, accessGranted } from '@/utils/permissionManager'
 
 const useStyles = makeStyles({
   listItemText: {
@@ -35,7 +36,7 @@ function SidebarItem({
   child,
   path,
   role,
-  handleModalLogout = () => {}
+  handleModalLogout = () => { }
 }) {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
@@ -74,12 +75,11 @@ function SidebarItem({
 
   return (
     <div
-      className={`${
-        typeof path !== 'undefined' &&
+      className={`${typeof path !== 'undefined' &&
         router.pathname.split('/')[1] === path?.split('/')[1]
-          ? classes.activeRoute
-          : ''
-      } `}
+        ? classes.activeRoute
+        : ''
+        } `}
     >
       <ListItemButton
         onClick={() => clickListItem(path)}
@@ -89,7 +89,7 @@ function SidebarItem({
         <ListItemText primary={name} className={classes.listItemText} />
         {typeof child !== 'undefined' &&
           (open ||
-          router.pathname.split('/')[1].replace('-', ' ') ===
+            router.pathname.split('/')[1].replace('-', ' ') ===
             name.toLowerCase() ? (
             <KeyboardArrowUp />
           ) : (
@@ -101,28 +101,31 @@ function SidebarItem({
           in={
             open ||
             router.pathname.split('/')[1].replace('-', ' ') ===
-              name.toLowerCase()
+            name.toLowerCase()
           }
         >
           <List component='div' disablePadding>
-            {child?.map((value, i) => (
-              <ListItemButton
-                className={`${classes.listItemButtonChildren} ${
-                  router.pathname.split('/')[2] === value.path.split('/')[2]
+            {child?.map((value, i) => {
+              if (!accessGranted(value?.permissionID, Access.READ)) return null
+
+              return (
+                <ListItemButton
+                  className={`${classes.listItemButtonChildren} ${router.pathname.split('/')[2] === value.path.split('/')[2]
                     ? classes.activeRoute
                     : ''
-                } `}
-                key={i}
-                onClick={() => handlePageChange(value.path)}
-                selected={router.pathname === value.path}
-              >
-                <ListItemIcon>{value.icon}</ListItemIcon>
-                <ListItemText
-                  primary={value.name}
-                  className={classes.listItemText}
-                />
-              </ListItemButton>
-            ))}
+                    } `}
+                  key={i}
+                  onClick={() => handlePageChange(value.path)}
+                  selected={router.pathname === value.path}
+                >
+                  <ListItemIcon>{value.icon}</ListItemIcon>
+                  <ListItemText
+                    primary={value.name}
+                    className={classes.listItemText}
+                  />
+                </ListItemButton>
+              )
+            })}
           </List>
         </Collapse>
       )}

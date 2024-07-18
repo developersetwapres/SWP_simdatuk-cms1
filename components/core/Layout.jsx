@@ -14,7 +14,8 @@ import ModalLogout from '../shared/Modal/ModalLogout'
 import { useDispatch } from 'react-redux'
 import { AUTHENTICATION_LOGOUT_REQUESTED } from '@/store/constants'
 import { useRouter } from 'next/router'
-import { getStorage } from '@/utils/storage'
+import { decryptItem } from '@/utils/crypt'
+import { Access, accessGranted } from '@/utils/permissionManager'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -104,7 +105,9 @@ function Layout({ children, window, willRender }) {
   const classes = useStyles()
   const dispatch = useDispatch()
   const router = useRouter()
-  const userInfo = JSON.parse(getStorage('user_info'))
+  const userInfo = decryptItem(
+    '__ui', process.env.NEXT_PUBLIC_USER_INFO_SERCRET_KEY
+  )
 
   const [mobile, setMobile] = useState(false)
   const [isLogout, setIsLogout] = useState(false)
@@ -205,16 +208,23 @@ function Layout({ children, window, willRender }) {
         </Box>
       </Toolbar>
       <List>
-        {navigation.map((item, index) => (
-          <SidebarItem
-            handleModalLogout={handleModalLogout}
-            name={item.name}
-            icon={item.icon}
-            child={item.children}
-            path={item.path}
-            key={index}
-          />
-        ))}
+        {navigation.map((item, index) => {
+          if (
+            item?.permissionID === 27 &&
+            !accessGranted(item?.permissionID, Access.READ)
+          ) return null
+
+          return (
+            <SidebarItem
+              handleModalLogout={handleModalLogout}
+              name={item.name}
+              icon={item.icon}
+              child={item.children}
+              path={item.path}
+              key={index}
+            />
+          )
+        })}
       </List>
     </Fragment>
   )

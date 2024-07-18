@@ -1,4 +1,5 @@
 import CryptoJS from 'crypto-js'
+import { getStorage, setStorages } from './storage'
 
 // Caesar Cipher
 export const setItem = (secret, key, value) => {
@@ -40,14 +41,14 @@ const decrypt = (salt, encoded) => {
 }
 
 // Encrypt Senstive data using AES
-export const encryptedItem = (secret, key, value) => {
+export const encryptItem = (secret, key, value) => {
   const encrypted = CryptoJS.AES.encrypt(value, secret).toString()
-  localStorage.setItem(key, encrypted)
+  setStorages([{ name: key, value: encrypted }])
 }
 
 // Decrypt 
 export const decryptItem = (key, secret) => {
-  let getEncrypt = localStorage.getItem(key)
+  let getEncrypt = getStorage(key)
 
   if (getEncrypt !== null) {
     let bytes = CryptoJS.AES.decrypt(getEncrypt, secret)
