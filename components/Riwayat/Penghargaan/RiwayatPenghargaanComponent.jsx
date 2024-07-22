@@ -9,6 +9,7 @@ import { makeStyles } from '@mui/styles'
 import { Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import { monthOptions } from 'libs/types/options'
+import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -56,10 +57,10 @@ const styles = {
 
 const RiwayatPenghargaanComponent = ({
   recognition,
-  onSearch = () => {},
-  onLoading = () => {},
-  onPaginationChange = () => {},
-  onRowsPerPageChange = () => {}
+  onSearch = () => { },
+  onLoading = () => { },
+  onPaginationChange = () => { },
+  onRowsPerPageChange = () => { }
 }) => {
   const router = useRouter()
   const classes = useStyles()
@@ -148,24 +149,28 @@ const RiwayatPenghargaanComponent = ({
           verticalAlign: 'top',
           Cell: () => (
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              <Button
-                text='Detail'
-                color='primary'
-                onClick={() =>
-                  router.push(`${router.pathname}/detail/${btoa(item?.id)}`)
-                }
-                icon={<Info style={styles.iconButton} />}
-                sx={styles.buttonAction}
-              />
-              <Button
-                text='Edit'
-                color='sidatukDraweBase'
-                onClick={() =>
-                  router.push(`${router.pathname}/edit/${btoa(item?.id)}`)
-                }
-                icon={<Edit style={styles.iconButton} />}
-                sx={styles.buttonAction}
-              />
+              {accessGranted(PermissionsIDs.HISTORY_AWARD, Access.READ) && (
+                <Button
+                  text='Detail'
+                  color='primary'
+                  onClick={() =>
+                    router.push(`${router.pathname}/detail/${btoa(item?.id)}`)
+                  }
+                  icon={<Info style={styles.iconButton} />}
+                  sx={styles.buttonAction}
+                />
+              )}
+              {accessGranted(PermissionsIDs.HISTORY_AWARD, Access.UPDATE) && (
+                <Button
+                  text='Edit'
+                  color='sidatukDraweBase'
+                  onClick={() =>
+                    router.push(`${router.pathname}/edit/${btoa(item?.id)}`)
+                  }
+                  icon={<Edit style={styles.iconButton} />}
+                  sx={styles.buttonAction}
+                />
+              )}
             </Box>
           )
         }
@@ -178,10 +183,12 @@ const RiwayatPenghargaanComponent = ({
   const action = useMemo(() => {
     return (
       <Box>
-        <Button
-          text='Tambah'
-          onClick={() => router.push(`${router.pathname}/add`)}
-        />
+        {accessGranted(PermissionsIDs.HISTORY_AWARD, Access.CREATE) && (
+          <Button
+            text='Tambah'
+            onClick={() => router.push(`${router.pathname}/add`)}
+          />
+        )}
       </Box>
     )
   }, [])

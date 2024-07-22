@@ -8,6 +8,7 @@ import { Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
 import { monthOptions } from 'libs/types/options'
+import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
 
 const styles = {
   iconStyle: {
@@ -35,9 +36,9 @@ const styles = {
 const RiwayatPenghargaanDetailComponent = ({
   recognition,
   decree,
-  getRecognition = () => {},
-  clearRecognitionState = () => {},
-  onLoading = () => {}
+  getRecognition = () => { },
+  clearRecognitionState = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
 
@@ -85,9 +86,8 @@ const RiwayatPenghargaanDetailComponent = ({
           align: 'left',
           verticalAlign: 'top',
           Cell: () => (
-            <Typography>{`${item?.name || '-'} / ${
-              item?.employee_id_number || '-'
-            }`}</Typography>
+            <Typography>{`${item?.name || '-'} / ${item?.employee_id_number || '-'
+              }`}</Typography>
           )
         },
         {
@@ -96,19 +96,21 @@ const RiwayatPenghargaanDetailComponent = ({
           verticalAlign: 'top',
           Cell: () => (
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              <Button
-                text='Detail Profil'
-                color='primary'
-                onClick={() =>
-                  router.push(
-                    `/data-riwayat/penghargaan/detail/pegawai/${btoa(
-                      item?.user_id
-                    )}`
-                  )
-                }
-                icon={<Info style={styles.iconButton} />}
-                sx={styles.buttonAction}
-              />
+              {accessGranted(PermissionsIDs.HISTORY_AWARD, Access.READ) && (
+                <Button
+                  text='Detail Profil'
+                  color='primary'
+                  onClick={() =>
+                    router.push(
+                      `/data-riwayat/penghargaan/detail/pegawai/${btoa(
+                        item?.user_id
+                      )}`
+                    )
+                  }
+                  icon={<Info style={styles.iconButton} />}
+                  sx={styles.buttonAction}
+                />
+              )}
             </Box>
           )
         }
@@ -121,14 +123,16 @@ const RiwayatPenghargaanDetailComponent = ({
   const action = useMemo(() => {
     return (
       <Box>
-        <Button
-          text='Edit'
-          color='sidatukDraweBase'
-          icon={<Edit style={styles.iconButton} />}
-          onClick={() =>
-            router.push(`/data-riwayat/penghargaan/edit/${router?.query?.id}`)
-          }
-        />
+        {accessGranted(PermissionsIDs.HISTORY_AWARD, Access.UPDATE) && (
+          <Button
+            text='Edit'
+            color='sidatukDraweBase'
+            icon={<Edit style={styles.iconButton} />}
+            onClick={() =>
+              router.push(`/data-riwayat/penghargaan/edit/${router?.query?.id}`)
+            }
+          />
+        )}
       </Box>
     )
   }, [])

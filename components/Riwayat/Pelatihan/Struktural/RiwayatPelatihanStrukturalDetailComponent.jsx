@@ -8,6 +8,7 @@ import { Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
 import { monthOptions } from 'libs/types/options'
+import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
 
 const styles = {
   iconStyle: {
@@ -118,19 +119,21 @@ const RiwayatPelatihanStrukturalDetailComponent = ({
           verticalAlign: 'top',
           Cell: () => (
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              <Button
-                text='Detail Profil'
-                color='primary'
-                onClick={() =>
-                  router.push(
-                    `/data-riwayat/pelatihan-struktural/detail/pegawai/${btoa(
-                      item?.user_id
-                    )}`
-                  )
-                }
-                icon={<Info style={styles.iconButton} />}
-                sx={styles.buttonAction}
-              />
+              {accessGranted(PermissionsIDs.HISTORY_STRUCTURAL, Access.READ) && (
+                <Button
+                  text='Detail Profil'
+                  color='primary'
+                  onClick={() =>
+                    router.push(
+                      `/data-riwayat/pelatihan-struktural/detail/pegawai/${btoa(
+                        item?.user_id
+                      )}`
+                    )
+                  }
+                  icon={<Info style={styles.iconButton} />}
+                  sx={styles.buttonAction}
+                />
+              )}
             </Box>
           )
         }
@@ -143,16 +146,18 @@ const RiwayatPelatihanStrukturalDetailComponent = ({
   const action = useMemo(() => {
     return (
       <Box>
-        <Button
-          text='Edit'
-          color='sidatukDraweBase'
-          icon={<Edit style={styles.iconButton} />}
-          onClick={() =>
-            router.push(
-              `/data-riwayat/pelatihan-struktural/edit/${router?.query?.id}`
-            )
-          }
-        />
+        {accessGranted(PermissionsIDs.HISTORY_STRUCTURAL, Access.UPDATE) && (
+          <Button
+            text='Edit'
+            color='sidatukDraweBase'
+            icon={<Edit style={styles.iconButton} />}
+            onClick={() =>
+              router.push(
+                `/data-riwayat/pelatihan-struktural/edit/${router?.query?.id}`
+              )
+            }
+          />
+        )}
       </Box>
     )
   }, [])

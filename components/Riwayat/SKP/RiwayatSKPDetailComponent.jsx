@@ -14,6 +14,7 @@ import {
   ratingOptions,
   ratingOrganizationOptions
 } from 'libs/types/options'
+import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
 
 const styles = {
   iconStyle: {
@@ -40,9 +41,9 @@ const styles = {
 
 const RiwayatSKPDetailComponent = ({
   target,
-  getTarget = () => {},
-  clearTargetState = () => {},
-  onLoading = () => {}
+  getTarget = () => { },
+  clearTargetState = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
 
@@ -157,17 +158,19 @@ const RiwayatSKPDetailComponent = ({
           verticalAlign: 'top',
           Cell: () => (
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              <Button
-                text='Detail Profil'
-                color='primary'
-                onClick={() =>
-                  router.push(
-                    `/data-riwayat/skp/detail/pegawai/${btoa(item?.id)}`
-                  )
-                }
-                icon={<Info style={styles.iconButton} />}
-                sx={styles.buttonAction}
-              />
+              {accessGranted(PermissionsIDs.HISTORY_SKP, Access.READ) && (
+                <Button
+                  text='Detail Profil'
+                  color='primary'
+                  onClick={() =>
+                    router.push(
+                      `/data-riwayat/skp/detail/pegawai/${btoa(item?.id)}`
+                    )
+                  }
+                  icon={<Info style={styles.iconButton} />}
+                  sx={styles.buttonAction}
+                />
+              )}
             </Box>
           )
         }
@@ -180,14 +183,16 @@ const RiwayatSKPDetailComponent = ({
   const action = useMemo(() => {
     return (
       <Box>
-        <Button
-          text='Edit'
-          color='sidatukDraweBase'
-          icon={<Edit style={styles.iconButton} />}
-          onClick={() =>
-            router.push(`/data-riwayat/skp/edit/${router?.query?.id}`)
-          }
-        />
+        {accessGranted(PermissionsIDs.HISTORY_SKP, Access.UPDATE) && (
+          <Button
+            text='Edit'
+            color='sidatukDraweBase'
+            icon={<Edit style={styles.iconButton} />}
+            onClick={() =>
+              router.push(`/data-riwayat/skp/edit/${router?.query?.id}`)
+            }
+          />
+        )}
       </Box>
     )
   }, [])

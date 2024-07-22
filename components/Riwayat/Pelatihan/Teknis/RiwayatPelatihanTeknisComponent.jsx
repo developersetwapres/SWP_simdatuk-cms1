@@ -9,6 +9,7 @@ import { Box, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { useRouter } from 'next/router'
 import { monthOptions } from 'libs/types/options'
+import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -56,10 +57,10 @@ const styles = {
 
 const RiwayatPelatihanTeknisComponent = ({
   training,
-  onSearch = () => {},
-  onLoading = () => {},
-  onPaginationChange = () => {},
-  onRowsPerPageChange = () => {}
+  onSearch = () => { },
+  onLoading = () => { },
+  onPaginationChange = () => { },
+  onRowsPerPageChange = () => { }
 }) => {
   const router = useRouter()
   const classes = useStyles()
@@ -146,24 +147,28 @@ const RiwayatPelatihanTeknisComponent = ({
           verticalAlign: 'top',
           Cell: () => (
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              <Button
-                text='Detail'
-                color='primary'
-                icon={<Info style={styles.iconButton} />}
-                sx={styles.buttonAction}
-                onClick={() =>
-                  router.push(`${router.pathname}/detail/${btoa(item?.id)}`)
-                }
-              />
-              <Button
-                text='Edit'
-                color='sidatukDraweBase'
-                icon={<Edit style={styles.iconButton} />}
-                sx={styles.buttonAction}
-                onClick={() =>
-                  router.push(`${router.pathname}/edit/${btoa(item?.id)}`)
-                }
-              />
+              {accessGranted(PermissionsIDs.HISTORY_TECHNICAL, Access.READ) && (
+                <Button
+                  text='Detail'
+                  color='primary'
+                  icon={<Info style={styles.iconButton} />}
+                  sx={styles.buttonAction}
+                  onClick={() =>
+                    router.push(`${router.pathname}/detail/${btoa(item?.id)}`)
+                  }
+                />
+              )}
+              {accessGranted(PermissionsIDs.HISTORY_TECHNICAL, Access.UPDATE) && (
+                <Button
+                  text='Edit'
+                  color='sidatukDraweBase'
+                  icon={<Edit style={styles.iconButton} />}
+                  sx={styles.buttonAction}
+                  onClick={() =>
+                    router.push(`${router.pathname}/edit/${btoa(item?.id)}`)
+                  }
+                />
+              )}
             </Box>
           )
         }
@@ -176,10 +181,12 @@ const RiwayatPelatihanTeknisComponent = ({
   const action = useMemo(() => {
     return (
       <Box>
-        <Button
-          text='Tambah'
-          onClick={() => router.push(`${router.asPath}/add`)}
-        />
+        {accessGranted(PermissionsIDs.HISTORY_TECHNICAL, Access.CREATE) && (
+          <Button
+            text='Tambah'
+            onClick={() => router.push(`${router.asPath}/add`)}
+          />
+        )}
       </Box>
     )
   }, [])
