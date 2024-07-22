@@ -3,6 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Autocomplete, Input } from '@/components/shared'
 import { Box, Grid, Typography } from '@mui/material'
+import DatepickerYear from '@/components/shared/form/DatepickerYear'
 
 const ExportDrfForm = ({
   values,
@@ -189,6 +190,19 @@ const ExportDrfForm = ({
           }}
         />
       </Grid>
+      {/* Retirement Year */}
+      <Grid item xs={6}>
+        <DatepickerYear
+          isClear
+          label='Pilih Tahun Usia Pensiun'
+          placeholder='Pilih Tahun Usia Pensiun'
+          name='retirementYear'
+          value={values?.retirementYear}
+          onChange={(val) => {
+            setFieldValue(`retirementYear`, val, false)
+          }}
+        />
+      </Grid>
       {/* Total Working Tine */}
       <Grid item xs={6}>
         <Autocomplete
@@ -216,6 +230,19 @@ const ExportDrfForm = ({
           error={errors?.gradeWorkingTime}
           onChange={(val) => {
             setFieldValue('gradeWorkingTime', val, false)
+          }}
+        />
+      </Grid>
+      <Grid item xs={6}>
+        <Autocomplete
+          options={options?.employeeStatuses}
+          name='employeeStatus'
+          placeholder='Pilih Status Pegawai'
+          multiple={true}
+          label='Status Pegawai'
+          value={values?.employeeStatus || []}
+          onChange={(val) => {
+            setFieldValue('employeeStatus', val || [], false)
           }}
         />
       </Grid>

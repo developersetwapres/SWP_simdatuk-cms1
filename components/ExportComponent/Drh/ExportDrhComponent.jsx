@@ -13,6 +13,7 @@ import * as Yup from 'yup'
 import {
   deputyOptions,
   educationLevelOptions,
+  employeeStatusOptions,
   employeeTypeOptions,
   genderOptions,
   maritalStatusOptions,
@@ -34,29 +35,12 @@ const InitValue = {
   gender: [],
   age: { min: '', max: '' },
   retirementAge: [],
+  retirementYear: null,
   maritalStatus: [],
   totalWorkingTime: [],
-  gradeWorkingTime: []
+  gradeWorkingTime: [],
+  employeeStatus: []
 }
-
-const FormSchema = Yup.object().shape({
-  age: Yup.object().shape({
-    min: Yup.string()
-      .nullable()
-      .test('min', 'Umur minimal tidak boleh kosong', function (value) {
-        const { max } = this.parent
-        if (max && !value) return false
-        return true
-      }),
-    max: Yup.string()
-      .nullable()
-      .test('max', 'Umur maksimal tidak boleh kosong', function (value) {
-        const { min } = this.parent
-        if (min && !value) return false
-        return true
-      })
-  })
-})
 
 const ExportDrhComponent = ({
   exportDRHData,
@@ -85,7 +69,8 @@ const ExportDrhComponent = ({
       positionDesc: positionDescOptions,
       retirementAge,
       totalWorkingTime: workingPeriodOptions,
-      gradeWorkingTime: workingPeriodOptions
+      gradeWorkingTime: workingPeriodOptions,
+      employeeStatuses: employeeStatusOptions
     }
 
     return data
@@ -150,52 +135,42 @@ const ExportDrhComponent = ({
         return 'total_working_duration'
       case 'gradeWorkingTime':
         return 'grade_range'
+      case 'employeeStatus':
+        return 'employment_status'
+      case 'returementYear':
+        return 'retirement_year'
       default:
         return null
     }
   }
 
   const handleSubmit = async (values) => {
-    try {
-      await FormSchema.validate(values, { abortEarly: false })
-      formikRef.current.setErrors({})
-
-      const payload = {
-        ...Object.fromEntries(
-          Object.entries(values)
-            .filter((itm) =>
-              itm[1]?.length > 0
-            )
-            .map(([key, value]) => {
-              const newValue = handleGetValueID(key, value)
-              return [handleParseKey(key), newValue]
-            })
-        )
-      }
-
-      if (values?.age?.max) {
-        payload.max_age = parseInt(values?.age?.max)
-      }
-
-      if (values?.age?.min) {
-        payload.min_age = parseInt(values?.age?.min)
-      }
-
-      exportDRH(payload)
-    } catch (err) {
-      if (!err.inner || err.inner.length === 0) return
-
-      const newErrors = {}
-      err.inner.forEach((error) => {
-        newErrors[error.path] = error.message
-        formikRef.current.setFieldError(error.path, error.message)
-      })
-
-      const firstErrorField = err.inner[0].path
-      const firstErrorEl = document.querySelector(`[name="${firstErrorField}"]`)
-      firstErrorEl &&
-        firstErrorEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    const payload = {
+      ...Object.fromEntries(
+        Object.entries(values)
+          .filter((itm) =>
+            itm[1]?.length > 0
+          )
+          .map(([key, value]) => {
+            const newValue = handleGetValueID(key, value)
+            return [handleParseKey(key), newValue]
+          })
+      )
     }
+
+    if (values?.retirementYear) {
+      payload.retirement_year = parseInt(values?.retirementYear)
+    }
+
+    if (values?.age?.max) {
+      payload.max_age = parseInt(values?.age?.max)
+    }
+
+    if (values?.age?.min) {
+      payload.min_age = parseInt(values?.age?.min)
+    }
+
+    exportDRH(payload)
   }
 
   const handleReset = () => {
@@ -208,6 +183,8 @@ const ExportDrhComponent = ({
         return value.length === 0
       } else if (typeof value === 'object' && value !== null) {
         return Object.values(value).every((v) => v === '')
+      } else if (value === null) {
+        return true
       } else {
         return value === ''
       }
@@ -272,7 +249,6 @@ const ExportDrhComponent = ({
     <Formik
       innerRef={formikRef}
       initialValues={InitValue}
-      validationSchema={FormSchema}
       onSubmit={() => { }}
     >
       {(formikProps) => (
