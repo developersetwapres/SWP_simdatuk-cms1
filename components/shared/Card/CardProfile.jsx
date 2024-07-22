@@ -16,6 +16,7 @@ import { useRouter } from 'next/router'
 import Card from './Index'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination } from 'swiper/modules'
+import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
 
 const style = {
   cardParent: {
@@ -51,8 +52,8 @@ const CardProfile = ({
   isBorder = false,
   checked = false,
   isCheck = false,
-  handleModal = () => {},
-  handleCheck = () => {}
+  handleModal = () => { },
+  handleCheck = () => { }
 }) => {
   const isMultipleEmployee = useMemo(() => {
     return data?.available > 1
@@ -258,8 +259,8 @@ const ContentProfile = ({
                 >
                   {item?.name
                     ? [item?.title_prefix, item?.name, item?.title_suffix].join(
-                        ' '
-                      )
+                      ' '
+                    )
                     : '-'}
                 </Typography>
               </Box>
@@ -275,11 +276,10 @@ const ContentProfile = ({
                       title='Golongan'
                       value={
                         item?.grade_name
-                          ? `${item?.grade_name} ${item?.grade_code || ''}${
-                              item?.grade_effective_date
-                                ? `, ${item?.grade_effective_date}`
-                                : ''
-                            }`
+                          ? `${item?.grade_name} ${item?.grade_code || ''}${item?.grade_effective_date
+                            ? `, ${item?.grade_effective_date}`
+                            : ''
+                          }`
                           : '-'
                       }
                     />
@@ -287,11 +287,11 @@ const ContentProfile = ({
                       title='NIP/NRP'
                       value={
                         !item?.employee_id_number &&
-                        !item?.employee_registration_number
+                          !item?.employee_registration_number
                           ? '-'
                           : !item?.employee_registration_number
-                          ? item?.employee_id_number
-                          : `${item?.employee_id_number} / ${item?.employee_registration_number}`
+                            ? item?.employee_id_number
+                            : `${item?.employee_id_number} / ${item?.employee_registration_number}`
                       }
                     />
                   </>
@@ -322,11 +322,10 @@ const ContentProfile = ({
                       title='Golongan'
                       value={
                         item?.grade_name
-                          ? `${item?.grade_name} ${item?.grade_code || ''}${
-                              item?.grade_effective_date
-                                ? `, ${item?.grade_effective_date}`
-                                : ''
-                            }`
+                          ? `${item?.grade_name} ${item?.grade_code || ''}${item?.grade_effective_date
+                            ? `, ${item?.grade_effective_date}`
+                            : ''
+                          }`
                           : '-'
                       }
                     />
@@ -342,9 +341,9 @@ const ContentProfile = ({
                       value={
                         item?.echelon_name && item?.echelon_effective_date
                           ? [
-                              item?.echelon_name,
-                              item?.echelon_effective_date
-                            ].join(', ')
+                            item?.echelon_name,
+                            item?.echelon_effective_date
+                          ].join(', ')
                           : item?.echelon_name || '-'
                       }
                     />
@@ -352,11 +351,10 @@ const ContentProfile = ({
                       title='Golongan'
                       value={
                         item?.grade_name
-                          ? `${item?.grade_name} ${item?.grade_code || ''}${
-                              item?.grade_effective_date
-                                ? `, ${item?.grade_effective_date}`
-                                : ''
-                            }`
+                          ? `${item?.grade_name} ${item?.grade_code || ''}${item?.grade_effective_date
+                            ? `, ${item?.grade_effective_date}`
+                            : ''
+                          }`
                           : '-'
                       }
                     />
@@ -364,11 +362,11 @@ const ContentProfile = ({
                       title='NIP/NRP'
                       value={
                         !item?.employee_id_number &&
-                        !item?.employee_registration_number
+                          !item?.employee_registration_number
                           ? '-'
                           : !item?.employee_registration_number
-                          ? item?.employee_id_number
-                          : `${item?.employee_id_number} / ${item?.employee_registration_number}`
+                            ? item?.employee_id_number
+                            : `${item?.employee_id_number} / ${item?.employee_registration_number}`
                       }
                     />
                   </>
@@ -384,24 +382,31 @@ const ContentProfile = ({
                     gap: '5px'
                   }}
                 >
-                  {item?.id && isProfile && (
-                    <Button
-                      onClick={() =>
-                        router.push(
-                          `/rekapitulasi/peta-jabatan/detail/${btoa(item?.id)}`
-                        )
-                      }
-                      text='Lihat Profile'
-                      color='sidatukDraweBase'
-                      fullWidth
-                      type='submit'
-                      sx={{
-                        color: '#fff',
-                        textTransform: 'none',
-                        fontSize: '10px'
-                      }}
-                    />
-                  )}
+                  {
+                    item?.id &&
+                    isProfile &&
+                    accessGranted(
+                      PermissionsIDs.RECAP_POSITION_MAPPING,
+                      Access.READ
+                    ) && (
+                      <Button
+                        onClick={() =>
+                          router.push(
+                            `/rekapitulasi/peta-jabatan/detail/${btoa(item?.id)}`
+                          )
+                        }
+                        text='Lihat Profile'
+                        color='sidatukDraweBase'
+                        fullWidth
+                        type='submit'
+                        sx={{
+                          color: '#fff',
+                          textTransform: 'none',
+                          fontSize: '10px'
+                        }}
+                      />
+                    )
+                  }
                   {employee?.has_child && (
                     <Button
                       onClick={() =>

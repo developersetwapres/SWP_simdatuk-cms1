@@ -15,6 +15,11 @@ import {
   monthOptions,
   religionOptions
 } from 'libs/types/options'
+import {
+  Access,
+  accessGranted,
+  PermissionsIDs
+} from '@/utils/permissionManager'
 
 const styles = {
   iconStyle: {
@@ -166,24 +171,37 @@ const EmployeeASNComponent = ({
           verticalAlign: 'top',
           Cell: () => (
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              <Button
-                text='Detail'
-                color='primary'
-                icon={<Info style={styles.iconButton} />}
-                sx={styles.buttonAction}
-                onClick={() =>
-                  router.push(`${router.pathname}/detail/${btoa(item?.id)}`)
-                }
-              />
-              <Button
-                text='Edit'
-                color='sidatukDraweBase'
-                icon={<Edit style={styles.iconButton} />}
-                sx={styles.buttonAction}
-                onClick={() =>
-                  router.push(`${router.pathname}/edit/${btoa(item?.id)}`)
-                }
-              />
+              {
+                accessGranted(
+                  PermissionsIDs.EMPLOYEE_ASN,
+                  Access.READ
+                ) && (
+                  <Button
+                    text='Detail'
+                    color='primary'
+                    icon={<Info style={styles.iconButton} />}
+                    sx={styles.buttonAction}
+                    onClick={() =>
+                      router.push(`${router.pathname}/detail/${btoa(item?.id)}`)
+                    }
+                  />
+                )
+              }
+              {
+                accessGranted(
+                  PermissionsIDs.EMPLOYEE_ASN,
+                  Access.UPDATE
+                ) && (
+                  <Button
+                    text='Edit'
+                    color='sidatukDraweBase'
+                    icon={<Edit style={styles.iconButton} />}
+                    sx={styles.buttonAction}
+                    onClick={() =>
+                      router.push(`${router.pathname}/edit/${btoa(item?.id)}`)
+                    }
+                  />
+                )}
             </Box>
           )
         }
@@ -201,16 +219,24 @@ const EmployeeASNComponent = ({
           sx={{ backgroundColor: '#F16637' }}
           onClick={() => synchronizeEmployees()}
         />
-        <Button
-          text='Tambah Massal'
-          color='sidatukDraweBase'
-          onClick={() => router.push(`${router.asPath}/add-bulk`)}
-        />
-        <Button
-          text='Tambah'
-          color='primary'
-          onClick={() => router.push(`${router.asPath}/add`)}
-        />
+        {
+          accessGranted(
+            PermissionsIDs.EMPLOYEE_ASN,
+            Access.CREATE
+          ) && (
+            <>
+              <Button
+                text='Tambah Massal'
+                color='sidatukDraweBase'
+                onClick={() => router.push(`${router.asPath}/add-bulk`)}
+              />
+              <Button
+                text='Tambah'
+                color='primary'
+                onClick={() => router.push(`${router.asPath}/add`)}
+              />
+            </>
+          )}
       </Box>
     )
   }, [])

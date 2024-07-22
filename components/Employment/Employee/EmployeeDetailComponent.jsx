@@ -44,16 +44,17 @@ import ModalAddNotes from '@/components/shared/Modal/ModalAddNotes'
 import { capitalizeFirstLetter, dateTimeFormat } from '@/utils/index'
 import { useDispatch } from 'react-redux'
 import { CLEAR_EXPORT_EMPLOYEE_DETAIL_STATE } from '@/store/constants'
+import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
 
 const EmployeeDetailComponent = ({
   employee,
   exportEmployeeData,
-  getEmployee = () => {},
-  updateNotesByUserID = () => {},
-  updateEmployeeStatus = () => {},
-  clearEmployeeState = () => {},
-  exportEmployeeDetail = () => {},
-  setRender = () => {}
+  getEmployee = () => { },
+  updateNotesByUserID = () => { },
+  updateEmployeeStatus = () => { },
+  clearEmployeeState = () => { },
+  exportEmployeeDetail = () => { },
+  setRender = () => { }
 }) => {
   const router = useRouter()
   const dispatch = useDispatch()
@@ -87,6 +88,74 @@ const EmployeeDetailComponent = ({
 
     return data
   }, [router])
+
+  const getPermissionID = (pathName) => {
+    // Rekapitulasi
+    if (pathName?.includes('rekapitulasi')) {
+      if (pathName?.includes('/komposisi-pegawai/'))
+        return PermissionsIDs.RECAP_COMPOSITION
+
+      if (pathName?.includes('/pegawai-asn/'))
+        return PermissionsIDs.RECAP_ASN
+
+      if (pathName?.includes('/pegawai-non-asn/'))
+        return PermissionsIDs.RECAP_NON_ASN
+
+      if (pathName?.includes('/pegawai-outsourcing/'))
+        return PermissionsIDs.RECAP_OUTSOURCING
+
+      if (pathName?.includes('/peta-jabatan/'))
+        return PermissionsIDs.RECAP_POSITION_MAPPING
+
+      return null
+    }
+    // Data Pegawai
+    if (pathName?.includes('data-pegawai')) {
+      if (pathName?.includes('/asn/'))
+        return PermissionsIDs.EMPLOYEE_ASN
+
+      if (pathName?.includes('/non-asn/'))
+        return PermissionsIDs.EMPLOYEE_NON_ASN
+
+      if (pathName?.includes('/outsourcing/'))
+        return PermissionsIDs.EMPLOYEE_OUTSOURCING
+
+      return null
+    }
+    // Data Riwayat
+    if (pathName?.includes('data-riwayat')) {
+      if (pathName?.includes('/golongan/'))
+        return PermissionsIDs.HISTORY_GRADE
+
+      if (pathName?.includes('/hukuman-disiplin/'))
+        return PermissionsIDs.HISTORY_DISCIPLINARY
+
+      if (pathName?.includes('/jabatan/'))
+        return PermissionsIDs.HISTORY_POSITION
+
+      if (pathName?.includes('/pelatihan-fungsional/'))
+        return PermissionsIDs.HISTORY_FUNCTIONAL
+
+      if (pathName?.includes('/pelatihan-struktural/'))
+        return PermissionsIDs.HISTORY_STRUCTURAL
+
+      if (pathName?.includes('/pelatihan-teknis/'))
+        return PermissionsIDs.HISTORY_TECHNICAL
+
+      if (pathName?.includes('/penghargaan/'))
+        return PermissionsIDs.HISTORY_AWARD
+
+      if (pathName?.includes('/skp/'))
+        return PermissionsIDs.HISTORY_SKP
+
+      if (pathName?.includes('/ppk/'))
+        return PermissionsIDs.HISTORY_PERFORMANCE
+
+      return null
+    }
+
+    return null
+  }
 
   const options = useMemo(() => {
     const dataOptions = {
@@ -125,12 +194,12 @@ const EmployeeDetailComponent = ({
       ),
       educations: !!detailEmployee?.educations?.length
         ? [
-            ...detailEmployee?.educations?.map((i) => ({
-              ...i,
-              level: getValue('education', i?.level - 1),
-              status: getValue('education_status', i?.status - 1)
-            }))
-          ]
+          ...detailEmployee?.educations?.map((i) => ({
+            ...i,
+            level: getValue('education', i?.level - 1),
+            status: getValue('education_status', i?.status - 1)
+          }))
+        ]
         : []
     }
 
@@ -143,8 +212,8 @@ const EmployeeDetailComponent = ({
         ? data?.type == 1
           ? 'ASN'
           : data?.type == 2
-          ? 'Non ASN'
-          : 'Outsourcing'
+            ? 'Non ASN'
+            : 'Outsourcing'
         : ''
 
       return `Detail Pegawai ${type} ${data?.employmentStatus || ''}`
@@ -154,6 +223,9 @@ const EmployeeDetailComponent = ({
   }, [data])
 
   const action = useMemo(() => {
+    if (!accessGranted(getPermissionID(router.asPath), Access.UPDATE))
+      return null
+
     return (
       <Box sx={{ display: 'flex', gap: 1 }}>
         {router?.asPath?.includes('data-pegawai') && (
@@ -180,7 +252,7 @@ const EmployeeDetailComponent = ({
         <ButtonExport data={[{ name: 'PDF', action: () => exportAsPDF() }]} />
       </Box>
     )
-  }, [employmentStatusModalOpen])
+  }, [employmentStatusModalOpen, router])
 
   const sectionsList = useMemo(() => {
     const sections = [
@@ -275,6 +347,24 @@ const EmployeeDetailComponent = ({
 
     const datas = sections
       .filter((item) => {
+        // Filter Notes Section by some permissions
+        const hasNotesAccess = accessGranted(
+          PermissionsIDs.NOTES, Access.READ
+        )
+
+        if (!hasNotesAccess) {
+          return item?.id !== 'riwayat_catatan'
+        }
+
+        const hasTalentPoolAccess = accessGranted(
+          PermissionsIDs.TALENT_POOL, Access.READ
+        )
+
+        if (!hasTalentPoolAccess) {
+          return item?.id !== 'hasil_talent_pool'
+        }
+
+        // Filter by Outsourcing menus
         const outsourcingPage = router?.asPath?.includes('outsourcing')
         const outsourcingMenu = [
           'data_pegawai',
@@ -293,7 +383,6 @@ const EmployeeDetailComponent = ({
           'riwayat_hukuman_disiplin'
         ]
 
-        // Filter by Outsourcing menus
         if (outsourcingPage && outsourcingMenu?.includes(item?.id)) {
           return true
         }
@@ -484,7 +573,7 @@ const EmployeeDetailComponent = ({
                           ? data?.employee_registration_number || '-'
                           : null
                       ].join('/')}
-                      {}
+                      { }
                     </Typography>
                   </Box>
                 </Grid>

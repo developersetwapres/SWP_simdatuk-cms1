@@ -17,6 +17,7 @@ import PropTypes from 'prop-types'
 import { Close } from '@mui/icons-material'
 import { v4 as uuidv4 } from 'uuid'
 import { PENCIL_SQUARE_ALT, ADD_SQUARE } from '@/utils/iconConstant'
+import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
 
 const useStyles = makeStyles(() => ({
   list: {
@@ -217,6 +218,9 @@ const ListDataPegawai = ({
                       />
                     )
                   case 'Catatan':
+                    if (!accessGranted(PermissionsIDs.NOTES, Access.READ))
+                      return null
+
                     return (
                       <CellList
                         isNotes
@@ -244,6 +248,9 @@ const ListDataPegawai = ({
                       />
                     )
                   case 'Hasil Talent Pool':
+                    if (!accessGranted(PermissionsIDs.TALENT_POOL, Access.READ))
+                      return null
+
                     return (
                       <CellList
                         key={itm?.id}

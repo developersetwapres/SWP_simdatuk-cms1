@@ -22,6 +22,7 @@ import SKPForm from './SKPForm'
 import DisciplinaryForm from './DisciplinaryForm'
 import PerformanceForm from './PerformanceForm'
 import CreditsForm from './CreditsForm'
+import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
 
 const containerStyles = {
   display: 'flex',
@@ -288,13 +289,17 @@ const FormComponent = (props) => {
       {/* Paid Leave */}
       <PaidLeaveForm {...props} {...formikProps} />
       {/* Notes */}
-      <NotesForm {...props} {...formikProps} />
+      {accessGranted(PermissionsIDs.NOTES, Access.READ) && (
+        <NotesForm {...props} {...formikProps} />
+      )}
       {/* Assesment */}
       <AssessmentForm {...props} {...formikProps} />
       {/* Competence */}
       <CompetenceTestForm {...props} {...formikProps} />
       {/* Talent Pool */}
-      <TalentPoolForm {...props} {...formikProps} />
+      {accessGranted(PermissionsIDs.TALENT_POOL, Access.READ) && (
+        <TalentPoolForm {...props} {...formikProps} />
+      )}
     </Box>
   )
 }
