@@ -77,14 +77,14 @@ const FormSchema = Yup.object().shape({
 const RiwayatGolonganAddComponent = ({
   grade,
   employee,
-  postGrade = () => {},
-  onLoading = () => {}
+  postGrade = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
 
   const options = useMemo(() => {
-    const newGrade = grade?.options?.map((itm) => itm?.name)
+    const newGrade = grade?.options?.map((itm) => `${itm?.name} ${itm?.code}`)
     const newEmployee = employee?.data.map((itm) => {
       return `${itm?.name} - ${itm?.employee_id_number}`
     })
@@ -122,7 +122,7 @@ const RiwayatGolonganAddComponent = ({
         return {
           id: handleGetValueId(itm?.nama, 'employee'),
           user_id: handleGetValueId(itm?.nama, 'employee'),
-          grade_id: handleGetValueId(itm?.golongan, 'grade'),
+          grade_id: handleGetValueId(itm?.golongan?.split(' (')[0], 'grade'),
           effective_date: moment(itm?.tmt).format('YYYY-MM-DD'),
           decree_number: itm?.noSk,
           status: 1
@@ -163,7 +163,7 @@ const RiwayatGolonganAddComponent = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => {}}
+      onSubmit={() => { }}
     >
       {(formikProps) => (
         <LayoutPages

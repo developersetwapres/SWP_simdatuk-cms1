@@ -35,7 +35,7 @@ export default connect(
 
     fetch(queries) {
       this.props.getEmployees(queries)
-      this.props.getDisciplinariesOptions()
+      this.props.getDisciplinariesOptions(queries)
     }
 
     setLoading(val) {
