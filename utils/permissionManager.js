@@ -1,5 +1,46 @@
 import { decryptItem } from './crypt'
 
+export const getPermissions = (navigation) => {
+  const permissions = []
+
+  for (const item of navigation) {
+    if (item?.permissionID === PermissionsIDs.EXPORT) {
+      permissions.push({ path: item?.path, permissionID: item?.permissionID })
+    }
+    if (item?.children?.length > 0) {
+      for (const child of item.children) {
+        permissions.push({ path: child?.path, permissionID: child?.permissionID })
+      }
+    }
+  }
+
+  return permissions
+}
+
+export const getFirstNPath = (realPath, pathSegmentsCount = 3) => {
+  return realPath?.split('/')?.splice(0, pathSegmentsCount)?.join('/')
+}
+
+export const getUserPermissionIDByPath = (path, navigation) => {
+  const permissions = getPermissions(navigation)
+  const permissionsLookup = new Map(permissions.map(i => [i?.path, i?.permissionID]))
+  return permissionsLookup.get(getFirstNPath(path, 3))
+}
+
+export const accessGranted = (nameAsID, access) => {
+  const permission = decryptItem(
+    '__ui',
+    process.env.NEXT_PUBLIC_USER_INFO_SERCRET_KEY
+  )
+    ?.permissions
+    ?.reduce((acc, curr) => {
+      acc[curr?.name] = curr
+      return acc
+    })[nameAsID]
+
+  return permission ? permission[access] === 1 : false
+}
+
 export const Access = {
   READ: 'read',
   CREATE: 'create',
@@ -8,49 +49,33 @@ export const Access = {
 }
 
 export const PermissionsIDs = {
-  RECAP_COMPOSITION: 1,
-  RECAP_ASN: 2,
-  RECAP_NON_ASN: 3,
-  RECAP_OUTSOURCING: 4,
-  RECAP_POSITION_MAPPING: 5,
-  RECAP_COMPARE: 6,
-  RECAP_PROMOTION: 7,
-  EMPLOYEE_ASN: 8,
-  EMPLOYEE_NON_ASN: 9,
-  EMPLOYEE_OUTSOURCING: 10,
-  HISTORY_POSITION: 11,
-  HISTORY_GRADE: 12,
-  HISTORY_STRUCTURAL: 14,
-  HISTORY_FUNCTIONAL: 15,
-  HISTORY_TECHNICAL: 16,
-  HISTORY_AWARD: 17,
-  HISTORY_SKP: 18,
-  HISTORY_PERFORMANCE: 19,
-  HISTORY_DISCIPLINARY: 20,
-  MASTER_USER: 21,
-  MASTER_ROLE: 22,
-  MASTER_POSITION: 23,
-  MASTER_GRADE: 24,
-  MASTER_INSTITUTION: 25,
-  MASTER_EMPLOYEE_TYPE: 26,
-  // Parent Menu/Others
-  EXPORT: 27,
-  NOTES: 28,
-  TALENT_POOL: 29
-}
-
-const userInfo = decryptItem(
-  '__ui', process.env.NEXT_PUBLIC_USER_INFO_SERCRET_KEY
-)
-
-const permissions = userInfo?.permissions || []
-
-const permissionsLookup = permissions?.reduce((acc, curr) => {
-  acc[curr?.id] = curr
-  return acc
-}, {})
-
-export const accessGranted = (id, access) => {
-  const permission = permissionsLookup[id]
-  return permission ? permission[access] === 1 : false
+  RECAP_COMPOSITION: 'Rekapitulasi - Komposisi Pegawai',
+  RECAP_ASN: 'Rekapitulasi - Pegawai ASN',
+  RECAP_NON_ASN: 'Rekapitulasi - Pegawai Non ASN',
+  RECAP_OUTSOURCING: 'Rekapitulasi - Pegawai Outsourcing',
+  RECAP_POSITION_MAPPING: 'Rekapitulasi - Peta Jabatan',
+  RECAP_COMPARE: 'Rekapitulasi - Bandingkan Pegawai',
+  RECAP_PROMOTION: 'Rekapitulasi - Promosi Pegawai',
+  EMPLOYEE_ASN: 'Data Pegawai - ASN',
+  EMPLOYEE_NON_ASN: 'Data Pegawai - Non ASN',
+  EMPLOYEE_OUTSOURCING: 'Data Pegawai - Outsourcing',
+  HISTORY_POSITION: 'Data Riwayat - Jabatan',
+  HISTORY_GRADE: 'Data Riwayat - Golongan',
+  HISTORY_STRUCTURAL: 'Data Riwayat - Pelatihan Struktural',
+  HISTORY_FUNCTIONAL: 'Data Riwayat - Pelatihan Fungsional',
+  HISTORY_TECHNICAL: 'Data Riwayat - Pelatihan Teknis',
+  HISTORY_AWARD: 'Data Riwayat - Penghargaan',
+  HISTORY_SKP: 'Data Riwayat - SKP',
+  HISTORY_PERFORMANCE: 'Data Riwayat - Penilaian Prestasi Kerja',
+  HISTORY_DISCIPLINARY: 'Data Riwayat - Hukuman Disiplin',
+  MASTER_USER: 'Master Data - Data Pengguna',
+  MASTER_ROLE: 'Master Data - Data Role Pengguna',
+  MASTER_POSITION: 'Master Data - Data Jabatan',
+  MASTER_GRADE: 'Master Data - Data Golongan',
+  MASTER_INSTITUTION: 'Master Data - Data Instansi',
+  MASTER_EMPLOYEE_TYPE: 'Master Data - Jenis Pegawai',
+  // Parent Menu/Features
+  EXPORT: 'Export',
+  NOTES: 'Catatan',
+  TALENT_POOL: 'Hasil Talent Pool'
 }

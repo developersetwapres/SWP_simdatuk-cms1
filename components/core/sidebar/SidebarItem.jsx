@@ -111,11 +111,11 @@ function SidebarItem({
               return (
                 <ListItemButton
                   className={`${classes.listItemButtonChildren} ${router.pathname.split('/')[2] === value.path.split('/')[2]
-                    ? classes.activeRoute
-                    : ''
-                    } `}
+                    ? classes.activeRoute : ''} `}
                   key={i}
-                  onClick={() => handlePageChange(value.path)}
+                  onClick={() =>
+                    handlePageChange(value.path)
+                  }
                   selected={router.pathname === value.path}
                 >
                   <ListItemIcon>{value.icon}</ListItemIcon>

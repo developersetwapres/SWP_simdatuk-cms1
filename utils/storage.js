@@ -7,7 +7,7 @@
  * @param {*} action 
  */
 const configureStorage = (name, value, action = 'set') => {
-  if(action === 'set') {
+  if (action === 'set') {
     window.localStorage.setItem(name, value)
   } else {
     window.localStorage.removeItem(name)
@@ -42,10 +42,14 @@ export const clearStorages = (storages) => {
  * @returns
  */
 export const getStorage = (storage) => {
-  const store = window.localStorage.getItem(storage)
+  if (typeof window !== 'undefined') {
+    const store = window.localStorage.getItem(storage)
 
-  if (typeof storage !== 'undefined') {
-    return store 
+    if (typeof storage !== 'undefined') {
+      return store
+    }
+
+    return null
   }
 
   return null

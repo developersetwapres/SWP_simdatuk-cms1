@@ -209,8 +209,16 @@ function Layout({ children, window, willRender }) {
       </Toolbar>
       <List>
         {navigation.map((item, index) => {
+          const excludes = ['/logout', '/dashboard']
+          const hasSomeChildrenRead = item
+            ?.children
+            ?.some(c =>
+              accessGranted(c?.permissionID, Access.READ)
+            )
+
           if (
-            item?.permissionID === 27 &&
+            !hasSomeChildrenRead &&
+            !excludes?.includes(item?.path) &&
             !accessGranted(item?.permissionID, Access.READ)
           ) return null
 
