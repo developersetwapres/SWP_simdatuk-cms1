@@ -35,6 +35,8 @@ import {
 import { v4 as uuidv4 } from 'uuid'
 import { SaveAs, saveFile } from '@/utils/fileSaver'
 import { dateTimeFormat } from '@/utils/index'
+import DatepickerYear from '@/components/shared/form/DatepickerYear'
+import moment from 'moment'
 
 const checkboxes = [
   {
@@ -120,8 +122,10 @@ const InitValue = {
   maxAge: null,
   maritalStatus: null,
   retirementLimitAge: null,
+  retirementYear: null,
   totalWorkingPeriod: null,
   gradeWorkingPeriod: null,
+  employeeStatus: null,
   // SKP
   assessmentPeriod: null,
   skpYear: null,
@@ -203,35 +207,18 @@ const ExportEmployeeComponent = ({
     if (key === 'creditYear')
       return 'credit_year'
 
+    if (key === 'retirementYear')
+      return 'retirement_year'
+
+    if (key === 'employeeStatus')
+      return 'employment_status'
+
     return key
   }
 
   const togglePreview = (values) => {
     if (!showPreview) {
-      const payload = {}
-
-      Object
-        .entries(values)
-        .filter(([key, value]) =>
-          // Excludes unecessary items
-          typeof value !== 'boolean' &&
-          key !== 'output'
-        )
-        .forEach(([key, value]) => {
-          // Mapping checkboxes
-          if (key === 'checkboxes') {
-            value?.forEach((item) => {
-              payload[item] = 1
-            })
-          } else if (
-            (Array.isArray(value) && value?.length > 0) ||
-            value
-          ) {
-            payload[convertKeyToPayload(key)] = getIDsByType(key, value)
-          }
-        })
-
-      exportEmployeesPreview(payload)
+      exportEmployeesPreview(getPayloadFromValues(values))
     } else {
       setShowPreview(false)
     }
@@ -269,6 +256,9 @@ const ExportEmployeeComponent = ({
 
     if (key === 'workBehaviorRating')
       return 'workBehaviors'
+
+    if (key === 'employeeStatus')
+      return 'employeeStatuses'
 
     if (key === 'employeePerformancePredicate')
       return 'workPredicates'
@@ -309,10 +299,14 @@ const ExportEmployeeComponent = ({
         })
     }
 
+    if (key === 'retirementYear') {
+      return moment(value)?.format('YYYY')?.toString()
+    }
+
     return value
   }
 
-  const exportFile = (values) => {
+  const getPayloadFromValues = (values) => {
     const payload = {}
 
     Object
@@ -328,13 +322,31 @@ const ExportEmployeeComponent = ({
           value?.forEach((item) => {
             payload[item] = 1
           })
-        } else if (
-          (Array.isArray(value) && value?.length > 0) ||
-          value
-        ) {
+        } else if (Array.isArray(value) && value?.length > 0) {
+          payload[convertKeyToPayload(key)] = getIDsByType(key, value)
+        } else if (!!value && !Array.isArray(value)) {
           payload[convertKeyToPayload(key)] = getIDsByType(key, value)
         }
       })
+
+    return payload
+  }
+
+  const canExport = (payload) => {
+    if (!Object.values(payload)?.length) return false
+
+    return Object
+      .values(payload)
+      .every(i => {
+        if (Array.isArray(i))
+          return i?.length > 0
+
+        return !!i
+      })
+  }
+
+  const exportFile = (values) => {
+    const payload = getPayloadFromValues(values)
 
     exportEmployees({
       type: values?.output,
@@ -357,6 +369,7 @@ const ExportEmployeeComponent = ({
       workPredicates: predicateOptions,
       creditPeriods: periodCreditsOptions,
       organizationalPerformances: ratingOrganizationOptions,
+      employeeStatuses: employeeStatusOptions,
       echelons: echelon?.options?.map((e) => e?.name) || [],
       grades: grade?.options?.map((e) => e?.name) || [],
       // Only For Response
@@ -701,11 +714,18 @@ const ExportEmployeeComponent = ({
                   text='Reset'
                   color='danger'
                   onClick={() => resetForm()}
+                  isBusy={
+                    !values?.output ||
+                    !canExport(getPayloadFromValues(values))
+                  }
                 />
                 <Button
                   text='Export'
                   onClick={() => exportFile(values)}
-                  isBusy={!values?.output}
+                  isBusy={
+                    !values?.output ||
+                    !canExport(getPayloadFromValues(values))
+                  }
                 />
               </Box>
             }
@@ -875,6 +895,19 @@ const ExportEmployeeComponent = ({
                 </Grid>
 
                 <Grid item xs={6}>
+                  <DatepickerYear
+                    isClear
+                    label='Pilih Tahun Usia Pensiun'
+                    placeholder='Pilih Tahun Usia Pensiun'
+                    name='retirementYear'
+                    value={values?.retirementYear}
+                    onChange={(val) => {
+                      setFieldValue(`retirementYear`, val, false)
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
                   <Autocomplete
                     options={workingPeriodOptions}
                     name='totalWorkingPeriod'
@@ -898,6 +931,20 @@ const ExportEmployeeComponent = ({
                     value={values?.gradeWorkingPeriod || []}
                     onChange={(val) => {
                       setFieldValue('gradeWorkingPeriod', val || [], false)
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <Autocomplete
+                    options={employeeStatusOptions}
+                    name='employeeStatus'
+                    placeholder='Pilih Status Pegawai'
+                    multiple={true}
+                    label='Status Pegawai'
+                    value={values?.employeeStatus || []}
+                    onChange={(val) => {
+                      setFieldValue('employeeStatus', val || [], false)
                     }}
                   />
                 </Grid>
@@ -1220,9 +1267,7 @@ const ExportEmployeeComponent = ({
                 onClick={() => togglePreview(values)}
                 sx={{ textTransform: 'none', marginTop: 3 }}
                 disabled={
-                  values?.checkboxes?.length < 1 ||
-                  !values?.minAge ||
-                  !values?.maxAge
+                  values?.checkboxes?.length < 1
                 }
               >
                 Lihat Preview
