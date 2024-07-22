@@ -11,6 +11,7 @@ import { Delete, Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 import { useSelector } from 'react-redux'
+import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -59,12 +60,12 @@ const styles = {
 const MasterDataEmployementTypeComponent = ({
   employmentType,
   queries,
-  onFetch = () => {},
-  onSearch = () => {},
-  onLoading = () => {},
-  onPaginationChange = () => {},
-  onRowsPerPageChange = () => {},
-  deleteEmploymentType = () => {}
+  onFetch = () => { },
+  onSearch = () => { },
+  onLoading = () => { },
+  onPaginationChange = () => { },
+  onRowsPerPageChange = () => { },
+  deleteEmploymentType = () => { }
 }) => {
   const classes = useStyles()
   const router = useRouter()
@@ -191,10 +192,12 @@ const MasterDataEmployementTypeComponent = ({
   const action = useMemo(() => {
     return (
       <Box>
-        <Button
-          text='Tambah'
-          onClick={() => router.push(`${router.pathname}/add`)}
-        />
+        {accessGranted(PermissionsIDs.MASTER_EMPLOYEE_TYPE, Access.CREATE) && (
+          <Button
+            text='Tambah'
+            onClick={() => router.push(`${router.pathname}/add`)}
+          />
+        )}
       </Box>
     )
   }, [])

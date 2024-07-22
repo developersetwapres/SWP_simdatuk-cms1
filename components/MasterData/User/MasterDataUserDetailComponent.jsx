@@ -8,6 +8,7 @@ import { Edit } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
+import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
 
 const styles = {
   iconStyle: {
@@ -28,10 +29,10 @@ const styles = {
 
 const MasterDataUserDetailComponent = ({
   user,
-  getUser = () => {},
-  updateUserStatus = () => {},
-  clearUserState = () => {},
-  onLoading = () => {}
+  getUser = () => { },
+  updateUserStatus = () => { },
+  clearUserState = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
   const [idUser, setIdUser] = useState(null)
@@ -62,19 +63,23 @@ const MasterDataUserDetailComponent = ({
     const status = data?.status
     return (
       <Box sx={{ display: 'flex', gap: '12px' }}>
-        <Button
-          text={`${!status ? 'Aktifkan' : 'Nonaktifkan'} Pengguna`}
-          color={!status ? 'success' : 'danger'}
-          onClick={handleModal}
-        />
-        <Button
-          text='Edit'
-          color='sidatukDraweBase'
-          icon={<Edit style={styles.iconButton} />}
-          onClick={() =>
-            router.push(`/master-data/user/edit/${router?.query?.id}`)
-          }
-        />
+        {accessGranted(PermissionsIDs.MASTER_USER, Access.UPDATE) && (
+          <>
+            <Button
+              text={`${!status ? 'Aktifkan' : 'Nonaktifkan'} Pengguna`}
+              color={!status ? 'success' : 'danger'}
+              onClick={handleModal}
+            />
+            <Button
+              text='Edit'
+              color='sidatukDraweBase'
+              icon={<Edit style={styles.iconButton} />}
+              onClick={() =>
+                router.push(`/master-data/user/edit/${router?.query?.id}`)
+              }
+            />
+          </>
+        )}
       </Box>
     )
   }, [data])
@@ -157,9 +162,8 @@ const MasterDataUserDetailComponent = ({
       </LayoutPages>
       <ModalConfirmDelete
         title={`${data?.status == 0 ? 'Aktifkan' : 'Nonaktifkan'} Pengguna`}
-        copytext={`Apakah anda yakin akan ${
-          data?.status == 0 ? 'mengaktifkan' : 'menonaktifkan'
-        } pengguna ?`}
+        copytext={`Apakah anda yakin akan ${data?.status == 0 ? 'mengaktifkan' : 'menonaktifkan'
+          } pengguna ?`}
         open={modalStatus}
         isLoading={user?.loading}
         handleModal={handleModal}

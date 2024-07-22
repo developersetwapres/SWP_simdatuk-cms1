@@ -8,6 +8,7 @@ import Search from '@/components/core/Search'
 import { makeStyles } from '@mui/styles'
 import { Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
+import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -55,10 +56,10 @@ const styles = {
 
 const MasterDataUserComponent = ({
   user,
-  onSearch = () => {},
-  onLoading = () => {},
-  onPaginationChange = () => {},
-  onRowsPerPageChange = () => {}
+  onSearch = () => { },
+  onLoading = () => { },
+  onPaginationChange = () => { },
+  onRowsPerPageChange = () => { }
 }) => {
   const classes = useStyles()
   const router = useRouter()
@@ -129,24 +130,28 @@ const MasterDataUserComponent = ({
           verticalAlign: 'top',
           Cell: () => (
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              <Button
-                text='Detail'
-                color='primary'
-                onClick={() =>
-                  router.push(`${router.pathname}/detail/${btoa(item?.id)}`)
-                }
-                icon={<Info style={styles.iconButton} />}
-                sx={styles.buttonAction}
-              />
-              <Button
-                text='Edit'
-                color='sidatukDraweBase'
-                onClick={() =>
-                  router.push(`${router.pathname}/edit/${btoa(item?.id)}`)
-                }
-                icon={<Edit style={styles.iconButton} />}
-                sx={styles.buttonAction}
-              />
+              {accessGranted(PermissionsIDs.MASTER_USER, Access.READ) && (
+                <Button
+                  text='Detail'
+                  color='primary'
+                  onClick={() =>
+                    router.push(`${router.pathname}/detail/${btoa(item?.id)}`)
+                  }
+                  icon={<Info style={styles.iconButton} />}
+                  sx={styles.buttonAction}
+                />
+              )}
+              {accessGranted(PermissionsIDs.MASTER_USER, Access.UPDATE) && (
+                <Button
+                  text='Edit'
+                  color='sidatukDraweBase'
+                  onClick={() =>
+                    router.push(`${router.pathname}/edit/${btoa(item?.id)}`)
+                  }
+                  icon={<Edit style={styles.iconButton} />}
+                  sx={styles.buttonAction}
+                />
+              )}
             </Box>
           )
         }
@@ -159,10 +164,12 @@ const MasterDataUserComponent = ({
   const action = useMemo(() => {
     return (
       <Box>
-        <Button
-          text='Tambah'
-          onClick={() => router.push(`${router.pathname}/add`)}
-        />
+        {accessGranted(PermissionsIDs.MASTER_USER, Access.CREATE) && (
+          <Button
+            text='Tambah'
+            onClick={() => router.push(`${router.pathname}/add`)}
+          />
+        )}
       </Box>
     )
   }, [])

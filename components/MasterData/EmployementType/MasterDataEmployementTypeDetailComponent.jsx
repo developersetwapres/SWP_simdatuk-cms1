@@ -10,6 +10,7 @@ import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 import { useSelector } from 'react-redux'
+import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
 
 const styles = {
   iconStyle: {
@@ -30,10 +31,10 @@ const styles = {
 
 const MasterDataEmployementTypeDetailComponent = ({
   employmentType,
-  getEmploymentType = () => {},
-  deleteEmploymentType = () => {},
-  clearEmploymentTypeState = () => {},
-  onLoading = () => {}
+  getEmploymentType = () => { },
+  deleteEmploymentType = () => { },
+  clearEmploymentTypeState = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
   const modal = useSelector((state) => state.modalReducer)
@@ -61,22 +62,26 @@ const MasterDataEmployementTypeDetailComponent = ({
   const action = useMemo(() => {
     return (
       <Box sx={{ display: 'flex', gap: '12px' }}>
-        <Button
-          text='Hapus'
-          color='danger'
-          icon={<Delete style={styles.iconButton} />}
-          onClick={handleModal}
-        />
-        <Button
-          text='Edit'
-          color='sidatukDraweBase'
-          icon={<Edit style={styles.iconButton} />}
-          onClick={() =>
-            router.push(
-              `/master-data/employment-type/edit/${router?.query?.id}`
-            )
-          }
-        />
+        {accessGranted(PermissionsIDs.MASTER_EMPLOYEE_TYPE, Access.DELETE) && (
+          <Button
+            text='Hapus'
+            color='danger'
+            icon={<Delete style={styles.iconButton} />}
+            onClick={handleModal}
+          />
+        )}
+        {accessGranted(PermissionsIDs.MASTER_EMPLOYEE_TYPE, Access.UPDATE) && (
+          <Button
+            text='Edit'
+            color='sidatukDraweBase'
+            icon={<Edit style={styles.iconButton} />}
+            onClick={() =>
+              router.push(
+                `/master-data/employment-type/edit/${router?.query?.id}`
+              )
+            }
+          />
+        )}
       </Box>
     )
   }, [router])

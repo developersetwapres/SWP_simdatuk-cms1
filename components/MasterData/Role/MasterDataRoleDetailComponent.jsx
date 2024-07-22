@@ -11,6 +11,7 @@ import Paper from '@/components/shared/overrides/Paper'
 import PermissionRoleCheckbox from './PermissionRoleCheckbox'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 import { useSelector } from 'react-redux'
+import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
 
 const styles = {
   iconStyle: {
@@ -31,10 +32,10 @@ const styles = {
 
 const MasterDataRoleDetailComponent = ({
   role,
-  getRole = () => {},
-  deleteRole = () => {},
-  clearRoleState = () => {},
-  onLoading = () => {}
+  getRole = () => { },
+  deleteRole = () => { },
+  clearRoleState = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
   const modal = useSelector((state) => state.modalReducer)
@@ -104,20 +105,24 @@ const MasterDataRoleDetailComponent = ({
   const action = useMemo(() => {
     return (
       <Box sx={{ display: 'flex', gap: '12px' }}>
-        <Button
-          text='Hapus'
-          color='danger'
-          icon={<Delete style={styles.iconButton} />}
-          onClick={handleModal}
-        />
-        <Button
-          text='Edit'
-          color='sidatukDraweBase'
-          icon={<Edit style={styles.iconButton} />}
-          onClick={() =>
-            router.push(`/master-data/role/edit/${router?.query?.id}`)
-          }
-        />
+        {accessGranted(PermissionsIDs.MASTER_ROLE, Access.DELETE) && (
+          <Button
+            text='Hapus'
+            color='danger'
+            icon={<Delete style={styles.iconButton} />}
+            onClick={handleModal}
+          />
+        )}
+        {accessGranted(PermissionsIDs.MASTER_ROLE, Access.UPDATE) && (
+          <Button
+            text='Edit'
+            color='sidatukDraweBase'
+            icon={<Edit style={styles.iconButton} />}
+            onClick={() =>
+              router.push(`/master-data/role/edit/${router?.query?.id}`)
+            }
+          />
+        )}
       </Box>
     )
   }, [])

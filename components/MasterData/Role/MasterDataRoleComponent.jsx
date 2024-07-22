@@ -10,6 +10,7 @@ import { Delete, Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 import { useSelector } from 'react-redux'
+import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -58,13 +59,13 @@ const styles = {
 const MasterDataRoleComponent = ({
   role,
   queries,
-  onFetch = () => {},
-  onFetchOptions = () => {},
-  onSearch = () => {},
-  onLoading = () => {},
-  onPaginationChange = () => {},
-  onRowsPerPageChange = () => {},
-  deleteRole = () => {}
+  onFetch = () => { },
+  onFetchOptions = () => { },
+  onSearch = () => { },
+  onLoading = () => { },
+  onPaginationChange = () => { },
+  onRowsPerPageChange = () => { },
+  deleteRole = () => { }
 }) => {
   const classes = useStyles()
   const router = useRouter()
@@ -149,34 +150,40 @@ const MasterDataRoleComponent = ({
           verticalAlign: 'top',
           Cell: () => (
             <Box sx={{ display: 'flex', gap: 1 }}>
-              <Button
-                text='Detail'
-                color='primary'
-                onClick={() =>
-                  router.push(`/${router.pathname}/detail/${btoa(item?.id)}`)
-                }
-                icon={<Info style={styles.iconButton} />}
-                sx={styles.buttonAction}
-              />
-              <Button
-                text='Edit'
-                color='sidatukDraweBase'
-                onClick={() =>
-                  router.push(`/${router.pathname}/edit/${btoa(item?.id)}`)
-                }
-                icon={<Edit style={styles.iconButton} />}
-                sx={styles.buttonAction}
-              />
-              <Button
-                text='Hapus'
-                color='danger'
-                onClick={() => {
-                  setDeleteId(item?.id)
-                  handleModal()
-                }}
-                icon={<Delete style={styles.iconButton} />}
-                sx={styles.buttonAction}
-              />
+              {accessGranted(PermissionsIDs.MASTER_ROLE, Access.READ) && (
+                <Button
+                  text='Detail'
+                  color='primary'
+                  onClick={() =>
+                    router.push(`/${router.pathname}/detail/${btoa(item?.id)}`)
+                  }
+                  icon={<Info style={styles.iconButton} />}
+                  sx={styles.buttonAction}
+                />
+              )}
+              {accessGranted(PermissionsIDs.MASTER_ROLE, Access.UPDATE) && (
+                <Button
+                  text='Edit'
+                  color='sidatukDraweBase'
+                  onClick={() =>
+                    router.push(`/${router.pathname}/edit/${btoa(item?.id)}`)
+                  }
+                  icon={<Edit style={styles.iconButton} />}
+                  sx={styles.buttonAction}
+                />
+              )}
+              {accessGranted(PermissionsIDs.MASTER_ROLE, Access.DELETE) && (
+                <Button
+                  text='Hapus'
+                  color='danger'
+                  onClick={() => {
+                    setDeleteId(item?.id)
+                    handleModal()
+                  }}
+                  icon={<Delete style={styles.iconButton} />}
+                  sx={styles.buttonAction}
+                />
+              )}
             </Box>
           )
         }
@@ -189,10 +196,12 @@ const MasterDataRoleComponent = ({
   const action = useMemo(() => {
     return (
       <Box>
-        <Button
-          text='Tambah'
-          onClick={() => router.push(`${router.pathname}/add`)}
-        />
+        {accessGranted(PermissionsIDs.MASTER_ROLE, Access.CREATE) && (
+          <Button
+            text='Tambah'
+            onClick={() => router.push(`${router.pathname}/add`)}
+          />
+        )}
       </Box>
     )
   }, [])
