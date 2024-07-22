@@ -218,7 +218,7 @@ function* deleteGrade(action) {
         type: SET_MODAL,
         payload: {
           code: errors?.code,
-          message: 'Riwayat golongan Gagal Dihapus',
+          message: 'Riwayat Golongan Gagal Dihapus',
           message: errors?.message
         }
       })
@@ -251,7 +251,7 @@ function* postGrade(action) {
       type: SET_MODAL,
       payload: {
         code: payload?.code,
-        message: 'Riwayat golongan Berhasil Ditambahkan',
+        message: 'Riwayat Golongan Berhasil Ditambahkan',
         childMessage: payload?.message,
         redirect: '/data-riwayat/golongan'
       }
@@ -272,7 +272,7 @@ function* postGrade(action) {
         type: SET_MODAL,
         payload: {
           code: errors?.code,
-          message: 'Riwayat golongan Gagal Ditambahkan',
+          message: 'Riwayat Golongan Gagal Ditambahkan',
           childMessage: errors?.message
         }
       })

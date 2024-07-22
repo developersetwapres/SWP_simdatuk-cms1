@@ -124,7 +124,7 @@ const RiwayatPelatihanTeknisForm = ({
           <DatePickerDay
             value={values?.tanggalPelaksanaan}
             name='tanggalPelaksanaan'
-            label='Tanggal Pelaksanan *'
+            label='Tanggal Pelaksanaan *'
             placeholder='dd-mm-yy'
             error={errors?.tanggalPelaksanaan}
             onChange={(val) => {
