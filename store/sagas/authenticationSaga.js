@@ -75,6 +75,7 @@ function* postAuthentication(action) {
       Router.push('/dashboard')
     }
   } catch (err) {
+    console.log('ERROR: ', err)
     const data = err?.data
 
     yield put({
