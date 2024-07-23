@@ -55,8 +55,8 @@ const RiwayatPenghargaanAddComponent = ({
   recognition,
   employee,
   decree,
-  postRecognition = () => {},
-  onLoading = () => {}
+  postRecognition = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -117,15 +117,23 @@ const RiwayatPenghargaanAddComponent = ({
         ),
         period_month: handleGetValueId(values?.periode?.bulan, 'month'),
         period_year: moment(values?.periode?.tahun).format('YYYY'),
-        description: values?.keteranganPenghargaan,
         type_of_decree: handleGetValueId(values?.jenisSk, 'decree'),
         decree_date: moment(values?.tanggalSk).format('YYYY-MM-DD'),
         decree_number: values?.noSkPenghargaan,
-        decree_year: moment(values?.tahunSk).format('YYYY'),
-        awarding_institution: values?.instansi,
-        date_of_receipt: moment(values?.received).format('YYYY-MM-DD'),
         users
       }
+
+      if (values?.keteranganPenghargaan)
+        payload.description = values?.keteranganPenghargaan
+
+      if (values?.tahunSk)
+        payload.decree_year = moment(values?.tahunSk).format('YYYY')
+
+      if (values?.instansi)
+        payload.awarding_institution = values?.instansi
+
+      if (values?.received)
+        payload.date_of_receipt = moment(values?.received).format('YYYY-MM-DD')
 
       postRecognition(payload)
     } catch (err) {
@@ -154,7 +162,7 @@ const RiwayatPenghargaanAddComponent = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => {}}
+      onSubmit={() => { }}
     >
       {(formikProps) => (
         <LayoutPages

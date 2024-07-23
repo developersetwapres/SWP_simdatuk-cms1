@@ -164,7 +164,7 @@ const RiwayatJabatanDetailComponent = ({
           Header: 'No SK',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.decree_number || '-'}</Typography>
+          Cell: () => <Typography>{item?.decree || '-'}</Typography>
         },
         {
           Header: 'Aksi',

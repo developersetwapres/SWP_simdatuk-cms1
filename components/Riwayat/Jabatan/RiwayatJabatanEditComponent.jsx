@@ -80,10 +80,10 @@ const RiwayatJabatanEditComponent = ({
   positionHistories,
   echelon,
   employee,
-  getPositionHistories = () => {},
-  updatePositionHistories = () => {},
-  clearPositionHistoriesState = () => {},
-  onLoading = () => {}
+  getPositionHistories = () => { },
+  updatePositionHistories = () => { },
+  clearPositionHistoriesState = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -259,7 +259,7 @@ const RiwayatJabatanEditComponent = ({
           )
           formikRef.current?.setFieldValue(
             `pegawai[${idx}].noSk`,
-            itm?.decree_number || '',
+            itm?.decree || '',
             false
           )
         })
@@ -271,7 +271,7 @@ const RiwayatJabatanEditComponent = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => {}}
+      onSubmit={() => { }}
     >
       {(formikProps) => (
         <LayoutPages

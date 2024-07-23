@@ -164,7 +164,7 @@ const RiwayatSKPDetailComponent = ({
                   color='primary'
                   onClick={() =>
                     router.push(
-                      `/data-riwayat/skp/detail/pegawai/${btoa(item?.id)}`
+                      `/data-riwayat/skp/detail/pegawai/${btoa(item?.user_id)}`
                     )
                   }
                   icon={<Info style={styles.iconButton} />}

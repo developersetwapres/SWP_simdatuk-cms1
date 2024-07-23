@@ -80,8 +80,8 @@ const RiwayatJabatanAddComponent = ({
   positionHistories,
   echelon,
   employee,
-  postPositionHistories = () => {},
-  onLoading = () => {}
+  postPositionHistories = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -115,7 +115,7 @@ const RiwayatJabatanAddComponent = ({
       const index = options['month'].findIndex((itm) => itm == val)
       return index + 1
     } else {
-      const index = options['keteranganJabatan'].findIndex((itm) => itm == val)
+      const index = options[type]?.findIndex((itm) => itm == val)
       return index + 1
     }
   }
@@ -126,17 +126,31 @@ const RiwayatJabatanAddComponent = ({
       formikRef.current.setErrors({})
 
       const users = values?.pegawai.map((itm) => {
-        return {
+        const userPayload = {
           user_id: handleGetValueId(itm?.nama, 'employee'),
           position: itm?.jabatan,
-          echelon: handleGetValueId(itm?.jenjangJabatan, 'echelon'),
-          position_status: handleGetValueId(
-            itm?.keteranganJabatan,
-            'ketJabatan'
-          ),
-          effective_date: moment(itm?.tmt).format('YYYY-MM-DD'),
-          decree: itm?.noSk
+          effective_date: moment(itm?.tmt).format('YYYY-MM-DD')
         }
+
+        if (itm?.keteranganJabatan) {
+          userPayload.position_status = handleGetValueId(
+            itm?.keteranganJabatan,
+            'keteranganJabatan'
+          )
+        }
+
+        if (itm?.jenjangJabatan) {
+          userPayload.echelon = handleGetValueId(
+            itm?.jenjangJabatan,
+            'echelon'
+          )
+        }
+
+        if (itm?.noSk) {
+          userPayload.decree = itm?.noSk
+        }
+
+        return userPayload
       })
 
       const payload = {
@@ -174,7 +188,7 @@ const RiwayatJabatanAddComponent = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => {}}
+      onSubmit={() => { }}
     >
       {(formikProps) => (
         <LayoutPages

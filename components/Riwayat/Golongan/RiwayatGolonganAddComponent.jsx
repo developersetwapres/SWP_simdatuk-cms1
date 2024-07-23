@@ -120,7 +120,6 @@ const RiwayatGolonganAddComponent = ({
 
       const users = values?.pegawai.map((itm) => {
         return {
-          id: handleGetValueId(itm?.nama, 'employee'),
           user_id: handleGetValueId(itm?.nama, 'employee'),
           grade_id: handleGetValueId(itm?.golongan?.split(' (')[0], 'grade'),
           effective_date: moment(itm?.tmt).format('YYYY-MM-DD'),
