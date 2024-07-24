@@ -134,20 +134,29 @@ const RiwayatJabatanEditComponent = ({
 
       const id = atob(router?.query?.id)
       const users = values?.pegawai.map((itm) => {
-        return {
-          id:
-            usersData.find((item) => item?.name == itm?.nama.split(' - ')[0])
-              ?.id || null,
+        const item = {
+          id: usersData
+            ?.find((item) => item?.name == itm?.nama?.split(' - ')[0])
+            ?.id || null,
           user_id: handleGetValueId(itm?.nama, 'employee'),
           position: itm?.jabatan,
-          echelon: handleGetValueId(itm?.jenjangJabatan, 'echelon'),
-          position_status: handleGetValueId(
+          effective_date: moment(itm?.tmt).format('YYYY-MM-DD')
+        }
+
+        if (itm?.keteranganJabatan) {
+          item.position_status = handleGetValueId(
             itm?.keteranganJabatan,
             'ketJabatan'
-          ),
-          effective_date: moment(itm?.tmt).format('YYYY-MM-DD'),
-          decree: itm?.noSk
+          )
         }
+
+        if (itm?.jenjangJabatan)
+          item.echelon = handleGetValueId(itm?.jenjangJabatan, 'echelon')
+
+        if (itm?.noSk)
+          item.decree = itm?.noSk
+
+        return item
       })
 
       const payload = {
