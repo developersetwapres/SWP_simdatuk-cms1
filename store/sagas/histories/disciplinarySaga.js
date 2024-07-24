@@ -54,7 +54,8 @@ function* getDisciplinariesOptions(action) {
     })
   } catch (err) {
     const errors = err?.data
-    if (errors?.code === 403) {
+
+    if (errors?.code === 403 || errors?.code === 401) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {
@@ -64,17 +65,20 @@ function* getDisciplinariesOptions(action) {
         }
       })
     } else {
-      if (errors?.code === 400) {
-        yield put({
-          type: CATCH_ERROR,
-          payload: errors?.message
-        })
-      } else {
-        yield put({
-          type: GET_DISCIPLINARIES_OPTIONS_FAILED,
-          payload: errors?.message
-        })
-      }
+      const errorMessage = errors?.message || 'Terjadi Kesalahan'
+
+      yield put({
+        type: SET_MODAL,
+        payload: {
+          code: errors?.code,
+          message: errorMessage
+        }
+      })
+
+      yield put({
+        type: GET_DISCIPLINARIES_OPTIONS_FAILED,
+        payload: errorMessage
+      })
     }
   }
 }
@@ -149,7 +153,7 @@ function* getDisciplinary(action) {
   } catch (err) {
     const errors = err?.data
 
-    if (errors?.code === 403) {
+    if (errors?.code === 403 || errors?.code === 401) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {
@@ -204,7 +208,7 @@ function* deleteDisciplinary(action) {
     })
   } catch (err) {
     const errors = err?.data
-    if (errors?.code === 403) {
+    if (errors?.code === 403 || errors?.code === 401) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {
@@ -258,7 +262,7 @@ function* postDisciplinary(action) {
     })
   } catch (err) {
     const errors = err?.data
-    if (errors?.code === 403) {
+    if (errors?.code === 403 || errors?.code === 401) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {
@@ -313,7 +317,7 @@ function* updateDisciplinary(action) {
     })
   } catch (err) {
     const errors = err?.data
-    if (errors?.code === 403) {
+    if (errors?.code === 403 || errors?.code === 401) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {

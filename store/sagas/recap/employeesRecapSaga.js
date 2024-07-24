@@ -8,7 +8,8 @@ import { call, put, takeEvery } from '@redux-saga/core/effects'
 import {
   GET_EMPLOYEES_RECAP_FAILED,
   GET_EMPLOYEES_RECAP_REQUESTED,
-  GET_EMPLOYEES_RECAP_SUCCESS
+  GET_EMPLOYEES_RECAP_SUCCESS,
+  SET_MODAL
 } from '../../constants'
 import { getEmployeesRecapAction } from '../action/recap/employeesRecap'
 
@@ -30,7 +31,8 @@ function* getEmployeesRecapitulations(action) {
     })
   } catch (err) {
     const errors = err?.data
-    if (errors?.code === 403) {
+
+    if (errors?.code === 403 || errors?.code === 401) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {
@@ -40,17 +42,20 @@ function* getEmployeesRecapitulations(action) {
         }
       })
     } else {
-      if (errors?.code === 400) {
-        yield put({
-          type: CATCH_ERROR,
-          payload: errors?.message
-        })
-      } else {
-        yield put({
-          type: GET_EMPLOYEES_RECAP_FAILED,
-          payload: errors?.message
-        })
-      }
+      const errorMessage = errors?.message || 'Terjadi Kesalahan'
+
+      yield put({
+        type: SET_MODAL,
+        payload: {
+          code: errors?.code,
+          message: errorMessage
+        }
+      })
+
+      yield put({
+        type: GET_EMPLOYEES_RECAP_FAILED,
+        payload: errors?.message
+      })
     }
   }
 }
