@@ -145,55 +145,42 @@ const ExportEmployeeComponent = ({
   grade,
   echelon,
   exportEmployeeData,
-  onLoading = () => { },
-  onPaginationChange = () => { },
-  onRowsPerPageChange = () => { },
-  exportEmployees = () => { },
-  exportEmployeesPreview = () => { },
-  clearExportEmployeesState = () => { }
+  onLoading = () => {},
+  onPaginationChange = () => {},
+  onRowsPerPageChange = () => {},
+  exportEmployees = () => {},
+  exportEmployeesPreview = () => {},
+  clearExportEmployeesState = () => {}
 }) => {
   const formikRef = useRef()
   const [showPreview, setShowPreview] = useState(false)
 
   const convertKeyToPayload = (key) => {
-    if (key === 'employeeType')
-      return 'employee_type'
+    if (key === 'employeeType') return 'employee_type'
 
-    if (key === 'echelon')
-      return 'echelons'
+    if (key === 'echelon') return 'echelons'
 
-    if (key === 'grade')
-      return 'grades'
+    if (key === 'grade') return 'grades'
 
-    if (key === 'positionDescription')
-      return 'position_status'
+    if (key === 'positionDescription') return 'position_status'
 
-    if (key === 'minAge')
-      return 'min_age'
+    if (key === 'minAge') return 'min_age'
 
-    if (key === 'maxAge')
-      return 'max_age'
+    if (key === 'maxAge') return 'max_age'
 
-    if (key === 'maritalStatus')
-      return 'marital_status'
+    if (key === 'maritalStatus') return 'marital_status'
 
-    if (key === 'retirementLimitAge')
-      return 'retirement_age'
+    if (key === 'retirementLimitAge') return 'retirement_age'
 
-    if (key === 'gradeWorkingPeriod')
-      return 'grade_range'
+    if (key === 'gradeWorkingPeriod') return 'grade_range'
 
-    if (key === 'totalWorkingPeriod')
-      return 'total_working_duration'
+    if (key === 'totalWorkingPeriod') return 'total_working_duration'
 
-    if (key === 'assessmentPeriod')
-      return 'target_period'
+    if (key === 'assessmentPeriod') return 'target_period'
 
-    if (key === 'skpYear')
-      return 'target_year'
+    if (key === 'skpYear') return 'target_year'
 
-    if (key === 'workBehaviorRating')
-      return 'work_behavior_rating'
+    if (key === 'workBehaviorRating') return 'work_behavior_rating'
 
     if (key === 'employeePerformancePredicate')
       return 'employee_performance_predicate'
@@ -201,17 +188,13 @@ const ExportEmployeeComponent = ({
     if (key === 'organizationalPerformanceAchievements')
       return 'organizational_performance_achievement'
 
-    if (key === 'creditPeriod')
-      return 'credit_period'
+    if (key === 'creditPeriod') return 'credit_period'
 
-    if (key === 'creditYear')
-      return 'credit_year'
+    if (key === 'creditYear') return 'credit_year'
 
-    if (key === 'retirementYear')
-      return 'retirement_year'
+    if (key === 'retirementYear') return 'retirement_year'
 
-    if (key === 'employeeStatus')
-      return 'employment_status'
+    if (key === 'employeeStatus') return 'employment_status'
 
     return key
   }
@@ -225,78 +208,63 @@ const ExportEmployeeComponent = ({
   }
 
   const formKeyToOptionsKey = (key) => {
-    if (key === 'employeeType')
-      return 'employeeTypes'
+    if (key === 'employeeType') return 'employeeTypes'
 
-    if (key === 'deputy')
-      return 'deputies'
+    if (key === 'deputy') return 'deputies'
 
-    if (key === 'positionDescription')
-      return 'positionDescriptions'
+    if (key === 'positionDescription') return 'positionDescriptions'
 
-    if (key === 'education')
-      return 'educations'
+    if (key === 'education') return 'educations'
 
-    if (key === 'gender')
-      return 'genders'
+    if (key === 'gender') return 'genders'
 
-    if (key === 'maritalStatus')
-      return 'maritalStatuses'
+    if (key === 'maritalStatus') return 'maritalStatuses'
 
-    if (key === 'retirementLimitAge')
-      return 'retirementAges'
+    if (key === 'retirementLimitAge') return 'retirementAges'
 
-    if (
-      key === 'totalWorkingPeriod' ||
-      key === 'gradeWorkingPeriod'
-    ) return 'workingPeriods'
+    if (key === 'totalWorkingPeriod' || key === 'gradeWorkingPeriod')
+      return 'workingPeriods'
 
-    if (key === 'assessmentPeriod')
-      return 'periods'
+    if (key === 'assessmentPeriod') return 'periods'
 
-    if (key === 'workBehaviorRating')
-      return 'workBehaviors'
+    if (key === 'workBehaviorRating') return 'workBehaviors'
 
-    if (key === 'employeeStatus')
-      return 'employeeStatuses'
+    if (key === 'employeeStatus') return 'employeeStatuses'
 
-    if (key === 'employeePerformancePredicate')
-      return 'workPredicates'
+    if (key === 'employeePerformancePredicate') return 'workPredicates'
 
     if (key === 'organizationalPerformanceAchievements')
       return 'organizationalPerformances'
 
-    if (key === 'creditPeriod')
-      return 'creditPeriods'
+    if (key === 'creditPeriod') return 'creditPeriods'
 
     return ''
   }
 
   const getIDsByType = (key, value) => {
     if (key === 'gender') {
-      return value?.map(g => g === 'Laki-Laki' ? 1 : 0)
+      return value?.map((g) => (g === 'Laki-Laki' ? 1 : 0))
     }
 
     if (key === 'echelon') {
-      return echelon
-        ?.options
-        ?.filter(item => value?.includes(item?.name))
-        ?.map(item => item?.id)
+      return echelon?.options
+        ?.filter((item) => value?.includes(item?.name))
+        ?.map((item) => item?.id)
     }
 
     if (key === 'grade') {
-      return grade
-        ?.options
-        ?.filter(item => value?.includes(item?.name))
-        ?.map(item => item?.id)
+      return grade?.options
+        ?.filter((item) => value?.includes(item?.name))
+        ?.map((item) => item?.id)
     }
 
     if (Array.isArray(value)) {
-      return value
-        ?.map(val => {
-          return options[formKeyToOptionsKey(key)]
-            .findIndex(item => item === val) + 1
-        })
+      return value?.map((val) => {
+        return (
+          options[formKeyToOptionsKey(key)].findIndex((item) => item === val) +
+          1
+        )
+      })
     }
 
     if (key === 'retirementYear') {
@@ -309,12 +277,11 @@ const ExportEmployeeComponent = ({
   const getPayloadFromValues = (values) => {
     const payload = {}
 
-    Object
-      .entries(values)
-      .filter(([key, value]) =>
-        // Excludes unecessary items
-        typeof value !== 'boolean' &&
-        key !== 'output'
+    Object.entries(values)
+      .filter(
+        ([key, value]) =>
+          // Excludes unecessary items
+          typeof value !== 'boolean' && key !== 'output'
       )
       .forEach(([key, value]) => {
         // Mapping checkboxes
@@ -335,14 +302,11 @@ const ExportEmployeeComponent = ({
   const canExport = (payload) => {
     if (!Object.values(payload)?.length) return false
 
-    return Object
-      .values(payload)
-      .every(i => {
-        if (Array.isArray(i))
-          return i?.length > 0
+    return Object.values(payload).every((i) => {
+      if (Array.isArray(i)) return i?.length > 0
 
-        return !!i
-      })
+      return !!i
+    })
   }
 
   const exportFile = (values) => {
@@ -402,9 +366,9 @@ const ExportEmployeeComponent = ({
         align: 'left'
       },
       ...checkboxes
-        .flatMap(item => item?.children)
-        .filter(item => values?.checkboxes?.includes(item?.name))
-        .map(item => ({
+        .flatMap((item) => item?.children)
+        .filter((item) => values?.checkboxes?.includes(item?.name))
+        .map((item) => ({
           Header: item?.label,
           width: 200,
           align: 'left'
@@ -426,9 +390,9 @@ const ExportEmployeeComponent = ({
           Cell: () => <Typography>{index + 1}</Typography>
         },
         ...checkboxes
-          .flatMap(item => item?.children)
-          .filter(item => values?.checkboxes?.includes(item?.name))
-          .map(item => ({
+          .flatMap((item) => item?.children)
+          .filter((item) => values?.checkboxes?.includes(item?.name))
+          .map((item) => ({
             Header: item?.label,
             align: 'left',
             verticalAlign: 'top',
@@ -444,15 +408,21 @@ const ExportEmployeeComponent = ({
     }
 
     if (label === 'NIP/NRP') {
-      return `${response?.employee_id_number || '-'}/${response?.employee_registration_number || '-'}`
+      return `${response?.employee_id_number || '-'}/${
+        response?.employee_registration_number || '-'
+      }`
     }
 
     if (label === 'Tempat, Tanggal Lahir') {
-      return `${response?.place_of_birth || '-'}, ${response?.date_of_birth || '-'}`
+      return `${response?.place_of_birth || '-'}, ${
+        response?.date_of_birth || '-'
+      }`
     }
 
     if (label === 'Tempat, Tanggal Lahir') {
-      return `${response?.place_of_birth || '-'}, ${response?.date_of_birth || '-'}`
+      return `${response?.place_of_birth || '-'}, ${
+        response?.date_of_birth || '-'
+      }`
     }
 
     if (label === 'Umur') {
@@ -683,11 +653,7 @@ const ExportEmployeeComponent = ({
         type = SaveAs.CSV
       }
 
-      saveFile(
-        exportEmployeeData?.employees,
-        getFileName(responseType),
-        type
-      )
+      saveFile(exportEmployeeData?.employees, getFileName(responseType), type)
 
       clearExportEmployeesState()
     }
@@ -703,8 +669,8 @@ const ExportEmployeeComponent = ({
   }, [grade, echelon, exportEmployeeData])
 
   return (
-    <Formik innerRef={formikRef} initialValues={InitValue} onSubmit={() => { }}>
-      {({ values, resetForm = () => { }, setFieldValue = () => { } }) => (
+    <Formik innerRef={formikRef} initialValues={InitValue} onSubmit={() => {}}>
+      {({ values, resetForm = () => {}, setFieldValue = () => {} }) => (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <LayoutPages
             summary='Export Pegawai'
@@ -715,16 +681,14 @@ const ExportEmployeeComponent = ({
                   color='danger'
                   onClick={() => resetForm()}
                   isBusy={
-                    !values?.output ||
-                    !canExport(getPayloadFromValues(values))
+                    !values?.output || !canExport(getPayloadFromValues(values))
                   }
                 />
                 <Button
                   text='Export'
                   onClick={() => exportFile(values)}
                   isBusy={
-                    !values?.output ||
-                    !canExport(getPayloadFromValues(values))
+                    !values?.output || !canExport(getPayloadFromValues(values))
                   }
                 />
               </Box>
@@ -960,7 +924,9 @@ const ExportEmployeeComponent = ({
               >
                 Filter SKP
               </Typography>
-              <Divider sx={{ border: '1px solid #929292', margin: '10px 0px' }} />
+              <Divider
+                sx={{ border: '1px solid #929292', margin: '10px 0px' }}
+              />
 
               <Grid container direction='row' spacing={3} rowSpacing={2}>
                 <Grid item xs={6}>
@@ -1049,7 +1015,9 @@ const ExportEmployeeComponent = ({
               >
                 Filter Angka Kredit Terakhir
               </Typography>
-              <Divider sx={{ border: '1px solid #929292', margin: '10px 0px' }} />
+              <Divider
+                sx={{ border: '1px solid #929292', margin: '10px 0px' }}
+              />
 
               <Grid container direction='row' spacing={3} rowSpacing={2}>
                 <Grid item xs={6}>
@@ -1180,14 +1148,12 @@ const ExportEmployeeComponent = ({
                       control={
                         <Checkbox
                           name={parent?.checkbox}
-                          checked={
-                            values[parent?.checkbox]
-                          }
+                          checked={values[parent?.checkbox]}
                           onChange={(e) => {
                             const checked = e?.target?.checked
-                            const allItems = parent?.children?.map((i) => i?.name)
-
-                            console.log('CHECKED: ', checked)
+                            const allItems = parent?.children?.map(
+                              (i) => i?.name
+                            )
 
                             if (checked) {
                               setFieldValue(
@@ -1196,9 +1162,10 @@ const ExportEmployeeComponent = ({
                                 false
                               )
                             } else {
-                              const itemsPerSection = values
-                                ?.checkboxes
-                                ?.filter(i => !allItems?.includes(i))
+                              const itemsPerSection =
+                                values?.checkboxes?.filter(
+                                  (i) => !allItems?.includes(i)
+                                )
 
                               setFieldValue(
                                 'checkboxes',
@@ -1266,9 +1233,7 @@ const ExportEmployeeComponent = ({
                 variant='contained'
                 onClick={() => togglePreview(values)}
                 sx={{ textTransform: 'none', marginTop: 3 }}
-                disabled={
-                  values?.checkboxes?.length < 1
-                }
+                disabled={values?.checkboxes?.length < 1}
               >
                 Lihat Preview
               </MuiButton>

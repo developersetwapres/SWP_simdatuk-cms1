@@ -44,17 +44,21 @@ import ModalAddNotes from '@/components/shared/Modal/ModalAddNotes'
 import { capitalizeFirstLetter, dateTimeFormat } from '@/utils/index'
 import { useDispatch } from 'react-redux'
 import { CLEAR_EXPORT_EMPLOYEE_DETAIL_STATE } from '@/store/constants'
-import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import {
+  Access,
+  accessGranted,
+  PermissionsIDs
+} from '@/utils/permissionManager'
 
 const EmployeeDetailComponent = ({
   employee,
   exportEmployeeData,
-  getEmployee = () => { },
-  updateNotesByUserID = () => { },
-  updateEmployeeStatus = () => { },
-  clearEmployeeState = () => { },
-  exportEmployeeDetail = () => { },
-  setRender = () => { }
+  getEmployee = () => {},
+  updateNotesByUserID = () => {},
+  updateEmployeeStatus = () => {},
+  clearEmployeeState = () => {},
+  exportEmployeeDetail = () => {},
+  setRender = () => {}
 }) => {
   const router = useRouter()
   const dispatch = useDispatch()
@@ -95,8 +99,7 @@ const EmployeeDetailComponent = ({
       if (pathName?.includes('/komposisi-pegawai/'))
         return PermissionsIDs.RECAP_COMPOSITION
 
-      if (pathName?.includes('/pegawai-asn/'))
-        return PermissionsIDs.RECAP_ASN
+      if (pathName?.includes('/pegawai-asn/')) return PermissionsIDs.RECAP_ASN
 
       if (pathName?.includes('/pegawai-non-asn/'))
         return PermissionsIDs.RECAP_NON_ASN
@@ -111,8 +114,7 @@ const EmployeeDetailComponent = ({
     }
     // Data Pegawai
     if (pathName?.includes('data-pegawai')) {
-      if (pathName?.includes('/asn/'))
-        return PermissionsIDs.EMPLOYEE_ASN
+      if (pathName?.includes('/asn/')) return PermissionsIDs.EMPLOYEE_ASN
 
       if (pathName?.includes('/non-asn/'))
         return PermissionsIDs.EMPLOYEE_NON_ASN
@@ -124,8 +126,7 @@ const EmployeeDetailComponent = ({
     }
     // Data Riwayat
     if (pathName?.includes('data-riwayat')) {
-      if (pathName?.includes('/golongan/'))
-        return PermissionsIDs.HISTORY_GRADE
+      if (pathName?.includes('/golongan/')) return PermissionsIDs.HISTORY_GRADE
 
       if (pathName?.includes('/hukuman-disiplin/'))
         return PermissionsIDs.HISTORY_DISCIPLINARY
@@ -145,11 +146,9 @@ const EmployeeDetailComponent = ({
       if (pathName?.includes('/penghargaan/'))
         return PermissionsIDs.HISTORY_AWARD
 
-      if (pathName?.includes('/skp/'))
-        return PermissionsIDs.HISTORY_SKP
+      if (pathName?.includes('/skp/')) return PermissionsIDs.HISTORY_SKP
 
-      if (pathName?.includes('/ppk/'))
-        return PermissionsIDs.HISTORY_PERFORMANCE
+      if (pathName?.includes('/ppk/')) return PermissionsIDs.HISTORY_PERFORMANCE
 
       return null
     }
@@ -194,12 +193,12 @@ const EmployeeDetailComponent = ({
       ),
       educations: !!detailEmployee?.educations?.length
         ? [
-          ...detailEmployee?.educations?.map((i) => ({
-            ...i,
-            level: getValue('education', i?.level - 1),
-            status: getValue('education_status', i?.status - 1)
-          }))
-        ]
+            ...detailEmployee?.educations?.map((i) => ({
+              ...i,
+              level: getValue('education', i?.level - 1),
+              status: getValue('education_status', i?.status - 1)
+            }))
+          ]
         : []
     }
 
@@ -212,8 +211,8 @@ const EmployeeDetailComponent = ({
         ? data?.type == 1
           ? 'ASN'
           : data?.type == 2
-            ? 'Non ASN'
-            : 'Outsourcing'
+          ? 'Non ASN'
+          : 'Outsourcing'
         : ''
 
       return `Detail Pegawai ${type} ${data?.employmentStatus || ''}`
@@ -348,16 +347,15 @@ const EmployeeDetailComponent = ({
     const datas = sections
       .filter((item) => {
         // Filter Notes Section by some permissions
-        const hasNotesAccess = accessGranted(
-          PermissionsIDs.NOTES, Access.READ
-        )
+        const hasNotesAccess = accessGranted(PermissionsIDs.NOTES, Access.READ)
 
         if (!hasNotesAccess) {
           return item?.id !== 'riwayat_catatan'
         }
 
         const hasTalentPoolAccess = accessGranted(
-          PermissionsIDs.TALENT_POOL, Access.READ
+          PermissionsIDs.TALENT_POOL,
+          Access.READ
         )
 
         if (!hasTalentPoolAccess) {
@@ -539,7 +537,7 @@ const EmployeeDetailComponent = ({
                     <Grid item xs={12} md={4}>
                       <Box>
                         <Typography component='h5' sx={{ fontSize: '14px' }}>
-                          Golongan
+                          Golongan / Pangkat
                         </Typography>
                         <Typography fontSize={14} fontWeight='600'>
                           {[
@@ -569,11 +567,15 @@ const EmployeeDetailComponent = ({
                     >
                       {[
                         data?.employee_id_number || '-',
-                        !path?.Outsource
-                          ? data?.employee_registration_number || '-'
-                          : null
-                      ].join('/')}
-                      { }
+                        ...[
+                          !path?.Outsource
+                            ? data?.employee_registration_number || '-'
+                            : null
+                        ]
+                      ]
+                        .filter((itm) => itm)
+                        .join('/')}
+                      {}
                     </Typography>
                   </Box>
                 </Grid>

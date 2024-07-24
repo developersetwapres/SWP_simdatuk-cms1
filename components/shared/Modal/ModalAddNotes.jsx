@@ -20,7 +20,9 @@ const FormSchema = Yup.object().shape({
     if (Array.isArray(notes) && notes.length > 0) {
       return Yup.array().of(
         Yup.object().shape({
-          description: Yup.string().required('Catatan tidak boleh kosong')
+          description: Yup.string()
+            .required('Catatan tidak boleh kosong')
+            .max(160, 'Catatan tidak boleh lebih dari 160 karakter')
         })
       )
     } else {
@@ -49,8 +51,8 @@ const style = {
 const ModalAddNotes = ({
   open,
   data,
-  handleModal = () => { },
-  handleSave = () => { }
+  handleModal = () => {},
+  handleSave = () => {}
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -138,7 +140,7 @@ const ModalAddNotes = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => { }}
+      onSubmit={() => {}}
     >
       {(formikProps) => (
         <Modal
@@ -174,8 +176,9 @@ const ModalAddNotes = ({
           <Box
             sx={{
               width: '100%',
-              margin: `20px 0 ${formikProps?.values?.notes.length > 0 ? '30px' : 0
-                } 0`,
+              margin: `20px 0 ${
+                formikProps?.values?.notes.length > 0 ? '30px' : 0
+              } 0`,
               maxHeight: '60vh',
               overflow: 'auto'
             }}

@@ -120,10 +120,10 @@ const BiodataPegawai = ({ data }) => {
         </Grid>
         {!path?.Outsource && (
           <Grid item xs={12} md={4} paddingY={1}>
-            <Typography>No. Karpeg/No. Karsu</Typography>
+            <Typography>No. Karpeg / No. Karisu</Typography>
             <Typography fontWeight='500' marginTop={1}>
-              {data?.employee_id_card_number || '-'}/
-              {data?.karisu_number || '-'}
+              {`${data?.employee_id_card_number || '-'} / 
+              ${data?.karisu_number || '-'}`}
             </Typography>
           </Grid>
         )}
@@ -139,14 +139,14 @@ const BiodataPegawai = ({ data }) => {
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Masa Kerja Keseluruhan</Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {data?.cpns_effective_date || '-'}
+            {data?.cpns_years_of_service || '-'}
           </Typography>
         </Grid>{' '}
         {!router?.asPath?.includes('outsourcing') && (
           <Grid item xs={12} md={4} paddingY={1}>
             <Typography>Masa Kerja Golongan</Typography>
             <Typography fontWeight='500' marginTop={1}>
-              {data?.grade_effective_date || '-'}
+              {data?.grade_years_of_service || '-'}
             </Typography>
           </Grid>
         )}

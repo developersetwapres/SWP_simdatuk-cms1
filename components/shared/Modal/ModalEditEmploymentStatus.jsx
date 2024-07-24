@@ -29,8 +29,8 @@ const style = {
 const ModalEditEmploymentStatus = ({
   open,
   data,
-  handleCancel = () => { },
-  handleSave = () => { }
+  handleCancel = () => {},
+  handleSave = () => {}
 }) => {
   const [employeeStatus, setEmployeeStatus] = useState('')
   const [employeeStatusError, setEmployeeStatusError] = useState('')
@@ -47,7 +47,7 @@ const ModalEditEmploymentStatus = ({
     ]
 
     return active.includes(employeeStatus)
-  }, [employeeStatus])
+  }, [employeeStatus, open])
 
   const updateEmployeeStatus = () => {
     if (!employeeStatus) {
@@ -64,29 +64,27 @@ const ModalEditEmploymentStatus = ({
       employment_status: employeeStatusOptions.indexOf(employeeStatus) + 1
     }
 
-    if (!isActive)
-      param.quit_date = moment(date).format('YYYY-MM-DD')
+    if (!isActive) param.quit_date = moment(date).format('YYYY-MM-DD')
 
     handleSave(param)
     handleModalClose()
   }
 
   const handleModalClose = () => {
-    setEmployeeStatus('')
-    setEmployeeStatusError('')
-    setDate('')
-    setDateError('')
     handleCancel()
   }
 
   useEffect(() => {
     if (data) {
+      const date = data?.quit_date
+      const newDate = date ? moment(date, 'DD-MM-YYYY').toDate() : ''
+
       setTimeout(() => {
         setEmployeeStatus(data?.employmentStatus)
-        setDate(new Date(data?.quit_date) || '')
+        setDate(newDate)
       }, 1000)
     }
-  }, [data])
+  }, [data, open])
 
   return (
     <Modal
