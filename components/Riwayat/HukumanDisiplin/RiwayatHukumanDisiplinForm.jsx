@@ -168,16 +168,16 @@ const RiwayatHukumanDisiplinForm = ({
           Daftar Pegawai
         </Typography>
         <Grid container spacing={6}>
-          {values?.pegawai.map((item, index) => (
+          {values?.pegawai?.map((item, index) => (
             <Grid container item xs={12} key={index}>
               <Grid
                 container
                 item
                 xs={values?.pegawai.length > 1 ? 11 : 12}
-                spacing={3}
+                spacing={2}
               >
                 {/* Name */}
-                <Grid item xs={4}>
+                <Grid item xs={6} md={4}>
                   <Autocomplete
                     options={options?.employee}
                     name={`pegawai[${index}].nama`}
@@ -197,7 +197,7 @@ const RiwayatHukumanDisiplinForm = ({
                   />
                 </Grid>
                 {/* Golongan */}
-                <Grid item xs={4}>
+                <Grid item xs={6} md={4}>
                   <Input
                     label='Golongan'
                     placeholder='Masukkan Golongan'
@@ -211,7 +211,7 @@ const RiwayatHukumanDisiplinForm = ({
                   />
                 </Grid>
                 {/* jabatan */}
-                <Grid item xs={4}>
+                <Grid item xs={6} md={4}>
                   <Input
                     label='Jabatan'
                     placeholder='Masukkan Jabatan'
@@ -225,7 +225,7 @@ const RiwayatHukumanDisiplinForm = ({
                   />
                 </Grid>
                 {/* Jenis Hukuman */}
-                <Grid item xs={4}>
+                <Grid item xs={6} md={4}>
                   <Autocomplete
                     options={options?.jenisHukuman}
                     name={`pegawai[${index}].jenisHukuman`}
@@ -242,7 +242,7 @@ const RiwayatHukumanDisiplinForm = ({
                 {item?.jenisHukuman && (
                   <>
                     {/* Tingkat Hukuman */}
-                    <Grid item xs={4}>
+                    <Grid item xs={6} md={4}>
                       <Input
                         label='Tingkat Hukuman'
                         placeholder='Masukkan Tingkat Hukuman'
@@ -254,7 +254,7 @@ const RiwayatHukumanDisiplinForm = ({
                       />
                     </Grid>
                     {/* Pemotongan Tunjangan Kinerja (Persentase) */}
-                    <Grid item xs={4}>
+                    <Grid item xs={6} md={4}>
                       <Input
                         label='Pemotongan Tunjangan Kinerja (Persentase)'
                         placeholder='Masukkan Pemotongan Tunjangan Kinerja (Persentase)'
@@ -266,7 +266,7 @@ const RiwayatHukumanDisiplinForm = ({
                       />
                     </Grid>
                     {/* Jangka Waktu Pemotongan (Bulan) */}
-                    <Grid item xs={4}>
+                    <Grid item xs={6} md={4}>
                       <Input
                         label='Jangka Waktu Pemotongan (Bulan)'
                         placeholder='Masukkan Jangka Waktu Pemotongan (Bulan)'
@@ -280,7 +280,7 @@ const RiwayatHukumanDisiplinForm = ({
                   </>
                 )}
                 {/* No SK Hukuman Disiplin */}
-                <Grid item xs={4}>
+                <Grid item xs={6} md={4}>
                   <Input
                     label='No SK Hukuman Disiplin'
                     placeholder='Masukkan No SK Hukuman Disiplin'
@@ -294,7 +294,7 @@ const RiwayatHukumanDisiplinForm = ({
                   />
                 </Grid>
                 {/* Tanggal SK Hukuman Disiplin */}
-                <Grid item xs={4}>
+                <Grid item xs={6} md={4}>
                   <DatePickerDay
                     value={item?.tanggalSkHukuman}
                     name={`pegawai[${index}].tanggalSkHukuman`}
@@ -314,7 +314,7 @@ const RiwayatHukumanDisiplinForm = ({
                   />
                 </Grid>
                 {/* Tanggal Hukuman Disiplin */}
-                <Grid item xs={4}>
+                <Grid item xs={6} md={4}>
                   <DatePickerDay
                     mode='range'
                     value={item?.tanggalHukuman}
@@ -341,7 +341,7 @@ const RiwayatHukumanDisiplinForm = ({
                   />
                 </Grid>
                 {/* Pejabat Berwenang */}
-                <Grid item xs={4}>
+                <Grid item xs={6} md={4}>
                   <Input
                     label='Pejabat Berwenang'
                     placeholder='Masukkan Pejabat Berwenang'
@@ -358,7 +358,7 @@ const RiwayatHukumanDisiplinForm = ({
                   />
                 </Grid>
                 {/* Nama Pejabat Berwenang */}
-                <Grid item xs={4}>
+                <Grid item xs={6} md={4}>
                   <Input
                     label='Nama Pejabat Berwenang'
                     placeholder='Masukkan Nama Pejabat Berwenang'
@@ -375,7 +375,7 @@ const RiwayatHukumanDisiplinForm = ({
                   />
                 </Grid>
               </Grid>
-              {values?.pegawai.length > 1 && (
+              {values?.pegawai?.length > 1 && (
                 <Grid item xs={1} spacing={3}>
                   <Button
                     icon={<Delete />}
