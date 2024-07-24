@@ -77,10 +77,10 @@ const FormSchema = Yup.object().shape({
 const RiwayatGolonganEditComponent = ({
   grade,
   employee,
-  getGrade = () => {},
-  updateGrade = () => {},
-  clearGradeState = () => {},
-  onLoading = () => {}
+  getGrade = () => { },
+  updateGrade = () => { },
+  clearGradeState = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -103,7 +103,7 @@ const RiwayatGolonganEditComponent = ({
   const handleGetValueId = (val, type) => {
     if (type == 'employee') {
       const dataFilter = employee?.data.find(
-        (itm) => itm?.name == val.split(' - ')[0]
+        (itm) => itm?.name?.includes(val.split(' - ')[0])
       )
       return dataFilter?.id
     } else if (type == 'grade') {
@@ -120,19 +120,19 @@ const RiwayatGolonganEditComponent = ({
       await FormSchema.validate(values, { abortEarly: false })
       formikRef.current.setErrors({})
 
-      const usersData = grade?.detail?.users
-
       const id = atob(router?.query?.id)
       const users = values?.pegawai.map((itm) => {
-        return {
-          id: usersData.find((item) => item?.name == itm?.nama.split(' - ')[0])
-            ?.id,
+        const item = {
+          id,
           user_id: handleGetValueId(itm?.nama, 'employee'),
           grade_id: handleGetValueId(itm?.golongan, 'grade'),
           effective_date: moment(itm?.tmt).format('YYYY-MM-DD'),
-          decree_number: itm?.noSk,
           status: 1
         }
+
+        if (itm?.noSk) item.decree_number = itm?.noSk
+
+        return item
       })
 
       const payload = {
@@ -234,7 +234,7 @@ const RiwayatGolonganEditComponent = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => {}}
+      onSubmit={() => { }}
     >
       {(formikProps) => (
         <LayoutPages
