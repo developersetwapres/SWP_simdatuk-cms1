@@ -47,16 +47,16 @@ const FormSchema = Yup.object().shape({
 const RiwayatPPKEditComponent = ({
   performance,
   employee,
-  getPerformance = () => {},
-  updatePerformance = () => {},
-  clearPerformanceState = () => {},
-  onLoading = () => {}
+  getPerformance = () => { },
+  updatePerformance = () => { },
+  clearPerformanceState = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
 
   const options = useMemo(() => {
-    const newEmployees = employee?.data.map((itm) => {
+    const newEmployees = employee?.data?.map((itm) => {
       return `${itm?.name} - ${itm?.employee_id_number}`
     })
 
@@ -70,10 +70,12 @@ const RiwayatPPKEditComponent = ({
   }, [employee])
 
   const handleGetValue = (value, type) => {
-    if (type == 'employee') {
+    if (type === 'performance') {
+      return performance?.detail?.users[value]?.id || null
+    } else if (type == 'employee') {
       const data = employee?.data
       const dataFilter = data.find(
-        (itm) => itm?.name == value.split(' - ')[0]
+        (itm) => itm?.employee_id_number === value?.split(' - ')[1]
       )?.id
 
       return dataFilter
@@ -93,13 +95,10 @@ const RiwayatPPKEditComponent = ({
       await FormSchema.validate(values, { abortEarly: false })
       formikRef.current.setErrors({})
 
-      const usersData = performance?.detail?.users
-
       const id = atob(router?.query?.id)
-      const users = values?.pegawai.map((itm) => {
+      const users = values?.pegawai?.map((itm, index) => {
         return {
-          id: usersData.find((item) => item?.name == itm?.nama.split(' - ')[0])
-            ?.id,
+          id: handleGetValue(index, 'performance'),
           user_id: handleGetValue(itm?.nama, 'employee'),
           work_performance_score: itm?.nilai,
           description: handleGetValue(itm?.keterangan, 'keterangan')
@@ -167,7 +166,6 @@ const RiwayatPPKEditComponent = ({
 
     if (Object.entries(detail).length > 0) {
       const periodYear = new Date(detail?.period_year, detail?.period_month - 1)
-      const year = new Date(detail?.year, 0, 1)
 
       formikRef.current?.setFieldValue('namaPPK', detail?.name, false)
       formikRef.current?.setFieldValue(
@@ -210,7 +208,7 @@ const RiwayatPPKEditComponent = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => {}}
+      onSubmit={() => { }}
     >
       {(formikProps) => (
         <LayoutPages

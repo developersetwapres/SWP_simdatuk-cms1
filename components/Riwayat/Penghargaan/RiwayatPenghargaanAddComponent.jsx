@@ -87,7 +87,7 @@ const RiwayatPenghargaanAddComponent = ({
       return dataFilter?.id
     } else if (type == 'employee') {
       const dataFilter = employee?.data.find(
-        (itm) => itm?.name == val.split(' - ')[0]
+        (itm) => itm?.employee_id_number === val?.split(' - ')[1]
       )
       return dataFilter?.id
     } else if (type == 'month') {

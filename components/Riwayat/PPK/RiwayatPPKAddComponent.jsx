@@ -62,8 +62,8 @@ const FormSchema = Yup.object().shape({
 const RiwayatPPKAddComponent = ({
   performance,
   employee,
-  postPerformance = () => {},
-  onLoading = () => {}
+  postPerformance = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -86,7 +86,7 @@ const RiwayatPPKAddComponent = ({
     if (type == 'employee') {
       const data = employee?.data
       const dataFilter = data.find(
-        (itm) => itm?.name == value.split(' - ')[0]
+        (itm) => itm?.name?.employee_id_number === value.split(' - ')[1]
       )?.id
 
       return dataFilter
@@ -151,7 +151,7 @@ const RiwayatPPKAddComponent = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => {}}
+      onSubmit={() => { }}
     >
       {(formikProps) => (
         <LayoutPages

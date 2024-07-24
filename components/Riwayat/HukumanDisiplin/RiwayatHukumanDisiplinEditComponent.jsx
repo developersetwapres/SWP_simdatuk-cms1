@@ -62,10 +62,10 @@ const FormSchema = Yup.object().shape({
 const RiwayatHukumanDisiplinEditComponent = ({
   disciplinary,
   employee,
-  getDisciplinary = () => {},
-  updateDisciplinary = () => {},
-  clearDisciplinaryState = () => {},
-  onLoading = () => {}
+  getDisciplinary = () => { },
+  updateDisciplinary = () => { },
+  clearDisciplinaryState = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -91,10 +91,12 @@ const RiwayatHukumanDisiplinEditComponent = ({
   }, [discipleType, disciplinary, employee])
 
   const handleGetValue = (value, type) => {
-    if (type == 'employee') {
+    if (type === 'disciplinary') {
+      return disciplinary?.detail?.users[value]?.id || null
+    } else if (type == 'employee') {
       const data = employee?.data
       const dataFilter = data.find(
-        (itm) => itm?.name == value.split(' - ')[0]
+        (itm) => itm?.employee_id_number === value?.split(' - ')[1]
       )?.id
 
       return dataFilter
@@ -114,13 +116,10 @@ const RiwayatHukumanDisiplinEditComponent = ({
       await FormSchema.validate(values, { abortEarly: false })
       formikRef.current.setErrors({})
 
-      const usersData = disciplinary?.detail?.users
-
       const id = atob(router?.query?.id)
-      const users = values?.pegawai.map((itm) => {
+      const users = values?.pegawai?.map((itm, index) => {
         return {
-          id: usersData.find((item) => item?.name == itm?.nama.split(' - ')[0])
-            ?.id,
+          id: handleGetValue(index, 'disciplinary'),
           user_id: handleGetValue(itm?.nama, 'employee'),
           grade: itm?.golongan || null,
           position: itm?.jabatan || null,
@@ -287,11 +286,11 @@ const RiwayatHukumanDisiplinEditComponent = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => {}}
+      onSubmit={() => { }}
     >
       {(formikProps) => (
         <LayoutPages
-          summary={'Edit Riwayat HukumanDisiplin'}
+          summary={'Edit Riwayat Hukuman Disiplin'}
           handleBack={() => router.back()}
           action={
             <Box>

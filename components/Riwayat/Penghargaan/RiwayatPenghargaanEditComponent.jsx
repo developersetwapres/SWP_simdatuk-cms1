@@ -54,10 +54,10 @@ const RiwayatPenghargaanEditComponent = ({
   recognition,
   employee,
   decree,
-  getRecognition = () => {},
-  updateRecognition = () => {},
-  clearRecognitionState = () => {},
-  onLoading = () => {}
+  getRecognition = () => { },
+  updateRecognition = () => { },
+  clearRecognitionState = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -88,7 +88,7 @@ const RiwayatPenghargaanEditComponent = ({
       return dataFilter?.id
     } else if (type == 'employee') {
       const dataFilter = employee?.data.find(
-        (itm) => itm?.name == val.split(' - ')[0]
+        (itm) => itm?.employee_id_number === val?.split(' - ')[1]
       )?.id
 
       return dataFilter
@@ -115,13 +115,10 @@ const RiwayatPenghargaanEditComponent = ({
       await FormSchema.validate(values, { abortEarly: false })
       formikRef.current.setErrors({})
 
-      const usersData = recognition?.detail?.users
-
       const id = atob(router?.query?.id)
-      const users = values?.pegawai.map((itm) => {
+      const users = values?.pegawai.map((itm, index) => {
         return {
-          id: usersData.find((item) => item?.name == itm?.nama.split(' - ')[0])
-            ?.id,
+          id: recognition?.detail?.users[index]?.id,
           user_id: handleGetValueId(itm?.nama, 'employee')
         }
       })
@@ -129,7 +126,7 @@ const RiwayatPenghargaanEditComponent = ({
       const payload = {
         id,
         data: {
-          name: values?.namaPenghargaan,
+          recognition_id: handleGetValueId(values?.namaPenghargaan, 'recognition'),
           period_month: handleGetValueId(values?.periode?.bulan, 'month'),
           period_year: moment(values?.periode?.tahun).format('YYYY'),
           description: values?.keteranganPenghargaan,
@@ -253,7 +250,7 @@ const RiwayatPenghargaanEditComponent = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => {}}
+      onSubmit={() => { }}
     >
       {(formikProps) => (
         <LayoutPages

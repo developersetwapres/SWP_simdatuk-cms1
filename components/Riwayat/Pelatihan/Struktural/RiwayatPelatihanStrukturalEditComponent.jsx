@@ -68,16 +68,16 @@ const FormSchema = Yup.object().shape({
 const RiwayatPelatihanStrukturalEditComponent = ({
   training,
   employee,
-  getTraining = () => {},
-  updateTraining = () => {},
-  clearTrainingState = () => {},
-  onLoading = () => {}
+  getTraining = () => { },
+  updateTraining = () => { },
+  clearTrainingState = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
 
   const options = useMemo(() => {
-    const newEmployees = employee?.data.map((itm) => {
+    const newEmployees = employee?.data?.map((itm) => {
       return `${itm?.name} - ${itm?.employee_id_number}`
     })
     const data = {
@@ -90,9 +90,9 @@ const RiwayatPelatihanStrukturalEditComponent = ({
 
   const handleGetValue = (value, type) => {
     if (type == 'employee') {
-      const data = training?.detail?.users
-      const dataFilter = data.find((itm) => itm?.name == value.split(' - ')[0])
-
+      const data = employee?.data
+      const dataFilter = data
+        ?.find((itm) => itm?.employee_id_number === value.split(' - ')[1])
       return dataFilter
     } else {
       const index = monthOptions.findIndex((itm) => itm == value) + 1
@@ -124,19 +124,28 @@ const RiwayatPelatihanStrukturalEditComponent = ({
         'start_date',
         moment(values?.tanggalPelaksanaan).format('YYYY-MM-DD')
       )
-      formData.append('duration', values?.durasi)
-      formData.append('organizer', values?.penyelenggara)
-      formData.append('link', values?.materi)
+      if (values?.durasi) {
+        formData.append('duration', values?.durasi)
+      }
+
+      if (values?.penyelenggara) {
+        formData.append('organizer', values?.penyelenggara)
+      }
+
+      if (values?.materi) {
+        formData.append('link', values?.materi)
+      }
+
       formData.append('type', 1)
 
       values?.pegawai.map((item, index) => {
         formData.append(
           `users[${index}][id]`,
-          handleGetValue(item?.nama, 'employee')?.id
+          training?.detail?.users[index]?.id || ''
         )
         formData.append(
           `users[${index}][user_id]`,
-          handleGetValue(item?.nama, 'employee')?.user_id
+          handleGetValue(item?.nama, 'employee')?.id || ''
         )
         formData.append(
           `users[${index}][certificate]`,
@@ -153,7 +162,6 @@ const RiwayatPelatihanStrukturalEditComponent = ({
             : 1
         )
       })
-
       updateTraining({ id, data: formData })
     } catch (err) {
       if (!err.inner || err.inner.length === 0) {
@@ -262,7 +270,7 @@ const RiwayatPelatihanStrukturalEditComponent = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => {}}
+      onSubmit={() => { }}
     >
       {(formikProps) => (
         <LayoutPages

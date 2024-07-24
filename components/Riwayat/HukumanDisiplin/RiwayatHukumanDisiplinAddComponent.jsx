@@ -62,8 +62,8 @@ const FormSchema = Yup.object().shape({
 const RiwayatHukumanDisiplinAddComponent = ({
   disciplinary,
   employee,
-  postDisciplinary = () => {},
-  onLoading = () => {}
+  postDisciplinary = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -92,7 +92,7 @@ const RiwayatHukumanDisiplinAddComponent = ({
     if (type == 'employee') {
       const data = employee?.data
       const dataFilter = data.find(
-        (itm) => itm?.name == value.split(' - ')[0]
+        (itm) => itm?.employee_id_number === value?.split(' - ')[1]
       )?.id
 
       return dataFilter
@@ -165,7 +165,7 @@ const RiwayatHukumanDisiplinAddComponent = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => {}}
+      onSubmit={() => { }}
     >
       {(formikProps) => (
         <LayoutPages

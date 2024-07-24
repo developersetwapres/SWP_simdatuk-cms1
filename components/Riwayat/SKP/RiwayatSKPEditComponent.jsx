@@ -12,10 +12,10 @@ import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
 import moment from 'moment'
 import {
+  employeeWorkBehaviorRatingOptions,
   monthOptions,
   periodOptions,
   predicateOptions,
-  ratingOptions,
   ratingOrganizationOptions
 } from 'libs/types/options'
 
@@ -59,10 +59,10 @@ const FormSchema = Yup.object().shape({
 const RiwayatSKPEditComponent = ({
   target,
   employee,
-  getTarget = () => {},
-  updateTarget = () => {},
-  clearTargetState = () => {},
-  onLoading = () => {}
+  getTarget = () => { },
+  updateTarget = () => { },
+  clearTargetState = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -77,7 +77,7 @@ const RiwayatSKPEditComponent = ({
       employee: newEmployees,
       periode: periodOptions,
       predikat: predicateOptions,
-      rating: ratingOptions,
+      rating: employeeWorkBehaviorRatingOptions,
       organisasi: ratingOrganizationOptions
     }
 
@@ -85,10 +85,12 @@ const RiwayatSKPEditComponent = ({
   }, [employee])
 
   const handleGetValue = (value, type) => {
-    if (type == 'employee') {
+    if (type === 'target') {
+      return target?.detail?.users[value]?.id
+    } else if (type == 'employee') {
       const data = employee?.data
       const dataFilter = data.find(
-        (itm) => itm?.name == value.split(' - ')[0]
+        (itm) => itm?.employee_id_number === value.split(' - ')[1]
       )?.id
 
       return dataFilter
@@ -116,13 +118,10 @@ const RiwayatSKPEditComponent = ({
       await FormSchema.validate(values, { abortEarly: false })
       formikRef.current.setErrors({})
 
-      const usersData = target?.detail?.users
-
       const id = atob(router?.query?.id)
-      const users = values?.pegawai.map((itm) => {
+      const users = values?.pegawai?.map((itm, index) => {
         return {
-          id: usersData.find((item) => item?.name == itm?.nama.split(' - ')[0])
-            ?.id,
+          id: handleGetValue(index, 'target') || null,
           user_id: handleGetValue(itm?.nama, 'employee'),
           work_behavior_rating: handleGetValue(itm?.rating, 'rating'),
           employee_performance_predicate: handleGetValue(
@@ -235,9 +234,7 @@ const RiwayatSKPEditComponent = ({
           )
           formikRef.current?.setFieldValue(
             `pegawai[${idx}].pencapaian`,
-            options['organisasi'][
-              itm?.organizational_performance_achievement - 1
-            ],
+            options['organisasi'][itm?.organizational_performance_achievement - 1],
             false
           )
         })
@@ -249,7 +246,7 @@ const RiwayatSKPEditComponent = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => {}}
+      onSubmit={() => { }}
     >
       {(formikProps) => (
         <LayoutPages

@@ -101,16 +101,18 @@ const RiwayatGolonganEditComponent = ({
   }, [employee, grade])
 
   const handleGetValueId = (val, type) => {
-    if (type == 'employee') {
-      const dataFilter = employee?.data.find(
-        (itm) => itm?.name?.includes(val.split(' - ')[0])
+    if (type === 'id') {
+      return grade?.detail?.users[val]?.id || null
+    } else if (type == 'employee') {
+      const dataFilter = employee?.data?.find(
+        (itm) => itm?.employee_id_number === val.split(' - ')[1]
       )
       return dataFilter?.id
     } else if (type == 'grade') {
-      const dataFilter = grade?.options.find((itm) => itm?.name == val)
+      const dataFilter = grade?.options?.find((itm) => itm?.name == val)
       return dataFilter?.id
     } else {
-      const index = options['month'].findIndex((itm) => itm == val)
+      const index = options['month']?.findIndex((itm) => itm == val)
       return index + 1
     }
   }
@@ -121,9 +123,9 @@ const RiwayatGolonganEditComponent = ({
       formikRef.current.setErrors({})
 
       const id = atob(router?.query?.id)
-      const users = values?.pegawai.map((itm) => {
+      const users = values?.pegawai?.map((itm, index) => {
         const item = {
-          id,
+          id: handleGetValueId(index, 'id'),
           user_id: handleGetValueId(itm?.nama, 'employee'),
           grade_id: handleGetValueId(itm?.golongan, 'grade'),
           effective_date: moment(itm?.tmt).format('YYYY-MM-DD'),

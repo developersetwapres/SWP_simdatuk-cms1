@@ -66,10 +66,10 @@ const FormSchema = Yup.object().shape({
 const RiwayatPelatihanTeknisEditComponent = ({
   training,
   employee,
-  getTraining = () => {},
-  updateTraining = () => {},
-  clearTrainingState = () => {},
-  onLoading = () => {}
+  getTraining = () => { },
+  updateTraining = () => { },
+  clearTrainingState = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -88,8 +88,9 @@ const RiwayatPelatihanTeknisEditComponent = ({
 
   const handleGetValue = (value, type) => {
     if (type == 'employee') {
-      const data = training?.detail?.users
-      const dataFilter = data.find((itm) => itm?.name == value.split(' - ')[0])
+      const data = employee?.data
+      const dataFilter = data
+        ?.find((itm) => itm?.employee_id_number == value.split(' - ')[1])
 
       return dataFilter
     } else {
@@ -121,18 +122,22 @@ const RiwayatPelatihanTeknisEditComponent = ({
         'start_date',
         moment(values?.tanggalPelaksanaan).format('YYYY-MM-DD')
       )
-      formData.append('duration', values?.durasi)
-      formData.append('link', values?.materi)
+      if (values?.durasi) {
+        formData.append('duration', values?.durasi)
+      }
+      if (values?.materi) {
+        formData.append('link', values?.materi)
+      }
       formData.append('type', 3)
 
       values?.pegawai.map((item, index) => {
         formData.append(
           `users[${index}][id]`,
-          handleGetValue(item?.nama, 'employee')?.id
+          training?.detail?.users[index]?.id || ''
         )
         formData.append(
           `users[${index}][user_id]`,
-          handleGetValue(item?.nama, 'employee')?.user_id
+          handleGetValue(item?.nama, 'employee')?.id || ''
         )
         formData.append(
           `users[${index}][certificate]`,
@@ -258,7 +263,7 @@ const RiwayatPelatihanTeknisEditComponent = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => {}}
+      onSubmit={() => { }}
     >
       {(formikProps) => (
         <LayoutPages

@@ -110,11 +110,8 @@ const RiwayatJabatanEditComponent = ({
       return dataFilter?.id
     } else if (type == 'employee') {
       const dataFilter = employee?.data.find(
-        (itm) =>
-          itm?.name == val.split(' - ')[0] ||
-          itm?.name.includes(val.split(' - ')[0])
+        (itm) => itm?.employee_id_number === val?.split(' - ')[1]
       )
-
       return dataFilter?.id
     } else if (type == 'month') {
       const index = options['month'].findIndex((itm) => itm == val)
@@ -130,31 +127,22 @@ const RiwayatJabatanEditComponent = ({
       await FormSchema.validate(values, { abortEarly: false })
       formikRef.current.setErrors({})
 
-      const usersData = positionHistories?.detail?.users
-
       const id = atob(router?.query?.id)
-      const users = values?.pegawai.map((itm) => {
+      const users = values?.pegawai?.map((itm, index) => {
         const item = {
-          id: usersData
-            ?.find((item) => item?.name == itm?.nama?.split(' - ')[0])
-            ?.id || null,
+          id: positionHistories?.detail?.users[index]?.id || null,
           user_id: handleGetValueId(itm?.nama, 'employee'),
           position: itm?.jabatan,
-          effective_date: moment(itm?.tmt).format('YYYY-MM-DD')
-        }
-
-        if (itm?.keteranganJabatan) {
-          item.position_status = handleGetValueId(
+          effective_date: moment(itm?.tmt).format('YYYY-MM-DD'),
+          position_status: itm?.keteranganJabatan ? handleGetValueId(
             itm?.keteranganJabatan,
             'ketJabatan'
-          )
+          ) : null,
+          echelon: itm?.jenjangJabatan ?
+            handleGetValueId(itm?.jenjangJabatan, 'echelon')
+            : null,
+          decree: itm?.noSk || null
         }
-
-        if (itm?.jenjangJabatan)
-          item.echelon = handleGetValueId(itm?.jenjangJabatan, 'echelon')
-
-        if (itm?.noSk)
-          item.decree = itm?.noSk
 
         return item
       })
@@ -168,7 +156,6 @@ const RiwayatJabatanEditComponent = ({
           users
         }
       }
-
       updatePositionHistories(payload)
     } catch (err) {
       if (!err.inner || err.inner.length === 0) return

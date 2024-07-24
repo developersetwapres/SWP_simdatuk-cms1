@@ -12,10 +12,10 @@ import { useRouter } from 'next/router'
 import RiwayatSKPForm from './RiwayatSKPForm'
 import moment from 'moment'
 import {
+  employeeWorkBehaviorRatingOptions,
   monthOptions,
   periodOptions,
   predicateOptions,
-  ratingOptions,
   ratingOrganizationOptions
 } from 'libs/types/options'
 
@@ -59,8 +59,8 @@ const FormSchema = Yup.object().shape({
 const RiwayatSKPAddComponent = ({
   target,
   employee,
-  postTarget = () => {},
-  onLoading = () => {}
+  postTarget = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -75,7 +75,7 @@ const RiwayatSKPAddComponent = ({
       employee: newEmployees,
       periode: periodOptions,
       predikat: predicateOptions,
-      rating: ratingOptions,
+      rating: employeeWorkBehaviorRatingOptions,
       organisasi: ratingOrganizationOptions
     }
 
@@ -86,7 +86,7 @@ const RiwayatSKPAddComponent = ({
     if (type == 'employee') {
       const data = employee?.data
       const dataFilter = data.find(
-        (itm) => itm?.name == value.split(' - ')[0]
+        (itm) => itm?.employee_id_number === value?.split(' - ')[1]
       )?.id
 
       return dataFilter
@@ -167,7 +167,7 @@ const RiwayatSKPAddComponent = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => {}}
+      onSubmit={() => { }}
     >
       {(formikProps) => (
         <LayoutPages

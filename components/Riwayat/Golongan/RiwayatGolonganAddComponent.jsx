@@ -77,8 +77,8 @@ const FormSchema = Yup.object().shape({
 const RiwayatGolonganAddComponent = ({
   grade,
   employee,
-  postGrade = () => {},
-  onLoading = () => {}
+  postGrade = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -100,15 +100,15 @@ const RiwayatGolonganAddComponent = ({
 
   const handleGetValueId = (val, type) => {
     if (type == 'employee') {
-      const dataFilter = employee?.data.find(
-        (itm) => itm?.name == val.split(' - ')[0]
+      const dataFilter = employee?.data?.find(
+        (itm) => itm?.employee_id_number === val.split(' - ')[1]
       )
       return dataFilter?.id
     } else if (type == 'grade') {
-      const dataFilter = grade?.options.find((itm) => itm?.name == val)
+      const dataFilter = grade?.options?.find((itm) => itm?.name == val)
       return dataFilter?.id
     } else {
-      const index = options['month'].findIndex((itm) => itm == val)
+      const index = options['month']?.findIndex((itm) => itm == val)
       return index + 1
     }
   }
@@ -163,7 +163,7 @@ const RiwayatGolonganAddComponent = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => {}}
+      onSubmit={() => { }}
     >
       {(formikProps) => (
         <LayoutPages

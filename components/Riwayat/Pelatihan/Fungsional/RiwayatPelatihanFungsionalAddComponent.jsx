@@ -102,8 +102,8 @@ const FormSchema = Yup.object().shape({
 const RiwayatPelatihanFungsionalAddComponent = ({
   training,
   employee,
-  postTraining = () => {},
-  onLoading = () => {}
+  postTraining = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -124,7 +124,7 @@ const RiwayatPelatihanFungsionalAddComponent = ({
     if (type == 'employee') {
       const data = employee?.data
       const dataFilter = data.find(
-        (itm) => itm?.name == value.split(' - ')[0]
+        (itm) => itm?.employee_id_number === value?.split(' - ')[1]
       )?.id
 
       return dataFilter
@@ -157,9 +157,18 @@ const RiwayatPelatihanFungsionalAddComponent = ({
         'start_date',
         moment(values?.tanggalPelaksanaan).format('YYYY-MM-DD')
       )
-      formData.append('duration', values?.durasi)
-      formData.append('organizer', values?.penyelenggara)
-      formData.append('link', values?.materi)
+      if (values?.durasi) {
+        formData.append('duration', values?.durasi)
+      }
+
+      if (values?.penyelenggara) {
+        formData.append('organizer', values?.penyelenggara)
+      }
+
+      if (values?.materi) {
+        formData.append('link', values?.materi)
+      }
+
       formData.append('type', 2)
 
       values?.pegawai.map((item, index) => {
@@ -199,7 +208,7 @@ const RiwayatPelatihanFungsionalAddComponent = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => {}}
+      onSubmit={() => { }}
     >
       {(formikProps) => (
         <LayoutPages

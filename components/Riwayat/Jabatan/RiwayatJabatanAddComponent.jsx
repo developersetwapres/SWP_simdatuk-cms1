@@ -107,12 +107,12 @@ const RiwayatJabatanAddComponent = ({
       const dataFilter = echelon?.data.find((itm) => itm?.name == val)
       return dataFilter?.id
     } else if (type == 'employee') {
-      const dataFilter = employee?.data.find(
-        (itm) => itm?.name == val.split(' - ')[0]
+      const dataFilter = employee?.data?.find(
+        (itm) => itm?.employee_id_number === val?.split(' - ')[1]
       )
       return dataFilter?.id
     } else if (type == 'month') {
-      const index = options['month'].findIndex((itm) => itm == val)
+      const index = options['month']?.findIndex((itm) => itm == val)
       return index + 1
     } else {
       const index = options[type]?.findIndex((itm) => itm == val)
@@ -129,25 +129,16 @@ const RiwayatJabatanAddComponent = ({
         const userPayload = {
           user_id: handleGetValueId(itm?.nama, 'employee'),
           position: itm?.jabatan,
-          effective_date: moment(itm?.tmt).format('YYYY-MM-DD')
-        }
-
-        if (itm?.keteranganJabatan) {
-          userPayload.position_status = handleGetValueId(
+          effective_date: moment(itm?.tmt).format('YYYY-MM-DD'),
+          position_status: itm?.keteranganJabatan ? handleGetValueId(
             itm?.keteranganJabatan,
             'keteranganJabatan'
-          )
-        }
-
-        if (itm?.jenjangJabatan) {
-          userPayload.echelon = handleGetValueId(
+          ) : null,
+          echelon: itm?.jenjangJabatan ? handleGetValueId(
             itm?.jenjangJabatan,
             'echelon'
-          )
-        }
-
-        if (itm?.noSk) {
-          userPayload.decree = itm?.noSk
+          ) : null,
+          decree: itm?.noSk || null
         }
 
         return userPayload
