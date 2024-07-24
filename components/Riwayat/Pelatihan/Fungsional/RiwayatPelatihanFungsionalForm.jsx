@@ -149,20 +149,6 @@ const RiwayatPelatihanFungsionalForm = ({
             }}
           />
         </Grid>
-        {/* Penyelenggara */}
-        <Grid item xs={6}>
-          <Input
-            label='Penyelenggara'
-            placeholder='Masukkan Penyelenggara'
-            name='penyelenggara'
-            value={values?.penyelenggara}
-            onChange={(e) => {
-              const val = e?.target?.value
-              setFieldValue(`penyelenggara`, val, false)
-            }}
-            error={errors?.penyelenggara}
-          />
-        </Grid>
         {/* Durasi Pelatihan */}
         <Grid item xs={6}>
           <Input
@@ -177,6 +163,20 @@ const RiwayatPelatihanFungsionalForm = ({
               setFieldValue(`durasi`, val, false)
             }}
             error={errors?.durasi}
+          />
+        </Grid>
+        {/* Penyelenggara */}
+        <Grid item xs={6}>
+          <Input
+            label='Penyelenggara'
+            placeholder='Masukkan Penyelenggara'
+            name='penyelenggara'
+            value={values?.penyelenggara}
+            onChange={(e) => {
+              const val = e?.target?.value
+              setFieldValue(`penyelenggara`, val, false)
+            }}
+            error={errors?.penyelenggara}
           />
         </Grid>
         {/* Link Materi Pelatihan */}
