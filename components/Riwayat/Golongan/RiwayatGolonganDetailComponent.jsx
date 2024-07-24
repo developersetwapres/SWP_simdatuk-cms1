@@ -65,6 +65,11 @@ const RiwayatGolonganDetailComponent = ({
         align: 'left'
       },
       {
+        Header: 'Status Golongan',
+        width: 200,
+        align: 'left'
+      },
+      {
         Header: 'Aksi',
         width: 160,
         align: 'left'
@@ -108,6 +113,12 @@ const RiwayatGolonganDetailComponent = ({
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.decree_number || '-'}</Typography>
+        },
+        {
+          Header: 'Status Golongan',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.status === 1 ? 'Aktif' : 'Tidak Aktif'}</Typography>
         },
         {
           Header: 'Aksi',
