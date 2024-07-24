@@ -5,10 +5,8 @@ import { Grid, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 import { positionDescOptions } from 'libs/types/options'
 
-const RiwayatJabatanSection = ({
-  data = []
-}) => {
-  const openInNewTab = url => {
+const RiwayatJabatanSection = ({ data = [] }) => {
+  const openInNewTab = (url) => {
     if (!url) return
 
     window.open(url, '_blank')
@@ -148,7 +146,11 @@ const RiwayatJabatanSection = ({
           Header: 'Keterangan Jabatan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{getValueOptions(item?.position_status, 'position_desc')}</Typography>
+          Cell: () => (
+            <Typography>
+              {getValueOptions(item?.position_status, 'position_desc')}
+            </Typography>
+          )
         },
         {
           Header: 'TMT Menjabat',
@@ -168,14 +170,14 @@ const RiwayatJabatanSection = ({
           verticalAlign: 'top',
           Cell: () => (
             <>
-              {
-                item?.decree_document ?
-                  <Button
-                    text='Lihat File'
-                    onClick={() => openInNewTab(item?.decree_document)}
-                  /> :
-                  <Typography>-</Typography >
-              }
+              {item?.decree_document ? (
+                <Button
+                  text='Lihat File'
+                  onClick={() => openInNewTab(item?.decree_document)}
+                />
+              ) : (
+                <Typography>-</Typography>
+              )}
             </>
           )
         },
@@ -213,25 +215,39 @@ const RiwayatJabatanSection = ({
           Header: 'Jenis SK Selesai',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.type_termination_decree_name || '-'}</Typography>
+          Cell: () => (
+            <Typography>{item?.type_termination_decree_name || '-'}</Typography>
+          )
         },
         {
           Header: 'No. SK Selesai',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.termination_decree_number || '-'}</Typography>
+          Cell: () => (
+            <Typography>{item?.termination_decree_number || '-'}</Typography>
+          )
         },
         {
           Header: 'Tanggal SK Selesai',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.termination_decree_date || '-'}</Typography>
+          Cell: () => (
+            <Typography>{item?.termination_decree_date || '-'}</Typography>
+          )
         },
         {
           Header: 'Status Jabatan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.status === 1 ? 'Aktif' : 'Tidak Aktif'}</Typography>
+          Cell: () => (
+            <Typography>
+              {item?.status
+                ? item?.status === 1
+                  ? 'Aktif'
+                  : 'Tidak Aktif'
+                : '-'}
+            </Typography>
+          )
         }
       ]
     })
