@@ -41,8 +41,8 @@ const EmployeeForm = ({
     return (
       status !== null &&
       status !== 'Aktif' &&
-      status !== 'Aktif PS' &&
-      status !== 'Hukdis'
+      status !== 'Aktif Perbantuan Setneg' &&
+      status !== 'Hukuman Disiplin'
     )
   }, [values?.employee])
 
@@ -64,6 +64,10 @@ const EmployeeForm = ({
       setFieldValue(`employee.positions`, newValues, false)
     }
   }, [values?.employee?.positions])
+
+  useEffect(() => {
+    console.log('errors', errors)
+  }, [errors])
 
   return (
     <CardAccordion title='Data Pegawai' isExpand>
@@ -341,9 +345,7 @@ const EmployeeForm = ({
                         false
                       )
                       setTimeout(() => {
-                        formikRef.current.validateField(
-                          `employee.positions[${idx}].name`
-                        )
+                        formikRef.current.validateField(`employee.positions`)
                       }, 1)
                     } else {
                       const data = values?.employee?.positions
@@ -610,6 +612,13 @@ const EmployeeForm = ({
               setTimeout(() => {
                 formikRef.current.validateField('employee.employmentStatus')
               }, 1)
+
+              if (
+                val == 'Aktif' ||
+                val == 'Aktif Perbantuan Setneg' ||
+                val == 'Hukuman Disiplin'
+              )
+                setFieldValue('employee.lastDateOfWork', '', false)
             }}
           />
         </Grid>

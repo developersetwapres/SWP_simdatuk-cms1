@@ -28,7 +28,7 @@ const PositionForm = ({
           values?.positions.map((itm, idx) => (
             <Grid item container xs={12} spacing={3} key={idx}>
               <Grid item xs={12} sx={{ padding: 0, margin: 0 }}>
-                <HeaderForm title='Riwayat Jabatan' handleDelete={() => {}} />
+                <HeaderForm title='Riwayat Jabatan' isDelete={false} />
               </Grid>
               {/* Period */}
               <Grid item xs={6}>
@@ -97,12 +97,15 @@ const PositionForm = ({
                 <Autocomplete
                   options={options?.group}
                   placeholder='Pilih Rumpun'
-                  label='Rumpun'
+                  label='Rumpun *'
                   name={`positions[${idx}].group`}
                   value={itm?.group}
                   error={errors?.positions && errors?.positions[idx]?.group}
                   onChange={(val) => {
                     setFieldValue(`positions[${idx}].group`, val, false)
+                    setTimeout(() => {
+                      formikRef.current.validateField(`positions[${idx}].group`)
+                    }, 1)
                   }}
                 />
               </Grid>
@@ -363,12 +366,11 @@ const PositionForm = ({
                 <Autocomplete
                   options={options?.status}
                   placeholder='Pilih Status Jabatan'
-                  label='Status Jabatan'
+                  label='Status Jabatan *'
                   name={`positions[${idx}].status`}
                   value={itm?.status}
                   error={errors?.positions && errors?.positions[idx]?.status}
-                  onChange={(e) => {
-                    const val = e?.target?.value
+                  onChange={(val) => {
                     setFieldValue(`positions[${idx}].status`, val, false)
                     setTimeout(() => {
                       formikRef.current.validateField(

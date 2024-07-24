@@ -27,7 +27,7 @@ const AwardForm = ({
           values?.recognitions.map((itm, idx) => (
             <Grid item container xs={12} spacing={3} key={idx}>
               <Grid item xs={12} sx={{ padding: 0, margin: 0 }}>
-                <HeaderForm title='Riwayat Jabatan' handleDelete={() => {}} />
+                <HeaderForm title='Riwayat Jabatan' isDelete={false} />
               </Grid>
               {/* Period */}
               <Grid item xs={6}>

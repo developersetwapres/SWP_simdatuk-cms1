@@ -43,7 +43,7 @@ const EducationForm = ({
 
   const handleDeleteData = (idx) => {
     const error = errors?.educations
-    error.splice(idx, 1)
+    if (error) error.splice(idx, 1)
 
     handleData(values?.educations, 'educations', idx)
   }

@@ -20,19 +20,21 @@ const style = {
   }
 }
 
-const HeaderForm = ({ title, handleDelete = () => {} }) => {
+const HeaderForm = ({ title, isDelete = true, handleDelete = () => {} }) => {
   return (
     <Box sx={style?.wrapper}>
       <Box sx={style?.header}>
         <Typography color='#895700' fontWeight={700}>
           {title}
         </Typography>
-        <Button
-          text='Hapus'
-          color='danger'
-          onClick={handleDelete}
-          sx={{ textTransform: 'none' }}
-        />
+        {isDelete && (
+          <Button
+            text='Hapus'
+            color='danger'
+            onClick={handleDelete}
+            sx={{ textTransform: 'none' }}
+          />
+        )}
       </Box>
       <Divider sx={style?.divide} />
     </Box>

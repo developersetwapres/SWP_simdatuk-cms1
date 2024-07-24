@@ -30,7 +30,7 @@ const FunctionalTrainingForm = ({
               <Grid item xs={12} sx={{ padding: 0, margin: 0 }}>
                 <HeaderForm
                   title='Riwayat Pelatihan Fungsional'
-                  handleDelete={() => {}}
+                  isDelete={false}
                 />
               </Grid>
               {/* Period */}

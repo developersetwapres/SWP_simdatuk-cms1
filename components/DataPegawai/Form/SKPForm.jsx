@@ -26,7 +26,7 @@ const SKPForm = ({
           values?.targets.map((itm, idx) => (
             <Grid item container xs={12} spacing={3} key={idx}>
               <Grid item xs={12} sx={{ padding: 0, margin: 0 }}>
-                <HeaderForm title='Riwayat SKP' handleDelete={() => {}} />
+                <HeaderForm title='Riwayat SKP' isDelete={false} />
               </Grid>
               {/* Period */}
               <Grid item xs={6}>

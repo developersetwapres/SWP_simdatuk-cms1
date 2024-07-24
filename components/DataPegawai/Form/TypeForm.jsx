@@ -28,12 +28,7 @@ const TypeForm = ({
           values?.grades.map((itm, idx) => (
             <Grid item container xs={12} spacing={3} key={idx}>
               <Grid item xs={12} sx={{ padding: 0, margin: 0 }}>
-                <HeaderForm
-                  title='Riwayat Golongan'
-                  handleDelete={() =>
-                    handleData(values?.educations, 'delete', idx)
-                  }
-                />
+                <HeaderForm title='Riwayat Golongan' isDelete={false} />
               </Grid>
               {/* Period */}
               <Grid item xs={6}>
@@ -154,12 +149,17 @@ const TypeForm = ({
                 <Autocomplete
                   options={options?.decreeType}
                   placeholder='Pilih Jenis SK Golongan'
-                  label='Jenis SK Golongan'
+                  label='Jenis SK Golongan *'
                   name={`grades[${idx}].decreeType`}
                   value={itm?.decreeType}
                   error={errors?.grades && errors?.grades[idx]?.decreeType}
                   onChange={(val) => {
                     setFieldValue(`grades[${idx}].decreeType`, val, false)
+                    setTimeout(() => {
+                      formikRef.current.validateField(
+                        `grades[${idx}].decreeType`
+                      )
+                    }, 1)
                   }}
                 />
               </Grid>
@@ -214,7 +214,7 @@ const TypeForm = ({
                 <Autocomplete
                   options={options?.status}
                   placeholder='Pilih Status Golongan'
-                  label='Status Golongan'
+                  label='Status Golongan *'
                   name={`grades[${idx}].status`}
                   value={itm?.status}
                   error={errors?.grades && errors?.grades[idx]?.status}

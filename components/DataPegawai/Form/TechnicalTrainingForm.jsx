@@ -28,10 +28,7 @@ const TechnicalTrainingForm = ({
           values?.trainingTechnicals.map((itm, idx) => (
             <Grid item container xs={12} spacing={3} key={idx}>
               <Grid item xs={12} sx={{ padding: 0, margin: 0 }}>
-                <HeaderForm
-                  title='Riwayat Pelatihan Teknis'
-                  handleDelete={() => {}}
-                />
+                <HeaderForm title='Riwayat Pelatihan Teknis' isDelete={false} />
               </Grid>
               {/* Period */}
               <Grid item xs={6}>

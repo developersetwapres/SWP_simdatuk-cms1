@@ -30,7 +30,7 @@ const StructuralTrainingForm = ({
               <Grid item xs={12} sx={{ padding: 0, margin: 0 }}>
                 <HeaderForm
                   title='Riwayat Pelatihan Struktural'
-                  handleDelete={() => {}}
+                  isDelete={false}
                 />
               </Grid>
               {/* Period */}
