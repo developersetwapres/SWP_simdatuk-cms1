@@ -20,6 +20,14 @@ const DisciplinaryForm = ({
   formikRef,
   options
 }) => {
+  const handleGetError = (value) => {
+    if (value?.to) {
+      return value?.to
+    } else {
+      return value
+    }
+  }
+
   return (
     <CardAccordion title='Riwayat Hukuman Disiplin'>
       <Grid container spacing={3} sx={{ paddingBottom: '12px' }}>
@@ -253,11 +261,6 @@ const DisciplinaryForm = ({
                       val,
                       false
                     )
-                    setTimeout(() => {
-                      formikRef.current.validateField(
-                        `disciplinaries[${idx}].decreeDate`
-                      )
-                    }, 1)
                   }}
                 />
               </Grid>
@@ -266,12 +269,16 @@ const DisciplinaryForm = ({
                 <DatePickerDay
                   mode='range'
                   label='Tanggal Hukuman Disiplin *'
-                  placeholder='dd-mm-yy'
+                  placeholder='dd-mm-yy - dd-mm-yy'
                   name={`disciplinaries[${idx}].discipleDate`}
                   value={itm?.discipleDate}
                   error={
                     errors?.disciplinaries &&
                     errors?.disciplinaries[idx]?.discipleDate
+                      ? handleGetError(
+                          errors?.disciplinaries[idx]?.discipleDate
+                        )
+                      : null
                   }
                   onChange={(val) => {
                     setFieldValue(

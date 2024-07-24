@@ -650,6 +650,12 @@ const EmployeeAddComponent = ({
     }
   }
 
+  const handleFormatDate = (value, format) => {
+    if (value) return moment(value).format(format)
+
+    return ''
+  }
+
   const handleSubmit = async (values) => {
     try {
       await FormSchema.validate(values, { abortEarly: false })
@@ -682,7 +688,7 @@ const EmployeeAddComponent = ({
       formData.append('place_of_birth', values?.employee?.placeOfBirth)
       formData.append(
         'date_of_birth',
-        moment(values?.employee?.dateOfBirth).format('YYYY-MM-DD')
+        handleFormatDate(values?.employee?.dateOfBirth, 'YYYY-MM-DD')
       )
       formData.append(
         'religion',
@@ -699,7 +705,7 @@ const EmployeeAddComponent = ({
       )
       formData.append(
         'cpns_effective_date',
-        moment(values?.employee?.dateStartedWork).format('YYYY-MM-DD')
+        handleFormatDate(values?.employee?.dateStartedWork, 'YYYY-MM-DD')
       )
       formData.append(
         'position_id',
@@ -707,7 +713,7 @@ const EmployeeAddComponent = ({
       )
       formData.append(
         'position_effective_date',
-        moment(values?.employee?.positionEffectiveDate).format('YYYY-MM-DD')
+        handleFormatDate(values?.employee?.positionEffectiveDate, 'YYYY-MM-DD')
       )
       formData.append(
         'grade_id',
@@ -715,7 +721,7 @@ const EmployeeAddComponent = ({
       )
       formData.append(
         'grade_effective_date',
-        moment(values?.employee?.gradeEffectiveDate).format('YYYY-MM-DD')
+        handleFormatDate(values?.employee?.gradeEffectiveDate, 'YYYY-MM-DD')
       )
       formData.append(
         'echelon_id',
@@ -725,9 +731,7 @@ const EmployeeAddComponent = ({
       )
       formData.append(
         'echelon_effective_date',
-        values?.employee?.echelonEffectiveDate
-          ? moment(values?.employee?.echelonEffectiveDate).format('YYYY-MM-DD')
-          : ''
+        handleFormatDate(values?.employee?.echelonEffectiveDate, 'YYYY-MM-DD')
       )
       formData.append(
         'institution_id',
@@ -743,13 +747,16 @@ const EmployeeAddComponent = ({
       formData.append('education_name', values?.employee?.educationName)
       formData.append(
         'education_year',
-        moment(values?.employee?.educationYear).format('YYYY')
+        handleFormatDate(values?.employee?.educationYear, 'YYYY')
       )
       formData.append(
         'employee_id_card_number',
         values?.employee?.employeeIdCardNumber
       )
-      formData.append('employee_id_card', values?.employee?.employeeIdCard)
+      formData.append(
+        'employee_id_card',
+        values?.employee?.employeeIdCard || ''
+      )
       formData.append('karisu_number', values?.employee?.karisu)
       formData.append('id_tax', values?.employee?.taxId)
       formData.append(
@@ -765,7 +772,7 @@ const EmployeeAddComponent = ({
         'residence_id',
         values?.employee?.residence
           ? handleGetValue('residence', values?.employee?.residence)
-          : null
+          : ''
       )
       formData.append('residence_description', values?.employee?.residenceName)
       formData.append('current_address', values?.employee?.address)
@@ -785,9 +792,7 @@ const EmployeeAddComponent = ({
       formData.append('description', null)
       formData.append(
         'quit_date',
-        values?.employee?.lastDateOfWork
-          ? moment(values?.employee?.lastDateOfWork).format('YYYY-MM-DD')
-          : ''
+        handleFormatDate(values?.employee?.lastDateOfWork, 'YYYY-MM-DD')
       )
       formData.append('type', 1)
 
@@ -806,7 +811,7 @@ const EmployeeAddComponent = ({
         )
         formData.append(
           `educations[${index}][year_of_graduation]`,
-          moment(item?.educationYear).format('YYYY')
+          handleFormatDate(item?.educationYear, 'YYYY')
         )
         formData.append(
           `educations[${index}][description]`,
@@ -814,7 +819,7 @@ const EmployeeAddComponent = ({
         )
         formData.append(
           `educations[${index}][degree_document]`,
-          item?.educationCertificate
+          item?.educationCertificate || ''
         )
       })
 
@@ -840,7 +845,7 @@ const EmployeeAddComponent = ({
         )
         formData.append(
           `families[${index}][date_of_birth]`,
-          moment(item?.dateOfBirth).format('YYYY-MM-DD')
+          handleFormatDate(item?.dateOfBirth, 'YYYY-MM-DD')
         )
         formData.append(
           `families[${index}][name_of_father]`,
@@ -878,11 +883,11 @@ const EmployeeAddComponent = ({
       leaves.map((item, index) => {
         formData.append(
           `leaves[${index}][start_date]`,
-          moment(item?.period?.from).format('YYYY-MM-DD')
+          handleFormatDate(item?.period?.from, 'YYYY-MM-DD')
         )
         formData.append(
           `leaves[${index}][end_date]`,
-          moment(item?.period?.to).format('YYYY-MM-DD')
+          handleFormatDate(item?.period?.to, 'YYYY-MM-DD')
         )
         formData.append(
           `leaves[${index}][type]`,
@@ -890,7 +895,7 @@ const EmployeeAddComponent = ({
         )
         formData.append(`leaves[${index}][number]`, item?.number)
         formData.append(`leaves[${index}][description]`, item?.description)
-        formData.append(`leaves[${index}][letter]`, item?.leaveLetter)
+        formData.append(`leaves[${index}][letter]`, item?.leaveLetter || '')
       })
 
       // Notes
@@ -909,13 +914,11 @@ const EmployeeAddComponent = ({
         formData.append(`credits[${index}][score]`, item?.point)
         formData.append(
           `credits[${index}][start_month]`,
-          item?.month?.start
-            ? handleGetValue('months', item?.month?.start)
-            : null
+          item?.month?.start ? handleGetValue('months', item?.month?.start) : ''
         )
         formData.append(
           `credits[${index}][end_month]`,
-          item?.month?.end ? handleGetValue('months', item?.month?.end) : null
+          item?.month?.end ? handleGetValue('months', item?.month?.end) : ''
         )
       })
 
@@ -923,7 +926,7 @@ const EmployeeAddComponent = ({
       assessments.map((item, index) => {
         formData.append(
           `assessments[${index}][event_date]`,
-          moment(item?.date).format('YYYY-MM-DD')
+          handleFormatDate(item?.date, 'YYYY-MM-DD')
         )
         formData.append(
           `assessments[${index}][point]`,
@@ -932,7 +935,7 @@ const EmployeeAddComponent = ({
         formData.append(`assessments[${index}][organizer]`, item?.organizer)
         formData.append(
           `assessments[${index}][assessment_document]`,
-          item?.certificate
+          item?.certificate || ''
         )
       })
 
@@ -940,7 +943,7 @@ const EmployeeAddComponent = ({
       competences.map((item, index) => {
         formData.append(
           `competencies[${index}][event_date]`,
-          moment(item?.date).format('YYYY-MM-DD')
+          handleFormatDate(item?.date, 'YYYY-MM-DD')
         )
         formData.append(
           `competencies[${index}][point]`,
@@ -949,7 +952,7 @@ const EmployeeAddComponent = ({
         formData.append(`competencies[${index}][organizer]`, item?.organizer)
         formData.append(
           `competencies[${index}][competency_document]`,
-          item?.certificate
+          item?.certificate || ''
         )
       })
 
@@ -957,19 +960,21 @@ const EmployeeAddComponent = ({
       talentPools.map((item, index) => {
         formData.append(
           `talents[${index}][event_date]`,
-          moment(item?.date).format('YYYY-MM-DD')
+          handleFormatDate(item?.date, 'YYYY-MM-DD')
         )
         formData.append(
           `talents[${index}][point]`,
           handleGetValue('talentPools', item?.point)
         )
         formData.append(`talents[${index}][organizer]`, item?.organizer)
-        formData.append(`talents[${index}][talent_document]`, item?.certificate)
+        formData.append(
+          `talents[${index}][talent_document]`,
+          item?.certificate || ''
+        )
       })
 
       postEmployee(formData)
     } catch (err) {
-      console.log('err', err)
       if (!err.inner || err.inner.length === 0) {
         return
       }

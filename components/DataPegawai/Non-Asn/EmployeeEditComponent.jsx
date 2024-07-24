@@ -773,9 +773,12 @@ const FormSchema = Yup.object().shape({
           discipleType: Yup.string().required(
             'Jenis Hukuman tidak boleh kosong'
           ),
-          discipleDate: Yup.string().required(
-            'Tanggal Hukuman Disiplin tidak boleh kosong'
-          )
+          discipleDate: Yup.object()
+            .shape({
+              from: Yup.string().required('Pilih tanggal awal'),
+              to: Yup.string().required('Pilih tanggal akhir')
+            })
+            .required('Tanggal Hukuman tidak boleh kosong')
         })
       )
     } else {
@@ -1019,6 +1022,12 @@ const EmployeeEditComponent = ({
     }
   }
 
+  const handleFormatDate = (value, format) => {
+    if (value) return moment(value).format(format)
+
+    return ''
+  }
+
   const handleSubmit = async (values) => {
     try {
       await FormSchema.validate(values, { abortEarly: false })
@@ -1065,7 +1074,7 @@ const EmployeeEditComponent = ({
       formData.append('place_of_birth', values?.employee?.placeOfBirth)
       formData.append(
         'date_of_birth',
-        moment(values?.employee?.dateOfBirth).format('YYYY-MM-DD')
+        handleFormatDate(values?.employee?.dateOfBirth, 'YYYY-MM-DD')
       )
       formData.append(
         'religion',
@@ -1082,7 +1091,7 @@ const EmployeeEditComponent = ({
       )
       formData.append(
         'cpns_effective_date',
-        moment(values?.employee?.dateStartedWork).format('YYYY-MM-DD')
+        handleFormatDate(values?.employee?.dateStartedWork, 'YYYY-MM-DD')
       )
       formData.append(
         'position_id',
@@ -1090,7 +1099,7 @@ const EmployeeEditComponent = ({
       )
       formData.append(
         'position_effective_date',
-        moment(values?.employee?.positionEffectiveDate).format('YYYY-MM-DD')
+        handleFormatDate(values?.employee?.positionEffectiveDate, 'YYYY-MM-DD')
       )
       formData.append(
         'grade_id',
@@ -1098,7 +1107,7 @@ const EmployeeEditComponent = ({
       )
       formData.append(
         'grade_effective_date',
-        moment(values?.employee?.gradeEffectiveDate).format('YYYY-MM-DD')
+        handleFormatDate(values?.employee?.gradeEffectiveDate, 'YYYY-MM-DD')
       )
       formData.append(
         'echelon_id',
@@ -1108,9 +1117,7 @@ const EmployeeEditComponent = ({
       )
       formData.append(
         'echelon_effective_date',
-        values?.employee?.echelonEffectiveDate
-          ? moment(values?.employee?.echelonEffectiveDate).format('YYYY-MM-DD')
-          : ''
+        handleFormatDate(values?.employee?.echelonEffectiveDate, 'YYYY-MM-DD')
       )
       formData.append(
         'institution_id',
@@ -1126,7 +1133,7 @@ const EmployeeEditComponent = ({
       formData.append('education_name', values?.employee?.educationName)
       formData.append(
         'education_year',
-        moment(values?.employee?.educationYear).format('YYYY')
+        handleFormatDate(values?.employee?.educationYear, 'YYYY')
       )
       formData.append(
         'employee_id_card_number',
@@ -1178,9 +1185,7 @@ const EmployeeEditComponent = ({
       )
       formData.append(
         'quit_date',
-        values?.employee?.lastDateOfWork
-          ? moment(values?.employee?.lastDateOfWork).format('YYYY-MM-DD')
-          : ''
+        handleFormatDate(values?.employee?.lastDateOfWork, 'YYYY-MM-DD')
       )
       formData.append('type', 2)
 
@@ -1200,7 +1205,7 @@ const EmployeeEditComponent = ({
         )
         formData.append(
           `educations[${index}][year_of_graduation]`,
-          moment(item?.educationYear).format('YYYY')
+          handleFormatDate(item?.educationYear, 'YYYY')
         )
         formData.append(
           `educations[${index}][description]`,
@@ -1242,7 +1247,7 @@ const EmployeeEditComponent = ({
         )
         formData.append(
           `families[${index}][date_of_birth]`,
-          moment(item?.dateOfBirth).format('YYYY-MM-DD')
+          handleFormatDate(item?.dateOfBirth, 'YYYY-MM-DD')
         )
         formData.append(
           `families[${index}][name_of_father]`,
@@ -1281,11 +1286,11 @@ const EmployeeEditComponent = ({
         formData.append(`leaves[${index}][id]`, item?.id || '')
         formData.append(
           `leaves[${index}][start_date]`,
-          moment(item?.period?.from).format('YYYY-MM-DD')
+          handleFormatDate(item?.period?.from, 'YYYY-MM-DD')
         )
         formData.append(
           `leaves[${index}][end_date]`,
-          moment(item?.period?.to).format('YYYY-MM-DD')
+          handleFormatDate(item?.period?.to, 'YYYY-MM-DD')
         )
         formData.append(
           `leaves[${index}][type]`,
@@ -1338,7 +1343,7 @@ const EmployeeEditComponent = ({
         formData.append(`assessments[${index}][id]`, item?.id || '')
         formData.append(
           `assessments[${index}][event_date]`,
-          moment(item?.date).format('YYYY-MM-DD')
+          handleFormatDate(item?.date, 'YYYY-MM-DD')
         )
         formData.append(
           `assessments[${index}][point]`,
@@ -1362,7 +1367,7 @@ const EmployeeEditComponent = ({
         formData.append(`competencies[${index}][id]`, item?.id || '')
         formData.append(
           `competencies[${index}][event_date]`,
-          moment(item?.date).format('YYYY-MM-DD')
+          handleFormatDate(item?.date, 'YYYY-MM-DD')
         )
         formData.append(
           `competencies[${index}][point]`,
@@ -1386,7 +1391,7 @@ const EmployeeEditComponent = ({
         formData.append(`talents[${index}][id]`, item?.id || '')
         formData.append(
           `talents[${index}][event_date]`,
-          moment(item?.date).format('YYYY-MM-DD')
+          handleFormatDate(item?.date, 'YYYY-MM-DD')
         )
         formData.append(
           `talents[${index}][point]`,
@@ -1425,7 +1430,7 @@ const EmployeeEditComponent = ({
         )
         formData.append(
           `positions[${index}][effective_date]`,
-          moment(item?.effectiveDate).format('YYYY-MM-DD')
+          handleFormatDate(item?.effectiveDate, 'YYYY-MM-DD')
         )
         formData.append(`positions[${index}][decree]`, item?.decree)
         formData.append(
@@ -1444,11 +1449,11 @@ const EmployeeEditComponent = ({
         )
         formData.append(
           `positions[${index}][decree_date]`,
-          moment(item?.decreeDate).format('YYYY-MM-DD')
+          handleFormatDate(item?.decreeDate, 'YYYY-MM-DD')
         )
         formData.append(
           `positions[${index}][termination_date]`,
-          moment(item?.terminationDate).format('YYYY-MM-DD')
+          handleFormatDate(item?.terminationDate, 'YYYY-MM-DD')
         )
         formData.append(
           `positions[${index}][termination_decree]`,
@@ -1466,7 +1471,7 @@ const EmployeeEditComponent = ({
         )
         formData.append(
           `positions[${index}][termination_decree_date]`,
-          moment(item?.terminationDecreeDate).format('YYYY-MM-DD')
+          handleFormatDate(item?.terminationDecreeDate, 'YYYY-MM-DD')
         )
         formData.append(
           `positions[${index}][status]`,
@@ -1487,7 +1492,7 @@ const EmployeeEditComponent = ({
         )
         formData.append(
           `grades[${index}][effective_date]`,
-          moment(item?.effectiveDate).format('YYYY-MM-DD')
+          handleFormatDate(item?.effectiveDate, 'YYYY-MM-DD')
         )
         formData.append(`grades[${index}][decree]`, item?.decree)
         formData.append(
@@ -1503,7 +1508,7 @@ const EmployeeEditComponent = ({
         formData.append(`grades[${index}][decree_number]`, item?.decreeNumber)
         formData.append(
           `grades[${index}][date_of_decree]`,
-          moment(item?.decreeDate).format('YYYY-MM-DD')
+          handleFormatDate(item?.decreeDate, 'YYYY-MM-DD')
         )
         formData.append(`grades[${index}][description]`, item?.description)
         formData.append(
@@ -1609,19 +1614,19 @@ const EmployeeEditComponent = ({
         )
         formData.append(
           `disciplinaries[${index}][date_of_decree]`,
-          moment(item?.decreeDate).format('YYYY-MM-DD')
+          handleFormatDate(item?.decreeDate, 'YYYY-MM-DD')
         )
         formData.append(
           `disciplinaries[${index}][start_date]`,
-          moment(item?.discipleDate?.from).format('YYYY-MM-DD')
+          handleFormatDate(item?.discipleDate?.from, 'YYYY-MM-DD')
         )
         formData.append(
           `disciplinaries[${index}][end_date]`,
-          moment(item?.discipleDate?.to).format('YYYY-MM-DD')
+          handleFormatDate(item?.discipleDate?.to, 'YYYY-MM-DD')
         )
         formData.append(
           `disciplinaries[${index}][end_date]`,
-          moment(item?.discipleDate?.to).format('YYYY-MM-DD')
+          handleFormatDate(item?.discipleDate?.to, 'YYYY-MM-DD')
         )
         formData.append(
           `disciplinaries[${index}][authorizing_officer]`,
@@ -1767,25 +1772,25 @@ const EmployeeEditComponent = ({
         return { name: itm?.name }
       })
       const dateOfBirth = detail?.date_of_birth
-        ? moment(detail?.date_of_birth, 'YYYY-MM-DD').toDate()
+        ? moment(detail?.date_of_birth, 'DD-MM-YYYY').toDate()
         : ''
       const positionEffectiveDate = detail?.position_effective_date
-        ? moment(detail?.position_effective_date, 'YYYY-MM-DD').toDate()
+        ? moment(detail?.position_effective_date, 'DD-MM-YYYY').toDate()
         : ''
       const gradeEffectiveDate = detail?.grade_effective_date
-        ? moment(detail?.grade_effective_date, 'YYYY-MM-DD').toDate()
+        ? moment(detail?.grade_effective_date, 'DD-MM-YYYY').toDate()
         : ''
       const echelonEffectiveDate = detail?.echelon_effective_date
-        ? moment(detail?.echelon_effective_date, 'YYYY-MM-DD').toDate()
+        ? moment(detail?.echelon_effective_date, 'DD-MM-YYYY').toDate()
         : ''
       const cpnsEffectiveDate = detail?.cpns_effective_date
-        ? moment(detail?.cpns_effective_date, 'YYYY-MM-DD').toDate()
+        ? moment(detail?.cpns_effective_date, 'DD-MM-YYYY').toDate()
         : ''
       const educationYear = detail?.education_year
         ? moment(detail?.education_year, 'YYYY').toDate()
         : null
       const quitDate = detail?.quit_date
-        ? moment(detail?.quit_date, 'YYYY-MM-DD').toDate()
+        ? moment(detail?.quit_date, 'DD-MM-YYYY').toDate()
         : ''
 
       // Employee
@@ -2084,16 +2089,16 @@ const EmployeeEditComponent = ({
           ? moment(itm?.period_year, 'YYYY').toDate()
           : null
         const positionsEffectiveDate = itm?.effective_date
-          ? moment(itm?.effective_date, 'YYYY-MM-DD').toDate()
+          ? moment(itm?.effective_date, 'DD-MM-YYYY').toDate()
           : ''
         const positionsDecreeDate = itm?.decree_date
-          ? moment(itm?.decree_date, 'YYYY-MM-DD').toDate()
+          ? moment(itm?.decree_date, 'DD-MM-YYYY').toDate()
           : ''
         const positionsTerminationDate = itm?.termination_date
-          ? moment(itm?.termination_date, 'YYYY-MM-DD').toDate()
+          ? moment(itm?.termination_date, 'DD-MM-YYYY').toDate()
           : ''
         const positionsTerminationDecreeDate = itm?.termination_decree_date
-          ? moment(itm?.termination_decree_date, 'YYYY-MM-DD').toDate()
+          ? moment(itm?.termination_decree_date, 'DD-MM-YYYY').toDate()
           : ''
 
         formikRef.current?.setFieldValue(
@@ -2209,10 +2214,10 @@ const EmployeeEditComponent = ({
           ? moment(itm?.period_year, 'YYYY').toDate()
           : null
         const gradesEffectiveDate = itm?.effective_date
-          ? moment(itm?.effective_date, 'YYYY-MM-DD')
+          ? moment(itm?.effective_date, 'DD-MM-YYYY')
           : ''
         const gradesDecreeDate = itm?.decree_date
-          ? moment(itm?.decree_date, 'YYYY-MM-DD')
+          ? moment(itm?.decree_date, 'DD-MM-YYYY')
           : ''
 
         formikRef.current?.setFieldValue(
@@ -2289,7 +2294,7 @@ const EmployeeEditComponent = ({
           ? moment(itm?.period_year, 'YYYY').toDate()
           : null
         const structuralsDate = itm?.start_date
-          ? moment(itm?.start_date, 'YYYY-MM-DD').toDate()
+          ? moment(itm?.start_date, 'DD-MM-YYYY').toDate()
           : null
 
         formikRef.current?.setFieldValue(
@@ -2357,7 +2362,7 @@ const EmployeeEditComponent = ({
           ? moment(itm?.period_year, 'YYYY').toDate()
           : null
         const functionalsDate = itm?.start_date
-          ? moment(itm?.start_date, 'YYYY-MM-DD').toDate()
+          ? moment(itm?.start_date, 'DD-MM-YYYY').toDate()
           : null
 
         formikRef.current?.setFieldValue(
@@ -2425,7 +2430,7 @@ const EmployeeEditComponent = ({
           ? moment(itm?.period_year, 'YYYY').toDate()
           : null
         const functionalsDate = itm?.start_date
-          ? moment(itm?.start_date, 'YYYY-MM-DD').toDate()
+          ? moment(itm?.start_date, 'DD-MM-YYYY').toDate()
           : null
 
         formikRef.current?.setFieldValue(
@@ -2483,10 +2488,10 @@ const EmployeeEditComponent = ({
           ? moment(itm?.period_year, 'YYYY').toDate()
           : null
         const recognitionsDecreeDate = itm?.decree_date
-          ? moment(itm?.decree_date, 'YYYY-MM-DD').toDate()
+          ? moment(itm?.decree_date, 'DD-MM-YYYY').toDate()
           : ''
         const recognitionsReceiptDate = itm?.date_of_receipt
-          ? moment(itm?.date_of_receipt, 'YYYY-MM-DD').toDate()
+          ? moment(itm?.date_of_receipt, 'DD-MM-YYYY').toDate()
           : ''
 
         formikRef.current?.setFieldValue(
@@ -2662,13 +2667,13 @@ const EmployeeEditComponent = ({
           ? moment(itm?.period_year, 'YYYY').toDate()
           : null
         const disciplinariesDecreeDate = itm?.date_of_decree
-          ? moment(itm?.date_of_decree, 'YYYY-MM-DD').toDate()
+          ? moment(itm?.date_of_decree, 'DD-MM-YYYY').toDate()
           : ''
         const disciplinariesDiscipleStartDate = itm?.start_date
-          ? moment(itm?.start_date, 'YYYY-MM-DD').toDate()
+          ? moment(itm?.start_date, 'DD-MM-YYYY').toDate()
           : ''
         const disciplinariesDiscipleEndDate = itm?.end_date
-          ? moment(itm?.end_date, 'YYYY-MM-DD').toDate()
+          ? moment(itm?.end_date, 'DD-MM-YYYY').toDate()
           : ''
 
         formikRef.current?.setFieldValue(
@@ -2775,7 +2780,7 @@ const EmployeeEditComponent = ({
       // Families
       detail?.families.map((itm, idx) => {
         const familiesDateOfBirth = itm?.date_of_birth
-          ? moment(itm?.date_of_birth, 'YYYY-MM-DD').toDate()
+          ? moment(itm?.date_of_birth, 'DD-MM-YYYY').toDate()
           : ''
 
         formikRef.current?.setFieldValue(
@@ -2879,10 +2884,10 @@ const EmployeeEditComponent = ({
       // Leaves
       detail?.leaves.map((itm, idx) => {
         const leavesStartDate = itm?.start_date
-          ? moment(itm?.start_date, 'YYYY-MM-DD').toDate()
+          ? moment(itm?.start_date, 'DD-MM-YYYY').toDate()
           : ''
         const leavesEndDate = itm?.end_date
-          ? moment(itm?.end_date, 'YYYY-MM-DD').toDate()
+          ? moment(itm?.end_date, 'DD-MM-YYYY').toDate()
           : ''
 
         formikRef.current?.setFieldValue(
@@ -2939,7 +2944,7 @@ const EmployeeEditComponent = ({
       // Assesments
       detail?.assessments.map((itm, idx) => {
         const assessmentsDate = itm?.event_date
-          ? moment(itm?.event_date, 'YYYY-MM-DD').toDate()
+          ? moment(itm?.event_date, 'DD-MM-YYYY').toDate()
           : ''
 
         formikRef.current?.setFieldValue(
@@ -2972,7 +2977,7 @@ const EmployeeEditComponent = ({
       // Competences
       detail?.competencies.map((itm, idx) => {
         const competencesDate = itm?.event_date
-          ? moment(itm?.event_date, 'YYYY-MM-DD').toDate()
+          ? moment(itm?.event_date, 'DD-MM-YYYY').toDate()
           : ''
 
         formikRef.current?.setFieldValue(
@@ -3005,7 +3010,7 @@ const EmployeeEditComponent = ({
       // Talent Pools
       detail?.talents.map((itm, idx) => {
         const talentsDate = itm?.event_date
-          ? moment(itm?.event_date, 'YYYY-MM-DD').toDate()
+          ? moment(itm?.event_date, 'DD-MM-YYYY').toDate()
           : ''
 
         formikRef.current?.setFieldValue(

@@ -653,6 +653,12 @@ const EmployeeAddComponent = ({
     }
   }
 
+  const handleFormatDate = (value, format) => {
+    if (value) return moment(value).format(format)
+
+    return ''
+  }
+
   const handleSubmit = async (values) => {
     try {
       await FormSchema.validate(values, { abortEarly: false })
@@ -685,7 +691,7 @@ const EmployeeAddComponent = ({
       formData.append('place_of_birth', values?.employee?.placeOfBirth)
       formData.append(
         'date_of_birth',
-        moment(values?.employee?.dateOfBirth).format('YYYY-MM-DD')
+        handleFormatDate(values?.employee?.dateOfBirth, 'YYYY-MM-DD')
       )
       formData.append(
         'religion',
@@ -702,7 +708,7 @@ const EmployeeAddComponent = ({
       )
       formData.append(
         'cpns_effective_date',
-        moment(values?.employee?.dateStartedWork).format('YYYY-MM-DD')
+        handleFormatDate(values?.employee?.dateStartedWork, 'YYYY-MM-DD')
       )
       formData.append(
         'position_id',
@@ -710,7 +716,7 @@ const EmployeeAddComponent = ({
       )
       formData.append(
         'position_effective_date',
-        moment(values?.employee?.positionEffectiveDate).format('YYYY-MM-DD')
+        handleFormatDate(values?.employee?.positionEffectiveDate, 'YYYY-MM-DD')
       )
       formData.append(
         'grade_id',
@@ -718,7 +724,7 @@ const EmployeeAddComponent = ({
       )
       formData.append(
         'grade_effective_date',
-        moment(values?.employee?.gradeEffectiveDate).format('YYYY-MM-DD')
+        handleFormatDate(values?.employee?.gradeEffectiveDate, 'YYYY-MM-DD')
       )
       formData.append(
         'echelon_id',
@@ -728,9 +734,7 @@ const EmployeeAddComponent = ({
       )
       formData.append(
         'echelon_effective_date',
-        values?.employee?.echelonEffectiveDate
-          ? moment(values?.employee?.echelonEffectiveDate).format('YYYY-MM-DD')
-          : ''
+        handleFormatDate(values?.employee?.echelonEffectiveDate, 'YYYY-MM-DD')
       )
       formData.append(
         'institution_id',
@@ -746,7 +750,7 @@ const EmployeeAddComponent = ({
       formData.append('education_name', values?.employee?.educationName)
       formData.append(
         'education_year',
-        moment(values?.employee?.educationYear).format('YYYY')
+        handleFormatDate(values?.employee?.educationYear, 'YYYY')
       )
       formData.append(
         'employee_id_card_number',
@@ -791,9 +795,7 @@ const EmployeeAddComponent = ({
       formData.append('description', null)
       formData.append(
         'quit_date',
-        values?.employee?.lastDateOfWork
-          ? moment(values?.employee?.lastDateOfWork).format('YYYY-MM-DD')
-          : ''
+        handleFormatDate(values?.employee?.lastDateOfWork, 'YYYY-MM-DD')
       )
       formData.append('type', 2)
 
@@ -812,7 +814,7 @@ const EmployeeAddComponent = ({
         )
         formData.append(
           `educations[${index}][year_of_graduation]`,
-          moment(item?.educationYear).format('YYYY')
+          handleFormatDate(item?.educationYear, 'YYYY')
         )
         formData.append(
           `educations[${index}][description]`,
@@ -846,7 +848,7 @@ const EmployeeAddComponent = ({
         )
         formData.append(
           `families[${index}][date_of_birth]`,
-          moment(item?.dateOfBirth).format('YYYY-MM-DD')
+          handleFormatDate(item?.dateOfBirth, 'YYYY-MM-DD')
         )
         formData.append(
           `families[${index}][name_of_father]`,
@@ -884,11 +886,11 @@ const EmployeeAddComponent = ({
       leaves.map((item, index) => {
         formData.append(
           `leaves[${index}][start_date]`,
-          moment(item?.period?.from).format('YYYY-MM-DD')
+          handleFormatDate(item?.period?.from, 'YYYY-MM-DD')
         )
         formData.append(
           `leaves[${index}][end_date]`,
-          moment(item?.period?.to).format('YYYY-MM-DD')
+          handleFormatDate(item?.period?.to, 'YYYY-MM-DD')
         )
         formData.append(
           `leaves[${index}][type]`,
@@ -929,7 +931,7 @@ const EmployeeAddComponent = ({
       assessments.map((item, index) => {
         formData.append(
           `assessments[${index}][event_date]`,
-          moment(item?.date).format('YYYY-MM-DD')
+          handleFormatDate(item?.date, 'YYYY-MM-DD')
         )
         formData.append(
           `assessments[${index}][point]`,
@@ -946,7 +948,7 @@ const EmployeeAddComponent = ({
       competences.map((item, index) => {
         formData.append(
           `competencies[${index}][event_date]`,
-          moment(item?.date).format('YYYY-MM-DD')
+          handleFormatDate(item?.date, 'YYYY-MM-DD')
         )
         formData.append(
           `competencies[${index}][point]`,
@@ -963,7 +965,7 @@ const EmployeeAddComponent = ({
       talentPools.map((item, index) => {
         formData.append(
           `talents[${index}][event_date]`,
-          moment(item?.date).format('YYYY-MM-DD')
+          handleFormatDate(item?.date, 'YYYY-MM-DD')
         )
         formData.append(
           `talents[${index}][point]`,

@@ -8,6 +8,7 @@ import { CALENDAR_ICON } from '@/utils/iconConstant'
 import { formatDate } from '@/utils/index'
 import { Box, IconButton, Typography } from '@mui/material'
 import { Cancel } from '@mui/icons-material'
+import moment from 'moment'
 
 function DatePickerDay({
   label,
@@ -17,14 +18,31 @@ function DatePickerDay({
   error,
   fullWidth = false,
   mode = 'single',
-  onChange = () => { },
+  onChange = () => {},
   ...other
 }) {
   const [open, setOpen] = useState(false)
 
+  const handleFormatDate = (value, format) => {
+    return moment(value).format(format)
+  }
+
   const valueDate = useMemo(() => {
     return value || null
   }, [value])
+
+  const defaultMonth = useMemo(() => {
+    if (valueDate) {
+      const date = mode === 'single' ? valueDate : valueDate?.from
+
+      return new Date(
+        handleFormatDate(date, 'YYYY'),
+        handleFormatDate(date, 'M') - 1
+      )
+    }
+
+    return new Date()
+  }, [valueDate, mode])
 
   const handleSelectedValue = (val) => {
     onChange(val)
@@ -52,8 +70,8 @@ function DatePickerDay({
             valueDate
               ? mode == 'range'
                 ? `${formatDate(valueDate?.from)} - ${formatDate(
-                  valueDate?.to
-                )}`
+                    valueDate?.to
+                  )}`
                 : formatDate(valueDate)
               : ''
           }
@@ -102,15 +120,31 @@ function DatePickerDay({
         keepMounted
         open={open}
         onClose={() => setOpen(false)}
-        width='350px'
+        width='fit-content'
         padding='1rem 1rem'
       >
         <DayPicker
+          key={defaultMonth}
+          defaultMonth={defaultMonth}
+          captionLayout='dropdown'
           mode={mode}
-          defaultMonth={valueDate || new Date()}
-          selected={valueDate || new Date()}
-          onSelect={handleSelectedValue}
-          style={{ margin: 0 }}
+          selected={valueDate}
+          onDayClick={(day) => {
+            if (mode == 'range' && valueDate?.from && !valueDate?.to) {
+              handleSelectedValue({ from: valueDate?.from, to: day })
+              return
+            }
+
+            if (
+              mode == 'range' &&
+              (!valueDate?.from || (valueDate?.from && valueDate?.to))
+            ) {
+              handleSelectedValue({ from: day, to: undefined })
+              return
+            }
+
+            handleSelectedValue(day)
+          }}
         />
       </Modal>
     </Box>

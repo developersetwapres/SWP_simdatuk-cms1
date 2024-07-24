@@ -349,6 +349,12 @@ const EmployeeAddComponent = ({
     }
   }
 
+  const handleFormatDate = (value, format) => {
+    if (value) return moment(value).format(format)
+
+    return ''
+  }
+
   const handleSubmit = async (values) => {
     try {
       await FormSchema.validate(values, { abortEarly: false })
@@ -375,7 +381,7 @@ const EmployeeAddComponent = ({
       formData.append('place_of_birth', values?.employee?.placeOfBirth)
       formData.append(
         'date_of_birth',
-        moment(values?.employee?.dateOfBirth).format('YYYY-MM-DD')
+        handleFormatDate(values?.employee?.dateOfBirth, 'YYYY-MM-DD')
       )
       formData.append(
         'religion',
@@ -392,7 +398,7 @@ const EmployeeAddComponent = ({
       )
       formData.append(
         'cpns_effective_date',
-        moment(values?.employee?.dateStartedWork).format('YYYY-MM-DD')
+        handleFormatDate(values?.employee?.dateStartedWork, 'YYYY-MM-DD')
       )
       formData.append(
         'position_id',
@@ -400,9 +406,7 @@ const EmployeeAddComponent = ({
       )
       formData.append(
         'position_effective_date',
-        values?.employee?.positionEffectiveDate
-          ? moment(values?.employee?.positionEffectiveDate).format('YYYY-MM-DD')
-          : ''
+        handleFormatDate(values?.employee?.positionEffectiveDate, 'YYYY-MM-DD')
       )
       formData.append('grade_id', '')
       formData.append('grade_effective_date', '')
@@ -419,7 +423,7 @@ const EmployeeAddComponent = ({
       formData.append('education_name', values?.employee?.educationName)
       formData.append(
         'education_year',
-        moment(values?.employee?.educationYear).format('YYYY')
+        handleFormatDate(values?.employee?.educationYear, 'YYYY')
       )
       formData.append(
         'employee_id_card_number',
@@ -461,9 +465,7 @@ const EmployeeAddComponent = ({
       formData.append('description', values?.employee?.description)
       formData.append(
         'quit_date',
-        values?.employee?.lastDateOfWork
-          ? moment(values?.employee?.lastDateOfWork).format('YYYY-MM-DD')
-          : ''
+        handleFormatDate(values?.employee?.lastDateOfWork, 'YYYY-MM-DD')
       )
       formData.append('type', 3)
 
@@ -482,7 +484,7 @@ const EmployeeAddComponent = ({
         )
         formData.append(
           `educations[${index}][year_of_graduation]`,
-          moment(item?.educationYear).format('YYYY')
+          handleFormatDate(item?.educationYear, 'YYYY')
         )
         formData.append(
           `educations[${index}][description]`,
