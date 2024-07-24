@@ -10,7 +10,11 @@ import { Delete, Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 import { useSelector } from 'react-redux'
-import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import {
+  Access,
+  accessGranted,
+  PermissionsIDs
+} from '@/utils/permissionManager'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -59,12 +63,12 @@ const styles = {
 const MasterDataPositionComponent = ({
   position,
   queries,
-  onFetch = () => { },
-  onSearch = () => { },
-  onLoading = () => { },
-  deletePosition = () => { },
-  onPaginationChange = () => { },
-  onRowsPerPageChange = () => { }
+  onFetch = () => {},
+  onSearch = () => {},
+  onLoading = () => {},
+  deletePosition = () => {},
+  onPaginationChange = () => {},
+  onRowsPerPageChange = () => {}
 }) => {
   const classes = useStyles()
   const router = useRouter()
@@ -111,7 +115,6 @@ const MasterDataPositionComponent = ({
   }, [])
 
   const rows = useMemo(() => {
-    console.log('POSITION: ', position)
     const data = position?.data || []
     const dataMapping = data?.map((item) => {
       return [

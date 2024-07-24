@@ -65,10 +65,6 @@ const EmployeeForm = ({
     }
   }, [values?.employee?.positions])
 
-  useEffect(() => {
-    console.log('errors', errors)
-  }, [errors])
-
   return (
     <CardAccordion title='Data Pegawai' isExpand>
       <Grid container spacing={3} sx={{ marginBottom: '10px' }}>
