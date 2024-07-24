@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import LayoutPages from '@/components/core/LayoutPages'
 import { useRouter } from 'next/router'
 import { Button, Modal, Table } from '@/components/shared'
@@ -72,16 +72,21 @@ const style = {
 }
 
 const EmployeeAddBulkComponent = ({
+  queries,
   employee,
+  onSetQueries = () => {},
+  onFetchHistories = () => {},
   downloadTemplate = () => {},
   uploadTemplate = () => {},
   clearTemplate = () => {},
-  clearEmployeeState = () => {},
+  clearTemplateUpload = () => {},
   onPaginationChange = () => {},
   onRowsPerPageChange = () => {},
   setLoading = () => {}
 }) => {
   const router = useRouter()
+  const inputRef = useRef(null)
+
   const [selectedFile, setSelectedFile] = useState(null)
   const [modalOpen, setModalOpen] = useState(false)
   const [modalMode, setModalMode] = useState(DynamicModalMode.CONFIRM)
@@ -109,7 +114,10 @@ const EmployeeAddBulkComponent = ({
 
   const handleFileChange = (event) => {
     const file = event.target.files[0]
-    setSelectedFile(file)
+    if (file) {
+      setSelectedFile(file)
+      event.target.value = null
+    }
   }
 
   const rows = useMemo(() => {
@@ -200,17 +208,22 @@ const EmployeeAddBulkComponent = ({
   }
 
   useEffect(() => {
-    // UPLOAD FILE
-    if (employee?.uploaded) {
-      setModalMode(DynamicModalMode.INFO)
-      setSelectedFile(null)
-      clearEmployeeState()
+    const payload = {
+      ...queries,
+      type: employeeType
     }
 
-    if (employee?.error) {
+    if (payload && payload !== queries) {
+      onSetQueries(payload)
+      onFetchHistories(payload)
+    }
+  }, [employeeType])
+
+  useEffect(() => {
+    if (employee?.error || employee?.uploaded) {
       setModalMode(DynamicModalMode.CONFIRM)
       setModalOpen(false)
-      clearEmployeeState()
+      clearTemplateUpload()
     }
 
     // EXPORT
@@ -218,9 +231,7 @@ const EmployeeAddBulkComponent = ({
       saveFile(employee?.template, getFileName(), SaveAs.XLS)
       clearTemplate()
     }
-  }, [employee])
 
-  useEffect(() => {
     setLoading(!employee?.loading)
   }, [employee])
 
@@ -251,11 +262,12 @@ const EmployeeAddBulkComponent = ({
                 role={undefined}
                 variant='contained'
                 tabIndex={-1}
-                onChange={handleFileChange}
                 sx={{ textTransform: 'none' }}
               >
                 Pilih File
                 <VisuallyHiddenInput
+                  ref={inputRef}
+                  onChange={handleFileChange}
                   type='file'
                   accept='application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
                 />
@@ -410,12 +422,13 @@ const DynamicModal = ({
       aria-describedby='transition-modal-description'
       open={open}
       width={'600px'}
+      otherStyle={{ paddingTop: '40px' }}
     >
       <Box
         sx={{
           width: '100%',
           textAlign: 'center',
-          padding: '28px 0x 0px 0px'
+          padding: mode == DynamicModalMode.UPLOAD ? '30px 0' : 0
         }}
       >
         <Image
@@ -445,13 +458,13 @@ const DynamicModal = ({
             {mode === DynamicModalMode.CONFIRM && (
               <Button
                 text='Ya'
-                variant={'outlined'}
                 onClick={handleConfirm}
                 style={{ width: '100%' }}
               />
             )}
             <Button
               text={mode === DynamicModalMode.INFO ? 'Tutup' : 'Tidak'}
+              variant={'outlined'}
               style={{ width: '100%' }}
               onClick={handleCancel}
             />
@@ -470,11 +483,14 @@ DynamicModal.propTypes = {
 }
 
 EmployeeAddBulkComponent.propTypes = {
+  queries: PropTypes.object,
   employee: PropTypes.object,
+  onSetQueries: PropTypes.func,
+  onFetchHistories: PropTypes.func,
   downloadTemplate: PropTypes.func,
   uploadTemplate: PropTypes.func,
   clearTemplate: PropTypes.func,
-  clearEmployeeState: PropTypes.func,
+  clearTemplateUpload: PropTypes.func,
   setLoading: PropTypes.func,
   onPaginationChange: PropTypes.func,
   onRowsPerPageChange: PropTypes.func

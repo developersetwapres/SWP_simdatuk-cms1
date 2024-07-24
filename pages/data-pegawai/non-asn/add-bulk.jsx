@@ -1,9 +1,9 @@
 import React from 'react'
 import WithAuth from '@/components/shared/WithAuth'
-import EmployeeAddBulkNonASNContainer from '@/containers/DataPegawaiContainer/Non-Asn/EmployeeAddBulkNonASNContainer'
+import EmployeeAddBulkContainer from '@/containers/DataPegawaiContainer/EmployeeAddBulkContainer'
 
 const AddBulkEmployeeNonASN = () => {
-  return <EmployeeAddBulkNonASNContainer />
+  return <EmployeeAddBulkContainer />
 }
 
 export default WithAuth(AddBulkEmployeeNonASN)

@@ -1,9 +1,9 @@
 import React from 'react'
-import EmployeeAddBulkOutsourcingContainer from '@/containers/DataPegawaiContainer/Outsourcing/EmployeeAddBulkOutsourcingContainer'
 import WithAuth from '@/components/shared/WithAuth'
+import EmployeeAddBulkContainer from '@/containers/DataPegawaiContainer/EmployeeAddBulkContainer'
 
 const AddBulkEmployeeOutsourcing = () => {
-  return <EmployeeAddBulkOutsourcingContainer />
+  return <EmployeeAddBulkContainer />
 }
 
 export default WithAuth(AddBulkEmployeeOutsourcing)

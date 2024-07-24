@@ -11,18 +11,18 @@ export default connect(
     'downloadTemplate',
     'uploadTemplate',
     'clearTemplate',
-    'clearEmployeeState',
-    'getActivitiesHistory',
+    'clearTemplateUpload',
+    'getActivitiesHistory'
   )
 )(
-  class EmployeeNonOutsourcingContainer extends Component {
+  class EmployeeAddBulkContainer extends Component {
     static propTypes = {
       employee: PropTypes.object,
       downloadTemplate: PropTypes.func,
       uploadTemplate: PropTypes.func,
       getActivitiesHistory: PropTypes.func,
       clearTemplate: PropTypes.func,
-      clearEmployeeState: PropTypes.func
+      clearTemplateUpload: PropTypes.func
     }
 
     constructor(props) {
@@ -32,10 +32,10 @@ export default connect(
         queries: {
           page: 1,
           limit: 10,
-          type: 1,
           search: ''
         }
       }
+      this.setQueries = this.setQueries.bind(this)
       this.setLoading = this.setLoading.bind(this)
       this.onPaginationChange = this.onPaginationChange.bind(this)
       this.onRowsPerPageChange = this.onRowsPerPageChange.bind(this)
@@ -83,12 +83,12 @@ export default connect(
       this.fetch(queries)
     }
 
-    fetch(queries) {
-      this.props.getActivitiesHistory(queries)
+    setQueries(queries) {
+      this.setState({ queries })
     }
 
-    componentDidMount() {
-      this.fetch(this.state.queries)
+    fetch(queries) {
+      this.props.getActivitiesHistory(queries)
     }
 
     setLoading(val) {
@@ -101,6 +101,8 @@ export default connect(
           <EmployeeAddBulkComponent
             {...this.state}
             {...this.props}
+            onFetchHistories={this.fetch}
+            onSetQueries={this.setQueries}
             setLoading={this.setLoading}
             onPaginationChange={this.onPaginationChange}
             onRowsPerPageChange={this.onRowsPerPageChange}
