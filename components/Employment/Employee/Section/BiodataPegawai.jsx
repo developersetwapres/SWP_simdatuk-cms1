@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 import { useRouter } from 'next/router'
 import { employeeTypeOptions } from 'libs/types/options'
 import moment from 'moment'
+import 'moment/locale/id'
 
 const BiodataPegawai = ({ data }) => {
   const router = useRouter()
