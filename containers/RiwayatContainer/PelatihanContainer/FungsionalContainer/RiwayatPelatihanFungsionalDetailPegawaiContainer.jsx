@@ -9,12 +9,14 @@ import EmployeeDetailComponent from '@/components/Employment/Employee/EmployeeDe
 export default connect(
   mapStateToProps(
     'employee',
-    'institution'
+    'institution',
+    'exportEmployeeData'
   ),
   mapActions(
     'updateEmployee',
     'getEmployee',
     'clearEmployeeState',
+    'exportEmployeeDetail',
     'getInstitutionsOptions'
   )
 )(
@@ -23,7 +25,9 @@ export default connect(
       employee: PropTypes.object,
       getEmployee: PropTypes.func,
       clearEmployeeState: PropTypes.func,
-      getInstitutionsOptions: PropTypes.func
+      getInstitutionsOptions: PropTypes.func,
+      exportEmployeeData: PropTypes.object,
+      exportEmployeeDetail: PropTypes.func
     }
 
     constructor(props) {
