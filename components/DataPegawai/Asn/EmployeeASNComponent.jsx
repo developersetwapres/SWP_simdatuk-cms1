@@ -40,12 +40,13 @@ const EmployeeASNComponent = ({
   employee,
   grade,
   position,
-  synchronizeEmployees = () => { },
-  onLoading = () => { },
-  onSearch = () => { },
-  onFilter = () => { },
-  onPaginationChange = () => { },
-  onRowsPerPageChange = () => { }
+  clearPositionState = () => {},
+  synchronizeEmployees = () => {},
+  onLoading = () => {},
+  onSearch = () => {},
+  onFilter = () => {},
+  onPaginationChange = () => {},
+  onRowsPerPageChange = () => {}
 }) => {
   const router = useRouter()
 
@@ -57,6 +58,16 @@ const EmployeeASNComponent = ({
     })
 
     return arr
+  }
+
+  const handleRedirect = (type, id) => {
+    if (type == 'add') {
+      router.push(`${router.pathname}/add`)
+    } else {
+      router.push(`${router.pathname}/${type}/${id}`)
+    }
+
+    clearPositionState()
   }
 
   const options = useMemo(() => {
@@ -171,37 +182,24 @@ const EmployeeASNComponent = ({
           verticalAlign: 'top',
           Cell: () => (
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              {
-                accessGranted(
-                  PermissionsIDs.EMPLOYEE_ASN,
-                  Access.READ
-                ) && (
-                  <Button
-                    text='Detail'
-                    color='primary'
-                    icon={<Info style={styles.iconButton} />}
-                    sx={styles.buttonAction}
-                    onClick={() =>
-                      router.push(`${router.pathname}/detail/${btoa(item?.id)}`)
-                    }
-                  />
-                )
-              }
-              {
-                accessGranted(
-                  PermissionsIDs.EMPLOYEE_ASN,
-                  Access.UPDATE
-                ) && (
-                  <Button
-                    text='Edit'
-                    color='sidatukDraweBase'
-                    icon={<Edit style={styles.iconButton} />}
-                    sx={styles.buttonAction}
-                    onClick={() =>
-                      router.push(`${router.pathname}/edit/${btoa(item?.id)}`)
-                    }
-                  />
-                )}
+              {accessGranted(PermissionsIDs.EMPLOYEE_ASN, Access.READ) && (
+                <Button
+                  text='Detail'
+                  color='primary'
+                  icon={<Info style={styles.iconButton} />}
+                  sx={styles.buttonAction}
+                  onClick={() => handleRedirect('detail', btoa(item?.id))}
+                />
+              )}
+              {accessGranted(PermissionsIDs.EMPLOYEE_ASN, Access.UPDATE) && (
+                <Button
+                  text='Edit'
+                  color='sidatukDraweBase'
+                  icon={<Edit style={styles.iconButton} />}
+                  sx={styles.buttonAction}
+                  onClick={() => handleRedirect('edit', btoa(item?.id))}
+                />
+              )}
             </Box>
           )
         }
@@ -219,24 +217,20 @@ const EmployeeASNComponent = ({
           sx={{ backgroundColor: '#F16637' }}
           onClick={() => synchronizeEmployees()}
         />
-        {
-          accessGranted(
-            PermissionsIDs.EMPLOYEE_ASN,
-            Access.CREATE
-          ) && (
-            <>
-              <Button
-                text='Tambah Massal'
-                color='sidatukDraweBase'
-                onClick={() => router.push(`${router.asPath}/add-bulk`)}
-              />
-              <Button
-                text='Tambah'
-                color='primary'
-                onClick={() => router.push(`${router.asPath}/add`)}
-              />
-            </>
-          )}
+        {accessGranted(PermissionsIDs.EMPLOYEE_ASN, Access.CREATE) && (
+          <>
+            <Button
+              text='Tambah Massal'
+              color='sidatukDraweBase'
+              onClick={() => router.push(`${router.pathname}/add-bulk`)}
+            />
+            <Button
+              text='Tambah'
+              color='primary'
+              onClick={() => handleRedirect('add', null)}
+            />
+          </>
+        )}
       </Box>
     )
   }, [])
@@ -281,9 +275,7 @@ const EmployeeASNComponent = ({
   }
 
   useEffect(() => {
-    const state = !(
-      employee?.loading || grade?.loading || position?.loading
-    )
+    const state = !(employee?.loading || grade?.loading || position?.loading)
     onLoading(state)
   }, [employee, grade, position])
 
@@ -310,6 +302,7 @@ EmployeeASNComponent.propTypes = {
   position: PropTypes.object,
   grade: PropTypes.object,
   onLoading: PropTypes.func,
+  clearPositionState: PropTypes.func,
   synchronizeEmployees: PropTypes.func,
   onSearch: PropTypes.func,
   onFilter: PropTypes.func,

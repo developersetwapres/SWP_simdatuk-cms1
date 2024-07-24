@@ -98,18 +98,18 @@ const FormSchema = Yup.object().shape({
     dateStartedWork: Yup.string().required(
       'Tanggal Mulai Bekerja tidak boleh kosong'
     ),
-    position: Yup.array().of(
+    positions: Yup.array().of(
       Yup.object().shape({
-        name: Yup.string()
+        name: Yup.mixed()
           .nullable()
-          .test('is-null', 'Jabatan tidak boleh kosong', function (value) {
-            const { path, createError } = this
-            if (this.parent[0].name === null) {
-              return createError({
-                path: `${path}`,
-                message: 'Jabatan tidak boleh kosong'
-              })
-            }
+          .test('is-required', 'Jabatan tidak boleh kosong', function (value) {
+            const { path } = this
+
+            const pathParts = path.split('.')
+            const index = pathParts[1].match(/\d+/)[0]
+
+            if (!value && index == 0) return false
+
             return true
           })
       })
@@ -129,7 +129,11 @@ const FormSchema = Yup.object().shape({
       'Tanggal Terakhir Bekerja tidak boleh kosong',
       function (value) {
         const { employmentStatus } = this.parent
-        if (employmentStatus !== 'Aktif' && employmentStatus !== 'Aktif PS') {
+        if (
+          employmentStatus !== 'Aktif' &&
+          employmentStatus !== 'Aktif Perbantuan Setneg' &&
+          employmentStatus !== 'Hukuman Disiplin'
+        ) {
           return value != null && value !== ''
         }
         return true
@@ -455,6 +459,12 @@ const EmployeeAddComponent = ({
       formData.append('office_email', values?.employee?.officeEmail)
       formData.append('emergency_contact', values?.employee?.emergencyContact)
       formData.append('description', values?.employee?.description)
+      formData.append(
+        'quit_date',
+        values?.employee?.lastDateOfWork
+          ? moment(values?.employee?.lastDateOfWork).format('YYYY-MM-DD')
+          : ''
+      )
       formData.append('type', 3)
 
       // Educations

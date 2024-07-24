@@ -123,18 +123,18 @@ const FormSchema = Yup.object().shape({
     dateStartedWork: Yup.string().required(
       'Tanggal Mulai Bekerja tidak boleh kosong'
     ),
-    position: Yup.array().of(
+    positions: Yup.array().of(
       Yup.object().shape({
-        name: Yup.string()
+        name: Yup.mixed()
           .nullable()
-          .test('is-null', 'Jabatan tidak boleh kosong', function (value) {
-            const { path, createError } = this
-            if (this.parent[0].name === null) {
-              return createError({
-                path: `${path}`,
-                message: 'Jabatan tidak boleh kosong'
-              })
-            }
+          .test('is-required', 'Jabatan tidak boleh kosong', function (value) {
+            const { path } = this
+
+            const pathParts = path.split('.')
+            const index = pathParts[1].match(/\d+/)[0]
+
+            if (!value && index == 0) return false
+
             return true
           })
       })
@@ -162,7 +162,11 @@ const FormSchema = Yup.object().shape({
       'Tanggal Terakhir Bekerja tidak boleh kosong',
       function (value) {
         const { employmentStatus } = this.parent
-        if (employmentStatus !== 'Aktif' && employmentStatus !== 'Aktif PS') {
+        if (
+          employmentStatus !== 'Aktif' &&
+          employmentStatus !== 'Aktif Perbantuan Setneg' &&
+          employmentStatus !== 'Hukuman Disiplin'
+        ) {
           return value != null && value !== ''
         }
         return true
@@ -537,6 +541,241 @@ const FormSchema = Yup.object().shape({
     } else {
       return Yup.array()
     }
+  }),
+  positions: Yup.lazy((positions) => {
+    if (Array.isArray(positions) && positions.length > 0) {
+      return Yup.array().of(
+        Yup.object().shape({
+          position: Yup.string().required('Jabatan tidak boleh kosong'),
+          group: Yup.string().required('Rumpun tidak boleh kosong'),
+          effectiveDate: Yup.string().required(
+            'TMT Menjabat tidak boleh kosong'
+          ),
+          status: Yup.string().required('Status tidak boleh kosong'),
+          decreeDocument: Yup.mixed()
+            .nullable()
+            .test(
+              'fileType',
+              'Format file harus PNG, JPG, atau PDF',
+              (value) => {
+                if (!value || !isFile(value)) return true
+                const fileType = value && value.type
+                return (
+                  fileType === 'image/png' ||
+                  fileType === 'image/jpeg' ||
+                  fileType === 'application/pdf'
+                )
+              }
+            )
+            .test(
+              'fileSize',
+              'Ukuran file tidak boleh lebih dari 2MB',
+              (value) => {
+                const maxSize = 2 * 1024 * 1024
+                if (!value || !isFile(value)) return true
+                return value.size <= maxSize
+              }
+            )
+        })
+      )
+    } else {
+      return Yup.array()
+    }
+  }),
+  grades: Yup.lazy((grades) => {
+    if (Array.isArray(grades) && grades.length > 0) {
+      return Yup.array().of(
+        Yup.object().shape({
+          grade: Yup.string().required('Golongan tidak boleh kosong'),
+          effectiveDate: Yup.string().required(
+            'TMT Golongan tidak boleh kosong'
+          ),
+          decreeType: Yup.string().required(
+            'Jenis SK Golongan tidak boleh kosong'
+          ),
+          decreeNumber: Yup.string().required(
+            'No. SK Golongan tidak boleh kosong'
+          ),
+          status: Yup.string().required('Status Golongan tidak boleh kosong'),
+          decreeDocument: Yup.mixed()
+            .nullable()
+            .test(
+              'fileType',
+              'Format file harus PNG, JPG, atau PDF',
+              (value) => {
+                if (!value || !isFile(value)) return true
+                const fileType = value && value.type
+                return (
+                  fileType === 'image/png' ||
+                  fileType === 'image/jpeg' ||
+                  fileType === 'application/pdf'
+                )
+              }
+            )
+            .test(
+              'fileSize',
+              'Ukuran file tidak boleh lebih dari 2MB',
+              (value) => {
+                const maxSize = 2 * 1024 * 1024
+                if (!value || !isFile(value)) return true
+                return value.size <= maxSize
+              }
+            )
+        })
+      )
+    } else {
+      return Yup.array()
+    }
+  }),
+  trainingStructurals: Yup.lazy((trainingStructurals) => {
+    if (Array.isArray(trainingStructurals) && trainingStructurals.length > 0) {
+      return Yup.array().of(
+        Yup.object().shape({
+          certificate: Yup.mixed()
+            .nullable()
+            .test(
+              'fileType',
+              'Format file harus PNG, JPG, atau PDF',
+              (value) => {
+                if (!value || !isFile(value)) return true
+                const fileType = value && value.type
+                return (
+                  fileType === 'image/png' ||
+                  fileType === 'image/jpeg' ||
+                  fileType === 'application/pdf'
+                )
+              }
+            )
+            .test(
+              'fileSize',
+              'Ukuran file tidak boleh lebih dari 2MB',
+              (value) => {
+                const maxSize = 2 * 1024 * 1024
+                if (!value || !isFile(value)) return true
+                return value.size <= maxSize
+              }
+            )
+        })
+      )
+    } else {
+      return Yup.array()
+    }
+  }),
+  trainingFungsionals: Yup.lazy((trainingFungsionals) => {
+    if (Array.isArray(trainingFungsionals) && trainingFungsionals.length > 0) {
+      return Yup.array().of(
+        Yup.object().shape({
+          certificate: Yup.mixed()
+            .nullable()
+            .test(
+              'fileType',
+              'Format file harus PNG, JPG, atau PDF',
+              (value) => {
+                if (!value || !isFile(value)) return true
+                const fileType = value && value.type
+                return (
+                  fileType === 'image/png' ||
+                  fileType === 'image/jpeg' ||
+                  fileType === 'application/pdf'
+                )
+              }
+            )
+            .test(
+              'fileSize',
+              'Ukuran file tidak boleh lebih dari 2MB',
+              (value) => {
+                const maxSize = 2 * 1024 * 1024
+                if (!value || !isFile(value)) return true
+                return value.size <= maxSize
+              }
+            )
+        })
+      )
+    } else {
+      return Yup.array()
+    }
+  }),
+  trainingTechnicals: Yup.lazy((trainingTechnicals) => {
+    if (Array.isArray(trainingTechnicals) && trainingTechnicals.length > 0) {
+      return Yup.array().of(
+        Yup.object().shape({
+          certificate: Yup.mixed()
+            .nullable()
+            .test(
+              'fileType',
+              'Format file harus PNG, JPG, atau PDF',
+              (value) => {
+                if (!value || !isFile(value)) return true
+                const fileType = value && value.type
+                return (
+                  fileType === 'image/png' ||
+                  fileType === 'image/jpeg' ||
+                  fileType === 'application/pdf'
+                )
+              }
+            )
+            .test(
+              'fileSize',
+              'Ukuran file tidak boleh lebih dari 2MB',
+              (value) => {
+                const maxSize = 2 * 1024 * 1024
+                if (!value || !isFile(value)) return true
+                return value.size <= maxSize
+              }
+            )
+        })
+      )
+    } else {
+      return Yup.array()
+    }
+  }),
+  targets: Yup.lazy((targets) => {
+    if (Array.isArray(targets) && targets.length > 0) {
+      return Yup.array().of(
+        Yup.object().shape({
+          workBehavior: Yup.string().required(
+            'Rating Perilaku Kerja tidak boleh kosong'
+          ),
+          performance: Yup.string().required(
+            'Predikat Kinerja Pegawai tidak boleh kosong'
+          ),
+          performanceAchievement: Yup.string().required(
+            'Capaian Kinerja Organisasi tidak boleh kosong'
+          )
+        })
+      )
+    } else {
+      return Yup.array()
+    }
+  }),
+  performances: Yup.lazy((performances) => {
+    if (Array.isArray(performances) && performances.length > 0) {
+      return Yup.array().of(
+        Yup.object().shape({
+          point: Yup.string().required(
+            'Nilai Prestasi Kerja tidak boleh kosong'
+          )
+        })
+      )
+    } else {
+      return Yup.array()
+    }
+  }),
+  disciplinaries: Yup.lazy((disciplinaries) => {
+    if (Array.isArray(disciplinaries) && disciplinaries.length > 0) {
+      return Yup.array().of(
+        Yup.object().shape({
+          discipleType: Yup.string().required(
+            'Jenis Hukuman tidak boleh kosong'
+          ),
+          discipleDate: Yup.string().required(
+            'Tanggal Hukuman Disiplin tidak boleh kosong'
+          )
+        })
+      )
+    } else {
+      return Yup.array()
+    }
   })
 })
 
@@ -724,6 +963,7 @@ const EmployeeEditComponent = ({
         return item
       } else {
         const index = options[type].findIndex((itm) => itm == val) + 1
+
         return index
       }
     } else {
@@ -840,10 +1080,7 @@ const EmployeeEditComponent = ({
         'cpns_effective_date',
         moment(values?.employee?.dateStartedWork).format('YYYY-MM-DD')
       )
-      formData.append(
-        'position_id',
-        handleGetValueID('position', itemPosition, indexPosition)
-      )
+      formData.append('position_id', handleGetValueID('position', itemPosition))
       formData.append(
         'position_effective_date',
         moment(values?.employee?.positionEffectiveDate).format('YYYY-MM-DD')
@@ -931,6 +1168,12 @@ const EmployeeEditComponent = ({
       formData.append(
         'delete_employee_id_card',
         values?.employee?.employeeIdCard ? 0 : 1
+      )
+      formData.append(
+        'quit_date',
+        values?.employee?.lastDateOfWork
+          ? moment(values?.employee?.lastDateOfWork).format('YYYY-MM-DD')
+          : ''
       )
       formData.append('type', 1)
 
@@ -1184,7 +1427,9 @@ const EmployeeEditComponent = ({
         )
         formData.append(
           `positions[${index}][type_of_decree]`,
-          item?.decreeType ? handleGetValueID('decree', item?.decreeType) : null
+          item?.decreeType
+            ? handleGetValueID('decreeType', item?.decreeType)
+            : null
         )
         formData.append(
           `positions[${index}][decree_number]`,
@@ -1204,7 +1449,9 @@ const EmployeeEditComponent = ({
         )
         formData.append(
           `positions[${index}][type_of_termination_decree]`,
-          handleGetValueID('decree', item?.terminationDecreeType)
+          item?.terminationDecreeType
+            ? handleGetValueID('decreeType', item?.terminationDecreeType)
+            : null
         )
         formData.append(
           `positions[${index}][termination_decree_number]`,
@@ -1216,7 +1463,7 @@ const EmployeeEditComponent = ({
         )
         formData.append(
           `positions[${index}][status]`,
-          item?.status ? (item?.status == 'Aktif' ? 1 : 0) : null
+          item?.status == 'Aktif' ? 1 : 0
         )
         formData.append(
           `positions[${index}][delete_decree_document]`,
@@ -1229,7 +1476,7 @@ const EmployeeEditComponent = ({
         formData.append(`grades[${index}][id]`, item?.id || '')
         formData.append(
           `grades[${index}][grade_id]`,
-          handleGetValueID('grade', item?.grade_id)
+          handleGetValueID('grade', item?.grade)
         )
         formData.append(
           `grades[${index}][effective_date]`,
@@ -1242,7 +1489,9 @@ const EmployeeEditComponent = ({
         )
         formData.append(
           `grades[${index}][type_of_decree]`,
-          handleGetValueID('decree', item?.type_of_decree)
+          item?.type_of_decree
+            ? handleGetValueID('decreeType', item?.type_of_decree)
+            : null
         )
         formData.append(`grades[${index}][decree_number]`, item?.decreeNumber)
         formData.append(
@@ -1527,7 +1776,7 @@ const EmployeeEditComponent = ({
         ? moment(detail?.education_year, 'YYYY').toDate()
         : null
       const quitDate = detail?.quit_date
-        ? moment(detail?.quit_date, 'YYYY-MM-DD').toDate()
+        ? moment(detail?.quit_date, 'DD-MM-YYYY').toDate()
         : ''
 
       // Employee

@@ -125,18 +125,18 @@ const FormSchema = Yup.object().shape({
     dateStartedWork: Yup.string().required(
       'Tanggal Mulai Bekerja tidak boleh kosong'
     ),
-    position: Yup.array().of(
+    positions: Yup.array().of(
       Yup.object().shape({
-        name: Yup.string()
+        name: Yup.mixed()
           .nullable()
-          .test('is-null', 'Jabatan tidak boleh kosong', function (value) {
-            const { path, createError } = this
-            if (this.parent[0].name === null) {
-              return createError({
-                path: `${path}`,
-                message: 'Jabatan tidak boleh kosong'
-              })
-            }
+          .test('is-required', 'Jabatan tidak boleh kosong', function (value) {
+            const { path } = this
+
+            const pathParts = path.split('.')
+            const index = pathParts[1].match(/\d+/)[0]
+
+            if (!value && index == 0) return false
+
             return true
           })
       })
@@ -164,7 +164,11 @@ const FormSchema = Yup.object().shape({
       'Tanggal Terakhir Bekerja tidak boleh kosong',
       function (value) {
         const { employmentStatus } = this.parent
-        if (employmentStatus !== 'Aktif' && employmentStatus !== 'Aktif PS') {
+        if (
+          employmentStatus !== 'Aktif' &&
+          employmentStatus !== 'Aktif Perbantuan Setneg' &&
+          employmentStatus !== 'Hukuman Disiplin'
+        ) {
           return value != null && value !== ''
         }
         return true
@@ -543,8 +547,8 @@ const FormSchema = Yup.object().shape({
       return Yup.array()
     }
   }),
-  positions: Yup.lazy((credits) => {
-    if (Array.isArray(credits) && credits.length > 0) {
+  positions: Yup.lazy((positions) => {
+    if (Array.isArray(positions) && positions.length > 0) {
       return Yup.array().of(
         Yup.object().shape({
           position: Yup.string().required('Jabatan tidak boleh kosong'),
@@ -552,6 +556,7 @@ const FormSchema = Yup.object().shape({
           effectiveDate: Yup.string().required(
             'TMT Menjabat tidak boleh kosong'
           ),
+          status: Yup.string().required('Status Jabatan tidak boleh kosong'),
           decreeDocument: Yup.mixed()
             .nullable()
             .test(
@@ -582,8 +587,8 @@ const FormSchema = Yup.object().shape({
       return Yup.array()
     }
   }),
-  grades: Yup.lazy((credits) => {
-    if (Array.isArray(credits) && credits.length > 0) {
+  grades: Yup.lazy((grades) => {
+    if (Array.isArray(grades) && grades.length > 0) {
       return Yup.array().of(
         Yup.object().shape({
           grade: Yup.string().required('Golongan tidak boleh kosong'),
@@ -627,8 +632,8 @@ const FormSchema = Yup.object().shape({
       return Yup.array()
     }
   }),
-  trainingStructurals: Yup.lazy((credits) => {
-    if (Array.isArray(credits) && credits.length > 0) {
+  trainingStructurals: Yup.lazy((trainingStructurals) => {
+    if (Array.isArray(trainingStructurals) && trainingStructurals.length > 0) {
       return Yup.array().of(
         Yup.object().shape({
           certificate: Yup.mixed()
@@ -661,8 +666,8 @@ const FormSchema = Yup.object().shape({
       return Yup.array()
     }
   }),
-  trainingFungsionals: Yup.lazy((credits) => {
-    if (Array.isArray(credits) && credits.length > 0) {
+  trainingFungsionals: Yup.lazy((trainingFungsionals) => {
+    if (Array.isArray(trainingFungsionals) && trainingFungsionals.length > 0) {
       return Yup.array().of(
         Yup.object().shape({
           certificate: Yup.mixed()
@@ -695,8 +700,8 @@ const FormSchema = Yup.object().shape({
       return Yup.array()
     }
   }),
-  trainingTechnicals: Yup.lazy((credits) => {
-    if (Array.isArray(credits) && credits.length > 0) {
+  trainingTechnicals: Yup.lazy((trainingTechnicals) => {
+    if (Array.isArray(trainingTechnicals) && trainingTechnicals.length > 0) {
       return Yup.array().of(
         Yup.object().shape({
           certificate: Yup.mixed()
@@ -729,8 +734,8 @@ const FormSchema = Yup.object().shape({
       return Yup.array()
     }
   }),
-  targets: Yup.lazy((credits) => {
-    if (Array.isArray(credits) && credits.length > 0) {
+  targets: Yup.lazy((targets) => {
+    if (Array.isArray(targets) && targets.length > 0) {
       return Yup.array().of(
         Yup.object().shape({
           workBehavior: Yup.string().required(
@@ -748,8 +753,8 @@ const FormSchema = Yup.object().shape({
       return Yup.array()
     }
   }),
-  performances: Yup.lazy((credits) => {
-    if (Array.isArray(credits) && credits.length > 0) {
+  performances: Yup.lazy((performances) => {
+    if (Array.isArray(performances) && performances.length > 0) {
       return Yup.array().of(
         Yup.object().shape({
           point: Yup.string().required(
@@ -761,8 +766,8 @@ const FormSchema = Yup.object().shape({
       return Yup.array()
     }
   }),
-  disciplinaries: Yup.lazy((credits) => {
-    if (Array.isArray(credits) && credits.length > 0) {
+  disciplinaries: Yup.lazy((disciplinaries) => {
+    if (Array.isArray(disciplinaries) && disciplinaries.length > 0) {
       return Yup.array().of(
         Yup.object().shape({
           discipleType: Yup.string().required(
@@ -1171,6 +1176,12 @@ const EmployeeEditComponent = ({
         'delete_employee_id_card',
         values?.employee?.employeeIdCard ? 0 : 1
       )
+      formData.append(
+        'quit_date',
+        values?.employee?.lastDateOfWork
+          ? moment(values?.employee?.lastDateOfWork).format('YYYY-MM-DD')
+          : ''
+      )
       formData.append('type', 2)
 
       // Educations
@@ -1423,7 +1434,9 @@ const EmployeeEditComponent = ({
         )
         formData.append(
           `positions[${index}][type_of_decree]`,
-          item?.decreeType ? handleGetValueID('decree', item?.decreeType) : null
+          item?.decreeType
+            ? handleGetValueID('decreeType', item?.decreeType)
+            : null
         )
         formData.append(
           `positions[${index}][decree_number]`,
@@ -1443,7 +1456,9 @@ const EmployeeEditComponent = ({
         )
         formData.append(
           `positions[${index}][type_of_termination_decree]`,
-          handleGetValueID('decree', item?.terminationDecreeType)
+          item?.terminationDecreeType
+            ? handleGetValueID('decreeType', item?.terminationDecreeType)
+            : null
         )
         formData.append(
           `positions[${index}][termination_decree_number]`,
@@ -1455,7 +1470,7 @@ const EmployeeEditComponent = ({
         )
         formData.append(
           `positions[${index}][status]`,
-          item?.status ? (item?.status == 'Aktif' ? 1 : 0) : null
+          item?.status == 'Aktif' ? 1 : 0
         )
         formData.append(
           `positions[${index}][delete_decree_document]`,
@@ -1468,7 +1483,7 @@ const EmployeeEditComponent = ({
         formData.append(`grades[${index}][id]`, item?.id || '')
         formData.append(
           `grades[${index}][grade_id]`,
-          handleGetValueID('grade', item?.grade_id)
+          handleGetValueID('grade', item?.grade)
         )
         formData.append(
           `grades[${index}][effective_date]`,
@@ -1481,7 +1496,9 @@ const EmployeeEditComponent = ({
         )
         formData.append(
           `grades[${index}][type_of_decree]`,
-          handleGetValueID('decree', item?.type_of_decree)
+          item?.type_of_decree
+            ? handleGetValueID('decreeType', item?.type_of_decree)
+            : null
         )
         formData.append(`grades[${index}][decree_number]`, item?.decreeNumber)
         formData.append(

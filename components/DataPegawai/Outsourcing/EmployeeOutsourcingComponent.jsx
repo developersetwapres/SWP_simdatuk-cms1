@@ -15,7 +15,11 @@ import {
   monthOptions,
   religionOptions
 } from 'libs/types/options'
-import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import {
+  Access,
+  accessGranted,
+  PermissionsIDs
+} from '@/utils/permissionManager'
 
 const styles = {
   iconStyle: {
@@ -37,13 +41,23 @@ const EmployeeOutsourcingComponent = ({
   grade,
   position,
   employmentType,
-  onLoading = () => { },
-  onSearch = () => { },
-  onFilter = () => { },
-  onPaginationChange = () => { },
-  onRowsPerPageChange = () => { }
+  onLoading = () => {},
+  onSearch = () => {},
+  onFilter = () => {},
+  onPaginationChange = () => {},
+  onRowsPerPageChange = () => {}
 }) => {
   const router = useRouter()
+
+  const handleRedirect = (type, id) => {
+    if (type == 'add') {
+      router.push(`${router.pathname}/add`)
+    } else {
+      router.push(`${router.pathname}/${type}/${id}`)
+    }
+
+    clearPositionState()
+  }
 
   const handleMapOptions = (val) => {
     const arr = []
@@ -168,38 +182,30 @@ const EmployeeOutsourcingComponent = ({
           verticalAlign: 'top',
           Cell: () => (
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              {
-                accessGranted(
-                  PermissionsIDs.EMPLOYEE_OUTSOURCING,
-                  Access.READ
-                ) && (
-                  <Button
-                    text='Detail'
-                    color='primary'
-                    onClick={() =>
-                      router.push(`${router.pathname}/detail/${btoa(item?.id)}`)
-                    }
-                    icon={<Info style={styles.iconButton} />}
-                    sx={styles.buttonAction}
-                  />
-                )
-              }
-              {
-                accessGranted(
-                  PermissionsIDs.EMPLOYEE_OUTSOURCING,
-                  Access.UPDATE
-                ) && (
-                  <Button
-                    text='Edit'
-                    color='sidatukDraweBase'
-                    onClick={() =>
-                      router.push(`${router.pathname}/edit/${btoa(item?.id)}`)
-                    }
-                    icon={<Edit style={styles.iconButton} />}
-                    sx={styles.buttonAction}
-                  />
-                )
-              }
+              {accessGranted(
+                PermissionsIDs.EMPLOYEE_OUTSOURCING,
+                Access.READ
+              ) && (
+                <Button
+                  text='Detail'
+                  color='primary'
+                  icon={<Info style={styles.iconButton} />}
+                  sx={styles.buttonAction}
+                  onClick={() => handleRedirect('detail', btoa(item?.id))}
+                />
+              )}
+              {accessGranted(
+                PermissionsIDs.EMPLOYEE_OUTSOURCING,
+                Access.UPDATE
+              ) && (
+                <Button
+                  text='Edit'
+                  color='sidatukDraweBase'
+                  icon={<Edit style={styles.iconButton} />}
+                  sx={styles.buttonAction}
+                  onClick={() => handleRedirect('edit', btoa(item?.id))}
+                />
+              )}
             </Box>
           )
         }
@@ -210,24 +216,20 @@ const EmployeeOutsourcingComponent = ({
   }, [employee])
 
   const action = useMemo(() => {
-    if (
-      !accessGranted(
-        PermissionsIDs.EMPLOYEE_OUTSOURCING,
-        Access.CREATE
-      )
-    ) return null
+    if (!accessGranted(PermissionsIDs.EMPLOYEE_OUTSOURCING, Access.CREATE))
+      return null
 
     return (
       <Box sx={{ display: 'flex', gap: 1 }}>
         <Button
           text='Tambah Massal'
           color='sidatukDraweBase'
-          onClick={() => router.push(`${router.asPath}/add-bulk`)}
+          onClick={() => router.push(`${router.pathname}/add-bulk`)}
         />
         <Button
           text='Tambah'
           color='primary'
-          onClick={() => router.push(`${router.asPath}/add`)}
+          onClick={() => handleRedirect('add', null)}
         />
       </Box>
     )

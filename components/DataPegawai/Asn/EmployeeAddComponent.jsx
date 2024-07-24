@@ -104,13 +104,18 @@ const FormSchema = Yup.object().shape({
     ),
     positions: Yup.array().of(
       Yup.object().shape({
-        name: Yup.string()
-          .required('Jabatan tidak boleh kosong')
-          .when('$index', (index, schema) =>
-            index === 0
-              ? schema.required('Jabatan tidak boleh kosong')
-              : schema.nullable()
-          )
+        name: Yup.mixed()
+          .nullable()
+          .test('is-required', 'Jabatan tidak boleh kosong', function (value) {
+            const { path } = this
+
+            const pathParts = path.split('.')
+            const index = pathParts[1].match(/\d+/)[0]
+
+            if (!value && index == 0) return false
+
+            return true
+          })
       })
     ),
     positionEffectiveDate: Yup.string().required(
@@ -136,7 +141,11 @@ const FormSchema = Yup.object().shape({
       'Tanggal Terakhir Bekerja tidak boleh kosong',
       function (value) {
         const { employmentStatus } = this.parent
-        if (employmentStatus !== 'Aktif' && employmentStatus !== 'Aktif PS') {
+        if (
+          employmentStatus !== 'Aktif' &&
+          employmentStatus !== 'Aktif Perbantuan Setneg' &&
+          employmentStatus !== 'Hukuman Disiplin'
+        ) {
           return value != null && value !== ''
         }
         return true
@@ -774,6 +783,12 @@ const EmployeeAddComponent = ({
       formData.append('office_email', values?.employee?.officeEmail)
       formData.append('emergency_contact', values?.employee?.emergencyContact)
       formData.append('description', null)
+      formData.append(
+        'quit_date',
+        values?.employee?.lastDateOfWork
+          ? moment(values?.employee?.lastDateOfWork).format('YYYY-MM-DD')
+          : ''
+      )
       formData.append('type', 1)
 
       // Educations
@@ -954,6 +969,7 @@ const EmployeeAddComponent = ({
 
       postEmployee(formData)
     } catch (err) {
+      console.log('err', err)
       if (!err.inner || err.inner.length === 0) {
         return
       }
