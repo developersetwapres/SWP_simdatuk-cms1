@@ -63,7 +63,9 @@ const FormSchema = Yup.object().shape({
             'Ukuran file tidak boleh lebih dari 2MB',
             (value) => {
               if (!value) return true
-              return value.size <= 2000000
+              const fileSizeLimitInMB = 2
+              const fileSizeInMB = value?.size / 1024 ** 2
+              return fileSizeInMB <= fileSizeLimitInMB
             }
           )
       })
