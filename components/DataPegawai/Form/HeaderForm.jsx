@@ -43,6 +43,7 @@ const HeaderForm = ({ title, isDelete = true, handleDelete = () => {} }) => {
 
 HeaderForm.propTypes = {
   title: PropTypes.string,
+  isDelete: PropTypes.bool,
   handleDelete: PropTypes.func
 }
 
