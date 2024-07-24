@@ -73,10 +73,7 @@ function* getActivitiesHistory(action) {
   } catch (err) {
     const errors = err?.data
 
-    if (
-      errors?.code === 403 ||
-      errors?.code === 401
-    ) {
+    if (errors?.code === 403 || errors?.code === 401) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {
@@ -116,16 +113,23 @@ function* uploadTemplate(action) {
 
     yield put({
       type: UPLOAD_TEMPLATE_SUCCESS,
-      payload: payload
+      payload
+    })
+
+    yield put({
+      type: SET_MODAL,
+      payload: {
+        code: payload?.code,
+        message: payload?.message,
+        childMessage: 'Anda telah berhasil menambah data pegawai',
+        redirect: 'refresh'
+      }
     })
   } catch (err) {
     const errors = err?.data
     const errorCode = errors?.code
 
-    if (
-      errorCode === 403 ||
-      errorCode === 401
-    ) {
+    if (errorCode === 403 || errorCode === 401) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {
@@ -141,7 +145,8 @@ function* uploadTemplate(action) {
         type: SET_MODAL,
         payload: {
           code: errors?.code,
-          message: errorMessage
+          message: 'Pegawai gagal ditambahkan',
+          childMessage: errors?.message
         }
       })
 
@@ -171,10 +176,7 @@ function* downloadTemplate(action) {
     const errors = err?.data
     const errorCode = errors?.code
 
-    if (
-      errorCode === 403 ||
-      errorCode === 401
-    ) {
+    if (errorCode === 403 || errorCode === 401) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {
@@ -221,10 +223,7 @@ function* synchronizeEmployees() {
     const errors = err?.data
     const errorCode = errors?.code
 
-    if (
-      errorCode === 403 ||
-      errorCode === 401
-    ) {
+    if (errorCode === 403 || errorCode === 401) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {
@@ -272,10 +271,7 @@ function* getEmployees(action) {
     const errors = err?.data
     const errorCode = errors?.code
 
-    if (
-      errorCode === 403 ||
-      errorCode === 401
-    ) {
+    if (errorCode === 403 || errorCode === 401) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {
@@ -323,10 +319,7 @@ function* getEmployee(action) {
     const errors = err?.data
     const errorCode = errors?.code
 
-    if (
-      errorCode === 403 ||
-      errorCode === 401
-    ) {
+    if (errorCode === 403 || errorCode === 401) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {

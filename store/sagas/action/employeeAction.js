@@ -115,5 +115,13 @@ export const getActivitiesHistoryAction = (payload) => {
     })
   )
   const queryString = '&' + new URLSearchParams(moreParams).toString()
-  return get(`/employees/import/histories${queryParams(page, limit, search)}${queryString}`, payload)
+
+  return get(
+    `/employees/import/histories${queryParams(
+      page,
+      limit,
+      search
+    )}${queryString}`,
+    payload
+  )
 }

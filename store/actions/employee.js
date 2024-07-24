@@ -10,7 +10,8 @@ import {
   DOWNLOAD_TEMPLATE_REQUESTED,
   UPLOAD_TEMPLATE_REQUESTED,
   GET_ACTIVITIES_REQUESTED,
-  CLEAR_TEMPLATE
+  CLEAR_TEMPLATE,
+  CLEAR_TEMPLATE_UPLOAD
 } from '../constants'
 
 /**
@@ -116,6 +117,15 @@ export const downloadTemplate = (payload) => ({
 export const uploadTemplate = (payload) => ({
   type: UPLOAD_TEMPLATE_REQUESTED,
   payload
+})
+
+/**
+ * Clear Template Upload
+ *
+ * @returns
+ */
+export const clearTemplateUpload = () => ({
+  type: CLEAR_TEMPLATE_UPLOAD
 })
 
 /**

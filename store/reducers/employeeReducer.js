@@ -31,7 +31,8 @@ import {
   GET_ACTIVITIES_REQUESTED,
   GET_ACTIVITIES_SUCCESS,
   GET_ACTIVITIES_FAILED,
-  CLEAR_TEMPLATE
+  CLEAR_TEMPLATE,
+  CLEAR_TEMPLATE_UPLOAD
 } from '../constants'
 
 const initialState = {
@@ -243,6 +244,11 @@ export const employee = (state = initialState, action) => {
         error: payload?.error
       }
     // CLEAR STATE
+    case CLEAR_TEMPLATE_UPLOAD:
+      return {
+        ...state,
+        uploaded: false
+      }
     case CLEAR_TEMPLATE:
       return {
         ...state,
