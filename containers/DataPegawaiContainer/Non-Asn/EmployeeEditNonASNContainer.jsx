@@ -86,7 +86,7 @@ export default connect(
       this.props.getInstitutionsOptions(queries)
       this.props.getResidences(queries)
       this.props.getDecrees(queries)
-      this.props.getDisciplinariesOptions()
+      this.props.getDisciplinariesOptions(queries)
       this.props.getEmploymentTypes({ ...queries, type: 2 })
       this.props.getGroups(queries)
     }
