@@ -33,10 +33,7 @@ export const accessGranted = (nameAsID, access) => {
     process.env.NEXT_PUBLIC_USER_INFO_SERCRET_KEY
   )
     ?.permissions
-    ?.reduce((acc, curr) => {
-      acc[curr?.name] = curr
-      return acc
-    })[nameAsID]
+    ?.find(item => item?.name === nameAsID)
 
   return permission ? permission[access] === 1 : false
 }
