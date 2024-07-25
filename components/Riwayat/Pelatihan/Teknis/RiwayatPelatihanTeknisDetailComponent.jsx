@@ -89,7 +89,7 @@ const RiwayatPelatihanTeknisDetailComponent = ({
           Header: 'Nama',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.name || '-'}</Typography>
+          Cell: () => <Typography>{`${item?.name || ''} / ${item?.employee_id_number || ''}`}</Typography>
         },
         {
           Header: 'Sertifikat',
