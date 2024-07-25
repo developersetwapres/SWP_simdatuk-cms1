@@ -682,7 +682,7 @@ const EmployeeAddComponent = ({
       const formData = new FormData()
 
       // Employee
-      formData.append('photo_profile', values?.employee?.image)
+      formData.append('photo_profile', values?.employee?.image || '')
       formData.append('name', values?.employee?.name)
       formData.append('title_prefix', values?.employee?.titlePrefix)
       formData.append('title_suffix', values?.employee?.titleSuffix)
