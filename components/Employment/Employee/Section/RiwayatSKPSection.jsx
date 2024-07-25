@@ -57,7 +57,7 @@ const RiwayatSKP = ({ data = [] }) => {
   }, [])
 
   const handleGetValue = (value, type) => {
-    const val = value ? options[type][value] : ''
+    const val = value ? options[type][value - 1] : ''
     return val
   }
 
@@ -80,7 +80,7 @@ const RiwayatSKP = ({ data = [] }) => {
           Header: 'Tahun',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.year || '-'}</Typography>
+          Cell: () => <Typography>{item?.period_year || '-'}</Typography>
         },
         {
           Header: 'Rating Perilaku Kerja',

@@ -11,7 +11,7 @@ import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
 import RiwayatGolonganForm from './RiwayatGolonganForm'
 import moment from 'moment'
-import { monthOptions } from 'libs/types/options'
+import { monthOptions, statusOptions } from 'libs/types/options'
 
 const InitValue = {
   namaGolongan: '',
@@ -24,7 +24,8 @@ const InitValue = {
       nama: null,
       golongan: null,
       tmt: '',
-      noSk: ''
+      noSk: '',
+      statusGolongan: null
     }
   ]
 }
@@ -40,7 +41,8 @@ const FormSchema = Yup.object().shape({
       Yup.object().shape({
         nama: Yup.string().required('Nama Pegawai tidak boleh kosong'),
         golongan: Yup.string().required('Golongan tidak boleh kosong'),
-        tmt: Yup.string().required('TMT Pegawai tidak boleh kosong')
+        tmt: Yup.string().required('TMT Pegawai tidak boleh kosong'),
+        statusGolongan: Yup.string().required('Status Golongan tidak boleh kosong')
       })
     )
     .test('is-unique', 'Nama Pegawai harus unik', function (values) {
@@ -92,7 +94,8 @@ const RiwayatGolonganAddComponent = ({
     const data = {
       month: monthOptions || [],
       golongan: newGrade || [],
-      employee: newEmployee || []
+      employee: newEmployee || [],
+      status: statusOptions
     }
 
     return data
@@ -105,10 +108,10 @@ const RiwayatGolonganAddComponent = ({
       )
       return dataFilter?.id
     } else if (type == 'grade') {
-      const dataFilter = grade?.options?.find((itm) => itm?.name == val)
+      const dataFilter = grade?.options?.find((itm) => itm?.name === val)
       return dataFilter?.id
     } else {
-      const index = options['month']?.findIndex((itm) => itm == val)
+      const index = options[type]?.findIndex((itm) => itm === val)
       return index + 1
     }
   }
@@ -125,7 +128,7 @@ const RiwayatGolonganAddComponent = ({
           grade_id: handleGetValueId(itm?.golongan?.split(' (')[0], 'grade'),
           effective_date: moment(itm?.tmt).format('YYYY-MM-DD'),
           decree_number: itm?.noSk,
-          status: 1
+          status: itm?.statusGolongan === 'Aktif' ? 1 : 0
         }
       })
 

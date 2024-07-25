@@ -142,9 +142,12 @@ const RiwayatSKPEditComponent = ({
           period_month: handleGetValue(values?.periode?.bulan, 'month'),
           period_year: moment(values?.periode?.tahun).format('YYYY'),
           appraisal_period: values?.periodePenilaian,
-          year: moment(values?.periodePenilaianTahun).format('YYYY'),
           users
         }
+      }
+
+      if (values?.periodePenilaianTahun) {
+        payload.data.year = moment(values?.periodePenilaianTahun).format('YYYY')
       }
 
       updateTarget(payload)
@@ -197,7 +200,7 @@ const RiwayatSKPEditComponent = ({
 
     if (Object.entries(detail).length > 0) {
       const periodYear = new Date(detail?.period_year, detail?.period_month - 1)
-      const year = new Date(detail?.year, 0, 1)
+      const year = detail?.year ? new Date(detail?.year, 0, 1) : null
 
       formikRef.current?.setFieldValue('namaSkp', detail?.name, false)
       formikRef.current?.setFieldValue(

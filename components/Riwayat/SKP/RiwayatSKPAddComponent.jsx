@@ -134,8 +134,11 @@ const RiwayatSKPAddComponent = ({
         period_month: handleGetValue(values?.periode?.bulan, 'month'),
         period_year: moment(values?.periode?.tahun).format('YYYY'),
         appraisal_period: values?.periodePenilaian,
-        year: moment(values?.periodePenilaianTahun).format('YYYY'),
         users
+      }
+
+      if (values?.periodePenilaianTahun) {
+        payload.year = moment(values?.periodePenilaianTahun).format('YYYY')
       }
 
       postTarget(payload)

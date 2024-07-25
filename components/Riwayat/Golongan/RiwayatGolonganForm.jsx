@@ -25,7 +25,8 @@ const RiwayatGolonganForm = ({
         nama: null,
         golongan: null,
         tmt: '',
-        noSk: ''
+        noSk: '',
+        statusGolongan: null
       }
 
       const updatedPegawai = [...data, newPegawai]
@@ -109,75 +110,68 @@ const RiwayatGolonganForm = ({
           Daftar Pegawai
         </Typography>
         <Grid container spacing={2}>
-          {values?.pegawai.map((item, index) => (
-            <Grid item xs={12} key={index}>
-              <Grid container spacing={3}>
-                {/* Name */}
-                <Grid item xs={3}>
-                  <Autocomplete
-                    options={options?.employee}
-                    name={`pegawai[${index}].nama`}
-                    placeholder='Pilih Nama / NIP'
-                    value={item?.nama}
-                    multiple={false}
-                    label='Nama / NIP *'
-                    error={errors?.pegawai && errors?.pegawai[index]?.nama}
-                    onChange={(val) => {
-                      setFieldValue(`pegawai[${index}].nama`, val, false)
-                      setTimeout(() => {
-                        formikRef.current.validateField(
-                          `pegawai[${index}].nama`
-                        )
-                      }, 1)
-                    }}
-                  />
-                </Grid>
-                {/* Golongan */}
-                <Grid item xs={3}>
-                  <Autocomplete
-                    options={options?.golongan}
-                    name={`pegawai[${index}].golongan`}
-                    placeholder='Pilih Golongan'
-                    value={item?.golongan}
-                    multiple={false}
-                    label='Golongan *'
-                    error={errors?.pegawai && errors?.pegawai[index]?.golongan}
-                    onChange={(val) => {
-                      setFieldValue(`pegawai[${index}].golongan`, val, false)
-                      setTimeout(() => {
-                        formikRef.current.validateField(
-                          `pegawai[${index}].golongan`
-                        )
-                      }, 1)
-                    }}
-                  />
-                </Grid>
-                {/* TMT Golongan */}
-                <Grid item xs={3}>
-                  <DatePickerDay
-                    value={item?.tmt}
-                    name={`pegawai[${index}].tmt`}
-                    label='TMT Menjabat *'
-                    placeholder='dd-mm-yy'
-                    error={errors?.pegawai && errors?.pegawai[index]?.tmt}
-                    onChange={(val) => {
-                      setFieldValue(`pegawai[${index}].tmt`, val, false)
-                      setTimeout(() => {
-                        formikRef.current.validateField(`pegawai[${index}].tmt`)
-                      }, 1)
-                    }}
-                  />
-                </Grid>
-                {/* No SK */}
-                <Grid item xs={3}>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'flex-end',
-                      justifyContent: 'start',
-                      gap: '16px'
-                    }}
-                  >
+          {values?.pegawai?.map((item, index) => (
+            <>
+              <Grid item xs={values?.pegawai.length > 1 ? 10 : 12} key={index}>
+                <Grid container spacing={2}>
+                  {/* Name */}
+                  <Grid item xs={4}>
+                    <Autocomplete
+                      options={options?.employee}
+                      name={`pegawai[${index}].nama`}
+                      placeholder='Pilih Nama / NIP'
+                      value={item?.nama}
+                      multiple={false}
+                      label='Nama / NIP *'
+                      error={errors?.pegawai && errors?.pegawai[index]?.nama}
+                      onChange={(val) => {
+                        setFieldValue(`pegawai[${index}].nama`, val, false)
+                        setTimeout(() => {
+                          formikRef.current.validateField(
+                            `pegawai[${index}].nama`
+                          )
+                        }, 1)
+                      }}
+                    />
+                  </Grid>
+                  {/* Golongan */}
+                  <Grid item xs={4}>
+                    <Autocomplete
+                      options={options?.golongan}
+                      name={`pegawai[${index}].golongan`}
+                      placeholder='Pilih Golongan'
+                      value={item?.golongan}
+                      multiple={false}
+                      label='Golongan *'
+                      error={errors?.pegawai && errors?.pegawai[index]?.golongan}
+                      onChange={(val) => {
+                        setFieldValue(`pegawai[${index}].golongan`, val, false)
+                        setTimeout(() => {
+                          formikRef.current.validateField(
+                            `pegawai[${index}].golongan`
+                          )
+                        }, 1)
+                      }}
+                    />
+                  </Grid>
+                  {/* TMT Golongan */}
+                  <Grid item xs={4}>
+                    <DatePickerDay
+                      value={item?.tmt}
+                      name={`pegawai[${index}].tmt`}
+                      label='TMT Menjabat *'
+                      placeholder='dd-mm-yy'
+                      error={errors?.pegawai && errors?.pegawai[index]?.tmt}
+                      onChange={(val) => {
+                        setFieldValue(`pegawai[${index}].tmt`, val, false)
+                        setTimeout(() => {
+                          formikRef.current.validateField(`pegawai[${index}].tmt`)
+                        }, 1)
+                      }}
+                    />
+                  </Grid>
+                  {/* No SK */}
+                  <Grid item xs={4}>
                     <Input
                       label='No SK Golongan'
                       placeholder='Masukkan No SK Golongan'
@@ -191,20 +185,48 @@ const RiwayatGolonganForm = ({
                         )
                       }}
                     />
-                    {values?.pegawai.length > 1 && (
-                      <Button
-                        icon={<Delete />}
-                        color='danger'
-                        sx={{ width: '50px', height: '50px' }}
-                        onClick={() =>
-                          handleEmployee(values?.pegawai, 'delete', index)
-                        }
-                      />
-                    )}
-                  </Box>
+                  </Grid>
+                  {/* STATUS GOLONGAN */}
+                  <Grid item xs={4}>
+                    <Autocomplete
+                      options={options?.status}
+                      name={`pegawai[${index}].statusGolongan`}
+                      placeholder='Pilih Status Golongan'
+                      value={item?.statusGolongan}
+                      multiple={false}
+                      label='Status Golongan *'
+                      error={errors?.pegawai && errors?.pegawai[index]?.statusGolongan}
+                      onChange={(val) => {
+                        setFieldValue(`pegawai[${index}].statusGolongan`, val, false)
+                        setTimeout(() => {
+                          formikRef.current.validateField(
+                            `pegawai[${index}].statusGolongan`
+                          )
+                        }, 1)
+                      }}
+                    />
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
+              {values?.pegawai.length > 1 && (
+                <Grid
+                  item
+                  xs={2}
+                  key={index}
+                  alignContent='center'
+                  textAlign='center'
+                >
+                  <Button
+                    icon={<Delete />}
+                    color='danger'
+                    sx={{ width: '50px', height: '50px' }}
+                    onClick={() =>
+                      handleEmployee(values?.pegawai, 'delete', index)
+                    }
+                  />
+                </Grid>
+              )}
+            </>
           ))}
         </Grid>
         {/* Action */}

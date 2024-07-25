@@ -63,7 +63,7 @@ const RiwayatSKPDetailComponent = ({
   }, [])
 
   const handleGetValue = (value, type) => {
-    const val = value ? options[type][value] : ''
+    const val = value ? options[type][value - 1] : ''
     return val
   }
 
