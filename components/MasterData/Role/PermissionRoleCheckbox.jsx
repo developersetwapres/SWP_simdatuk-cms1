@@ -7,7 +7,7 @@ const PermissionRoleCheckbox = ({
   dataFormik,
   values,
   isChecked = true,
-  handleField = () => {}
+  handleField = () => { }
 }) => {
   return (
     <Box
@@ -41,7 +41,7 @@ const PermissionRoleCheckbox = ({
             // SetValue Jika terdapat value permission & belum terdapat pada value formik
             handleField(
               `permissions[${datas.length}]`,
-              { id, permitted_actions: val },
+              { id, permitted_actions: val, value: val },
               false
             )
           } else if (checked && val) {
@@ -58,28 +58,27 @@ const PermissionRoleCheckbox = ({
   )
 }
 
-const CheckboxItem = ({ data, values, isChecked, handleField = () => {} }) => {
+const CheckboxItem = ({ data, values, isChecked, handleField = () => { } }) => {
   const [permissions, setPermissions] = useState('')
 
   const item = useMemo(() => {
     const newData = []
 
     if (data) {
-      const check = (val) => {
-        return newData.some((itm) => itm?.title == val)
-      }
+      const check = (val) => newData?.some((itm) => itm?.title === val)
 
       data
         .toLowerCase()
         .split('')
-        .map((itm) => {
-          if (itm == 'r' && !check('View')) {
-            newData.push({ title: 'View', value: 'r' })
-          } else if ((itm == 'c' || itm == 'u') && !check('Tambah / Edit')) {
+        .forEach(item => {
+          if (/[cu]/.test(item) && !check('Tambah / Edit'))
             newData.push({ title: 'Tambah / Edit', value: 'cu' })
-          } else {
-            if (!check('Hapus')) newData.push({ title: 'Hapus', value: 'd' })
-          }
+
+          if (item === 'r')
+            newData.push({ title: 'View', value: 'r' })
+
+          if (item === 'd')
+            newData.push({ title: 'Hapus', value: 'd' })
         })
     }
 
@@ -88,7 +87,6 @@ const CheckboxItem = ({ data, values, isChecked, handleField = () => {} }) => {
 
   const handleGetChecked = (val) => {
     const valuesIncludes = []
-
     const newVal = val.split('')
 
     newVal.map((i) => {
@@ -103,12 +101,14 @@ const CheckboxItem = ({ data, values, isChecked, handleField = () => {} }) => {
   }
 
   const handleChecked = (checked, val) => {
-    let valuePermission
+    let valuePermission = ''
 
     if (checked) {
       valuePermission = `${permissions}${val}`
     } else {
-      valuePermission = permissions.replace(val, '')
+      val?.split('')?.forEach(v => {
+        valuePermission = permissions.replace(v, '')
+      })
     }
 
     setPermissions(valuePermission)
@@ -129,18 +129,20 @@ const CheckboxItem = ({ data, values, isChecked, handleField = () => {} }) => {
       }}
     >
       {item &&
-        item.map((itm, idx) => (
-          <FormControlLabel
-            key={idx}
-            label={
-              <Typography sx={{ fontSize: '14px' }}>{itm?.title}</Typography>
-            }
-            disabled={!isChecked}
-            control={<Checkbox checked={handleGetChecked(itm?.value)} />}
-            sx={{ height: '34px' }}
-            onChange={(e) => handleChecked(e?.target?.checked, itm?.value)}
-          />
-        ))}
+        item?.map((itm, idx) => {
+          return (
+            <FormControlLabel
+              key={idx}
+              label={
+                <Typography sx={{ fontSize: '14px' }}>{itm?.title}</Typography>
+              }
+              disabled={!isChecked}
+              control={<Checkbox checked={handleGetChecked(itm?.value)} />}
+              sx={{ height: '34px' }}
+              onChange={(e) => handleChecked(e?.target?.checked, itm?.value)}
+            />
+          )
+        })}
     </Box>
   )
 }
