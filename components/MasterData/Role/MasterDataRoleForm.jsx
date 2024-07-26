@@ -18,7 +18,7 @@ const MasterDataRoleForm = ({
   formikRef
 }) => {
   const handleGetValueAccess = (id) => {
-    const filter = values?.permissions.filter((itm) => {
+    const filter = values?.permissions?.filter((itm) => {
       return itm?.id == id
     })
 
@@ -59,7 +59,7 @@ const MasterDataRoleForm = ({
             </Typography>
           </Grid>
           {/* Menus */}
-          {dataPermissions.map((item, index) => (
+          {dataPermissions?.map((item, index) => (
             <Grid item xs={6} key={index}>
               <PermissionRoleCheckbox
                 data={item}
@@ -76,7 +76,7 @@ const MasterDataRoleForm = ({
 }
 
 MasterDataRoleForm.propTypes = {
-  dataPermissions: PropTypes.object,
+  dataPermissions: PropTypes.array,
   values: PropTypes.object,
   errors: PropTypes.object,
   touched: PropTypes.object,

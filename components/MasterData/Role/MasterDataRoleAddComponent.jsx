@@ -18,8 +18,8 @@ const FormSchema = Yup.object().shape({
 
 const MasterDataRoleAddComponent = ({
   role,
-  onLoading = () => {},
-  postRole = () => {}
+  onLoading = () => { },
+  postRole = () => { }
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -32,7 +32,7 @@ const MasterDataRoleAddComponent = ({
   const formik = useFormik({
     initialValues: initValue,
     validationSchema: FormSchema,
-    onSubmit: () => {}
+    onSubmit: () => { }
   })
 
   const handleSubmit = async (values) => {
@@ -43,8 +43,8 @@ const MasterDataRoleAddComponent = ({
       const valuePermission =
         dataPermission.length > 0
           ? dataPermission.map((itm) => {
-              return { id: itm?.id, permitted_actions: itm?.permitted_actions }
-            })
+            return { id: itm?.id, permitted_actions: itm?.value }
+          })
           : []
 
       const payload = {

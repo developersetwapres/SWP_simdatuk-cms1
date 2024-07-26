@@ -18,10 +18,10 @@ const FormSchema = Yup.object().shape({
 
 const MasterDataRoleEditComponent = ({
   role,
-  onLoading = () => {},
-  getRole = () => {},
-  updateRole = () => {},
-  clearRoleState = () => {}
+  onLoading = () => { },
+  getRole = () => { },
+  updateRole = () => { },
+  clearRoleState = () => { }
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -34,10 +34,11 @@ const MasterDataRoleEditComponent = ({
   const formik = useFormik({
     initialValues: initValue,
     validationSchema: FormSchema,
-    onSubmit: () => {}
+    onSubmit: () => { }
   })
 
   const handleSubmit = async (values) => {
+    console.log('VALUES: ', values)
     try {
       await FormSchema.validate(values, { abortEarly: false })
 
@@ -45,8 +46,8 @@ const MasterDataRoleEditComponent = ({
       const valuePermission =
         dataPermission.length > 0
           ? dataPermission.map((itm) => {
-              return { id: itm?.id, permitted_actions: itm?.permitted_actions }
-            })
+            return { id: itm?.id, permitted_actions: itm?.value }
+          })
           : []
 
       const payload = {
@@ -56,6 +57,8 @@ const MasterDataRoleEditComponent = ({
           permissions: valuePermission
         }
       }
+
+      console.log('PAYLOAD: ', payload)
 
       updateRole(payload)
       formikRef.current.setErrors({})
@@ -119,12 +122,36 @@ const MasterDataRoleEditComponent = ({
     }
   }, [role])
 
+  const getRolePermissions = (item) => {
+    if (!item || !item.permitted_actions) return ''
+
+    let permissions = ''
+    const actions = [
+      { key: 'c', prop: 'create' },
+      { key: 'r', prop: 'read' },
+      { key: 'u', prop: 'update' },
+      { key: 'd', prop: 'delete' }
+    ]
+
+    actions.forEach(action => {
+      if (item.permitted_actions.includes(action.key) && item[action.prop] === 1) {
+        permissions += action.key
+      }
+    })
+
+    return permissions
+  }
+
   useEffect(() => {
     const detail = role?.detail
 
     if (detail?.permissions) {
-      const newPermissions = detail?.permissions.map((itm) => {
-        return { id: itm?.id, permitted_actions: itm?.permitted_actions }
+      const newPermissions = detail?.permissions?.map((itm) => {
+        return {
+          id: itm?.id,
+          permitted_actions: getRolePermissions(itm),
+          value: getRolePermissions(itm)
+        }
       })
 
       formikRef.current?.setFieldValue('roleName', detail?.name, false)
@@ -141,7 +168,7 @@ const MasterDataRoleEditComponent = ({
     >
       {(formikProps) => (
         <LayoutPages
-          summary={'Edit Data Pengguna'}
+          summary={'Edit Data Role Pengguna'}
           handleBack={() => router.back()}
           action={
             <Box>

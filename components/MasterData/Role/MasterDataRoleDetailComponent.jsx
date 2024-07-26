@@ -161,12 +161,35 @@ const MasterDataRoleDetailComponent = ({
     onLoading(state)
   }, [role])
 
+  const getRolePermissions = (item) => {
+    if (!item || !item.permitted_actions) return ''
+
+    let permissions = ''
+    const actions = [
+      { key: 'c', prop: 'create' },
+      { key: 'r', prop: 'read' },
+      { key: 'u', prop: 'update' },
+      { key: 'd', prop: 'delete' }
+    ]
+
+    actions.forEach(action => {
+      if (item.permitted_actions.includes(action.key) && item[action.prop] === 1) {
+        permissions += action.key
+      }
+    })
+
+    return permissions
+  }
+
   useEffect(() => {
     const detail = role?.detail
 
     if (detail?.permissions) {
       const newPermissions = detail?.permissions.map((itm) => {
-        return { id: itm?.id, permitted_actions: itm?.permitted_actions }
+        return {
+          id: itm?.id,
+          permitted_actions: getRolePermissions(itm)
+        }
       })
       setValues(newPermissions)
     }
