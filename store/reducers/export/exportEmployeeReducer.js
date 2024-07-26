@@ -59,7 +59,7 @@ export const exportEmployeeData = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        error: payload?.error
+        error: payload
       }
     // PREVIEW
     case EXPORT_EMPLOYEES_PREVIEW_REQUESTED:

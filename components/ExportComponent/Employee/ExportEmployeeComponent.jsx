@@ -34,9 +34,11 @@ import {
 } from 'libs/types/options'
 import { v4 as uuidv4 } from 'uuid'
 import { SaveAs, saveFile } from '@/utils/fileSaver'
-import { dateTimeFormat } from '@/utils/index'
+import { blobToJSON, dateTimeFormat } from '@/utils/index'
 import DatepickerYear from '@/components/shared/form/DatepickerYear'
 import moment from 'moment'
+import { useDispatch } from 'react-redux'
+import { SET_MODAL } from '@/store/constants'
 
 const checkboxes = [
   {
@@ -145,14 +147,15 @@ const ExportEmployeeComponent = ({
   grade,
   echelon,
   exportEmployeeData,
-  onLoading = () => {},
-  onPaginationChange = () => {},
-  onRowsPerPageChange = () => {},
-  exportEmployees = () => {},
-  exportEmployeesPreview = () => {},
-  clearExportEmployeesState = () => {}
+  onLoading = () => { },
+  onPaginationChange = () => { },
+  onRowsPerPageChange = () => { },
+  exportEmployees = () => { },
+  exportEmployeesPreview = () => { },
+  clearExportEmployeesState = () => { }
 }) => {
   const formikRef = useRef()
+  const dispatch = useDispatch()
   const [showPreview, setShowPreview] = useState(false)
 
   const convertKeyToPayload = (key) => {
@@ -408,21 +411,18 @@ const ExportEmployeeComponent = ({
     }
 
     if (label === 'NIP/NRP') {
-      return `${response?.employee_id_number || '-'}/${
-        response?.employee_registration_number || '-'
-      }`
+      return `${response?.employee_id_number || '-'}/${response?.employee_registration_number || '-'
+        }`
     }
 
     if (label === 'Tempat, Tanggal Lahir') {
-      return `${response?.place_of_birth || '-'}, ${
-        response?.date_of_birth || '-'
-      }`
+      return `${response?.place_of_birth || '-'}, ${response?.date_of_birth || '-'
+        }`
     }
 
     if (label === 'Tempat, Tanggal Lahir') {
-      return `${response?.place_of_birth || '-'}, ${
-        response?.date_of_birth || '-'
-      }`
+      return `${response?.place_of_birth || '-'}, ${response?.date_of_birth || '-'
+        }`
     }
 
     if (label === 'Umur') {
@@ -634,6 +634,18 @@ const ExportEmployeeComponent = ({
     return '-'
   }
 
+  const showErrorModal = async (errorBlob) => {
+    const errors = await blobToJSON(errorBlob)
+
+    dispatch({
+      type: SET_MODAL,
+      payload: {
+        code: errors?.code,
+        message: errors?.message || 'Terjadi Kesalahan'
+      }
+    })
+  }
+
   useEffect(() => {
     // PREVIEW
     if (exportEmployeeData?.preview?.data?.length > 0) {
@@ -657,6 +669,12 @@ const ExportEmployeeComponent = ({
 
       clearExportEmployeesState()
     }
+
+    // EXPORT FAILED
+    if (exportEmployeeData?.error) {
+      showErrorModal(exportEmployeeData?.error)
+      clearExportEmployeesState()
+    }
   }, [exportEmployeeData])
 
   useEffect(() => {
@@ -669,8 +687,8 @@ const ExportEmployeeComponent = ({
   }, [grade, echelon, exportEmployeeData])
 
   return (
-    <Formik innerRef={formikRef} initialValues={InitValue} onSubmit={() => {}}>
-      {({ values, resetForm = () => {}, setFieldValue = () => {} }) => (
+    <Formik innerRef={formikRef} initialValues={InitValue} onSubmit={() => { }}>
+      {({ values, resetForm = () => { }, setFieldValue = () => { } }) => (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <LayoutPages
             summary='Export Pegawai'
@@ -861,7 +879,7 @@ const ExportEmployeeComponent = ({
                 <Grid item xs={6}>
                   <DatepickerYear
                     isClear
-                    label='Pilih Tahun Usia Pensiun'
+                    label='Tahun Usia Pensiun'
                     placeholder='Pilih Tahun Usia Pensiun'
                     name='retirementYear'
                     value={values?.retirementYear}

@@ -50,7 +50,11 @@ function* getPerformances(action) {
     })
   } catch (err) {
     const errors = err?.data
-    if (errors?.code === 403) {
+
+    if (
+      errors?.code === 403 ||
+      errors?.code === 401
+    ) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {
@@ -60,25 +64,19 @@ function* getPerformances(action) {
         }
       })
     } else {
-      if (errors?.code === 400) {
-        yield put({
-          type: CATCH_ERROR,
-          payload: errors?.message
-        })
-      } else {
-        yield put({
-          type: SET_MODAL,
-          payload: {
-            code: errors?.code,
-            message: 'Warning!',
-            childMessage: errors?.message
-          }
-        })
-        yield put({
-          type: GET_PERFORMANCES_FAILED,
-          payload: errors?.message
-        })
-      }
+      yield put({
+        type: SET_MODAL,
+        payload: {
+          code: errors?.code,
+          message: 'Warning!',
+          childMessage: errors?.message
+        }
+      })
+
+      yield put({
+        type: GET_PERFORMANCES_FAILED,
+        payload: errors?.message
+      })
     }
   }
 }

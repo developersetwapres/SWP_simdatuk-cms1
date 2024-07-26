@@ -40,6 +40,7 @@ function* exportEmployees(action) {
     })
   } catch (err) {
     const errors = err?.data
+
     if (errors?.code === 401 || errors?.code === 403) {
       yield put({
         type: ACTION_RESPONSER,
@@ -50,17 +51,10 @@ function* exportEmployees(action) {
         }
       })
     } else {
-      if (errors?.code === 400) {
-        yield put({
-          type: CATCH_ERROR,
-          payload: errors?.message
-        })
-      } else {
-        yield put({
-          type: EXPORT_EMPLOYEES_FAILED,
-          payload: errors?.message
-        })
-      }
+      yield put({
+        type: EXPORT_EMPLOYEES_FAILED,
+        payload: errors
+      })
     }
   }
 }
@@ -135,17 +129,17 @@ function* exportEmployeeDetail(action) {
         }
       })
     } else {
-      if (errors?.code === 400) {
-        yield put({
-          type: CATCH_ERROR,
-          payload: errors?.message
-        })
-      } else {
-        yield put({
-          type: EXPORT_EMPLOYEE_DETAIL_FAILED,
-          payload: errors?.message
-        })
-      }
+      const defaultMessage = 'Terjadi Kesalahan'
+
+      yield put({
+        type: CATCH_ERROR,
+        payload: errors?.message || defaultMessage
+      })
+
+      yield put({
+        type: EXPORT_EMPLOYEE_DETAIL_FAILED,
+        payload: errors?.message || defaultMessage
+      })
     }
   }
 }
