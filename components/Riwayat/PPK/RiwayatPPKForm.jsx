@@ -208,7 +208,7 @@ const RiwayatPPKForm = ({
                         )
                       }}
                     />
-                    {values?.pegawai.length > 1 && (
+                    {values?.pegawai?.length > 1 && (
                       <Button
                         icon={<Delete />}
                         color='danger'

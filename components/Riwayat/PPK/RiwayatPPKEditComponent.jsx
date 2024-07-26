@@ -101,7 +101,8 @@ const RiwayatPPKEditComponent = ({
           id: handleGetValue(index, 'performance'),
           user_id: handleGetValue(itm?.nama, 'employee'),
           work_performance_score: itm?.nilai,
-          description: handleGetValue(itm?.keterangan, 'keterangan')
+          description: itm?.keterangan ?
+            handleGetValue(itm?.keterangan, 'keterangan') : null
         }
       })
 

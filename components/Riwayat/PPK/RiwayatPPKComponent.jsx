@@ -78,7 +78,7 @@ const RiwayatPPKComponent = ({
         align: 'left'
       },
       {
-        Header: 'Periode Riwayat',
+        Header: 'Periode Input Riwayat',
         width: 200,
         align: 'left'
       },

@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useMemo, useRef } from 'react'
 import PropTypes from 'prop-types'
 import RiwayatPPKForm from './RiwayatPPKForm'
@@ -41,7 +40,7 @@ const FormSchema = Yup.object().shape({
       nama: Yup.string().required('Nama Pegawai tidak boleh kosong'),
       nilai: Yup.string()
         .transform((value, originalValue) =>
-          originalValue.trim() === '' ? null : value
+          originalValue?.trim() === '' ? null : value
         )
         .nullable()
         .required('Nilai Pegawai tidak boleh kosong')
@@ -85,8 +84,8 @@ const RiwayatPPKAddComponent = ({
   const handleGetValue = (value, type) => {
     if (type == 'employee') {
       const data = employee?.data
-      const dataFilter = data.find(
-        (itm) => itm?.name?.employee_id_number === value.split(' - ')[1]
+      const dataFilter = data?.find(
+        (itm) => itm?.employee_id_number === value.split(' - ')[1]
       )?.id
 
       return dataFilter
@@ -106,11 +105,12 @@ const RiwayatPPKAddComponent = ({
       await FormSchema.validate(values, { abortEarly: false })
       formikRef.current.setErrors({})
 
-      const users = values?.pegawai.map((itm) => {
+      const users = values?.pegawai?.map((itm) => {
         return {
           user_id: handleGetValue(itm?.nama, 'employee'),
           work_performance_score: itm?.nilai,
-          description: handleGetValue(itm?.keterangan, 'keterangan')
+          description: itm?.keterangan ?
+            handleGetValue(itm?.keterangan, 'keterangan') : null
         }
       })
 
