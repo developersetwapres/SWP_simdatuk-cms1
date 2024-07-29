@@ -7,7 +7,7 @@ const PermissionRoleCheckbox = ({
   dataFormik,
   values,
   isChecked = true,
-  handleField = () => { }
+  handleField = () => {}
 }) => {
   return (
     <Box
@@ -58,7 +58,7 @@ const PermissionRoleCheckbox = ({
   )
 }
 
-const CheckboxItem = ({ data, values, isChecked, handleField = () => { } }) => {
+const CheckboxItem = ({ data, values, isChecked, handleField = () => {} }) => {
   const [permissions, setPermissions] = useState('')
 
   const item = useMemo(() => {
@@ -70,15 +70,13 @@ const CheckboxItem = ({ data, values, isChecked, handleField = () => { } }) => {
       data
         .toLowerCase()
         .split('')
-        .forEach(item => {
+        .forEach((item) => {
           if (/[cu]/.test(item) && !check('Tambah / Edit'))
             newData.push({ title: 'Tambah / Edit', value: 'cu' })
 
-          if (item === 'r')
-            newData.push({ title: 'View', value: 'r' })
+          if (item === 'r') newData.push({ title: 'View', value: 'r' })
 
-          if (item === 'd')
-            newData.push({ title: 'Hapus', value: 'd' })
+          if (item === 'd') newData.push({ title: 'Hapus', value: 'd' })
         })
     }
 
@@ -106,8 +104,9 @@ const CheckboxItem = ({ data, values, isChecked, handleField = () => { } }) => {
     if (checked) {
       valuePermission = `${permissions}${val}`
     } else {
-      val?.split('')?.forEach(v => {
-        valuePermission = permissions.replace(v, '')
+      val?.split('')?.map((v) => {
+        const regex = new RegExp(`[${val}]`, 'g')
+        valuePermission = permissions.replace(regex, '')
       })
     }
 

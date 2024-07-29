@@ -18,10 +18,10 @@ const FormSchema = Yup.object().shape({
 
 const MasterDataRoleEditComponent = ({
   role,
-  onLoading = () => { },
-  getRole = () => { },
-  updateRole = () => { },
-  clearRoleState = () => { }
+  onLoading = () => {},
+  getRole = () => {},
+  updateRole = () => {},
+  clearRoleState = () => {}
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -34,11 +34,10 @@ const MasterDataRoleEditComponent = ({
   const formik = useFormik({
     initialValues: initValue,
     validationSchema: FormSchema,
-    onSubmit: () => { }
+    onSubmit: () => {}
   })
 
   const handleSubmit = async (values) => {
-    console.log('VALUES: ', values)
     try {
       await FormSchema.validate(values, { abortEarly: false })
 
@@ -46,8 +45,8 @@ const MasterDataRoleEditComponent = ({
       const valuePermission =
         dataPermission.length > 0
           ? dataPermission.map((itm) => {
-            return { id: itm?.id, permitted_actions: itm?.value }
-          })
+              return { id: itm?.id, permitted_actions: itm?.value }
+            })
           : []
 
       const payload = {
@@ -57,8 +56,6 @@ const MasterDataRoleEditComponent = ({
           permissions: valuePermission
         }
       }
-
-      console.log('PAYLOAD: ', payload)
 
       updateRole(payload)
       formikRef.current.setErrors({})
@@ -133,8 +130,11 @@ const MasterDataRoleEditComponent = ({
       { key: 'd', prop: 'delete' }
     ]
 
-    actions.forEach(action => {
-      if (item.permitted_actions.includes(action.key) && item[action.prop] === 1) {
+    actions.forEach((action) => {
+      if (
+        item.permitted_actions.includes(action.key) &&
+        item[action.prop] === 1
+      ) {
         permissions += action.key
       }
     })
