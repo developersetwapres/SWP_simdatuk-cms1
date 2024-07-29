@@ -108,6 +108,7 @@ function Layout({ children, window, willRender }) {
   const userInfo = decryptItem(
     '__ui', process.env.NEXT_PUBLIC_USER_INFO_SERCRET_KEY
   )
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 
   const [mobile, setMobile] = useState(false)
   const [isLogout, setIsLogout] = useState(false)
@@ -188,7 +189,7 @@ function Layout({ children, window, willRender }) {
               alt='logo'
               style={{
                 width: '100%',
-                height: 'fit-content'
+                height: isSafari ? 'auto' : 'fit-content'
               }}
             />
           </Box>
