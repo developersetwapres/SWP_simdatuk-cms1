@@ -245,6 +245,13 @@ const ExportEmployeeComponent = ({
   }
 
   const getIDsByType = (key, value) => {
+    if (
+      key === 'gradeWorkingPeriod' ||
+      key === 'totalWorkingPeriod'
+    ) {
+      return value?.map(i => i?.replace(/[a-zA-Z\s]/g, ''))
+    }
+
     if (key === 'gender') {
       return value?.map((g) => (g === 'Laki-Laki' ? 1 : 0))
     }
