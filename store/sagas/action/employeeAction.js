@@ -93,6 +93,15 @@ export const downloadTemplateAction = (type) => {
 }
 
 /**
+ * Download Log Error
+ *
+ * @returns
+ */
+export const downloadLogErrorAction = (id) => {
+  return getBlob(`/employees/import/download-failed-import/${id}`)
+}
+
+/**
  * Upload Template of Employees
  *
  * @returns

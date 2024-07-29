@@ -77,9 +77,11 @@ const EmployeeAddBulkComponent = ({
   onSetQueries = () => {},
   onFetchHistories = () => {},
   downloadTemplate = () => {},
+  downloadLogError = () => {},
   uploadTemplate = () => {},
   clearTemplate = () => {},
   clearTemplateUpload = () => {},
+  clearLog = () => {},
   onPaginationChange = () => {},
   onRowsPerPageChange = () => {},
   setLoading = () => {}
@@ -87,6 +89,7 @@ const EmployeeAddBulkComponent = ({
   const router = useRouter()
   const inputRef = useRef(null)
 
+  const [rowId, setRowId] = useState(null)
   const [selectedFile, setSelectedFile] = useState(null)
   const [modalOpen, setModalOpen] = useState(false)
   const [modalMode, setModalMode] = useState(DynamicModalMode.CONFIRM)
@@ -95,17 +98,27 @@ const EmployeeAddBulkComponent = ({
     () => [
       {
         Header: 'Tanggal',
-        width: 200,
+        width: 140,
         align: 'left'
       },
       {
         Header: 'Nama Pengguna',
-        width: 200,
+        width: 140,
         align: 'left'
       },
       {
         Header: 'Detail Aktivitas',
-        width: 200,
+        width: 400,
+        align: 'left'
+      },
+      {
+        Header: 'Status',
+        width: 160,
+        align: 'left'
+      },
+      {
+        Header: 'Aksi',
+        width: 100,
         align: 'left'
       }
     ],
@@ -141,6 +154,37 @@ const EmployeeAddBulkComponent = ({
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.description || '-'}</Typography>
+        },
+        {
+          Header: 'Status',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => (
+            <Typography>{item?.status > 0 ? 'Berhasil' : 'Gagal'}</Typography>
+          )
+        },
+        {
+          Header: 'Aktifitas',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => {
+            const loadingButton = rowId == item?.id && employee?.loadingLog
+
+            if (item?.status == 0) return <Typography>-</Typography>
+            return (
+              <Button
+                text='Download'
+                sx={{ textTransform: 'none' }}
+                isLoading={loadingButton}
+                isBusy={loadingButton}
+                onClick={() => {
+                  const id = item?.id
+                  downloadLogError(id)
+                  setRowId(id)
+                }}
+              />
+            )
+          }
         }
       ]
     })
@@ -167,7 +211,7 @@ const EmployeeAddBulkComponent = ({
     downloadTemplate(employeeType)
   }
 
-  const getFileName = () => {
+  const getFileName = (type, ext) => {
     let employeeTypeLabel = 'ASN'
 
     if (employeeType === 1) {
@@ -178,8 +222,9 @@ const EmployeeAddBulkComponent = ({
       employeeTypeLabel = 'OUTSOURCE'
     }
 
-    const prefix = `TEMPLATE_PEGAWAI_${employeeTypeLabel}`
-    return prefix + '.xlsx'
+    return `${
+      type == 'template' ? 'TEMPLATE_PEGAWAI' : 'LOG_ERROR'
+    }_${employeeTypeLabel}${ext}`
   }
 
   const uploadTemplateFile = () => {
@@ -207,7 +252,7 @@ const EmployeeAddBulkComponent = ({
     onRowsPerPageChange(row)
   }
 
-  useEffect(() => {
+  const handleFetchHistories = () => {
     const payload = {
       ...queries,
       type: employeeType
@@ -217,6 +262,15 @@ const EmployeeAddBulkComponent = ({
       onSetQueries(payload)
       onFetchHistories(payload)
     }
+  }
+
+  const handleDownloadLogError = () => {
+    const id = employee?.errorLog?.data?.log_id
+    downloadLogError(id)
+  }
+
+  useEffect(() => {
+    handleFetchHistories()
   }, [employeeType])
 
   useEffect(() => {
@@ -228,8 +282,21 @@ const EmployeeAddBulkComponent = ({
 
     // EXPORT
     if (employee?.template) {
-      saveFile(employee?.template, getFileName(), SaveAs.XLS)
+      saveFile(employee?.template, getFileName('template', '.xlsx'), SaveAs.XLS)
       clearTemplate()
+    }
+
+    // Log Error
+    if (employee?.log) {
+      saveFile(employee?.log, getFileName('log', '.pdf'), SaveAs.PDF)
+      clearLog()
+      setRowId(null)
+    }
+
+    if (employee?.errorLog && employee?.errorLog?.code == 400) {
+      setModalMode(DynamicModalMode.FAILED)
+      setModalOpen(true)
+      handleFetchHistories()
     }
 
     setLoading(!employee?.loading)
@@ -376,6 +443,7 @@ const EmployeeAddBulkComponent = ({
         mode={modalMode}
         handleConfirm={handleSubmit}
         handleCancel={() => setModalOpen(false)}
+        handleDownload={handleDownloadLogError}
       />
     </>
   )
@@ -384,14 +452,16 @@ const EmployeeAddBulkComponent = ({
 const DynamicModalMode = {
   CONFIRM: 'CONFIRM',
   UPLOAD: 'UPLOAD',
-  INFO: 'INFO'
+  INFO: 'INFO',
+  FAILED: 'FAILED'
 }
 
 const DynamicModal = ({
   open = true,
   mode = DynamicModalMode.CONFIRM,
   handleCancel = () => {},
-  handleConfirm = () => {}
+  handleConfirm = () => {},
+  handleDownload = () => {}
 }) => {
   const dynamicItems = useMemo(() => {
     let icon = INFORMATION_ICON
@@ -407,6 +477,11 @@ const DynamicModal = ({
       icon = PROCESSING
       title = 'Tambah Data Pegawai Sedang Diproses'
       copytext = 'Mohon tunggu proses ini hingga selesai'
+    } else if (mode === DynamicModalMode.FAILED) {
+      icon = INFORMATION_ICON
+      title = 'Tambah Data Pegawai Gagal'
+      copytext =
+        'Sistem tidak dapat memproses file karena terdapat kesalahan. Silahkan perbaiki kesalahan dan unggah kembali file anda. Klik tombol Download untuk mendownload hasil eror.'
     } else {
       icon = SUCCESS_ICON
       title = 'Data Pegawai Berhasil Ditambah'
@@ -453,18 +528,35 @@ const DynamicModal = ({
           {dynamicItems?.copytext}
         </Typography>
 
+        {mode == DynamicModalMode.FAILED && (
+          <Button
+            color='sidatukDraweBase'
+            text='Download'
+            onClick={handleDownload}
+            style={{ marginTop: '12px' }}
+          />
+        )}
+
         {mode !== DynamicModalMode.UPLOAD && (
           <Box sx={{ display: 'flex', gap: '12px', marginTop: '24px' }}>
             {mode === DynamicModalMode.CONFIRM && (
               <Button
                 text='Ya'
+                color='simdatukPrimary'
                 onClick={handleConfirm}
                 style={{ width: '100%' }}
               />
             )}
             <Button
-              text={mode === DynamicModalMode.INFO ? 'Tutup' : 'Tidak'}
-              variant={'outlined'}
+              text={
+                mode === DynamicModalMode.INFO ||
+                mode === DynamicModalMode.FAILED
+                  ? 'Tutup'
+                  : 'Tidak'
+              }
+              variant={
+                mode === DynamicModalMode.FAILED ? 'contained' : 'outlined'
+              }
               style={{ width: '100%' }}
               onClick={handleCancel}
             />
@@ -479,7 +571,8 @@ DynamicModal.propTypes = {
   open: PropTypes.bool,
   mode: PropTypes.string,
   handleCancel: PropTypes.func,
-  handleConfirm: PropTypes.func
+  handleConfirm: PropTypes.func,
+  handleDownload: PropTypes.func
 }
 
 EmployeeAddBulkComponent.propTypes = {
@@ -488,9 +581,11 @@ EmployeeAddBulkComponent.propTypes = {
   onSetQueries: PropTypes.func,
   onFetchHistories: PropTypes.func,
   downloadTemplate: PropTypes.func,
+  downloadLogError: PropTypes.func,
   uploadTemplate: PropTypes.func,
   clearTemplate: PropTypes.func,
   clearTemplateUpload: PropTypes.func,
+  clearLog: PropTypes.func,
   setLoading: PropTypes.func,
   onPaginationChange: PropTypes.func,
   onRowsPerPageChange: PropTypes.func

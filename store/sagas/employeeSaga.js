@@ -36,7 +36,9 @@ import {
   UPLOAD_TEMPLATE_FAILED,
   GET_ACTIVITIES_REQUESTED,
   GET_ACTIVITIES_SUCCESS,
-  GET_ACTIVITIES_FAILED
+  GET_ACTIVITIES_FAILED,
+  DOWNLOAD_LOG_ERROR_REQUESTED,
+  DOWNLOAD_LOG_ERROR_SUCCESS
 } from '../constants'
 import {
   deleteEmployeeAction,
@@ -48,7 +50,8 @@ import {
   synchronizeEmployeesAction,
   downloadTemplateAction,
   uploadTemplateAction,
-  getActivitiesHistoryAction
+  getActivitiesHistoryAction,
+  downloadLogErrorAction
 } from './action/employeeAction'
 import Router from 'next/router'
 
@@ -139,20 +142,9 @@ function* uploadTemplate(action) {
         }
       })
     } else {
-      const errorMessage = errors?.message || 'Terjadi Kesalahan'
-
-      yield put({
-        type: SET_MODAL,
-        payload: {
-          code: errors?.code,
-          message: 'Pegawai gagal ditambahkan',
-          childMessage: errors?.message
-        }
-      })
-
       yield put({
         type: UPLOAD_TEMPLATE_FAILED,
-        payload: errorMessage
+        payload: errors
       })
     }
   }
@@ -199,6 +191,52 @@ function* downloadTemplate(action) {
       yield put({
         type: DOWNLOAD_TEMPLATE_FAILED,
         payload: errorMessage
+      })
+    }
+  }
+}
+
+/**
+ * Download Log Error
+ *
+ * @returns
+ */
+function* downloadLogErrors(action) {
+  try {
+    const res = yield call(downloadLogErrorAction, action?.payload)
+    const payload = res?.data
+
+    yield put({
+      type: DOWNLOAD_LOG_ERROR_SUCCESS,
+      payload: payload
+    })
+  } catch (err) {
+    const errors = err?.data
+    const errorCode = errors?.code
+
+    if (errorCode === 403 || errorCode === 401) {
+      yield put({
+        type: ACTION_RESPONSER,
+        payload: {
+          code: errors?.code,
+          message: errors?.message,
+          redirect: '/profile'
+        }
+      })
+    } else {
+      const errorMessage = errors?.message || 'Terjadi Kesalahan'
+
+      yield put({
+        type: SET_MODAL,
+        payload: {
+          code: errors?.code,
+          message: errorMessage
+        }
+      })
+
+      yield put({
+        type: DOWNLOAD_LOG_ERROR_FAILED,
+        payload: {}
       })
     }
   }
@@ -578,6 +616,7 @@ function* employeeSaga() {
   yield takeEvery(POST_EMPLOYEE_REQUESTED, postEmployee)
   yield takeEvery(UPDATE_EMPLOYEE_REQUESTED, updateEmployee)
   yield takeEvery(UPDATE_EMPLOYEE_STATUS_REQUESTED, updateEmployeeStatus)
+  yield takeEvery(DOWNLOAD_LOG_ERROR_REQUESTED, downloadLogErrors)
 }
 
 export default employeeSaga

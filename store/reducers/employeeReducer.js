@@ -32,18 +32,25 @@ import {
   GET_ACTIVITIES_SUCCESS,
   GET_ACTIVITIES_FAILED,
   CLEAR_TEMPLATE,
-  CLEAR_TEMPLATE_UPLOAD
+  CLEAR_TEMPLATE_UPLOAD,
+  DOWNLOAD_LOG_ERROR_REQUESTED,
+  DOWNLOAD_LOG_ERROR_SUCCESS,
+  DOWNLOAD_LOG_ERROR_FAILED,
+  CLEAR_LOG
 } from '../constants'
 
 const initialState = {
   loading: false,
+  loadingLog: false,
   isSubmit: false,
   error: null,
+  errorLog: null,
   errorForm: {},
   detail: {},
   pagination: {},
   data: [],
   template: null,
+  log: null,
   uploading: false,
   uploaded: false,
   activities: []
@@ -89,7 +96,7 @@ export const employee = (state = initialState, action) => {
         ...state,
         uploading: false,
         uploaded: false,
-        error: payload
+        errorLog: payload
       }
     // DOWNLOAD TEMPLATE
     case DOWNLOAD_TEMPLATE_REQUESTED:
@@ -108,6 +115,24 @@ export const employee = (state = initialState, action) => {
         ...state,
         loading: false,
         error: payload
+      }
+    // DOWNLOAD LOG ERROR
+    case DOWNLOAD_LOG_ERROR_REQUESTED:
+      return {
+        ...state,
+        loadingLog: true
+      }
+    case DOWNLOAD_LOG_ERROR_SUCCESS:
+      return {
+        ...state,
+        loadingLog: false,
+        log: payload
+      }
+    case DOWNLOAD_LOG_ERROR_FAILED:
+      return {
+        ...state,
+        loadingLog: false,
+        errorLog: payload
       }
     // SYNC
     case SYNC_EMPLOYEES_REQUESTED:
@@ -253,6 +278,12 @@ export const employee = (state = initialState, action) => {
       return {
         ...state,
         template: null
+      }
+    case CLEAR_LOG:
+      return {
+        ...state,
+        log: null,
+        errorLog: null
       }
     case CLEAR_EMPLOYEE_STATE:
       return {

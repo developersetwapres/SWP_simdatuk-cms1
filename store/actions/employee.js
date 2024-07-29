@@ -11,7 +11,9 @@ import {
   UPLOAD_TEMPLATE_REQUESTED,
   GET_ACTIVITIES_REQUESTED,
   CLEAR_TEMPLATE,
-  CLEAR_TEMPLATE_UPLOAD
+  CLEAR_TEMPLATE_UPLOAD,
+  DOWNLOAD_LOG_ERROR_REQUESTED,
+  CLEAR_LOG
 } from '../constants'
 
 /**
@@ -120,6 +122,16 @@ export const uploadTemplate = (payload) => ({
 })
 
 /**
+ * Download Log Error
+ *
+ * @returns
+ */
+export const downloadLogError = (payload) => ({
+  type: DOWNLOAD_LOG_ERROR_REQUESTED,
+  payload
+})
+
+/**
  * Clear Template Upload
  *
  * @returns
@@ -135,6 +147,15 @@ export const clearTemplateUpload = () => ({
  */
 export const clearTemplate = () => ({
   type: CLEAR_TEMPLATE
+})
+
+/**
+ * Clear Log
+ *
+ * @returns
+ */
+export const clearLog = () => ({
+  type: CLEAR_LOG
 })
 
 /**

@@ -9,9 +9,11 @@ export default connect(
   mapStateToProps('employee'),
   mapActions(
     'downloadTemplate',
+    'downloadLogError',
     'uploadTemplate',
     'clearTemplate',
     'clearTemplateUpload',
+    'clearLog',
     'getActivitiesHistory'
   )
 )(
@@ -19,10 +21,12 @@ export default connect(
     static propTypes = {
       employee: PropTypes.object,
       downloadTemplate: PropTypes.func,
+      downloadLogError: PropTypes.func,
       uploadTemplate: PropTypes.func,
       getActivitiesHistory: PropTypes.func,
       clearTemplate: PropTypes.func,
-      clearTemplateUpload: PropTypes.func
+      clearTemplateUpload: PropTypes.func,
+      clearLog: PropTypes.func
     }
 
     constructor(props) {
