@@ -235,7 +235,7 @@ const ExportDrfForm = ({
       </Grid>
       <Grid item xs={6}>
         <Autocomplete
-          options={options?.employeeStatuses}
+          options={options?.employeeStatus}
           name='employeeStatus'
           placeholder='Pilih Status Pegawai'
           multiple={true}

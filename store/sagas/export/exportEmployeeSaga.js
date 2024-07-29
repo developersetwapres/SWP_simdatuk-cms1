@@ -15,7 +15,6 @@ import {
   EXPORT_EMPLOYEES_PREVIEW_REQUESTED,
   EXPORT_EMPLOYEES_PREVIEW_SUCCESS,
   EXPORT_EMPLOYEES_PREVIEW_FAILED,
-  CATCH_ERROR,
   SET_MODAL
 } from '../../constants'
 import {
@@ -119,6 +118,7 @@ function* exportEmployeeDetail(action) {
     })
   } catch (err) {
     const errors = err?.data
+
     if (errors?.code === 401 || errors?.code === 403) {
       yield put({
         type: ACTION_RESPONSER,
@@ -129,16 +129,9 @@ function* exportEmployeeDetail(action) {
         }
       })
     } else {
-      const defaultMessage = 'Terjadi Kesalahan'
-
-      yield put({
-        type: CATCH_ERROR,
-        payload: errors?.message || defaultMessage
-      })
-
       yield put({
         type: EXPORT_EMPLOYEE_DETAIL_FAILED,
-        payload: errors?.message || defaultMessage
+        payload: errors
       })
     }
   }

@@ -1,5 +1,4 @@
 /* eslint-disable indent */
-/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useRef } from 'react'
 import PropTypes from 'prop-types'
@@ -9,7 +8,6 @@ import { Box } from '@mui/material'
 import Card from '@/components/shared/Card/Index'
 import ExportDrfForm from './ExportDrfForm'
 import { Formik } from 'formik'
-import * as Yup from 'yup'
 import {
   deputyOptions,
   educationLevelOptions,
@@ -22,7 +20,9 @@ import {
   workingPeriodOptions
 } from 'libs/types/options'
 import { SaveAs, saveFile } from '@/utils/fileSaver'
-import { dateTimeFormat } from '@/utils/index'
+import { blobToJSON, dateTimeFormat } from '@/utils/index'
+import { useDispatch } from 'react-redux'
+import { ACTION_RESPONSER, SET_MODAL } from '@/store/constants'
 
 const InitValue = {
   organization: [],
@@ -50,6 +50,7 @@ const ExportDrhComponent = ({
   clearExportDrhState = () => { },
   onLoading = () => { }
 }) => {
+  const dispatch = useDispatch()
   const formikRef = useRef(null)
 
   const options = useMemo(() => {
@@ -70,7 +71,7 @@ const ExportDrhComponent = ({
       retirementAge,
       totalWorkingTime: workingPeriodOptions,
       gradeWorkingTime: workingPeriodOptions,
-      employeeStatuses: employeeStatusOptions
+      employeeStatus: employeeStatusOptions
     }
 
     return data
@@ -104,13 +105,11 @@ const ExportDrhComponent = ({
 
       return item
     } else {
-      const index = options[type]
-        .map((itm, idx) => {
-          if (val.includes(itm)) return idx + 1
-        })
-        .filter((itm) => itm !== undefined)
-
-      return index
+      return val?.map(i => {
+        return (
+          options[type]?.findIndex(item => item === i) + 1
+        )
+      })
     }
   }
 
@@ -218,7 +217,31 @@ const ExportDrhComponent = ({
     return prefix + dateNow + ext
   }
 
+  const showErrorModal = async (errorBlob) => {
+    const errors = await blobToJSON(errorBlob)
+
+    if ([401, 403]?.includes(errors?.code)) {
+      dispatch({
+        type: ACTION_RESPONSER,
+        payload: {
+          code: errors?.code,
+          message: errors?.message,
+          redirect: '/profile'
+        }
+      })
+    } else {
+      dispatch({
+        type: SET_MODAL,
+        payload: {
+          code: errors?.code,
+          message: errors?.message || 'Terjadi Kesalahan'
+        }
+      })
+    }
+  }
+
   useEffect(() => {
+    // EXPORT
     if (exportDRHData?.data) {
       const responseType = exportDRHData?.data?.type
       let type = SaveAs.PDF
@@ -239,6 +262,11 @@ const ExportDrhComponent = ({
         type
       )
 
+      clearExportDrhState()
+    }
+    // EXPORT FAILED
+    if (exportDRHData?.error) {
+      showErrorModal(exportDRHData?.error)
       clearExportDrhState()
     }
   }, [exportDRHData])

@@ -20,13 +20,13 @@ import {
   employeeEducationLevelOptions,
   employeeStatusOptions,
   employeeTypeOptions,
+  employeeWorkBehaviorRatingOptions,
   genderOptions,
   maritalStatusOptions,
   periodCreditsOptions,
   periodOptions,
   positionDescOptions,
   predicateOptions,
-  ratingOptions,
   ratingOrganizationOptions,
   religionOptions,
   retirementAge,
@@ -38,7 +38,7 @@ import { blobToJSON, dateTimeFormat } from '@/utils/index'
 import DatepickerYear from '@/components/shared/form/DatepickerYear'
 import moment from 'moment'
 import { useDispatch } from 'react-redux'
-import { SET_MODAL } from '@/store/constants'
+import { ACTION_RESPONSER, SET_MODAL } from '@/store/constants'
 
 const checkboxes = [
   {
@@ -245,6 +245,9 @@ const ExportEmployeeComponent = ({
   }
 
   const getIDsByType = (key, value) => {
+    if (key === 'assessmentPeriod')
+      return value
+
     if (key === 'deputy') {
       const databaseIDStart = 37
       return value?.map((val) => {
@@ -349,7 +352,7 @@ const ExportEmployeeComponent = ({
       retirementAges: retirementAge,
       workingPeriods: workingPeriodOptions,
       periods: periodOptions,
-      workBehaviors: ratingOptions,
+      workBehaviors: employeeWorkBehaviorRatingOptions,
       workPredicates: predicateOptions,
       creditPeriods: periodCreditsOptions,
       organizationalPerformances: ratingOrganizationOptions,
@@ -654,13 +657,24 @@ const ExportEmployeeComponent = ({
   const showErrorModal = async (errorBlob) => {
     const errors = await blobToJSON(errorBlob)
 
-    dispatch({
-      type: SET_MODAL,
-      payload: {
-        code: errors?.code,
-        message: errors?.message || 'Terjadi Kesalahan'
-      }
-    })
+    if ([401, 403]?.includes(errors?.code)) {
+      dispatch({
+        type: ACTION_RESPONSER,
+        payload: {
+          code: errors?.code,
+          message: errors?.message,
+          redirect: '/profile'
+        }
+      })
+    } else {
+      dispatch({
+        type: SET_MODAL,
+        payload: {
+          code: errors?.code,
+          message: errors?.message || 'Terjadi Kesalahan'
+        }
+      })
+    }
   }
 
   useEffect(() => {
@@ -993,7 +1007,7 @@ const ExportEmployeeComponent = ({
 
                 <Grid item xs={6}>
                   <Autocomplete
-                    options={ratingOptions}
+                    options={employeeWorkBehaviorRatingOptions}
                     name='workBehaviorRating'
                     placeholder='Pilih Rating Perilaku Kerja'
                     multiple={true}
