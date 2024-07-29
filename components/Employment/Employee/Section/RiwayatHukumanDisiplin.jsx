@@ -129,7 +129,7 @@ const RiwayatHukumanDisiplin = ({ data = [] }) => {
           Header: 'Jangka Waktu Pemotongan(Bulan)',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.period_month || '-'}</Typography>
+          Cell: () => <Typography>{item?.performance_allowance_duration || '-'}</Typography>
         },
         {
           Header: 'No. SK Hukuman Disiplin',
@@ -147,19 +147,19 @@ const RiwayatHukumanDisiplin = ({ data = [] }) => {
           Header: 'Tanggal Hukuman Disiplin',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.start_date || '-'}</Typography>
+          Cell: () => <Typography>{`${item?.start_date || ''}-${item?.end_date || ''}`}</Typography>
         },
         {
           Header: 'Status',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.status || '-'}</Typography>
+          Cell: () => <Typography>{item?.status === 1 ? 'Aktif' : 'Pasif'}</Typography>
         },
         {
           Header: 'Masa Berlaku',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.performance_allowance_duration || '-'}</Typography>
+          Cell: () => <Typography>{`${item?.validity_period || 0} Hari`}</Typography>
         },
         {
           Header: 'Pejabat Berwenang',

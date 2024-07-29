@@ -48,7 +48,7 @@ const RiwayatHukumanDisiplinDetailComponent = ({
         align: 'left'
       },
       {
-        Header: 'Nama Pegawai',
+        Header: 'Nama Pegawai / NIP',
         width: 400,
         minWidth: 260,
         align: 'left'
@@ -143,7 +143,7 @@ const RiwayatHukumanDisiplinDetailComponent = ({
           Header: 'Nama',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.name || '-'}</Typography>
+          Cell: () => <Typography>{`${item?.name || ''} / ${item?.employee_id_number || ''}`}</Typography>
         },
         {
           Header: 'Golongan',
