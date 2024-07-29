@@ -1014,6 +1014,7 @@ const EmployeeEditComponent = ({
     } else {
       const index = val - 1
       const item = options[type][index]
+
       return item
     }
   }
@@ -1070,7 +1071,7 @@ const EmployeeEditComponent = ({
       formData.append('place_of_birth', values?.employee?.placeOfBirth)
       formData.append(
         'date_of_birth',
-        handleFormatDate(values?.employee?.dateOfBirth, 'DD-MM-YYYY')
+        handleFormatDate(values?.employee?.dateOfBirth, 'YYYY-MM-DD')
       )
       formData.append(
         'religion',
@@ -1087,12 +1088,12 @@ const EmployeeEditComponent = ({
       )
       formData.append(
         'cpns_effective_date',
-        handleFormatDate(values?.employee?.dateStartedWork, 'DD-MM-YYYY')
+        handleFormatDate(values?.employee?.dateStartedWork, 'YYYY-MM-DD')
       )
       formData.append('position_id', handleGetValueID('position', itemPosition))
       formData.append(
         'position_effective_date',
-        handleFormatDate(values?.employee?.positionEffectiveDate, 'DD-MM-YYYY')
+        handleFormatDate(values?.employee?.positionEffectiveDate, 'YYYY-MM-DD')
       )
       formData.append(
         'grade_id',
@@ -1100,7 +1101,7 @@ const EmployeeEditComponent = ({
       )
       formData.append(
         'grade_effective_date',
-        handleFormatDate(values?.employee?.gradeEffectiveDate, 'DD-MM-YYYY')
+        handleFormatDate(values?.employee?.gradeEffectiveDate, 'YYYY-MM-DD')
       )
       formData.append(
         'echelon_id',
@@ -1110,7 +1111,7 @@ const EmployeeEditComponent = ({
       )
       formData.append(
         'echelon_effective_date',
-        handleFormatDate(values?.employee?.echelonEffectiveDate, 'DD-MM-YYYY')
+        handleFormatDate(values?.employee?.echelonEffectiveDate, 'YYYY-MM-DD')
       )
       formData.append(
         'institution_id',
@@ -1171,7 +1172,7 @@ const EmployeeEditComponent = ({
       formData.append('email', values?.employee?.email)
       formData.append('office_email', values?.employee?.officeEmail)
       formData.append('emergency_contact', values?.employee?.emergencyContact)
-      formData.append('description', null)
+      formData.append('description', '')
       formData.append(
         'delete_employee_id_card',
         values?.employee?.employeeIdCard ? 0 : 1
@@ -1321,11 +1322,13 @@ const EmployeeEditComponent = ({
         formData.append(`credits[${index}][score]`, item?.point)
         formData.append(
           `credits[${index}][start_month]`,
-          item?.month?.start ? handleGetValue('months', item?.month?.start) : ''
+          item?.month?.start
+            ? handleGetValueID('months', item?.month?.start)
+            : ''
         )
         formData.append(
           `credits[${index}][end_month]`,
-          item?.month?.end ? handleGetValue('months', item?.month?.end) : ''
+          item?.month?.end ? handleGetValueID('months', item?.month?.end) : ''
         )
       })
 
@@ -1498,7 +1501,7 @@ const EmployeeEditComponent = ({
         )
         formData.append(`grades[${index}][decree_number]`, item?.decreeNumber)
         formData.append(
-          `grades[${index}][date_of_decree]`,
+          `grades[${index}][decree_date]`,
           handleFormatDate(item?.decreeDate, 'YYYY-MM-DD')
         )
         formData.append(`grades[${index}][description]`, item?.description)
@@ -1514,7 +1517,7 @@ const EmployeeEditComponent = ({
 
       // History Structurals Traininss
       structurals.map((item, index) => {
-        formData.append(`structurals[${index}][id]`, !item?.id || '')
+        formData.append(`structurals[${index}][id]`, item?.id || '')
         formData.append(
           `structurals[${index}][certificate]`,
           !item?.certificate || typeof item?.certificate == 'string'
@@ -1529,7 +1532,7 @@ const EmployeeEditComponent = ({
 
       // History Functionals Traininss
       functionals.map((item, index) => {
-        formData.append(`functionals[${index}][id]`, !item?.id || '')
+        formData.append(`functionals[${index}][id]`, item?.id || '')
         formData.append(
           `functionals[${index}][certificate]`,
           !item?.certificate || typeof item?.certificate == 'string'
@@ -1544,7 +1547,7 @@ const EmployeeEditComponent = ({
 
       // History Technicals Traininss
       technicals.map((item, index) => {
-        formData.append(`technicals[${index}][id]`, !item?.id || '')
+        formData.append(`technicals[${index}][id]`, item?.id || '')
         formData.append(
           `technicals[${index}][certificate]`,
           !item?.certificate || typeof item?.certificate == 'string'
@@ -1559,17 +1562,17 @@ const EmployeeEditComponent = ({
 
       // History Targets
       targets.map((item, index) => {
-        formData.append(`functionals[${index}][id]`, !item?.id || '')
+        formData.append(`targets[${index}][id]`, item?.id || '')
         formData.append(
-          `functionals[${index}][work_behavior_rating]`,
+          `targets[${index}][work_behavior_rating]`,
           handleGetValueID('workBehavior', item?.workBehavior)
         )
         formData.append(
-          `functionals[${index}][employee_performance_predicate]`,
+          `targets[${index}][employee_performance_predicate]`,
           handleGetValueID('performance', item?.performance)
         )
         formData.append(
-          `functionals[${index}][organizational_performance_achievement]`,
+          `targets[${index}][organizational_performance_achievement]`,
           handleGetValueID(
             'performanceAchievement',
             item?.performanceAchievement
@@ -1610,10 +1613,6 @@ const EmployeeEditComponent = ({
         formData.append(
           `disciplinaries[${index}][start_date]`,
           handleFormatDate(item?.discipleDate?.from, 'YYYY-MM-DD')
-        )
-        formData.append(
-          `disciplinaries[${index}][end_date]`,
-          handleFormatDate(item?.discipleDate?.to, 'YYYY-MM-DD')
         )
         formData.append(
           `disciplinaries[${index}][end_date]`,

@@ -789,7 +789,7 @@ const EmployeeAddComponent = ({
       formData.append('email', values?.employee?.email)
       formData.append('office_email', values?.employee?.officeEmail)
       formData.append('emergency_contact', values?.employee?.emergencyContact)
-      formData.append('description', null)
+      formData.append('description', '')
       formData.append(
         'quit_date',
         handleFormatDate(values?.employee?.lastDateOfWork, 'YYYY-MM-DD')

@@ -1161,7 +1161,7 @@ const EmployeeEditComponent = ({
         'residence_id',
         values?.employee?.residence
           ? handleGetValueID('residence', values?.employee?.residence)
-          : null
+          : ''
       )
       formData.append('residence_description', values?.employee?.residenceName)
       formData.append('current_address', values?.employee?.address)
@@ -1178,7 +1178,7 @@ const EmployeeEditComponent = ({
       formData.append('email', values?.employee?.email)
       formData.append('office_email', values?.employee?.officeEmail)
       formData.append('emergency_contact', values?.employee?.emergencyContact)
-      formData.append('description', null)
+      formData.append('description', values?.employee?.description)
       formData.append(
         'delete_employee_id_card',
         values?.employee?.employeeIdCard ? 0 : 1
@@ -1329,12 +1329,12 @@ const EmployeeEditComponent = ({
         formData.append(
           `credits[${index}][start_month]`,
           item?.month?.start
-            ? handleGetValue('months', item?.month?.start)
-            : null
+            ? handleGetValueID('months', item?.month?.start)
+            : ''
         )
         formData.append(
           `credits[${index}][end_month]`,
-          item?.month?.end ? handleGetValue('months', item?.month?.end) : null
+          item?.month?.end ? handleGetValueID('months', item?.month?.end) : ''
         )
       })
 
@@ -1420,13 +1420,13 @@ const EmployeeEditComponent = ({
         )
         formData.append(
           `positions[${index}][echelon]`,
-          item?.level ? handleGetValueID('echelon', item?.level) : null
+          item?.level ? handleGetValueID('echelon', item?.level) : ''
         )
         formData.append(
           `positions[${index}][position_status]`,
           item?.description
             ? handleGetValueID('positionDescription', item?.description)
-            : null
+            : ''
         )
         formData.append(
           `positions[${index}][effective_date]`,
@@ -1435,13 +1435,13 @@ const EmployeeEditComponent = ({
         formData.append(`positions[${index}][decree]`, item?.decree)
         formData.append(
           `positions[${index}][decree_document]`,
-          item?.decreeDocument
+          item?.decreeDocument || ''
         )
         formData.append(
           `positions[${index}][type_of_decree]`,
           item?.decreeType
             ? handleGetValueID('decreeType', item?.decreeType)
-            : null
+            : ''
         )
         formData.append(
           `positions[${index}][decree_number]`,
@@ -1463,7 +1463,7 @@ const EmployeeEditComponent = ({
           `positions[${index}][type_of_termination_decree]`,
           item?.terminationDecreeType
             ? handleGetValueID('decreeType', item?.terminationDecreeType)
-            : null
+            : ''
         )
         formData.append(
           `positions[${index}][termination_decree_number]`,
@@ -1497,17 +1497,17 @@ const EmployeeEditComponent = ({
         formData.append(`grades[${index}][decree]`, item?.decree)
         formData.append(
           `grades[${index}][decree_document]`,
-          item?.decreeDocument
+          item?.decreeDocument || ''
         )
         formData.append(
           `grades[${index}][type_of_decree]`,
           item?.type_of_decree
             ? handleGetValueID('decreeType', item?.type_of_decree)
-            : null
+            : ''
         )
         formData.append(`grades[${index}][decree_number]`, item?.decreeNumber)
         formData.append(
-          `grades[${index}][date_of_decree]`,
+          `grades[${index}][decree_date]`,
           handleFormatDate(item?.decreeDate, 'YYYY-MM-DD')
         )
         formData.append(`grades[${index}][description]`, item?.description)
@@ -1568,17 +1568,17 @@ const EmployeeEditComponent = ({
 
       // History Targets
       targets.map((item, index) => {
-        formData.append(`functionals[${index}][id]`, !item?.id || '')
+        formData.append(`targets[${index}][id]`, !item?.id || '')
         formData.append(
-          `functionals[${index}][work_behavior_rating]`,
+          `targets[${index}][work_behavior_rating]`,
           handleGetValueID('workBehavior', item?.workBehavior)
         )
         formData.append(
-          `functionals[${index}][employee_performance_predicate]`,
+          `targets[${index}][employee_performance_predicate]`,
           handleGetValueID('performance', item?.performance)
         )
         formData.append(
-          `functionals[${index}][organizational_performance_achievement]`,
+          `targets[${index}][organizational_performance_achievement]`,
           handleGetValueID(
             'performanceAchievement',
             item?.performanceAchievement
@@ -1619,10 +1619,6 @@ const EmployeeEditComponent = ({
         formData.append(
           `disciplinaries[${index}][start_date]`,
           handleFormatDate(item?.discipleDate?.from, 'YYYY-MM-DD')
-        )
-        formData.append(
-          `disciplinaries[${index}][end_date]`,
-          handleFormatDate(item?.discipleDate?.to, 'YYYY-MM-DD')
         )
         formData.append(
           `disciplinaries[${index}][end_date]`,

@@ -534,7 +534,7 @@ const EmployeeEditComponent = ({
         'residence_id',
         values?.employee?.residence
           ? handleGetValueID('residence', values?.employee?.residence)
-          : null
+          : ''
       )
       formData.append('residence_description', values?.employee?.residenceName)
       formData.append('current_address', values?.employee?.address)

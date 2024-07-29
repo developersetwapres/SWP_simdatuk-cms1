@@ -775,7 +775,7 @@ const EmployeeAddComponent = ({
         'residence_id',
         values?.employee?.residence
           ? handleGetValue('residence', values?.employee?.residence)
-          : null
+          : ''
       )
       formData.append('residence_description', values?.employee?.residenceName)
       formData.append('current_address', values?.employee?.address)
@@ -792,7 +792,7 @@ const EmployeeAddComponent = ({
       formData.append('email', values?.employee?.email)
       formData.append('office_email', values?.employee?.officeEmail)
       formData.append('emergency_contact', values?.employee?.emergencyContact)
-      formData.append('description', null)
+      formData.append('description', '')
       formData.append(
         'quit_date',
         handleFormatDate(values?.employee?.lastDateOfWork, 'YYYY-MM-DD')
@@ -822,7 +822,7 @@ const EmployeeAddComponent = ({
         )
         formData.append(
           `educations[${index}][degree_document]`,
-          item?.educationCertificate
+          item?.educationCertificate || ''
         )
       })
 
@@ -898,7 +898,7 @@ const EmployeeAddComponent = ({
         )
         formData.append(`leaves[${index}][number]`, item?.number)
         formData.append(`leaves[${index}][description]`, item?.description)
-        formData.append(`leaves[${index}][letter]`, item?.leaveLetter)
+        formData.append(`leaves[${index}][letter]`, item?.leaveLetter || '')
       })
 
       // Notes
@@ -917,13 +917,11 @@ const EmployeeAddComponent = ({
         formData.append(`credits[${index}][score]`, item?.point)
         formData.append(
           `credits[${index}][start_month]`,
-          item?.month?.start
-            ? handleGetValue('months', item?.month?.start)
-            : null
+          item?.month?.start ? handleGetValue('months', item?.month?.start) : ''
         )
         formData.append(
           `credits[${index}][end_month]`,
-          item?.month?.end ? handleGetValue('months', item?.month?.end) : null
+          item?.month?.end ? handleGetValue('months', item?.month?.end) : ''
         )
       })
 
@@ -940,7 +938,7 @@ const EmployeeAddComponent = ({
         formData.append(`assessments[${index}][organizer]`, item?.organizer)
         formData.append(
           `assessments[${index}][assessment_document]`,
-          item?.certificate
+          item?.certificate || ''
         )
       })
 
@@ -957,7 +955,7 @@ const EmployeeAddComponent = ({
         formData.append(`competencies[${index}][organizer]`, item?.organizer)
         formData.append(
           `competencies[${index}][competency_document]`,
-          item?.certificate
+          item?.certificate || ''
         )
       })
 
@@ -972,7 +970,10 @@ const EmployeeAddComponent = ({
           handleGetValue('talentPools', item?.point)
         )
         formData.append(`talents[${index}][organizer]`, item?.organizer)
-        formData.append(`talents[${index}][talent_document]`, item?.certificate)
+        formData.append(
+          `talents[${index}][talent_document]`,
+          item?.certificate || ''
+        )
       })
 
       postEmployee(formData)

@@ -427,7 +427,7 @@ const EmployeeAddComponent = ({
       )
       formData.append(
         'employee_id_card_number',
-        values?.employee?.employeeIdCardNumber
+        values?.employee?.employeeIdCardNumber || ''
       )
       formData.append('employee_id_card', '')
       formData.append('karisu_number', values?.employee?.karisu)
@@ -445,7 +445,7 @@ const EmployeeAddComponent = ({
         'residence_id',
         values?.employee?.residence
           ? handleGetValue('residence', values?.employee?.residence)
-          : null
+          : ''
       )
       formData.append('residence_description', values?.employee?.residenceName)
       formData.append('current_address', values?.employee?.address)
@@ -492,7 +492,7 @@ const EmployeeAddComponent = ({
         )
         formData.append(
           `educations[${index}][degree_document]`,
-          item?.educationCertificate
+          item?.educationCertificate || ''
         )
       })
 
