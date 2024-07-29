@@ -378,7 +378,7 @@ const EmployeeEditComponent = ({
   const handleGetValueID = (type, val) => {
     if (val) {
       if (type == 'position') {
-        const dataPosition = positions.flat(1)
+        const dataPosition = positions[positions.length - 1]
         const item = dataPosition.find((itm) => itm?.name == val)
         return item?.id
       } else if (type == 'residence') {

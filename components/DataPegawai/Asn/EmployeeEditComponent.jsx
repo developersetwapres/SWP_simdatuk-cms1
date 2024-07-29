@@ -840,7 +840,11 @@ const EmployeeEditComponent = ({
       const arr = []
 
       val.map((itm) => {
-        arr.push(itm?.name)
+        if (type == 'grades') {
+          arr.push(`${itm?.name} ${itm?.code}`)
+        } else {
+          arr.push(itm?.name)
+        }
       })
 
       return arr
@@ -923,12 +927,13 @@ const EmployeeEditComponent = ({
   const handleGetValueID = (type, val) => {
     if (val) {
       if (type == 'position') {
-        const dataPosition = positions.flat(1)
+        const dataPosition = positions[positions.length - 1]
         const item = dataPosition.find((itm) => itm?.name == val)
         return item?.id
       } else if (type == 'grade') {
         const idItm =
-          grade?.options && grade?.options.find((itm) => itm?.name == val)?.id
+          grade?.options &&
+          grade?.options.find((itm) => `${itm?.name} ${itm?.code}` == val)?.id
         return idItm
       } else if (type == 'echelon') {
         const idItm =
@@ -977,8 +982,9 @@ const EmployeeEditComponent = ({
   const handleGetValue = (type, val) => {
     if (type == 'grade') {
       const item =
-        grade?.options && grade?.options.find((itm) => itm?.id == val)?.name
-      return item
+        grade?.options && grade?.options.find((itm) => itm?.id == val)
+
+      return `${item?.name} ${item?.code}`
     } else if (type == 'echelon') {
       const item =
         echelon?.options && echelon?.options.find((itm) => itm?.id == val)?.name

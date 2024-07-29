@@ -545,11 +545,15 @@ const EmployeeAddComponent = ({
     return employee?.errorForm || {}
   }, [employee?.errorForm])
 
-  const handleMapping = (val) => {
+  const handleMapping = (val, type) => {
     const arr = []
 
     val.map((itm) => {
-      arr.push(itm?.name)
+      if (type == 'grades') {
+        arr.push(`${itm?.name} ${itm?.code}`)
+      } else {
+        arr.push(itm?.name)
+      }
     })
 
     return arr
@@ -557,16 +561,22 @@ const EmployeeAddComponent = ({
 
   const options = useMemo(() => {
     const newPosition = positions
-      ? positions.map((itm) => handleMapping(itm))
+      ? positions.map((itm) => handleMapping(itm, ''))
       : []
-    const newResidence = residence?.data ? handleMapping(residence?.data) : []
-    const newEchelon = echelon?.options ? handleMapping(echelon?.options) : []
-    const newGrade = grade?.options ? handleMapping(grade?.options) : []
+    const newResidence = residence?.data
+      ? handleMapping(residence?.data, '')
+      : []
+    const newEchelon = echelon?.options
+      ? handleMapping(echelon?.options, '')
+      : []
+    const newGrade = grade?.options
+      ? handleMapping(grade?.options, 'grades')
+      : []
     const newInstitution = institution?.options
-      ? handleMapping(institution?.options)
+      ? handleMapping(institution?.options, '')
       : []
     const newEmploymentType = employmentType?.data
-      ? handleMapping(employmentType?.data)
+      ? handleMapping(employmentType?.data, '')
       : []
 
     const dataOptions = {
@@ -600,12 +610,13 @@ const EmployeeAddComponent = ({
   const handleGetValue = (type, val) => {
     if (val) {
       if (type == 'position') {
-        const dataPosition = positions.flat(1)
+        const dataPosition = positions[positions.length - 1]
         const item = dataPosition.find((itm) => itm?.name == val)
         return item?.id
       } else if (type == 'grade') {
         const idItm =
-          grade?.options && grade?.options.find((itm) => itm?.name == val)?.id
+          grade?.options &&
+          grade?.options.find((itm) => `${itm?.name} ${itm?.code}` == val)?.id
         return idItm
       } else if (type == 'echelon') {
         const idItm =
