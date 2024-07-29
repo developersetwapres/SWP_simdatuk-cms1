@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Checkbox, FormControlLabel, Typography } from '@mui/material'
