@@ -210,6 +210,13 @@ const EmployeeASNComponent = ({
   }, [employee])
 
   const action = useMemo(() => {
+    const createPermission = accessGranted(
+      PermissionsIDs.EMPLOYEE_ASN,
+      Access.CREATE
+    )
+
+    if (!createPermission) return
+
     return (
       <Box sx={{ display: 'flex', gap: 1 }}>
         <Button
@@ -217,23 +224,19 @@ const EmployeeASNComponent = ({
           sx={{ backgroundColor: '#F16637' }}
           onClick={() => synchronizeEmployees()}
         />
-        {accessGranted(PermissionsIDs.EMPLOYEE_ASN, Access.CREATE) && (
-          <>
-            <Button
-              text='Tambah Massal'
-              color='sidatukDraweBase'
-              onClick={() => router.push(`${router.pathname}/add-bulk`)}
-            />
-            <Button
-              text='Tambah'
-              color='primary'
-              onClick={() => handleRedirect('add', null)}
-            />
-          </>
-        )}
+        <Button
+          text='Tambah Massal'
+          color='sidatukDraweBase'
+          onClick={() => router.push(`${router.pathname}/add-bulk`)}
+        />
+        <Button
+          text='Tambah'
+          color='primary'
+          onClick={() => handleRedirect('add', null)}
+        />
       </Box>
     )
-  }, [])
+  }, [router])
 
   const handleGetValueID = (type, val) => {
     if (val) {
