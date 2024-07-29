@@ -77,7 +77,14 @@ const ExportDrhComponent = ({
   }, [echelon, grade])
 
   const handleGetValueID = (type, val) => {
-    if (type === 'gender') {
+    if (type === 'deputy') {
+      const databaseIDStart = 37
+      return val?.map((i) => {
+        return (
+          options[type]?.findIndex((item) => item === i) + databaseIDStart
+        )
+      })
+    } else if (type === 'gender') {
       return val?.map(gender => gender === 'Laki-Laki' ? 1 : 0)
     } else if (
       type === 'totalWorkingTime' ||

@@ -245,6 +245,16 @@ const ExportEmployeeComponent = ({
   }
 
   const getIDsByType = (key, value) => {
+    if (key === 'deputy') {
+      const databaseIDStart = 37
+      return value?.map((val) => {
+        return (
+          options[formKeyToOptionsKey(key)]
+            .findIndex((item) => item === val) + databaseIDStart
+        )
+      })
+    }
+
     if (
       key === 'gradeWorkingPeriod' ||
       key === 'totalWorkingPeriod'
@@ -271,8 +281,8 @@ const ExportEmployeeComponent = ({
     if (Array.isArray(value)) {
       return value?.map((val) => {
         return (
-          options[formKeyToOptionsKey(key)].findIndex((item) => item === val) +
-          1
+          options[formKeyToOptionsKey(key)]
+            .findIndex((item) => item === val) + 1
         )
       })
     }
