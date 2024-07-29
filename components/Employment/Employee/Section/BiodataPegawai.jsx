@@ -13,15 +13,15 @@ const BiodataPegawai = ({ data }) => {
   const router = useRouter()
 
   const path = useMemo(() => {
-    const pathname = router?.pathname.split('/')[2]
+    const type = data?.type
     const data = {
-      ASN: pathname == 'asn',
-      NonASN: pathname == 'non-asn',
-      Outsource: pathname == 'outsourcing'
+      ASN: type == 1,
+      NonASN: type == 2,
+      Outsource: type == 3
     }
 
     return data
-  }, [router])
+  }, [data])
 
   const options = useMemo(() => {
     const data = {
@@ -128,22 +128,26 @@ const BiodataPegawai = ({ data }) => {
             </Typography>
           </Grid>
         )}
-        {data?.employee_id_card && (
-          <Grid item xs={12} md={4} paddingY={1}>
-            <Typography>Kartu Pegawai</Typography>
+        <Grid item xs={12} md={4} paddingY={1}>
+          <Typography>Kartu Pegawai</Typography>
+          {data?.employee_id_card ? (
             <Button
               text='Lihat File'
               onClick={() => openInNewTab(data?.employee_id_card)}
             />
-          </Grid>
-        )}
+          ) : (
+            <Typography fontWeight='500' marginTop={1}>
+              -
+            </Typography>
+          )}
+        </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Masa Kerja Keseluruhan</Typography>
           <Typography fontWeight='500' marginTop={1}>
             {data?.cpns_years_of_service || '-'}
           </Typography>
         </Grid>{' '}
-        {!router?.asPath?.includes('outsourcing') && (
+        {!path?.Outsource && (
           <Grid item xs={12} md={4} paddingY={1}>
             <Typography>Masa Kerja Golongan</Typography>
             <Typography fontWeight='500' marginTop={1}>
@@ -229,7 +233,7 @@ const BiodataPegawai = ({ data }) => {
             {data?.office_email || '-'}
           </Typography>
         </Grid>
-        {data?.description && data?.description !== 'null' && (
+        {!path?.ASN && (
           <Grid item xs={12} md={4} paddingY={1}>
             <Typography>Keterangan</Typography>
             <Typography fontWeight='500' marginTop={1}>

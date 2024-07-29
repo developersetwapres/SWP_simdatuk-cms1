@@ -329,31 +329,6 @@ const EmployeeForm = ({
                     errors?.employee?.positions[idx]?.name
                   }
                   onChange={(val) => {
-                    // if (val) {
-                    //   setFieldValue(
-                    //     `employee.positions[${idx}].name`,
-                    //     val,
-                    //     false
-                    //   )
-                    //   setFieldValue(
-                    //     `employee.positions[${idx + 1}]`,
-                    //     { name: null },
-                    //     false
-                    //   )
-                    //   setTimeout(() => {
-                    //     formikRef.current.validateField(`employee.positions`)
-                    //   }, 1)
-                    // } else {
-                    //   const data = values?.employee?.positions
-                    //   const dataSlice = data.slice(0, idx)
-                    //   const newData = [...dataSlice, { name: null }]
-
-                    //   setFieldValue(`employee.positions`, newData, false)
-                    //   setTimeout(() => {
-                    //     formikRef.current.validateField(`employee.positions`)
-                    //   }, 1)
-                    // }
-
                     const data = values?.employee?.positions
                     const dataSlice = data.slice(0, idx)
                     const newData = [...dataSlice, { name: val || null }]
@@ -831,7 +806,7 @@ const EmployeeForm = ({
         )}
 
         {/* Description */}
-        {pagesType?.outsource && (
+        {!pagesType?.asn && (
           <Grid item xs={6}>
             <Input
               label='Keterangan'

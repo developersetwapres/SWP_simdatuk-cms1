@@ -84,7 +84,8 @@ const InitValue = {
     officeTelephoneNumber: '',
     email: '',
     officeEmail: '',
-    emergencyContact: ''
+    emergencyContact: '',
+    description: ''
   },
   educations: [],
   families: [],

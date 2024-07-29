@@ -72,7 +72,8 @@ const InitValue = {
     officeTelephoneNumber: '',
     email: '',
     officeEmail: '',
-    emergencyContact: ''
+    emergencyContact: '',
+    description: ''
   },
   educations: [],
   families: [],
@@ -803,7 +804,7 @@ const EmployeeAddComponent = ({
       formData.append('email', values?.employee?.email)
       formData.append('office_email', values?.employee?.officeEmail)
       formData.append('emergency_contact', values?.employee?.emergencyContact)
-      formData.append('description', '')
+      formData.append('description', values?.employee?.description)
       formData.append(
         'quit_date',
         handleFormatDate(values?.employee?.lastDateOfWork, 'YYYY-MM-DD')
