@@ -21,7 +21,7 @@ const RiwayatJabatanSection = ({ data = [] }) => {
   }, [])
 
   const getValueOptions = (value, type) => {
-    return options[type][value]
+    return options[type][value - 1]
   }
 
   const columns = useMemo(

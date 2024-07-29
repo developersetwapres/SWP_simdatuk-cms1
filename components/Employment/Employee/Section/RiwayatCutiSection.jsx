@@ -57,7 +57,8 @@ const RiwayatCutiSection = ({ data = [] }) => {
   }, [])
 
   const getValueOptions = (value, type) => {
-    return options[type][value]
+    const index = value - 1
+    return options[type][index]
   }
 
   const rows = useMemo(() => {
