@@ -231,7 +231,7 @@ const MasterDataEmployementTypeComponent = ({
             inputParentClasses={classes.inputParent}
             inputClass={classes.input}
             iconStyle={classes.iconStyle}
-            placeholder='Cari Username'
+            placeholder='Cari Jenis Pegawai'
             onSearch={onSearch}
           />
         </Box>
