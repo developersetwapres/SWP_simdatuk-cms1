@@ -63,12 +63,12 @@ const styles = {
 const MasterDataPositionComponent = ({
   position,
   queries,
-  onFetch = () => {},
-  onSearch = () => {},
-  onLoading = () => {},
-  deletePosition = () => {},
-  onPaginationChange = () => {},
-  onRowsPerPageChange = () => {}
+  onFetch = () => { },
+  onSearch = () => { },
+  onLoading = () => { },
+  deletePosition = () => { },
+  onPaginationChange = () => { },
+  onRowsPerPageChange = () => { }
 }) => {
   const classes = useStyles()
   const router = useRouter()
@@ -153,7 +153,7 @@ const MasterDataPositionComponent = ({
                   sx={styles.buttonAction}
                 />
               )}
-              {accessGranted(PermissionsIDs.MASTER_POSITION, Access.Edit) && (
+              {accessGranted(PermissionsIDs.MASTER_POSITION, Access.UPDATE) && (
                 <Button
                   text='Edit'
                   color='sidatukDraweBase'
