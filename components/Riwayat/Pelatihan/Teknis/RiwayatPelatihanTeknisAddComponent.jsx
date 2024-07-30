@@ -135,7 +135,10 @@ const RiwayatPelatihanTeknisAddComponent = ({
           `users[${index}][user_id]`,
           handleGetValue(item?.nama, 'employee')
         )
-        formData.append(`users[${index}][certificate]`, item?.sertifikat)
+        formData.append(
+          `users[${index}][certificate]`,
+          item?.sertifikat || ''
+        )
       })
 
       postTraining(formData)
