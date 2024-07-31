@@ -3,8 +3,17 @@ import React, { useMemo } from 'react'
 import { Table } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
+import { ppkDescOptions } from 'libs/types/options'
 
 const RiwayatPrestasiKerja = ({ data = [] }) => {
+  const getValueId = (val, type) => {
+    if (!val) return '-'
+
+    if (type == 'description') {
+      return ppkDescOptions[val - 1]
+    }
+  }
+
   const columns = useMemo(
     () => [
       {
@@ -50,13 +59,19 @@ const RiwayatPrestasiKerja = ({ data = [] }) => {
           Header: 'Nilai Prestasi Kerja',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.work_performance_score || '-'}</Typography>
+          Cell: () => (
+            <Typography>{item?.work_performance_score || '-'}</Typography>
+          )
         },
         {
           Header: 'Keterangan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.description || '-'}</Typography>
+          Cell: () => (
+            <Typography>
+              {getValueId(item?.description, 'description')}
+            </Typography>
+          )
         }
       ]
     })
