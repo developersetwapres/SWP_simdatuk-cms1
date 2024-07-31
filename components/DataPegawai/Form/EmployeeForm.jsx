@@ -50,7 +50,7 @@ const EmployeeForm = ({
     const employee = values?.employee
     const residence = employee?.residence
 
-    return residence !== null
+    return residence && residence.toLowerCase() == 'luar komplek'
   }, [values?.employee])
 
   useEffect(() => {

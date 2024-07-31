@@ -980,48 +980,53 @@ const EmployeeEditComponent = ({
   }
 
   const handleGetValue = (type, val) => {
-    if (type == 'grade') {
-      const item =
-        grade?.options && grade?.options.find((itm) => itm?.id == val)
+    if (val || val == 0) {
+      if (type == 'grade') {
+        const item =
+          grade?.options && grade?.options.find((itm) => itm?.id == val)
 
-      return `${item?.name} ${item?.code}`
-    } else if (type == 'echelon') {
-      const item =
-        echelon?.options && echelon?.options.find((itm) => itm?.id == val)?.name
-      return item
-    } else if (type == 'institution') {
-      const item =
-        institution?.options &&
-        institution?.options.find((itm) => itm?.id == val)?.name
-      return item
-    } else if (type == 'residence') {
-      const item =
-        residence?.data && residence?.data.find((itm) => itm?.id == val)?.name
-      return item
-    } else if (type == 'employmentType') {
-      const item =
-        employmentType?.data &&
-        employmentType?.data.find((itm) => itm?.id == val)?.name
+        return `${item?.name} ${item?.code}`
+      } else if (type == 'echelon') {
+        const item =
+          echelon?.options &&
+          echelon?.options.find((itm) => itm?.id == val)?.name
+        return item
+      } else if (type == 'institution') {
+        const item =
+          institution?.options &&
+          institution?.options.find((itm) => itm?.id == val)?.name
+        return item
+      } else if (type == 'residence') {
+        const item =
+          residence?.data && residence?.data.find((itm) => itm?.id == val)?.name
+        return item
+      } else if (type == 'employmentType') {
+        const item =
+          employmentType?.data &&
+          employmentType?.data.find((itm) => itm?.id == val)?.name
 
-      return item
-    } else if (type == 'decree') {
-      const item =
-        decree?.data && decree?.data.find((itm) => itm?.id == val)?.name
-      return item
-    } else if (type == 'disciplinary') {
-      const item =
-        disciplinary?.options &&
-        disciplinary?.options.find((itm) => itm?.id == val)?.name
-      return item
-    } else if (type == 'group') {
-      const item =
-        group?.data && group?.data.find((itm) => itm?.id == val)?.name
-      return item
+        return item
+      } else if (type == 'decree') {
+        const item =
+          decree?.data && decree?.data.find((itm) => itm?.id == val)?.name
+        return item
+      } else if (type == 'disciplinary') {
+        const item =
+          disciplinary?.options &&
+          disciplinary?.options.find((itm) => itm?.id == val)?.name
+        return item
+      } else if (type == 'group') {
+        const item =
+          group?.data && group?.data.find((itm) => itm?.id == val)?.name
+        return item
+      } else {
+        const index = val - 1
+        const item = options[type][index]
+
+        return item
+      }
     } else {
-      const index = val - 1
-      const item = options[type][index]
-
-      return item
+      return null
     }
   }
 
@@ -1958,7 +1963,7 @@ const EmployeeEditComponent = ({
       )
       formikRef.current?.setFieldValue(
         'employee.residence',
-        detail?.residence_name || null,
+        handleGetValue('residence', detail?.residence_id),
         false
       )
       formikRef.current?.setFieldValue(
@@ -3082,7 +3087,7 @@ const EmployeeEditComponent = ({
         )
       })
     }
-  }, [employee?.detail])
+  }, [employee?.detail, residence])
 
   return (
     <Formik

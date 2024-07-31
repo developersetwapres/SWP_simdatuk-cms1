@@ -376,7 +376,7 @@ const EmployeeEditComponent = ({
   }, [positions, residence, employmentType])
 
   const handleGetValueID = (type, val) => {
-    if (val) {
+    if (val || val == 0) {
       if (type == 'position') {
         const dataPosition = positions[positions.length - 1]
         const item = dataPosition.find((itm) => itm?.name == val)
@@ -880,7 +880,7 @@ const EmployeeEditComponent = ({
       )
       formikRef.current?.setFieldValue(
         'employee.residence',
-        detail?.residence_name || null,
+        handleGetValue('residence', detail?.residence_id),
         false
       )
       formikRef.current?.setFieldValue(
@@ -1013,7 +1013,7 @@ const EmployeeEditComponent = ({
         )
       })
     }
-  }, [employee?.detail])
+  }, [employee?.detail, residence])
 
   return (
     <Formik
