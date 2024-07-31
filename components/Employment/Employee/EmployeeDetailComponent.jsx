@@ -53,12 +53,12 @@ import {
 const EmployeeDetailComponent = ({
   employee,
   exportEmployeeData,
-  getEmployee = () => { },
-  updateNotesByUserID = () => { },
-  updateEmployeeStatus = () => { },
-  clearEmployeeState = () => { },
-  exportEmployeeDetail = () => { },
-  setRender = () => { }
+  getEmployee = () => {},
+  updateNotesByUserID = () => {},
+  updateEmployeeStatus = () => {},
+  clearEmployeeState = () => {},
+  exportEmployeeDetail = () => {},
+  setRender = () => {}
 }) => {
   const router = useRouter()
   const dispatch = useDispatch()
@@ -193,12 +193,12 @@ const EmployeeDetailComponent = ({
       ),
       educations: !!detailEmployee?.educations?.length
         ? [
-          ...detailEmployee?.educations?.map((i) => ({
-            ...i,
-            level: getValue('education', i?.level - 1),
-            status: getValue('education_status', i?.status - 1)
-          }))
-        ]
+            ...detailEmployee?.educations?.map((i) => ({
+              ...i,
+              level: getValue('education', i?.level - 1),
+              status: getValue('education_status', i?.status - 1)
+            }))
+          ]
         : []
     }
 
@@ -211,8 +211,8 @@ const EmployeeDetailComponent = ({
         ? data?.type == 1
           ? 'ASN'
           : data?.type == 2
-            ? 'Non ASN'
-            : 'Outsourcing'
+          ? 'Non ASN'
+          : 'Outsourcing'
         : ''
 
       return `Detail Pegawai ${type} ${data?.employmentStatus || ''}`
@@ -248,10 +248,13 @@ const EmployeeDetailComponent = ({
           </>
         )}
 
-        <ButtonExport data={[{ name: 'PDF', action: () => exportAsPDF() }]} />
+        <ButtonExport
+          isLoading={exportEmployeeData?.loading}
+          data={[{ name: 'PDF', action: () => exportAsPDF() }]}
+        />
       </Box>
     )
-  }, [employmentStatusModalOpen, router])
+  }, [employmentStatusModalOpen, router, exportEmployeeData?.loading])
 
   const sectionsList = useMemo(() => {
     const sections = [
@@ -463,9 +466,9 @@ const EmployeeDetailComponent = ({
   }, [router])
 
   useEffect(() => {
-    const state = !(employee?.loading || exportEmployeeData?.loading)
+    const state = !employee?.loading
     setRender(state)
-  }, [employee, exportEmployeeData])
+  }, [employee])
 
   useEffect(() => {
     if (exportEmployeeData?.detail) saveFile(exportEmployeeData?.detail)
@@ -574,7 +577,7 @@ const EmployeeDetailComponent = ({
                       ]
                         .filter((itm) => itm)
                         .join('/')}
-                      { }
+                      {}
                     </Typography>
                   </Box>
                 </Grid>

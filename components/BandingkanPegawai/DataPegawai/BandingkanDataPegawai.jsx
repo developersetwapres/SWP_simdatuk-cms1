@@ -29,19 +29,17 @@ const filterData = [
   { id: uuidv4(), title: 'Hasil Talent Pool' }
 ]
 
-// End Dummy Data
-
 const BandingkanDataPegawai = ({
   exportComparisonStore,
   employee,
   notes,
   promotions,
-  setLoading = () => { },
-  getNotesByUserID = () => { },
-  updateNotesByUserID = () => { },
-  exportComparison = () => { },
-  clearExportComparisonState = () => { },
-  fetch = () => { }
+  setLoading = () => {},
+  getNotesByUserID = () => {},
+  updateNotesByUserID = () => {},
+  exportComparison = () => {},
+  clearExportComparisonState = () => {},
+  fetch = () => {}
 }) => {
   const router = useRouter()
   const [expandFilter, setExpandFilter] = useState(false)
@@ -75,14 +73,14 @@ const BandingkanDataPegawai = ({
       backPage()
     } else {
       updateStorage(id)
-      setEmployees(() => employees?.filter(i => i?.id != id))
+      setEmployees(() => employees?.filter((i) => i?.id != id))
     }
   }
 
   const updateStorage = (id) => {
     const storedData = localStorage.getItem('dataPegawai')
     const retrievedArray = storedData ? JSON.parse(storedData) : []
-    const employeesData = retrievedArray?.filter(item => item?.id != id)
+    const employeesData = retrievedArray?.filter((item) => item?.id != id)
     localStorage.setItem('dataPegawai', JSON.stringify(employeesData))
   }
 
@@ -98,7 +96,7 @@ const BandingkanDataPegawai = ({
     }
 
     exportComparison({
-      user_id: data?.map(e => e?.id),
+      user_id: data?.map((e) => e?.id),
       output
     })
   }
@@ -130,10 +128,11 @@ const BandingkanDataPegawai = ({
               action: () => exportFileAs(SaveAs.CSV, employees)
             }
           ]}
+          isLoading={exportComparisonStore?.loading}
         />
       </Box>
     )
-  }, [promotions, employees])
+  }, [promotions, employees, exportComparisonStore?.loading])
 
   const handleFilterClick = () => {
     setExpandFilter(!expandFilter)
@@ -155,7 +154,7 @@ const BandingkanDataPegawai = ({
       setCurrentUserId(userId)
     }
 
-    setNotesModalOpen(v => !v)
+    setNotesModalOpen((v) => !v)
   }
 
   useEffect(() => {
@@ -185,26 +184,15 @@ const BandingkanDataPegawai = ({
         type = SaveAs.CSV
       }
 
-      saveFile(
-        exportComparisonStore?.data,
-        getFileName(responseType),
-        type
-      )
+      saveFile(exportComparisonStore?.data, getFileName(responseType), type)
 
       clearExportComparisonState()
     }
   }, [exportComparisonStore])
 
   useEffect(() => {
-    setLoading(
-      !(
-        employee?.loading ||
-        notes?.loading ||
-        exportComparisonStore?.loading ||
-        promotions?.loading
-      )
-    )
-  }, [employee, notes, exportComparisonStore, promotions])
+    setLoading(!(employee?.loading || notes?.loading || promotions?.loading))
+  }, [employee, notes, promotions])
 
   return (
     <LayoutPages
@@ -271,7 +259,7 @@ const BandingkanDataPegawai = ({
                 <Box width='90%'>
                   <Autocomplete
                     multiple
-                    options={filterData?.map(i => i?.title)}
+                    options={filterData?.map((i) => i?.title)}
                     name='filter'
                     placeholder='Pilih Filter Data'
                     label=''
@@ -314,7 +302,7 @@ const BandingkanDataPegawai = ({
         open={notesModalOpen}
         handleModal={() => handleNotesModal(null)}
         handleSave={updateNotesByUserID}
-        data={employees?.find(item => item?.id === currentUserId)}
+        data={employees?.find((item) => item?.id === currentUserId)}
       />
     </LayoutPages>
   )

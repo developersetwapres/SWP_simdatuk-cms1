@@ -93,10 +93,13 @@ const EmploymentComponent = ({
   const action = useMemo(() => {
     return (
       <Box sx={{ marginTop: '12px', display: 'flex', gap: 1 }}>
-        <ButtonExport data={[{ name: 'PDF', action: () => exportPDF() }]} />
+        <ButtonExport
+          isLoading={exportRecapData?.loading}
+          data={[{ name: 'PDF', action: () => exportPDF() }]}
+        />
       </Box>
     )
-  }, [router])
+  }, [router, exportRecapData?.loading])
 
   // Path
   useEffect(() => {
@@ -115,16 +118,14 @@ const EmploymentComponent = ({
         recapComposition?.loading ||
         recapASN?.loading ||
         recapNonASN?.loading ||
-        recapOutsource?.loading ||
-        exportRecapData?.loading
+        recapOutsource?.loading
       )
     )
   }, [
     recapComposition?.loading,
     recapASN?.loading,
     recapNonASN?.loading,
-    recapOutsource?.loading,
-    exportRecapData?.loading
+    recapOutsource?.loading
   ])
 
   // Recap Data

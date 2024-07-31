@@ -4,7 +4,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import PropTypes from 'prop-types'
 import { Button } from '../shared'
 
-function ButtonExport({ data }) {
+function ButtonExport({ data, isLoading = false }) {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
 
@@ -22,12 +22,21 @@ function ButtonExport({ data }) {
   }
 
   if (data.length == 1) {
-    return <Button text='Export' color='success' onClick={data[0]?.action} />
+    return (
+      <Button
+        text='Export'
+        color='success'
+        isLoading={isLoading}
+        isBusy={isLoading}
+        onClick={data[0]?.action}
+      />
+    )
   }
 
   return (
     <Fragment>
       <ButtonMui
+        disabled={isLoading}
         id='basic-button'
         aria-controls={open ? 'basic-menu' : undefined}
         aria-haspopup='true'
@@ -40,16 +49,20 @@ function ButtonExport({ data }) {
           }
         }}
       >
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            color: 'white'
-          }}
-        >
-          Export
-          <KeyboardArrowDownIcon />
-        </div>
+        {isLoading ? (
+          <CircularProgress size={13} color={color} />
+        ) : (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              color: 'white'
+            }}
+          >
+            Export
+            <KeyboardArrowDownIcon />
+          </div>
+        )}
       </ButtonMui>
       <Menu
         id='basic-menu'
@@ -80,7 +93,8 @@ function ButtonExport({ data }) {
 }
 
 ButtonExport.propTypes = {
-  data: PropTypes.array
+  data: PropTypes.array,
+  isLoading: PropTypes.bool
 }
 
 export default ButtonExport

@@ -62,10 +62,11 @@ const PetaJabatanComponent = ({
       <Box>
         <ButtonExport
           data={[{ name: 'PDF', action: () => exportDiagrams() }]}
+          isLoading={exportDiagram?.loading}
         />
       </Box>
     )
-  }, [])
+  }, [exportDiagram?.loading])
 
   const getFileName = (type) => {
     const prefix = 'PETA_JABATAN'

@@ -97,9 +97,9 @@ const stats = [
 function ComparisonsComponent({
   promotions,
   exportPromotionData,
-  setLoading = () => { },
-  exportPromotionUsers = () => { },
-  clearExportPromotionState = () => { }
+  setLoading = () => {},
+  exportPromotionUsers = () => {},
+  clearExportPromotionState = () => {}
 }) {
   const router = useRouter()
   const [employees, setEmployees] = useState([])
@@ -168,6 +168,7 @@ function ComparisonsComponent({
           }}
         />
         <ButtonExport
+          isLoading={exportPromotionData?.loading}
           data={[
             { name: 'PDF', action: () => exportFileAs(SaveAs.PDF, employees) }
             // { name: 'XLS', action: () => exportFileAs(SaveAs.XLS, employees) },
@@ -176,7 +177,7 @@ function ComparisonsComponent({
         />
       </Box>
     )
-  }, [employees])
+  }, [employees, exportPromotionData?.loading])
 
   const removeEmployee = (id) => {
     if (employees.length > 2) {
@@ -221,8 +222,8 @@ function ComparisonsComponent({
   }, [promotions])
 
   useEffect(() => {
-    setLoading(!(promotions?.loading || exportPromotionData?.loading))
-  }, [promotions, exportPromotionData])
+    setLoading(!promotions?.loading)
+  }, [promotions])
 
   useEffect(() => {
     if (employees.length > 1) {
@@ -253,21 +254,21 @@ function ComparisonsComponent({
                   name={
                     employee?.name
                       ? [
-                        employee?.title_prefix,
-                        employee?.name,
-                        employee?.title_suffix
-                      ].join(' ')
+                          employee?.title_prefix,
+                          employee?.name,
+                          employee?.title_suffix
+                        ].join(' ')
                       : '-'
                   }
                   titleColor={colorCode}
                   image={employee?.photo_profile}
                   registrationNumber={
                     !employee?.employee_id_number &&
-                      !employee?.employee_registration_number
+                    !employee?.employee_registration_number
                       ? '-'
                       : !employee?.employee_registration_number
-                        ? employee?.employee_id_number
-                        : `${employee?.employee_id_number} / ${employee?.employee_registration_number}`
+                      ? employee?.employee_id_number
+                      : `${employee?.employee_id_number} / ${employee?.employee_registration_number}`
                   }
                   handleRemove={() => removeEmployee(employee?.id)}
                 />
@@ -331,8 +332,8 @@ function ComparisonsComponent({
                 name={
                   item?.name
                     ? [item?.title_prefix, item?.name, item?.title_suffix].join(
-                      ' '
-                    )
+                        ' '
+                      )
                     : '-'
                 }
                 textNameColor={colorCode}
@@ -549,7 +550,7 @@ const EmployeeDataComponent = ({
   image = '/simdatuk/imagePegawai.png',
   registrationNumber = '',
   name = '',
-  handleRemove = () => { }
+  handleRemove = () => {}
 }) => {
   return (
     <Box
