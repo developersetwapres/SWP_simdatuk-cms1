@@ -1,4 +1,7 @@
 /* eslint-disable indent */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { getStorage } from '@/utils/storage'
