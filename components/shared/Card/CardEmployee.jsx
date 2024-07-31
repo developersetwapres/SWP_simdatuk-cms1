@@ -40,8 +40,9 @@ const CardEmployee = ({ data, otherStyle }) => {
           {data?.image?.length > 0 ? (
             <Box
               sx={{
-                width: '150px',
-                height: '180px',
+                minWidth: '150px',
+                maxWidth: '180px',
+                height: '220px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -51,7 +52,7 @@ const CardEmployee = ({ data, otherStyle }) => {
               <img
                 src={data?.image || '/simdatuk/userIcon.png'}
                 alt='profile'
-                style={{ height: '100%', width: '100%' }}
+                style={{ height: '100%', width: 'fit-content' }}
               />
             </Box>
           ) : (
