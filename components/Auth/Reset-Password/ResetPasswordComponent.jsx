@@ -23,7 +23,8 @@ const useStyles = makeStyles((theme) => ({
 
 function ResetPasswordComponent({
   router,
-  resetPassword = () => { },
+  resetPassword = () => {},
+  newPassword = () => {},
   isNewPassword = false
 }) {
   const classes = useStyles()
@@ -39,15 +40,16 @@ function ResetPasswordComponent({
     const temp = { ...errors }
 
     if ('newPassword' in fieldOfValues)
-      temp.newPassword = fieldOfValues.newPassword ? '' : 'Password baru tidak boleh kosong'
+      temp.newPassword = fieldOfValues.newPassword
+        ? ''
+        : 'Password baru tidak boleh kosong'
 
     if ('confirmNewPassword' in fieldOfValues)
       temp.confirmNewPassword = fieldOfValues.confirmNewPassword
-        ? (
-          values.newPassword.toLowerCase() === fieldOfValues.confirmNewPassword.toLowerCase()
-            ? ''
-            : 'Password harus sama dengan Password Baru'
-        )
+        ? values.newPassword.toLowerCase() ===
+          fieldOfValues.confirmNewPassword.toLowerCase()
+          ? ''
+          : 'Password harus sama dengan Password Baru'
         : 'Konfirmasi password baru tidak boleh kosong'
 
     setErrors({
@@ -55,31 +57,31 @@ function ResetPasswordComponent({
     })
 
     if (fieldOfValues === values)
-      return Object.values(temp).every(x => x === '')
+      return Object.values(temp).every((x) => x === '')
   }
 
-  const {
-    values,
-    errors,
-    setErrors,
-    handleInputChange
-  } = useForm(initialValues, true, validate)
+  const { values, errors, setErrors, handleInputChange } = useForm(
+    initialValues,
+    true,
+    validate
+  )
 
   const handleSubmitReset = () => {
     if (validate()) {
-      resetPassword({
+      const payload = {
         code: router.query.hash,
-        status: isNewPassword,
         password: values?.newPassword,
         password_confirmation: values?.confirmNewPassword
-      })
+      }
+
+      router?.pathname.includes('new-password')
+        ? newPassword(payload)
+        : resetPassword(payload)
     }
   }
 
   return (
-    <Box
-      className={classes.root}
-    >
+    <Box className={classes.root}>
       <Container
         maxWidth='lg'
         sx={{
@@ -106,25 +108,14 @@ function ResetPasswordComponent({
               p: 2
             }}
           >
-            <Stack
-              direction='row'
-              spacing={2}
-              alignItems='center'
-            >
-              <Image
-                src={logo}
-                alt='Logo'
-                width={60}
-                height={60}
-              />
+            <Stack direction='row' spacing={2} alignItems='center'>
+              <Image src={logo} alt='Logo' width={60} height={60} />
               <Typography
                 variant='h4'
                 fontWeight='500'
                 component='h4'
                 color='primary'
-                sx={{
-
-                }}
+                sx={{}}
               >
                 SIMDATUK
               </Typography>
@@ -136,25 +127,25 @@ function ResetPasswordComponent({
             maxWidth='md'
             color='sidatukDraweBase.main'
           >
-            <Grid
-              item
-              textAlign='center'
-            >
+            <Grid item textAlign='center'>
               <h2>{isNewPassword ? 'Password Baru' : 'Reset Password'}</h2>
 
               {isNewPassword ? (
                 <>
-                  <p style={{ marginTop: '' }}>Anda telah berhasil terverifikasi</p>
-                  <p style={{ marginTop: '-8px' }}>Silakan masukkan password baru</p>
+                  <p style={{ marginTop: '' }}>
+                    Anda telah berhasil terverifikasi
+                  </p>
+                  <p style={{ marginTop: '-8px' }}>
+                    Silakan masukkan password baru
+                  </p>
                 </>
               ) : (
-                <p style={{ marginTop: '-10px' }}>Reset Password akun: {router?.query?.email ?? '-'}</p>
+                <p style={{ marginTop: '-10px' }}>
+                  Reset Password akun: {router?.query?.email ?? '-'}
+                </p>
               )}
-
             </Grid>
-            <Grid
-              item
-            >
+            <Grid item>
               <ResetPasswordForm
                 values={values}
                 handleInputChange={handleInputChange}
@@ -185,6 +176,7 @@ function ResetPasswordComponent({
 ResetPasswordComponent.propTypes = {
   router: PropTypes.object,
   resetPassword: PropTypes.func,
+  newPassword: PropTypes.func,
   isNewPassword: PropTypes.bool
 }
 

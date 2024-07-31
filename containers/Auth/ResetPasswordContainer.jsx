@@ -6,12 +6,14 @@ import { mapActions } from '@/store/index'
 import ResetPasswordComponent from '@/components/Auth/Reset-Password/ResetPasswordComponent'
 
 export default connect(
-  mapStateToProps(),
-  mapActions('resetPassword')
+  mapStateToProps('resetPassword'),
+  mapActions('resetPassword', 'newPassword')
 )(
   class ResetPasswordContainer extends Component {
     static propTypes = {
       forgetPassword: PropTypes.func,
+      resetPassword: PropTypes.func,
+      newPassword: PropTypes.func,
       router: PropTypes.object
     }
 
