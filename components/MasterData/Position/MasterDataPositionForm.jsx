@@ -24,9 +24,18 @@ const MasterDataPositionForm = ({
   formikRef,
   options,
   isPositionsLoading,
-  onChangeHierarchies = () => { },
-  onFetchHierarchy = () => { }
+  onChangeHierarchies = () => {},
+  onFetchHierarchy = () => {}
 }) => {
+  const POSITION = useMemo(() => {
+    const val = options?.positionType
+    return val.reduce((acc, val, index) => {
+      const key = val.toUpperCase()
+      acc[key] = val
+      return acc
+    }, {})
+  }, [options])
+
   const isShow = useMemo(() => {
     return values?.show
   }, [values])
@@ -51,16 +60,12 @@ const MasterDataPositionForm = ({
   }
 
   useEffect(() => {
-    if (!isShowGroup && isShow) setFieldValue('show', !isShow, false)
-  }, [isShowGroup])
-
-  useEffect(() => {
     const datas = values?.parent || []
     const hierarchiesNull = datas.filter((itm) => itm?.name == null)
 
     onChangeHierarchies(
       datas,
-      values?.position !== 'Outsourcing' ? [1, 2] : [3]
+      values?.position !== POSITION?.OUTSOURCING ? [1, 2] : [3]
     )
 
     if (hierarchiesNull.length == 0) {
@@ -125,23 +130,33 @@ const MasterDataPositionForm = ({
                 error={errors?.position}
                 onChange={(val) => {
                   setFieldValue('position', val, false)
-                  setFieldValue('parent', [{ name: null }], false)
+                  setFieldValue('show', val !== POSITION?.OUTSOURCING, false)
                   onFetchHierarchy(val)
-                  // setTimeout(() => {
-                  //   formikRef.current.validateField('position')
-                  // }, 1)
+
+                  if (val == POSITION?.OUTSOURCING) {
+                    setFieldValue(
+                      'echelons',
+                      [{ name: null, quantity: '' }],
+                      false
+                    )
+                  }
+
+                  setTimeout(() => {
+                    formikRef.current.validateField('position')
+                  }, 1)
                 }}
               />
             </Grid>
           )}
           {/* Show on Peta Jabatan */}
-          <Grid
-            item
-            xs={6}
-            alignContent='flex-end'
-          >
+          <Grid item xs={6} alignContent='flex-end'>
+            <Typography
+              sx={{ marginBottom: '8px', fontSize: '14px', fontWeight: 500 }}
+            >
+              Peta Jabatan
+            </Typography>
             <FormControlLabel
-              label={'Tampilkan di Peta Jabatan'}
+              label={'Tampilkan'}
               control={
                 <Checkbox
                   checked={values?.showOnPetaJabatan}
@@ -157,38 +172,40 @@ const MasterDataPositionForm = ({
       {/* Echelon */}
       {isShowGroup && (
         <Grid item xs={12}>
-          <Box sx={{ marginBottom: '10px' }}>
-            <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>
-              Eselon
-            </Typography>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={values?.show}
-                  onChange={(e) => {
-                    const val = e?.target?.checked
-                    const echelon = values?.echelons[0]
+          {values?.position !== POSITION?.OUTSOURCING && (
+            <Box sx={{ marginBottom: '10px' }}>
+              <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>
+                Eselon
+              </Typography>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={values?.show}
+                    onChange={(e) => {
+                      const val = e?.target?.checked
+                      const echelon = values?.echelons[0]
 
-                    if (!val) {
-                      setFieldValue(
-                        'echelons',
-                        [
-                          {
-                            name: null,
-                            quantity: echelon?.quantity
-                          }
-                        ],
-                        false
-                      )
-                    }
+                      if (!val) {
+                        setFieldValue(
+                          'echelons',
+                          [
+                            {
+                              name: null,
+                              quantity: echelon?.quantity
+                            }
+                          ],
+                          false
+                        )
+                      }
 
-                    setFieldValue('show', val, false)
-                  }}
-                />
-              }
-              label='Tampilkan Eselon'
-            />
-          </Box>
+                      setFieldValue('show', val, false)
+                    }}
+                  />
+                }
+                label='Tampilkan Eselon'
+              />
+            </Box>
+          )}
           <Grid container spacing={3}>
             {values?.echelons.map((itm, idx) => (
               <Fragment key={idx}>
@@ -252,9 +269,13 @@ const MasterDataPositionForm = ({
                           width: '50px',
                           height: '50px'
                         }}
-                        onClick={() =>
+                        onClick={() => {
+                          const error = errors?.echelons
+
+                          if (error) error.splice(idx, 1)
+
                           handleData(values?.echelons, 'delete', idx)
-                        }
+                        }}
                       />
                     )}
                   </Box>

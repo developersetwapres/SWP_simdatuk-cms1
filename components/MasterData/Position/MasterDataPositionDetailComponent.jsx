@@ -10,7 +10,11 @@ import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 import { useSelector } from 'react-redux'
-import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import {
+  Access,
+  accessGranted,
+  PermissionsIDs
+} from '@/utils/permissionManager'
 
 const styles = {
   iconStyle: {
@@ -37,10 +41,10 @@ const dataEchelon = [
 
 const MasterDataPositionDetailComponent = ({
   position,
-  deletePosition = () => { },
-  getPosition = () => { },
-  clearPositionState = () => { },
-  onLoading = () => { }
+  deletePosition = () => {},
+  getPosition = () => {},
+  clearPositionState = () => {},
+  onLoading = () => {}
 }) => {
   const router = useRouter()
   const modal = useSelector((state) => state.modalReducer)
@@ -160,9 +164,9 @@ const MasterDataPositionDetailComponent = ({
               {/* Show On Peta Jabatan */}
               <Grid item xs={6}>
                 <Box sx={styles?.wrapperItem}>
-                  <Typography>Tampilkan di Halaman Peta Jabatan</Typography>
+                  <Typography>Tampilkan pada Halaman Peta Jabatan</Typography>
                   <Typography sx={styles?.fontItem}>
-                    {data?.status === 1 ? 'Tampil' : 'Tidak'}
+                    {data?.status === 1 ? 'Ya' : 'Tidak'}
                   </Typography>
                 </Box>
               </Grid>

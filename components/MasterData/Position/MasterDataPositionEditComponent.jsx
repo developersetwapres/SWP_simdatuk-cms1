@@ -33,41 +33,59 @@ const FormSchema = Yup.object().shape({
   show: Yup.boolean(),
   showOnPetaJabatan: Yup.boolean(),
   entity: Yup.string().required('Tipe Entitas tidak boleh kosong'),
-  name: Yup.string().required('Nama Jabatan tidak boleh kosong')
-  // position: Yup.string().when('entity', {
-  //   is: (entity) => entity == 'Orang',
-  //   then: Yup.string().required('Tipe Jabatan tidak boleh kosong')
-  //   // otherwise: Yup.string().nullable()
-  // }),
-  // order: Yup.string().when(['show', 'entity'], {
-  //   is: (show, entity) => show == true && entity == 'Kelompok',
-  //   then: Yup.string().required('Urutan tidak boleh kosong')
-  //   // otherwise: Yup.string().nullable()
-  // }),
-  // echelons: Yup.array().of(
-  //   Yup.object().shape({
-  //     name: Yup.string().when(['show', 'entity'], {
-  //       is: (show, entity) => show == true && entity == 'Orang',
-  //       then: Yup.string().required('Echelon tidak boleh kosong'),
-  //       otherwise: Yup.string().nullable()
-  //     }),
-  //     quantity: Yup.string().when('entity', {
-  //       is: 'Orang',
-  //       then: Yup.string().required('Jumlah yang diperlukan tidak boleh kosong')
-  //       // otherwise: Yup.string().nullable()
-  //     })
-  //   })
-  // )
-})
+  name: Yup.string().required('Nama Jabatan tidak boleh kosong'),
+  order: Yup.string().required('Urutan tidak boleh kosong'),
+  position: Yup.string()
+    .nullable()
+    .test('required', 'Nama Jabatan tidak boleh kosong', function (value) {
+      const { entity } = this.parent
 
+      if (entity === 'Orang' && !value) return false
+
+      return true
+    }),
+  echelons: Yup.array().of(
+    Yup.object().shape({
+      name: Yup.string()
+        .nullable()
+        .test('required', 'Echelon tidak boleh kosong', function (value) {
+          const { show, entity, position } = this?.from[1]?.value
+
+          if (
+            show &&
+            entity === 'Orang' &&
+            (!position || position !== 'Outsourcing') &&
+            !value
+          ) {
+            return false
+          }
+
+          return true
+        }),
+      quantity: Yup.string()
+        .nullable()
+        .test(
+          'required',
+          'Jumlah yang diperlukan tidak boleh kosong',
+          function (value) {
+            const { entity } = this?.from[1]?.value
+
+            if (entity === 'Orang' && !value) return false
+
+            return true
+          }
+        )
+    })
+  )
+})
 const MasterDataPositionEditComponent = ({
   echelon,
   position,
-  getPosition = () => { },
-  updatePosition = () => { },
-  onFetchHierarchy = () => { },
-  clearPositionState = () => { },
-  onLoading = () => { }
+  getPosition = () => {},
+  updatePosition = () => {},
+  onFetchHierarchy = () => {},
+  clearPositionState = () => {},
+  onLoading = () => {}
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -120,8 +138,8 @@ const MasterDataPositionEditComponent = ({
       : []
     const newOrders = position?.orders
       ? position?.orders.map((itm) => {
-        return `${itm}`
-      })
+          return `${itm}`
+        })
       : []
 
     const dataOptions = {
@@ -188,14 +206,14 @@ const MasterDataPositionEditComponent = ({
           status: showOnPetaJabatan,
           position_echelons: isShow
             ? echelons.map((itm) => {
-              return {
-                id:
-                  echelonsDetail.find((item) => item?.name == itm?.name)
-                    ?.id || null,
-                echelon_id: handleGetValue('echelon', itm?.name),
-                available: itm?.quantity
-              }
-            })
+                return {
+                  id:
+                    echelonsDetail.find((item) => item?.name == itm?.name)
+                      ?.id || null,
+                  echelon_id: handleGetValue('echelon', itm?.name),
+                  available: itm?.quantity
+                }
+              })
             : []
         }
       }
@@ -288,7 +306,11 @@ const MasterDataPositionEditComponent = ({
       const isShowingOnPetaJabatan = detail?.status === 1
 
       formikRef.current?.setFieldValue('show', isShow, false)
-      formikRef.current?.setFieldValue('showOnPetaJabatan', isShowingOnPetaJabatan, false)
+      formikRef.current?.setFieldValue(
+        'showOnPetaJabatan',
+        isShowingOnPetaJabatan,
+        false
+      )
       formikRef.current?.setFieldValue('name', detail?.name, false)
       formikRef.current?.setFieldValue('entity', detail?.entity?.name, false)
       formikRef.current?.setFieldValue('order', `${detail?.order}`, false)
@@ -341,7 +363,7 @@ const MasterDataPositionEditComponent = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => { }}
+      onSubmit={() => {}}
     >
       {(formikProps) => (
         <LayoutPages
