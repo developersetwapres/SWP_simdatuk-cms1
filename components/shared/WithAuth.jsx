@@ -1,8 +1,13 @@
 /* eslint-disable indent */
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { getStorage } from '@/utils/storage'
-import { Access, accessGranted, getFirstNPath, getUserPermissionIDByPath } from '@/utils/permissionManager'
+import {
+  Access,
+  accessGranted,
+  getFirstNPath,
+  getUserPermissionIDByPath
+} from '@/utils/permissionManager'
 import navigation from '../core/navigation'
 
 const WithAuth = (WrappedComponent) => {
@@ -13,27 +18,48 @@ const WithAuth = (WrappedComponent) => {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const Router = useRouter()
       const accessToken = getStorage('setneg_token')
+      const slugPattern = /\[([^\]]+)\]/
+      const excludedPaths = new Set(['/dashboard', '/logout', '/profile'])
 
-      // If there is no access token we redirect to "/auth/login" page
-      if (!accessToken) {
-        Router.replace('/auth/login')
-        return null
-      }
-
-      // If there is no permission to access some path(s), redirect to "/403" page
-      const excludedPaths = new Set(['/dashboard', '/logout'])
-      const pathName = Router.asPath
-      const currentPath = getFirstNPath(pathName, 3)
-      const currentPathPermissionID = getUserPermissionIDByPath(pathName, navigation)
+      let pathName
+      let currentPath
+      let currentPathPermissionID
 
       let hasPathAccess = false
 
-      if (pathName?.includes('add')) {
-        hasPathAccess = accessGranted(currentPathPermissionID, Access.CREATE)
-      } else if (pathName?.includes('edit')) {
-        hasPathAccess = accessGranted(currentPathPermissionID, Access.UPDATE)
-      } else {
-        hasPathAccess = accessGranted(currentPathPermissionID, Access.READ)
+      const checkAccess = useCallback(() => {
+        // If there is no access token we redirect to "/auth/login" page
+        if (!accessToken) {
+          Router.replace('/auth/login')
+          return null
+        }
+
+        // If there is no permission to access some path(s), redirect to "/403" page
+
+        pathName = Router?.query?.employment
+          ? `/${Router.asPath.split('/')[1]}/${Router?.query?.employment}`
+          : Router.asPath
+        // const pathName = Router.asPath
+        currentPath = getFirstNPath(pathName, 3)
+        currentPathPermissionID = getUserPermissionIDByPath(
+          pathName,
+          navigation
+        )
+
+        if (pathName?.includes('add')) {
+          hasPathAccess = accessGranted(currentPathPermissionID, Access.CREATE)
+        } else if (pathName?.includes('edit')) {
+          hasPathAccess = accessGranted(currentPathPermissionID, Access.UPDATE)
+        } else {
+          hasPathAccess = accessGranted(currentPathPermissionID, Access.READ)
+        }
+      }, [Router, accessToken])
+
+      checkAccess()
+
+      if (slugPattern.test(Router?.asPath)) {
+        checkAccess()
+        return null
       }
 
       if (!hasPathAccess && !excludedPaths.has(currentPath)) {
