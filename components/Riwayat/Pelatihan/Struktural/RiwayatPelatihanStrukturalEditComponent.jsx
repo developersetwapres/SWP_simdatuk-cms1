@@ -70,10 +70,10 @@ const FormSchema = Yup.object().shape({
 const RiwayatPelatihanStrukturalEditComponent = ({
   training,
   employee,
-  getTraining = () => { },
-  updateTraining = () => { },
-  clearTrainingState = () => { },
-  onLoading = () => { }
+  getTraining = () => {},
+  updateTraining = () => {},
+  clearTrainingState = () => {},
+  onLoading = () => {}
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -93,8 +93,9 @@ const RiwayatPelatihanStrukturalEditComponent = ({
   const handleGetValue = (value, type) => {
     if (type == 'employee') {
       const data = employee?.data
-      const dataFilter = data
-        ?.find((itm) => itm?.employee_id_number === value.split(' - ')[1])
+      const dataFilter = data?.find(
+        (itm) => itm?.employee_id_number === value.split(' - ')[1]
+      )
       return dataFilter
     } else {
       const index = monthOptions.findIndex((itm) => itm == value) + 1
@@ -121,23 +122,14 @@ const RiwayatPelatihanStrukturalEditComponent = ({
         moment(values?.periode?.tahun).format('YYYY')
       )
       formData.append('reference_number', values?.noSurat)
-      formData.append('level', values?.jenjang)
+      formData.append('level', values?.jenjang || '')
       formData.append(
         'start_date',
         moment(values?.tanggalPelaksanaan).format('YYYY-MM-DD')
       )
-      if (values?.durasi) {
-        formData.append('duration', values?.durasi)
-      }
-
-      if (values?.penyelenggara) {
-        formData.append('organizer', values?.penyelenggara)
-      }
-
-      if (values?.materi) {
-        formData.append('link', values?.materi)
-      }
-
+      formData.append('duration', values?.durasi || 0)
+      formData.append('organizer', values?.penyelenggara || '')
+      formData.append('link', values?.materi || '')
       formData.append('type', 1)
 
       values?.pegawai.map((item, index) => {
@@ -272,7 +264,7 @@ const RiwayatPelatihanStrukturalEditComponent = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => { }}
+      onSubmit={() => {}}
     >
       {(formikProps) => (
         <LayoutPages

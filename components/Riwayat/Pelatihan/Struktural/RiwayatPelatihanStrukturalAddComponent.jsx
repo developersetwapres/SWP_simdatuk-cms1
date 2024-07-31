@@ -70,8 +70,8 @@ const FormSchema = Yup.object().shape({
 const RiwayatPelatihanStrukturalAddComponent = ({
   training,
   employee,
-  postTraining = () => { },
-  onLoading = () => { }
+  postTraining = () => {},
+  onLoading = () => {}
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -120,23 +120,14 @@ const RiwayatPelatihanStrukturalAddComponent = ({
         moment(values?.periode?.tahun).format('YYYY')
       )
       formData.append('reference_number', values?.noSurat)
-      formData.append('level', values?.jenjang)
+      formData.append('level', values?.jenjang || '')
       formData.append(
         'start_date',
         moment(values?.tanggalPelaksanaan).format('YYYY-MM-DD')
       )
-      if (values?.durasi) {
-        formData.append('duration', values?.durasi)
-      }
-
-      if (values?.penyelenggara) {
-        formData.append('organizer', values?.penyelenggara)
-      }
-
-      if (values?.materi) {
-        formData.append('link', values?.materi)
-      }
-
+      formData.append('duration', values?.durasi || 0)
+      formData.append('organizer', values?.penyelenggara || '')
+      formData.append('link', values?.materi || '')
       formData.append('type', 1)
 
       values?.pegawai?.map((item, index) => {
@@ -144,10 +135,7 @@ const RiwayatPelatihanStrukturalAddComponent = ({
           `users[${index}][user_id]`,
           handleGetValue(item?.nama, 'employee')
         )
-        formData.append(
-          `users[${index}][certificate]`,
-          item?.sertifikat || ''
-        )
+        formData.append(`users[${index}][certificate]`, item?.sertifikat || '')
       })
 
       postTraining(formData)
@@ -179,7 +167,7 @@ const RiwayatPelatihanStrukturalAddComponent = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => { }}
+      onSubmit={() => {}}
     >
       {(formikProps) => (
         <LayoutPages
