@@ -175,7 +175,6 @@ const MasterDataPositionAddComponent = ({
       }
       postPosition(payload)
     } catch (err) {
-      console.log('err', err)
       if (!err.inner || err.inner.length === 0) {
         return
       }
