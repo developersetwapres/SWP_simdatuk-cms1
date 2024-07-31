@@ -8,7 +8,11 @@ import Search from '@/components/core/Search'
 import { makeStyles } from '@mui/styles'
 import { Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
-import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import {
+  Access,
+  accessGranted,
+  PermissionsIDs
+} from '@/utils/permissionManager'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -56,10 +60,10 @@ const styles = {
 
 const MasterDataUserComponent = ({
   user,
-  onSearch = () => { },
-  onLoading = () => { },
-  onPaginationChange = () => { },
-  onRowsPerPageChange = () => { }
+  onSearch = () => {},
+  onLoading = () => {},
+  onPaginationChange = () => {},
+  onRowsPerPageChange = () => {}
 }) => {
   const classes = useStyles()
   const router = useRouter()
@@ -109,7 +113,9 @@ const MasterDataUserComponent = ({
           align: 'left',
           verticalAlign: 'top',
           Cell: () => (
-            <Typography>{`${item?.employee_id_number}/${item?.employee_registration_number}`}</Typography>
+            <Typography>{`${item?.employee_id_number || '-'}/${
+              item?.employee_registration_number || '-'
+            }`}</Typography>
           )
         },
         {
@@ -122,7 +128,11 @@ const MasterDataUserComponent = ({
           Header: 'Status',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.status}</Typography>
+          Cell: () => (
+            <Typography>
+              {item?.status > 0 ? 'Aktif' : 'Tidak Aktif'}
+            </Typography>
+          )
         },
         {
           Header: 'Aksi',
