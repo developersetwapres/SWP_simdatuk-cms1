@@ -27,7 +27,10 @@ import {
   RESET_PASSWORD_FAILED,
   AUTHENTICATION_QR_REQUESTED,
   AUTHENTICATION_QR_SUCCESS,
-  AUTHENTICATION_QR_FAILED
+  AUTHENTICATION_QR_FAILED,
+  NEW_PASSWORD_REQUESTED,
+  NEW_PASSWORD_SUCCESS,
+  NEW_PASSWORD_FAILED
 } from '../constants'
 import { SUCCESS_ICON, ERROR_ICON } from '@/utils/iconConstant'
 
@@ -76,13 +79,6 @@ export const authentication = (state = initialState, actions) => {
         statusCode: payload?.code,
         error: payload
       }
-    // case GET_USER_INFORMATION:
-    //   return {
-    //     ...state,
-    //     loading: false,
-    //     isAuth: true,
-    //     userInformation: payload?.user,
-    //   };
     case UPDATE_PASSWORD_REQUESTED:
       return {
         ...state,
@@ -212,6 +208,25 @@ export const authentication = (state = initialState, actions) => {
         isBusy: false
       }
     case RESET_PASSWORD_FAILED:
+      return {
+        ...state,
+        loading: false,
+        isBusy: false,
+        error: payload?.error
+      }
+    case NEW_PASSWORD_REQUESTED:
+      return {
+        ...state,
+        loading: true,
+        isBusy: true
+      }
+    case NEW_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isBusy: false
+      }
+    case NEW_PASSWORD_FAILED:
       return {
         ...state,
         loading: false,

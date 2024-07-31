@@ -1,11 +1,9 @@
 import { post, patch, get } from '@/utils/interceptors'
 
-
-
 /**
- * 
+ *
  * Authentication
- * 
+ *
  * @param {*} payload
  * @return
  */
@@ -14,9 +12,9 @@ export const authenticationPost = (payload) => {
 }
 
 /**
- * Authentication QR Code 
- * 
- * @param {*} payload 
+ * Authentication QR Code
+ *
+ * @param {*} payload
  * @returns
  */
 export const authenticationQrCodeAction = (payload) => {
@@ -24,20 +22,19 @@ export const authenticationQrCodeAction = (payload) => {
 }
 
 /**
- * Update Password 
- * 
- * @param {*} payload 
+ * Update Password
+ *
+ * @param {*} payload
  * @returns
  */
 export const updatePasswordAction = (payload) => {
   return patch(`/auth/me/password`, payload)
 }
 
-
 /**
- * Route Forget Password 
- * 
- * @param {*} payload 
+ * Route Forget Password
+ *
+ * @param {*} payload
  * @returns
  */
 export const forgetPasswordAction = (payload) => {
@@ -54,9 +51,9 @@ export const getProfileAction = () => {
 }
 
 /**
- * Update Profile 
- * 
- * @param {*} payload 
+ * Update Profile
+ *
+ * @param {*} payload
  * @returns
  */
 export const updateProfileAction = (payload) => {
@@ -64,8 +61,8 @@ export const updateProfileAction = (payload) => {
 }
 
 /**
- * Auth Logout 
- * 
+ * Auth Logout
+ *
  * @returns
  */
 export const authenticationLogoutAction = () => {
@@ -73,9 +70,9 @@ export const authenticationLogoutAction = () => {
 }
 
 /**
- * Get Hash of Url 
- * 
- * @param {*} payload 
+ * Get Hash of Url
+ *
+ * @param {*} payload
  * @returns
  */
 export const getHashUrlPasswordAction = (payload) => {
@@ -83,11 +80,21 @@ export const getHashUrlPasswordAction = (payload) => {
 }
 
 /**
- * Reset Password  
- * 
- * @param {*} payload 
+ * Reset Password
+ *
+ * @param {*} payload
  * @returns
  */
 export const resetPasswordAction = (payload) => {
   return post(`/reset-password`, payload)
+}
+
+/**
+ * New Password
+ *
+ * @param {*} payload
+ * @returns
+ */
+export const newPasswordAction = (payload) => {
+  return post(`/new-password`, payload)
 }

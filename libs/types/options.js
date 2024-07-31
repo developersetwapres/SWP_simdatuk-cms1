@@ -55,9 +55,9 @@ export const employeeEducationLevelOptions = [
   'SD/Sederajat',
   'SLTP/Sederajat',
   'SLTA/Sederajat',
+  'Diploma I/II',
   'Akademik/D3/S.Muda',
-  'Diploma IV',
-  'Strata I',
+  'Diploma IV/Strata I',
   'Strata II',
   'Strata III'
 ]

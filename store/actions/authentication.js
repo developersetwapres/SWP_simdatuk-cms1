@@ -7,12 +7,13 @@ import {
   GET_HASH_URL_PASSWORD_REQUESTED,
   RESET_PASSWORD_REQUESTED,
   AUTHENTICATION_QR_REQUESTED,
-  GET_PROFILE_REQUESTED
+  GET_PROFILE_REQUESTED,
+  NEW_PASSWORD_REQUESTED
 } from '../constants'
 
 /**
- * Authentication Requested 
- * @param {*} payload 
+ * Authentication Requested
+ * @param {*} payload
  * @returns
  */
 export const authenticationAction = (payload) => ({
@@ -21,9 +22,9 @@ export const authenticationAction = (payload) => ({
 })
 
 /**
- * Authentcation QR Code 
- * 
- * @param {*} payload 
+ * Authentcation QR Code
+ *
+ * @param {*} payload
  * @returns
  */
 export const authenticationQrCodeAction = (payload) => ({
@@ -32,8 +33,8 @@ export const authenticationQrCodeAction = (payload) => ({
 })
 
 /**
- * Logout Reqeusted 
- * 
+ * Logout Reqeusted
+ *
  * @returns
  */
 export const AuthenticationLogout = () => ({
@@ -41,9 +42,9 @@ export const AuthenticationLogout = () => ({
 })
 
 /**
- * Update Password 
- * 
- * @param {*} payload 
+ * Update Password
+ *
+ * @param {*} payload
  * @returns
  */
 export const updatePassword = (payload) => ({
@@ -52,9 +53,9 @@ export const updatePassword = (payload) => ({
 })
 
 /**
- * Forget Password 
- * 
- * @param {*} payload 
+ * Forget Password
+ *
+ * @param {*} payload
  * @returns
  */
 export const forgetPassword = (payload) => ({
@@ -63,8 +64,8 @@ export const forgetPassword = (payload) => ({
 })
 
 /**
- * Get Profile 
- * 
+ * Get Profile
+ *
  * @returns
  */
 export const getProfile = () => ({
@@ -72,9 +73,9 @@ export const getProfile = () => ({
 })
 
 /**
- * Update Profile 
- * 
- * @param {*} payload 
+ * Update Profile
+ *
+ * @param {*} payload
  * @returns
  */
 export const updateProfile = (payload) => ({
@@ -84,7 +85,7 @@ export const updateProfile = (payload) => ({
 
 /**
  * Get Hash of password
- * 
+ *
  * @param {*} payload
  * @returns
  */
@@ -94,12 +95,23 @@ export const getHashUrlPassword = (payload) => ({
 })
 
 /**
- * Reset Password 
- * 
+ * Reset Password
+ *
  * @param {*} payload
  * @returns
  */
 export const resetPassword = (payload) => ({
   type: RESET_PASSWORD_REQUESTED,
+  payload: payload
+})
+
+/**
+ * New Password
+ *
+ * @param {*} payload
+ * @returns
+ */
+export const newPassword = (payload) => ({
+  type: NEW_PASSWORD_REQUESTED,
   payload: payload
 })

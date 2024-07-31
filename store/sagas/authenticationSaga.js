@@ -32,7 +32,10 @@ import {
   RESET_PASSWORD_FAILED,
   AUTHENTICATION_QR_REQUESTED,
   AUTHENTICATION_QR_SUCCESS,
-  AUTHENTICATION_QR_FAILED
+  AUTHENTICATION_QR_FAILED,
+  NEW_PASSWORD_REQUESTED,
+  NEW_PASSWORD_SUCCESS,
+  NEW_PASSWORD_FAILED
 } from '../constants'
 import {
   authenticationPost,
@@ -42,7 +45,8 @@ import {
   getHashUrlPasswordAction,
   resetPasswordAction,
   authenticationQrCodeAction,
-  getProfileAction
+  getProfileAction,
+  newPasswordAction
 } from './action/authenticationAction'
 import { delay } from './sagaUtils'
 import Router from 'next/router'
@@ -318,10 +322,6 @@ function* resetPasswordSaga(action) {
   try {
     const res = yield call(resetPasswordAction, action?.payload)
     const payload = res?.data
-    const message = isNewPassword ?
-      'Password Baru Berhasil Disimpan' : 'Reset Password Berhasil Disimpan'
-    const childMessage = isNewPassword ?
-      'Anda telah berhasil menyimpan password baru' : 'Anda telah berhasil melakukan reset password'
 
     yield put({
       type: RESET_PASSWORD_SUCCESS,
@@ -332,8 +332,8 @@ function* resetPasswordSaga(action) {
       type: SET_MODAL,
       payload: {
         code: payload?.code,
-        message,
-        childMessage,
+        message: payload?.message,
+        childMessage: 'Anda telah berhasil melakukan reset password',
         redirect: '/'
       }
     })
@@ -347,6 +347,49 @@ function* resetPasswordSaga(action) {
     })
     yield put({
       type: RESET_PASSWORD_FAILED,
+      payload: {
+        modal: true,
+        error: err?.message
+      }
+    })
+  }
+}
+
+/**
+ * New Password
+ *
+ * @param {*} action
+ * @returns
+ */
+function* newPasswordSaga(action) {
+  try {
+    const res = yield call(newPasswordAction, action?.payload)
+    const payload = res?.data
+
+    yield put({
+      type: NEW_PASSWORD_SUCCESS,
+      payload
+    })
+
+    yield put({
+      type: SET_MODAL,
+      payload: {
+        code: payload?.code,
+        message: payload?.message,
+        childMessage: 'Anda telah berhasil menyimpan password baru',
+        redirect: '/'
+      }
+    })
+  } catch (err) {
+    yield put({
+      type: SET_MODAL,
+      payload: {
+        code: err?.data?.code,
+        message: err?.data?.message
+      }
+    })
+    yield put({
+      type: NEW_PASSWORD_FAILED,
       payload: {
         modal: true,
         error: err?.message
@@ -390,6 +433,7 @@ function* authSaga() {
   yield takeEvery(AUTHENTICATION_LOGOUT_REQUESTED, authenticationLogout)
   yield takeEvery(GET_HASH_URL_PASSWORD_REQUESTED, getHashPassword)
   yield takeEvery(RESET_PASSWORD_REQUESTED, resetPasswordSaga)
+  yield takeEvery(NEW_PASSWORD_REQUESTED, newPasswordSaga)
   yield takeEvery(AUTHENTICATION_QR_REQUESTED, postQRCodeAction)
 }
 
