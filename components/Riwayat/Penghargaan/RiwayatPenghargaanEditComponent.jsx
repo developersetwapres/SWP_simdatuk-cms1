@@ -54,10 +54,10 @@ const RiwayatPenghargaanEditComponent = ({
   recognition,
   employee,
   decree,
-  getRecognition = () => { },
-  updateRecognition = () => { },
-  clearRecognitionState = () => { },
-  onLoading = () => { }
+  getRecognition = () => {},
+  updateRecognition = () => {},
+  clearRecognitionState = () => {},
+  onLoading = () => {}
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -105,7 +105,10 @@ const RiwayatPenghargaanEditComponent = ({
 
   const handleGetValue = (type, id) => {
     if (type == 'recognition') {
-      const item = recognition?.options.find((item) => item?.id == id)
+      const item =
+        recognition?.options &&
+        recognition?.options.find((item) => item?.id == id)
+
       return item?.name
     }
   }
@@ -126,7 +129,10 @@ const RiwayatPenghargaanEditComponent = ({
       const payload = {
         id,
         data: {
-          recognition_id: handleGetValueId(values?.namaPenghargaan, 'recognition'),
+          recognition_id: handleGetValueId(
+            values?.namaPenghargaan,
+            'recognition'
+          ),
           period_month: handleGetValueId(values?.periode?.bulan, 'month'),
           period_year: moment(values?.periode?.tahun).format('YYYY'),
           description: values?.keteranganPenghargaan,
@@ -243,14 +249,14 @@ const RiwayatPenghargaanEditComponent = ({
           )
         })
     }
-  }, [recognition?.detail])
+  }, [recognition?.detail, recognition])
 
   return (
     <Formik
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => { }}
+      onSubmit={() => {}}
     >
       {(formikProps) => (
         <LayoutPages
