@@ -8,13 +8,17 @@ import { Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
 import {
+  employeeWorkBehaviorRatingOptions,
   monthOptions,
   periodOptions,
   predicateOptions,
-  ratingOptions,
   ratingOrganizationOptions
 } from 'libs/types/options'
-import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import {
+  Access,
+  accessGranted,
+  PermissionsIDs
+} from '@/utils/permissionManager'
 
 const styles = {
   iconStyle: {
@@ -41,9 +45,9 @@ const styles = {
 
 const RiwayatSKPDetailComponent = ({
   target,
-  getTarget = () => { },
-  clearTargetState = () => { },
-  onLoading = () => { }
+  getTarget = () => {},
+  clearTargetState = () => {},
+  onLoading = () => {}
 }) => {
   const router = useRouter()
 
@@ -55,7 +59,7 @@ const RiwayatSKPDetailComponent = ({
     const data = {
       periode: periodOptions,
       predikat: predicateOptions,
-      rating: ratingOptions,
+      rating: employeeWorkBehaviorRatingOptions,
       organisasi: ratingOrganizationOptions
     }
 
