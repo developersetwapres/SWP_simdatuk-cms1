@@ -10,7 +10,7 @@ import ExportDrfForm from './ExportDrfForm'
 import { Formik } from 'formik'
 import {
   deputyOptions,
-  educationLevelOptions,
+  employeeEducationLevelOptions,
   employeeStatusOptions,
   employeeTypeOptions,
   genderOptions,
@@ -46,9 +46,9 @@ const ExportDrhComponent = ({
   exportDRHData,
   echelon,
   grade,
-  exportDRH = () => { },
-  clearExportDrhState = () => { },
-  onLoading = () => { }
+  exportDRH = () => {},
+  clearExportDrhState = () => {},
+  onLoading = () => {}
 }) => {
   const dispatch = useDispatch()
   const formikRef = useRef(null)
@@ -62,7 +62,7 @@ const ExportDrhComponent = ({
     const data = {
       employeeType: employeeTypeOptions,
       gender: genderOptions,
-      educationHistory: educationLevelOptions,
+      educationHistory: employeeEducationLevelOptions,
       maritalStatus: maritalStatusOptions,
       deputy: deputyOptions,
       echelon: newEchelon,
@@ -81,17 +81,12 @@ const ExportDrhComponent = ({
     if (type === 'deputy') {
       const databaseIDStart = 37
       return val?.map((i) => {
-        return (
-          options[type]?.findIndex((item) => item === i) + databaseIDStart
-        )
+        return options[type]?.findIndex((item) => item === i) + databaseIDStart
       })
     } else if (type === 'gender') {
-      return val?.map(gender => gender === 'Laki-Laki' ? 1 : 0)
-    } else if (
-      type === 'totalWorkingTime' ||
-      type === 'gradeWorkingTime'
-    ) {
-      return val?.map(i => i?.replace(/ |Tahun/g, ''))
+      return val?.map((gender) => (gender === 'Laki-Laki' ? 1 : 0))
+    } else if (type === 'totalWorkingTime' || type === 'gradeWorkingTime') {
+      return val?.map((i) => i?.replace(/ |Tahun/g, ''))
     } else if (type == 'echelon') {
       const item = echelon?.options
         .filter((itm) => val.includes(itm?.name))
@@ -104,11 +99,11 @@ const ExportDrhComponent = ({
         .map((itm) => itm?.id)
 
       return item
+    } else if (type == 'retirementAge') {
+      return val
     } else {
-      return val?.map(i => {
-        return (
-          options[type]?.findIndex(item => item === i) + 1
-        )
+      return val?.map((i) => {
+        return options[type]?.findIndex((item) => item === i) + 1
       })
     }
   }
@@ -126,7 +121,7 @@ const ExportDrhComponent = ({
       case 'grade':
         return 'grades'
       case 'positionDesc':
-        return 'job_description'
+        return 'position_status'
       case 'educationHistory':
         return 'education'
       case 'gender':
@@ -154,9 +149,7 @@ const ExportDrhComponent = ({
     const payload = {
       ...Object.fromEntries(
         Object.entries(values)
-          .filter((itm) =>
-            itm[1]?.length > 0
-          )
+          .filter((itm) => itm[1]?.length > 0)
           .map(([key, value]) => {
             const newValue = handleGetValueID(key, value)
             return [handleParseKey(key), newValue]
@@ -256,11 +249,7 @@ const ExportDrhComponent = ({
         type = SaveAs.CSV
       }
 
-      saveFile(
-        exportDRHData?.data,
-        getFileName(responseType),
-        type
-      )
+      saveFile(exportDRHData?.data, getFileName(responseType), type)
 
       clearExportDrhState()
     }
@@ -281,11 +270,7 @@ const ExportDrhComponent = ({
   }, [echelon, grade, exportDRHData])
 
   return (
-    <Formik
-      innerRef={formikRef}
-      initialValues={InitValue}
-      onSubmit={() => { }}
-    >
+    <Formik innerRef={formikRef} initialValues={InitValue} onSubmit={() => {}}>
       {(formikProps) => (
         <LayoutPages
           summary='Export DRH'

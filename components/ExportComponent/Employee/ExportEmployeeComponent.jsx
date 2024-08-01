@@ -147,12 +147,12 @@ const ExportEmployeeComponent = ({
   grade,
   echelon,
   exportEmployeeData,
-  onLoading = () => { },
-  onPaginationChange = () => { },
-  onRowsPerPageChange = () => { },
-  exportEmployees = () => { },
-  exportEmployeesPreview = () => { },
-  clearExportEmployeesState = () => { }
+  onLoading = () => {},
+  onPaginationChange = () => {},
+  onRowsPerPageChange = () => {},
+  exportEmployees = () => {},
+  exportEmployeesPreview = () => {},
+  clearExportEmployeesState = () => {}
 }) => {
   const formikRef = useRef()
   const dispatch = useDispatch()
@@ -245,24 +245,20 @@ const ExportEmployeeComponent = ({
   }
 
   const getIDsByType = (key, value) => {
-    if (key === 'assessmentPeriod')
-      return value
+    if (key === 'assessmentPeriod' || key === 'retirementLimitAge') return value
 
     if (key === 'deputy') {
       const databaseIDStart = 37
       return value?.map((val) => {
         return (
-          options[formKeyToOptionsKey(key)]
-            .findIndex((item) => item === val) + databaseIDStart
+          options[formKeyToOptionsKey(key)].findIndex((item) => item === val) +
+          databaseIDStart
         )
       })
     }
 
-    if (
-      key === 'gradeWorkingPeriod' ||
-      key === 'totalWorkingPeriod'
-    ) {
-      return value?.map(i => i?.replace(/[a-zA-Z\s]/g, ''))
+    if (key === 'gradeWorkingPeriod' || key === 'totalWorkingPeriod') {
+      return value?.map((i) => i?.replace(/[a-zA-Z\s]/g, ''))
     }
 
     if (key === 'gender') {
@@ -284,8 +280,8 @@ const ExportEmployeeComponent = ({
     if (Array.isArray(value)) {
       return value?.map((val) => {
         return (
-          options[formKeyToOptionsKey(key)]
-            .findIndex((item) => item === val) + 1
+          options[formKeyToOptionsKey(key)].findIndex((item) => item === val) +
+          1
         )
       })
     }
@@ -431,18 +427,21 @@ const ExportEmployeeComponent = ({
     }
 
     if (label === 'NIP/NRP') {
-      return `${response?.employee_id_number || '-'}/${response?.employee_registration_number || '-'
-        }`
+      return `${response?.employee_id_number || '-'}/${
+        response?.employee_registration_number || '-'
+      }`
     }
 
     if (label === 'Tempat, Tanggal Lahir') {
-      return `${response?.place_of_birth || '-'}, ${response?.date_of_birth || '-'
-        }`
+      return `${response?.place_of_birth || '-'}, ${
+        response?.date_of_birth || '-'
+      }`
     }
 
     if (label === 'Tempat, Tanggal Lahir') {
-      return `${response?.place_of_birth || '-'}, ${response?.date_of_birth || '-'
-        }`
+      return `${response?.place_of_birth || '-'}, ${
+        response?.date_of_birth || '-'
+      }`
     }
 
     if (label === 'Umur') {
@@ -718,8 +717,8 @@ const ExportEmployeeComponent = ({
   }, [grade, echelon, exportEmployeeData])
 
   return (
-    <Formik innerRef={formikRef} initialValues={InitValue} onSubmit={() => { }}>
-      {({ values, resetForm = () => { }, setFieldValue = () => { } }) => (
+    <Formik innerRef={formikRef} initialValues={InitValue} onSubmit={() => {}}>
+      {({ values, resetForm = () => {}, setFieldValue = () => {} }) => (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <LayoutPages
             summary='Export Pegawai'
