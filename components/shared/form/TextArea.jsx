@@ -11,15 +11,9 @@ const useStyles = makeStyles({
     WebkitBoxSizing: 'border-box',
     MozBoxSizing: 'border-box',
     boxSizing: 'border-box',
-    // fontSize: '1.125rem',
-    // lineHeight: '25.2px',
-    // fontWeight: '700',
     fontFamily: 'roboto',
     resize: 'none',
     border: (props) => (props.error ? '1px solid #000' : '1px solid #BABABA'),
-    // '&:hover': {
-    //   border: (props) => props.error ? '1px solid #000' : '1px solid #fff'
-    // },
     '&::placeholder': {
       fontSize: '14px',
       lineHeight: '20x',
@@ -37,8 +31,8 @@ const useStyles = makeStyles({
     color: '#D32F2F',
     fontSize: '14px',
     lineHeight: '1.66',
-    textAlign: 'left'
-    // margin: '4px 14px 0 14px'
+    textAlign: 'left',
+    margin: '4px 0 0 0'
   }
 })
 

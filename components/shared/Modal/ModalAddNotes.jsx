@@ -78,6 +78,7 @@ const ModalAddNotes = ({
         id: atob(id),
         data: payload
       })
+      handleModal()
     } catch (err) {
       if (!err.inner || err.inner.length === 0) {
         return
@@ -94,16 +95,7 @@ const ModalAddNotes = ({
       firstErrorEl &&
         firstErrorEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
-    handleModal()
   }
-
-  // useEffect(() => {
-  //   router.events.on('routeChangeComplete', formikRef.current.resetForm())
-
-  //   return () => {
-  //     router.events.off('routeChangeComplete', formikRef.current.resetForm())
-  //   }
-  // }, [router])
 
   useEffect(() => {
     const notes = data?.notes
