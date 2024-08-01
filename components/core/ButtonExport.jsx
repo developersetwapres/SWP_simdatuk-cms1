@@ -55,7 +55,7 @@ function ButtonExport({ data, isLoading = false }) {
         }}
       >
         {isLoading ? (
-          <CircularProgress size={13} color={color} />
+          <CircularProgress size={13} color={'success'} />
         ) : (
           <div
             style={{
