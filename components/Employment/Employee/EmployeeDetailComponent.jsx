@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable indent */
-import React, { useMemo, useEffect, useState } from 'react'
+import React, { useMemo, useEffect, useState, useRef } from 'react'
 import { Box, Grid, List, Typography } from '@mui/material'
 import BiodataPegawai from './Section/BiodataPegawai'
 import ListNavigation from '@/components/core/ListNavigation'
@@ -61,10 +61,12 @@ const EmployeeDetailComponent = ({
   setRender = () => {}
 }) => {
   const router = useRouter()
+  const sectionRef = useRef(null)
   const dispatch = useDispatch()
 
   const [employmentStatusModalOpen, setEmploymentStatusModal] = useState(false)
   const [notesModal, setNotesModal] = useState(false)
+  const [sectionId, setSectionId] = useState('data_pegawai')
 
   const handleNotesModal = () => {
     setNotesModal((notesModal) => !notesModal)
@@ -440,17 +442,22 @@ const EmployeeDetailComponent = ({
 
   const sectionComponents = () => {
     return sectionsList.map((item) => (
-      <Grid item key={item.id} xs={12} id={item.id}>
+      <Grid ref={sectionRef} item key={item.id} xs={12} id={item.id}>
         <item.Section data={item.data} />
       </Grid>
     ))
   }
 
   const handleNavigationMenuClick = (id) => {
+    setSectionId(id)
     document.getElementById(id).scrollIntoView({
       behavior: 'smooth',
-      block: 'center'
+      block: 'start'
     })
+  }
+
+  const handleCheckSectionActive = (id) => {
+    return id == sectionId
   }
 
   useEffect(() => {
@@ -610,6 +617,20 @@ const EmployeeDetailComponent = ({
                     name={item?.sideBarLabel}
                     handleClick={() => handleNavigationMenuClick(item?.id)}
                     sx={{ height: '20px ' }}
+                    otherStyle={{
+                      borderRadius: '4px',
+                      background: handleCheckSectionActive(item?.id)
+                        ? '#895700'
+                        : 'inherit',
+                      color: handleCheckSectionActive(item?.id)
+                        ? '#FFF'
+                        : 'inherit',
+                      '&:hover': {
+                        background: handleCheckSectionActive(item?.id)
+                          ? '#6d4500'
+                          : 'rgba(0, 0, 0, 0.04)'
+                      }
+                    }}
                   />
                 )
               })}
