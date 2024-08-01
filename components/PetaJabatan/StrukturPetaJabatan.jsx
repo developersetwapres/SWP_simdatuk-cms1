@@ -96,16 +96,16 @@ const StrukturPetaJabatan = ({
               <Box
                 key={index}
                 sx={{
-                  width: {
+                  minWidth: {
                     sm:
                       datas.length == 1
                         ? `${100 / 2}%`
-                        : datas.length > 1 && datas.length <= 3
+                        : datas.length > 1 && datas.length <= 4
                         ? `${100 / datas.length}%`
-                        : '18vw',
+                        : '280px',
                     xs: '50vw'
                   },
-                  height: 'git-content'
+                  height: 'fit-content'
                 }}
               >
                 <Box

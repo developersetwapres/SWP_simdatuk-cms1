@@ -13,6 +13,7 @@ import Snackbar from '@/components/shared/Snackbar'
 import 'react-datepicker/dist/react-datepicker.css'
 import 'swiper/css'
 import 'swiper/css/pagination'
+import 'swiper/css/navigation'
 import '../styles/globals.css'
 
 const __REDUX_STORE__ = '__REDUX_STORE__'

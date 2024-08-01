@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 /* eslint-disable indent */
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import { Button } from '..'
@@ -15,8 +15,13 @@ import { HiArrowsExpand } from 'react-icons/hi'
 import { useRouter } from 'next/router'
 import Card from './Index'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Pagination } from 'swiper/modules'
-import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import { Navigation, Pagination } from 'swiper/modules'
+import {
+  Access,
+  accessGranted,
+  PermissionsIDs
+} from '@/utils/permissionManager'
+import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material'
 
 const style = {
   cardParent: {
@@ -25,8 +30,7 @@ const style = {
       sm: '25vw',
       xs: '50vw'
     },
-    height: 'fit-content',
-    padding: 0
+    height: 'fit-content'
   },
   imageBox: {
     display: 'flex',
@@ -37,7 +41,8 @@ const style = {
   },
   cardContent: {
     minHeight: '480px',
-    maxHeight: '700px',
+    maxHeight: 'fit-content',
+    padding: '16px !important',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -52,8 +57,8 @@ const CardProfile = ({
   isBorder = false,
   checked = false,
   isCheck = false,
-  handleModal = () => { },
-  handleCheck = () => { }
+  handleModal = () => {},
+  handleCheck = () => {}
 }) => {
   const isMultipleEmployee = useMemo(() => {
     return data?.available > 1
@@ -68,7 +73,7 @@ const CardProfile = ({
       otherStyle={{
         ...style.cardParent,
         boxShadow: isShadow ? '0px 0px 12px 0px #9F9F9F26' : 'none',
-        paddingBottom: isMultipleEmployee ? '16px' : 0,
+        padding: isMultipleEmployee && hasChilds ? '0 0 14px 0' : 0,
         position: 'relative'
       }}
     >
@@ -187,6 +192,9 @@ const ContentProfile = ({
   handleCheck
 }) => {
   const router = useRouter()
+  const prevRef = useRef(null)
+  const nextRef = useRef(null)
+  const swiperRef = useRef(null)
 
   const employee = useMemo(() => {
     const payload = {
@@ -195,6 +203,15 @@ const ContentProfile = ({
     }
 
     return payload
+  }, [data])
+
+  useEffect(() => {
+    if (swiperRef.current) {
+      swiperRef.current.params.navigation.prevEl = prevRef.current
+      swiperRef.current.params.navigation.nextEl = nextRef.current
+      swiperRef.current.navigation.init()
+      swiperRef.current.navigation.update()
+    }
   }, [data])
 
   return (
@@ -212,7 +229,10 @@ const ContentProfile = ({
           dynamicBullets: true,
           clickable: true
         }}
-        modules={[Pagination]}
+        onSwiper={(swiper) => {
+          swiperRef.current = swiper
+        }}
+        modules={[Navigation, Pagination]}
       >
         {employee?.users.map((item, index) => (
           <SwiperSlide
@@ -259,8 +279,8 @@ const ContentProfile = ({
                 >
                   {item?.name
                     ? [item?.title_prefix, item?.name, item?.title_suffix].join(
-                      ' '
-                    )
+                        ' '
+                      )
                     : '-'}
                 </Typography>
               </Box>
@@ -276,10 +296,11 @@ const ContentProfile = ({
                       title='Golongan'
                       value={
                         item?.grade_name
-                          ? `${item?.grade_name} ${item?.grade_code || ''}${item?.grade_effective_date
-                            ? `, ${item?.grade_effective_date}`
-                            : ''
-                          }`
+                          ? `${item?.grade_name} ${item?.grade_code || ''}${
+                              item?.grade_effective_date
+                                ? `, ${item?.grade_effective_date}`
+                                : ''
+                            }`
                           : '-'
                       }
                     />
@@ -287,11 +308,11 @@ const ContentProfile = ({
                       title='NIP/NRP'
                       value={
                         !item?.employee_id_number &&
-                          !item?.employee_registration_number
+                        !item?.employee_registration_number
                           ? '-'
                           : !item?.employee_registration_number
-                            ? item?.employee_id_number
-                            : `${item?.employee_id_number} / ${item?.employee_registration_number}`
+                          ? item?.employee_id_number
+                          : `${item?.employee_id_number} / ${item?.employee_registration_number}`
                       }
                     />
                   </>
@@ -322,10 +343,11 @@ const ContentProfile = ({
                       title='Golongan'
                       value={
                         item?.grade_name
-                          ? `${item?.grade_name} ${item?.grade_code || ''}${item?.grade_effective_date
-                            ? `, ${item?.grade_effective_date}`
-                            : ''
-                          }`
+                          ? `${item?.grade_name} ${item?.grade_code || ''}${
+                              item?.grade_effective_date
+                                ? `, ${item?.grade_effective_date}`
+                                : ''
+                            }`
                           : '-'
                       }
                     />
@@ -341,9 +363,9 @@ const ContentProfile = ({
                       value={
                         item?.echelon_name && item?.echelon_effective_date
                           ? [
-                            item?.echelon_name,
-                            item?.echelon_effective_date
-                          ].join(', ')
+                              item?.echelon_name,
+                              item?.echelon_effective_date
+                            ].join(', ')
                           : item?.echelon_name || '-'
                       }
                     />
@@ -351,10 +373,11 @@ const ContentProfile = ({
                       title='Golongan'
                       value={
                         item?.grade_name
-                          ? `${item?.grade_name} ${item?.grade_code || ''}${item?.grade_effective_date
-                            ? `, ${item?.grade_effective_date}`
-                            : ''
-                          }`
+                          ? `${item?.grade_name} ${item?.grade_code || ''}${
+                              item?.grade_effective_date
+                                ? `, ${item?.grade_effective_date}`
+                                : ''
+                            }`
                           : '-'
                       }
                     />
@@ -362,11 +385,11 @@ const ContentProfile = ({
                       title='NIP/NRP'
                       value={
                         !item?.employee_id_number &&
-                          !item?.employee_registration_number
+                        !item?.employee_registration_number
                           ? '-'
                           : !item?.employee_registration_number
-                            ? item?.employee_id_number
-                            : `${item?.employee_id_number} / ${item?.employee_registration_number}`
+                          ? item?.employee_id_number
+                          : `${item?.employee_id_number} / ${item?.employee_registration_number}`
                       }
                     />
                   </>
@@ -382,8 +405,7 @@ const ContentProfile = ({
                     gap: '5px'
                   }}
                 >
-                  {
-                    item?.id &&
+                  {item?.id &&
                     isProfile &&
                     accessGranted(
                       PermissionsIDs.RECAP_POSITION_MAPPING,
@@ -392,7 +414,9 @@ const ContentProfile = ({
                       <Button
                         onClick={() =>
                           router.push(
-                            `/rekapitulasi/peta-jabatan/detail/${btoa(item?.id)}`
+                            `/rekapitulasi/peta-jabatan/detail/${btoa(
+                              item?.id
+                            )}`
                           )
                         }
                         text='Lihat Profile'
@@ -405,8 +429,7 @@ const ContentProfile = ({
                           fontSize: '10px'
                         }}
                       />
-                    )
-                  }
+                    )}
                   {employee?.has_child && (
                     <Button
                       onClick={() =>
@@ -442,6 +465,12 @@ const ContentProfile = ({
           </SwiperSlide>
         ))}
       </Swiper>
+      <Box ref={prevRef} className='custom-swiper-button-prev'>
+        <KeyboardArrowLeft style={{ fontSize: '30px', fontWeight: 900 }} />
+      </Box>
+      <Box ref={nextRef} className='custom-swiper-button-next'>
+        <KeyboardArrowRight style={{ fontSize: '30px', fontWeight: 900 }} />
+      </Box>
     </Box>
   )
 }

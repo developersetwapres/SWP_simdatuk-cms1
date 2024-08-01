@@ -26,7 +26,8 @@ const JobChart = ({ datas }) => {
                   ...itm,
                   type: 4
                 }
-              })
+              }),
+              has_child: false
             }
           })
       }
