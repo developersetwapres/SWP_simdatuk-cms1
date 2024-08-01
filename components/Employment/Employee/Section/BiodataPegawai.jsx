@@ -187,12 +187,15 @@ const BiodataPegawai = ({ data }) => {
             {data?.residence_name || '-'}
           </Typography>
         </Grid>
-        <Grid item xs={12} md={4} paddingY={1}>
-          <Typography>Nama Komplek</Typography>
-          <Typography fontWeight='500' marginTop={1}>
-            {data?.residence_description || '-'}
-          </Typography>
-        </Grid>
+        {data?.residence_id == 1 &&
+          data?.residence_name.toLowerCase() == 'luar komplek' && (
+            <Grid item xs={12} md={4} paddingY={1}>
+              <Typography>Nama Komplek</Typography>
+              <Typography fontWeight='500' marginTop={1}>
+                {data?.residence_description || '-'}
+              </Typography>
+            </Grid>
+          )}
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Alamat Tempat Tinggal Saat Ini</Typography>
           <Typography fontWeight='500' marginTop={1}>
