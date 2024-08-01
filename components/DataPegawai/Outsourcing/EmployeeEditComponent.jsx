@@ -429,6 +429,8 @@ const EmployeeEditComponent = ({
       await FormSchema.validate(values, { abortEarly: false })
       formikRef.current.setErrors({})
 
+      const emptyArray = ''
+
       const id = atob(router?.query?.id)
       const position = values?.employee?.positions.filter(
         (itm) => itm?.name !== null
@@ -560,45 +562,56 @@ const EmployeeEditComponent = ({
       formData.append('type', 3)
 
       // Educations
-      educations.map((item, index) => {
-        formData.append(`educations[${index}][id]`, item?.id || '')
-        formData.append(
-          `educations[${index}][level]`,
-          handleGetValueID('employeeEducationLevel', item?.educationLevel)
-        )
-        formData.append(`educations[${index}][name]`, item?.educationName)
-        formData.append(`educations[${index}][faculty]`, item?.educationFaculty)
-        formData.append(`educations[${index}][major]`, item?.educationMajor)
-        formData.append(
-          `educations[${index}][status]`,
-          handleGetValueID('educationStatus', item?.educationStatus)
-        )
-        formData.append(
-          `educations[${index}][year_of_graduation]`,
-          handleFormatDate(item?.educationYear, 'YYYY')
-        )
-        formData.append(
-          `educations[${index}][description]`,
-          item?.educationDescription
-        )
-        formData.append(
-          `educations[${index}][degree_document]`,
-          !item?.educationCertificate ||
-            typeof item?.educationCertificate == 'string'
-            ? ''
-            : item?.educationCertificate
-        )
-        formData.append(
-          `educations[${index}][delete_degree_document]`,
-          item?.educationCertificate ? 0 : 1
-        )
-      })
+      if (educations.length > 0) {
+        educations.map((item, index) => {
+          formData.append(`educations[${index}][id]`, item?.id || '')
+          formData.append(
+            `educations[${index}][level]`,
+            handleGetValueID('employeeEducationLevel', item?.educationLevel)
+          )
+          formData.append(`educations[${index}][name]`, item?.educationName)
+          formData.append(
+            `educations[${index}][faculty]`,
+            item?.educationFaculty
+          )
+          formData.append(`educations[${index}][major]`, item?.educationMajor)
+          formData.append(
+            `educations[${index}][status]`,
+            handleGetValueID('educationStatus', item?.educationStatus)
+          )
+          formData.append(
+            `educations[${index}][year_of_graduation]`,
+            handleFormatDate(item?.educationYear, 'YYYY')
+          )
+          formData.append(
+            `educations[${index}][description]`,
+            item?.educationDescription
+          )
+          formData.append(
+            `educations[${index}][degree_document]`,
+            !item?.educationCertificate ||
+              typeof item?.educationCertificate == 'string'
+              ? ''
+              : item?.educationCertificate
+          )
+          formData.append(
+            `educations[${index}][delete_degree_document]`,
+            item?.educationCertificate ? 0 : 1
+          )
+        })
+      } else {
+        formData.append(`educations`, emptyArray)
+      }
 
       // Notes
-      notes.map((item, index) => {
-        formData.append(`notes[${index}][id]`, item?.id || '')
-        formData.append(`notes[${index}][description]`, item?.description)
-      })
+      if (notes.length > 0) {
+        notes.map((item, index) => {
+          formData.append(`notes[${index}][id]`, item?.id || '')
+          formData.append(`notes[${index}][description]`, item?.description)
+        })
+      } else {
+        formData.append(`notes`, emptyArray)
+      }
 
       const payload = {
         id,
@@ -1013,7 +1026,7 @@ const EmployeeEditComponent = ({
         )
       })
     }
-  }, [employee?.detail, residence])
+  }, [employee?.detail, residence, employmentType])
 
   return (
     <Formik

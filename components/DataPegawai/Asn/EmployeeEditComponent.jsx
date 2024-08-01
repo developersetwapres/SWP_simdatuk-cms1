@@ -1041,6 +1041,8 @@ const EmployeeEditComponent = ({
       await FormSchema.validate(values, { abortEarly: false })
       formikRef.current.setErrors({})
 
+      const emptyArray = ''
+
       const id = atob(router?.query?.id)
       const position = values?.employee?.positions.filter(
         (itm) => itm?.name !== null
@@ -1195,225 +1197,260 @@ const EmployeeEditComponent = ({
       formData.append('type', 1)
 
       // Educations
-      educations.map((item, index) => {
-        formData.append(`educations[${index}][id]`, item?.id || '')
-        formData.append(
-          `educations[${index}][level]`,
-          handleGetValueID('employeeEducationLevel', item?.educationLevel)
-        )
-        formData.append(`educations[${index}][name]`, item?.educationName)
-        formData.append(`educations[${index}][faculty]`, item?.educationFaculty)
-        formData.append(`educations[${index}][major]`, item?.educationMajor)
-        formData.append(
-          `educations[${index}][status]`,
-          handleGetValueID('educationStatus', item?.educationStatus)
-        )
-        formData.append(
-          `educations[${index}][year_of_graduation]`,
-          handleFormatDate(item?.educationYear, 'YYYY')
-        )
-        formData.append(
-          `educations[${index}][description]`,
-          item?.educationDescription
-        )
-        formData.append(
-          `educations[${index}][degree_document]`,
-          !item?.educationCertificate ||
-            typeof item?.educationCertificate == 'string'
-            ? ''
-            : item?.educationCertificate
-        )
-        formData.append(
-          `educations[${index}][delete_degree_document]`,
-          item?.educationCertificate ? 0 : 1
-        )
-      })
+      if (educations.lengt > 0) {
+        educations.map((item, index) => {
+          formData.append(`educations[${index}][id]`, item?.id || '')
+          formData.append(
+            `educations[${index}][level]`,
+            handleGetValueID('employeeEducationLevel', item?.educationLevel)
+          )
+          formData.append(`educations[${index}][name]`, item?.educationName)
+          formData.append(
+            `educations[${index}][faculty]`,
+            item?.educationFaculty
+          )
+          formData.append(`educations[${index}][major]`, item?.educationMajor)
+          formData.append(
+            `educations[${index}][status]`,
+            handleGetValueID('educationStatus', item?.educationStatus)
+          )
+          formData.append(
+            `educations[${index}][year_of_graduation]`,
+            handleFormatDate(item?.educationYear, 'YYYY')
+          )
+          formData.append(
+            `educations[${index}][description]`,
+            item?.educationDescription
+          )
+          formData.append(
+            `educations[${index}][degree_document]`,
+            !item?.educationCertificate ||
+              typeof item?.educationCertificate == 'string'
+              ? ''
+              : item?.educationCertificate
+          )
+          formData.append(
+            `educations[${index}][delete_degree_document]`,
+            item?.educationCertificate ? 0 : 1
+          )
+        })
+      } else {
+        formData.append(`educations`, emptyArray)
+      }
 
       // Families
-      families.map((item, index) => {
-        formData.append(`families[${index}][id]`, item?.id || '')
-        formData.append(
-          `families[${index}][card_number]`,
-          item?.familyRegistNumber
-        )
-        formData.append(`families[${index}][name]`, item?.name)
-        formData.append(`families[${index}][id_number]`, item?.idNumber)
-        formData.append(
-          `families[${index}][gender]`,
-          item?.gender == 'Laki-Laki' ? 1 : 0
-        )
-        formData.append(
-          `families[${index}][religion]`,
-          handleGetValueID('religion', item?.religion)
-        )
-        formData.append(
-          `families[${index}][place_of_birth]`,
-          item?.placeOfBirth
-        )
-        formData.append(
-          `families[${index}][date_of_birth]`,
-          handleFormatDate(item?.dateOfBirth, 'YYYY-MM-DD')
-        )
-        formData.append(
-          `families[${index}][name_of_father]`,
-          item?.nameOfFather
-        )
-        formData.append(
-          `families[${index}][name_of_mother]`,
-          item?.nameOfMother
-        )
-        formData.append(
-          `families[${index}][relationship_status]`,
-          handleGetValueID('relationshipStatus', item?.relationshipStatus)
-        )
-        formData.append(
-          `families[${index}][education]`,
-          handleGetValueID('educationLevel', item?.educationLevel)
-        )
-        formData.append(`families[${index}][occupation]`, item?.occupation)
-        formData.append(
-          `families[${index}][occupation_description]`,
-          item?.occupationDescription
-        )
-        formData.append(
-          `families[${index}][marital_status]`,
-          handleGetValueID('maritalFamily', item?.maritalStatus)
-        )
-        formData.append(`families[${index}][mobile_phone]`, item?.mobilePhone)
-        formData.append(
-          `families[${index}][sequence_number]`,
-          item?.sequenceNumber
-        )
-      })
+      if (families.length > 0) {
+        families.map((item, index) => {
+          formData.append(`families[${index}][id]`, item?.id || '')
+          formData.append(
+            `families[${index}][card_number]`,
+            item?.familyRegistNumber
+          )
+          formData.append(`families[${index}][name]`, item?.name)
+          formData.append(`families[${index}][id_number]`, item?.idNumber)
+          formData.append(
+            `families[${index}][gender]`,
+            item?.gender == 'Laki-Laki' ? 1 : 0
+          )
+          formData.append(
+            `families[${index}][religion]`,
+            handleGetValueID('religion', item?.religion)
+          )
+          formData.append(
+            `families[${index}][place_of_birth]`,
+            item?.placeOfBirth
+          )
+          formData.append(
+            `families[${index}][date_of_birth]`,
+            handleFormatDate(item?.dateOfBirth, 'YYYY-MM-DD')
+          )
+          formData.append(
+            `families[${index}][name_of_father]`,
+            item?.nameOfFather
+          )
+          formData.append(
+            `families[${index}][name_of_mother]`,
+            item?.nameOfMother
+          )
+          formData.append(
+            `families[${index}][relationship_status]`,
+            handleGetValueID('relationshipStatus', item?.relationshipStatus)
+          )
+          formData.append(
+            `families[${index}][education]`,
+            handleGetValueID('educationLevel', item?.educationLevel)
+          )
+          formData.append(`families[${index}][occupation]`, item?.occupation)
+          formData.append(
+            `families[${index}][occupation_description]`,
+            item?.occupationDescription
+          )
+          formData.append(
+            `families[${index}][marital_status]`,
+            handleGetValueID('maritalFamily', item?.maritalStatus)
+          )
+          formData.append(`families[${index}][mobile_phone]`, item?.mobilePhone)
+          formData.append(
+            `families[${index}][sequence_number]`,
+            item?.sequenceNumber
+          )
+        })
+      } else {
+        formData.append(`families`, emptyArray)
+      }
 
       // Leaves
-      leaves.map((item, index) => {
-        formData.append(`leaves[${index}][id]`, item?.id || '')
-        formData.append(
-          `leaves[${index}][start_date]`,
-          handleFormatDate(item?.period?.from, 'YYYY-MM-DD')
-        )
-        formData.append(
-          `leaves[${index}][end_date]`,
-          handleFormatDate(item?.period?.to, 'YYYY-MM-DD')
-        )
-        formData.append(
-          `leaves[${index}][type]`,
-          handleGetValueID('leaves', item?.type)
-        )
-        formData.append(`leaves[${index}][number]`, item?.number)
-        formData.append(`leaves[${index}][description]`, item?.description)
-        formData.append(
-          `leaves[${index}][letter]`,
-          !item?.leaveLetter || typeof item?.leaveLetter == 'string'
-            ? ''
-            : item?.leaveLetter
-        )
-        formData.append(
-          `leaves[${index}][delete_letter]`,
-          item?.leaveLetter ? 0 : 1
-        )
-      })
+      if (leaves.length > 0) {
+        leaves.map((item, index) => {
+          formData.append(`leaves[${index}][id]`, item?.id || '')
+          formData.append(
+            `leaves[${index}][start_date]`,
+            handleFormatDate(item?.period?.from, 'YYYY-MM-DD')
+          )
+          formData.append(
+            `leaves[${index}][end_date]`,
+            handleFormatDate(item?.period?.to, 'YYYY-MM-DD')
+          )
+          formData.append(
+            `leaves[${index}][type]`,
+            handleGetValueID('leaves', item?.type)
+          )
+          formData.append(`leaves[${index}][number]`, item?.number)
+          formData.append(`leaves[${index}][description]`, item?.description)
+          formData.append(
+            `leaves[${index}][letter]`,
+            !item?.leaveLetter || typeof item?.leaveLetter == 'string'
+              ? ''
+              : item?.leaveLetter
+          )
+          formData.append(
+            `leaves[${index}][delete_letter]`,
+            item?.leaveLetter ? 0 : 1
+          )
+        })
+      } else {
+        formData.append(`leaves`, emptyArray)
+      }
 
       // Notes
-      notes.map((item, index) => {
-        formData.append(`notes[${index}][id]`, item?.id || '')
-        formData.append(`notes[${index}][description]`, item?.description)
-      })
+      if (notes.length > 0) {
+        notes.map((item, index) => {
+          formData.append(`notes[${index}][id]`, item?.id || '')
+          formData.append(`notes[${index}][description]`, item?.description)
+        })
+      } else {
+        formData.append(`notes`, emptyArray)
+      }
 
       // Credits
-      credits.map((item, index) => {
-        formData.append(`credits[${index}][id]`, item?.id || '')
-        formData.append(`credits[${index}][position]`, item?.position)
-        formData.append(
-          `credits[${index}][period]`,
-          handleGetValueID('periodCredits', item?.period)
-        )
-        formData.append(`credits[${index}][year]`, item?.year)
-        formData.append(`credits[${index}][score]`, item?.point)
-        formData.append(
-          `credits[${index}][start_month]`,
-          item?.month?.start
-            ? handleGetValueID('months', item?.month?.start)
-            : ''
-        )
-        formData.append(
-          `credits[${index}][end_month]`,
-          item?.month?.end ? handleGetValueID('months', item?.month?.end) : ''
-        )
-      })
+      if (credits.length > 0) {
+        credits.map((item, index) => {
+          formData.append(`credits[${index}][id]`, item?.id || '')
+          formData.append(`credits[${index}][position]`, item?.position)
+          formData.append(
+            `credits[${index}][period]`,
+            handleGetValueID('periodCredits', item?.period)
+          )
+          formData.append(`credits[${index}][year]`, item?.year)
+          formData.append(`credits[${index}][score]`, item?.point)
+          formData.append(
+            `credits[${index}][start_month]`,
+            item?.month?.start
+              ? handleGetValueID('months', item?.month?.start)
+              : ''
+          )
+          formData.append(
+            `credits[${index}][end_month]`,
+            item?.month?.end ? handleGetValueID('months', item?.month?.end) : ''
+          )
+        })
+      } else {
+        formData.append(`credits`, emptyArray)
+      }
 
       // Assesments
-      assessments.map((item, index) => {
-        formData.append(`assessments[${index}][id]`, item?.id || '')
-        formData.append(
-          `assessments[${index}][event_date]`,
-          handleFormatDate(item?.date, 'YYYY-MM-DD')
-        )
-        formData.append(
-          `assessments[${index}][point]`,
-          handleGetValueID('assessments', item?.point)
-        )
-        formData.append(`assessments[${index}][organizer]`, item?.organizer)
-        formData.append(
-          `assessments[${index}][assessment_document]`,
-          !item?.certificate || typeof item?.certificate == 'string'
-            ? ''
-            : item?.certificate
-        )
-        formData.append(
-          `assessments[${index}][delete_assessment_document]`,
-          item?.certificate ? 0 : 1
-        )
-      })
+      if (assessments.length > 0) {
+        assessments.map((item, index) => {
+          formData.append(`assessments[${index}][id]`, item?.id || '')
+          formData.append(
+            `assessments[${index}][event_date]`,
+            handleFormatDate(item?.date, 'YYYY-MM-DD')
+          )
+          formData.append(
+            `assessments[${index}][point]`,
+            handleGetValueID('assessments', item?.point)
+          )
+          formData.append(`assessments[${index}][organizer]`, item?.organizer)
+          formData.append(
+            `assessments[${index}][assessment_document]`,
+            !item?.certificate || typeof item?.certificate == 'string'
+              ? ''
+              : item?.certificate
+          )
+          formData.append(
+            `assessments[${index}][delete_assessment_document]`,
+            item?.certificate ? 0 : 1
+          )
+        })
+      } else {
+        formData.append(`assessments`, emptyArray)
+      }
 
       // Competences
-      competences.map((item, index) => {
-        formData.append(`competencies[${index}][id]`, item?.id || '')
-        formData.append(
-          `competencies[${index}][event_date]`,
-          handleFormatDate(item?.date, 'YYYY-MM-DD')
-        )
-        formData.append(
-          `competencies[${index}][point]`,
-          handleGetValueID('competences', item?.point)
-        )
-        formData.append(`competencies[${index}][organizer]`, item?.organizer)
-        formData.append(
-          `competencies[${index}][competency_document]`,
-          !item?.certificate || typeof item?.certificate == 'string'
-            ? ''
-            : item?.certificate
-        )
-        formData.append(
-          `competencies[${index}][delete_competency_document]`,
-          item?.certificate ? 0 : 1
-        )
-      })
+      if (competences.length > 0) {
+        competences.map((item, index) => {
+          formData.append(`competencies[${index}][id]`, item?.id || '')
+          formData.append(
+            `competencies[${index}][event_date]`,
+            handleFormatDate(item?.date, 'YYYY-MM-DD')
+          )
+          formData.append(
+            `competencies[${index}][point]`,
+            handleGetValueID('competences', item?.point)
+          )
+          formData.append(`competencies[${index}][organizer]`, item?.organizer)
+          formData.append(
+            `competencies[${index}][competency_document]`,
+            !item?.certificate || typeof item?.certificate == 'string'
+              ? ''
+              : item?.certificate
+          )
+          formData.append(
+            `competencies[${index}][delete_competency_document]`,
+            item?.certificate ? 0 : 1
+          )
+        })
+      } else {
+        formData.append(`competencies`, emptyArray)
+      }
 
       // Talent Pools
-      talentPools.map((item, index) => {
-        formData.append(`talents[${index}][id]`, item?.id || '')
-        formData.append(
-          `talents[${index}][event_date]`,
-          handleFormatDate(item?.date, 'YYYY-MM-DD')
-        )
-        formData.append(
-          `talents[${index}][point]`,
-          handleGetValueID('talentPools', item?.point)
-        )
-        formData.append(`talents[${index}][organizer]`, item?.organizer)
-        formData.append(
-          `talents[${index}][talent_document]`,
-          !item?.certificate || typeof item?.certificate == 'string'
-            ? ''
-            : item?.certificate
-        )
-        formData.append(
-          `talents[${index}][delete_talent_document]`,
-          item?.certificate ? 0 : 1
-        )
-      })
+      if (talentPools.length > 0) {
+        talentPools.map((item, index) => {
+          formData.append(`talents[${index}][id]`, item?.id || '')
+          formData.append(
+            `talents[${index}][event_date]`,
+            handleFormatDate(item?.date, 'YYYY-MM-DD')
+          )
+          formData.append(
+            `talents[${index}][point]`,
+            handleGetValueID('talentPools', item?.point)
+          )
+          formData.append(`talents[${index}][organizer]`, item?.organizer)
+          formData.append(
+            `talents[${index}][talent_document]`,
+            !item?.certificate || typeof item?.certificate == 'string'
+              ? ''
+              : item?.certificate
+          )
+          formData.append(
+            `talents[${index}][delete_talent_document]`,
+            item?.certificate ? 0 : 1
+          )
+        })
+      } else {
+        formData.append(`talents`, emptyArray)
+      }
 
       // History Positions
       positions.map((item, index) => {
@@ -1440,7 +1477,9 @@ const EmployeeEditComponent = ({
         formData.append(`positions[${index}][decree]`, item?.decree)
         formData.append(
           `positions[${index}][decree_document]`,
-          item?.decreeDocument || ''
+          !item?.decreeDocument || typeof item?.decreeDocument == 'string'
+            ? ''
+            : item?.decreeDocument
         )
         formData.append(
           `positions[${index}][type_of_decree]`,
@@ -1502,7 +1541,9 @@ const EmployeeEditComponent = ({
         formData.append(`grades[${index}][decree_name]`, item?.decree)
         formData.append(
           `grades[${index}][decree_document]`,
-          item?.decreeDocument || ''
+          !item?.decreeDocument || typeof item?.decreeDocument == 'string'
+            ? ''
+            : item?.decreeDocument
         )
         formData.append(
           `grades[${index}][type_of_decree]`,
@@ -1526,7 +1567,7 @@ const EmployeeEditComponent = ({
         )
       })
 
-      // History Structurals Traininss
+      // History Structurals Trainigns
       structurals.map((item, index) => {
         formData.append(`structurals[${index}][id]`, item?.id || '')
         formData.append(
@@ -1541,7 +1582,7 @@ const EmployeeEditComponent = ({
         )
       })
 
-      // History Functionals Traininss
+      // History Functionals Trainigns
       functionals.map((item, index) => {
         formData.append(`functionals[${index}][id]`, item?.id || '')
         formData.append(
@@ -1556,7 +1597,7 @@ const EmployeeEditComponent = ({
         )
       })
 
-      // History Technicals Traininss
+      // History Technicals Trainigns
       technicals.map((item, index) => {
         formData.append(`technicals[${index}][id]`, item?.id || '')
         formData.append(
@@ -3087,7 +3128,17 @@ const EmployeeEditComponent = ({
         )
       })
     }
-  }, [employee?.detail, residence])
+  }, [
+    employee?.detail,
+    grade,
+    echelon,
+    institution,
+    residence,
+    employmentType,
+    decree,
+    disciplinary,
+    group
+  ])
 
   return (
     <Formik
