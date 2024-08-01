@@ -2,7 +2,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useEffect } from 'react'
+/* eslint-disable react/display-name */
+import React, { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { getStorage } from '@/utils/storage'
 import {
@@ -14,67 +15,61 @@ import {
 import navigation from '../core/navigation'
 
 const WithAuth = (WrappedComponent) => {
-  // eslint-disable-next-line react/display-name
   return (props) => {
-    // Checks wheter we are on client / browser or server.
-    if (typeof window !== 'undefined') {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const Router = useRouter()
-      const accessToken = getStorage('setneg_token')
-      const slugPattern = /\[([^\]]+)\]/
-      const excludedPaths = new Set(['/dashboard', '/logout', '/profile'])
+    if (typeof window === 'undefined') return null
 
-      let pathName
-      let currentPath
-      let currentPathPermissionID
+    const Router = useRouter()
+    const accessToken = getStorage('setneg_token')
+    const slugPattern = /\[([^\]]+)\]/
+    const excludedPaths = new Set(['/dashboard', '/logout', '/profile'])
+
+    const [hasCheckedAccess, setHasCheckedAccess] = useState(false)
+
+    const checkAccess = useCallback(() => {
+      if (!accessToken) {
+        Router.replace('/auth/login')
+        return false
+      }
+
+      const pathName = Router?.query?.employment
+        ? `/${Router.asPath.split('/')[1]}/${Router?.query?.employment}`
+        : Router.asPath
+
+      if (slugPattern.test(pathName)) return true
+
+      const currentPath = getFirstNPath(pathName, 3)
+      const currentPathPermissionID = getUserPermissionIDByPath(
+        pathName,
+        navigation
+      )
 
       let hasPathAccess = false
 
-      const checkAccess = useCallback(() => {
-        // If there is no access token we redirect to "/auth/login" page
-        if (!accessToken) {
-          Router.replace('/auth/login')
-          return null
-        }
-
-        // If there is no permission to access some path(s), redirect to "/403" page
-
-        pathName = Router?.query?.employment
-          ? `/${Router.asPath.split('/')[1]}/${Router?.query?.employment}`
-          : Router.asPath
-        // const pathName = Router.asPath
-        currentPath = getFirstNPath(pathName, 3)
-        currentPathPermissionID = getUserPermissionIDByPath(
-          pathName,
-          navigation
-        )
-
-        if (pathName?.includes('add')) {
-          hasPathAccess = accessGranted(currentPathPermissionID, Access.CREATE)
-        } else if (pathName?.includes('edit')) {
-          hasPathAccess = accessGranted(currentPathPermissionID, Access.UPDATE)
-        } else {
-          hasPathAccess = accessGranted(currentPathPermissionID, Access.READ)
-        }
-      }, [Router, accessToken])
-
-      checkAccess()
-
-      if (slugPattern.test(Router?.asPath)) {
-        checkAccess()
-        return null
+      if (pathName?.includes('add')) {
+        hasPathAccess = accessGranted(currentPathPermissionID, Access.CREATE)
+      } else if (pathName?.includes('edit')) {
+        hasPathAccess = accessGranted(currentPathPermissionID, Access.UPDATE)
+      } else {
+        hasPathAccess = accessGranted(currentPathPermissionID, Access.READ)
       }
 
       if (!hasPathAccess && !excludedPaths.has(currentPath)) {
         Router.replace('/403')
-        return null
+        return false
       }
 
-      // If this is an accessToken we just render the component that was passed with all ots props
-      return <WrappedComponent {...props} />
-    }
+      return true
+    }, [Router, accessToken])
 
-    // If we are on a server, return null
+    useEffect(() => {
+      if (!hasCheckedAccess) {
+        const access = checkAccess()
+        setHasCheckedAccess(access)
+      }
+    }, [checkAccess, hasCheckedAccess])
+
+    if (hasCheckedAccess) return <WrappedComponent {...props} />
+
     return null
   }
 }
