@@ -924,10 +924,10 @@ const EmployeeEditComponent = ({
     disciplinary
   ])
 
-  const handleGetValueID = (type, val) => {
+  const handleGetValueID = (type, val, idx) => {
     if (val) {
       if (type == 'position') {
-        const dataPosition = positions[positions.length - 1]
+        const dataPosition = positions[idx]
         const item = dataPosition.find((itm) => itm?.name == val)
         return item?.id
       } else if (type == 'grade') {
@@ -1088,29 +1088,32 @@ const EmployeeEditComponent = ({
       )
       formData.append(
         'religion',
-        handleGetValueID('religion', values?.employee?.religion)
+        handleGetValueID('religion', values?.employee?.religion, '')
       )
       formData.append('gender', values?.employee?.gender == 'Laki-Laki' ? 1 : 0)
       formData.append(
         'marital_status',
-        handleGetValueID('marital', values?.employee?.maritalStatus)
+        handleGetValueID('marital', values?.employee?.maritalStatus, '')
       )
       formData.append(
         'employment_type_id',
-        handleGetValueID('employmentType', values?.employee?.employmentType)
+        handleGetValueID('employmentType', values?.employee?.employmentType, '')
       )
       formData.append(
         'cpns_effective_date',
         handleFormatDate(values?.employee?.dateStartedWork, 'YYYY-MM-DD')
       )
-      formData.append('position_id', handleGetValueID('position', itemPosition))
+      formData.append(
+        'position_id',
+        handleGetValueID('position', itemPosition, indexPosition)
+      )
       formData.append(
         'position_effective_date',
         handleFormatDate(values?.employee?.positionEffectiveDate, 'YYYY-MM-DD')
       )
       formData.append(
         'grade_id',
-        handleGetValueID('grade', values?.employee?.grade)
+        handleGetValueID('grade', values?.employee?.grade, '')
       )
       formData.append(
         'grade_effective_date',
@@ -1119,7 +1122,7 @@ const EmployeeEditComponent = ({
       formData.append(
         'echelon_id',
         values?.employee?.echelon
-          ? handleGetValueID('echelon', values?.employee?.echelon)
+          ? handleGetValueID('echelon', values?.employee?.echelon, '')
           : ''
       )
       formData.append(
@@ -1128,13 +1131,14 @@ const EmployeeEditComponent = ({
       )
       formData.append(
         'institution_id',
-        handleGetValueID('institution', values?.employee?.institution)
+        handleGetValueID('institution', values?.employee?.institution, '')
       )
       formData.append(
         'education_level',
         handleGetValueID(
           'employeeEducationLevel',
-          values?.employee?.educationLevel
+          values?.employee?.educationLevel,
+          ''
         )
       )
       formData.append('education_name', values?.employee?.educationName)
@@ -1157,7 +1161,11 @@ const EmployeeEditComponent = ({
       formData.append('id_tax', values?.employee?.taxId)
       formData.append(
         'employment_status',
-        handleGetValueID('employeeStatus', values?.employee?.employmentStatus)
+        handleGetValueID(
+          'employeeStatus',
+          values?.employee?.employmentStatus,
+          ''
+        )
       )
       formData.append(
         'family_registration_number',
@@ -1167,7 +1175,7 @@ const EmployeeEditComponent = ({
       formData.append(
         'residence_id',
         values?.employee?.residence
-          ? handleGetValueID('residence', values?.employee?.residence)
+          ? handleGetValueID('residence', values?.employee?.residence, '')
           : ''
       )
       formData.append('residence_description', values?.employee?.residenceName)
@@ -1202,7 +1210,7 @@ const EmployeeEditComponent = ({
           formData.append(`educations[${index}][id]`, item?.id || '')
           formData.append(
             `educations[${index}][level]`,
-            handleGetValueID('employeeEducationLevel', item?.educationLevel)
+            handleGetValueID('employeeEducationLevel', item?.educationLevel, '')
           )
           formData.append(`educations[${index}][name]`, item?.educationName)
           formData.append(
@@ -1212,7 +1220,7 @@ const EmployeeEditComponent = ({
           formData.append(`educations[${index}][major]`, item?.educationMajor)
           formData.append(
             `educations[${index}][status]`,
-            handleGetValueID('educationStatus', item?.educationStatus)
+            handleGetValueID('educationStatus', item?.educationStatus, '')
           )
           formData.append(
             `educations[${index}][year_of_graduation]`,
@@ -1254,7 +1262,7 @@ const EmployeeEditComponent = ({
           )
           formData.append(
             `families[${index}][religion]`,
-            handleGetValueID('religion', item?.religion)
+            handleGetValueID('religion', item?.religion, '')
           )
           formData.append(
             `families[${index}][place_of_birth]`,
@@ -1274,11 +1282,11 @@ const EmployeeEditComponent = ({
           )
           formData.append(
             `families[${index}][relationship_status]`,
-            handleGetValueID('relationshipStatus', item?.relationshipStatus)
+            handleGetValueID('relationshipStatus', item?.relationshipStatus, '')
           )
           formData.append(
             `families[${index}][education]`,
-            handleGetValueID('educationLevel', item?.educationLevel)
+            handleGetValueID('educationLevel', item?.educationLevel, '')
           )
           formData.append(`families[${index}][occupation]`, item?.occupation)
           formData.append(
@@ -1287,7 +1295,7 @@ const EmployeeEditComponent = ({
           )
           formData.append(
             `families[${index}][marital_status]`,
-            handleGetValueID('maritalFamily', item?.maritalStatus)
+            handleGetValueID('maritalFamily', item?.maritalStatus, '')
           )
           formData.append(`families[${index}][mobile_phone]`, item?.mobilePhone)
           formData.append(
@@ -1313,7 +1321,7 @@ const EmployeeEditComponent = ({
           )
           formData.append(
             `leaves[${index}][type]`,
-            handleGetValueID('leaves', item?.type)
+            handleGetValueID('leaves', item?.type, '')
           )
           formData.append(`leaves[${index}][number]`, item?.number)
           formData.append(`leaves[${index}][description]`, item?.description)
@@ -1349,19 +1357,21 @@ const EmployeeEditComponent = ({
           formData.append(`credits[${index}][position]`, item?.position)
           formData.append(
             `credits[${index}][period]`,
-            handleGetValueID('periodCredits', item?.period)
+            handleGetValueID('periodCredits', item?.period, '')
           )
           formData.append(`credits[${index}][year]`, item?.year)
           formData.append(`credits[${index}][score]`, item?.point)
           formData.append(
             `credits[${index}][start_month]`,
             item?.month?.start
-              ? handleGetValueID('months', item?.month?.start)
+              ? handleGetValueID('months', item?.month?.start, '')
               : ''
           )
           formData.append(
             `credits[${index}][end_month]`,
-            item?.month?.end ? handleGetValueID('months', item?.month?.end) : ''
+            item?.month?.end
+              ? handleGetValueID('months', item?.month?.end, '')
+              : ''
           )
         })
       } else {
@@ -1378,7 +1388,7 @@ const EmployeeEditComponent = ({
           )
           formData.append(
             `assessments[${index}][point]`,
-            handleGetValueID('assessments', item?.point)
+            handleGetValueID('assessments', item?.point, '')
           )
           formData.append(`assessments[${index}][organizer]`, item?.organizer)
           formData.append(
@@ -1406,7 +1416,7 @@ const EmployeeEditComponent = ({
           )
           formData.append(
             `competencies[${index}][point]`,
-            handleGetValueID('competences', item?.point)
+            handleGetValueID('competences', item?.point, '')
           )
           formData.append(`competencies[${index}][organizer]`, item?.organizer)
           formData.append(
@@ -1434,7 +1444,7 @@ const EmployeeEditComponent = ({
           )
           formData.append(
             `talents[${index}][point]`,
-            handleGetValueID('talentPools', item?.point)
+            handleGetValueID('talentPools', item?.point, '')
           )
           formData.append(`talents[${index}][organizer]`, item?.organizer)
           formData.append(
@@ -1458,16 +1468,16 @@ const EmployeeEditComponent = ({
         formData.append(`positions[${index}][position]`, item?.position)
         formData.append(
           `positions[${index}][group_id]`,
-          handleGetValueID('group', item?.group)
+          handleGetValueID('group', item?.group, '')
         )
         formData.append(
           `positions[${index}][echelon]`,
-          item?.level ? handleGetValueID('echelon', item?.level) : ''
+          item?.level ? handleGetValueID('echelon', item?.leve, '') : ''
         )
         formData.append(
           `positions[${index}][position_status]`,
           item?.description
-            ? handleGetValueID('positionDescription', item?.description)
+            ? handleGetValueID('positionDescription', item?.description, '')
             : ''
         )
         formData.append(
@@ -1484,7 +1494,7 @@ const EmployeeEditComponent = ({
         formData.append(
           `positions[${index}][type_of_decree]`,
           item?.decreeType
-            ? handleGetValueID('decreeType', item?.decreeType)
+            ? handleGetValueID('decreeType', item?.decreeType, '')
             : ''
         )
         formData.append(
@@ -1506,7 +1516,7 @@ const EmployeeEditComponent = ({
         formData.append(
           `positions[${index}][type_of_termination_decree]`,
           item?.terminationDecreeType
-            ? handleGetValueID('decreeType', item?.terminationDecreeType)
+            ? handleGetValueID('decreeType', item?.terminationDecreeType, '')
             : ''
         )
         formData.append(
@@ -1532,7 +1542,7 @@ const EmployeeEditComponent = ({
         formData.append(`grades[${index}][id]`, item?.id || '')
         formData.append(
           `grades[${index}][grade_id]`,
-          handleGetValueID('grade', item?.grade)
+          handleGetValueID('grade', item?.grade, '')
         )
         formData.append(
           `grades[${index}][effective_date]`,
@@ -1547,8 +1557,8 @@ const EmployeeEditComponent = ({
         )
         formData.append(
           `grades[${index}][type_of_decree]`,
-          item?.type_of_decree
-            ? handleGetValueID('decreeType', item?.type_of_decree)
+          item?.decreeType
+            ? handleGetValueID('decreeType', item?.decreeType, '')
             : ''
         )
         formData.append(`grades[${index}][decree_number]`, item?.decreeNumber)
@@ -1617,17 +1627,18 @@ const EmployeeEditComponent = ({
         formData.append(`targets[${index}][id]`, item?.id || '')
         formData.append(
           `targets[${index}][work_behavior_rating]`,
-          handleGetValueID('workBehavior', item?.workBehavior)
+          handleGetValueID('workBehavior', item?.workBehavior, '')
         )
         formData.append(
           `targets[${index}][employee_performance_predicate]`,
-          handleGetValueID('performance', item?.performance)
+          handleGetValueID('performance', item?.performance, '')
         )
         formData.append(
           `targets[${index}][organizational_performance_achievement]`,
           handleGetValueID(
             'performanceAchievement',
-            item?.performanceAchievement
+            item?.performanceAchievement,
+            ''
           )
         )
       })
@@ -1637,11 +1648,11 @@ const EmployeeEditComponent = ({
         formData.append(`performances[${index}][id]`, item?.id || '')
         formData.append(
           `performances[${index}][work_performance_score]`,
-          item?.performanceAchievement
+          item?.point
         )
         formData.append(
           `performances[${index}][description]`,
-          handleGetValueID('performancesType', item?.description)
+          handleGetValueID('performancesType', item?.description, '')
         )
       })
 
@@ -1652,7 +1663,7 @@ const EmployeeEditComponent = ({
         formData.append(`disciplinaries[${index}][position]`, item?.position)
         formData.append(
           `disciplinaries[${index}][disciplinary_id]`,
-          handleGetValueID('discipleType', item?.discipleType)
+          handleGetValueID('discipleType', item?.discipleType, '')
         )
         formData.append(
           `disciplinaries[${index}][decree_number]`,

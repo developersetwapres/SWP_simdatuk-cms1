@@ -1554,8 +1554,8 @@ const EmployeeEditComponent = ({
         )
         formData.append(
           `grades[${index}][type_of_decree]`,
-          item?.type_of_decree
-            ? handleGetValueID('decreeType', item?.type_of_decree)
+          item?.decreeType
+            ? handleGetValueID('decreeType', item?.decreeType)
             : ''
         )
         formData.append(`grades[${index}][decree_number]`, item?.decreeNumber)
@@ -1644,7 +1644,7 @@ const EmployeeEditComponent = ({
         formData.append(`performances[${index}][id]`, item?.id || '')
         formData.append(
           `performances[${index}][work_performance_score]`,
-          item?.performanceAchievement
+          item?.point
         )
         formData.append(
           `performances[${index}][description]`,
