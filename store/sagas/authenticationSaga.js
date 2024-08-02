@@ -328,13 +328,15 @@ function* resetPasswordSaga(action) {
       payload: payload
     })
 
+    clearStorages(['__ui', 'setneg_token'])
+
     yield put({
       type: SET_MODAL,
       payload: {
         code: payload?.code,
         message: payload?.message,
         childMessage: 'Anda telah berhasil melakukan reset password',
-        redirect: '/'
+        redirect: '/auth/login'
       }
     })
   } catch (err) {
@@ -371,13 +373,15 @@ function* newPasswordSaga(action) {
       payload
     })
 
+    clearStorages(['__ui', 'setneg_token'])
+
     yield put({
       type: SET_MODAL,
       payload: {
         code: payload?.code,
         message: payload?.message,
         childMessage: 'Anda telah berhasil menyimpan password baru',
-        redirect: '/'
+        redirect: '/auth/login'
       }
     })
   } catch (err) {
