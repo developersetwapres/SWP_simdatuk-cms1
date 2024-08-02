@@ -135,13 +135,17 @@ const RiwayatPenghargaanEditComponent = ({
           ),
           period_month: handleGetValueId(values?.periode?.bulan, 'month'),
           period_year: moment(values?.periode?.tahun).format('YYYY'),
-          description: values?.keteranganPenghargaan,
+          description: values?.keteranganPenghargaan || '',
           type_of_decree: handleGetValueId(values?.jenisSk, 'decree'),
           decree_date: moment(values?.tanggalSk).format('YYYY-MM-DD'),
           decree_number: values?.noSkPenghargaan,
-          decree_year: moment(values?.tahunSk).format('YYYY'),
-          awarding_institution: values?.instansi,
-          date_of_receipt: moment(values?.received).format('YYYY-MM-DD'),
+          decree_year: values?.tahunSk
+            ? moment(values?.tahunSk).format('YYYY')
+            : '',
+          awarding_institution: values?.instansi || '',
+          date_of_receipt: values?.received
+            ? moment(values?.received).format('YYYY-MM-DD')
+            : '',
           users
         }
       }

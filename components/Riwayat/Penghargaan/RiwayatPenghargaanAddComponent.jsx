@@ -55,8 +55,8 @@ const RiwayatPenghargaanAddComponent = ({
   recognition,
   employee,
   decree,
-  postRecognition = () => { },
-  onLoading = () => { }
+  postRecognition = () => {},
+  onLoading = () => {}
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -123,17 +123,17 @@ const RiwayatPenghargaanAddComponent = ({
         users
       }
 
-      if (values?.keteranganPenghargaan)
-        payload.description = values?.keteranganPenghargaan
+      payload.description = values?.keteranganPenghargaan || ''
 
-      if (values?.tahunSk)
-        payload.decree_year = moment(values?.tahunSk).format('YYYY')
+      payload.decree_year = values?.tahunSk
+        ? moment(values?.tahunSk).format('YYYY')
+        : ''
 
-      if (values?.instansi)
-        payload.awarding_institution = values?.instansi
+      payload.awarding_institution = values?.instansi || ''
 
-      if (values?.received)
-        payload.date_of_receipt = moment(values?.received).format('YYYY-MM-DD')
+      payload.date_of_receipt = values?.received
+        ? moment(values?.received).format('YYYY-MM-DD')
+        : ''
 
       postRecognition(payload)
     } catch (err) {
@@ -162,7 +162,7 @@ const RiwayatPenghargaanAddComponent = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => { }}
+      onSubmit={() => {}}
     >
       {(formikProps) => (
         <LayoutPages
