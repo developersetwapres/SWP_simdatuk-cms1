@@ -1472,7 +1472,7 @@ const EmployeeEditComponent = ({
         )
         formData.append(
           `positions[${index}][echelon]`,
-          item?.level ? handleGetValueID('echelon', item?.leve, '') : ''
+          item?.level ? handleGetValueID('echelon', item?.level, '') : ''
         )
         formData.append(
           `positions[${index}][position_status]`,
