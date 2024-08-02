@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import { primaryButtonStyle } from '@/utils/theme'
 import { mapStateToProps } from '@/store/'
 import { ERROR_ICON, SUCCESS_ICON } from '@/utils/iconConstant'
+import { clearStorages } from '@/utils/storage'
 
 const style = {
   width: '100%',
@@ -23,7 +24,7 @@ const style = {
   borderRadius: '20px'
 }
 
-function ModalResponse({ modalReducer, closeModal = () => { } }) {
+function ModalResponse({ modalReducer, closeModal = () => {} }) {
   const router = useRouter()
   const path = router.asPath
 
@@ -38,6 +39,7 @@ function ModalResponse({ modalReducer, closeModal = () => { } }) {
 
   useEffect(() => {
     setOpen(modalReducer?.modal)
+    if (modalReducer?.code == 401) clearStorages(['__ui', 'setneg_token'])
   }, [modalReducer, modalReducer?.modal])
 
   return (
@@ -45,7 +47,7 @@ function ModalResponse({ modalReducer, closeModal = () => { } }) {
       aria-labelledby='transition-modal-title'
       aria-describedby='transition-modal-description'
       open={open}
-    // {...(modalReducer?.redirect === null && { onClose: closeModal })}
+      // {...(modalReducer?.redirect === null && { onClose: closeModal })}
     >
       <Box sx={style}>
         <Box

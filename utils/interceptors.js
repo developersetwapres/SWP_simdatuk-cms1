@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Logger } from './logger'
 import { getStorage } from './storage'
+import Router from 'next/router'
 
 /**
  *
@@ -53,44 +54,30 @@ service.interceptors.response.use(
     return res
   },
   function (error) {
+    const err = error?.response
+    const status = err?.status
     const store = window.__REDUX_STORE__
-    if (error.response.status === 401) {
+
+    if (status == 401) {
       store.dispatch({
         type: 'ACTION_RESPONSER',
         payload: {
-          code: error.response.status || 401,
+          code: status || 401,
           message: 'Sesion anda telah habis, silahkan login kembali'
         }
       })
+    } else if (status == 403) {
+      Router.push('/403')
+    } else if (error.message == 'Network Error' || status == 500) {
+      store.dispatch({
+        type: 'ACTION_RESPONSER',
+        payload: {
+          code: 500,
+          message: 'Mohon Maaf kami sedang dalam gangguan'
+        }
+      })
     }
-    // else if (error.response.status === 403) {
-    //   store.dispatch({
-    //     type: 'ACTION_RESPONSER', payload: {
-    //       code: error.response.status || 403,
-    //       message: 'Mohon maaf, anda tidak diizinkan untuk mengakses halaman ini',
-    //       redirect: '/profile'
-    //     }
-    //   })
-    // } else if (error.response.status === 400) {
-    //   store.dispatch({
-    //     type: 'ACTION_RESPONSER', payload: {
-    //       code: 400,
-    //       message: 'Mohon Maaf kami sedang dalam gangguan',
-    //       redirect: '/profile'
-    //     }
-    //   })
-    // } else if (error.message === 'Network Error' || error.response.status === 500) {
-    //   store.dispatch({
-    //     type: 'ACTION_RESPONSER',
-    //     payload: {
-    //       code: 500,
-    //       message: 'Mohon Maaf kami sedang dalam gangguan',
-    //       redirect: '/profile'
-    //     }
-    //   })
-    // }
 
-    const err = error?.response
     // * Turn on logger when not in production
     if (process.env.NODE_ENV !== 'production') logResponser(err)
 
