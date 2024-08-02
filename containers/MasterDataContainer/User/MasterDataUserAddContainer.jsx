@@ -30,7 +30,7 @@ export default connect(
         },
         queriesEmployee: {
           page: 1,
-          limit: 1000,
+          limit: '',
           search: ''
         },
         willRender: false

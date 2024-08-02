@@ -7,16 +7,12 @@ import Layout from '@/components/core/Layout'
 import ExportDrhComponent from '@/components/ExportComponent/Drh/ExportDrhComponent'
 
 export default connect(
-  mapStateToProps(
-    'exportDRHData',
-    'echelon',
-    'grade'
-  ),
+  mapStateToProps('exportDRHData', 'echelon', 'grade'),
   mapActions(
     'exportDRH',
     'getEchelonsOptions',
     'getGradesOptions',
-    'clearExportDrhState',
+    'clearExportDrhState'
   )
 )(
   class ExportDrhContainer extends Component {
@@ -34,7 +30,7 @@ export default connect(
       this.state = {
         queries: {
           page: 1,
-          limit: 10000,
+          limit: '',
           search: ''
         },
         willRender: false

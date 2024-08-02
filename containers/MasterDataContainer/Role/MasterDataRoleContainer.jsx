@@ -44,7 +44,7 @@ export default connect(
     fetchGetRolesOptions() {
       this.props.getRolesOptions({
         page: 1,
-        limit: 10000,
+        limit: '',
         search: ''
       })
     }

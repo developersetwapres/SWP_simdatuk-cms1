@@ -43,7 +43,7 @@ export default connect(
     fetchOptions() {
       const queries = {
         page: 1,
-        limit: 10000,
+        limit: '',
         search: ''
       }
 

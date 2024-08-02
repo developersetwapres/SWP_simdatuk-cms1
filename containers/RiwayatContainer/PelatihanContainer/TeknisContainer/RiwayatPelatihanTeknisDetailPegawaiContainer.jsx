@@ -7,17 +7,13 @@ import Layout from '@/components/core/Layout'
 import EmployeeDetailComponent from '@/components/Employment/Employee/EmployeeDetailComponent'
 
 export default connect(
-  mapStateToProps(
-    'employee',
-    'institution',
-    'exportEmployeeData'
-  ),
+  mapStateToProps('employee', 'institution', 'exportEmployeeData'),
   mapActions(
     'updateEmployee',
     'getEmployee',
     'clearEmployeeState',
     'getInstitutionsOptions',
-    'exportEmployeeDetail',
+    'exportEmployeeDetail'
   )
 )(
   class RiwayatPelatihanTeknisDetailPegawaiContainer extends Component {
@@ -36,7 +32,7 @@ export default connect(
         willRender: false,
         queries: {
           page: 1,
-          limit: 10000,
+          limit: '',
           search: ''
         }
       }

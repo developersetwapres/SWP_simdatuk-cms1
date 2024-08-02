@@ -44,6 +44,7 @@ const EmployeeOutsourcingComponent = ({
   onLoading = () => {},
   onSearch = () => {},
   onFilter = () => {},
+  clearPositionState = () => {},
   onPaginationChange = () => {},
   onRowsPerPageChange = () => {}
 }) => {
@@ -309,6 +310,7 @@ EmployeeOutsourcingComponent.propTypes = {
   onLoading: PropTypes.func,
   onSearch: PropTypes.func,
   onFilter: PropTypes.func,
+  clearPositionState: PropTypes.func,
   onPaginationChange: PropTypes.func,
   onRowsPerPageChange: PropTypes.func
 }
