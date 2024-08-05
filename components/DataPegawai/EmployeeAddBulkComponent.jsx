@@ -161,7 +161,9 @@ const EmployeeAddBulkComponent = ({
           align: 'left',
           verticalAlign: 'top',
           Cell: () => (
-            <Typography>{item?.status > 0 ? 'Berhasil' : 'Gagal'}</Typography>
+            <Typography>
+              {item?.status === 'success' ? 'Berhasil' : 'Gagal'}
+            </Typography>
           )
         },
         {
@@ -272,6 +274,7 @@ const EmployeeAddBulkComponent = ({
   const handleModalClose = () => {
     setModalOpen(false)
     setModalMode(DynamicModalMode.CONFIRM)
+    clearLog()
 
     setTimeout(() => {
       if (modalMode === DynamicModalMode.FAILED) {
@@ -308,7 +311,6 @@ const EmployeeAddBulkComponent = ({
     if (employee?.errorLog && employee?.errorLog?.code == 400) {
       setModalMode(DynamicModalMode.FAILED)
       setModalOpen(true)
-      clearLog()
     }
 
     setLoading(!employee?.loading)
@@ -389,16 +391,6 @@ const EmployeeAddBulkComponent = ({
                     <Typography component='span' sx={style?.listTextBold}>
                       Download File Template
                     </Typography>
-                  </Typography>
-                </ListItem>
-                <ListItem sx={style?.listItem}>
-                  <FiberManualRecord style={style?.dot} />
-                  <Typography sx={style?.listText}>
-                    Isi data sesuai dengan
-                    <Typography component='span' sx={style?.listTextBold}>
-                      Format File Template
-                    </Typography>
-                    yang sudah di download
                   </Typography>
                 </ListItem>
                 <ListItem sx={style?.listItem}>

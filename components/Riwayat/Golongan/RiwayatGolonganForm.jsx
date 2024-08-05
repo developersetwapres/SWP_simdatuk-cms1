@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Grid, Typography } from '@mui/material'
 import { Autocomplete, Button, Form, Input } from '@/components/shared'
@@ -48,7 +48,12 @@ const RiwayatGolonganForm = ({
             placeholder='Masukkan Nama Riwayat Golongan'
             name='namaGolongan'
             value={values?.namaGolongan}
-            onChange={handleChange}
+            onChange={(e) => {
+              setFieldValue(`namaGolongan`, e?.target?.value, false)
+              setTimeout(() => {
+                formikRef?.current?.validateField(`namaGolongan`)
+              }, 1)
+            }}
             error={errors?.namaGolongan}
           />
         </Grid>
