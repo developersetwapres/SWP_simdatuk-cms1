@@ -127,6 +127,10 @@ const ModalAddNotes = ({
       })
   }, [data])
 
+  useEffect(() => {
+    if (!open) formikRef.current.resetForm()
+  }, [open])
+
   return (
     <Formik
       innerRef={formikRef}

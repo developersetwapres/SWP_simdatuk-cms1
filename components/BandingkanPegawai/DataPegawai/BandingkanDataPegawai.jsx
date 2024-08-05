@@ -152,6 +152,8 @@ const BandingkanDataPegawai = ({
     if (userId) {
       getNotesByUserID(userId)
       setCurrentUserId(userId)
+    } else {
+      setCurrentUserId(null)
     }
 
     setNotesModalOpen((v) => !v)

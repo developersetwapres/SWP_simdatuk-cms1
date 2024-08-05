@@ -373,7 +373,7 @@ const NotesComponent = ({ name, textNameColor = 'primary', notes = [] }) => {
         >
           {notes?.map((value, index) => (
             <ListItem key={value} disableGutters disablePadding>
-              <ListItemText primary={`${index + 1}. ${value}`} />
+              <ListItemText primary={`${index + 1}. ${value?.description}`} />
             </ListItem>
           ))}
 
