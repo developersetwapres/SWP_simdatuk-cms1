@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Grid, Typography } from '@mui/material'
 import { Autocomplete, Button, Form, Input } from '@/components/shared'
@@ -7,6 +7,7 @@ import DatepickerYear from '@/components/shared/form/DatepickerYear'
 import { Delete } from '@mui/icons-material'
 import UploadFile from '@/components/shared/form/UploadFile'
 import DatePickerDay from '@/components/shared/form/DatePickerDay'
+import { v4 as uuidv4 } from 'uuid'
 
 const RiwayatPelatihanStrukturalForm = ({
   values,
@@ -205,8 +206,8 @@ const RiwayatPelatihanStrukturalForm = ({
           Daftar Pegawai
         </Typography>
         <Grid container spacing={2}>
-          {values?.pegawai.map((item, index) => (
-            <Grid item xs={12} key={index}>
+          {values?.pegawai?.map((item, index) => (
+            <Grid item xs={12} key={uuidv4()}>
               <Grid container spacing={3}>
                 {/* Name */}
                 <Grid item xs={6}>

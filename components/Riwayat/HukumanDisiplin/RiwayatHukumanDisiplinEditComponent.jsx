@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useMemo, useRef } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import RiwayatHukumanDisiplinForm from './RiwayatHukumanDisiplinForm'
 import { Formik } from 'formik'
@@ -69,6 +68,7 @@ const RiwayatHukumanDisiplinEditComponent = ({
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
+  const [formValues, setFormValues] = useState(InitValue)
 
   const discipleType = useMemo(() => {
     return disciplinary?.options || []
@@ -183,7 +183,7 @@ const RiwayatHukumanDisiplinEditComponent = ({
   }, [router])
 
   useEffect(() => {
-    const state = !disciplinary?.loading && !employee?.loading
+    const state = !disciplinary?.loading || !employee?.loading
     onLoading(state)
   }, [disciplinary, employee])
 
@@ -192,99 +192,49 @@ const RiwayatHukumanDisiplinEditComponent = ({
 
     if (detail && Object.entries(detail).length > 0) {
       const periodYear = new Date(detail?.period_year, detail?.period_month - 1)
-
-      formikRef.current?.setFieldValue(
-        'namaHukumanDisiplin',
-        detail?.name,
-        false
-      )
-      formikRef.current?.setFieldValue(
-        'periode.bulan',
-        options['month'][detail?.period_month - 1],
-        false
-      )
-      formikRef.current?.setFieldValue('periode.tahun', periodYear, false)
-
-      detail?.users &&
-        detail?.users.map((itm, idx) => {
-          const decreeDate = itm?.date_of_decree
-            ? new Date(itm?.date_of_decree)
-            : ''
-          const startDate = itm?.start_date ? new Date(itm?.start_date) : null
-          const endDate = itm?.end_date ? new Date(itm?.end_date) : null
-          const discipleDate =
-            startDate && endDate ? { from: startDate, to: endDate } : null
-
-          formikRef.current?.setFieldValue(
-            `pegawai[${idx}].nama`,
-            itm?.name && itm?.employee_id_number
-              ? `${itm?.name} - ${itm?.employee_id_number}`
-              : null,
-            false
-          )
-          formikRef.current?.setFieldValue(
-            `pegawai[${idx}].golongan`,
-            itm?.grade || '',
-            false
-          )
-          formikRef.current?.setFieldValue(
-            `pegawai[${idx}].jabatan`,
-            itm?.position || '',
-            false
-          )
-          formikRef.current?.setFieldValue(
-            `pegawai[${idx}].jenisHukuman`,
-            itm?.disciplinary_type_name,
-            false
-          )
-          formikRef.current?.setFieldValue(
-            `pegawai[${idx}].tingkatHukuman`,
-            itm?.disciplinary_type_description || '',
-            false
-          )
-          formikRef.current?.setFieldValue(
-            `pegawai[${idx}].potonganTunjangan`,
-            itm?.performance_allowance_deduction || 0,
-            false
-          )
-          formikRef.current?.setFieldValue(
-            `pegawai[${idx}].potonganWaktu`,
-            itm?.performance_allowance_duration || 0,
-            false
-          )
-          formikRef.current?.setFieldValue(
-            `pegawai[${idx}].noSkHukuman`,
-            itm?.decree_number,
-            false
-          )
-          formikRef.current?.setFieldValue(
-            `pegawai[${idx}].tanggalSkHukuman`,
-            decreeDate,
-            false
-          )
-          formikRef.current?.setFieldValue(
-            `pegawai[${idx}].tanggalHukuman`,
-            discipleDate,
-            false
-          )
-          formikRef.current?.setFieldValue(
-            `pegawai[${idx}].pejabatBerwenang`,
-            itm?.authorizing_officer || '',
-            false
-          )
-          formikRef.current?.setFieldValue(
-            `pegawai[${idx}].namaPejabatBerwenang`,
-            itm?.name_of_authorizing_officer || '',
-            false
-          )
-        })
+      const filledValues = {
+        namaHukumanDisiplin: detail?.name,
+        periode: {
+          bulan: options['month'][detail?.period_month - 1],
+          tahun: periodYear
+        },
+        pegawai: [
+          ...detail?.users.map((itm) => {
+            const decreeDate = itm?.date_of_decree
+              ? new Date(itm?.date_of_decree)
+              : ''
+            const startDate = itm?.start_date ? new Date(itm?.start_date) : null
+            const endDate = itm?.end_date ? new Date(itm?.end_date) : null
+            const discipleDate =
+              startDate && endDate ? { from: startDate, to: endDate } : null
+            return {
+              nama: itm?.name && itm?.employee_id_number
+                ? `${itm?.name} - ${itm?.employee_id_number}`
+                : null,
+              golongan: itm?.grade || '',
+              jabatan: itm?.position || '',
+              jenisHukuman: itm?.disciplinary_type_name,
+              tingkatHukuman: itm?.disciplinary_type_description || '',
+              potonganTunjangan: itm?.performance_allowance_deduction || 0,
+              potonganWaktu: itm?.performance_allowance_duration || 0,
+              noSkHukuman: itm?.decree_number,
+              tanggalSkHukuman: decreeDate,
+              tanggalHukuman: discipleDate,
+              pejabatBerwenang: itm?.authorizing_officer || '',
+              namaPejabatBerwenang: itm?.name_of_authorizing_officer || ''
+            }
+          })
+        ]
+      }
+      setFormValues(filledValues)
     }
   }, [disciplinary?.detail])
 
   return (
     <Formik
+      enableReinitialize
       innerRef={formikRef}
-      initialValues={InitValue}
+      initialValues={formValues}
       validationSchema={FormSchema}
       onSubmit={() => { }}
     >

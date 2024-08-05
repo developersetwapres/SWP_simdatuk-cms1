@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useMemo, useRef } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import RiwayatJabatanForm from './RiwayatJabatanForm'
 import { Formik } from 'formik'
@@ -87,6 +86,7 @@ const RiwayatJabatanEditComponent = ({
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
+  const [formValues, setFormValues] = useState(InitValue)
 
   const options = useMemo(() => {
     const newEchelons = echelon?.data.map((itm) => itm?.name)
@@ -193,79 +193,50 @@ const RiwayatJabatanEditComponent = ({
 
   useEffect(() => {
     const state =
-      !employee?.loading &&
-      !echelon?.loading &&
-      !positionHistories?.loading &&
-      Object.entries(positionHistories?.detail).length > 0
+      !employee?.loading ||
+      !echelon?.loading ||
+      !positionHistories?.loading
     onLoading(state)
   }, [employee, echelon, positionHistories])
 
   useEffect(() => {
     const detail = positionHistories?.detail
-
     if (echelon && detail && Object.entries(detail).length > 0) {
       const periodYear = new Date(detail?.period_year, detail?.period_month - 1)
-
-      formikRef.current?.setFieldValue('namaJabatan', detail?.name, false)
-      formikRef.current?.setFieldValue(
-        'periode.bulan',
-        options['month'][detail?.period_month - 1],
-        false
-      )
-      formikRef.current?.setFieldValue('periode.tahun', periodYear, false)
-
-      detail?.users &&
-        detail?.users.map((itm, idx) => {
-          const dataEchelons = echelon?.data
-          const echelons = itm?.echelon
-            ? dataEchelons.find((item) => item?.id == itm?.echelon)?.name
-            : null
-          const effectiveDate = itm?.effective_date
-            ? new Date(itm?.effective_date)
-            : ''
-
-          formikRef.current?.setFieldValue(
-            `pegawai[${idx}].nama`,
-            itm?.name && itm?.employee_id_number
+      const filledValues = {
+        namaJabatan: detail?.name,
+        periode: {
+          bulan: options['month'][detail?.period_month - 1],
+          tahun: periodYear
+        },
+        pegawai: [
+          ...detail?.users?.map((itm) => ({
+            nama: itm?.name && itm?.employee_id_number
               ? `${itm?.name} - ${itm?.employee_id_number}`
               : null,
-            false
-          )
-          formikRef.current?.setFieldValue(
-            `pegawai[${idx}].jabatan`,
-            itm?.position || '',
-            false
-          )
-          formikRef.current?.setFieldValue(
-            `pegawai[${idx}].jenjangJabatan`,
-            echelons,
-            false
-          )
-          formikRef.current?.setFieldValue(
-            `pegawai[${idx}].keteranganJabatan`,
-            itm?.position_status
+            jabatan: itm?.position || '',
+            jenjangJabatan: itm?.echelon
+              ? echelon?.data?.find((item) => item?.id == itm?.echelon)?.name
+              : null,
+            keteranganJabatan: itm?.position_status
               ? options['keteranganJabatan'][itm?.position_status - 1]
               : null,
-            false
-          )
-          formikRef.current?.setFieldValue(
-            `pegawai[${idx}].tmt`,
-            effectiveDate,
-            false
-          )
-          formikRef.current?.setFieldValue(
-            `pegawai[${idx}].noSk`,
-            itm?.decree || '',
-            false
-          )
-        })
+            tmt: itm?.effective_date
+              ? new Date(itm?.effective_date)
+              : '',
+            noSk: itm?.decree || ''
+          }))
+        ]
+      }
+      setFormValues(filledValues)
     }
   }, [positionHistories?.detail, echelon])
 
   return (
     <Formik
+      enableReinitialize
       innerRef={formikRef}
-      initialValues={InitValue}
+      initialValues={formValues}
       validationSchema={FormSchema}
       onSubmit={() => { }}
     >

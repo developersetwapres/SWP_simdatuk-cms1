@@ -6,6 +6,7 @@ import { Autocomplete, Button, Form, Input } from '@/components/shared'
 import DatepickerYear from '@/components/shared/form/DatepickerYear'
 import DatePickerDay from '@/components/shared/form/DatePickerDay'
 import { Delete } from '@mui/icons-material'
+import { v4 as uuidv4 } from 'uuid'
 
 const RiwayatJabatanForm = ({
   values,
@@ -219,11 +220,11 @@ const RiwayatJabatanForm = ({
           Daftar Pegawai
         </Typography>
         <Grid container spacing={2}>
-          {values?.pegawai.map((item, index) => (
+          {values?.pegawai?.map((item, index) => (
             <Grid
               item
               xs={12}
-              key={index}
+              key={uuidv4()}
               sx={{
                 display: 'flex',
                 alignItems: 'flex-start',
@@ -248,7 +249,7 @@ const RiwayatJabatanForm = ({
                 }}
                 sx={{ width: '100%' }}
               />
-              {values?.pegawai.length > 1 && (
+              {values?.pegawai?.length > 1 && (
                 <Button
                   icon={<Delete />}
                   color='danger'

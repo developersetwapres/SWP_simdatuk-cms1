@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useMemo, useRef } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Formik } from 'formik'
 import LayoutPages from '@/components/core/LayoutPages'
@@ -70,13 +69,14 @@ const FormSchema = Yup.object().shape({
 const RiwayatPelatihanFungsionalEditComponent = ({
   training,
   employee,
-  getTraining = () => {},
-  updateTraining = () => {},
-  clearTrainingState = () => {},
-  onLoading = () => {}
+  getTraining = () => { },
+  updateTraining = () => { },
+  clearTrainingState = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
+  const [formValues, setFormValues] = useState(InitValue)
 
   const options = useMemo(() => {
     const newEmployees = employee?.data.map((itm) => {
@@ -198,9 +198,9 @@ const RiwayatPelatihanFungsionalEditComponent = ({
 
   useEffect(() => {
     const state =
-      !training?.loading &&
-      !employee?.loading &&
-      Object.entries(training?.detail).length > 0
+      !training?.loading ||
+      !employee?.loading
+    // && Object.entries(training?.detail).length > 0
     onLoading(state)
   }, [training, employee])
 
@@ -213,61 +213,51 @@ const RiwayatPelatihanFungsionalEditComponent = ({
           : null
       const periodMonth = monthOptions[detail?.period_month - 1] || null
       const startDate = detail?.start_date ? new Date(detail?.start_date) : ''
+      const filledValues = {
+        namaDiklat: detail?.name,
+        noSurat: detail?.reference_number,
+        jenjang: detail?.level,
+        tanggalPelaksanaan: startDate,
+        penyelenggara: detail?.organizer,
+        durasi: detail?.duration,
+        materi: detail?.link,
+        periode: {
+          bulan: periodMonth,
+          tahun: periodYear
+        },
+        pegawai: [
+          ...detail?.users?.map((itm) => {
+            let fileSplit = null
+            let fileName = null
+            const file = itm?.certificate
 
-      formikRef.current?.setFieldValue('namaDiklat', detail?.name, false)
-      formikRef.current?.setFieldValue('periode.bulan', periodMonth, false)
-      formikRef.current?.setFieldValue('periode.tahun', periodYear, false)
-      formikRef.current?.setFieldValue('tanggalPelaksanaan', startDate, false)
-      formikRef.current?.setFieldValue(
-        'noSurat',
-        detail?.reference_number,
-        false
-      )
-      formikRef.current?.setFieldValue('jenjang', detail?.level, false)
-      formikRef.current?.setFieldValue(
-        'penyelenggara',
-        detail?.organizer,
-        false
-      )
-      formikRef.current?.setFieldValue('durasi', detail?.duration, false)
-      formikRef.current?.setFieldValue('materi', detail?.link, false)
+            const userName =
+              itm?.name && itm?.employee_id_number
+                ? `${itm?.name} - ${itm?.employee_id_number}`
+                : null
 
-      detail?.users &&
-        detail?.users.map((itm, idx) => {
-          let fileSplit = null
-          let fileName = null
-          const file = itm?.certificate
-
-          const userName =
-            itm?.name && itm?.employee_id_number
-              ? `${itm?.name} - ${itm?.employee_id_number}`
-              : null
-
-          if (file) {
-            fileSplit = file.split('/')
-            fileName = fileSplit[fileSplit.length - 1]
-          }
-
-          formikRef.current?.setFieldValue(
-            `pegawai[${idx}].nama`,
-            userName,
-            false
-          )
-          formikRef.current?.setFieldValue(
-            `pegawai[${idx}].sertifikat`,
-            fileName,
-            false
-          )
-        })
+            if (file) {
+              fileSplit = file.split('/')
+              fileName = fileSplit[fileSplit.length - 1]
+            }
+            return {
+              nama: userName,
+              sertifikat: fileName
+            }
+          })
+        ]
+      }
+      setFormValues(filledValues)
     }
   }, [training?.detail])
 
   return (
     <Formik
+      enableReinitialize
       innerRef={formikRef}
-      initialValues={InitValue}
+      initialValues={formValues}
       validationSchema={FormSchema}
-      onSubmit={() => {}}
+      onSubmit={() => { }}
     >
       {(formikProps) => (
         <LayoutPages

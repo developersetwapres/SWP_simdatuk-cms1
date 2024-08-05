@@ -5,6 +5,7 @@ import { Box, Grid, Typography } from '@mui/material'
 import { Autocomplete, Button, Form, Input } from '@/components/shared'
 import DatepickerYear from '@/components/shared/form/DatepickerYear'
 import { Delete } from '@mui/icons-material'
+import { v4 as uuidv4 } from 'uuid'
 
 const RiwayatSKPForm = ({
   values,
@@ -146,8 +147,8 @@ const RiwayatSKPForm = ({
           Daftar Pegawai
         </Typography>
         <Grid container spacing={2}>
-          {values?.pegawai.map((item, index) => (
-            <Grid item xs={12} key={index}>
+          {values?.pegawai?.map((item, index) => (
+            <Grid item xs={12} key={uuidv4()}>
               <Grid container spacing={3}>
                 {/* Name */}
                 <Grid item xs={3}>

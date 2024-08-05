@@ -6,6 +6,7 @@ import { Autocomplete, Button, Form, Input } from '@/components/shared'
 import DatepickerYear from '@/components/shared/form/DatepickerYear'
 import DatePickerDay from '@/components/shared/form/DatePickerDay'
 import { Delete } from '@mui/icons-material'
+import { v4 as uuidv4 } from 'uuid'
 
 const RiwayatJabatanForm = ({
   values,
@@ -121,7 +122,7 @@ const RiwayatJabatanForm = ({
             <Grid
               item
               container
-              key={index}
+              key={uuidv4()}
               spacing={2}
             >
               <Grid

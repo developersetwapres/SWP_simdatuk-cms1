@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useMemo, useRef } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import RiwayatJabatanForm from './RiwayatSKPForm'
 import { Formik } from 'formik'
@@ -66,6 +66,7 @@ const RiwayatSKPEditComponent = ({
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
+  const [formValues, setFormValues] = useState(InitValue)
 
   const options = useMemo(() => {
     const newEmployees = employee?.data.map((itm) => {
@@ -189,9 +190,9 @@ const RiwayatSKPEditComponent = ({
 
   useEffect(() => {
     const state =
-      !target?.loading &&
-      !employee?.loading &&
-      Object.entries(target?.detail).length > 0
+      !target?.loading ||
+      !employee?.loading
+    // && Object.entries(target?.detail).length > 0
     onLoading(state)
   }, [target, employee])
 
@@ -201,53 +202,34 @@ const RiwayatSKPEditComponent = ({
     if (Object.entries(detail).length > 0) {
       const periodYear = new Date(detail?.period_year, detail?.period_month - 1)
       const year = detail?.year ? new Date(detail?.year, 0, 1) : null
-
-      formikRef.current?.setFieldValue('namaSkp', detail?.name, false)
-      formikRef.current?.setFieldValue(
-        'periodePenilaian',
-        detail?.appraisal_period,
-        false
-      )
-      formikRef.current?.setFieldValue('periodePenilaianTahun', year, false)
-      formikRef.current?.setFieldValue(
-        'periode.bulan',
-        options['month'][detail?.period_month - 1],
-        false
-      )
-      formikRef.current?.setFieldValue('periode.tahun', periodYear, false)
-
-      detail?.users &&
-        detail?.users.map((itm, idx) => {
-          formikRef.current?.setFieldValue(
-            `pegawai[${idx}].nama`,
-            itm?.name && itm?.employee_id_number
+      const filledValues = {
+        namaSkp: detail?.name,
+        periodePenilaian: detail?.appraisal_period,
+        periodePenilaianTahun: year,
+        periode: {
+          bulan: options['month'][detail?.period_month - 1],
+          tahun: periodYear
+        },
+        pegawai: [
+          ...detail?.users.map((itm, idx) => ({
+            nama: itm?.name && itm?.employee_id_number
               ? `${itm?.name} - ${itm?.employee_id_number}`
               : null,
-            false
-          )
-          formikRef.current?.setFieldValue(
-            `pegawai[${idx}].rating`,
-            options['rating'][itm?.work_behavior_rating - 1],
-            false
-          )
-          formikRef.current?.setFieldValue(
-            `pegawai[${idx}].predikat`,
-            options['predikat'][itm?.employee_performance_predicate - 1],
-            false
-          )
-          formikRef.current?.setFieldValue(
-            `pegawai[${idx}].pencapaian`,
-            options['organisasi'][itm?.organizational_performance_achievement - 1],
-            false
-          )
-        })
+            rating: options['rating'][itm?.work_behavior_rating - 1],
+            predikat: options['predikat'][itm?.employee_performance_predicate - 1],
+            pencapaian: options['organisasi'][itm?.organizational_performance_achievement - 1]
+          }))
+        ]
+      }
+      setFormValues(filledValues)
     }
   }, [target?.detail])
 
   return (
     <Formik
+      enableReinitialize
       innerRef={formikRef}
-      initialValues={InitValue}
+      initialValues={formValues}
       validationSchema={FormSchema}
       onSubmit={() => { }}
     >

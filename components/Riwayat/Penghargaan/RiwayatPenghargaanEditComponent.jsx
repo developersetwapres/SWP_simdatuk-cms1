@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useMemo, useRef } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import RiwayatJabatanForm from './RiwayatPenghargaanForm'
 import { Formik } from 'formik'
@@ -54,13 +54,14 @@ const RiwayatPenghargaanEditComponent = ({
   recognition,
   employee,
   decree,
-  getRecognition = () => {},
-  updateRecognition = () => {},
-  clearRecognitionState = () => {},
-  onLoading = () => {}
+  getRecognition = () => { },
+  updateRecognition = () => { },
+  clearRecognitionState = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
+  const [formValues, setFormValues] = useState(InitValue)
 
   const options = useMemo(() => {
     const newEmployees =
@@ -187,10 +188,10 @@ const RiwayatPenghargaanEditComponent = ({
 
   useEffect(() => {
     const state =
-      !recognition?.loading &&
-      !employee?.loading &&
-      !decree?.loading &&
-      Object.entries(recognition?.detail).length > 0
+      !recognition?.loading ||
+      !employee?.loading ||
+      !decree?.loading
+    // && Object.entries(recognition?.detail).length > 0
     onLoading(state)
   }, [recognition, employee, decree])
 
@@ -215,52 +216,38 @@ const RiwayatPenghargaanEditComponent = ({
       const receivDate = detail?.date_of_receipt
         ? new Date(detail?.date_of_receipt)
         : ''
-
-      formikRef.current?.setFieldValue(
-        'namaPenghargaan',
-        handleGetValue('recognition', detail?.recognition_id),
-        false
-      )
-      formikRef.current?.setFieldValue('periode.bulan', periodMonth, false)
-      formikRef.current?.setFieldValue('periode.tahun', periodYear, false)
-      formikRef.current?.setFieldValue(
-        'keteranganPenghargaan',
-        detail?.description,
-        false
-      )
-      formikRef.current?.setFieldValue('jenisSk', decreeType, false)
-      formikRef.current?.setFieldValue('tanggalSk', decreeDate, false)
-      formikRef.current?.setFieldValue(
-        'noSkPenghargaan',
-        detail?.decree_number,
-        false
-      )
-      formikRef.current?.setFieldValue('tahunSk', decreeYear, false)
-      formikRef.current?.setFieldValue(
-        'instansi',
-        detail?.awarding_institution,
-        false
-      )
-      formikRef.current?.setFieldValue('received', receivDate, false)
-      detail?.users &&
-        detail?.users.map((itm, idx) => {
-          formikRef.current?.setFieldValue(
-            `pegawai[${idx}].nama`,
-            itm?.name && itm?.employee_id_number
+      const filledValues = {
+        namaPenghargaan: detail?.recognition_id,
+        keteranganPenghargaan: detail?.description,
+        jenisSk: decreeType,
+        tanggalSk: decreeDate,
+        noSkPenghargaan: detail?.decree_number,
+        tahunSk: decreeYear,
+        instansi: detail?.awarding_institution,
+        received: receivDate,
+        periode: {
+          bulan: periodMonth,
+          tahun: periodYear
+        },
+        pegawai: [
+          ...detail?.users?.map((itm) => ({
+            nama: itm?.name && itm?.employee_id_number
               ? `${itm?.name} - ${itm?.employee_id_number}`
-              : null,
-            false
-          )
-        })
+              : null
+          }))
+        ]
+      }
+      setFormValues(filledValues)
     }
   }, [recognition?.detail, recognition])
 
   return (
     <Formik
+      enableReinitialize
       innerRef={formikRef}
-      initialValues={InitValue}
+      initialValues={formValues}
       validationSchema={FormSchema}
-      onSubmit={() => {}}
+      onSubmit={() => { }}
     >
       {(formikProps) => (
         <LayoutPages
