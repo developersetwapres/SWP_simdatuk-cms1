@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from 'react'
 import { Input, Button, Icon, Form } from '@/components/shared/index'
 import PropTypes from 'prop-types'

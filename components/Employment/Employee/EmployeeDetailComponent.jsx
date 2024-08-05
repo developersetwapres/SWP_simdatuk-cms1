@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable indent */
+/* eslint-disable no-unused-vars */
 import React, { useMemo, useEffect, useState, useRef } from 'react'
 import { Box, Grid, List, Typography } from '@mui/material'
 import BiodataPegawai from './Section/BiodataPegawai'
