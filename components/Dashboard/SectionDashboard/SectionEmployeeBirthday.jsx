@@ -29,7 +29,7 @@ function SectionEmployeeBirthday({ datas, month, handleChangeMonth }) {
 
   const employees = useMemo(() => {
     return datas?.users?.map((item) => (
-      <Grid item xs={12} sm={3} key={uuidv4()}>
+      <Grid item xs={12} sm={3} key={uuidv4()} sx={{ minWidth: '320px' }}>
         <CardEmployee
           data={{
             name: item.name,
@@ -63,7 +63,18 @@ function SectionEmployeeBirthday({ datas, month, handleChangeMonth }) {
           onChange={handleSelectChange}
         />
       </Box>
-      <Grid container>{employees}</Grid>
+      <Grid
+        container
+        sx={{
+          maxHeight: '800px',
+          width: '100%',
+          overflow: 'auto',
+          display: 'flex',
+          flexDirection: 'column'
+        }}
+      >
+        {employees}
+      </Grid>
     </DashboardSectionLayout>
   )
 }
