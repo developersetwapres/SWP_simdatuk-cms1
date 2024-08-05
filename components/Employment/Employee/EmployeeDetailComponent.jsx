@@ -95,67 +95,16 @@ const EmployeeDetailComponent = ({
     return data
   }, [router])
 
-  const getPermissionID = (pathName) => {
-    // Rekapitulasi
-    if (pathName?.includes('rekapitulasi')) {
-      if (pathName?.includes('/komposisi-pegawai/'))
-        return PermissionsIDs.RECAP_COMPOSITION
-
-      if (pathName?.includes('/pegawai-asn/')) return PermissionsIDs.RECAP_ASN
-
-      if (pathName?.includes('/pegawai-non-asn/'))
-        return PermissionsIDs.RECAP_NON_ASN
-
-      if (pathName?.includes('/pegawai-outsourcing/'))
-        return PermissionsIDs.RECAP_OUTSOURCING
-
-      if (pathName?.includes('/peta-jabatan/'))
-        return PermissionsIDs.RECAP_POSITION_MAPPING
-
+  const getPermissionID = (type) => {
+    if (type == 1) {
+      return PermissionsIDs.EMPLOYEE_ASN
+    } else if (type == 2) {
+      return PermissionsIDs.EMPLOYEE_NON_ASN
+    } else if (type == 3) {
+      return PermissionsIDs.EMPLOYEE_OUTSOURCING
+    } else {
       return null
     }
-    // Data Pegawai
-    if (pathName?.includes('data-pegawai')) {
-      if (pathName?.includes('/asn/')) return PermissionsIDs.EMPLOYEE_ASN
-
-      if (pathName?.includes('/non-asn/'))
-        return PermissionsIDs.EMPLOYEE_NON_ASN
-
-      if (pathName?.includes('/outsourcing/'))
-        return PermissionsIDs.EMPLOYEE_OUTSOURCING
-
-      return null
-    }
-    // Data Riwayat
-    if (pathName?.includes('data-riwayat')) {
-      if (pathName?.includes('/golongan/')) return PermissionsIDs.HISTORY_GRADE
-
-      if (pathName?.includes('/hukuman-disiplin/'))
-        return PermissionsIDs.HISTORY_DISCIPLINARY
-
-      if (pathName?.includes('/jabatan/'))
-        return PermissionsIDs.HISTORY_POSITION
-
-      if (pathName?.includes('/pelatihan-fungsional/'))
-        return PermissionsIDs.HISTORY_FUNCTIONAL
-
-      if (pathName?.includes('/pelatihan-struktural/'))
-        return PermissionsIDs.HISTORY_STRUCTURAL
-
-      if (pathName?.includes('/pelatihan-teknis/'))
-        return PermissionsIDs.HISTORY_TECHNICAL
-
-      if (pathName?.includes('/penghargaan/'))
-        return PermissionsIDs.HISTORY_AWARD
-
-      if (pathName?.includes('/skp/')) return PermissionsIDs.HISTORY_SKP
-
-      if (pathName?.includes('/ppk/')) return PermissionsIDs.HISTORY_PERFORMANCE
-
-      return null
-    }
-
-    return null
   }
 
   const options = useMemo(() => {
@@ -224,12 +173,14 @@ const EmployeeDetailComponent = ({
   }, [data])
 
   const action = useMemo(() => {
-    if (!accessGranted(getPermissionID(router.asPath), Access.UPDATE))
-      return null
+    const employeeType = data?.type
+    const isEdit =
+      router?.pathname.includes('data-pegawai') &&
+      accessGranted(getPermissionID(employeeType), Access.UPDATE)
 
     return (
       <Box sx={{ display: 'flex', gap: 1 }}>
-        {router?.asPath?.includes('data-pegawai') && (
+        {isEdit && (
           <>
             <Button
               text='Edit Status Pegawai'
@@ -249,14 +200,13 @@ const EmployeeDetailComponent = ({
             />
           </>
         )}
-
         <ButtonExport
           isLoading={exportEmployeeData?.loading}
           data={[{ name: 'PDF', action: () => exportAsPDF() }]}
         />
       </Box>
     )
-  }, [employmentStatusModalOpen, router, exportEmployeeData?.loading])
+  }, [employmentStatusModalOpen, router, exportEmployeeData?.loading, data])
 
   const sectionsList = useMemo(() => {
     const sections = [
@@ -349,22 +299,25 @@ const EmployeeDetailComponent = ({
       }
     ]
 
+    const hasTalentPoolAccess = accessGranted(
+      PermissionsIDs.TALENT_POOL,
+      Access.READ
+    )
+
     const datas = sections
       .filter((item) => {
         // Filter Notes Section by some permissions
         const hasNotesAccess = accessGranted(PermissionsIDs.NOTES, Access.READ)
-
-        if (!hasNotesAccess) {
-          return item?.id !== 'riwayat_catatan'
-        }
-
         const hasTalentPoolAccess = accessGranted(
           PermissionsIDs.TALENT_POOL,
           Access.READ
         )
 
-        if (!hasTalentPoolAccess) {
-          return item?.id !== 'hasil_talent_pool'
+        if (
+          (item?.id == 'riwayat_catatan' && !hasNotesAccess) ||
+          (item?.id == 'hasil_talent_pool' && !hasTalentPoolAccess)
+        ) {
+          return false
         }
 
         // Filter by Outsourcing menus
