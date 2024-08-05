@@ -14,22 +14,15 @@ const LoginComponent = ({
   forgetPassword = () => {}
 }) => {
   const errorState = ''
-  // const rememberMeState = getStorage('remember_setneg') ? JSON.parse(getStorage('remember_setneg')) : null
 
   const [initialValues, setInitialValues] = useState({
-    // username: rememberMeState?.username === '' ? '' : rememberMeState?.username,
-    // password: rememberMeState?.password === '' ? '' : rememberMeState?.password
     username: '',
-    password: ''
+    password: '',
+    recaptchaToken: ''
   })
-
-  // const [rememberMe, setRememberMe] = useState(rememberMeState?.isRemember || false)
 
   const [modalResetEmail, setModalResetEmail] = useState(false)
   const [modalResetEmailFinish, setResetEmailFinish] = useState(false)
-  const [modal2FA, setModal2FA] = useState(false)
-
-  // const classes = useStyles()
 
   const validate = (fieldOfValues = values) => {
     const temp = { ...errors }
@@ -53,45 +46,22 @@ const LoginComponent = ({
       return Object.values(temp).every((x) => x === '')
   }
 
-  const {
-    values,
-    errors,
-    setErrors,
-    // resetForm,
-    handleInputChange
-  } = useForm(initialValues, true, validate)
+  const { values, errors, setErrors, handleInputChange } = useForm(
+    initialValues,
+    true,
+    validate
+  )
 
   const handleLogin = (e) => {
     e.preventDefault()
     if (validate()) {
       const payload = {
         username: values.username,
-        password: values.password
+        password: values.password,
+        recaptcha_token: values.recaptchaToken
       }
-      // if (rememberMe === true) {
-      //   setStorages([
-      //     {
-      //       name: 'remember_setneg',
-      //       value: JSON.stringify({
-      //         username: values.username,
-      //         password: values.password,
-      //         isRemember: true
-      //       })
-      //     }
-      //   ])
-      // }
-      //    else {
-      //   localStorage.removeItem('remember_setneg')
-      // }
 
       authentication(payload)
-      // qrCode(payload)
-
-      if (errorState?.statusCode === 200) {
-        setModal2FA(true)
-      } else {
-        setModal2FA(false)
-      }
     }
   }
 

@@ -1,11 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Input, Button, Icon, Form } from '@/components/shared/index'
 import PropTypes from 'prop-types'
 import { EYE_OPEN_ICON, EYE_CLOSE_ICON } from '@/utils/iconConstant'
 import { makeStyles } from '@mui/styles'
-import { Grid, Stack, Typography } from '@mui/material'
+import { Box, Grid, Stack, Typography } from '@mui/material'
 import { primaryButtonStyle } from '@/utils/theme'
+import ReCAPTCHAForm from './ReCAPTCHAForm'
 
 const useStyles = makeStyles({
   icon: {
@@ -14,7 +15,6 @@ const useStyles = makeStyles({
     top: '70%',
     right: '1%',
     transform: 'translate(-50%, -50%)'
-
   },
   MuiCheckbox: {
     '&.root': {
@@ -32,17 +32,26 @@ function LoginFormComponent({
   values,
   errors,
   stateLoading,
-  handleInputChange = () => { },
-  handleLogin = () => { },
-  handleResetEmail = () => { }
+  handleInputChange = () => {},
+  handleLogin = () => {},
+  handleResetEmail = () => {}
 }) {
   const [showPassword, setShowPassword] = useState(false)
+  const [token, setToken] = useState(null)
   const classes = useStyles()
 
+  const isLogin = useMemo(() => {
+    return !(token && values.password && values.username)
+  }, [token, values])
+
   const togglePassword = () => {
-    setShowPassword(showPassword => !showPassword)
+    setShowPassword((showPassword) => !showPassword)
   }
 
+  useEffect(() => {
+    const payload = { target: { name: 'recaptchaToken', value: token || '' } }
+    handleInputChange(payload)
+  }, [token])
 
   return (
     <>
@@ -56,10 +65,11 @@ function LoginFormComponent({
           position: 'relative',
           width: {
             xs: '100%',
-            lg: '400px',
-            xl: '400px'
+            lg: '480px',
+            xl: '480px'
           }
-        }}>
+        }}
+      >
         <Typography
           variant='h6'
           component='h6'
@@ -70,9 +80,7 @@ function LoginFormComponent({
           Login
         </Typography>
         <Form onSubmit={handleLogin}>
-          <Stack
-            spacing={2}
-          >
+          <Stack spacing={2}>
             <Grid item>
               <Input
                 classesLabel={classes.fontBold}
@@ -88,24 +96,25 @@ function LoginFormComponent({
                 }}
                 fullWidth
               />
-              {
-                errors.username && (
-                  <p style={{
+              {errors.username && (
+                <p
+                  style={{
                     position: 'absolute',
                     color: '#d32f2f',
                     marginTop: '0',
                     fontSize: '12px'
-                  }}>{errors.username}</p>
-                )
-              }
+                  }}
+                >
+                  {errors.username}
+                </p>
+              )}
             </Grid>
-            <Grid
-              item
-            >
-              <div style={{
-                position: 'relative'
-
-              }}>
+            <Grid item>
+              <div
+                style={{
+                  position: 'relative'
+                }}
+              >
                 <Input
                   classesLabel={classes.fontBold}
                   label='Password'
@@ -127,37 +136,47 @@ function LoginFormComponent({
                   onClick={togglePassword}
                   classes={classes.icon}
                 />
-
               </div>
-              {
-                errors.password && (
-                  <p style={{
+              {errors.password && (
+                <p
+                  style={{
                     position: 'absolute',
                     color: '#d32f2f',
                     marginTop: '0',
                     fontSize: '12px'
-                  }}>{errors.password}</p>
-                )
-              }
-              <Typography
-                onClick={handleResetEmail}
-                style={{
-                  textAlign: 'end',
-                  color: '#895700',
-                  fontSize: '14px',
-                  fontWeight: 'bold',
-                  cursor: 'pointer',
-                  marginBottom: 8,
-                  marginTop: 5
-
+                  }}
+                >
+                  {errors.password}
+                </p>
+              )}
+              <Box
+                sx={{
+                  margin: '20px 0 4px 0',
+                  display: 'felx',
+                  alignItems: 'start',
+                  justifyContent: 'space-between',
+                  position: 'relative'
                 }}
               >
-                Lupa password
-              </Typography>
+                <ReCAPTCHAForm setToken={setToken} />
+                <Typography
+                  onClick={handleResetEmail}
+                  style={{
+                    textAlign: 'end',
+                    color: '#895700',
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                    cursor: 'pointer',
+                    position: 'absolute',
+                    top: 0,
+                    right: 0
+                  }}
+                >
+                  Lupa password
+                </Typography>
+              </Box>
             </Grid>
-            <Grid
-              item
-            >
+            <Grid item>
               <Button
                 text='Login'
                 color='primary'
@@ -167,12 +186,11 @@ function LoginFormComponent({
                 }}
                 type='submit'
                 fullWidth
-                isBusy={stateLoading?.isBusy}
+                isBusy={stateLoading?.isBusy || isLogin}
                 isLoading={stateLoading?.loading}
               />
             </Grid>
           </Stack>
-
         </Form>
       </Grid>
     </>
