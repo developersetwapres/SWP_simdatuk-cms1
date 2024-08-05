@@ -158,20 +158,21 @@ const MasterDataPositionAddComponent = ({
 
       const payload = {
         name: values.name,
-        parent_id: isParents ? handleGetValue('parent', parent)?.id : null,
+        parent_id: isParents ? handleGetValue('parent', parent)?.id : '',
         available: echelons[0]?.quantity || 0,
         type: position ? handleGetValue('positionType', position) : 1,
         entity,
         order: values?.order,
         status: showOnPetaJabatan,
-        position_echelons: isShow
-          ? echelons.map((itm) => {
-              return {
-                echelon_id: handleGetValue('echelon', itm?.name),
-                available: itm?.quantity
-              }
-            })
-          : []
+        position_echelons:
+          isShow && handleGetValue('entity', values?.entity) == 1
+            ? echelons.map((itm) => {
+                return {
+                  echelon_id: handleGetValue('echelon', itm?.name),
+                  available: itm?.quantity
+                }
+              })
+            : []
       }
       postPosition(payload)
     } catch (err) {
