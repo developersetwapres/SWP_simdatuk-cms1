@@ -130,7 +130,6 @@ export const getActivitiesHistoryAction = (payload) => {
       page,
       limit,
       search
-    )}${queryString}`,
-    payload
+    )}${queryString}`
   )
 }

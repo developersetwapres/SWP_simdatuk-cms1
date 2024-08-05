@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import LayoutPages from '@/components/core/LayoutPages'
@@ -74,17 +75,17 @@ const style = {
 const EmployeeAddBulkComponent = ({
   queries,
   employee,
-  onSetQueries = () => {},
-  onFetchHistories = () => {},
-  downloadTemplate = () => {},
-  downloadLogError = () => {},
-  uploadTemplate = () => {},
-  clearTemplate = () => {},
-  clearTemplateUpload = () => {},
-  clearLog = () => {},
-  onPaginationChange = () => {},
-  onRowsPerPageChange = () => {},
-  setLoading = () => {}
+  onSetQueries = () => { },
+  onFetchHistories = () => { },
+  downloadTemplate = () => { },
+  downloadLogError = () => { },
+  uploadTemplate = () => { },
+  clearTemplate = () => { },
+  clearTemplateUpload = () => { },
+  clearLog = () => { },
+  onPaginationChange = () => { },
+  onRowsPerPageChange = () => { },
+  setLoading = () => { }
 }) => {
   const router = useRouter()
   const inputRef = useRef(null)
@@ -222,9 +223,8 @@ const EmployeeAddBulkComponent = ({
       employeeTypeLabel = 'OUTSOURCE'
     }
 
-    return `${
-      type == 'template' ? 'TEMPLATE_PEGAWAI' : 'LOG_ERROR'
-    }_${employeeTypeLabel}${ext}`
+    return `${type == 'template' ? 'TEMPLATE_PEGAWAI' : 'LOG_ERROR'
+      }_${employeeTypeLabel}${ext}`
   }
 
   const uploadTemplateFile = () => {
@@ -244,7 +244,7 @@ const EmployeeAddBulkComponent = ({
   }
 
   const handleChangePage = (e, page) => {
-    onPaginationChange(page + 1)
+    onPaginationChange(e)
   }
 
   const handleChangeRowsPerPage = (e) => {
@@ -267,6 +267,18 @@ const EmployeeAddBulkComponent = ({
   const handleDownloadLogError = () => {
     const id = employee?.errorLog?.data?.log_id
     downloadLogError(id)
+  }
+
+  const handleModalClose = () => {
+    setModalOpen(false)
+    setModalMode(DynamicModalMode.CONFIRM)
+
+    setTimeout(() => {
+      if (modalMode === DynamicModalMode.FAILED) {
+        handleFetchHistories()
+        setSelectedFile(null)
+      }
+    }, 1000)
   }
 
   useEffect(() => {
@@ -296,7 +308,7 @@ const EmployeeAddBulkComponent = ({
     if (employee?.errorLog && employee?.errorLog?.code == 400) {
       setModalMode(DynamicModalMode.FAILED)
       setModalOpen(true)
-      handleFetchHistories()
+      clearLog()
     }
 
     setLoading(!employee?.loading)
@@ -431,7 +443,7 @@ const EmployeeAddBulkComponent = ({
             title='Riwayat Aktivitas'
             columns={columns}
             rows={rows}
-            pagination={employee?.activities?.data?.pagination}
+            pagination={employee?.activities?.pagination}
             handlePagination={handleChangePage}
             handleRows={handleChangeRowsPerPage}
           />
@@ -441,8 +453,9 @@ const EmployeeAddBulkComponent = ({
       <DynamicModal
         open={modalOpen}
         mode={modalMode}
+        employee={employee}
         handleConfirm={handleSubmit}
-        handleCancel={() => setModalOpen(false)}
+        handleCancel={handleModalClose}
         handleDownload={handleDownloadLogError}
       />
     </>
@@ -457,11 +470,12 @@ const DynamicModalMode = {
 }
 
 const DynamicModal = ({
+  employee,
   open = true,
   mode = DynamicModalMode.CONFIRM,
-  handleCancel = () => {},
-  handleConfirm = () => {},
-  handleDownload = () => {}
+  handleCancel = () => { },
+  handleConfirm = () => { },
+  handleDownload = () => { }
 }) => {
   const dynamicItems = useMemo(() => {
     let icon = INFORMATION_ICON
@@ -534,6 +548,7 @@ const DynamicModal = ({
             text='Download'
             onClick={handleDownload}
             style={{ marginTop: '12px' }}
+            isBusy={employee?.loadingLog}
           />
         )}
 
@@ -550,7 +565,7 @@ const DynamicModal = ({
             <Button
               text={
                 mode === DynamicModalMode.INFO ||
-                mode === DynamicModalMode.FAILED
+                  mode === DynamicModalMode.FAILED
                   ? 'Tutup'
                   : 'Tidak'
               }
@@ -570,6 +585,7 @@ const DynamicModal = ({
 DynamicModal.propTypes = {
   open: PropTypes.bool,
   mode: PropTypes.string,
+  employee: PropTypes.object,
   handleCancel: PropTypes.func,
   handleConfirm: PropTypes.func,
   handleDownload: PropTypes.func
