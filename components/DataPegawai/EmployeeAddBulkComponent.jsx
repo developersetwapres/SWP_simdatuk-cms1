@@ -75,17 +75,17 @@ const style = {
 const EmployeeAddBulkComponent = ({
   queries,
   employee,
-  onSetQueries = () => { },
-  onFetchHistories = () => { },
-  downloadTemplate = () => { },
-  downloadLogError = () => { },
-  uploadTemplate = () => { },
-  clearTemplate = () => { },
-  clearTemplateUpload = () => { },
-  clearLog = () => { },
-  onPaginationChange = () => { },
-  onRowsPerPageChange = () => { },
-  setLoading = () => { }
+  onSetQueries = () => {},
+  onFetchHistories = () => {},
+  downloadTemplate = () => {},
+  downloadLogError = () => {},
+  uploadTemplate = () => {},
+  clearTemplate = () => {},
+  clearTemplateUpload = () => {},
+  clearLog = () => {},
+  onPaginationChange = () => {},
+  onRowsPerPageChange = () => {},
+  setLoading = () => {}
 }) => {
   const router = useRouter()
   const inputRef = useRef(null)
@@ -173,7 +173,8 @@ const EmployeeAddBulkComponent = ({
           Cell: () => {
             const loadingButton = rowId == item?.id && employee?.loadingLog
 
-            if (item?.status == 0) return <Typography>-</Typography>
+            if (item?.status === 'success') return <Typography>-</Typography>
+
             return (
               <Button
                 text='Download'
@@ -225,8 +226,9 @@ const EmployeeAddBulkComponent = ({
       employeeTypeLabel = 'OUTSOURCE'
     }
 
-    return `${type == 'template' ? 'TEMPLATE_PEGAWAI' : 'LOG_ERROR'
-      }_${employeeTypeLabel}${ext}`
+    return `${
+      type == 'template' ? 'TEMPLATE_PEGAWAI' : 'LOG_ERROR'
+    }_${employeeTypeLabel}${ext}`
   }
 
   const uploadTemplateFile = () => {
@@ -465,9 +467,9 @@ const DynamicModal = ({
   employee,
   open = true,
   mode = DynamicModalMode.CONFIRM,
-  handleCancel = () => { },
-  handleConfirm = () => { },
-  handleDownload = () => { }
+  handleCancel = () => {},
+  handleConfirm = () => {},
+  handleDownload = () => {}
 }) => {
   const dynamicItems = useMemo(() => {
     let icon = INFORMATION_ICON
@@ -557,7 +559,7 @@ const DynamicModal = ({
             <Button
               text={
                 mode === DynamicModalMode.INFO ||
-                  mode === DynamicModalMode.FAILED
+                mode === DynamicModalMode.FAILED
                   ? 'Tutup'
                   : 'Tidak'
               }
