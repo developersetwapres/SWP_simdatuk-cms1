@@ -10,7 +10,11 @@ import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 import { useSelector } from 'react-redux'
-import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import {
+  Access,
+  accessGranted,
+  PermissionsIDs
+} from '@/utils/permissionManager'
 
 const styles = {
   iconStyle: {
@@ -31,10 +35,10 @@ const styles = {
 
 const MasterDataEmployementTypeDetailComponent = ({
   employmentType,
-  getEmploymentType = () => { },
-  deleteEmploymentType = () => { },
-  clearEmploymentTypeState = () => { },
-  onLoading = () => { }
+  getEmploymentType = () => {},
+  deleteEmploymentType = () => {},
+  clearEmploymentTypeState = () => {},
+  onLoading = () => {}
 }) => {
   const router = useRouter()
   const modal = useSelector((state) => state.modalReducer)
@@ -115,7 +119,7 @@ const MasterDataEmployementTypeDetailComponent = ({
   }, [employmentType?.detail])
 
   useEffect(() => {
-    if (modal?.code !== null) handleModal()
+    if (modal?.code !== null && modal?.code !== 401) handleModal()
   }, [modal])
 
   return (

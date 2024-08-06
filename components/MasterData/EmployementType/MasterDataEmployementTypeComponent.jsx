@@ -11,7 +11,11 @@ import { Delete, Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 import { useSelector } from 'react-redux'
-import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import {
+  Access,
+  accessGranted,
+  PermissionsIDs
+} from '@/utils/permissionManager'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -60,12 +64,12 @@ const styles = {
 const MasterDataEmployementTypeComponent = ({
   employmentType,
   queries,
-  onFetch = () => { },
-  onSearch = () => { },
-  onLoading = () => { },
-  onPaginationChange = () => { },
-  onRowsPerPageChange = () => { },
-  deleteEmploymentType = () => { }
+  onFetch = () => {},
+  onSearch = () => {},
+  onLoading = () => {},
+  onPaginationChange = () => {},
+  onRowsPerPageChange = () => {},
+  deleteEmploymentType = () => {}
 }) => {
   const classes = useStyles()
   const router = useRouter()
@@ -208,9 +212,9 @@ const MasterDataEmployementTypeComponent = ({
   }, [employmentType])
 
   useEffect(() => {
-    if (modal?.code !== null) handleModal()
+    if (modal?.code !== null && modal?.code !== 401) handleModal()
     if (!modal?.modal && employmentType?.data.length > 0) {
-      onFetch({ ...queries, search: '' })
+      onFetch({ ...queries, page: 1 })
     }
   }, [modal])
 

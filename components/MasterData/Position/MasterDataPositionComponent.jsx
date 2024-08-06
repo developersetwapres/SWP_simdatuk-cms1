@@ -63,12 +63,12 @@ const styles = {
 const MasterDataPositionComponent = ({
   position,
   queries,
-  onFetch = () => { },
-  onSearch = () => { },
-  onLoading = () => { },
-  deletePosition = () => { },
-  onPaginationChange = () => { },
-  onRowsPerPageChange = () => { }
+  onFetch = () => {},
+  onSearch = () => {},
+  onLoading = () => {},
+  deletePosition = () => {},
+  onPaginationChange = () => {},
+  onRowsPerPageChange = () => {}
 }) => {
   const classes = useStyles()
   const router = useRouter()
@@ -204,9 +204,9 @@ const MasterDataPositionComponent = ({
   }, [position])
 
   useEffect(() => {
-    if (modal?.code !== null) handleModal()
+    if (modal?.code !== null && modal?.code !== 401) handleModal()
     if (!modal?.modal && position?.data.length > 0) {
-      onFetch({ ...queries, search })
+      onFetch({ ...queries, page: 1 })
     }
   }, [modal])
 

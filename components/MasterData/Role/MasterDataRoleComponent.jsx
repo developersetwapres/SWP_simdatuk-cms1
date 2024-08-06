@@ -10,7 +10,11 @@ import { Delete, Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 import { useSelector } from 'react-redux'
-import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import {
+  Access,
+  accessGranted,
+  PermissionsIDs
+} from '@/utils/permissionManager'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -59,13 +63,13 @@ const styles = {
 const MasterDataRoleComponent = ({
   role,
   queries,
-  onFetch = () => { },
-  onFetchOptions = () => { },
-  onSearch = () => { },
-  onLoading = () => { },
-  onPaginationChange = () => { },
-  onRowsPerPageChange = () => { },
-  deleteRole = () => { }
+  onFetch = () => {},
+  onFetchOptions = () => {},
+  onSearch = () => {},
+  onLoading = () => {},
+  onPaginationChange = () => {},
+  onRowsPerPageChange = () => {},
+  deleteRole = () => {}
 }) => {
   const classes = useStyles()
   const router = useRouter()
@@ -212,9 +216,9 @@ const MasterDataRoleComponent = ({
   }, [role])
 
   useEffect(() => {
-    if (modal?.code !== null) handleModal()
+    if (modal?.code !== null && modal?.code !== 401) handleModal()
     if (!modal?.modal && role?.data.length > 0) {
-      onFetch(queries)
+      onFetch({ ...queries, page: 1 })
       onFetchOptions()
     }
   }, [modal])

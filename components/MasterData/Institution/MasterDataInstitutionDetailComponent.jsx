@@ -10,7 +10,11 @@ import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 import { useSelector } from 'react-redux'
-import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import {
+  Access,
+  accessGranted,
+  PermissionsIDs
+} from '@/utils/permissionManager'
 
 const styles = {
   iconStyle: {
@@ -31,10 +35,10 @@ const styles = {
 
 const MasterDataInstitutionDetailComponent = ({
   institution,
-  getInstitution = () => { },
-  deleteInstitution = () => { },
-  clearInstitutionState = () => { },
-  onLoading = () => { }
+  getInstitution = () => {},
+  deleteInstitution = () => {},
+  clearInstitutionState = () => {},
+  onLoading = () => {}
 }) => {
   const router = useRouter()
   const modal = useSelector((state) => state.modalReducer)
@@ -134,7 +138,7 @@ const MasterDataInstitutionDetailComponent = ({
   }, [institution])
 
   useEffect(() => {
-    if (modal?.code !== null) handleModal()
+    if (modal?.code !== null && modal?.code !== 401) handleModal()
   }, [modal])
 
   return (

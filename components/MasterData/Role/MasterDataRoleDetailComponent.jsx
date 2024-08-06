@@ -11,7 +11,11 @@ import Paper from '@/components/shared/overrides/Paper'
 import PermissionRoleCheckbox from './PermissionRoleCheckbox'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 import { useSelector } from 'react-redux'
-import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import {
+  Access,
+  accessGranted,
+  PermissionsIDs
+} from '@/utils/permissionManager'
 
 const styles = {
   iconStyle: {
@@ -32,10 +36,10 @@ const styles = {
 
 const MasterDataRoleDetailComponent = ({
   role,
-  getRole = () => { },
-  deleteRole = () => { },
-  clearRoleState = () => { },
-  onLoading = () => { }
+  getRole = () => {},
+  deleteRole = () => {},
+  clearRoleState = () => {},
+  onLoading = () => {}
 }) => {
   const router = useRouter()
   const modal = useSelector((state) => state.modalReducer)
@@ -172,8 +176,11 @@ const MasterDataRoleDetailComponent = ({
       { key: 'd', prop: 'delete' }
     ]
 
-    actions.forEach(action => {
-      if (item.permitted_actions.includes(action.key) && item[action.prop] === 1) {
+    actions.forEach((action) => {
+      if (
+        item.permitted_actions.includes(action.key) &&
+        item[action.prop] === 1
+      ) {
         permissions += action.key
       }
     })
@@ -196,7 +203,7 @@ const MasterDataRoleDetailComponent = ({
   }, [role?.detail])
 
   useEffect(() => {
-    if (modal?.code !== null) handleModal()
+    if (modal?.code !== null && modal?.code !== 401) handleModal()
   }, [modal])
 
   return (

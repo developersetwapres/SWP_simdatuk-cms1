@@ -10,7 +10,11 @@ import { Delete, Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 import { useSelector } from 'react-redux'
-import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import {
+  Access,
+  accessGranted,
+  PermissionsIDs
+} from '@/utils/permissionManager'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -59,13 +63,13 @@ const styles = {
 const MasterDataInstitutionComponent = ({
   queries,
   institution,
-  onSearch = () => { },
-  onLoading = () => { },
-  onFetch = () => { },
-  onFetchOptions = () => { },
-  onPaginationChange = () => { },
-  onRowsPerPageChange = () => { },
-  deleteInstitution = () => { }
+  onSearch = () => {},
+  onLoading = () => {},
+  onFetch = () => {},
+  onFetchOptions = () => {},
+  onPaginationChange = () => {},
+  onRowsPerPageChange = () => {},
+  deleteInstitution = () => {}
 }) => {
   const classes = useStyles()
   const router = useRouter()
@@ -151,7 +155,10 @@ const MasterDataInstitutionComponent = ({
           verticalAlign: 'top',
           Cell: () => (
             <Box sx={{ display: 'flex', gap: 1 }}>
-              {accessGranted(PermissionsIDs.MASTER_INSTITUTION, Access.READ) && (
+              {accessGranted(
+                PermissionsIDs.MASTER_INSTITUTION,
+                Access.READ
+              ) && (
                 <Button
                   text='Detail'
                   color='primary'
@@ -162,7 +169,10 @@ const MasterDataInstitutionComponent = ({
                   sx={styles.buttonAction}
                 />
               )}
-              {accessGranted(PermissionsIDs.MASTER_INSTITUTION, Access.UPDATE) && (
+              {accessGranted(
+                PermissionsIDs.MASTER_INSTITUTION,
+                Access.UPDATE
+              ) && (
                 <Button
                   text='Edit'
                   color='sidatukDraweBase'
@@ -173,7 +183,10 @@ const MasterDataInstitutionComponent = ({
                   sx={styles.buttonAction}
                 />
               )}
-              {accessGranted(PermissionsIDs.MASTER_INSTITUTION, Access.DELETE) && (
+              {accessGranted(
+                PermissionsIDs.MASTER_INSTITUTION,
+                Access.DELETE
+              ) && (
                 <Button
                   text='Hapus'
                   color='danger'
@@ -213,7 +226,7 @@ const MasterDataInstitutionComponent = ({
   }, [institution])
 
   useEffect(() => {
-    if (modal?.code !== null) handleModal()
+    if (modal?.code !== null && modal?.code !== 401) handleModal()
     if (!modal?.modal && institution?.data.length > 0) {
       onFetch(queries)
       onFetchOptions()

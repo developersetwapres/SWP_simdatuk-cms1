@@ -115,7 +115,7 @@ const MasterDataPositionDetailComponent = ({
   }, [position])
 
   useEffect(() => {
-    if (modal?.code !== null) handleModal()
+    if (modal?.code !== null && modal?.code !== 401) handleModal()
   }, [modal])
 
   return (
