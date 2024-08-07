@@ -980,7 +980,7 @@ const EmployeeEditComponent = ({
         return index
       }
     } else {
-      return val
+      return val || ''
     }
   }
 
