@@ -96,7 +96,8 @@ const RecapItem = ({ showBackground, data }) => {
       page: pages(),
       categoryId: atob(query?.subEmployment) || null,
       sectionId: data?.id,
-      cardId: value?.id
+      cardId: value?.id,
+      name: value?.name
     }
     const jsonString = JSON.stringify(payload)
     const params = btoa(jsonString)
