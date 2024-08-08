@@ -153,10 +153,10 @@ const MasterDataPositionEditComponent = ({
     return dataOptions
   }, [echelon, positions])
 
-  const handleGetValue = (type, value) => {
+  const handleGetValue = (type, value, idx) => {
     if (type == 'parent') {
-      const data = positions[positions.length - (positions.length > 1 ? 2 : 1)]
-      const item = data.find((itm) => itm?.name == value)
+      const data = positions[idx]
+      const item = data.find((itm) => itm?.name == value)?.id
 
       return item
     } else if (type == 'echelon') {
@@ -184,8 +184,9 @@ const MasterDataPositionEditComponent = ({
         .map((itm) => itm?.name)
         .filter((itm) => itm !== null)
       const isParents = parents.length > 0
-      const parent = isParents && parents[parents?.length - 1]
-      const entity = handleGetValue('entity', values?.entity)
+      const indexParent = parents?.length - 1
+      const parent = isParents && parents[indexParent]
+      const entity = handleGetValue('entity', values?.entity, '')
       const isShow = values?.show
       const showOnPetaJabatan = values?.showOnPetaJabatan ? 1 : 0
 
@@ -197,9 +198,11 @@ const MasterDataPositionEditComponent = ({
         id,
         data: {
           name: values.name,
-          parent_id: isParents ? handleGetValue('parent', parent)?.id : null,
+          parent_id: isParents
+            ? handleGetValue('parent', parent, indexParent)
+            : null,
           available: echelons[0]?.quantity || 0,
-          type: type ? handleGetValue('positionType', type) : 1,
+          type: type ? handleGetValue('positionType', type, '') : 1,
           entity,
           order: values?.order,
           deleted_echelon_id: deletedEchelon,
@@ -210,7 +213,7 @@ const MasterDataPositionEditComponent = ({
                   id:
                     echelonsDetail.find((item) => item?.name == itm?.name)
                       ?.id || null,
-                  echelon_id: handleGetValue('echelon', itm?.name),
+                  echelon_id: handleGetValue('echelon', itm?.name, ''),
                   available: itm?.quantity
                 }
               })

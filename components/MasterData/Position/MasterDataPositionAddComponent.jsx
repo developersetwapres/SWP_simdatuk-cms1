@@ -123,10 +123,10 @@ const MasterDataPositionAddComponent = ({
     return dataOptions
   }, [echelon, positions])
 
-  const handleGetValue = (type, value) => {
+  const handleGetValue = (type, value, idx) => {
     if (type == 'parent') {
-      const data = positions[positions.length - (positions.length > 1 ? 2 : 1)]
-      const item = data.find((itm) => itm?.name == value)
+      const data = positions[idx]
+      const item = data.find((itm) => itm?.name == value)?.id
 
       return item
     } else if (type == 'echelon') {
@@ -151,29 +151,33 @@ const MasterDataPositionAddComponent = ({
         .map((itm) => itm?.name)
         .filter((itm) => itm !== null)
       const isParents = parents.length > 0
-      const parent = isParents && parents[parents?.length - 1]
-      const entity = handleGetValue('entity', values?.entity)
+      const indexParent = parents?.length - 1
+      const parent = isParents && parents[indexParent]
+      const entity = handleGetValue('entity', values?.entity, '')
       const isShow = values?.show
       const showOnPetaJabatan = values?.showOnPetaJabatan ? 1 : 0
 
       const payload = {
         name: values.name,
-        parent_id: isParents ? handleGetValue('parent', parent)?.id : '',
+        parent_id: isParents
+          ? handleGetValue('parent', parent, indexParent)
+          : '',
         available: echelons[0]?.quantity || 0,
-        type: position ? handleGetValue('positionType', position) : 1,
+        type: position ? handleGetValue('positionType', position, '') : 1,
         entity,
         order: values?.order,
         status: showOnPetaJabatan,
         position_echelons:
-          isShow && handleGetValue('entity', values?.entity) == 1
+          isShow && handleGetValue('entity', values?.entity, '') == 1
             ? echelons.map((itm) => {
                 return {
-                  echelon_id: handleGetValue('echelon', itm?.name),
+                  echelon_id: handleGetValue('echelon', itm?.name, ''),
                   available: itm?.quantity
                 }
               })
             : []
       }
+
       postPosition(payload)
     } catch (err) {
       if (!err.inner || err.inner.length === 0) {
