@@ -22,7 +22,7 @@ const InitValue = {
   pegawai: [
     {
       nama: null,
-      jabatan: null,
+      jabatan: '',
       jenjangJabatan: null,
       keteranganJabatan: null,
       tmt: '',
@@ -37,51 +37,21 @@ const FormSchema = Yup.object().shape({
     bulan: Yup.string().required('Bulan tidak boleh kosong'),
     tahun: Yup.string().required('Tahun tidak boleh kosong')
   }),
-  pegawai: Yup.array()
-    .of(
-      Yup.object().shape({
-        nama: Yup.string().required('Nama Pegawai tidak boleh kosong'),
-        jabatan: Yup.string().required('Jabatan tidak boleh kosong'),
-        tmt: Yup.string().required('TMT Pegawai tidak boleh kosong')
-      })
-    )
-    .test('is-unique', 'Nama Pegawai harus unik', function (values) {
-      const names = new Map()
-      const duplicateNames = new Set()
-
-      values.forEach((pegawai, index) => {
-        const { nama } = pegawai
-        if (names.has(nama)) {
-          duplicateNames.add({ nama, index })
-        } else {
-          names.set(nama, index)
-        }
-      })
-
-      if (duplicateNames.size > 0) {
-        const errors = []
-        duplicateNames.forEach((item) => {
-          errors.push(
-            new Yup.ValidationError(
-              `Nama Pegawai tidak boleh sama`,
-              null,
-              `pegawai[${item.index}].nama`
-            )
-          )
-        })
-        throw new Yup.ValidationError(errors)
-      }
-
-      return true
+  pegawai: Yup.array().of(
+    Yup.object().shape({
+      nama: Yup.string().required('Nama Pegawai tidak boleh kosong'),
+      jabatan: Yup.string().required('Jabatan tidak boleh kosong'),
+      tmt: Yup.string().required('TMT Pegawai tidak boleh kosong')
     })
+  )
 })
 
 const RiwayatJabatanAddComponent = ({
   positionHistories,
   echelon,
   employee,
-  postPositionHistories = () => { },
-  onLoading = () => { }
+  postPositionHistories = () => {},
+  onLoading = () => {}
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -130,14 +100,12 @@ const RiwayatJabatanAddComponent = ({
           user_id: handleGetValueId(itm?.nama, 'employee'),
           position: itm?.jabatan,
           effective_date: moment(itm?.tmt).format('YYYY-MM-DD'),
-          position_status: itm?.keteranganJabatan ? handleGetValueId(
-            itm?.keteranganJabatan,
-            'keteranganJabatan'
-          ) : null,
-          echelon: itm?.jenjangJabatan ? handleGetValueId(
-            itm?.jenjangJabatan,
-            'echelon'
-          ) : null,
+          position_status: itm?.keteranganJabatan
+            ? handleGetValueId(itm?.keteranganJabatan, 'keteranganJabatan')
+            : null,
+          echelon: itm?.jenjangJabatan
+            ? handleGetValueId(itm?.jenjangJabatan, 'echelon')
+            : null,
           decree: itm?.noSk || null
         }
 
@@ -179,7 +147,7 @@ const RiwayatJabatanAddComponent = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => { }}
+      onSubmit={() => {}}
     >
       {(formikProps) => (
         <LayoutPages

@@ -119,17 +119,8 @@ const RiwayatJabatanForm = ({
         </Typography>
         <Grid container spacing={8}>
           {values?.pegawai?.map((item, index) => (
-            <Grid
-              item
-              container
-              key={uuidv4()}
-              spacing={2}
-            >
-              <Grid
-                item
-                xs={values?.pegawai.length > 1 ? 11 : 12}
-                key={index}
-              >
+            <Grid item container key={index} spacing={2}>
+              <Grid item xs={values?.pegawai.length > 1 ? 11 : 12} key={index}>
                 <Grid container spacing={3}>
                   {/* Name */}
                   <Grid item xs={6} md={4}>
@@ -158,7 +149,10 @@ const RiwayatJabatanForm = ({
                       placeholder='Masukkan Jabatan'
                       name={`pegawai[${index}].jabatan`}
                       value={item?.jabatan}
-                      error={errors?.pegawai && errors?.pegawai[index]?.jabatan || ''}
+                      error={
+                        (errors?.pegawai && errors?.pegawai[index]?.jabatan) ||
+                        ''
+                      }
                       onChange={(e) => {
                         const val = e?.target?.value
                         setFieldValue(`pegawai[${index}].jabatan`, val, false)
@@ -217,7 +211,9 @@ const RiwayatJabatanForm = ({
                       onChange={(val) => {
                         setFieldValue(`pegawai[${index}].tmt`, val, false)
                         setTimeout(() => {
-                          formikRef.current.validateField(`pegawai[${index}].tmt`)
+                          formikRef.current.validateField(
+                            `pegawai[${index}].tmt`
+                          )
                         }, 1)
                       }}
                     />
@@ -238,12 +234,7 @@ const RiwayatJabatanForm = ({
                 </Grid>
               </Grid>
               {values?.pegawai.length > 1 && (
-                <Grid
-                  item
-                  xs={1}
-                  alignContent='center'
-                  textAlign='center'
-                >
+                <Grid item xs={1} alignContent='center' textAlign='center'>
                   <Button
                     icon={<Delete />}
                     color='danger'
