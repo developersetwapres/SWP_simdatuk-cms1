@@ -68,10 +68,10 @@ const FormSchema = Yup.object().shape({
 const RiwayatPelatihanTeknisEditComponent = ({
   training,
   employee,
-  getTraining = () => { },
-  updateTraining = () => { },
-  clearTrainingState = () => { },
-  onLoading = () => { }
+  getTraining = () => {},
+  updateTraining = () => {},
+  clearTrainingState = () => {},
+  onLoading = () => {}
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -207,6 +207,27 @@ const RiwayatPelatihanTeknisEditComponent = ({
           : null
       const periodMonth = monthOptions[detail?.period_month - 1] || null
       const startDate = detail?.start_date ? new Date(detail?.start_date) : ''
+
+      const employees = detail?.users?.map((itm) => {
+        let fileSplit = null
+        let fileName = null
+        const file = itm?.certificate
+        const userName =
+          itm?.name && itm?.employee_id_number
+            ? `${itm?.name} - ${itm?.employee_id_number}`
+            : null
+
+        if (file) {
+          fileSplit = file.split('/')
+          fileName = fileSplit[fileSplit.length - 1]
+        }
+
+        return {
+          nama: userName,
+          sertifikat: fileName
+        }
+      })
+
       const filledValues = {
         namaDiklat: detail?.name,
         noSurat: detail?.reference_number,
@@ -217,27 +238,7 @@ const RiwayatPelatihanTeknisEditComponent = ({
           bulan: periodMonth,
           tahun: periodYear
         },
-        pegawai: [
-          ...detail?.users.map((itm) => {
-            let fileSplit = null
-            let fileName = null
-            const file = itm?.certificate
-            const userName =
-              itm?.name && itm?.employee_id_number
-                ? `${itm?.name} - ${itm?.employee_id_number}`
-                : null
-
-            if (file) {
-              fileSplit = file.split('/')
-              fileName = fileSplit[fileSplit.length - 1]
-            }
-
-            return {
-              nama: userName,
-              sertifikat: fileName
-            }
-          })
-        ]
+        pegawai: employees
       }
       setFormValues(filledValues)
     }
@@ -249,7 +250,7 @@ const RiwayatPelatihanTeknisEditComponent = ({
       innerRef={formikRef}
       initialValues={formValues}
       validationSchema={FormSchema}
-      onSubmit={() => { }}
+      onSubmit={() => {}}
     >
       {(formikProps) => (
         <LayoutPages

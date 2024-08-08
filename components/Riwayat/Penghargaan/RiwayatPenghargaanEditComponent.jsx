@@ -54,10 +54,10 @@ const RiwayatPenghargaanEditComponent = ({
   recognition,
   employee,
   decree,
-  getRecognition = () => { },
-  updateRecognition = () => { },
-  clearRecognitionState = () => { },
-  onLoading = () => { }
+  getRecognition = () => {},
+  updateRecognition = () => {},
+  clearRecognitionState = () => {},
+  onLoading = () => {}
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -188,9 +188,7 @@ const RiwayatPenghargaanEditComponent = ({
 
   useEffect(() => {
     const state =
-      !recognition?.loading ||
-      !employee?.loading ||
-      !decree?.loading
+      !recognition?.loading || !employee?.loading || !decree?.loading
     // && Object.entries(recognition?.detail).length > 0
     onLoading(state)
   }, [recognition, employee, decree])
@@ -216,6 +214,14 @@ const RiwayatPenghargaanEditComponent = ({
       const receivDate = detail?.date_of_receipt
         ? new Date(detail?.date_of_receipt)
         : ''
+
+      const employees = detail?.users?.map((itm) => ({
+        nama:
+          itm?.name && itm?.employee_id_number
+            ? `${itm?.name} - ${itm?.employee_id_number}`
+            : null
+      }))
+
       const filledValues = {
         namaPenghargaan: detail?.recognition_id,
         keteranganPenghargaan: detail?.description,
@@ -229,13 +235,7 @@ const RiwayatPenghargaanEditComponent = ({
           bulan: periodMonth,
           tahun: periodYear
         },
-        pegawai: [
-          ...detail?.users?.map((itm) => ({
-            nama: itm?.name && itm?.employee_id_number
-              ? `${itm?.name} - ${itm?.employee_id_number}`
-              : null
-          }))
-        ]
+        pegawai: employees
       }
       setFormValues(filledValues)
     }
@@ -247,7 +247,7 @@ const RiwayatPenghargaanEditComponent = ({
       innerRef={formikRef}
       initialValues={formValues}
       validationSchema={FormSchema}
-      onSubmit={() => { }}
+      onSubmit={() => {}}
     >
       {(formikProps) => (
         <LayoutPages

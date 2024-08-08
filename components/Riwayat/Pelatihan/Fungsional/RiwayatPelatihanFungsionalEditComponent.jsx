@@ -69,10 +69,10 @@ const FormSchema = Yup.object().shape({
 const RiwayatPelatihanFungsionalEditComponent = ({
   training,
   employee,
-  getTraining = () => { },
-  updateTraining = () => { },
-  clearTrainingState = () => { },
-  onLoading = () => { }
+  getTraining = () => {},
+  updateTraining = () => {},
+  clearTrainingState = () => {},
+  onLoading = () => {}
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -197,9 +197,7 @@ const RiwayatPelatihanFungsionalEditComponent = ({
   }, [router])
 
   useEffect(() => {
-    const state =
-      !training?.loading ||
-      !employee?.loading
+    const state = !training?.loading || !employee?.loading
     // && Object.entries(training?.detail).length > 0
     onLoading(state)
   }, [training, employee])
@@ -213,6 +211,27 @@ const RiwayatPelatihanFungsionalEditComponent = ({
           : null
       const periodMonth = monthOptions[detail?.period_month - 1] || null
       const startDate = detail?.start_date ? new Date(detail?.start_date) : ''
+
+      const employees = detail?.users?.map((itm) => {
+        let fileSplit = null
+        let fileName = null
+        const file = itm?.certificate
+
+        const userName =
+          itm?.name && itm?.employee_id_number
+            ? `${itm?.name} - ${itm?.employee_id_number}`
+            : null
+
+        if (file) {
+          fileSplit = file.split('/')
+          fileName = fileSplit[fileSplit.length - 1]
+        }
+        return {
+          nama: userName,
+          sertifikat: fileName
+        }
+      })
+
       const filledValues = {
         namaDiklat: detail?.name,
         noSurat: detail?.reference_number,
@@ -225,27 +244,7 @@ const RiwayatPelatihanFungsionalEditComponent = ({
           bulan: periodMonth,
           tahun: periodYear
         },
-        pegawai: [
-          ...detail?.users?.map((itm) => {
-            let fileSplit = null
-            let fileName = null
-            const file = itm?.certificate
-
-            const userName =
-              itm?.name && itm?.employee_id_number
-                ? `${itm?.name} - ${itm?.employee_id_number}`
-                : null
-
-            if (file) {
-              fileSplit = file.split('/')
-              fileName = fileSplit[fileSplit.length - 1]
-            }
-            return {
-              nama: userName,
-              sertifikat: fileName
-            }
-          })
-        ]
+        pegawai: employees
       }
       setFormValues(filledValues)
     }
@@ -257,7 +256,7 @@ const RiwayatPelatihanFungsionalEditComponent = ({
       innerRef={formikRef}
       initialValues={formValues}
       validationSchema={FormSchema}
-      onSubmit={() => { }}
+      onSubmit={() => {}}
     >
       {(formikProps) => (
         <LayoutPages
