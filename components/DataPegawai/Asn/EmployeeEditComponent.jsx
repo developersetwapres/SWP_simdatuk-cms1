@@ -1205,7 +1205,7 @@ const EmployeeEditComponent = ({
       formData.append('type', 1)
 
       // Educations
-      if (educations.lengt > 0) {
+      if (educations.length > 0) {
         educations.map((item, index) => {
           formData.append(`educations[${index}][id]`, item?.id || '')
           formData.append(
