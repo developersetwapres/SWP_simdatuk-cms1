@@ -118,7 +118,7 @@ const RiwayatGolonganForm = ({
         <Grid container spacing={2}>
           {values?.pegawai?.map((item, index) => (
             <>
-              <Grid item xs={values?.pegawai.length > 1 ? 10 : 12} key={uuidv4()}>
+              <Grid item xs={values?.pegawai.length > 1 ? 10 : 12} key={index}>
                 <Grid container spacing={2}>
                   {/* Name */}
                   <Grid item xs={4}>
@@ -149,7 +149,9 @@ const RiwayatGolonganForm = ({
                       value={item?.golongan}
                       multiple={false}
                       label='Golongan *'
-                      error={errors?.pegawai && errors?.pegawai[index]?.golongan}
+                      error={
+                        errors?.pegawai && errors?.pegawai[index]?.golongan
+                      }
                       onChange={(val) => {
                         setFieldValue(`pegawai[${index}].golongan`, val, false)
                         setTimeout(() => {
@@ -171,7 +173,9 @@ const RiwayatGolonganForm = ({
                       onChange={(val) => {
                         setFieldValue(`pegawai[${index}].tmt`, val, false)
                         setTimeout(() => {
-                          formikRef.current.validateField(`pegawai[${index}].tmt`)
+                          formikRef.current.validateField(
+                            `pegawai[${index}].tmt`
+                          )
                         }, 1)
                       }}
                     />
@@ -201,9 +205,16 @@ const RiwayatGolonganForm = ({
                       value={item?.statusGolongan}
                       multiple={false}
                       label='Status Golongan *'
-                      error={errors?.pegawai && errors?.pegawai[index]?.statusGolongan}
+                      error={
+                        errors?.pegawai &&
+                        errors?.pegawai[index]?.statusGolongan
+                      }
                       onChange={(val) => {
-                        setFieldValue(`pegawai[${index}].statusGolongan`, val, false)
+                        setFieldValue(
+                          `pegawai[${index}].statusGolongan`,
+                          val,
+                          false
+                        )
                         setTimeout(() => {
                           formikRef.current.validateField(
                             `pegawai[${index}].statusGolongan`
