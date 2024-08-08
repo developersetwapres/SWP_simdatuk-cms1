@@ -7,17 +7,13 @@ import Layout from '@/components/core/Layout'
 import ExportEmployeeComponent from '@/components/ExportComponent/Employee/ExportEmployeeComponent'
 
 export default connect(
-  mapStateToProps(
-    'echelon',
-    'grade',
-    'exportEmployeeData',
-  ),
+  mapStateToProps('echelon', 'grade', 'exportEmployeeData'),
   mapActions(
     'getEchelonsOptions',
     'getGradesOptions',
     'exportEmployees',
     'exportEmployeesPreview',
-    'clearExportEmployeesState',
+    'clearExportEmployeesState'
   )
 )(
   class ExportEmployeeContainer extends Component {
@@ -49,6 +45,9 @@ export default connect(
       }
       this.fetchMasterData = this.fetchMasterData.bind(this)
       this.setLoading = this.setLoading.bind(this)
+      this.onPaginationChange = this.onPaginationChange.bind(this)
+      this.onRowsPerPageChange = this.onRowsPerPageChange.bind(this)
+      this.onClearState = this.onClearState.bind(this)
     }
 
     fetchMasterData(queries) {
@@ -56,23 +55,23 @@ export default connect(
       this.props.getGradesOptions(queries)
     }
 
-    onPaginationChange(page) {
+    onPaginationChange(page, filter) {
       const queries = {
         ...this.state.queries,
-        page: page
+        page
       }
       this.setState({ queries })
-      this.fetch(queries)
+      this.props.exportEmployeesPreview({ ...queries, ...filter })
     }
 
-    onRowsPerPageChange(limit) {
+    onRowsPerPageChange(limit, filter) {
       const queries = {
         ...this.state.queries,
         page: 1,
         limit
       }
       this.setState({ queries })
-      this.fetch(queries)
+      this.props.exportEmployeesPreview({ ...queries, ...filter })
     }
 
     onClearState() {
@@ -82,7 +81,7 @@ export default connect(
         page: 1
       }
       this.setState({ queries })
-      this.fetch(queries)
+      this.props.exportEmployeesPreview(queries)
     }
 
     setLoading(val) {

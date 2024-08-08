@@ -401,12 +401,15 @@ const ExportEmployeeComponent = ({
     if (!exportEmployeeData?.preview) return []
 
     return exportEmployeeData?.preview?.data?.map((data, index) => {
+      const currentPage =
+        exportEmployeeData?.preview?.pagination?.current_page - 1
+
       return [
         {
           Header: 'No',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{index + 1}</Typography>
+          Cell: () => <Typography>{currentPage * 10 + index + 1}</Typography>
         },
         ...checkboxes
           .flatMap((item) => item?.children)
@@ -422,6 +425,10 @@ const ExportEmployeeComponent = ({
   }
 
   const getRowItem = (label, response) => {
+    const excludeTag = (val) => {
+      return val.replace(/<\/?[^>]+(>|$)/g, '')
+    }
+
     if (label === 'Nama') {
       return response?.name || '-'
     }
@@ -461,15 +468,19 @@ const ExportEmployeeComponent = ({
     }
 
     if (label === 'Jenis Pegawai') {
-      return response?.employee_type || '-'
+      return response?.employee_type ? excludeTag(response?.employee_type) : '-'
     }
 
     if (label === 'Jenis Perbantuan') {
-      return response?.assistance_type || '-'
+      return response?.assistance_type
+        ? excludeTag(response?.assistance_type)
+        : '-'
     }
 
     if (label === 'Jenis Outsourcing') {
-      return response?.outsource_type || '-'
+      return response?.outsource_type
+        ? excludeTag(response?.outsource_type)
+        : '-'
     }
 
     if (label === 'TMT CPNS') {
@@ -1297,8 +1308,12 @@ const ExportEmployeeComponent = ({
                   columns={getLabeledCheckboxes(values)}
                   rows={getRows(values)}
                   pagination={exportEmployeeData?.preview?.pagination}
-                  handlePagination={onPaginationChange}
-                  handleRows={onRowsPerPageChange}
+                  handlePagination={(page) =>
+                    onPaginationChange(page, getPayloadFromValues(values))
+                  }
+                  handleRows={(page) =>
+                    onRowsPerPageChange(page, getPayloadFromValues(values))
+                  }
                 />
               </Paper>
             </LayoutPages>
