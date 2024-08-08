@@ -95,7 +95,7 @@ const CardProfile = ({
               textAlign='center'
               sx={{
                 width: '90%',
-                // minHeight: '40px',
+                minHeight: '64px',
                 margin: '0 auto',
                 fontSize: 14
               }}
@@ -110,7 +110,7 @@ const CardProfile = ({
               textAlign='center'
               sx={{
                 width: '90%',
-                // minHeight: '40px',
+                minHeight: '64px',
                 margin: '0 auto',
                 fontSize: 14
               }}
@@ -174,6 +174,7 @@ const ItemDetail = ({ title, value }) => {
         fontSize={14}
         fontWeight='600'
         sx={{
+          minHeight: '40px',
           wordWrap: 'break-word'
         }}
       >

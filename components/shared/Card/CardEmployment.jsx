@@ -24,7 +24,7 @@ function CardEmployment({ data, cardStyle, handleRedirect = () => {} }) {
         <Typography
           textAlign='center'
           sx={{
-            minHeight: '40px',
+            minHeight: '64px',
             fontSize: '14px',
             fontWeight: 600
           }}

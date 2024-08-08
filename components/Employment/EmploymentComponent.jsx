@@ -255,6 +255,7 @@ const RecapItem = ({ showBackground, data }) => {
                 data={itm}
                 handleRedirect={() => nextPagePath(itm)}
                 cardStyle={{
+                  minHeight: '230px',
                   border: showBackground ? '2px solid #394346' : 'none',
                   boxShadow: !showBackground
                     ? '0px 4px 10px rgba(0, 0, 0, 0.1)'
