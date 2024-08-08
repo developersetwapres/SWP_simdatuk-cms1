@@ -23,6 +23,7 @@ import { SaveAs, saveFile } from '@/utils/fileSaver'
 import { blobToJSON, dateTimeFormat } from '@/utils/index'
 import { useDispatch } from 'react-redux'
 import { ACTION_RESPONSER, SET_MODAL } from '@/store/constants'
+import moment from 'moment/moment'
 
 const InitValue = {
   organization: [],
@@ -158,7 +159,7 @@ const ExportDrhComponent = ({
     }
 
     if (values?.retirementYear) {
-      payload.retirement_year = parseInt(values?.retirementYear)
+      payload.retirement_year = moment(values?.retirementYear).format('YYYY')
     }
 
     if (values?.age?.max) {
@@ -178,15 +179,17 @@ const ExportDrhComponent = ({
 
   const handleAction = (values) => {
     const state = Object.values(values).every((value) => {
-      if (Array.isArray(value)) {
-        return value.length === 0
-      } else if (typeof value === 'object' && value !== null) {
+      if (value instanceof Date) return value === null
+
+      if (Array.isArray(value)) return value.length === 0
+
+      if (typeof value === 'object' && value !== null) {
         return Object.values(value).every((v) => v === '')
-      } else if (value === null) {
-        return true
-      } else {
-        return value === ''
       }
+
+      if (value === null) return true
+
+      return false
     })
 
     return state
