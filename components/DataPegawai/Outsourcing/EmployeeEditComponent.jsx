@@ -108,22 +108,22 @@ const FormSchema = Yup.object().shape({
     dateStartedWork: Yup.string().required(
       'Tanggal Mulai Bekerja tidak boleh kosong'
     ),
-    positions: Yup.array().of(
-      Yup.object().shape({
-        name: Yup.mixed()
-          .nullable()
-          .test('is-required', 'Jabatan tidak boleh kosong', function (value) {
-            const { path } = this
+    // positions: Yup.array().of(
+    //   Yup.object().shape({
+    //     name: Yup.mixed()
+    //       .nullable()
+    //       .test('is-required', 'Jabatan tidak boleh kosong', function (value) {
+    //         const { path } = this
 
-            const pathParts = path.split('.')
-            const index = pathParts[1].match(/\d+/)[0]
+    //         const pathParts = path.split('.')
+    //         const index = pathParts[1].match(/\d+/)[0]
 
-            if (!value && index == 0) return false
+    //         if (!value && index == 0) return false
 
-            return true
-          })
-      })
-    ),
+    //         return true
+    //       })
+    //   })
+    // ),
     educationLevel: Yup.string().required(
       'Tingak Pendidikan tidak boleh kosong'
     ),
@@ -432,11 +432,14 @@ const EmployeeEditComponent = ({
       const emptyArray = ''
 
       const id = atob(router?.query?.id)
+
       const position = values?.employee?.positions.filter(
         (itm) => itm?.name !== null
       )
-      const indexPosition = position.length - 1
-      const itemPosition = position[indexPosition]?.name || []
+      const positionLength = position.length
+      const indexPosition = positionLength > 0 ? positionLength - 1 : 0
+      const itemPosition =
+        positionLength > 0 ? position[indexPosition]?.name : ''
 
       const educations = values?.educations || []
       const families = values?.families || []

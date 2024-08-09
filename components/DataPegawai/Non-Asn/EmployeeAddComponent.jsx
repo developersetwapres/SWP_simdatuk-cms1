@@ -105,25 +105,39 @@ const FormSchema = Yup.object().shape({
     dateStartedWork: Yup.string().required(
       'Tanggal Mulai Bekerja tidak boleh kosong'
     ),
-    positions: Yup.array().of(
-      Yup.object().shape({
-        name: Yup.mixed()
-          .nullable()
-          .test('is-required', 'Jabatan tidak boleh kosong', function (value) {
-            const { path } = this
+    // positions: Yup.array().of(
+    //   Yup.object().shape({
+    //     name: Yup.mixed()
+    //       .nullable()
+    //       .test('is-required', 'Jabatan tidak boleh kosong', function (value) {
+    //         const { path } = this
 
-            const pathParts = path.split('.')
-            const index = pathParts[1].match(/\d+/)[0]
+    //         const pathParts = path.split('.')
+    //         const index = pathParts[1].match(/\d+/)[0]
 
-            if (!value && index == 0) return false
+    //         if (!value && index == 0) return false
 
-            return true
-          })
-      })
-    ),
-    positionEffectiveDate: Yup.string().required(
-      'TMT Menjabat tidak boleh kosong'
-    ),
+    //         return true
+    //       })
+    //   })
+    // ),
+    positionEffectiveDate: Yup.string()
+      .nullable()
+      .test('required', 'TMT Menjabat tidak boleh kosong', function (value) {
+        const { positions } = this.parent
+
+        const positionsLength = positions.length
+        const isPositions =
+          positionsLength > 1
+            ? positions
+                .filter((itm) => itm?.name)
+                .every((itm) => itm?.name !== null)
+            : false
+
+        if (positionsLength > 1 && isPositions && !value) return false
+
+        return true
+      }),
     grade: Yup.string().required('Golongan tidak boleh kosong'),
     gradeEffectiveDate: Yup.string().required(
       'TMT Golongan tidak boleh kosong'
@@ -661,7 +675,7 @@ const EmployeeAddComponent = ({
         return index
       }
     } else {
-      return val
+      return val || ''
     }
   }
 
@@ -679,8 +693,10 @@ const EmployeeAddComponent = ({
       const position = values?.employee?.positions.filter(
         (itm) => itm?.name !== null
       )
-      const indexPosition = position.length - 1
-      const itemPosition = position[indexPosition]?.name || []
+      const positionLength = position.length
+      const indexPosition = positionLength > 0 ? positionLength - 1 : 0
+      const itemPosition =
+        positionLength > 0 ? position[indexPosition]?.name : ''
 
       const educations = values?.educations || []
       const families = values?.families || []

@@ -53,6 +53,18 @@ const EmployeeForm = ({
     return residence && residence.toLowerCase() == 'luar komplek'
   }, [values?.employee])
 
+  const isPositions = useMemo(() => {
+    const valuePositions = values?.employee?.positions
+
+    if (valuePositions.length > 1) {
+      return values?.employee?.positions
+        .filter((itm) => itm?.name)
+        .every((itm) => itm?.name !== null)
+    }
+
+    return false
+  }, [values?.employee?.positions])
+
   useEffect(() => {
     const datas = values?.employee?.positions || []
     const hierarchiesNull = datas.filter((itm) => itm?.name == null)
@@ -321,7 +333,7 @@ const EmployeeForm = ({
                 <Autocomplete
                   options={options?.positions[idx] || []}
                   placeholder='Pilih Jabatan'
-                  label={idx == 0 ? 'Jabatan *' : null}
+                  label={idx == 0 ? 'Jabatan' : null}
                   name={`employee.positions[${idx}].name`}
                   value={itm?.name}
                   error={
@@ -338,9 +350,12 @@ const EmployeeForm = ({
                     }
 
                     setFieldValue(`employee.positions`, newData, false)
-                    setTimeout(() => {
-                      formikRef.current.validateField(`employee.positions`)
-                    }, 1)
+
+                    // if (pagesType?.outsource) {
+                    //   setTimeout(() => {
+                    //     formikRef.current.validateField(`employee.positions`)
+                    //   }, 1)
+                    // }
                   }}
                 />
               </Grid>
@@ -349,14 +364,17 @@ const EmployeeForm = ({
         {/* TMT Position */}
         <Grid item xs={6}>
           <DatePickerDay
-            label={`TMT Menjabat ${!pagesType?.outsource ? '*' : ''}`}
+            label={`TMT Menjabat ${
+              !pagesType?.outsource && isPositions ? '*' : ''
+            }`}
             placeholder='dd-mm-yyyy'
             name='employee.positionEffectiveDate'
             value={values?.employee?.positionEffectiveDate}
             error={errors?.employee?.positionEffectiveDate}
             onChange={(val) => {
               setFieldValue('employee.positionEffectiveDate', val, false)
-              if (!pagesType?.outsource) {
+
+              if (!pagesType?.outsource && isPositions) {
                 setTimeout(() => {
                   formikRef.current.validateField(
                     'employee.positionEffectiveDate'
