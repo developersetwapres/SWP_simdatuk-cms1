@@ -278,11 +278,17 @@ const EmployeeAddComponent = ({
     return employee?.errorForm || {}
   }, [employee?.errorForm])
 
-  const handleMapping = (val) => {
+  const handleMapping = (val, type) => {
     const arr = []
 
     val.map((itm) => {
-      arr.push(itm?.name)
+      if (type == 'employments' && itm?.status) {
+        arr.push(itm?.name)
+      }
+
+      if (type !== 'employments') {
+        arr.push(itm?.name)
+      }
     })
 
     return arr
@@ -290,11 +296,13 @@ const EmployeeAddComponent = ({
 
   const options = useMemo(() => {
     const newPosition = positions
-      ? positions.map((itm) => handleMapping(itm))
+      ? positions.map((itm) => handleMapping(itm, ''))
       : []
-    const newResidence = residence?.data ? handleMapping(residence?.data) : []
+    const newResidence = residence?.data
+      ? handleMapping(residence?.data, '')
+      : []
     const newEmploymentType = employmentType?.data
-      ? handleMapping(employmentType?.data)
+      ? handleMapping(employmentType?.data, 'employments')
       : []
 
     const dataOptions = {

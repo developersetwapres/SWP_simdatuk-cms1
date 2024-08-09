@@ -856,7 +856,13 @@ const EmployeeEditComponent = ({
       val.map((itm) => {
         if (type == 'grades') {
           arr.push(`${itm?.name} ${itm?.code}`)
-        } else {
+        }
+
+        if (type == 'employments' && itm?.status) {
+          arr.push(itm?.name)
+        }
+
+        if (type !== 'employments') {
           arr.push(itm?.name)
         }
       })
@@ -1122,7 +1128,9 @@ const EmployeeEditComponent = ({
       )
       formData.append(
         'position_id',
-        handleGetValueID('position', itemPosition, indexPosition)
+        positionLength > 0
+          ? handleGetValueID('position', itemPosition, indexPosition)
+          : ''
       )
       formData.append(
         'position_effective_date',
