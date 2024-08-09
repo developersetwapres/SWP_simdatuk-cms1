@@ -54,6 +54,7 @@ import {
 const EmployeeDetailComponent = ({
   employee,
   exportEmployeeData,
+  employmentType,
   getEmployee = () => {},
   updateNotesByUserID = () => {},
   updateEmployeeStatus = () => {},
@@ -227,7 +228,9 @@ const EmployeeDetailComponent = ({
       {
         id: 'data_pegawai',
         data: data,
-        Section: (props) => <BiodataPegawai {...props} />
+        Section: (props) => (
+          <BiodataPegawai employmentType={employmentType?.data} {...props} />
+        )
       },
       {
         id: 'riwayat_pendidikan',
@@ -630,6 +633,7 @@ const EmployeeDetailComponent = ({
 EmployeeDetailComponent.propTypes = {
   employee: PropTypes.object,
   exportEmployeeData: PropTypes.object,
+  employmentType: PropTypes.object,
   getEmployee: PropTypes.func,
   clearEmployeeState: PropTypes.func,
   exportEmployeeDetail: PropTypes.func,

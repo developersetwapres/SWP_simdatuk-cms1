@@ -11,7 +11,7 @@ import { employeeTypeOptions } from 'libs/types/options'
 import moment from 'moment'
 import 'moment/locale/id'
 
-const BiodataPegawai = ({ data }) => {
+const BiodataPegawai = ({ data, employmentType }) => {
   const router = useRouter()
 
   const path = useMemo(() => {
@@ -34,7 +34,14 @@ const BiodataPegawai = ({ data }) => {
   }, [])
 
   const getValueOptions = (value, type) => {
-    return options[type][value]
+    if (type == 'type') {
+      const val =
+        employmentType && employmentType.find((itm) => itm?.id == value)
+
+      return val?.name || '-'
+    } else {
+      return options[type][value]
+    }
   }
 
   const openInNewTab = (url) => {
@@ -86,7 +93,7 @@ const BiodataPegawai = ({ data }) => {
               : 'Jenis Outsourcing'}
           </Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {getValueOptions(data?.type - 1, 'type')}
+            {getValueOptions(data?.type, 'type')}
           </Typography>
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
@@ -266,7 +273,8 @@ const BiodataPegawai = ({ data }) => {
 }
 
 BiodataPegawai.propTypes = {
-  data: PropTypes.object
+  data: PropTypes.object,
+  employmentType: PropTypes.object
 }
 
 export default BiodataPegawai
