@@ -164,7 +164,14 @@ const RiwayatKeluargaSection = ({ data = [] }) => {
           verticalAlign: 'top',
           Cell: () => (
             <Typography>
-              {getValueOptions(item?.gender - 1, 'gender')}
+              {getValueOptions(
+                item?.gender !== null && item?.gender >= 0
+                  ? item?.gender == 0
+                    ? 1
+                    : 0
+                  : null,
+                'gender'
+              )}
             </Typography>
           )
         },

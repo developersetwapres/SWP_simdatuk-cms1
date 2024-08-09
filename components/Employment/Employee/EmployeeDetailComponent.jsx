@@ -74,15 +74,19 @@ const EmployeeDetailComponent = ({
   }
 
   const getValue = (type, val) => {
-    if (type == 'marital_status') return options?.marital[val]
+    if (val || val >= 0) {
+      if (type == 'marital_status') return options?.marital[val]
 
-    if (type == 'employment_status') return options?.employeeStatus[val]
+      if (type == 'employment_status') return options?.employeeStatus[val]
 
-    if (type == 'education') return options?.educationLevel[val]
+      if (type == 'education') return options?.educationLevel[val]
 
-    if (type == 'education_status') return options?.educationStatus[val]
+      if (type == 'education_status') return options?.educationStatus[val]
 
-    return options[type][val]
+      return options[type][val]
+    } else {
+      return val
+    }
   }
 
   const path = useMemo(() => {
@@ -130,18 +134,27 @@ const EmployeeDetailComponent = ({
 
     const payload = {
       ...detailEmployee,
-      religion: getValue('religion', detailEmployee?.religion - 1),
+      religion: getValue(
+        'religion',
+        detailEmployee?.religion ? detailEmployee?.religion - 1 : null
+      ),
       maritalStatus: getValue(
         'marital_status',
-        detailEmployee?.marital_status - 1
+        detailEmployee?.marital_status
+          ? detailEmployee?.marital_status - 1
+          : null
       ),
       employmentStatus: getValue(
         'employment_status',
-        detailEmployee?.employment_status - 1
+        detailEmployee?.employment_status
+          ? detailEmployee?.employment_status - 1
+          : null
       ),
       educationLevel: getValue(
         'education',
-        detailEmployee?.education_level - 1
+        detailEmployee?.education_level
+          ? detailEmployee?.education_level - 1
+          : null
       ),
       educations: !!detailEmployee?.educations?.length
         ? [
