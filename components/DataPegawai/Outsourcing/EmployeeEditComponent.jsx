@@ -401,20 +401,24 @@ const EmployeeEditComponent = ({
   }
 
   const handleGetValue = (type, val) => {
-    if (type == 'residence') {
-      const item =
-        residence?.data && residence?.data.find((itm) => itm?.id == val)?.name
-      return item
-    } else if (type == 'employmentType') {
-      const item =
-        employmentType?.data &&
-        employmentType?.data.find((itm) => itm?.id == val)?.name
+    if (val || val >= 0) {
+      if (type == 'residence') {
+        const item =
+          residence?.data && residence?.data.find((itm) => itm?.id == val)?.name
+        return item
+      } else if (type == 'employmentType') {
+        const item =
+          employmentType?.data &&
+          employmentType?.data.find((itm) => itm?.id == val)?.name
 
-      return item
+        return item
+      } else {
+        const index = val - 1
+        const item = options[type][index]
+        return item
+      }
     } else {
-      const index = val - 1
-      const item = options[type][index]
-      return item
+      return null
     }
   }
 
@@ -791,28 +795,29 @@ const EmployeeEditComponent = ({
       )
       formikRef.current?.setFieldValue(
         'employee.religion',
-        detail?.religion ? handleGetValue('religion', detail?.religion) : null,
+        handleGetValue('religion', detail?.religion),
         false
       )
       formikRef.current?.setFieldValue(
         'employee.gender',
-        detail?.gender || detail?.gender >= 0
-          ? handleGetValue('gender', detail?.gender == 1 ? 1 : 2)
-          : null,
+        handleGetValue(
+          'gender',
+          detail?.gender !== null && detail?.gender >= 0
+            ? detail?.gender == 1
+              ? 1
+              : 2
+            : null
+        ),
         false
       )
       formikRef.current?.setFieldValue(
         'employee.maritalStatus',
-        detail?.marital_status
-          ? handleGetValue('marital', detail?.marital_status)
-          : null,
+        handleGetValue('marital', detail?.marital_status),
         false
       )
       formikRef.current?.setFieldValue(
         'employee.employmentType',
-        detail?.employment_type_id
-          ? handleGetValue('employmentType', detail?.employment_type_id)
-          : null,
+        handleGetValue('employmentType', detail?.employment_type_id),
         false
       )
       formikRef.current?.setFieldValue(
@@ -836,9 +841,7 @@ const EmployeeEditComponent = ({
       )
       formikRef.current?.setFieldValue(
         'employee.educationLevel',
-        detail?.education_level
-          ? handleGetValue('employeeEducationLevel', detail?.education_level)
-          : null,
+        handleGetValue('employeeEducationLevel', detail?.education_level),
         false
       )
       formikRef.current?.setFieldValue(
@@ -874,9 +877,7 @@ const EmployeeEditComponent = ({
       )
       formikRef.current?.setFieldValue(
         'employee.employmentStatus',
-        detail?.employment_status
-          ? handleGetValue('employeeStatus', detail?.employment_status)
-          : null,
+        handleGetValue('employeeStatus', detail?.employment_status),
         false
       )
       formikRef.current?.setFieldValue(
@@ -973,9 +974,7 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `educations[${idx}].educationLevel`,
-          itm?.level
-            ? handleGetValue('employeeEducationLevel', itm?.level)
-            : null,
+          handleGetValue('employeeEducationLevel', itm?.level),
           false
         )
         formikRef.current?.setFieldValue(
@@ -995,7 +994,7 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `educations[${idx}].educationStatus`,
-          itm?.status ? handleGetValue('educationStatus', itm?.status) : null,
+          handleGetValue('educationStatus', itm?.status),
           false
         )
         formikRef.current?.setFieldValue(

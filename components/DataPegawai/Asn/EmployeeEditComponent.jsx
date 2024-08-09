@@ -939,7 +939,7 @@ const EmployeeEditComponent = ({
   ])
 
   const handleGetValueID = (type, val, idx) => {
-    if (val) {
+    if (val || val >= 0) {
       if (type == 'position') {
         const dataPosition = positions[idx]
         const item = dataPosition.find((itm) => itm?.name == val)
@@ -994,7 +994,7 @@ const EmployeeEditComponent = ({
   }
 
   const handleGetValue = (type, val) => {
-    if (val || val == 0) {
+    if (val || val >= 0) {
       if (type == 'grade') {
         const item =
           grade?.options && grade?.options.find((itm) => itm?.id == val)
@@ -1909,14 +1909,19 @@ const EmployeeEditComponent = ({
       )
       formikRef.current?.setFieldValue(
         'employee.religion',
-        detail?.religion ? handleGetValue('religion', detail?.religion) : null,
+        handleGetValue('religion', detail?.religion),
         false
       )
       formikRef.current?.setFieldValue(
         'employee.gender',
-        detail?.gender || detail?.gender >= 0
-          ? handleGetValue('gender', detail?.gender == 1 ? 1 : 2)
-          : null,
+        handleGetValue(
+          'gender',
+          detail?.gender !== null && detail?.gender >= 0
+            ? detail?.gender == 1
+              ? 1
+              : 2
+            : null
+        ),
         false
       )
       formikRef.current?.setFieldValue(
@@ -1946,7 +1951,7 @@ const EmployeeEditComponent = ({
       )
       formikRef.current?.setFieldValue(
         'employee.grade',
-        detail?.grade_id ? handleGetValue('grade', detail?.grade_id) : null,
+        handleGetValue('grade', detail?.grade_id),
         false
       )
       formikRef.current?.setFieldValue(
@@ -1956,9 +1961,7 @@ const EmployeeEditComponent = ({
       )
       formikRef.current?.setFieldValue(
         'employee.echelon',
-        detail?.echelon_id
-          ? handleGetValue('echelon', detail?.echelon_id)
-          : null,
+        handleGetValue('echelon', detail?.echelon_id),
         false
       )
       formikRef.current?.setFieldValue(
@@ -1968,9 +1971,7 @@ const EmployeeEditComponent = ({
       )
       formikRef.current?.setFieldValue(
         'employee.educationLevel',
-        detail?.education_level
-          ? handleGetValue('employeeEducationLevel', detail?.education_level)
-          : null,
+        handleGetValue('employeeEducationLevel', detail?.education_level),
         false
       )
       formikRef.current?.setFieldValue(
@@ -2010,9 +2011,7 @@ const EmployeeEditComponent = ({
       )
       formikRef.current?.setFieldValue(
         'employee.employmentStatus',
-        detail?.employment_status
-          ? handleGetValue('employeeStatus', detail?.employment_status)
-          : null,
+        handleGetValue('employeeStatus', detail?.employment_status),
         false
       )
       formikRef.current?.setFieldValue(
@@ -2109,9 +2108,7 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `educations[${idx}].educationLevel`,
-          itm?.level
-            ? handleGetValue('employeeEducationLevel', itm?.level)
-            : null,
+          handleGetValue('employeeEducationLevel', itm?.level),
           false
         )
         formikRef.current?.setFieldValue(
@@ -2131,7 +2128,7 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `educations[${idx}].educationStatus`,
-          itm?.status ? handleGetValue('educationStatus', itm?.status) : null,
+          handleGetValue('educationStatus', itm?.status),
           false
         )
         formikRef.current?.setFieldValue(
@@ -2176,9 +2173,7 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `positions[${idx}].month`,
-          itm?.period_month
-            ? handleGetValue('months', itm?.period_month)
-            : null,
+          handleGetValue('months', itm?.period_month),
           false
         )
         formikRef.current?.setFieldValue(
@@ -2193,19 +2188,17 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `positions[${idx}].group`,
-          itm?.group_id ? handleGetValue('group', itm?.group_id) : null,
+          handleGetValue('group', itm?.group_id),
           false
         )
         formikRef.current?.setFieldValue(
           `positions[${idx}].level`,
-          itm?.echelon ? handleGetValue('echelon', itm?.echelon) : null,
+          handleGetValue('echelon', itm?.echelon),
           false
         )
         formikRef.current?.setFieldValue(
           `positions[${idx}].description`,
-          itm?.position_status
-            ? handleGetValue('positionDescription', itm?.position_status)
-            : null,
+          handleGetValue('positionDescription', itm?.position_status),
           false
         )
         formikRef.current?.setFieldValue(
@@ -2225,9 +2218,7 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `positions[${idx}].decreeType`,
-          itm?.type_decree_id
-            ? handleGetValue('decree', itm?.type_decree_id)
-            : null,
+          handleGetValue('decree', itm?.type_decree_id),
           false
         )
         formikRef.current?.setFieldValue(
@@ -2252,9 +2243,7 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `positions[${idx}].terminationDecreeType`,
-          itm?.type_termination_decree_id
-            ? handleGetValue('decree', itm?.type_termination_decree_id)
-            : null,
+          handleGetValue('decree', itm?.type_termination_decree_id),
           false
         )
         formikRef.current?.setFieldValue(
@@ -2269,9 +2258,14 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `positions[${idx}].status`,
-          itm?.status !== null && itm?.status >= 0
-            ? handleGetValue('status', itm?.status == 0 ? 2 : 1)
-            : null,
+          handleGetValue(
+            'status',
+            itm?.status !== null && itm?.status >= 0
+              ? itm?.status == 0
+                ? 2
+                : 1
+              : null
+          ),
           false
         )
       })
@@ -2295,9 +2289,7 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `grades[${idx}].month`,
-          itm?.period_month
-            ? handleGetValue('months', itm?.period_month)
-            : null,
+          handleGetValue('months', itm?.period_month),
           false
         )
         formikRef.current?.setFieldValue(
@@ -2307,7 +2299,7 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `grades[${idx}].grade`,
-          itm?.grade_id ? handleGetValue('grade', itm?.grade_id) : null,
+          handleGetValue('grade', itm?.grade_id),
           false
         )
         formikRef.current?.setFieldValue(
@@ -2327,9 +2319,7 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `grades[${idx}].decreeType`,
-          itm?.type_of_decree
-            ? handleGetValue('decree', itm?.type_of_decree)
-            : null,
+          handleGetValue('decree', itm?.type_of_decree),
           false
         )
         formikRef.current?.setFieldValue(
@@ -2349,9 +2339,14 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `grades[${idx}].status`,
-          itm?.status !== null && itm?.status >= 0
-            ? handleGetValue('status', itm?.status == 0 ? 2 : 1)
-            : null,
+          handleGetValue(
+            'status',
+            itm?.status !== null && itm?.status >= 0
+              ? itm?.status == 0
+                ? 2
+                : 1
+              : null
+          ),
           false
         )
       })
@@ -2372,9 +2367,7 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `trainingStructurals[${idx}].month`,
-          itm?.period_month
-            ? handleGetValue('months', itm?.period_month)
-            : null,
+          handleGetValue('months', itm?.period_month),
           false
         )
         formikRef.current?.setFieldValue(
@@ -2440,9 +2433,7 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `trainingFungsionals[${idx}].month`,
-          itm?.period_month
-            ? handleGetValue('months', itm?.period_month)
-            : null,
+          handleGetValue('months', itm?.period_month),
           false
         )
         formikRef.current?.setFieldValue(
@@ -2508,9 +2499,7 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `trainingTechnicals[${idx}].month`,
-          itm?.period_month
-            ? handleGetValue('months', itm?.period_month)
-            : null,
+          handleGetValue('months', itm?.period_month),
           false
         )
         formikRef.current?.setFieldValue(
@@ -2569,9 +2558,7 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `recognitions[${idx}].month`,
-          itm?.period_month
-            ? handleGetValue('months', itm?.period_month)
-            : null,
+          handleGetValue('months', itm?.period_month),
           false
         )
         formikRef.current?.setFieldValue(
@@ -2591,9 +2578,7 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `recognitions[${idx}].decreeType`,
-          itm?.type_of_decree
-            ? handleGetValue('decree', itm?.type_of_decree)
-            : null,
+          handleGetValue('decree', itm?.type_of_decree),
           false
         )
         formikRef.current?.setFieldValue(
@@ -2639,9 +2624,7 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `targets[${idx}].month`,
-          itm?.period_month
-            ? handleGetValue('months', itm?.period_month)
-            : null,
+          handleGetValue('months', itm?.period_month),
           false
         )
         formikRef.current?.setFieldValue(
@@ -2651,9 +2634,7 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `targets[${idx}].appraisal`,
-          itm?.appraisal_period
-            ? handleGetValue('period', itm?.appraisal_period)
-            : null,
+          handleGetValue('period', itm?.appraisal_period),
           false
         )
         formikRef.current?.setFieldValue(
@@ -2663,26 +2644,20 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `targets[${idx}].workBehavior`,
-          itm?.work_behavior_rating
-            ? handleGetValue('workBehavior', itm?.work_behavior_rating)
-            : null,
+          handleGetValue('workBehavior', itm?.work_behavior_rating),
           false
         )
         formikRef.current?.setFieldValue(
           `targets[${idx}].performance`,
-          itm?.employee_performance_predicate
-            ? handleGetValue('performance', itm?.employee_performance_predicate)
-            : null,
+          handleGetValue('performance', itm?.employee_performance_predicate),
           false
         )
         formikRef.current?.setFieldValue(
           `targets[${idx}].performanceAchievement`,
-          itm?.organizational_performance_achievement
-            ? handleGetValue(
-                'performanceAchievement',
-                itm?.organizational_performance_achievement
-              )
-            : null,
+          handleGetValue(
+            'performanceAchievement',
+            itm?.organizational_performance_achievement
+          ),
           false
         )
       })
@@ -2700,9 +2675,7 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `performances[${idx}].month`,
-          itm?.period_month
-            ? handleGetValue('months', itm?.period_month)
-            : null,
+          handleGetValue('months', itm?.period_month),
           false
         )
         formikRef.current?.setFieldValue(
@@ -2722,9 +2695,7 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `performances[${idx}].description`,
-          itm?.description
-            ? handleGetValue('performancesType', itm?.description)
-            : null,
+          handleGetValue('performancesType', itm?.description),
           false
         )
       })
@@ -2751,9 +2722,7 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `disciplinaries[${idx}].month`,
-          itm?.period_month
-            ? handleGetValue('months', itm?.period_month)
-            : null,
+          handleGetValue('months', itm?.period_month),
           false
         )
         formikRef.current?.setFieldValue(
@@ -2773,9 +2742,7 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `disciplinaries[${idx}].discipleType`,
-          itm?.disciplinary_id
-            ? handleGetValue('disciplinary', itm?.disciplinary_id)
-            : null,
+          handleGetValue('disciplinary', itm?.disciplinary_id),
           false
         )
         formikRef.current?.setFieldValue(
@@ -2873,12 +2840,19 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `families[${idx}].gender`,
-          itm?.gender ? handleGetValue('gender', itm?.gender) : null,
+          handleGetValue(
+            'gender',
+            itm?.gender !== null && itm?.gender >= 0
+              ? itm?.gender == 1
+                ? 1
+                : 2
+              : null
+          ),
           false
         )
         formikRef.current?.setFieldValue(
           `families[${idx}].religion`,
-          itm?.religion ? handleGetValue('religion', itm?.religion) : null,
+          handleGetValue('religion', itm?.religion),
           false
         )
         formikRef.current?.setFieldValue(
@@ -2903,16 +2877,12 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `families[${idx}].relationshipStatus`,
-          itm?.relationship_status
-            ? handleGetValue('relationshipStatus', itm?.relationship_status)
-            : null,
+          handleGetValue('relationshipStatus', itm?.relationship_status),
           false
         )
         formikRef.current?.setFieldValue(
           `families[${idx}].educationLevel`,
-          itm?.education
-            ? handleGetValue('educationLevel', itm?.education)
-            : null,
+          handleGetValue('educationLevel', itm?.education),
           false
         )
         formikRef.current?.setFieldValue(
@@ -2927,9 +2897,7 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `families[${idx}].maritalStatus`,
-          itm?.marital_status
-            ? handleGetValue('maritalFamily', itm?.marital_status)
-            : null,
+          handleGetValue('maritalFamily', itm?.marital_status),
           false
         )
         formikRef.current?.setFieldValue(
@@ -2975,7 +2943,7 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `leaves[${idx}].type`,
-          itm?.type ? handleGetValue('leaves', itm?.type) : null,
+          handleGetValue('leaves', itm?.type),
           false
         )
         formikRef.current?.setFieldValue(
@@ -3027,7 +2995,7 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `assessments[${idx}].point`,
-          itm?.point ? handleGetValue('assessments', itm?.point) : null,
+          handleGetValue('assessments', itm?.point),
           false
         )
         formikRef.current?.setFieldValue(
@@ -3060,7 +3028,7 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `competences[${idx}].point`,
-          itm?.point ? handleGetValue('competences', itm?.point) : null,
+          handleGetValue('competences', itm?.point),
           false
         )
         formikRef.current?.setFieldValue(
@@ -3093,7 +3061,7 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `talentPools[${idx}].point`,
-          itm?.point ? handleGetValue('talentPools', itm?.point) : null,
+          handleGetValue('talentPools', itm?.point),
           false
         )
         formikRef.current?.setFieldValue(
@@ -3113,12 +3081,8 @@ const EmployeeEditComponent = ({
         const creaditsYear = itm?.year
           ? moment(itm?.year, 'YYYY').toDate()
           : null
-        const creditsMonthStart = itm?.month_start
-          ? handleGetValue('months', itm?.month_start)
-          : null
-        const creditsMonthEnd = itm?.month_end
-          ? handleGetValue('months', itm?.month_end)
-          : null
+        const creditsMonthStart = handleGetValue('months', itm?.month_start)
+        const creditsMonthEnd = handleGetValue('months', itm?.month_end)
         const creditsMonth = {
           start: creditsMonthStart,
           end: creditsMonthEnd
@@ -3136,7 +3100,7 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `credits[${idx}].period`,
-          itm?.period ? handleGetValue('periodCredits', itm?.period) : null,
+          handleGetValue('periodCredits', itm?.period),
           false
         )
         formikRef.current?.setFieldValue(
