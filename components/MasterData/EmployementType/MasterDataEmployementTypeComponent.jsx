@@ -126,15 +126,15 @@ const MasterDataEmployementTypeComponent = ({
           Header: 'Pegawai',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.name}</Typography>
+          Cell: () => (
+            <Typography>{item?.type ? type[item?.type - 1] : '-'}</Typography>
+          )
         },
         {
           Header: 'Jenis Pegawai',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => (
-            <Typography>{item?.type ? type[item?.type - 1] : '-'}</Typography>
-          )
+          Cell: () => <Typography>{item?.name}</Typography>
         },
         {
           Header: 'Tampilkan',
