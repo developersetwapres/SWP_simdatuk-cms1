@@ -1,14 +1,20 @@
 import { Box } from '@mui/material'
 import PropTypes from 'prop-types'
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
+import { useSelector } from 'react-redux'
 
 const ReCAPTCHAForm = ({ setToken }) => {
   const recaptchaRef = useRef()
+  const auth = useSelector((state) => state.authentication)
 
   const handleChange = (val) => {
     setToken(val)
   }
+
+  useEffect(() => {
+    if (auth?.error) recaptchaRef.current.reset()
+  }, [auth])
 
   return (
     <Box sx={{ width: '100px' }}>
