@@ -84,33 +84,43 @@ const RiwayatPenghargaanEditComponent = ({
   }, [employee, decree, recognition])
 
   const handleGetValueId = (val, type) => {
-    if (type == 'recognition') {
-      const dataFilter = recognition?.options.find((item) => item?.name == val)
-      return dataFilter?.id
-    } else if (type == 'employee') {
-      const dataFilter = employee?.data.find(
-        (itm) => itm?.employee_id_number === val?.split(' - ')[1]
-      )?.id
+    if (val || val >= 0) {
+      if (type == 'recognition') {
+        const dataFilter =
+          recognition?.options &&
+          recognition?.options.find((item) => item?.name == val)
+        return dataFilter?.id
+      } else if (type == 'employee') {
+        const dataFilter = employee?.data.find(
+          (itm) => itm?.employee_id_number === val?.split(' - ')[1]
+        )?.id
 
-      return dataFilter
-    } else if (type == 'month') {
-      const index = monthOptions.findIndex((itm) => itm == val) + 1
+        return dataFilter
+      } else if (type == 'month') {
+        const index = monthOptions.findIndex((itm) => itm == val) + 1
 
-      return index
+        return index
+      } else {
+        const dataFilter = decree?.data.find((itm) => itm?.name == val)?.id
+
+        return dataFilter
+      }
     } else {
-      const dataFilter = decree?.data.find((itm) => itm?.name == val)?.id
-
-      return dataFilter
+      return val || ''
     }
   }
 
   const handleGetValue = (type, id) => {
-    if (type == 'recognition') {
-      const item =
-        recognition?.options &&
-        recognition?.options.find((item) => item?.id == id)
+    if (id || id >= 0) {
+      if (type == 'recognition') {
+        const item =
+          recognition?.options &&
+          recognition?.options.find((item) => item?.id == id)
 
-      return item?.name
+        return item?.name
+      }
+    } else {
+      return null
     }
   }
 
@@ -122,7 +132,6 @@ const RiwayatPenghargaanEditComponent = ({
       const id = atob(router?.query?.id)
       const users = values?.pegawai.map((itm, index) => {
         return {
-          id: recognition?.detail?.users[index]?.id,
           user_id: handleGetValueId(itm?.nama, 'employee')
         }
       })
@@ -223,7 +232,7 @@ const RiwayatPenghargaanEditComponent = ({
       }))
 
       const filledValues = {
-        namaPenghargaan: detail?.recognition_id,
+        namaPenghargaan: handleGetValue('recognition', detail?.recognition_id),
         keteranganPenghargaan: detail?.description,
         jenisSk: decreeType,
         tanggalSk: decreeDate,

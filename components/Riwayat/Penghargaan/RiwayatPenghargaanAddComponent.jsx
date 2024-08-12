@@ -82,20 +82,26 @@ const RiwayatPenghargaanAddComponent = ({
   }, [employee, decree, recognition])
 
   const handleGetValueId = (val, type) => {
-    if (type == 'recognition') {
-      const dataFilter = recognition?.options.find((item) => item?.name == val)
-      return dataFilter?.id
-    } else if (type == 'employee') {
-      const dataFilter = employee?.data.find(
-        (itm) => itm?.employee_id_number === val?.split(' - ')[1]
-      )
-      return dataFilter?.id
-    } else if (type == 'month') {
-      const index = options['month'].findIndex((itm) => itm == val)
-      return index + 1
+    if (val || val >= 0) {
+      if (type == 'recognition') {
+        const dataFilter =
+          recognition?.options &&
+          recognition?.options.find((item) => item?.name == val)
+        return dataFilter?.id
+      } else if (type == 'employee') {
+        const dataFilter = employee?.data.find(
+          (itm) => itm?.employee_id_number === val?.split(' - ')[1]
+        )
+        return dataFilter?.id
+      } else if (type == 'month') {
+        const index = options['month'].findIndex((itm) => itm == val)
+        return index + 1
+      } else {
+        const dataFilter = decree?.data.find((itm) => itm?.name == val)
+        return dataFilter?.id
+      }
     } else {
-      const dataFilter = decree?.data.find((itm) => itm?.name == val)
-      return dataFilter?.id
+      return val || ''
     }
   }
 
@@ -135,7 +141,9 @@ const RiwayatPenghargaanAddComponent = ({
         ? moment(values?.received).format('YYYY-MM-DD')
         : ''
 
-      postRecognition(payload)
+      console.log('payload', payload)
+
+      // postRecognition(payload)
     } catch (err) {
       if (!err.inner || err.inner.length === 0) return
 
