@@ -141,9 +141,7 @@ const RiwayatPenghargaanAddComponent = ({
         ? moment(values?.received).format('YYYY-MM-DD')
         : ''
 
-      console.log('payload', payload)
-
-      // postRecognition(payload)
+      postRecognition(payload)
     } catch (err) {
       if (!err.inner || err.inner.length === 0) return
 
