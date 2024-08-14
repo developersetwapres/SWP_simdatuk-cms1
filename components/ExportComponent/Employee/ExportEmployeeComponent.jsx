@@ -56,6 +56,7 @@ const checkboxes = [
       { name: 'isAssistanceType', label: 'Jenis Perbantuan' },
       { name: 'isOutsourcingType', label: 'Jenis Outsourcing' },
       { name: 'isDateCPNS', label: 'TMT CPNS' },
+      { name: 'isDatePNS', label: 'TMT PNS' },
       { name: 'isStartDate', label: 'Tanggal Mulai Bekerja' },
       { name: 'isEndDate', label: 'Tanggal Terakhir Bekerja' },
       { name: 'isWorkDuration', label: 'Masa Kerja Keseluruhan' },
@@ -487,8 +488,12 @@ const ExportEmployeeComponent = ({
       return response?.cpns_effective_date || '-'
     }
 
-    if (label === 'Tanggal Mulai Bekerja') {
+    if (label === 'TMT PNS') {
       return response?.pns_effective_date || '-'
+    }
+
+    if (label === 'Tanggal Mulai Bekerja') {
+      return response?.start_date || '-'
     }
 
     if (label === 'Tanggal Terakhir Bekerja') {
@@ -496,11 +501,15 @@ const ExportEmployeeComponent = ({
     }
 
     if (label === 'Masa Kerja Keseluruhan') {
-      return response?.work_duration || '-'
+      return `${response?.years_of_service_total || 0} Tahun, ${
+        response?.month_of_service_total || 0
+      } Bulan`
     }
 
     if (label === 'Masa Kerja Golongan') {
-      return response?.grade_duration || '-'
+      return `${response?.years_of_service_rank || 0} Tahun, ${
+        response?.month_of_service_rank || 0
+      } Bulan`
     }
 
     if (label === 'Jabatan') {
