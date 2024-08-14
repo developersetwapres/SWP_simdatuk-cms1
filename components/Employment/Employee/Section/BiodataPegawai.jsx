@@ -16,13 +16,13 @@ const BiodataPegawai = ({ data, employmentType }) => {
 
   const path = useMemo(() => {
     const type = data?.type
-    const data = {
+    const datas = {
       ASN: type == 1,
       NonASN: type == 2,
       Outsource: type == 3
     }
 
-    return data
+    return datas
   }, [data])
 
   const options = useMemo(() => {
@@ -97,6 +97,22 @@ const BiodataPegawai = ({ data, employmentType }) => {
           </Typography>
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
+          <Typography>
+            {data?.type == 1 ? 'TMT CPNS' : 'Tanggal Mulai Bekerja'}
+          </Typography>
+          <Typography fontWeight='500' marginTop={1}>
+            {data?.cpns_effective_date || '-'}
+          </Typography>
+        </Grid>
+        {path?.ASN && (
+          <Grid item xs={12} md={4} paddingY={1}>
+            <Typography>TMT PNS</Typography>
+            <Typography fontWeight='500' marginTop={1}>
+              {data?.pns_effective_date || '-'}
+            </Typography>
+          </Grid>
+        )}
+        <Grid item xs={12} md={4} paddingY={1}>
           <Typography>TMT Menjabat</Typography>
           <Typography fontWeight='500' marginTop={1}>
             {data?.position_effective_date || '-'}
@@ -153,14 +169,18 @@ const BiodataPegawai = ({ data, employmentType }) => {
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Masa Kerja Keseluruhan</Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {data?.cpns_years_of_service || '-'}
+            {`${data?.years_of_service_total || 0} Tahun, ${
+              data?.month_of_service_total || 0
+            } Bulan`}
           </Typography>
         </Grid>{' '}
         {!path?.Outsource && (
           <Grid item xs={12} md={4} paddingY={1}>
             <Typography>Masa Kerja Golongan</Typography>
             <Typography fontWeight='500' marginTop={1}>
-              {data?.grade_years_of_service || '-'}
+              {`${data?.years_of_service_rank || 0} Tahun, ${
+                data?.month_of_service_rank || 0
+              } Bulan`}
             </Typography>
           </Grid>
         )}
