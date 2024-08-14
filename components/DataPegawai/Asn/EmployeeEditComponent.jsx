@@ -258,10 +258,36 @@ const FormSchema = Yup.object().shape({
       }
     }),
     yearsOfServiceTotal: Yup.object().shape({
-      month: Yup.number().max(12, 'Jumlah Bulan tidak boleh lebih dari 12')
+      month: Yup.number()
+        .nullable()
+        .notRequired()
+        .transform((value, originalValue) =>
+          originalValue === '' ? null : value
+        )
+        .test(
+          'max-12',
+          'Jumlah Bulan tidak boleh lebih dari 12',
+          function (value) {
+            if (value === null || value === undefined) return true
+            return value <= 12
+          }
+        )
     }),
     yearsOfServiceRank: Yup.object().shape({
-      month: Yup.number().max(12, 'Jumlah Bulan tidak boleh lebih dari 12')
+      month: Yup.number()
+        .nullable()
+        .notRequired()
+        .transform((value, originalValue) =>
+          originalValue === '' ? null : value
+        )
+        .test(
+          'max-12',
+          'Jumlah Bulan tidak boleh lebih dari 12',
+          function (value) {
+            if (value === null || value === undefined) return true
+            return value <= 12
+          }
+        )
     }),
     image: Yup.mixed()
       .nullable()
@@ -1072,11 +1098,6 @@ const EmployeeEditComponent = ({
   }
 
   const handleSubmit = async (values) => {
-    const handleParseCountService = (val) => {
-      if (val && val >= '0') return parseInt(val)
-      return 0
-    }
-
     try {
       await FormSchema.validate(values, { abortEarly: false })
       formikRef.current.setErrors({})
@@ -1253,19 +1274,19 @@ const EmployeeEditComponent = ({
       )
       formData.append(
         'years_of_service_total',
-        handleParseCountService(values?.employee?.yearsOfServiceTotal?.year)
+        values?.employee?.yearsOfServiceTotal?.year
       )
       formData.append(
         'month_of_service_total',
-        handleParseCountService(values?.employee?.yearsOfServiceTotal?.month)
+        values?.employee?.yearsOfServiceTotal?.month
       )
       formData.append(
         'years_of_service_rank',
-        handleParseCountService(values?.employee?.yearsOfServiceRank?.year)
+        values?.employee?.yearsOfServiceRank?.year
       )
       formData.append(
         'month_of_service_rank',
-        handleParseCountService(values?.employee?.yearsOfServiceRank?.month)
+        values?.employee?.yearsOfServiceRank?.month
       )
       formData.append('type', 1)
 
@@ -1883,9 +1904,7 @@ const EmployeeEditComponent = ({
     }
 
     const handleSetCountServiceValue = (val) => {
-      if (val !== null && val >= 0) return val.toString()
-
-      return ''
+      return val !== null ? val.toString() : ''
     }
 
     if (Object.entries(detail).length > 0) {

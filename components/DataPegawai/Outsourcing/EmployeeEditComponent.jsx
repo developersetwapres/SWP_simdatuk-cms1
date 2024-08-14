@@ -181,7 +181,20 @@ const FormSchema = Yup.object().shape({
       }
     }),
     yearsOfServiceTotal: Yup.object().shape({
-      month: Yup.number().max(12, 'Jumlah Bulan tidak boleh lebih dari 12')
+      month: Yup.number()
+        .nullable()
+        .notRequired()
+        .transform((value, originalValue) =>
+          originalValue === '' ? null : value
+        )
+        .test(
+          'max-12',
+          'Jumlah Bulan tidak boleh lebih dari 12',
+          function (value) {
+            if (value === null || value === undefined) return true
+            return value <= 12
+          }
+        )
     }),
     image: Yup.mixed()
       .nullable()
@@ -583,11 +596,11 @@ const EmployeeEditComponent = ({
       )
       formData.append(
         'years_of_service_total',
-        values?.employee?.yearsOfServiceTotal?.year || 0
+        values?.employee?.yearsOfServiceTotal?.year
       )
       formData.append(
         'month_of_service_total',
-        values?.employee?.yearsOfServiceTotal?.month || 0
+        values?.employee?.yearsOfServiceTotal?.month
       )
       formData.append('type', 3)
 
@@ -749,9 +762,7 @@ const EmployeeEditComponent = ({
     }
 
     const handleSetCountServiceValue = (val) => {
-      if (val !== null && val >= 0) return val.toString()
-
-      return ''
+      return val !== null ? val.toString() : ''
     }
 
     if (Object.entries(detail).length > 0) {

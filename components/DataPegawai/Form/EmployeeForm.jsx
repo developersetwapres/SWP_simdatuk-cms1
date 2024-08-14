@@ -492,7 +492,7 @@ const EmployeeForm = ({
                   value={values?.employee?.yearsOfServiceTotal?.year}
                   error={errors?.employee?.yearsOfServiceTotal?.year}
                   onChange={(e) => {
-                    const val = e?.target?.value || 0
+                    const val = e?.target?.value
                     setFieldValue(
                       'employee.yearsOfServiceTotal.year',
                       val,
@@ -512,7 +512,7 @@ const EmployeeForm = ({
                   value={values?.employee?.yearsOfServiceTotal?.month}
                   error={errors?.employee?.yearsOfServiceTotal?.month}
                   onChange={(e) => {
-                    const val = e?.target?.value || 0
+                    const val = e?.target?.value
                     setFieldValue(
                       'employee.yearsOfServiceTotal.month',
                       val,
@@ -552,7 +552,7 @@ const EmployeeForm = ({
                     value={values?.employee?.yearsOfServiceRank?.year}
                     error={errors?.employee?.yearsOfServiceRank?.year}
                     onChange={(e) => {
-                      const val = e?.target?.value || 0
+                      const val = e?.target?.value
                       setFieldValue(
                         'employee.yearsOfServiceRank.year',
                         val,
@@ -572,7 +572,7 @@ const EmployeeForm = ({
                     value={values?.employee?.yearsOfServiceRank?.month}
                     error={errors?.employee?.yearsOfServiceRank?.month}
                     onChange={(e) => {
-                      const val = e?.target?.value || 0
+                      const val = e?.target?.value
                       setFieldValue(
                         'employee.yearsOfServiceRank.month',
                         val,
