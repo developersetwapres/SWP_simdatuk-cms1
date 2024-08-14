@@ -501,15 +501,11 @@ const ExportEmployeeComponent = ({
     }
 
     if (label === 'Masa Kerja Keseluruhan') {
-      return `${response?.years_of_service_total || 0} Tahun, ${
-        response?.month_of_service_total || 0
-      } Bulan`
+      return response?.work_duration || '-'
     }
 
     if (label === 'Masa Kerja Golongan') {
-      return `${response?.years_of_service_rank || 0} Tahun, ${
-        response?.month_of_service_rank || 0
-      } Bulan`
+      return response?.grade_duration || '-'
     }
 
     if (label === 'Jabatan') {
