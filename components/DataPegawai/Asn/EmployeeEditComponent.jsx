@@ -57,6 +57,7 @@ const InitValue = {
     maritalStatus: null,
     employmentType: null,
     dateStartedWork: '',
+    pnsEffectiveDate: '',
     positions: [{ name: null }],
     positionEffectiveDate: '',
     grade: null,
@@ -84,7 +85,15 @@ const InitValue = {
     officeTelephoneNumber: '',
     email: '',
     officeEmail: '',
-    emergencyContact: ''
+    emergencyContact: '',
+    yearsOfServiceTotal: {
+      year: 0,
+      month: 0
+    },
+    yearsOfServiceRank: {
+      year: 0,
+      month: 0
+    }
   },
   educations: [],
   families: [],
@@ -247,6 +256,12 @@ const FormSchema = Yup.object().shape({
       } else {
         return Yup.string()
       }
+    }),
+    yearsOfServiceTotal: Yup.object().shape({
+      month: Yup.number().max(12, 'Jumlah Bulan tidak boleh lebih dari 12')
+    }),
+    yearsOfServiceRank: Yup.object().shape({
+      month: Yup.number().max(12, 'Jumlah Bulan tidak boleh lebih dari 12')
     }),
     image: Yup.mixed()
       .nullable()
@@ -862,7 +877,7 @@ const EmployeeEditComponent = ({
           arr.push(itm?.name)
         }
 
-        if (type !== 'employments') {
+        if (type !== 'grades' && type !== 'employments') {
           arr.push(itm?.name)
         }
       })
@@ -1057,6 +1072,11 @@ const EmployeeEditComponent = ({
   }
 
   const handleSubmit = async (values) => {
+    const handleParseCountService = (val) => {
+      if (val && val >= '0') return parseInt(val)
+      return 0
+    }
+
     try {
       await FormSchema.validate(values, { abortEarly: false })
       formikRef.current.setErrors({})
@@ -1125,6 +1145,10 @@ const EmployeeEditComponent = ({
       formData.append(
         'cpns_effective_date',
         handleFormatDate(values?.employee?.dateStartedWork, 'YYYY-MM-DD')
+      )
+      formData.append(
+        'pns_effective_date',
+        handleFormatDate(values?.employee?.pnsEffectiveDate, 'YYYY-MM-DD')
       )
       formData.append(
         'position_id',
@@ -1226,6 +1250,22 @@ const EmployeeEditComponent = ({
       formData.append(
         'quit_date',
         handleFormatDate(values?.employee?.lastDateOfWork, 'YYYY-MM-DD')
+      )
+      formData.append(
+        'years_of_service_total',
+        handleParseCountService(values?.employee?.yearsOfServiceTotal?.year)
+      )
+      formData.append(
+        'month_of_service_total',
+        handleParseCountService(values?.employee?.yearsOfServiceTotal?.month)
+      )
+      formData.append(
+        'years_of_service_rank',
+        handleParseCountService(values?.employee?.yearsOfServiceRank?.year)
+      )
+      formData.append(
+        'month_of_service_rank',
+        handleParseCountService(values?.employee?.yearsOfServiceRank?.month)
       )
       formData.append('type', 1)
 
@@ -1727,6 +1767,7 @@ const EmployeeEditComponent = ({
 
       updateEmployee(payload)
     } catch (err) {
+      console.log('err', err)
       if (!err.inner || err.inner.length === 0) {
         return
       }
@@ -1841,6 +1882,12 @@ const EmployeeEditComponent = ({
       return null
     }
 
+    const handleSetCountServiceValue = (val) => {
+      if (val !== null && val >= 0) return val.toString()
+
+      return ''
+    }
+
     if (Object.entries(detail).length > 0) {
       const newPosition = detail?.position.map((itm, idx) => {
         if (itm?.parent_id) onFetchHierarchy(itm?.parent_id)
@@ -1861,6 +1908,9 @@ const EmployeeEditComponent = ({
         : ''
       const cpnsEffectiveDate = detail?.cpns_effective_date
         ? moment(detail?.cpns_effective_date, 'DD-MM-YYYY').toDate()
+        : ''
+      const pnsEffectiveDate = detail?.pns_effective_date
+        ? moment(detail?.pns_effective_date, 'DD-MM-YYYY').toDate()
         : ''
       const educationYear = detail?.education_year
         ? moment(detail?.education_year, 'YYYY').toDate()
@@ -1949,6 +1999,11 @@ const EmployeeEditComponent = ({
       formikRef.current?.setFieldValue(
         'employee.dateStartedWork',
         cpnsEffectiveDate,
+        false
+      )
+      formikRef.current?.setFieldValue(
+        'employee.pnsEffectiveDate',
+        pnsEffectiveDate,
         false
       )
       formikRef.current?.setFieldValue(`employee.positions`, newPosition, false)
@@ -2100,6 +2155,26 @@ const EmployeeEditComponent = ({
       formikRef.current?.setFieldValue(
         'employee.description',
         detail?.description || '',
+        false
+      )
+      formikRef.current?.setFieldValue(
+        'employee.yearsOfServiceTotal.year',
+        handleSetCountServiceValue(detail?.years_of_service_total),
+        false
+      )
+      formikRef.current?.setFieldValue(
+        'employee.yearsOfServiceTotal.month',
+        handleSetCountServiceValue(detail?.month_of_service_total),
+        false
+      )
+      formikRef.current?.setFieldValue(
+        'employee.yearsOfServiceRank.year',
+        handleSetCountServiceValue(detail?.years_of_service_rank),
+        false
+      )
+      formikRef.current?.setFieldValue(
+        'employee.yearsOfServiceRank.month',
+        handleSetCountServiceValue(detail?.month_of_service_rank),
         false
       )
 

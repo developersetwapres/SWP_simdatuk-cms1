@@ -72,7 +72,11 @@ const InitValue = {
     email: '',
     officeEmail: '',
     emergencyContact: '',
-    description: ''
+    description: '',
+    yearsOfServiceTotal: {
+      year: 0,
+      month: 0
+    }
   },
   educations: [],
   notes: []
@@ -165,6 +169,9 @@ const FormSchema = Yup.object().shape({
       } else {
         return Yup.string()
       }
+    }),
+    yearsOfServiceTotal: Yup.object().shape({
+      month: Yup.number().max(12, 'Jumlah Bulan tidak boleh lebih dari 12')
     }),
     image: Yup.mixed()
       .nullable()
@@ -476,6 +483,14 @@ const EmployeeAddComponent = ({
       formData.append(
         'quit_date',
         handleFormatDate(values?.employee?.lastDateOfWork, 'YYYY-MM-DD')
+      )
+      formData.append(
+        'years_of_service_total',
+        values?.employee?.yearsOfServiceTotal?.year || 0
+      )
+      formData.append(
+        'month_of_service_total',
+        values?.employee?.yearsOfServiceTotal?.month || 0
       )
       formData.append('type', 3)
 

@@ -82,7 +82,11 @@ const InitValue = {
     email: '',
     officeEmail: '',
     emergencyContact: '',
-    description: ''
+    description: '',
+    yearsOfServiceTotal: {
+      year: 0,
+      month: 0
+    }
   },
   educations: [],
   notes: []
@@ -175,6 +179,9 @@ const FormSchema = Yup.object().shape({
       } else {
         return Yup.string()
       }
+    }),
+    yearsOfServiceTotal: Yup.object().shape({
+      month: Yup.number().max(12, 'Jumlah Bulan tidak boleh lebih dari 12')
     }),
     image: Yup.mixed()
       .nullable()
@@ -574,6 +581,14 @@ const EmployeeEditComponent = ({
         'quit_date',
         handleFormatDate(values?.employee?.lastDateOfWork, 'YYYY-MM-DD')
       )
+      formData.append(
+        'years_of_service_total',
+        values?.employee?.yearsOfServiceTotal?.year || 0
+      )
+      formData.append(
+        'month_of_service_total',
+        values?.employee?.yearsOfServiceTotal?.month || 0
+      )
       formData.append('type', 3)
 
       // Educations
@@ -731,6 +746,12 @@ const EmployeeEditComponent = ({
       }
 
       return null
+    }
+
+    const handleSetCountServiceValue = (val) => {
+      if (val !== null && val >= 0) return val.toString()
+
+      return ''
     }
 
     if (Object.entries(detail).length > 0) {
@@ -966,6 +987,16 @@ const EmployeeEditComponent = ({
       formikRef.current?.setFieldValue(
         'employee.description',
         detail?.description || '',
+        false
+      )
+      formikRef.current?.setFieldValue(
+        'employee.yearsOfServiceTotal.year',
+        handleSetCountServiceValue(detail?.years_of_service_total),
+        false
+      )
+      formikRef.current?.setFieldValue(
+        'employee.yearsOfServiceTotal.month',
+        handleSetCountServiceValue(detail?.month_of_service_total),
         false
       )
 

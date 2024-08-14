@@ -2,7 +2,7 @@
 /* eslint-disable indent */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo } from 'react'
-import { Grid } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 import { Input } from '@/components/shared'
 import DatePickerDay from '@/components/shared/form/DatePickerDay'
@@ -325,6 +325,21 @@ const EmployeeForm = ({
             }}
           />
         </Grid>
+        {/* PNS Effective Date */}
+        {pagesType?.asn && (
+          <Grid item xs={6}>
+            <DatePickerDay
+              label={'TMT PNS'}
+              placeholder='dd-mm-yyyy'
+              name={'employee.pnsEffectiveDate'}
+              value={values?.employee?.pnsEffectiveDate}
+              error={errors?.employee?.pnsEffectiveDate}
+              onChange={(val) => {
+                setFieldValue('employee.pnsEffectiveDate', val, false)
+              }}
+            />
+          </Grid>
+        )}
         {/* Position */}
         <Grid container item xs={6} spacing={3}>
           {values?.employee?.positions &&
@@ -449,24 +464,151 @@ const EmployeeForm = ({
                 }}
               />
             </Grid>
-            {/* Agency */}
-            <Grid item xs={6}>
-              <Autocomplete
-                options={options?.institution}
-                placeholder='Pilih Instansi Induk'
-                label='Instansi Induk *'
-                name='employee.institution'
-                value={values?.employee?.institution}
-                error={errors?.employee?.institution}
-                onChange={(val) => {
-                  setFieldValue('employee.institution', val, false)
-                  setTimeout(() => {
-                    formikRef.current.validateField('employee.institution')
-                  }, 1)
-                }}
-              />
-            </Grid>
           </>
+        )}
+
+        {/* Years of Service */}
+        <Grid container item xs={pagesType?.outsource ? 6 : 12} spacing={3}>
+          {/* Total */}
+          <Grid item xs={pagesType?.outsource ? 12 : 6}>
+            <Typography
+              sx={{
+                fontSize: '14px',
+                fontWeight: 500,
+                margin: '0 0 8px 0'
+              }}
+            >
+              Masa Kerja Keseluruhan
+            </Typography>
+            <Grid container spacing={3}>
+              {/* Years */}
+              <Grid item xs={6}>
+                <Input
+                  type='number'
+                  inputProps={{ min: '0' }}
+                  label='Jumlah Tahun'
+                  placeholder='Masukkan Jumlah Tahun'
+                  name='employee.yearsOfServiceTotal.year'
+                  value={values?.employee?.yearsOfServiceTotal?.year}
+                  error={errors?.employee?.yearsOfServiceTotal?.year}
+                  onChange={(e) => {
+                    const val = e?.target?.value || 0
+                    setFieldValue(
+                      'employee.yearsOfServiceTotal.year',
+                      val,
+                      false
+                    )
+                  }}
+                />
+              </Grid>
+              {/* Months */}
+              <Grid item xs={6}>
+                <Input
+                  type='number'
+                  inputProps={{ min: '0' }}
+                  label='Jumlah Bulan'
+                  placeholder='Masukkan Jumlah Bulan'
+                  name='employee.yearsOfServiceTotal.month'
+                  value={values?.employee?.yearsOfServiceTotal?.month}
+                  error={errors?.employee?.yearsOfServiceTotal?.month}
+                  onChange={(e) => {
+                    const val = e?.target?.value || 0
+                    setFieldValue(
+                      'employee.yearsOfServiceTotal.month',
+                      val,
+                      false
+                    )
+                    setTimeout(() => {
+                      formikRef.current.validateField(
+                        'employee.yearsOfServiceTotal.month'
+                      )
+                    }, 1)
+                  }}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+          {/* Grade */}
+          {!pagesType?.outsource && (
+            <Grid item xs={6}>
+              <Typography
+                sx={{
+                  fontSize: '14px',
+                  fontWeight: 500,
+                  margin: '0 0 8px 0'
+                }}
+              >
+                Masa Kerja Golongan
+              </Typography>
+              <Grid container spacing={3}>
+                {/* Years */}
+                <Grid item xs={6}>
+                  <Input
+                    type='number'
+                    inputProps={{ min: '0' }}
+                    label='Jumlah Tahun'
+                    placeholder='Masukkan Jumlah Tahun'
+                    name='employee.yearsOfServiceRank.year'
+                    value={values?.employee?.yearsOfServiceRank?.year}
+                    error={errors?.employee?.yearsOfServiceRank?.year}
+                    onChange={(e) => {
+                      const val = e?.target?.value || 0
+                      setFieldValue(
+                        'employee.yearsOfServiceRank.year',
+                        val,
+                        false
+                      )
+                    }}
+                  />
+                </Grid>
+                {/* Months */}
+                <Grid item xs={6}>
+                  <Input
+                    type='number'
+                    inputProps={{ min: '0' }}
+                    label='Jumlah Bulan'
+                    placeholder='Masukkan Jumlah Bulan'
+                    name='employee.yearsOfServiceRank.month'
+                    value={values?.employee?.yearsOfServiceRank?.month}
+                    error={errors?.employee?.yearsOfServiceRank?.month}
+                    onChange={(e) => {
+                      const val = e?.target?.value || 0
+                      setFieldValue(
+                        'employee.yearsOfServiceRank.month',
+                        val,
+                        false
+                      )
+                      setTimeout(() => {
+                        formikRef.current.validateField(
+                          'employee.yearsOfServiceRank.month'
+                        )
+                      }, 1)
+                    }}
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+          )}
+        </Grid>
+
+        {/* Agency */}
+        {!pagesType?.outsource && (
+          <Grid item xs={6}>
+            <Autocomplete
+              options={options?.institution}
+              placeholder='Pilih Instansi Induk'
+              label='Instansi Induk *'
+              name='employee.institution'
+              value={values?.employee?.institution}
+              error={errors?.employee?.institution}
+              onChange={(val) => {
+                setFieldValue('employee.institution', val, false)
+                setTimeout(() => {
+                  formikRef.current.validateField('employee.institution')
+                }, 1)
+              }}
+            />
+          </Grid>
         )}
 
         {/* Education Level */}

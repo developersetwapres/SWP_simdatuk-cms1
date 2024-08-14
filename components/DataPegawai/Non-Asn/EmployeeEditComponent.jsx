@@ -85,7 +85,15 @@ const InitValue = {
     email: '',
     officeEmail: '',
     emergencyContact: '',
-    description: ''
+    description: '',
+    yearsOfServiceTotal: {
+      year: 0,
+      month: 0
+    },
+    yearsOfServiceRank: {
+      year: 0,
+      month: 0
+    }
   },
   educations: [],
   families: [],
@@ -250,6 +258,12 @@ const FormSchema = Yup.object().shape({
       } else {
         return Yup.string()
       }
+    }),
+    yearsOfServiceTotal: Yup.object().shape({
+      month: Yup.number().max(12, 'Jumlah Bulan tidak boleh lebih dari 12')
+    }),
+    yearsOfServiceRank: Yup.object().shape({
+      month: Yup.number().max(12, 'Jumlah Bulan tidak boleh lebih dari 12')
     }),
     image: Yup.mixed()
       .nullable()
@@ -868,7 +882,7 @@ const EmployeeEditComponent = ({
           arr.push(itm?.name)
         }
 
-        if (type !== 'employments') {
+        if (type !== 'grades' && type !== 'employments') {
           arr.push(itm?.name)
         }
       })
@@ -1225,6 +1239,22 @@ const EmployeeEditComponent = ({
       formData.append(
         'quit_date',
         handleFormatDate(values?.employee?.lastDateOfWork, 'YYYY-MM-DD')
+      )
+      formData.append(
+        'years_of_service_total',
+        values?.employee?.yearsOfServiceTotal?.year || 0
+      )
+      formData.append(
+        'month_of_service_total',
+        values?.employee?.yearsOfServiceTotal?.month || 0
+      )
+      formData.append(
+        'years_of_service_rank',
+        values?.employee?.yearsOfServiceRank?.year || 0
+      )
+      formData.append(
+        'month_of_service_rank',
+        values?.employee?.yearsOfServiceRank?.month || 0
       )
       formData.append('type', 2)
 
@@ -1839,6 +1869,12 @@ const EmployeeEditComponent = ({
       return null
     }
 
+    const handleSetCountServiceValue = (val) => {
+      if (val !== null && val >= 0) return val.toString()
+
+      return ''
+    }
+
     if (Object.entries(detail).length > 0) {
       const newPosition = detail?.position.map((itm, idx) => {
         if (itm?.parent_id) onFetchHierarchy(itm?.parent_id)
@@ -2094,6 +2130,26 @@ const EmployeeEditComponent = ({
       formikRef.current?.setFieldValue(
         'employee.description',
         detail?.description || '',
+        false
+      )
+      formikRef.current?.setFieldValue(
+        'employee.yearsOfServiceTotal.year',
+        handleSetCountServiceValue(detail?.years_of_service_total),
+        false
+      )
+      formikRef.current?.setFieldValue(
+        'employee.yearsOfServiceTotal.month',
+        handleSetCountServiceValue(detail?.month_of_service_total),
+        false
+      )
+      formikRef.current?.setFieldValue(
+        'employee.yearsOfServiceRank.year',
+        handleSetCountServiceValue(detail?.years_of_service_rank),
+        false
+      )
+      formikRef.current?.setFieldValue(
+        'employee.yearsOfServiceRank.month',
+        handleSetCountServiceValue(detail?.month_of_service_rank),
         false
       )
 
