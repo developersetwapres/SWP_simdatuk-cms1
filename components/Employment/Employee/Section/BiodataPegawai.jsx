@@ -169,18 +169,22 @@ const BiodataPegawai = ({ data, employmentType }) => {
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Masa Kerja Keseluruhan</Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {`${data?.years_of_service_total || 0} Tahun, ${
-              data?.month_of_service_total || 0
-            } Bulan`}
+            {data?.years_of_service_total || data?.month_of_service_total
+              ? `${data?.years_of_service_total || 0} Tahun, ${
+                  data?.month_of_service_total || 0
+                } Bulan`
+              : '-'}
           </Typography>
         </Grid>{' '}
         {!path?.Outsource && (
           <Grid item xs={12} md={4} paddingY={1}>
             <Typography>Masa Kerja Golongan</Typography>
             <Typography fontWeight='500' marginTop={1}>
-              {`${data?.years_of_service_rank || 0} Tahun, ${
-                data?.month_of_service_rank || 0
-              } Bulan`}
+              {data?.years_of_service_rank || data?.month_of_service_rank
+                ? `${data?.years_of_service_rank || 0} Tahun, ${
+                    data?.month_of_service_rank || 0
+                  } Bulan`
+                : '-'}
             </Typography>
           </Grid>
         )}
