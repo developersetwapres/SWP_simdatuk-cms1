@@ -264,11 +264,6 @@ const MasterDataPositionEditComponent = ({
     }
   }
 
-  const handleClear = () => {
-    formikRef.current.resetForm()
-    clearPositionState()
-  }
-
   const handleFetchHierarchies = (positionType) => {
     if (positionType) {
       const type = positionType !== 'Outsourcing' ? [1, 2] : [3]
@@ -279,7 +274,54 @@ const MasterDataPositionEditComponent = ({
     }
   }
 
+  const handleSetDefaultValue = (detail) => {
+    const hierarchies = detail?.hierarchies || []
+    const echelons = detail?.echelons || []
+    const echelon = echelons ? echelons[0] : []
+    const isShow = echelon?.name ? true : false
+    const isShowingOnPetaJabatan = detail?.status === 1
+
+    formikRef.current?.setFieldValue('show', isShow, false)
+    formikRef.current?.setFieldValue(
+      'showOnPetaJabatan',
+      isShowingOnPetaJabatan,
+      false
+    )
+    formikRef.current?.setFieldValue('name', detail?.name, false)
+    formikRef.current?.setFieldValue('entity', detail?.entity?.name, false)
+    formikRef.current?.setFieldValue('order', `${detail?.order}`, false)
+    formikRef.current?.setFieldValue('position', detail?.type?.name, false)
+
+    handleFetchHierarchies(detail?.type?.name)
+
+    echelons.map((itm, idx) => {
+      formikRef.current?.setFieldValue(
+        `echelons[${idx}].name`,
+        itm?.name,
+        false
+      )
+      formikRef.current?.setFieldValue(
+        `echelons[${idx}].quantity`,
+        itm?.available,
+        false
+      )
+    })
+
+    hierarchies.map((itm, idx) => {
+      onFetchHierarchy(
+        itm?.id,
+        detail?.type?.name !== 'Outsourcing' ? [1, 2] : [3]
+      )
+      formikRef.current?.setFieldValue(`parent[${idx}].name`, itm?.name, false)
+    })
+  }
+
   useEffect(() => {
+    const handleClear = () => {
+      if (formikRef.current) formikRef.current.resetForm()
+      clearPositionState()
+    }
+
     // Get Detail User
     const id = router?.query?.id
     if (id) {
@@ -302,49 +344,11 @@ const MasterDataPositionEditComponent = ({
   useEffect(() => {
     const detail = position?.detail
     if (detail) {
-      const hierarchies = detail?.hierarchies || []
-      const echelons = detail?.echelons || []
-      const echelon = echelons ? echelons[0] : []
-      const isShow = echelon?.name ? true : false
-      const isShowingOnPetaJabatan = detail?.status === 1
+      if (formikRef.current) formikRef.current.resetForm()
 
-      formikRef.current?.setFieldValue('show', isShow, false)
-      formikRef.current?.setFieldValue(
-        'showOnPetaJabatan',
-        isShowingOnPetaJabatan,
-        false
-      )
-      formikRef.current?.setFieldValue('name', detail?.name, false)
-      formikRef.current?.setFieldValue('entity', detail?.entity?.name, false)
-      formikRef.current?.setFieldValue('order', `${detail?.order}`, false)
-      formikRef.current?.setFieldValue('position', detail?.type?.name, false)
-
-      handleFetchHierarchies(detail?.type?.name)
-
-      echelons.map((itm, idx) => {
-        formikRef.current?.setFieldValue(
-          `echelons[${idx}].name`,
-          itm?.name,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `echelons[${idx}].quantity`,
-          itm?.available,
-          false
-        )
-      })
-
-      hierarchies.map((itm, idx) => {
-        onFetchHierarchy(
-          itm?.id,
-          detail?.type?.name !== 'Outsourcing' ? [1, 2] : [3]
-        )
-        formikRef.current?.setFieldValue(
-          `parent[${idx}].name`,
-          itm?.name,
-          false
-        )
-      })
+      setTimeout(() => {
+        handleSetDefaultValue(detail)
+      }, 100)
     }
   }, [position?.detail])
 
@@ -363,6 +367,7 @@ const MasterDataPositionEditComponent = ({
 
   return (
     <Formik
+      enableReinitialize
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
