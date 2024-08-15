@@ -3179,11 +3179,8 @@ const EmployeeEditComponent = ({
 
       // Credits
       detail?.credits.map((itm, idx) => {
-        const creaditsYear = itm?.year
-          ? moment(itm?.year, 'YYYY').toDate()
-          : null
-        const creditsMonthStart = handleGetValue('months', itm?.month_start)
-        const creditsMonthEnd = handleGetValue('months', itm?.month_end)
+        const creditsMonthStart = handleGetValue('months', itm?.start_month)
+        const creditsMonthEnd = handleGetValue('months', itm?.end_month)
         const creditsMonth = {
           start: creditsMonthStart,
           end: creditsMonthEnd
@@ -3206,7 +3203,7 @@ const EmployeeEditComponent = ({
         )
         formikRef.current?.setFieldValue(
           `credits[${idx}].year`,
-          creaditsYear,
+          itm?.year,
           false
         )
         formikRef.current?.setFieldValue(
