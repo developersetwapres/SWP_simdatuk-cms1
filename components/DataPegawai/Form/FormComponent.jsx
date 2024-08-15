@@ -22,7 +22,11 @@ import SKPForm from './SKPForm'
 import DisciplinaryForm from './DisciplinaryForm'
 import PerformanceForm from './PerformanceForm'
 import CreditsForm from './CreditsForm'
-import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import {
+  Access,
+  accessGranted,
+  PermissionsIDs
+} from '@/utils/permissionManager'
 
 const containerStyles = {
   display: 'flex',
@@ -31,7 +35,14 @@ const containerStyles = {
 }
 
 const FormComponent = (props) => {
-  const { mode, pageType, formikProps, onGetPositionType, errorsForm } = props
+  const {
+    mode,
+    pageType,
+    formikProps,
+    onGetPositionType,
+    errorsForm,
+    options
+  } = props
 
   const isEdit = useMemo(() => {
     return mode == 'edit'
@@ -51,7 +62,11 @@ const FormComponent = (props) => {
     }
 
     return false
-  }, [formikProps?.values?.employee?.positions])
+  }, [
+    formikProps?.values?.employee?.positions,
+    formikProps?.values,
+    options?.positions
+  ])
 
   const handleSetKeyForm = (val) => {
     switch (val) {
