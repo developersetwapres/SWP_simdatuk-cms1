@@ -365,6 +365,7 @@ const MasterDataPositionEditComponent = ({
   }, [position?.detail])
 
   useEffect(() => {
+    const positionName = position?.detail?.name || ''
     const data = position?.data
     const isValidate = data?.length > 0
     const isChecked = positions.some((subArray) =>
@@ -372,10 +373,14 @@ const MasterDataPositionEditComponent = ({
     )
 
     if (isValidate && !isChecked) {
-      const values = [...positions, data]
+      const newData =
+        positions.length == 0
+          ? data.filter((itm) => itm?.name !== positionName)
+          : data
+      const values = [...positions, newData]
       setPositions(values)
     }
-  }, [position?.data])
+  }, [position?.data, position?.detail])
 
   return (
     <Formik
