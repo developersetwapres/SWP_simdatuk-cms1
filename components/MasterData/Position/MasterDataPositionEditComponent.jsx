@@ -365,7 +365,7 @@ const MasterDataPositionEditComponent = ({
   }, [position?.detail])
 
   useEffect(() => {
-    const positionName = position?.detail?.name || ''
+    const id = router?.query?.id
     const data = position?.data
     const isValidate = data?.length > 0
     const isChecked = positions.some((subArray) =>
@@ -375,12 +375,12 @@ const MasterDataPositionEditComponent = ({
     if (isValidate && !isChecked) {
       const newData =
         positions.length == 0
-          ? data.filter((itm) => itm?.name !== positionName)
+          ? data.filter((itm) => `${itm?.id}` !== atob(id))
           : data
       const values = [...positions, newData]
       setPositions(values)
     }
-  }, [position?.data, position?.detail])
+  }, [position?.data, router])
 
   return (
     <Formik
