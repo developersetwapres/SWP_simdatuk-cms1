@@ -50,17 +50,22 @@ import {
   accessGranted,
   PermissionsIDs
 } from '@/utils/permissionManager'
+import RiwayatCredit from './Section/RiwayatCredit'
+import { getPosition } from '@/store/actions/masterData/position'
 
 const EmployeeDetailComponent = ({
   employee,
   exportEmployeeData,
   employmentType,
+  position,
   getEmployee = () => {},
+  getPosition = () => {},
   updateNotesByUserID = () => {},
   updateEmployeeStatus = () => {},
   clearEmployeeState = () => {},
   exportEmployeeDetail = () => {},
-  setRender = () => {}
+  setRender = () => {},
+  clearPositionState = () => {}
 }) => {
   const router = useRouter()
   const sectionRef = useRef(null)
@@ -223,6 +228,10 @@ const EmployeeDetailComponent = ({
     )
   }, [employmentStatusModalOpen, router, exportEmployeeData?.loading, data])
 
+  const positionType = useMemo(() => {
+    return position?.detail?.type == 2
+  }, [position])
+
   const sectionsList = useMemo(() => {
     const sections = [
       {
@@ -271,6 +280,11 @@ const EmployeeDetailComponent = ({
         id: 'riwayat_skp',
         data: data?.targets || [],
         Section: (props) => <RiwayatSKP {...props} />
+      },
+      {
+        id: 'riwayat_penetapan_angka_kredit_terakhir',
+        data: data?.credits || [],
+        Section: (props) => <RiwayatCredit {...props} />
       },
       {
         id: 'riwayat_penilaian_prestasi_kerja',
@@ -332,7 +346,10 @@ const EmployeeDetailComponent = ({
 
         if (
           (item?.id == 'riwayat_catatan' && !hasNotesAccess) ||
-          (item?.id == 'hasil_talent_pool' && !hasTalentPoolAccess)
+          (item?.id == 'hasil_talent_pool' && !hasTalentPoolAccess) ||
+          (item?.id == 'riwayat_penetapan_angka_kredit_terakhir' &&
+            !data?.position_id &&
+            !positionType)
         ) {
           return false
         }
@@ -352,6 +369,7 @@ const EmployeeDetailComponent = ({
           'riwayat_pelatihan_teknis',
           'riwayat_penghargaan',
           'riwayat_skp',
+          'riwayat_penetapan_angka_kredit_terakhir',
           'riwayat_penilaian_prestasi_kerja',
           'riwayat_hukuman_disiplin'
         ]
@@ -430,26 +448,38 @@ const EmployeeDetailComponent = ({
     return id == sectionId
   }
 
+  const hanldleClearState = () => {
+    clearPositionState()
+    clearEmployeeState()
+  }
+
   useEffect(() => {
     const id = router?.query?.id
     if (id) getEmployee(atob(id))
 
     // Event clear state when url path changes
-    router.events.on('routeChangeComplete', clearEmployeeState)
+    router.events.on('routeChangeComplete', hanldleClearState)
 
     return () => {
-      router.events.off('routeChangeComplete', clearEmployeeState)
+      router.events.off('routeChangeComplete', hanldleClearState)
     }
   }, [router])
 
   useEffect(() => {
-    const state = !employee?.loading
+    const state = !employee?.loading && !position?.loading
     setRender(state)
-  }, [employee])
+  }, [employee, position])
 
   useEffect(() => {
     if (exportEmployeeData?.detail) saveFile(exportEmployeeData?.detail)
   }, [exportEmployeeData])
+
+  useEffect(() => {
+    const detailEmployee = employee?.detail
+    const idPosition = detailEmployee?.position_id
+
+    if (idPosition) getPosition(idPosition)
+  }, [employee])
 
   return (
     <LayoutPages
@@ -634,12 +664,15 @@ EmployeeDetailComponent.propTypes = {
   employee: PropTypes.object,
   exportEmployeeData: PropTypes.object,
   employmentType: PropTypes.object,
+  position: PropTypes.object,
   getEmployee: PropTypes.func,
   clearEmployeeState: PropTypes.func,
   exportEmployeeDetail: PropTypes.func,
   updateNotesByUserID: PropTypes.func,
   updateEmployeeStatus: PropTypes.func,
-  setRender: PropTypes.func
+  setRender: PropTypes.func,
+  getPosition: PropTypes.func,
+  clearPositionState: PropTypes.func
 }
 
 export default EmployeeDetailComponent

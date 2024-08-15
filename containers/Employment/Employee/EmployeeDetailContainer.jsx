@@ -6,7 +6,13 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 export default connect(
-  mapStateToProps('employee', 'exportEmployeeData', 'notes', 'employmentType'),
+  mapStateToProps(
+    'employee',
+    'exportEmployeeData',
+    'notes',
+    'employmentType',
+    'position'
+  ),
   mapActions(
     'getEmployee',
     'clearEmployeeState',
@@ -14,7 +20,9 @@ export default connect(
     'updateEmployeeStatus',
     'exportEmployeeDetail',
     'updateNotesByUserID',
-    'getEmploymentTypes'
+    'getEmploymentTypes',
+    'getPosition',
+    'clearPositionState'
   )
 )(
   class EmployeeDetailContainers extends React.Component {
@@ -23,12 +31,15 @@ export default connect(
       exportEmployeeData: PropTypes.object,
       notes: PropTypes.object,
       employmentType: PropTypes.object,
+      position: PropTypes.object,
       getEmployee: PropTypes.func,
       clearEmployeeState: PropTypes.func,
       updateEmployeeStatus: PropTypes.func,
       exportEmployeeDetail: PropTypes.func,
       updateNotesByUserID: PropTypes.func,
-      getEmploymentTypes: PropTypes.func
+      getEmploymentTypes: PropTypes.func,
+      getPosition: PropTypes.func,
+      clearPositionState: PropTypes.func
     }
 
     constructor(props) {
