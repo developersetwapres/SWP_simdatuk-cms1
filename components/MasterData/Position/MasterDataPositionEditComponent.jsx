@@ -219,6 +219,7 @@ const MasterDataPositionEditComponent = ({
             : []
         }
       }
+
       updatePosition(payload)
     } catch (err) {
       if (!err.inner || err.inner.length === 0) {
@@ -244,19 +245,17 @@ const MasterDataPositionEditComponent = ({
     if (datas.length > 0) {
       const length = datas?.length
       const index = length - 1
-      const item = datas[index]?.name
-      const dataPosition = positions[index] || []
+      const item = datas[index]
+      const dataPosition = positions.flat(1)
       const lengthPositions = positions.length
+      const id = dataPosition.find((itm) => itm?.name == item?.name)?.id
 
       if (length < lengthPositions) {
-        const newPositions = positions.slice(0, length + 1)
+        const newPositions = positions.slice(0, length)
         setPositions(newPositions)
       }
 
-      if (dataPosition.length > 0) {
-        const itemId = dataPosition.find((itm) => itm?.name == item)?.id
-        onFetchHierarchy(itemId, type)
-      }
+      if (id) onFetchHierarchy(id, type)
     } else {
       const newPositions = positions.length > 0 ? positions.slice(0, 1) : []
       setPositions(newPositions)

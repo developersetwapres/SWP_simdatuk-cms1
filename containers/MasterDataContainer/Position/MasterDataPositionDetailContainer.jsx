@@ -8,14 +8,14 @@ import MasterDataPositionDetailComponent from '@/components/MasterData/Position/
 
 export default connect(
   mapStateToProps('position'),
-  mapActions('getPosition', 'deletePosition', 'clearRoleState')
+  mapActions('getPosition', 'deletePosition', 'clearPositionState')
 )(
   class MasterDataPositionDetailContainer extends Component {
     static propTypes = {
       position: PropTypes.object,
       getPosition: PropTypes.func,
       deletePosition: PropTypes.func,
-      clearRoleState: PropTypes.func
+      clearPositionState: PropTypes.func
     }
 
     constructor(props) {

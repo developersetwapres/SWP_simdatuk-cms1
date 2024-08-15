@@ -311,16 +311,15 @@ const MasterDataPositionForm = ({
                   value={itm?.name}
                   error={errors?.parent && errors?.parent[idx]?.name}
                   onChange={(val) => {
-                    if (val) {
-                      setFieldValue(`parent[${idx}].name`, val, false)
-                      setFieldValue(`parent[${idx + 1}]`, { name: null }, false)
-                    } else {
-                      const data = values?.parent
-                      const dataSlice = data.slice(0, idx)
-                      const newData = [...dataSlice, { name: null }]
+                    const data = values?.parent
+                    const dataSlice = data.slice(0, idx)
+                    const newData = [...dataSlice, { name: val || null }]
 
-                      setFieldValue(`parent`, newData, false)
+                    if (val) {
+                      newData.push({ name: null })
                     }
+
+                    setFieldValue(`parent`, newData, false)
                   }}
                 />
               </Grid>
