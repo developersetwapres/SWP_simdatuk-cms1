@@ -37,11 +37,7 @@ const MasterDataPositionForm = ({
   }, [options])
 
   const isShow = useMemo(() => {
-    return values?.show
-  }, [values])
-
-  const isShowGroup = useMemo(() => {
-    return values?.entity && values.entity.toUpperCase() == 'ORANG'
+    return values?.show && values?.position !== POSITION?.OUTSOURCING
   }, [values])
 
   const handleData = (data, type, indexItem) => {
@@ -119,35 +115,33 @@ const MasterDataPositionForm = ({
             />
           </Grid>
           {/* Position */}
-          {isShowGroup && (
-            <Grid item xs={6}>
-              <Autocomplete
-                options={options?.positionType}
-                label='Tipe Jabatan *'
-                placeholder='Pilih Tipe Jabatan'
-                name={`position`}
-                value={values?.position}
-                error={errors?.position}
-                onChange={(val) => {
-                  setFieldValue('position', val, false)
-                  setFieldValue('show', val !== POSITION?.OUTSOURCING, false)
-                  onFetchHierarchy(val)
+          <Grid item xs={6}>
+            <Autocomplete
+              options={options?.positionType}
+              label='Tipe Jabatan *'
+              placeholder='Pilih Tipe Jabatan'
+              name={`position`}
+              value={values?.position}
+              error={errors?.position}
+              onChange={(val) => {
+                setFieldValue('position', val, false)
+                setFieldValue('show', val !== POSITION?.OUTSOURCING, false)
+                onFetchHierarchy(val)
 
-                  if (val == POSITION?.OUTSOURCING) {
-                    setFieldValue(
-                      'echelons',
-                      [{ name: null, quantity: '' }],
-                      false
-                    )
-                  }
+                if (val == POSITION?.OUTSOURCING) {
+                  setFieldValue(
+                    'echelons',
+                    [{ name: null, quantity: '' }],
+                    false
+                  )
+                }
 
-                  setTimeout(() => {
-                    formikRef.current.validateField('position')
-                  }, 1)
-                }}
-              />
-            </Grid>
-          )}
+                setTimeout(() => {
+                  formikRef.current.validateField('position')
+                }, 1)
+              }}
+            />
+          </Grid>
           {/* Show on Peta Jabatan */}
           <Grid item xs={6} alignContent='flex-end'>
             <Typography
@@ -170,7 +164,7 @@ const MasterDataPositionForm = ({
         </Grid>
       </Grid>
       {/* Echelon */}
-      {isShowGroup && (
+      {values?.position && (
         <Grid item xs={12}>
           {values?.position !== POSITION?.OUTSOURCING && (
             <Box sx={{ marginBottom: '10px' }}>
@@ -305,8 +299,7 @@ const MasterDataPositionForm = ({
         </Box>
         <Grid container spacing={3}>
           {/* Parent */}
-          {isShowGroup &&
-            values?.parent &&
+          {values?.parent &&
             values?.parent.map((itm, idx) => (
               <Grid item xs={12} key={idx}>
                 <Autocomplete

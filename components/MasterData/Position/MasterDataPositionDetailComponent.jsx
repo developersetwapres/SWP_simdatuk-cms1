@@ -33,12 +33,6 @@ const styles = {
   fontItem: { fontWeight: 600 }
 }
 
-const dataEchelon = [
-  { name: 'Ahli Madya', qty: 3, availabel: 3 },
-  { name: 'Ahli Muda', qty: 5, availabel: 5 },
-  { name: 'Ahli Pertama', qty: 2, availabel: 0 }
-]
-
 const MasterDataPositionDetailComponent = ({
   position,
   deletePosition = () => {},
@@ -93,6 +87,14 @@ const MasterDataPositionDetailComponent = ({
     )
   }, [])
 
+  const typePosition = useMemo(() => {
+    const types = {
+      STRUKTURAL: data?.type?.id == 1,
+      FUNGSIONAL: data?.type?.id == 2,
+      OUTSOURCING: data?.type?.id == 3
+    }
+    return types
+  }, [data])
   useEffect(() => {
     // Get Detail User
     const id = router?.query?.id
@@ -174,13 +176,16 @@ const MasterDataPositionDetailComponent = ({
           </Box>
           {/* Echelon */}
           <Box sx={{ margin: '30px 0' }}>
-            <Box sx={{ marginBottom: '10px' }}>
-              <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>
-                Eselon
-              </Typography>
-            </Box>
+            {data?.type?.id && !typePosition?.OUTSOURCING && (
+              <Box sx={{ marginBottom: '10px' }}>
+                <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>
+                  Eselon
+                </Typography>
+              </Box>
+            )}
             <Grid container spacing={3}>
-              {data?.echelons ? (
+              {!typePosition?.OUTSOURCING ? (
+                data?.echelons &&
                 data?.echelons.map((itm, idx) => (
                   <Fragment key={idx}>
                     {/* Echelon */}
@@ -213,9 +218,26 @@ const MasterDataPositionDetailComponent = ({
                   </Fragment>
                 ))
               ) : (
-                <Grid item xs={12}>
-                  <Typography>-</Typography>
-                </Grid>
+                <Fragment>
+                  {/* Position */}
+                  <Grid item xs={6}>
+                    <Box sx={styles?.wrapperItem}>
+                      <Typography>Jumlah yang diperlukan</Typography>
+                      <Typography sx={styles?.fontItem}>
+                        {data?.available || 0}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  {/* Position */}
+                  <Grid item xs={6}>
+                    <Box sx={styles?.wrapperItem}>
+                      <Typography>Jumlah yang terisi</Typography>
+                      <Typography sx={styles?.fontItem}>
+                        {data?.filled || 0}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                </Fragment>
               )}
             </Grid>
           </Box>

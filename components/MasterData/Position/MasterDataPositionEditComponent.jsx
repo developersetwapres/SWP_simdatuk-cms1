@@ -165,7 +165,6 @@ const MasterDataPositionEditComponent = ({
       return item
     } else {
       const item = options[type].findIndex((itm) => itm == value) + 1
-
       return item
     }
   }
@@ -280,6 +279,7 @@ const MasterDataPositionEditComponent = ({
     const echelon = echelons ? echelons[0] : []
     const isShow = echelon?.name ? true : false
     const isShowingOnPetaJabatan = detail?.status === 1
+    const typeId = detail?.type?.id
 
     formikRef.current?.setFieldValue('show', isShow, false)
     formikRef.current?.setFieldValue(
@@ -290,22 +290,35 @@ const MasterDataPositionEditComponent = ({
     formikRef.current?.setFieldValue('name', detail?.name, false)
     formikRef.current?.setFieldValue('entity', detail?.entity?.name, false)
     formikRef.current?.setFieldValue('order', `${detail?.order}`, false)
-    formikRef.current?.setFieldValue('position', detail?.type?.name, false)
+    formikRef.current?.setFieldValue(
+      'position',
+      typeId ? options['positionType'][typeId - 1] : null,
+      false
+    )
 
     handleFetchHierarchies(detail?.type?.name)
 
-    echelons.map((itm, idx) => {
+    if (detail?.type?.id !== 3) {
+      echelons.map((itm, idx) => {
+        formikRef.current?.setFieldValue(
+          `echelons[${idx}].name`,
+          itm?.name,
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `echelons[${idx}].quantity`,
+          itm?.available,
+          false
+        )
+      })
+    } else {
+      formikRef.current?.setFieldValue(`echelons[0].name`, null, false)
       formikRef.current?.setFieldValue(
-        `echelons[${idx}].name`,
-        itm?.name,
+        `echelons[0].quantity`,
+        detail?.available,
         false
       )
-      formikRef.current?.setFieldValue(
-        `echelons[${idx}].quantity`,
-        itm?.available,
-        false
-      )
-    })
+    }
 
     hierarchies.map((itm, idx) => {
       onFetchHierarchy(
