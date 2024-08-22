@@ -80,7 +80,7 @@ export const updateEmployeeStatusAction = (payload) => {
  * @returns
  */
 export const synchronizeEmployeesAction = () => {
-  return patch('/employees/synchronization')
+  return get('/employees/synchronization')
 }
 
 /**
