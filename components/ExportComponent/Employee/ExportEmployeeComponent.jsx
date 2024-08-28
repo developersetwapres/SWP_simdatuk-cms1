@@ -45,6 +45,9 @@ const checkboxes = [
     title: 'Data Diri',
     checkbox: 'personalData',
     children: [
+      { name: 'isTitleSuffix', label: 'Gelar Belakang' },
+      { name: 'isTitlePrefix', label: 'Gelar Depan' },
+      { name: 'isNameWithTitle', label: 'Nama Dengan Gelar' },
       { name: 'isName', label: 'Nama' },
       { name: 'isNip', label: 'NIP/NRP' },
       { name: 'isBirthPlaceDate', label: 'Tempat, Tanggal Lahir' },
@@ -429,6 +432,18 @@ const ExportEmployeeComponent = ({
   const getRowItem = (label, response) => {
     const excludeTag = (val) => {
       return val.replace(/<\/?[^>]+(>|$)/g, '')
+    }
+
+    if (label === 'Nama Dengan Gelar') {
+      return response?.name_with_title || '-'
+    }
+
+    if (label === 'Gelar Belakang') {
+      return response?.title_suffix || '-'
+    }
+
+    if (label === 'Gelar Depan') {
+      return response?.title_prefix || '-'
     }
 
     if (label === 'Nama') {
