@@ -683,7 +683,7 @@ const ExportEmployeeComponent = ({
   }
 
   const showErrorModal = async (error) => {
-    const errors = error instanceof Blob ? await blobToJSON(errorBlob) : error
+    const errors = error instanceof Blob ? await blobToJSON(error) : error
 
     if ([401, 403]?.includes(errors?.code)) {
       dispatch({
