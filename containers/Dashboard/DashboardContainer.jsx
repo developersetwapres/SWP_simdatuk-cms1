@@ -27,6 +27,7 @@ export default connect(
           gender_employees: {},
           total_government_employees: {},
           total_non_government_employees: {},
+          generations: [],
           users: [],
           work_unit: []
         }

@@ -7,6 +7,7 @@ import { Grid } from '@mui/material'
 import COUNT_ICON from '/public/simdatuk/count.png'
 import GENDER_ICON from '/public/simdatuk/gender.png'
 import TYPE_ICON from '/public/simdatuk/type.png'
+import GEN_ICON from '/public/simdatuk/generational_illustration.svg'
 import SectionChart from './SectionDashboard/SectionChart'
 import LayoutPages from '../core/LayoutPages'
 import PropTypes from 'prop-types'
@@ -19,12 +20,10 @@ const data = [
     image: COUNT_ICON,
     count: [
       {
-        title: 'aktif',
-        total: 288
+        title: 'aktif'
       },
       {
-        title: 'Seluruhnya',
-        total: 294
+        title: 'Seluruhnya'
       }
     ],
     type: 'total_government_employees'
@@ -35,12 +34,10 @@ const data = [
     image: GENDER_ICON,
     count: [
       {
-        title: 'Pria',
-        total: 155
+        title: 'Pria'
       },
       {
-        title: 'Wanita',
-        total: 133
+        title: 'Wanita'
       }
     ],
     type: 'gender_employees'
@@ -51,15 +48,33 @@ const data = [
     image: TYPE_ICON,
     count: [
       {
-        title: 'Perbantuan',
-        total: 143
+        title: 'Perbantuan'
       },
       {
-        title: 'Outsourcing',
-        total: 190
+        title: 'Outsourcing'
       }
     ],
     type: 'total_non_government_employees'
+  },
+  {
+    title: 'Generasi',
+    copytext: 'Detail generasi pegawai yang ada di Sekretariat Wakil Presiden',
+    image: GEN_ICON,
+    count: [
+      {
+        title: 'Gen Z (18 - 24) (2000 - 2006)'
+      },
+      {
+        title: 'Gen Y (25- 40) (1981 - 1999)'
+      },
+      {
+        title: 'Gen X (41 - 58) (1965 - 1980)'
+      },
+      {
+        title: 'Baby Boomers (59 - 75) (1946 - 1964)'
+      }
+    ],
+    type: 'generations'
   }
 ]
 
