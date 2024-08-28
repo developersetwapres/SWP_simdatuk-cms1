@@ -81,6 +81,7 @@ const RiwayatHukumanDisiplinAddComponent = ({
     const data = {
       month: monthOptions || [],
       employee: newEmployees,
+      employees: employee?.data,
       jenisHukuman: newDiscipleType,
       discipleType
     }
