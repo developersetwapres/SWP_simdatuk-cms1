@@ -96,7 +96,7 @@ function* exportEmployeesPreview(action) {
 
       yield put({
         type: EXPORT_EMPLOYEES_PREVIEW_FAILED,
-        payload: errorMessage
+        payload: errors
       })
     }
   }

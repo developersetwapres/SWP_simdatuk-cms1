@@ -77,25 +77,27 @@ export const exportEmployeeData = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        error: payload?.error
+        error: payload
       }
     // CLEAR
     case CLEAR_EXPORT_EMPLOYEE_DETAIL_STATE:
       return {
+        ...state,
         loading: false,
         error: null,
         detail: null
       }
     case CLEAR_EXPORT_EMPLOYEES_STATE:
       return {
+        ...state,
         loading: false,
         error: null,
         employees: null
       }
     case CLEAR_EXPORT_EMPLOYEES_PREVIEW_STATE:
       return {
+        ...state,
         loading: false,
-        error: null,
         preview: null
       }
     default:

@@ -148,12 +148,13 @@ const ExportEmployeeComponent = ({
   grade,
   echelon,
   exportEmployeeData,
-  onLoading = () => {},
-  onPaginationChange = () => {},
-  onRowsPerPageChange = () => {},
-  exportEmployees = () => {},
-  exportEmployeesPreview = () => {},
-  clearExportEmployeesState = () => {}
+  onLoading = () => { },
+  onPaginationChange = () => { },
+  onRowsPerPageChange = () => { },
+  exportEmployees = () => { },
+  exportEmployeesPreview = () => { },
+  clearExportEmployeesState = () => { },
+  clearExportEmployeesPreviewState = () => { }
 }) => {
   const formikRef = useRef()
   const dispatch = useDispatch()
@@ -435,21 +436,18 @@ const ExportEmployeeComponent = ({
     }
 
     if (label === 'NIP/NRP') {
-      return `${response?.employee_id_number || '-'}/${
-        response?.employee_registration_number || '-'
-      }`
+      return `${response?.employee_id_number || '-'}/${response?.employee_registration_number || '-'
+        }`
     }
 
     if (label === 'Tempat, Tanggal Lahir') {
-      return `${response?.place_of_birth || '-'}, ${
-        response?.date_of_birth || '-'
-      }`
+      return `${response?.place_of_birth || '-'}, ${response?.date_of_birth || '-'
+        }`
     }
 
     if (label === 'Tempat, Tanggal Lahir') {
-      return `${response?.place_of_birth || '-'}, ${
-        response?.date_of_birth || '-'
-      }`
+      return `${response?.place_of_birth || '-'}, ${response?.date_of_birth || '-'
+        }`
     }
 
     if (label === 'Umur') {
@@ -465,7 +463,7 @@ const ExportEmployeeComponent = ({
     }
 
     if (label === 'Status Perkawinan') {
-      return options.maritalStatuses[response?.maritalStatus - 1]
+      return options.maritalStatuses[response?.marital_status - 1] || '-'
     }
 
     if (label === 'Jenis Pegawai') {
@@ -669,8 +667,8 @@ const ExportEmployeeComponent = ({
     return '-'
   }
 
-  const showErrorModal = async (errorBlob) => {
-    const errors = await blobToJSON(errorBlob)
+  const showErrorModal = async (error) => {
+    const errors = error instanceof Blob ? await blobToJSON(errorBlob) : error
 
     if ([401, 403]?.includes(errors?.code)) {
       dispatch({
@@ -719,6 +717,7 @@ const ExportEmployeeComponent = ({
     // EXPORT FAILED
     if (exportEmployeeData?.error) {
       showErrorModal(exportEmployeeData?.error)
+      clearExportEmployeesPreviewState()
       clearExportEmployeesState()
     }
   }, [exportEmployeeData])
@@ -733,8 +732,8 @@ const ExportEmployeeComponent = ({
   }, [grade, echelon, exportEmployeeData])
 
   return (
-    <Formik innerRef={formikRef} initialValues={InitValue} onSubmit={() => {}}>
-      {({ values, resetForm = () => {}, setFieldValue = () => {} }) => (
+    <Formik innerRef={formikRef} initialValues={InitValue} onSubmit={() => { }}>
+      {({ values, resetForm = () => { }, setFieldValue = () => { } }) => (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <LayoutPages
             summary='Export Pegawai'
@@ -1345,6 +1344,7 @@ ExportEmployeeComponent.propTypes = {
   exportEmployeeData: PropTypes.object,
   onLoading: PropTypes.func,
   clearExportEmployeesState: PropTypes.func,
+  clearExportEmployeesPreviewState: PropTypes.func,
   exportEmployees: PropTypes.func,
   exportEmployeesPreview: PropTypes.func,
   onPaginationChange: PropTypes.func,

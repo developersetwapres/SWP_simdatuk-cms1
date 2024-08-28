@@ -13,7 +13,8 @@ export default connect(
     'getGradesOptions',
     'exportEmployees',
     'exportEmployeesPreview',
-    'clearExportEmployeesState'
+    'clearExportEmployeesState',
+    'clearExportEmployeesPreviewState',
   )
 )(
   class ExportEmployeeContainer extends Component {
@@ -25,7 +26,8 @@ export default connect(
       getGradesOptions: PropTypes.func,
       exportEmployees: PropTypes.func,
       exportEmployeesPreview: PropTypes.func,
-      clearExportEmployeesState: PropTypes.func
+      clearExportEmployeesState: PropTypes.func,
+      clearExportEmployeesPreviewState: PropTypes.func
     }
 
     constructor(props) {
