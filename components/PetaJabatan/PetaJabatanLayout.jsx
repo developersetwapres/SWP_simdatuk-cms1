@@ -19,7 +19,8 @@ const styles = {
     gap: '15px'
   },
   leaderBox: {
-    width: '700px',
+    width: '100%',
+    maxWidth: '660px',
     padding: '20px',
     backgroundColor: '#fff',
     justifyContent: {
@@ -31,6 +32,12 @@ const styles = {
     },
     gap: '20px',
     borderRadius: '12px'
+  },
+  wrapper: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    flexDirection: 'column'
   }
 }
 
@@ -50,12 +57,7 @@ const PetaJabatanLayout = ({ data, children }) => {
   }, [data, router])
 
   return (
-    <Grid
-      container
-      direction='column'
-      justifyContent='center'
-      alignItems='center'
-    >
+    <Box sx={styles?.wrapper}>
       {employee?.entity == 2 ? (
         <Box width='40vw' borderRadius={3} sx={styles.headerMap}>
           <Typography textAlign='center' fontWeight='bold'>
@@ -64,7 +66,7 @@ const PetaJabatanLayout = ({ data, children }) => {
           {data?.isDetail && <Button text='Lihat Detail' marginBottom={4} />}
         </Box>
       ) : (
-        <Grid item container sx={styles.leaderBox}>
+        <Grid container sx={styles.leaderBox}>
           {/* Jabatan */}
           <Grid item xs={12}>
             <Typography
@@ -82,14 +84,14 @@ const PetaJabatanLayout = ({ data, children }) => {
               {employee?.name || '-'}
             </Typography>
           </Grid>
-          <Grid container item spacing={3}>
+          <Grid container item spacing={2}>
             {/* Avatar */}
             <Grid item xs={3}>
               {employee?.user?.photo_profile ? (
                 <Box
-                  height={200}
-                  width={150}
                   sx={{
+                    width: '100%',
+                    height: 'fit-content',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -105,27 +107,26 @@ const PetaJabatanLayout = ({ data, children }) => {
                 </Box>
               ) : (
                 <Box
-                  height={200}
-                  width={150}
                   sx={{
+                    width: '100%',
+                    height: '160px',
                     display: 'flex',
-                    alignItems: 'center',
+                    alignItems: 'end',
                     justifyContent: 'center',
                     overflow: 'hidden',
                     backgroundColor: '#f0f0f0'
                   }}
                 >
-                  <Image
+                  <img
                     src='/simdatuk/userIcon.png'
                     alt='profile'
-                    height={70}
-                    width={70}
+                    style={{ width: '80%', height: 'fit-content' }}
                   />
                 </Box>
               )}
             </Grid>
             {/* Bio */}
-            <Grid item container xs={9} paddingY={2} sx={{ paddingX: '20px' }}>
+            <Grid item container xs={9} spacing={2}>
               {/* Name */}
               <Grid item xs={12}>
                 <Typography color='primary' fontSize='16px' fontWeight='600'>
@@ -141,7 +142,7 @@ const PetaJabatanLayout = ({ data, children }) => {
               {employee?.user?.type == 1 ? (
                 <>
                   {/* Echelon */}
-                  <Grid item xs={4}>
+                  <Grid item xs={3}>
                     <Typography fontSize={16}>Eselon</Typography>
                     <Typography fontWeight='600' fontSize={14}>
                       {employee?.user?.echelon_name || '-'}
@@ -161,15 +162,17 @@ const PetaJabatanLayout = ({ data, children }) => {
                     </Typography>
                   </Grid>
                   {/* NIP/NRP */}
-                  <Grid item xs={4}>
+                  <Grid item xs={5}>
                     <Typography>NIP/NRP</Typography>
                     <Typography
                       fontWeight='600'
                       fontSize={14}
-                      sx={{
-                        whiteSpace: 'pre-wrap',
-                        wordWrap: 'break-word'
-                      }}
+                      sx={
+                        {
+                          // whiteSpace: 'pre-wrap',
+                          // wordWrap: 'break-word'
+                        }
+                      }
                     >
                       {`${employee?.user?.employee_id_number || '-'}${
                         employee?.user?.employee_registration_number ? '/' : ''
@@ -179,10 +182,12 @@ const PetaJabatanLayout = ({ data, children }) => {
                       <Typography
                         fontWeight='600'
                         fontSize={14}
-                        sx={{
-                          whiteSpace: 'pre-wrap',
-                          wordWrap: 'break-word'
-                        }}
+                        sx={
+                          {
+                            // whiteSpace: 'pre-wrap',
+                            // wordWrap: 'break-word'
+                          }
+                        }
                       >
                         {employee?.user?.employee_registration_number}
                       </Typography>
@@ -247,9 +252,8 @@ const PetaJabatanLayout = ({ data, children }) => {
           </Grid>
         </Grid>
       )}
-
       {children}
-    </Grid>
+    </Box>
   )
 }
 

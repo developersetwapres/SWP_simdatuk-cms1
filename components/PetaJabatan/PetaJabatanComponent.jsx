@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { Box, Typography } from '@mui/material'
+import { Box, Grid, Typography } from '@mui/material'
 import { Button } from '../shared'
 import JobChart from '../shared/JobChart'
 import { useRouter } from 'next/router'
@@ -14,6 +14,7 @@ import { CLEAR_DIAGRAMS_EXPORT_STATE } from '@/store/constants'
 
 const styles = {
   headerMap: {
+    width: '100%',
     backgroundColor: '#fff',
     padding: '1rem',
     display: 'flex',
@@ -24,7 +25,7 @@ const styles = {
   },
   boxParent: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     gap: '2rem'
@@ -107,18 +108,28 @@ const PetaJabatanComponent = ({
       action={action}
     >
       <Box sx={styles.boxParent}>
-        {datas &&
-          datas.map((item, index) =>
-            item?.entity == 2 && !isDetail ? (
-              <CardEmployment
-                title={item?.name}
-                path={`${router.asPath}/${btoa(item?.id)}`}
-                key={index}
-              />
-            ) : (
-              <JobChart datas={item} key={index} />
-            )
-          )}
+        <Grid
+          container
+          spacing={3}
+          alignItems={'end'}
+          justifyContent={'center'}
+        >
+          {datas &&
+            datas.map((item, index) =>
+              item?.entity == 2 && !isDetail ? (
+                <Grid item xs={index + 1 == datas.length ? 4 : 3} key={index}>
+                  <CardEmployment
+                    title={item?.name}
+                    path={`${router.asPath}/${btoa(item?.id)}`}
+                  />
+                </Grid>
+              ) : (
+                <Grid item xs={staffParams ? 12 : 6} key={index}>
+                  <JobChart datas={item} />
+                </Grid>
+              )
+            )}
+        </Grid>
       </Box>
     </LayoutPages>
   )
@@ -127,8 +138,8 @@ const PetaJabatanComponent = ({
 const CardEmployment = ({ title, path }) => {
   const router = useRouter()
   return (
-    <Box width='600px' borderRadius={3} sx={styles.headerMap}>
-      <Typography textAlign='center' fontWeight='bold' width={'60%'}>
+    <Box borderRadius={3} sx={styles.headerMap}>
+      <Typography textAlign='center' fontWeight='bold' width={'100%'}>
         {title}
       </Typography>
       <Button
