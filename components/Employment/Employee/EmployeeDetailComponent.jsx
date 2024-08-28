@@ -252,7 +252,7 @@ const EmployeeDetailComponent = ({
         Section: (props) => <RiwayatJabatanSection {...props} />
       },
       {
-        id: 'riwayat_golongan',
+        id: 'riwayat_golongan_/_pangkat',
         data: data?.grades || [],
         Section: (props) => <RiwayatGolonganSection {...props} />
       },
@@ -363,7 +363,7 @@ const EmployeeDetailComponent = ({
         ]
         const chosenRiwayatMenu = [
           'riwayat_jabatan',
-          'riwayat_golongan',
+          'riwayat_golongan_/_pangkat',
           'riwayat_pelatihan_struktural',
           'riwayat_pelatihan_fungsional',
           'riwayat_pelatihan_teknis',

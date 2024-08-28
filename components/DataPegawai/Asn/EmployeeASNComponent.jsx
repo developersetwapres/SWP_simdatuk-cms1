@@ -103,7 +103,7 @@ const EmployeeASNComponent = ({
         align: 'left'
       },
       {
-        Header: 'Golongan',
+        Header: 'Golongan / Pangkat',
         width: 200,
         align: 'left'
       },

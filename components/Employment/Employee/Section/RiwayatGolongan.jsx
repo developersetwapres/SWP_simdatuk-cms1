@@ -56,7 +56,7 @@ const RiwayatGolonganSection = ({ data = [] }) => {
     []
   )
 
-  const openInNewTab = url => {
+  const openInNewTab = (url) => {
     if (!url) return
 
     window.open(url, '_blank')
@@ -89,13 +89,14 @@ const RiwayatGolonganSection = ({ data = [] }) => {
           verticalAlign: 'top',
           Cell: () => (
             <>
-              {
-                item?.decree_document ?
-                  <Button
-                    text='Lihat File'
-                    onClick={() => openInNewTab(item?.decree_document)}
-                  /> : <Typography>-</Typography>
-              }
+              {item?.decree_document ? (
+                <Button
+                  text='Lihat File'
+                  onClick={() => openInNewTab(item?.decree_document)}
+                />
+              ) : (
+                <Typography>-</Typography>
+              )}
             </>
           )
         },
@@ -103,7 +104,9 @@ const RiwayatGolonganSection = ({ data = [] }) => {
           Header: 'Jenis SK Golongan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.type_of_decree_name || '-'}</Typography>
+          Cell: () => (
+            <Typography>{item?.type_of_decree_name || '-'}</Typography>
+          )
         },
         {
           Header: 'No. SK Golongan',
@@ -127,7 +130,11 @@ const RiwayatGolonganSection = ({ data = [] }) => {
           Header: 'Status Golongan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.status === 1 ? 'Aktif' : 'Tidak Aktif'}</Typography>
+          Cell: () => (
+            <Typography>
+              {item?.status === 1 ? 'Aktif' : 'Tidak Aktif'}
+            </Typography>
+          )
         }
       ]
     })
@@ -138,7 +145,7 @@ const RiwayatGolonganSection = ({ data = [] }) => {
   return (
     <Grid>
       <Table
-        title='Riwayat Golongan'
+        title='Riwayat Golongan / Pangkat'
         columns={columns}
         rows={rows}
         isPagination={false}

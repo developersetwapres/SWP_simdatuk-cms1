@@ -77,7 +77,7 @@ const TypeForm = ({
                 <Autocomplete
                   options={options?.grade}
                   placeholder='Pilih Golongan'
-                  label='Golongan *'
+                  label='Golongan / Pangkat *'
                   name={`grades[${idx}].grade`}
                   value={itm?.grade}
                   error={errors?.grades && errors?.grades[idx]?.grade}
