@@ -18,22 +18,7 @@ const RiwayatPenghargaanSection = ({ data = [] }) => {
         align: 'left'
       },
       {
-        Header: 'Keterangan Penghargaan',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'Jenis SK',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'Tanggal SK',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'No. SK Penghargaan',
+        Header: 'Nomor SK',
         width: 200,
         align: 'left'
       },
@@ -44,11 +29,6 @@ const RiwayatPenghargaanSection = ({ data = [] }) => {
       },
       {
         Header: 'Instansi Pemberi Penghargaan',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'Tanggal Terima',
         width: 200,
         align: 'left'
       }
@@ -72,25 +52,7 @@ const RiwayatPenghargaanSection = ({ data = [] }) => {
           Cell: () => <Typography>{item?.recognition_name || '-'}</Typography>
         },
         {
-          Header: 'Keterangan Penghargaan',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.description || '-'}</Typography>
-        },
-        {
-          Header: 'Jenis SK',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.type_of_decree_name || '-'}</Typography>
-        },
-        {
-          Header: 'Tanggal SK',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.decree_date || '-'}</Typography>
-        },
-        {
-          Header: 'No. SK Penghargaan',
+          Header: 'Nomor SK',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.decree_number || '-'}</Typography>
@@ -106,12 +68,6 @@ const RiwayatPenghargaanSection = ({ data = [] }) => {
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.awarding_institution || '-'}</Typography>
-        },
-        {
-          Header: 'Tanggal Terima',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.date_of_receipt || '-'}</Typography>
         }
       ]
     })

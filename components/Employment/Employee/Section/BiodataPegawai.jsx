@@ -1,19 +1,15 @@
 /* eslint-disable indent */
-/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useMemo } from 'react'
 import { Grid, Typography } from '@mui/material'
 import { Button } from '@/components/shared'
 import Paper from '@/components/shared/overrides/Paper'
 import PropTypes from 'prop-types'
-import { useRouter } from 'next/router'
 import { employeeTypeOptions } from 'libs/types/options'
 import moment from 'moment'
 import 'moment/locale/id'
 
 const BiodataPegawai = ({ data, employmentType }) => {
-  const router = useRouter()
-
   const path = useMemo(() => {
     const type = data?.type
     const datas = {
@@ -89,11 +85,11 @@ const BiodataPegawai = ({ data, employmentType }) => {
             {data?.type == 1
               ? 'Jenis Pegawai'
               : data?.type == 2
-              ? 'Jenis Perbantuan'
-              : 'Jenis Outsourcing'}
+                ? 'Jenis Perbantuan'
+                : 'Jenis Outsourcing'}
           </Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {getValueOptions(data?.type, 'type')}
+            {getValueOptions(data?.employment_type_id, 'type')}
           </Typography>
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
@@ -170,9 +166,8 @@ const BiodataPegawai = ({ data, employmentType }) => {
           <Typography>Masa Kerja Keseluruhan</Typography>
           <Typography fontWeight='500' marginTop={1}>
             {data?.years_of_service_total || data?.month_of_service_total
-              ? `${data?.years_of_service_total || 0} Tahun, ${
-                  data?.month_of_service_total || 0
-                } Bulan`
+              ? `${data?.years_of_service_total || 0} Tahun, ${data?.month_of_service_total || 0
+              } Bulan`
               : '-'}
           </Typography>
         </Grid>{' '}
@@ -181,9 +176,8 @@ const BiodataPegawai = ({ data, employmentType }) => {
             <Typography>Masa Kerja Golongan</Typography>
             <Typography fontWeight='500' marginTop={1}>
               {data?.years_of_service_rank || data?.month_of_service_rank
-                ? `${data?.years_of_service_rank || 0} Tahun, ${
-                    data?.month_of_service_rank || 0
-                  } Bulan`
+                ? `${data?.years_of_service_rank || 0} Tahun, ${data?.month_of_service_rank || 0
+                } Bulan`
                 : '-'}
             </Typography>
           </Grid>

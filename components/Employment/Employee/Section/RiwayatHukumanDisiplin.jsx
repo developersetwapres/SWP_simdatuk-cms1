@@ -13,16 +13,6 @@ const RiwayatHukumanDisiplin = ({ data = [] }) => {
         align: 'left'
       },
       {
-        Header: 'Golongan',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'Jabatan',
-        width: 200,
-        align: 'left'
-      },
-      {
         Header: 'Jenis Hukuman',
         width: 200,
         align: 'left'
@@ -33,52 +23,17 @@ const RiwayatHukumanDisiplin = ({ data = [] }) => {
         align: 'left'
       },
       {
-        Header: 'Pemotongan Tunjangan Kinerja(Persentase)',
+        Header: 'Nomor SK',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Jangka Waktu Pemotongan(Bulan)',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'No. SK Hukuman Disiplin',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'Tanggal SK Hukuman Disiplin',
+        Header: 'Tanggal SK',
         width: 200,
         align: 'left'
       },
       {
         Header: 'Tanggal Hukuman Disiplin',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'Status',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'Masa Berlaku',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'Pejabat Berwenang',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'Nama Pejabat Berwenang',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'Uraian',
         width: 200,
         align: 'left'
       }
@@ -96,18 +51,6 @@ const RiwayatHukumanDisiplin = ({ data = [] }) => {
           Cell: () => <Typography>{index + 1}</Typography>
         },
         {
-          Header: 'Golongan',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.grade || '-'}</Typography>
-        },
-        {
-          Header: 'Jabatan',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.position || '-'}</Typography>
-        },
-        {
           Header: 'Jenis Hukuman',
           align: 'left',
           verticalAlign: 'top',
@@ -120,25 +63,13 @@ const RiwayatHukumanDisiplin = ({ data = [] }) => {
           Cell: () => <Typography>{item?.disciplinary_description || '-'}</Typography>
         },
         {
-          Header: 'Pemotongan Tunjangan Kinerja(Persentase)',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.performance_allowance_deduction || '-'}</Typography>
-        },
-        {
-          Header: 'Jangka Waktu Pemotongan(Bulan)',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.performance_allowance_duration || '-'}</Typography>
-        },
-        {
-          Header: 'No. SK Hukuman Disiplin',
+          Header: 'Nomor SK',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.decree_number || '-'}</Typography>
         },
         {
-          Header: 'Tanggal SK Hukuman Disiplin',
+          Header: 'Tanggal SK',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.date_of_decree || '-'}</Typography>
@@ -148,36 +79,6 @@ const RiwayatHukumanDisiplin = ({ data = [] }) => {
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{`${item?.start_date || ''}-${item?.end_date || ''}`}</Typography>
-        },
-        {
-          Header: 'Status',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.status === 1 ? 'Aktif' : 'Pasif'}</Typography>
-        },
-        {
-          Header: 'Masa Berlaku',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{`${item?.validity_period || 0} Hari`}</Typography>
-        },
-        {
-          Header: 'Pejabat Berwenang',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.authorizing_officer || '-'}</Typography>
-        },
-        {
-          Header: 'Nama Pejabat Berwenang',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.name_of_authorizing_officer || '-'}</Typography>
-        },
-        {
-          Header: 'Uraian',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.description || '-'}</Typography>
         }
       ]
     })
