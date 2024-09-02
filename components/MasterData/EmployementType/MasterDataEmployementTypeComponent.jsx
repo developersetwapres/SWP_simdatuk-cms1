@@ -64,12 +64,12 @@ const styles = {
 const MasterDataEmployementTypeComponent = ({
   employmentType,
   queries,
-  onFetch = () => {},
-  onSearch = () => {},
-  onLoading = () => {},
-  onPaginationChange = () => {},
-  onRowsPerPageChange = () => {},
-  deleteEmploymentType = () => {}
+  onFetch = () => { },
+  onSearch = () => { },
+  onLoading = () => { },
+  onPaginationChange = () => { },
+  onRowsPerPageChange = () => { },
+  deleteEmploymentType = () => { }
 }) => {
   const classes = useStyles()
   const router = useRouter()
@@ -156,34 +156,40 @@ const MasterDataEmployementTypeComponent = ({
           verticalAlign: 'top',
           Cell: () => (
             <Box sx={{ display: 'flex', gap: 1 }}>
-              <Button
-                text='Detail'
-                color='primary'
-                onClick={() =>
-                  router.push(`/${router.pathname}/detail/${btoa(item?.id)}`)
-                }
-                icon={<Info style={styles.iconButton} />}
-                sx={styles.buttonAction}
-              />
-              <Button
-                text='Edit'
-                color='sidatukDraweBase'
-                onClick={() =>
-                  router.push(`/${router.pathname}/edit/${btoa(item?.id)}`)
-                }
-                icon={<Edit style={styles.iconButton} />}
-                sx={styles.buttonAction}
-              />
-              <Button
-                text='Hapus'
-                color='danger'
-                icon={<Delete style={styles.iconButton} />}
-                sx={styles.buttonAction}
-                onClick={() => {
-                  setDeleteId(item?.id)
-                  handleModal()
-                }}
-              />
+              {accessGranted(PermissionsIDs.MASTER_EMPLOYEE_TYPE, Access.READ) && (
+                <Button
+                  text='Detail'
+                  color='primary'
+                  onClick={() =>
+                    router.push(`/${router.pathname}/detail/${btoa(item?.id)}`)
+                  }
+                  icon={<Info style={styles.iconButton} />}
+                  sx={styles.buttonAction}
+                />
+              )}
+              {accessGranted(PermissionsIDs.MASTER_EMPLOYEE_TYPE, Access.UPDATE) && (
+                <Button
+                  text='Edit'
+                  color='sidatukDraweBase'
+                  onClick={() =>
+                    router.push(`/${router.pathname}/edit/${btoa(item?.id)}`)
+                  }
+                  icon={<Edit style={styles.iconButton} />}
+                  sx={styles.buttonAction}
+                />
+              )}
+              {accessGranted(PermissionsIDs.MASTER_EMPLOYEE_TYPE, Access.DELETE) && (
+                <Button
+                  text='Hapus'
+                  color='danger'
+                  icon={<Delete style={styles.iconButton} />}
+                  sx={styles.buttonAction}
+                  onClick={() => {
+                    setDeleteId(item?.id)
+                    handleModal()
+                  }}
+                />
+              )}
             </Box>
           )
         }
