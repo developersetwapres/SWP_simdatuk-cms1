@@ -21,6 +21,14 @@ const PositionForm = ({
   formikRef,
   options
 }) => {
+  const handleDeleteData = (idx) => {
+    const error = errors?.positions
+    if (error) error.splice(idx, 1)
+
+    const newData = values?.positions.filter((item, index) => index !== idx)
+    setFieldValue('positions', newData, false)
+  }
+
   return (
     <CardAccordion title='Riwayat Jabatan'>
       <Grid container spacing={3} sx={{ paddingBottom: '12px' }}>
@@ -28,7 +36,10 @@ const PositionForm = ({
           values?.positions.map((itm, idx) => (
             <Grid item container xs={12} spacing={3} key={idx}>
               <Grid item xs={12} sx={{ padding: 0, margin: 0 }}>
-                <HeaderForm title='Riwayat Jabatan' isDelete={false} />
+                <HeaderForm
+                  title='Riwayat Jabatan'
+                  handleDelete={() => handleDeleteData(idx)}
+                />
               </Grid>
               {/* Period */}
               <Grid item xs={6}>
@@ -97,15 +108,15 @@ const PositionForm = ({
                 <Autocomplete
                   options={options?.group}
                   placeholder='Pilih Rumpun'
-                  label='Rumpun *'
+                  label='Rumpun'
                   name={`positions[${idx}].group`}
                   value={itm?.group}
                   error={errors?.positions && errors?.positions[idx]?.group}
                   onChange={(val) => {
                     setFieldValue(`positions[${idx}].group`, val, false)
-                    setTimeout(() => {
-                      formikRef.current.validateField(`positions[${idx}].group`)
-                    }, 1)
+                    // setTimeout(() => {
+                    //   formikRef.current.validateField(`positions[${idx}].group`)
+                    // }, 1)
                   }}
                 />
               </Grid>

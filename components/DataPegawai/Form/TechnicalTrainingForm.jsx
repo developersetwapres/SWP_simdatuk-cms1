@@ -21,6 +21,16 @@ const TechnicalTrainingForm = ({
   formikRef,
   options
 }) => {
+  const handleDeleteData = (idx) => {
+    const error = errors?.trainingTechnicals
+    if (error) error.splice(idx, 1)
+
+    const newData = values?.trainingTechnicals.filter(
+      (item, index) => index !== idx
+    )
+    setFieldValue('trainingTechnicals', newData, false)
+  }
+
   return (
     <CardAccordion title='Riwayat Pelatihan Teknis'>
       <Grid container spacing={3} sx={{ paddingBottom: '12px' }}>
@@ -28,7 +38,10 @@ const TechnicalTrainingForm = ({
           values?.trainingTechnicals.map((itm, idx) => (
             <Grid item container xs={12} spacing={3} key={idx}>
               <Grid item xs={12} sx={{ padding: 0, margin: 0 }}>
-                <HeaderForm title='Riwayat Pelatihan Teknis' isDelete={false} />
+                <HeaderForm
+                  title='Riwayat Pelatihan Teknis'
+                  handleDelete={() => handleDeleteData(idx)}
+                />
               </Grid>
               {/* Period */}
               <Grid item xs={6}>

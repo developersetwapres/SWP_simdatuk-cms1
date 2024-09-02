@@ -29,6 +29,16 @@ const DisciplinaryForm = ({
     }
   }
 
+  const handleDeleteData = (idx) => {
+    const error = errors?.disciplinaries
+    if (error) error.splice(idx, 1)
+
+    const newData = values?.disciplinaries.filter(
+      (item, index) => index !== idx
+    )
+    setFieldValue('disciplinaries', newData, false)
+  }
+
   return (
     <CardAccordion title='Riwayat Hukuman Disiplin'>
       <Grid container spacing={3} sx={{ paddingBottom: '12px' }}>
@@ -38,7 +48,7 @@ const DisciplinaryForm = ({
               <Grid item xs={12} sx={{ padding: 0, margin: 0 }}>
                 <HeaderForm
                   title='Riwayat Hukuman Disiplin'
-                  handleDelete={() => {}}
+                  handleDelete={() => handleDeleteData(idx)}
                 />
               </Grid>
               {/* Period */}

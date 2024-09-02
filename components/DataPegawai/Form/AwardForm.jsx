@@ -20,6 +20,14 @@ const AwardForm = ({
   formikRef,
   options
 }) => {
+  const handleDeleteData = (idx) => {
+    const error = errors?.recognitions
+    if (error) error.splice(idx, 1)
+
+    const newData = values?.recognitions.filter((item, index) => index !== idx)
+    setFieldValue('recognitions', newData, false)
+  }
+
   return (
     <CardAccordion title='Riwayat Penghargaan'>
       <Grid container spacing={3} sx={{ paddingBottom: '12px' }}>
@@ -27,7 +35,10 @@ const AwardForm = ({
           values?.recognitions.map((itm, idx) => (
             <Grid item container xs={12} spacing={3} key={idx}>
               <Grid item xs={12} sx={{ padding: 0, margin: 0 }}>
-                <HeaderForm title='Riwayat Jabatan' isDelete={false} />
+                <HeaderForm
+                  title='Riwayat Jabatan'
+                  handleDelete={() => handleDeleteData(idx)}
+                />
               </Grid>
               {/* Period */}
               <Grid item xs={6}>

@@ -21,6 +21,14 @@ const TypeForm = ({
   formikRef,
   options
 }) => {
+  const handleDeleteData = (idx) => {
+    const error = errors?.grades
+    if (error) error.splice(idx, 1)
+
+    const newData = values?.grades.filter((item, index) => index !== idx)
+    setFieldValue('grades', newData, false)
+  }
+
   return (
     <CardAccordion title='Riwayat Golongan'>
       <Grid container spacing={3} sx={{ paddingBottom: '12px' }}>
@@ -28,7 +36,10 @@ const TypeForm = ({
           values?.grades.map((itm, idx) => (
             <Grid item container xs={12} spacing={3} key={idx}>
               <Grid item xs={12} sx={{ padding: 0, margin: 0 }}>
-                <HeaderForm title='Riwayat Golongan' isDelete={false} />
+                <HeaderForm
+                  title='Riwayat Golongan'
+                  handleDelete={() => handleDeleteData(idx)}
+                />
               </Grid>
               {/* Period */}
               <Grid item xs={6}>

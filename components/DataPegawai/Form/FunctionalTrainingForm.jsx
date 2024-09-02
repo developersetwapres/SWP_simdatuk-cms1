@@ -21,6 +21,16 @@ const FunctionalTrainingForm = ({
   formikRef,
   options
 }) => {
+  const handleDeleteData = (idx) => {
+    const error = errors?.trainingFungsionals
+    if (error) error.splice(idx, 1)
+
+    const newData = values?.trainingFungsionals.filter(
+      (item, index) => index !== idx
+    )
+    setFieldValue('trainingFungsionals', newData, false)
+  }
+
   return (
     <CardAccordion title='Riwayat Pelatihan Fungsional'>
       <Grid container spacing={3} sx={{ paddingBottom: '12px' }}>
@@ -30,7 +40,7 @@ const FunctionalTrainingForm = ({
               <Grid item xs={12} sx={{ padding: 0, margin: 0 }}>
                 <HeaderForm
                   title='Riwayat Pelatihan Fungsional'
-                  isDelete={false}
+                  handleDelete={() => handleDeleteData(idx)}
                 />
               </Grid>
               {/* Period */}

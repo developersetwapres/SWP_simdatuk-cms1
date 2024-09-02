@@ -21,6 +21,16 @@ const StructuralTrainingForm = ({
   formikRef,
   options
 }) => {
+  const handleDeleteData = (idx) => {
+    const error = errors?.trainingStructurals
+    if (error) error.splice(idx, 1)
+
+    const newData = values?.trainingStructurals.filter(
+      (item, index) => index !== idx
+    )
+    setFieldValue('trainingStructurals', newData, false)
+  }
+
   return (
     <CardAccordion title='Riwayat Pelatihan Struktural'>
       <Grid container spacing={3} sx={{ paddingBottom: '12px' }}>
@@ -30,7 +40,7 @@ const StructuralTrainingForm = ({
               <Grid item xs={12} sx={{ padding: 0, margin: 0 }}>
                 <HeaderForm
                   title='Riwayat Pelatihan Struktural'
-                  isDelete={false}
+                  handleDelete={() => handleDeleteData(idx)}
                 />
               </Grid>
               {/* Period */}

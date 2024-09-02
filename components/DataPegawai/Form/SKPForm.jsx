@@ -19,6 +19,14 @@ const SKPForm = ({
   formikRef,
   options
 }) => {
+  const handleDeleteData = (idx) => {
+    const error = errors?.targets
+    if (error) error.splice(idx, 1)
+
+    const newData = values?.targets.filter((item, index) => index !== idx)
+    setFieldValue('targets', newData, false)
+  }
+
   return (
     <CardAccordion title='Riwayat SKP'>
       <Grid container spacing={3} sx={{ paddingBottom: '12px' }}>
@@ -26,7 +34,10 @@ const SKPForm = ({
           values?.targets.map((itm, idx) => (
             <Grid item container xs={12} spacing={3} key={idx}>
               <Grid item xs={12} sx={{ padding: 0, margin: 0 }}>
-                <HeaderForm title='Riwayat SKP' isDelete={false} />
+                <HeaderForm
+                  title='Riwayat SKP'
+                  handleDelete={() => handleDeleteData(idx)}
+                />
               </Grid>
               {/* Period */}
               <Grid item xs={6}>

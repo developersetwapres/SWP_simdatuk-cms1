@@ -19,6 +19,14 @@ const PerformanceForm = ({
   formikRef,
   options
 }) => {
+  const handleDeleteData = (idx) => {
+    const error = errors?.performances
+    if (error) error.splice(idx, 1)
+
+    const newData = values?.performances.filter((item, index) => index !== idx)
+    setFieldValue('performances', newData, false)
+  }
+
   return (
     <CardAccordion title='Riwayat Penilaian Prestasi Kerja'>
       <Grid container spacing={3} sx={{ paddingBottom: '12px' }}>
@@ -28,7 +36,7 @@ const PerformanceForm = ({
               <Grid item xs={12} sx={{ padding: 0, margin: 0 }}>
                 <HeaderForm
                   title='Riwayat Penilaian Prestasi Kerja'
-                  handleDelete={() => {}}
+                  handleDelete={() => handleDeleteData(idx)}
                 />
               </Grid>
               {/* Period */}
