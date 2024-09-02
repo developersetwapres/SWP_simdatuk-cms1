@@ -25,11 +25,13 @@ import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material'
 
 const style = {
   cardParent: {
-    minWidth: {
-      md: '18vw',
-      sm: '25vw',
-      xs: '50vw'
-    },
+    // minWidth: {
+    //   md: '18vw',
+    //   sm: '25vw',
+    //   xs: '50vw'
+    // },
+    width: '100%',
+    height: '300px',
     height: 'fit-content'
   },
   imageBox: {

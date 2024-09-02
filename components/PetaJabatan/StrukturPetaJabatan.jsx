@@ -65,12 +65,15 @@ const StrukturPetaJabatan = ({
             position: 'absolute',
             top: 0,
             right: 0,
-            left: 0
+            left: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
           }}
         >
           <hr
             style={{
-              width: '100%',
+              width: '70%',
               height: '2px',
               border: 0,
               margin: 0,
@@ -105,11 +108,14 @@ const StrukturPetaJabatan = ({
                         : '280px',
                     xs: '50vw'
                   },
-                  height: 'fit-content'
+                  height: 'fit-content',
+                  position: 'relative'
                 }}
               >
                 <Box
                   sx={{
+                    width: '100%',
+                    height: '2px',
                     display: 'flex',
                     justifyContent:
                       index == '0'
@@ -118,24 +124,37 @@ const StrukturPetaJabatan = ({
                         ? 'flex-end'
                         : 'center',
                     padding: 0,
-                    margin: 0
+                    margin: 0,
+                    position: 'relative'
                   }}
                 >
                   <hr
                     style={{
                       width:
-                        index == '0' || index + 1 == datas.length
-                          ? '49.6%'
+                        index == 0 || index + 1 == datas.length
+                          ? '50.6%'
                           : '100%',
                       height: '2px',
                       border: 0,
                       margin: 0,
-                      backgroundColor:
-                        index == '0' || index + 1 == datas.length
-                          ? '#F4F4F4'
-                          : '#394346'
+                      backgroundColor: '#394346',
+                      position: 'absolute',
+                      right: index == 0 ? 0 : '49.6%'
                     }}
                   />
+                  {(index == 0 || index + 1 == datas.length) && (
+                    <hr
+                      style={{
+                        width: '49.8%',
+                        height: '2px',
+                        border: 0,
+                        margin: 0,
+                        backgroundColor: '#F4F4F4',
+                        position: 'absolute',
+                        right: index == 0 ? '50.2%' : 0
+                      }}
+                    />
+                  )}
                 </Box>
                 {item?.type == 2 ? (
                   <>
