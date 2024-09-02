@@ -88,7 +88,7 @@ const RiwayatGolonganEditComponent = ({
   const [formValues, setFormValues] = useState(InitValue)
 
   const options = useMemo(() => {
-    const newGrade = grade?.options?.map((itm) => itm?.name)
+    const newGrade = grade?.options?.map((itm) => `${itm?.name} ${itm?.code}`)
     const newEmployee = employee?.data.map((itm) => {
       return `${itm?.name} - ${itm?.employee_id_number}`
     })
@@ -130,7 +130,7 @@ const RiwayatGolonganEditComponent = ({
         const item = {
           id: handleGetValueId(index, 'id'),
           user_id: handleGetValueId(itm?.nama, 'employee'),
-          grade_id: handleGetValueId(itm?.golongan, 'grade'),
+          grade_id: handleGetValueId(itm?.golongan?.split(' (')[0], 'grade'),
           effective_date: moment(itm?.tmt).format('YYYY-MM-DD'),
           status: itm?.statusGolongan === 'Aktif' ? 1 : 0
         }
@@ -209,7 +209,7 @@ const RiwayatGolonganEditComponent = ({
             nama: itm?.name && itm?.employee_id_number
               ? `${itm?.name} - ${itm?.employee_id_number}`
               : null,
-            golongan: itm?.grade_name || '',
+            golongan: `${itm?.grade_name} ${itm?.grade_code}`,
             tmt: itm?.effective_date || '',
             noSk: itm?.decree_number || '',
             statusGolongan: itm?.status === 1 ? 'Aktif' : 'Tidak Aktif'

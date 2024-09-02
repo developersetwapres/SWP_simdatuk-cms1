@@ -145,10 +145,10 @@ const RiwayatGolonganForm = ({
                     <Autocomplete
                       options={options?.golongan}
                       name={`pegawai[${index}].golongan`}
-                      placeholder='Pilih Golongan'
+                      placeholder='Pilih Pangkat / Golongan'
                       value={item?.golongan}
                       multiple={false}
-                      label='Golongan *'
+                      label='Pangkat / Golongan *'
                       error={
                         errors?.pegawai && errors?.pegawai[index]?.golongan
                       }
