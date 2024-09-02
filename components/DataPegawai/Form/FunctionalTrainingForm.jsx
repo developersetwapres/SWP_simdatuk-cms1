@@ -19,7 +19,8 @@ const FunctionalTrainingForm = ({
   isSubmitting,
   setFieldValue,
   formikRef,
-  options
+  options,
+  isExpand
 }) => {
   const handleDeleteData = (idx) => {
     const error = errors?.trainingFungsionals
@@ -32,7 +33,7 @@ const FunctionalTrainingForm = ({
   }
 
   return (
-    <CardAccordion title='Riwayat Pelatihan Fungsional'>
+    <CardAccordion title='Riwayat Pelatihan Fungsional' isExpand={isExpand}>
       <Grid container spacing={3} sx={{ paddingBottom: '12px' }}>
         {values?.trainingFungsionals &&
           values?.trainingFungsionals.map((itm, idx) => (
@@ -310,7 +311,8 @@ FunctionalTrainingForm.propTypes = {
   setFieldValue: PropTypes.func,
   isSubmitting: PropTypes.bool,
   formikRef: PropTypes.any,
-  options: PropTypes.object
+  options: PropTypes.object,
+  isExpand: PropTypes.bool
 }
 
 export default FunctionalTrainingForm

@@ -19,7 +19,8 @@ const TechnicalTrainingForm = ({
   isSubmitting,
   setFieldValue,
   formikRef,
-  options
+  options,
+  isExpand
 }) => {
   const handleDeleteData = (idx) => {
     const error = errors?.trainingTechnicals
@@ -32,7 +33,7 @@ const TechnicalTrainingForm = ({
   }
 
   return (
-    <CardAccordion title='Riwayat Pelatihan Teknis'>
+    <CardAccordion title='Riwayat Pelatihan Teknis' isExpand={isExpand}>
       <Grid container spacing={3} sx={{ paddingBottom: '12px' }}>
         {values?.trainingTechnicals &&
           values?.trainingTechnicals.map((itm, idx) => (
@@ -258,7 +259,8 @@ TechnicalTrainingForm.propTypes = {
   setFieldValue: PropTypes.func,
   isSubmitting: PropTypes.bool,
   formikRef: PropTypes.any,
-  options: PropTypes.object
+  options: PropTypes.object,
+  isExpand: PropTypes.bool
 }
 
 export default TechnicalTrainingForm

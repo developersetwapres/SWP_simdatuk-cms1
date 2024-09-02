@@ -19,7 +19,8 @@ const TypeForm = ({
   isSubmitting,
   setFieldValue,
   formikRef,
-  options
+  options,
+  isExpand
 }) => {
   const handleDeleteData = (idx) => {
     const error = errors?.grades
@@ -30,7 +31,7 @@ const TypeForm = ({
   }
 
   return (
-    <CardAccordion title='Riwayat Golongan'>
+    <CardAccordion title='Riwayat Golongan' isExpand={isExpand}>
       <Grid container spacing={3} sx={{ paddingBottom: '12px' }}>
         {values?.grades &&
           values?.grades.map((itm, idx) => (
@@ -252,7 +253,8 @@ TypeForm.propTypes = {
   setFieldValue: PropTypes.func,
   isSubmitting: PropTypes.bool,
   formikRef: PropTypes.any,
-  options: PropTypes.object
+  options: PropTypes.object,
+  isExpand: PropTypes.bool
 }
 
 export default TypeForm

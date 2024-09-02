@@ -19,7 +19,8 @@ const DisciplinaryForm = ({
   isSubmitting,
   setFieldValue,
   formikRef,
-  options
+  options,
+  isExpand
 }) => {
   const handleGetError = (value) => {
     if (value?.to) {
@@ -40,7 +41,7 @@ const DisciplinaryForm = ({
   }
 
   return (
-    <CardAccordion title='Riwayat Hukuman Disiplin'>
+    <CardAccordion title='Riwayat Hukuman Disiplin' isExpand={isExpand}>
       <Grid container spacing={3} sx={{ paddingBottom: '12px' }}>
         {values?.disciplinaries &&
           values?.disciplinaries.map((itm, idx) => (
@@ -430,7 +431,8 @@ DisciplinaryForm.propTypes = {
   setFieldValue: PropTypes.func,
   isSubmitting: PropTypes.bool,
   formikRef: PropTypes.any,
-  options: PropTypes.object
+  options: PropTypes.object,
+  isExpand: PropTypes.bool
 }
 
 export default DisciplinaryForm

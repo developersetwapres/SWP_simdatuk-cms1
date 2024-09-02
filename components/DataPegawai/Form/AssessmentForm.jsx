@@ -18,7 +18,8 @@ const AssessmentForm = ({
   isSubmitting,
   setFieldValue,
   formikRef,
-  options
+  options,
+  isExpand
 }) => {
   const handleData = (data, type, indexItem) => {
     if (type == 'add') {
@@ -49,6 +50,7 @@ const AssessmentForm = ({
       footer
       title='Hasil Assesment'
       textAdd='Tambah Hasil Assesment Baru'
+      isExpand={isExpand}
       handleAdd={() => handleData(values?.assessments, 'add')}
     >
       <Grid container spacing={3}>
@@ -166,7 +168,8 @@ AssessmentForm.propTypes = {
   setFieldValue: PropTypes.func,
   isSubmitting: PropTypes.bool,
   formikRef: PropTypes.any,
-  options: PropTypes.object
+  options: PropTypes.object,
+  isExpand: PropTypes.bool
 }
 
 export default AssessmentForm

@@ -18,7 +18,8 @@ const TalentPoolForm = ({
   isSubmitting,
   setFieldValue,
   formikRef,
-  options
+  options,
+  isExpand
 }) => {
   const handleData = (data, type, indexItem) => {
     if (type == 'add') {
@@ -49,6 +50,7 @@ const TalentPoolForm = ({
       footer
       title='Hasil Talent Pool'
       textAdd='Tambah Hasil Talent Pool Baru'
+      isExpand={isExpand}
       handleAdd={() => handleData(values?.talentPools, 'add')}
     >
       <Grid container spacing={3}>
@@ -166,7 +168,8 @@ TalentPoolForm.propTypes = {
   setFieldValue: PropTypes.func,
   isSubmitting: PropTypes.bool,
   formikRef: PropTypes.any,
-  options: PropTypes.object
+  options: PropTypes.object,
+  isExpand: PropTypes.bool
 }
 
 export default TalentPoolForm

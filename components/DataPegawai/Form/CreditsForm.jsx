@@ -16,7 +16,8 @@ const CreditsForm = ({
   isSubmitting,
   setFieldValue,
   formikRef,
-  options
+  options,
+  isExpand
 }) => {
   const handleData = (data, type, indexItem) => {
     if (type == 'add') {
@@ -50,6 +51,7 @@ const CreditsForm = ({
       footer
       title='Penetapan Angka Kredit Terakhir'
       textAdd='Tambah Penetapan Angka Kredit Terakhir Baru'
+      isExpand={isExpand}
       handleAdd={() => handleData(values?.credits, 'add')}
     >
       <Grid container spacing={3} sx={{ paddingBottom: '12px' }}>
@@ -193,7 +195,8 @@ CreditsForm.propTypes = {
   setFieldValue: PropTypes.func,
   isSubmitting: PropTypes.bool,
   formikRef: PropTypes.any,
-  options: PropTypes.object
+  options: PropTypes.object,
+  isExpand: PropTypes.bool
 }
 
 export default CreditsForm

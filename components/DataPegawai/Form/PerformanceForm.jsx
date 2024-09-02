@@ -17,7 +17,8 @@ const PerformanceForm = ({
   isSubmitting,
   setFieldValue,
   formikRef,
-  options
+  options,
+  isExpand
 }) => {
   const handleDeleteData = (idx) => {
     const error = errors?.performances
@@ -28,7 +29,7 @@ const PerformanceForm = ({
   }
 
   return (
-    <CardAccordion title='Riwayat Penilaian Prestasi Kerja'>
+    <CardAccordion title='Riwayat Penilaian Prestasi Kerja' isExpand={isExpand}>
       <Grid container spacing={3} sx={{ paddingBottom: '12px' }}>
         {values?.performances &&
           values?.performances.map((itm, idx) => (
@@ -163,7 +164,8 @@ PerformanceForm.propTypes = {
   setFieldValue: PropTypes.func,
   isSubmitting: PropTypes.bool,
   formikRef: PropTypes.any,
-  options: PropTypes.object
+  options: PropTypes.object,
+  isExpand: PropTypes.bool
 }
 
 export default PerformanceForm

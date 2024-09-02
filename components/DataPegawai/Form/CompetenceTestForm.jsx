@@ -18,7 +18,8 @@ const CompetenceTestForm = ({
   isSubmitting,
   setFieldValue,
   formikRef,
-  options
+  options,
+  isExpand
 }) => {
   const handleData = (data, type, indexItem) => {
     if (type == 'add') {
@@ -49,6 +50,7 @@ const CompetenceTestForm = ({
       footer
       title='Hasil Uji Kompetensi'
       textAdd='Tambah Hasil Uji Kompetensi Baru'
+      isExpand={isExpand}
       handleAdd={() => handleData(values?.competences, 'add')}
     >
       <Grid container spacing={3}>
@@ -166,7 +168,8 @@ CompetenceTestForm.propTypes = {
   setFieldValue: PropTypes.func,
   isSubmitting: PropTypes.bool,
   formikRef: PropTypes.any,
-  options: PropTypes.object
+  options: PropTypes.object,
+  isExpand: PropTypes.bool
 }
 
 export default CompetenceTestForm

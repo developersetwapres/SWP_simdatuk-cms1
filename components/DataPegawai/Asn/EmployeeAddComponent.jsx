@@ -98,145 +98,132 @@ const FormSchema = Yup.object().shape({
   employee: Yup.object().shape({
     name: Yup.string().required('Nama tidak boleh kosong'),
     nip: Yup.string()
-      .required('NIP tidak boleh kosong')
       .min(5, 'NIP tidak boleh kurang dari 5 digit')
-      .max(18, 'NIP tidak boleh lebih dari 18 digit'),
+      .max(18, 'NIP tidak boleh lebih dari 18 digit')
+      .required('NIP tidak boleh kosong'),
     placeOfBirth: Yup.string().required('Tempat Lahir tidak boleh kosong'),
     dateOfBirth: Yup.string().required('Tanggal Lahir tidak boleh kosong'),
     religion: Yup.string().required('Agama tidak boleh kosong'),
     gender: Yup.string().required('Jenis Kelamin tidak boleh kosong'),
-    maritalStatus: Yup.string().required(
-      'Status Perkawinan tidak boleh kosong'
-    ),
-    employmentType: Yup.string().required('Jenis Pegawai tidak boleh kosong'),
-    dateStartedWork: Yup.string().required(
-      'Tanggal Mulai Bekerja tidak boleh kosong'
-    ),
-    // positions: Yup.array().of(
-    //   Yup.object().shape({
-    //     name: Yup.mixed()
-    //       .nullable()
-    //       .test('is-required', 'Jabatan tidak boleh kosong', function (value) {
-    //         const { path } = this
-
-    //         const pathParts = path.split('.')
-    //         const index = pathParts[1].match(/\d+/)[0]
-
-    //         if (!value && index == 0) return false
-
-    //         return true
-    //       })
-    //   })
+    // maritalStatus: Yup.string().required(
+    //   'Status Perkawinan tidak boleh kosong'
     // ),
+    // employmentType: Yup.string().required('Jenis Pegawai tidak boleh kosong'),
+    dateStartedWork: Yup.string().required('TMT CPNS tidak boleh kosong'),
+    positions: Yup.array().of(
+      Yup.object().shape({
+        name: Yup.mixed()
+          .nullable()
+          .test('is-required', 'Jabatan tidak boleh kosong', function (value) {
+            const { path } = this
+
+            const pathParts = path.split('.')
+            const index = pathParts[1].match(/\d+/)[0]
+
+            if (!value && index == 0) return false
+
+            return true
+          })
+      })
+    ),
     positionEffectiveDate: Yup.string()
       .nullable()
-      .test('required', 'TMT Menjabat tidak boleh kosong', function (value) {
-        const { positions } = this.parent
+      .required('TMT Menjabat tidak boleh kosong'),
+    // .test('required', 'TMT Menjabat tidak boleh kosong', function (value) {
+    //   const { positions } = this.parent
 
-        const positionsLength = positions.length
-        const isPositions =
-          positionsLength > 1
-            ? positions
-                .filter((itm) => itm?.name)
-                .every((itm) => itm?.name !== null)
-            : false
+    //   const positionsLength = positions.length
+    //   const isPositions =
+    //     positionsLength > 1
+    //       ? positions
+    //           .filter((itm) => itm?.name)
+    //           .every((itm) => itm?.name !== null)
+    //       : false
 
-        if (positionsLength > 1 && isPositions && !value) return false
+    //   if (positionsLength > 1 && isPositions && !value) return false
 
-        return true
-      }),
-    grade: Yup.string().required('Golongan tidak boleh kosong'),
+    //   return true
+    // }),
+    grade: Yup.string().required('Golongan / Pangkat tidak boleh kosong'),
     gradeEffectiveDate: Yup.string().required(
-      'TMT Golongan tidak boleh kosong'
+      'TMT Golongan / Pangkat tidak boleh kosong'
     ),
-    institution: Yup.string().required('Instansi Induk tidak boleh kosong'),
+    // institution: Yup.string().required('Instansi Induk tidak boleh kosong'),
     educationLevel: Yup.string().required(
       'Tingak Pendidikan tidak boleh kosong'
     ),
-    educationName: Yup.string().required(
-      'Nama Sekolah/Universitas tidak boleh kosong'
-    ),
-    educationYear: Yup.string().required('Tahun Lulus tidak boleh kosong'),
-    employmentStatus: Yup.string().required(
-      'Status Pegawai tidak boleh kosong'
-    ),
-    lastDateOfWork: Yup.string().test(
-      'is-required',
-      'Tanggal Terakhir Bekerja tidak boleh kosong',
+    // educationName: Yup.string().required(
+    //   'Nama Sekolah/Universitas tidak boleh kosong'
+    // ),
+    // educationYear: Yup.string().required('Tahun Lulus tidak boleh kosong'),
+    // employmentStatus: Yup.string().required(
+    //   'Status Pegawai tidak boleh kosong'
+    // ),
+    // lastDateOfWork: Yup.string().test(
+    //   'is-required',
+    //   'Tanggal Terakhir Bekerja tidak boleh kosong',
+    //   function (value) {
+    //     const { employmentStatus } = this.parent
+    //     if (
+    //       employmentStatus !== 'Aktif' &&
+    //       employmentStatus !== 'Aktif Perbantuan Setneg' &&
+    //       employmentStatus !== 'Hukuman Disiplin'
+    //     ) {
+    //       return value != null && value !== ''
+    //     }
+    //     return true
+    //   }
+    // ),
+    familyRegistNumber: Yup.string().test(
+      'len',
+      'No KK harus terdiri dari 16 digit angka',
       function (value) {
-        const { employmentStatus } = this.parent
-        if (
-          employmentStatus !== 'Aktif' &&
-          employmentStatus !== 'Aktif Perbantuan Setneg' &&
-          employmentStatus !== 'Hukuman Disiplin'
-        ) {
-          return value != null && value !== ''
-        }
+        if (value && value.length > 0) return value.length === 16
         return true
       }
     ),
-    familyRegistNumber: Yup.string()
-      .min(16, 'No KK harus tediri dari 16 digit angka')
-      .max(16, 'No KK harus tediri dari 16 digit angka')
-      .required('No KK tidak boleh kosong'),
     idNumber: Yup.string()
       .min(16, 'No NIK harus terdiri dari 16 digit angka')
       .max(16, 'No NIK harus terdiri dari 16 digit angka')
       .required('No NIK tidak boleh kosong'),
-    residence: Yup.string().required('Komplek tidak boleh kosong'),
-    emergencyContact: Yup.string().required(
-      'Kontak Darurat tidak boleh kosong'
-    ),
+    // residence: Yup.string().required('Komplek tidak boleh kosong'),
+    // emergencyContact: Yup.string().required(
+    //   'Kontak Darurat tidak boleh kosong'
+    // ),
     email: Yup.string().email('Email tidak valid'),
-    officeEmail: Yup.string().email('Email Dinas tidak valid'),
-    employeeIdCardNumber: Yup.lazy((taxId) => {
-      if (Array.isArray(taxId) && taxId.length > 0) {
-        return Yup.string()
-          .nullable()
-          .when('employeeIdCardNumber', {
-            is: (value) => value && value.length > 0,
-            then: Yup.string()
-              .min(5, 'No. Karpeg tidak boleh kurang dari 5 digit')
-              .max(18, 'No. Karpeg tidak boleh lebih dari 18 digit')
-          })
-      } else {
-        return Yup.string()
-      }
-    }),
-    karisu: Yup.lazy((taxId) => {
-      if (Array.isArray(taxId) && taxId.length > 0) {
-        return Yup.string()
-          .nullable()
-          .when('karisu', {
-            is: (value) => value && value.length > 0,
-            then: Yup.string()
-              .min(
-                5,
-                'No. Kartu Istri / Kartu Suami tidak boleh kurang dari 5 digit'
-              )
-              .max(
-                18,
-                'No. Kartu Istri / Kartu Suami tidak boleh lebih dari 18 digit'
-              )
-          })
-      } else {
-        return Yup.string()
-      }
-    }),
-    taxId: Yup.lazy((taxId) => {
-      if (Array.isArray(taxId) && taxId.length > 0) {
-        return Yup.string()
-          .nullable()
-          .when('taxId', {
-            is: (value) => value && value.length > 0,
-            then: Yup.string()
-              .min(15, 'NPWP tidak boleh kurang dari 15 digit')
-              .max(16, 'NPWP tidak boleh lebih dari 16 digit')
-          })
-      } else {
-        return Yup.string()
-      }
-    }),
+    officeEmail: Yup.string()
+      .required('Email Dinas tidak boleh kosong')
+      .email('Email Dinas tidak valid'),
+    employeeIdCardNumber: Yup.string()
+      .nullable()
+      .test(
+        'length-check',
+        'No. Karpeg harus terdiri dari 5 hingga 18 digit',
+        function (value) {
+          if (!value) return true
+          return value.length >= 5 && value.length <= 18
+        }
+      ),
+    karisu: Yup.string()
+      .nullable()
+      .test(
+        'length-check',
+        'No. Kartu Istri / Kartu Suami harus terdiri dari 5 hingga 18 digit',
+        function (value) {
+          if (!value) return true
+          return value.length >= 5 && value.length <= 18
+        }
+      ),
+    taxId: Yup.string()
+      .nullable()
+      .test(
+        'length-check',
+        'NPWP harus terdiri dari 15 hingga 16 digit',
+        function (value) {
+          if (!value) return true
+          return value.length >= 15 && value.length <= 16
+        }
+      ),
     yearsOfServiceTotal: Yup.object().shape({
       month: Yup.number()
         .nullable()
@@ -596,6 +583,7 @@ const EmployeeAddComponent = ({
   const formikRef = useRef(null)
 
   const [positions, setPositions] = useState([])
+  const [isExpand, setIsExpand] = useState(false)
 
   const errorsForm = useMemo(() => {
     return employee?.errorForm || {}
@@ -730,6 +718,8 @@ const EmployeeAddComponent = ({
   }
 
   const handleSubmit = async (values) => {
+    setIsExpand(true)
+
     try {
       await FormSchema.validate(values, { abortEarly: false })
       formikRef.current.setErrors({})
@@ -1085,9 +1075,14 @@ const EmployeeAddComponent = ({
 
       const firstErrorField = err.inner[0].path
       const firstErrorEl = document.querySelector(`[name="${firstErrorField}"]`)
+
       firstErrorEl &&
-        firstErrorEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        setTimeout(() => {
+          firstErrorEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }, 5)
     }
+
+    setIsExpand(false)
   }
 
   const handleChangeHierarchies = (val) => {
@@ -1170,6 +1165,7 @@ const EmployeeAddComponent = ({
           <FormComponent
             mode='add'
             pageType='ASN'
+            isExpand={isExpand}
             options={options}
             formikRef={formikRef}
             formikProps={formikProps}

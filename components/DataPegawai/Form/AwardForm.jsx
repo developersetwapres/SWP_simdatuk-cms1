@@ -18,7 +18,8 @@ const AwardForm = ({
   isSubmitting,
   setFieldValue,
   formikRef,
-  options
+  options,
+  isExpand
 }) => {
   const handleDeleteData = (idx) => {
     const error = errors?.recognitions
@@ -29,7 +30,7 @@ const AwardForm = ({
   }
 
   return (
-    <CardAccordion title='Riwayat Penghargaan'>
+    <CardAccordion title='Riwayat Penghargaan' isExpand={isExpand}>
       <Grid container spacing={3} sx={{ paddingBottom: '12px' }}>
         {values?.recognitions &&
           values?.recognitions.map((itm, idx) => (
@@ -262,7 +263,8 @@ AwardForm.propTypes = {
   setFieldValue: PropTypes.func,
   isSubmitting: PropTypes.bool,
   formikRef: PropTypes.any,
-  options: PropTypes.object
+  options: PropTypes.object,
+  isExpand: PropTypes.bool
 }
 
 export default AwardForm

@@ -17,7 +17,8 @@ const SKPForm = ({
   isSubmitting,
   setFieldValue,
   formikRef,
-  options
+  options,
+  isExpand
 }) => {
   const handleDeleteData = (idx) => {
     const error = errors?.targets
@@ -28,7 +29,7 @@ const SKPForm = ({
   }
 
   return (
-    <CardAccordion title='Riwayat SKP'>
+    <CardAccordion title='Riwayat SKP' isExpand={isExpand}>
       <Grid container spacing={3} sx={{ paddingBottom: '12px' }}>
         {values?.targets &&
           values?.targets.map((itm, idx) => (
@@ -197,7 +198,8 @@ SKPForm.propTypes = {
   setFieldValue: PropTypes.func,
   isSubmitting: PropTypes.bool,
   formikRef: PropTypes.any,
-  options: PropTypes.object
+  options: PropTypes.object,
+  isExpand: PropTypes.bool
 }
 
 export default SKPForm

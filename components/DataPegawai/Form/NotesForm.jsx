@@ -17,7 +17,8 @@ const NotesForm = ({
   setFieldValue,
   formikRef,
   isAccordion = true,
-  isEdit = false
+  isEdit = false,
+  isExpand
 }) => {
   const handleData = (data, type, indexItem) => {
     if (type == 'add') {
@@ -57,6 +58,7 @@ const NotesForm = ({
       footer
       title='Catatan'
       textAdd='Tambah Catatan Baru'
+      isExpand={isExpand}
       handleAdd={() => handleData(values?.notes, 'add')}
     >
       <Notes
@@ -164,7 +166,8 @@ NotesForm.propTypes = {
   isSubmitting: PropTypes.bool,
   formikRef: PropTypes.any,
   isAccordion: PropTypes.bool,
-  isEdit: PropTypes.bool
+  isEdit: PropTypes.bool,
+  isExpand: PropTypes.bool
 }
 
 export default NotesForm

@@ -26,10 +26,21 @@ const style = {
   }
 }
 
-const Accordion = ({ children, title, isExpand = false }) => {
+const Accordion = ({
+  children,
+  title,
+  isExpand = false,
+  defaultExpanded = false,
+  setExpand = () => {}
+}) => {
   return (
     <Card otherStyle={style?.card}>
-      <MuiAccordion defaultExpanded={isExpand} sx={style?.accordion}>
+      <MuiAccordion
+        defaultExpanded={defaultExpanded}
+        expanded={isExpand}
+        onChange={() => setExpand((isExpand) => !isExpand)}
+        sx={style?.accordion}
+      >
         <AccordionSummary
           expandIcon={<ExpandMore />}
           aria-controls='panel1-content'
@@ -47,7 +58,8 @@ const Accordion = ({ children, title, isExpand = false }) => {
 Accordion.propTypes = {
   children: PropTypes.node,
   title: PropTypes.string,
-  isExpand: PropTypes.bool
+  isExpand: PropTypes.bool,
+  defaultExpanded: PropTypes.bool
 }
 
 export default Accordion

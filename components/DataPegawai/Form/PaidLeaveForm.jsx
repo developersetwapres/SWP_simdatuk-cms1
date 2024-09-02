@@ -18,7 +18,8 @@ function PaidLeaveForm({
   isSubmitting,
   setFieldValue,
   formikRef,
-  options
+  options,
+  isExpand
 }) {
   const handleData = (data, type, indexItem) => {
     if (type == 'add') {
@@ -57,6 +58,7 @@ function PaidLeaveForm({
       footer
       title='Cuti'
       textAdd='Tambah Cuti Baru'
+      isExpand={isExpand}
       handleAdd={() => handleData(values?.leaves, 'add')}
     >
       <Grid container spacing={3}>
@@ -189,7 +191,8 @@ PaidLeaveForm.propTypes = {
   setFieldValue: PropTypes.func,
   isSubmitting: PropTypes.bool,
   formikRef: PropTypes.any,
-  options: PropTypes.object
+  options: PropTypes.object,
+  isExpand: PropTypes.bool
 }
 
 export default PaidLeaveForm

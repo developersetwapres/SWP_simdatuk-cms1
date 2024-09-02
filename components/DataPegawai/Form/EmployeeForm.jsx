@@ -2,7 +2,7 @@
 /* eslint-disable indent */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo } from 'react'
-import { Grid, Typography } from '@mui/material'
+import { Button, Grid, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 import { Input } from '@/components/shared'
 import DatePickerDay from '@/components/shared/form/DatePickerDay'
@@ -23,6 +23,7 @@ const EmployeeForm = ({
   formikRef,
   options,
   pageType,
+  isExpand,
   onChangeHierarchies = () => {}
 }) => {
   const pagesType = useMemo(() => {
@@ -78,7 +79,11 @@ const EmployeeForm = ({
   }, [values?.employee?.positions])
 
   return (
-    <CardAccordion title='Data Pegawai' isExpand>
+    <CardAccordion
+      title='Data Pegawai'
+      isExpand={isExpand}
+      defaultExpanded={true}
+    >
       <Grid container spacing={3} sx={{ marginBottom: '10px' }}>
         {/* Image Profile */}
         <Grid item xs={12}>
@@ -160,8 +165,6 @@ const EmployeeForm = ({
         {/* NIP */}
         <Grid item xs={6}>
           <Input
-            type='number'
-            inputProps={{ min: '0' }}
             label='NIP *'
             placeholder='Masukkan NIP'
             name='employee.nip'
@@ -268,15 +271,15 @@ const EmployeeForm = ({
           <Autocomplete
             options={options?.marital}
             placeholder='Pilih Status Perkawinan'
-            label='Status Perkawinan *'
+            label='Status Perkawinan'
             name='employee.maritalStatus'
             value={values?.employee?.maritalStatus}
             error={errors?.employee?.maritalStatus}
             onChange={(val) => {
               setFieldValue('employee.maritalStatus', val, false)
-              setTimeout(() => {
-                formikRef.current.validateField('employee.maritalStatus')
-              }, 1)
+              // setTimeout(() => {
+              //   formikRef.current.validateField('employee.maritalStatus')
+              // }, 1)
             }}
           />
         </Grid>
@@ -297,15 +300,15 @@ const EmployeeForm = ({
                 : pagesType?.nonAsn
                 ? 'Perbantuan'
                 : 'Outsourcing'
-            } *`}
+            }`}
             name='employee.employmentType'
             value={values?.employee?.employmentType}
             error={errors?.employee?.employmentType}
             onChange={(val) => {
               setFieldValue('employee.employmentType', val, false)
-              setTimeout(() => {
-                formikRef.current.validateField('employee.employmentType')
-              }, 1)
+              // setTimeout(() => {
+              //   formikRef.current.validateField('employee.employmentType')
+              // }, 1)
             }}
           />
         </Grid>
@@ -348,7 +351,7 @@ const EmployeeForm = ({
                 <Autocomplete
                   options={options?.positions[idx] || []}
                   placeholder='Pilih Jabatan'
-                  label={idx == 0 ? 'Jabatan' : null}
+                  label={idx == 0 ? 'Jabatan *' : null}
                   name={`employee.positions[${idx}].name`}
                   value={itm?.name}
                   error={
@@ -366,11 +369,9 @@ const EmployeeForm = ({
 
                     setFieldValue(`employee.positions`, newData, false)
 
-                    // if (pagesType?.outsource) {
-                    //   setTimeout(() => {
-                    //     formikRef.current.validateField(`employee.positions`)
-                    //   }, 1)
-                    // }
+                    setTimeout(() => {
+                      formikRef.current.validateField(`employee.positions`)
+                    }, 1)
                   }}
                 />
               </Grid>
@@ -379,23 +380,18 @@ const EmployeeForm = ({
         {/* TMT Position */}
         <Grid item xs={6}>
           <DatePickerDay
-            label={`TMT Menjabat ${
-              !pagesType?.outsource && isPositions ? '*' : ''
-            }`}
+            label={`TMT Menjabat *`}
             placeholder='dd-mm-yyyy'
             name='employee.positionEffectiveDate'
             value={values?.employee?.positionEffectiveDate}
             error={errors?.employee?.positionEffectiveDate}
             onChange={(val) => {
               setFieldValue('employee.positionEffectiveDate', val, false)
-
-              if (!pagesType?.outsource && isPositions) {
-                setTimeout(() => {
-                  formikRef.current.validateField(
-                    'employee.positionEffectiveDate'
-                  )
-                }, 1)
-              }
+              setTimeout(() => {
+                formikRef.current.validateField(
+                  'employee.positionEffectiveDate'
+                )
+              }, 1)
             }}
           />
         </Grid>
@@ -407,33 +403,39 @@ const EmployeeForm = ({
               <Autocomplete
                 options={options?.grade}
                 placeholder='Pilih Golongan / Pangkat'
-                label='Golongan / Pangkat *'
+                label={`Golongan / Pangkat ${pagesType?.asn ? '*' : ''}`}
                 name='employee.grade'
                 value={values?.employee?.grade}
                 error={errors?.employee?.grade}
                 onChange={(val) => {
                   setFieldValue('employee.grade', val, false)
-                  setTimeout(() => {
-                    formikRef.current.validateField('employee.grade')
-                  }, 1)
+
+                  if (pagesType?.asn) {
+                    setTimeout(() => {
+                      formikRef.current.validateField('employee.grade')
+                    }, 1)
+                  }
                 }}
               />
             </Grid>
             {/* TMT Grade */}
             <Grid item xs={6}>
               <DatePickerDay
-                label='TMT Golongan / Pangkat *'
+                label={`TMT Golongan / Pangkat ${pagesType?.asn ? '*' : ''}`}
                 placeholder='dd-mm-yyyy'
                 name='employee.gradeEffectiveDate'
                 value={values?.employee?.gradeEffectiveDate}
                 error={errors?.employee?.gradeEffectiveDate}
                 onChange={(val) => {
                   setFieldValue('employee.gradeEffectiveDate', val, false)
-                  setTimeout(() => {
-                    formikRef.current.validateField(
-                      'employee.gradeEffectiveDate'
-                    )
-                  }, 1)
+
+                  if (pagesType?.asn) {
+                    setTimeout(() => {
+                      formikRef.current.validateField(
+                        'employee.gradeEffectiveDate'
+                      )
+                    }, 1)
+                  }
                 }}
               />
             </Grid>
@@ -597,15 +599,15 @@ const EmployeeForm = ({
             <Autocomplete
               options={options?.institution}
               placeholder='Pilih Instansi Induk'
-              label='Instansi Induk *'
+              label='Instansi Induk'
               name='employee.institution'
               value={values?.employee?.institution}
               error={errors?.employee?.institution}
               onChange={(val) => {
                 setFieldValue('employee.institution', val, false)
-                setTimeout(() => {
-                  formikRef.current.validateField('employee.institution')
-                }, 1)
+                // setTimeout(() => {
+                //   formikRef.current.validateField('employee.institution')
+                // }, 1)
               }}
             />
           </Grid>
@@ -615,23 +617,26 @@ const EmployeeForm = ({
         <Grid item xs={6}>
           <Autocomplete
             options={options?.employeeEducationLevel}
-            label='Tingkat Pendidikan Terakhir *'
+            label={`Tingkat Pendidikan Terakhir ${pagesType?.asn ? '*' : ''}`}
             placeholder='Pilih Tingkat Pendidikan Terakhir'
             name={`employee.educationLevel`}
             value={values?.employee?.educationLevel}
             error={errors?.employee && errors?.employee.educationLevel}
             onChange={(val) => {
               setFieldValue(`employee.educationLevel`, val, false)
-              setTimeout(() => {
-                formikRef.current.validateField(`employee.educationLevel`)
-              }, 1)
+
+              if (pagesType?.asn) {
+                setTimeout(() => {
+                  formikRef.current.validateField(`employee.educationLevel`)
+                }, 1)
+              }
             }}
           />
         </Grid>
         {/* Education Name */}
         <Grid item xs={6}>
           <Input
-            label='Nama Sekolah/Universitas *'
+            label='Nama Sekolah/Universitas'
             placeholder='Masukkan Nama Sekolah/Universitas'
             name={`employee.educationName`}
             value={values?.employee?.educationName}
@@ -639,9 +644,9 @@ const EmployeeForm = ({
             onChange={(e) => {
               const val = e?.target?.value
               setFieldValue(`employee.educationName`, val, false)
-              setTimeout(() => {
-                formikRef.current.validateField(`employee.educationName`)
-              }, 1)
+              // setTimeout(() => {
+              //   formikRef.current.validateField(`employee.educationName`)
+              // }, 1)
             }}
           />
         </Grid>
@@ -649,16 +654,16 @@ const EmployeeForm = ({
         <Grid item xs={6}>
           <DatepickerYear
             isClear
-            label='Tahun Lulus *'
+            label='Tahun Lulus'
             placeholder='Pilih Tahun Lulus'
             nname={`employee.educationYear`}
             value={values?.employee?.educationYear}
             error={errors?.employee && errors?.employee.educationYear}
             onChange={(val) => {
               setFieldValue(`employee.educationYear`, val, false)
-              setTimeout(() => {
-                formikRef.current.validateField(`employee.educationYear`)
-              }, 1)
+              // setTimeout(() => {
+              //   formikRef.current.validateField(`employee.educationYear`)
+              // }, 1)
             }}
           />
         </Grid>
@@ -747,15 +752,15 @@ const EmployeeForm = ({
           <Autocomplete
             options={options?.employeeStatus}
             placeholder='Pilih Status Pegawai'
-            label='Status Pegawai *'
+            label='Status Pegawai'
             name='employee.employmentStatus'
             value={values?.employee?.employmentStatus}
             error={errors?.employee?.employmentStatus}
             onChange={(val) => {
               setFieldValue('employee.employmentStatus', val, false)
-              setTimeout(() => {
-                formikRef.current.validateField('employee.employmentStatus')
-              }, 1)
+              // setTimeout(() => {
+              //   formikRef.current.validateField('employee.employmentStatus')
+              // }, 1)
 
               if (
                 val == 'Aktif' ||
@@ -770,16 +775,16 @@ const EmployeeForm = ({
         {isLastDate && (
           <Grid item xs={6}>
             <DatePickerDay
-              label='Tanggal Terakhir Bekerja *'
+              label='Tanggal Terakhir Bekerja'
               placeholder='dd-mm-yyyy'
               name={'employee.lastDateOfWork'}
               value={values?.employee?.lastDateOfWork}
               error={errors?.employee?.lastDateOfWork}
               onChange={(val) => {
                 setFieldValue('employee.lastDateOfWork', val, false)
-                setTimeout(() => {
-                  formikRef.current.validateField('employee.lastDateOfWork')
-                }, 1)
+                // setTimeout(() => {
+                //   formikRef.current.validateField('employee.lastDateOfWork')
+                // }, 1)
               }}
             />
           </Grid>
@@ -789,7 +794,7 @@ const EmployeeForm = ({
           <Input
             type='number'
             inputProps={{ min: '0' }}
-            label='No KK *'
+            label='No KK'
             placeholder='Masukkan No. KK'
             name='employee.familyRegistNumber'
             value={values?.employee?.familyRegistNumber}
@@ -797,9 +802,9 @@ const EmployeeForm = ({
             onChange={(e) => {
               const val = e?.target?.value
               setFieldValue('employee.familyRegistNumber', val, false)
-              setTimeout(() => {
-                formikRef.current.validateField('employee.familyRegistNumber')
-              }, 1)
+              // setTimeout(() => {
+              //   formikRef.current.validateField('employee.familyRegistNumber')
+              // }, 1)
             }}
           />
         </Grid>
@@ -827,15 +832,15 @@ const EmployeeForm = ({
           <Autocomplete
             options={options?.residence}
             placeholder='Pilih Komplek'
-            label='Komplek *'
+            label='Komplek'
             name='employee.residence'
             value={values?.employee?.residence}
             error={errors?.employee?.residence}
             onChange={(val) => {
               setFieldValue('employee.residence', val, false)
-              setTimeout(() => {
-                formikRef.current.validateField('employee.residence')
-              }, 1)
+              // setTimeout(() => {
+              //   formikRef.current.validateField('employee.residence')
+              // }, 1)
             }}
           />
         </Grid>
@@ -934,7 +939,7 @@ const EmployeeForm = ({
         {/* Email */}
         <Grid item xs={6}>
           <Input
-            label='Email'
+            label={`Email ${!pagesType?.asn ? '*' : ''}`}
             placeholder='Masukkan Email'
             name='employee.email'
             value={values?.employee?.email}
@@ -952,7 +957,7 @@ const EmployeeForm = ({
         {!pagesType?.outsource && (
           <Grid item xs={6}>
             <Input
-              label='Email Dinas'
+              label={`Email Dinas ${pagesType?.asn ? '*' : ''}`}
               placeholder='Masukkan Email Dinas'
               name='employee.officeEmail'
               value={values?.employee?.officeEmail}
@@ -960,6 +965,12 @@ const EmployeeForm = ({
               onChange={(e) => {
                 const val = e?.target?.value
                 setFieldValue('employee.officeEmail', val, false)
+
+                if (pagesType?.asn) {
+                  setTimeout(() => {
+                    formikRef.current.validateField('employee.officeEmail')
+                  }, 1)
+                }
               }}
             />
           </Grid>
@@ -985,7 +996,7 @@ const EmployeeForm = ({
         {/* Emergency Contact */}
         <Grid item xs={6}>
           <Input
-            label='Kontak Darurat(Nama, Nomor Handphone, Hubungan dengan pegawai)*'
+            label='Kontak Darurat(Nama, Nomor Handphone, Hubungan dengan pegawai)'
             placeholder='Masukkan Kontak Darurat'
             name='employee.emergencyContact'
             value={values?.employee?.emergencyContact}
@@ -993,9 +1004,9 @@ const EmployeeForm = ({
             onChange={(e) => {
               const val = e?.target?.value
               setFieldValue('employee.emergencyContact', val, false)
-              setTimeout(() => {
-                formikRef.current.validateField('employee.emergencyContact')
-              }, 1)
+              // setTimeout(() => {
+              //   formikRef.current.validateField('employee.emergencyContact')
+              // }, 1)
             }}
           />
         </Grid>
@@ -1017,6 +1028,7 @@ EmployeeForm.propTypes = {
   formikRef: PropTypes.any,
   options: PropTypes.object,
   pageType: PropTypes.string.isRequired,
+  isExpand: PropTypes.bool,
   onChangeHierarchies: PropTypes.func
 }
 

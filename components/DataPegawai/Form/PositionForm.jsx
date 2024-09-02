@@ -19,7 +19,8 @@ const PositionForm = ({
   isSubmitting,
   setFieldValue,
   formikRef,
-  options
+  options,
+  isExpand
 }) => {
   const handleDeleteData = (idx) => {
     const error = errors?.positions
@@ -30,7 +31,7 @@ const PositionForm = ({
   }
 
   return (
-    <CardAccordion title='Riwayat Jabatan'>
+    <CardAccordion title='Riwayat Jabatan' isExpand={isExpand}>
       <Grid container spacing={3} sx={{ paddingBottom: '12px' }}>
         {values?.positions &&
           values?.positions.map((itm, idx) => (
@@ -409,7 +410,8 @@ PositionForm.propTypes = {
   setFieldValue: PropTypes.func,
   isSubmitting: PropTypes.bool,
   formikRef: PropTypes.any,
-  options: PropTypes.object
+  options: PropTypes.object,
+  isExpand: PropTypes.bool
 }
 
 export default PositionForm

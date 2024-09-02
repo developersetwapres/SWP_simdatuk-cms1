@@ -19,7 +19,8 @@ const StructuralTrainingForm = ({
   isSubmitting,
   setFieldValue,
   formikRef,
-  options
+  options,
+  isExpand
 }) => {
   const handleDeleteData = (idx) => {
     const error = errors?.trainingStructurals
@@ -32,7 +33,7 @@ const StructuralTrainingForm = ({
   }
 
   return (
-    <CardAccordion title='Riwayat Pelatihan Struktural'>
+    <CardAccordion title='Riwayat Pelatihan Struktural' isExpand={isExpand}>
       <Grid container spacing={3} sx={{ paddingBottom: '12px' }}>
         {values?.trainingStructurals &&
           values?.trainingStructurals.map((itm, idx) => (
@@ -315,7 +316,8 @@ StructuralTrainingForm.propTypes = {
   setFieldValue: PropTypes.func,
   isSubmitting: PropTypes.bool,
   formikRef: PropTypes.any,
-  options: PropTypes.object
+  options: PropTypes.object,
+  isExpand: PropTypes.bool
 }
 
 export default StructuralTrainingForm

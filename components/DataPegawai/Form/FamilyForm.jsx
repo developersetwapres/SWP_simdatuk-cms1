@@ -17,7 +17,8 @@ const FamilyForm = ({
   isSubmitting,
   setFieldValue,
   formikRef,
-  options
+  options,
+  isExpand
 }) => {
   const handleData = (data, type, indexItem) => {
     if (type == 'add') {
@@ -59,6 +60,7 @@ const FamilyForm = ({
       footer
       title='Keluarga'
       textAdd='Tambah Keluarga Baru'
+      isExpand={isExpand}
       handleAdd={() => handleData(values?.families, 'add')}
     >
       <Grid container spacing={3}>
@@ -397,7 +399,8 @@ FamilyForm.propTypes = {
   setFieldValue: PropTypes.func,
   isSubmitting: PropTypes.bool,
   formikRef: PropTypes.any,
-  options: PropTypes.object
+  options: PropTypes.object,
+  isExpand: PropTypes.bool
 }
 
 export default FamilyForm

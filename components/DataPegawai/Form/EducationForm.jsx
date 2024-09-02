@@ -18,7 +18,8 @@ const EducationForm = ({
   isSubmitting,
   setFieldValue,
   formikRef,
-  options
+  options,
+  isExpand
 }) => {
   const handleData = (data, type, indexItem) => {
     if (type == 'add') {
@@ -53,6 +54,7 @@ const EducationForm = ({
       footer
       title='Riwayat Pendidikan'
       textAdd='Tambah Pendidikan Baru'
+      isExpand={isExpand}
       handleAdd={() => handleData(values?.educations, 'add')}
     >
       <Grid container spacing={3}>
@@ -287,7 +289,8 @@ EducationForm.propTypes = {
   setFieldValue: PropTypes.func,
   isSubmitting: PropTypes.bool,
   formikRef: PropTypes.any,
-  options: PropTypes.object
+  options: PropTypes.object,
+  isExpand: PropTypes.bool
 }
 
 export default EducationForm
