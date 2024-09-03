@@ -31,7 +31,7 @@ const Accordion = ({
   title,
   isExpand = false,
   defaultExpanded = false,
-  setExpand = () => {}
+  setExpand = () => { }
 }) => {
   return (
     <Card otherStyle={style?.card}>
@@ -59,7 +59,8 @@ Accordion.propTypes = {
   children: PropTypes.node,
   title: PropTypes.string,
   isExpand: PropTypes.bool,
-  defaultExpanded: PropTypes.bool
+  defaultExpanded: PropTypes.bool,
+  setExpand: PropTypes.func
 }
 
 export default Accordion

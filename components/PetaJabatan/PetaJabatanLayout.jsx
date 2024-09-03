@@ -4,7 +4,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useMemo } from 'react'
 import { Box, Grid, Typography } from '@mui/material'
-import Image from 'next/image'
 import { Button } from '../shared'
 import PropTypes from 'prop-types'
 import { useRouter } from 'next/router'
@@ -132,10 +131,10 @@ const PetaJabatanLayout = ({ data, children }) => {
                 <Typography color='primary' fontSize='16px' fontWeight='600'>
                   {employee?.user?.name
                     ? [
-                        employee?.user?.title_prefix,
-                        employee?.user?.name,
-                        employee?.user?.title_suffix
-                      ].join(' ')
+                      employee?.user?.title_prefix,
+                      employee?.user?.name,
+                      employee?.user?.title_suffix
+                    ].join(' ')
                     : '-'}
                 </Typography>
               </Grid>
@@ -174,9 +173,8 @@ const PetaJabatanLayout = ({ data, children }) => {
                         }
                       }
                     >
-                      {`${employee?.user?.employee_id_number || '-'}${
-                        employee?.user?.employee_registration_number ? '/' : ''
-                      }`}
+                      {`${employee?.user?.employee_id_number || '-'}${employee?.user?.employee_registration_number ? '/' : ''
+                        }`}
                     </Typography>
                     {employee?.user?.employee_registration_number && (
                       <Typography
