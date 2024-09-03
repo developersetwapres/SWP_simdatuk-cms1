@@ -280,9 +280,9 @@ const BiodataPegawai = ({ data, employmentType }) => {
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Batas Usia Pensiun</Typography>
           <Typography fontWeight='500' marginTop={1}>
-            {data?.retirement_age
+            {`${data?.retirement_age
               ? moment(data?.retirement_age, 'DD-MM-YYYY').format('MMMM YYYY')
-              : '-'}
+              : '-'} - ${data?.retirement_age_years || 0} Tahun`}
           </Typography>
         </Grid>
       </Grid>
