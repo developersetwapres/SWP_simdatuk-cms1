@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useMemo } from 'react'
-import { Table, Button } from '@/components/shared'
+import { Table } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 
@@ -18,12 +18,7 @@ const PelatihanFungsionalSection = ({ data = [] }) => {
         align: 'left'
       },
       {
-        Header: 'No. Surat Perintah',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'Jenjang',
+        Header: 'Penyelenggara',
         width: 200,
         align: 'left'
       },
@@ -33,29 +28,13 @@ const PelatihanFungsionalSection = ({ data = [] }) => {
         align: 'left'
       },
       {
-        Header: 'Durasi Pelatihan(Hari)',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'Penyelenggara',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'Sertifikat',
+        Header: 'Jam Pelajaran',
         width: 200,
         align: 'left'
       }
     ],
     []
   )
-
-  const openInNewTab = url => {
-    if (!url) return
-
-    window.open(url, '_blank')
-  }
 
   const rows = useMemo(() => {
     const dataMapping = data?.map((item, index) => {
@@ -73,16 +52,10 @@ const PelatihanFungsionalSection = ({ data = [] }) => {
           Cell: () => <Typography>{item?.name || '-'}</Typography>
         },
         {
-          Header: 'No. Surat Perintah',
+          Header: 'Penyelenggara',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.reference_number || '-'}</Typography>
-        },
-        {
-          Header: 'Jenjang',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.level || '-'}</Typography>
+          Cell: () => <Typography>{item?.organizer || '-'}</Typography>
         },
         {
           Header: 'Tanggal Pelaksanaan',
@@ -91,32 +64,10 @@ const PelatihanFungsionalSection = ({ data = [] }) => {
           Cell: () => <Typography>{item?.start_date || '-'}</Typography>
         },
         {
-          Header: 'Durasi Pelatihan(Hari)',
+          Header: 'Jam Pelajaran',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.duration || '-'}</Typography>
-        },
-        {
-          Header: 'Penyelenggara',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.organizer || '-'}</Typography>
-        },
-        {
-          Header: 'Sertifikat',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => (
-            <>
-              {
-                item?.certificate ?
-                  <Button
-                    text='Lihat File'
-                    onClick={() => openInNewTab(item?.certificate)}
-                  /> : <Typography>-</Typography>
-              }
-            </>
-          )
         }
       ]
     })

@@ -33,7 +33,7 @@ const PelatihanStrukturalSection = ({ data = [] }) => {
         align: 'left'
       },
       {
-        Header: 'Jam Pelajaran?',
+        Header: 'Jam Pelajaran',
         width: 200,
         align: 'left'
       }
@@ -78,7 +78,7 @@ const PelatihanStrukturalSection = ({ data = [] }) => {
           Header: 'Jam Pelajaran',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>?</Typography>
+          Cell: () => <Typography>{item?.duration || '-'}</Typography>
         }
       ]
     })

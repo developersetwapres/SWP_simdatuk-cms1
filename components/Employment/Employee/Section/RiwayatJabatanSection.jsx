@@ -46,7 +46,7 @@ const RiwayatJabatanSection = ({ data = [] }) => {
         align: 'left'
       },
       {
-        Header: 'Keterangan Eselon?',
+        Header: 'Keterangan Eselon',
         width: 200,
         align: 'left'
       }
@@ -96,7 +96,7 @@ const RiwayatJabatanSection = ({ data = [] }) => {
           align: 'left',
           verticalAlign: 'top',
           Cell: () => (
-            <Typography>?</Typography>
+            <Typography>{item?.echelon_name || '-'}</Typography>
           )
         }
       ]
