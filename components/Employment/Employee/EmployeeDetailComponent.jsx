@@ -58,14 +58,14 @@ const EmployeeDetailComponent = ({
   exportEmployeeData,
   employmentType,
   position,
-  getEmployee = () => {},
-  getPosition = () => {},
-  updateNotesByUserID = () => {},
-  updateEmployeeStatus = () => {},
-  clearEmployeeState = () => {},
-  exportEmployeeDetail = () => {},
-  setRender = () => {},
-  clearPositionState = () => {}
+  getEmployee = () => { },
+  getPosition = () => { },
+  updateNotesByUserID = () => { },
+  updateEmployeeStatus = () => { },
+  clearEmployeeState = () => { },
+  exportEmployeeDetail = () => { },
+  setRender = () => { },
+  clearPositionState = () => { }
 }) => {
   const router = useRouter()
   const sectionRef = useRef(null)
@@ -164,12 +164,12 @@ const EmployeeDetailComponent = ({
       ),
       educations: !!detailEmployee?.educations?.length
         ? [
-            ...detailEmployee?.educations?.map((i) => ({
-              ...i,
-              level: getValue('education', i?.level - 1),
-              status: getValue('education_status', i?.status - 1)
-            }))
-          ]
+          ...detailEmployee?.educations?.map((i) => ({
+            ...i,
+            level: getValue('education', i?.level - 1),
+            status: getValue('education_status', i?.status - 1)
+          }))
+        ]
         : []
     }
 
@@ -182,8 +182,8 @@ const EmployeeDetailComponent = ({
         ? data?.type == 1
           ? 'ASN'
           : data?.type == 2
-          ? 'Non ASN'
-          : 'Outsourcing'
+            ? 'Non ASN'
+            : 'Outsourcing'
         : ''
 
       return `Detail Pegawai ${type} ${data?.employmentStatus || ''}`
@@ -359,6 +359,7 @@ const EmployeeDetailComponent = ({
         const outsourcingMenu = [
           'data_pegawai',
           'riwayat_pendidikan',
+          'riwayat_keluarga',
           'riwayat_catatan'
         ]
         const chosenRiwayatMenu = [
@@ -584,7 +585,7 @@ const EmployeeDetailComponent = ({
                       ]
                         .filter((itm) => itm)
                         .join('/')}
-                      {}
+                      { }
                     </Typography>
                   </Box>
                 </Grid>
