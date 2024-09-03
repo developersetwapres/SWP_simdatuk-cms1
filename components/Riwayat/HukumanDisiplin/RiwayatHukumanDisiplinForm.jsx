@@ -7,7 +7,6 @@ import DatepickerYear from '@/components/shared/form/DatepickerYear'
 import DatePickerDay from '@/components/shared/form/DatePickerDay'
 import { Delete } from '@mui/icons-material'
 import { makeStyles } from '@mui/styles'
-import { v4 as uuidv4 } from 'uuid'
 
 const useStyles = makeStyles({
   label: {
@@ -170,7 +169,7 @@ const RiwayatHukumanDisiplinForm = ({
         </Typography>
         <Grid container spacing={6}>
           {values?.pegawai?.map((item, index) => (
-            <Grid container item xs={12} key={uuidv4()}>
+            <Grid container item xs={12} key={index}>
               <Grid
                 container
                 item
