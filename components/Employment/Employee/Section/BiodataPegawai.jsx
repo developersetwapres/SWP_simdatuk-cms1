@@ -85,8 +85,8 @@ const BiodataPegawai = ({ data, employmentType }) => {
             {data?.type == 1
               ? 'Jenis Pegawai'
               : data?.type == 2
-                ? 'Jenis Perbantuan'
-                : 'Jenis Outsourcing'}
+              ? 'Jenis Perbantuan'
+              : 'Jenis Outsourcing'}
           </Typography>
           <Typography fontWeight='500' marginTop={1}>
             {getValueOptions(data?.employment_type_id, 'type')}
@@ -123,7 +123,7 @@ const BiodataPegawai = ({ data, employmentType }) => {
           </Grid>
         )}
         <Grid item xs={12} md={4} paddingY={1}>
-          <Typography>Tingkat Pendidikan Terakhir</Typography>
+          <Typography>Tingkat Pendidikan Akhir</Typography>
           <Typography fontWeight='500' marginTop={1}>
             {data?.educationLevel || '-'}
           </Typography>
@@ -140,7 +140,7 @@ const BiodataPegawai = ({ data, employmentType }) => {
             {data?.education_year || '-'}
           </Typography>
         </Grid>
-        {!path?.Outsource && (
+        {path?.ASN && (
           <Grid item xs={12} md={4} paddingY={1}>
             <Typography>No. Karpeg / No. Karisu</Typography>
             <Typography fontWeight='500' marginTop={1}>
@@ -149,38 +149,45 @@ const BiodataPegawai = ({ data, employmentType }) => {
             </Typography>
           </Grid>
         )}
-        <Grid item xs={12} md={4} paddingY={1}>
-          <Typography>Kartu Pegawai</Typography>
-          {data?.employee_id_card ? (
-            <Button
-              text='Lihat File'
-              onClick={() => openInNewTab(data?.employee_id_card)}
-            />
-          ) : (
-            <Typography fontWeight='500' marginTop={1}>
-              -
-            </Typography>
-          )}
-        </Grid>
-        <Grid item xs={12} md={4} paddingY={1}>
-          <Typography>Masa Kerja Keseluruhan</Typography>
-          <Typography fontWeight='500' marginTop={1}>
-            {data?.years_of_service_total || data?.month_of_service_total
-              ? `${data?.years_of_service_total || 0} Tahun, ${data?.month_of_service_total || 0
-              } Bulan`
-              : '-'}
-          </Typography>
-        </Grid>{' '}
         {!path?.Outsource && (
           <Grid item xs={12} md={4} paddingY={1}>
-            <Typography>Masa Kerja Golongan</Typography>
-            <Typography fontWeight='500' marginTop={1}>
-              {data?.years_of_service_rank || data?.month_of_service_rank
-                ? `${data?.years_of_service_rank || 0} Tahun, ${data?.month_of_service_rank || 0
-                } Bulan`
-                : '-'}
-            </Typography>
+            <Typography>Kartu Pegawai</Typography>
+            {data?.employee_id_card ? (
+              <Button
+                text='Lihat File'
+                onClick={() => openInNewTab(data?.employee_id_card)}
+              />
+            ) : (
+              <Typography fontWeight='500' marginTop={1}>
+                -
+              </Typography>
+            )}
           </Grid>
+        )}
+
+        {path?.ASN && (
+          <>
+            <Grid item xs={12} md={4} paddingY={1}>
+              <Typography>Masa Kerja Keseluruhan</Typography>
+              <Typography fontWeight='500' marginTop={1}>
+                {data?.years_of_service_total || data?.month_of_service_total
+                  ? `${data?.years_of_service_total || 0} Tahun, ${
+                      data?.month_of_service_total || 0
+                    } Bulan`
+                  : '-'}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={4} paddingY={1}>
+              <Typography>Masa Kerja Golongan</Typography>
+              <Typography fontWeight='500' marginTop={1}>
+                {data?.years_of_service_rank || data?.month_of_service_rank
+                  ? `${data?.years_of_service_rank || 0} Tahun, ${
+                      data?.month_of_service_rank || 0
+                    } Bulan`
+                  : '-'}
+              </Typography>
+            </Grid>
+          </>
         )}
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>NPWP</Typography>
@@ -206,21 +213,22 @@ const BiodataPegawai = ({ data, employmentType }) => {
             {data?.id_number || '-'}
           </Typography>
         </Grid>
-        <Grid item xs={12} md={4} paddingY={1}>
-          <Typography>Komplek</Typography>
-          <Typography fontWeight='500' marginTop={1}>
-            {data?.residence_name || '-'}
-          </Typography>
-        </Grid>
-        {data?.residence_id == 1 &&
-          data?.residence_name.toLowerCase() == 'luar komplek' && (
+        {path?.ASN && (
+          <>
+            <Grid item xs={12} md={4} paddingY={1}>
+              <Typography>Komplek</Typography>
+              <Typography fontWeight='500' marginTop={1}>
+                {data?.residence_name || '-'}
+              </Typography>
+            </Grid>
             <Grid item xs={12} md={4} paddingY={1}>
               <Typography>Nama Komplek</Typography>
               <Typography fontWeight='500' marginTop={1}>
                 {data?.residence_description || '-'}
               </Typography>
             </Grid>
-          )}
+          </>
+        )}
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Alamat Tempat Tinggal Saat Ini</Typography>
           <Typography fontWeight='500' marginTop={1}>
@@ -277,14 +285,20 @@ const BiodataPegawai = ({ data, employmentType }) => {
             {data?.emergency_contact || '-'}
           </Typography>
         </Grid>
-        <Grid item xs={12} md={4} paddingY={1}>
-          <Typography>Batas Usia Pensiun</Typography>
-          <Typography fontWeight='500' marginTop={1}>
-            {`${data?.retirement_age
-              ? moment(data?.retirement_age, 'DD-MM-YYYY').format('MMMM YYYY')
-              : '-'} - ${data?.retirement_age_years || 0} Tahun`}
-          </Typography>
-        </Grid>
+        {!path?.NonASN && (
+          <Grid item xs={12} md={4} paddingY={1}>
+            <Typography>Batas Usia Pensiun</Typography>
+            <Typography fontWeight='500' marginTop={1}>
+              {`${
+                data?.retirement_age
+                  ? moment(data?.retirement_age, 'DD-MM-YYYY').format(
+                      'MMMM YYYY'
+                    )
+                  : '-'
+              } - ${data?.retirement_age_years || 0} Tahun`}
+            </Typography>
+          </Grid>
+        )}
       </Grid>
     </Paper>
   )

@@ -199,26 +199,26 @@ const FormSchema = Yup.object().shape({
       .required('Email tidak boleh kosong')
       .email('Email tidak valid'),
     officeEmail: Yup.string().email('Email Dinas tidak valid'),
-    employeeIdCardNumber: Yup.string()
-      .nullable()
-      .test(
-        'length-check',
-        'No. Karpeg harus terdiri dari 5 hingga 18 digit',
-        function (value) {
-          if (!value) return true
-          return value.length >= 5 && value.length <= 18
-        }
-      ),
-    karisu: Yup.string()
-      .nullable()
-      .test(
-        'length-check',
-        'No. Kartu Istri / Kartu Suami harus terdiri dari 5 hingga 18 digit',
-        function (value) {
-          if (!value) return true
-          return value.length >= 5 && value.length <= 18
-        }
-      ),
+    // employeeIdCardNumber: Yup.string()
+    //   .nullable()
+    //   .test(
+    //     'length-check',
+    //     'No. Karpeg harus terdiri dari 5 hingga 18 digit',
+    //     function (value) {
+    //       if (!value) return true
+    //       return value.length >= 5 && value.length <= 18
+    //     }
+    //   ),
+    // karisu: Yup.string()
+    //   .nullable()
+    //   .test(
+    //     'length-check',
+    //     'No. Kartu Istri / Kartu Suami harus terdiri dari 5 hingga 18 digit',
+    //     function (value) {
+    //       if (!value) return true
+    //       return value.length >= 5 && value.length <= 18
+    //     }
+    //   ),
     taxId: Yup.string()
       .nullable()
       .test(
@@ -229,38 +229,38 @@ const FormSchema = Yup.object().shape({
           return value.length >= 15 && value.length <= 16
         }
       ),
-    yearsOfServiceTotal: Yup.object().shape({
-      month: Yup.number()
-        .nullable()
-        .notRequired()
-        .transform((value, originalValue) =>
-          originalValue === '' ? null : value
-        )
-        .test(
-          'max-12',
-          'Jumlah Bulan tidak boleh lebih dari 12',
-          function (value) {
-            if (value === null || value === undefined) return true
-            return value <= 12
-          }
-        )
-    }),
-    yearsOfServiceRank: Yup.object().shape({
-      month: Yup.number()
-        .nullable()
-        .notRequired()
-        .transform((value, originalValue) =>
-          originalValue === '' ? null : value
-        )
-        .test(
-          'max-12',
-          'Jumlah Bulan tidak boleh lebih dari 12',
-          function (value) {
-            if (value === null || value === undefined) return true
-            return value <= 12
-          }
-        )
-    }),
+    // yearsOfServiceTotal: Yup.object().shape({
+    //   month: Yup.number()
+    //     .nullable()
+    //     .notRequired()
+    //     .transform((value, originalValue) =>
+    //       originalValue === '' ? null : value
+    //     )
+    //     .test(
+    //       'max-12',
+    //       'Jumlah Bulan tidak boleh lebih dari 12',
+    //       function (value) {
+    //         if (value === null || value === undefined) return true
+    //         return value <= 12
+    //       }
+    //     )
+    // }),
+    // yearsOfServiceRank: Yup.object().shape({
+    //   month: Yup.number()
+    //     .nullable()
+    //     .notRequired()
+    //     .transform((value, originalValue) =>
+    //       originalValue === '' ? null : value
+    //     )
+    //     .test(
+    //       'max-12',
+    //       'Jumlah Bulan tidak boleh lebih dari 12',
+    //       function (value) {
+    //         if (value === null || value === undefined) return true
+    //         return value <= 12
+    //       }
+    //     )
+    // }),
     image: Yup.mixed()
       .nullable()
       .test('fileType', 'Format file harus PNG, JPG', (value) => {
@@ -821,13 +821,18 @@ const EmployeeAddComponent = ({
       )
       formData.append(
         'employee_id_card_number',
-        values?.employee?.employeeIdCardNumber
+        ''
+        // values?.employee?.employeeIdCardNumber
       )
       formData.append(
         'employee_id_card',
         values?.employee?.employeeIdCard || ''
       )
-      formData.append('karisu_number', values?.employee?.karisu)
+      formData.append(
+        'karisu_number',
+        ''
+        // values?.employee?.karisu
+      )
       formData.append('id_tax', values?.employee?.taxId)
       formData.append(
         'employment_status',
@@ -866,19 +871,23 @@ const EmployeeAddComponent = ({
       )
       formData.append(
         'years_of_service_total',
-        values?.employee?.yearsOfServiceTotal?.year
+        ''
+        // values?.employee?.yearsOfServiceTotal?.year
       )
       formData.append(
         'month_of_service_total',
-        values?.employee?.yearsOfServiceTotal?.month
+        ''
+        // values?.employee?.yearsOfServiceTotal?.month
       )
       formData.append(
         'years_of_service_rank',
-        values?.employee?.yearsOfServiceRank?.year
+        ''
+        // values?.employee?.yearsOfServiceRank?.year
       )
       formData.append(
         'month_of_service_rank',
-        values?.employee?.yearsOfServiceRank?.month
+        ''
+        // values?.employee?.yearsOfServiceRank?.month
       )
       formData.append('type', 2)
 

@@ -175,22 +175,22 @@ const FormSchema = Yup.object().shape({
           return value.length >= 15 && value.length <= 16
         }
       ),
-    yearsOfServiceTotal: Yup.object().shape({
-      month: Yup.number()
-        .nullable()
-        .notRequired()
-        .transform((value, originalValue) =>
-          originalValue === '' ? null : value
-        )
-        .test(
-          'max-12',
-          'Jumlah Bulan tidak boleh lebih dari 12',
-          function (value) {
-            if (value === null || value === undefined) return true
-            return value <= 12
-          }
-        )
-    }),
+    // yearsOfServiceTotal: Yup.object().shape({
+    //   month: Yup.number()
+    //     .nullable()
+    //     .notRequired()
+    //     .transform((value, originalValue) =>
+    //       originalValue === '' ? null : value
+    //     )
+    //     .test(
+    //       'max-12',
+    //       'Jumlah Bulan tidak boleh lebih dari 12',
+    //       function (value) {
+    //         if (value === null || value === undefined) return true
+    //         return value <= 12
+    //       }
+    //     )
+    // }),
     image: Yup.mixed()
       .nullable()
       .test('fileType', 'Format file harus PNG, JPG', (value) => {
@@ -507,11 +507,13 @@ const EmployeeAddComponent = ({
       )
       formData.append(
         'years_of_service_total',
-        values?.employee?.yearsOfServiceTotal?.year
+        ''
+        // values?.employee?.yearsOfServiceTotal?.year
       )
       formData.append(
         'month_of_service_total',
-        values?.employee?.yearsOfServiceTotal?.month
+        ''
+        // values?.employee?.yearsOfServiceTotal?.month
       )
       formData.append('type', 3)
 
