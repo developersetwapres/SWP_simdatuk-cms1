@@ -44,6 +44,9 @@ const InitValue = {
     religion: null,
     gender: null,
     maritalStatus: null,
+    marriageDate: '',
+    marriageDesc: '',
+    marriageOther: '',
     employmentType: null,
     dateStartedWork: '',
     pnsEffectiveDate: '',
@@ -764,6 +767,12 @@ const EmployeeAddComponent = ({
         'marital_status',
         handleGetValue('marital', values?.employee?.maritalStatus, '')
       )
+      formData.append(
+        'marriage_date',
+        handleFormatDate(values?.employee?.marriageDate, 'YYYY-MM-DD')
+      )
+      formData.append('marriage_description', values?.employee?.marriageDesc)
+      formData.append('marriage_other_notes', values?.employee?.marriageOther)
       formData.append(
         'employment_type_id',
         handleGetValue('employmentType', values?.employee?.employmentType, '')

@@ -283,6 +283,70 @@ const EmployeeForm = ({
             }}
           />
         </Grid>
+        {pagesType?.asn && (
+          <>
+            {/* Marriage Date */}
+            <Grid item xs={6}>
+              <DatePickerDay
+                label='Tanggal Perkawinan'
+                placeholder='dd-mm-yyyy'
+                name={'employee.marriageDate'}
+                value={values?.employee?.marriageDate}
+                error={errors?.employee?.marriageDate}
+                onChange={(val) => {
+                  setFieldValue('employee.marriageDate', val, false)
+                  // setTimeout(() => {
+                  //   formikRef.current.validateField('employee.marriageDate')
+                  // }, 1)
+                }}
+              />
+            </Grid>
+            {/* Marriage Description */}
+            <Grid item xs={6}>
+              <Input
+                label='Keterangan Perkawinan'
+                placeholder='Masukkan Keterangan Perkawinan'
+                name='employee.marriageDesc'
+                value={values?.employee?.marriageDesc}
+                error={errors?.employee?.marriageDesc}
+                onChange={(e) => {
+                  const val = e?.target?.value
+                  setFieldValue('employee.marriageDesc', val, false)
+                  // setTimeout(() => {
+                  //   formikRef.current.validateField('employee.marriageDesc')
+                  // }, 1)
+                }}
+              />
+              <Typography
+                sx={{ fontSize: '12px', marginTop: '6px', opacity: 0.8 }}
+              >
+                Contoh : Pernikahan Pertama, dst., Cerai Mati, Cerai Hidup
+              </Typography>
+            </Grid>
+            {/* Marriage Other */}
+            <Grid item xs={6}>
+              <Input
+                label='Keterangan Lainnya'
+                placeholder='Masukkan Keterangan Lainnya'
+                name='employee.marriageOther'
+                value={values?.employee?.marriageOther}
+                error={errors?.employee?.marriageOther}
+                onChange={(e) => {
+                  const val = e?.target?.value
+                  setFieldValue('employee.marriageOther', val, false)
+                  // setTimeout(() => {
+                  //   formikRef.current.validateField('employee.marriageOther')
+                  // }, 1)
+                }}
+              />
+              <Typography
+                sx={{ fontSize: '12px', marginTop: '6px', opacity: 0.8 }}
+              >
+                Contoh : Meninggal Dunia, Anak Angkat, Dan lain-lain
+              </Typography>
+            </Grid>
+          </>
+        )}
         {/* Employment Type */}
         <Grid item xs={6}>
           <Autocomplete

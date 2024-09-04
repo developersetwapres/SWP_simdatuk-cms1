@@ -55,6 +55,9 @@ const InitValue = {
     religion: null,
     gender: null,
     maritalStatus: null,
+    marriageDate: '',
+    marriageDesc: '',
+    marriageOther: '',
     employmentType: null,
     dateStartedWork: '',
     pnsEffectiveDate: '',
@@ -1150,6 +1153,12 @@ const EmployeeEditComponent = ({
         handleGetValueID('marital', values?.employee?.maritalStatus, '')
       )
       formData.append(
+        'marriage_date',
+        handleFormatDate(values?.employee?.marriageDate, 'YYYY-MM-DD')
+      )
+      formData.append('marriage_description', values?.employee?.marriageDesc)
+      formData.append('marriage_other_notes', values?.employee?.marriageOther)
+      formData.append(
         'employment_type_id',
         handleGetValueID('employmentType', values?.employee?.employmentType, '')
       )
@@ -1930,6 +1939,9 @@ const EmployeeEditComponent = ({
       const quitDate = detail?.quit_date
         ? moment(detail?.quit_date, 'DD-MM-YYYY').toDate()
         : ''
+      const marriageDate = detail?.marriage_date
+        ? moment(detail?.marriage_date, 'DD-MM-YYYY').toDate()
+        : ''
 
       // Employee
       formikRef.current?.setFieldValue(
@@ -1999,6 +2011,21 @@ const EmployeeEditComponent = ({
         detail?.marital_status
           ? handleGetValue('marital', detail?.marital_status)
           : null,
+        false
+      )
+      formikRef.current?.setFieldValue(
+        'employee.marriageDate',
+        marriageDate,
+        false
+      )
+      formikRef.current?.setFieldValue(
+        'employee.marriageDesc',
+        detail?.marriage_description || '',
+        false
+      )
+      formikRef.current?.setFieldValue(
+        'employee.marriageOther',
+        detail?.marriage_other_notes || '',
         false
       )
       formikRef.current?.setFieldValue(
