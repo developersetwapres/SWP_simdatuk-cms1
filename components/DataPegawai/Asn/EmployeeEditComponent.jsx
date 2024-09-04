@@ -128,7 +128,7 @@ const FormSchema = Yup.object().shape({
     // maritalStatus: Yup.string().required(
     //   'Status Perkawinan tidak boleh kosong'
     // ),
-    // employmentType: Yup.string().required('Jenis Pegawai tidak boleh kosong'),
+    employmentType: Yup.string().required('Jenis Pegawai tidak boleh kosong'),
     dateStartedWork: Yup.string().required('TMT CPNS tidak boleh kosong'),
     positions: Yup.array().of(
       Yup.object().shape({
@@ -176,9 +176,9 @@ const FormSchema = Yup.object().shape({
     //   'Nama Sekolah/Universitas tidak boleh kosong'
     // ),
     // educationYear: Yup.string().required('Tahun Lulus tidak boleh kosong'),
-    // employmentStatus: Yup.string().required(
-    //   'Status Pegawai tidak boleh kosong'
-    // ),
+    employmentStatus: Yup.string().required(
+      'Status Pegawai tidak boleh kosong'
+    ),
     // lastDateOfWork: Yup.string().test(
     //   'is-required',
     //   'Tanggal Terakhir Bekerja tidak boleh kosong',
@@ -207,9 +207,9 @@ const FormSchema = Yup.object().shape({
       .max(16, 'No NIK harus terdiri dari 16 digit angka')
       .required('No NIK tidak boleh kosong'),
     // residence: Yup.string().required('Komplek tidak boleh kosong'),
-    // emergencyContact: Yup.string().required(
-    //   'Kontak Darurat tidak boleh kosong'
-    // ),
+    emergencyContact: Yup.string().required(
+      'Kontak Darurat tidak boleh kosong'
+    ),
     email: Yup.string().email('Email tidak valid'),
     officeEmail: Yup.string()
       .required('Email Dinas tidak boleh kosong')
