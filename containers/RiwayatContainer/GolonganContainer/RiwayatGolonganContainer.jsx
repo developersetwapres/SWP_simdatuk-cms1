@@ -8,12 +8,13 @@ import RiwayatGolonganComponent from '@/components/Riwayat/Golongan/RiwayatGolon
 
 export default connect(
   mapStateToProps('grade'),
-  mapActions('getGrades')
+  mapActions('getGrades', 'deleteGrade')
 )(
   class RiwayatGolonganContainer extends Component {
     static propTypes = {
       grade: PropTypes.object,
-      getGrades: PropTypes.func
+      getGrades: PropTypes.func,
+      deleteGrade: PropTypes.func
     }
 
     constructor(props) {

@@ -1,15 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import LayoutPages from '@/components/core/LayoutPages'
 import { makeStyles } from '@mui/styles'
 import { Box, Typography } from '@mui/material'
 import { Button, Table } from '@/components/shared'
-import { Edit, Info } from '@mui/icons-material'
+import { Edit, Info, Delete } from '@mui/icons-material'
 import Search from '@/components/core/Search'
 import { useRouter } from 'next/router'
 import { monthOptions } from 'libs/types/options'
 import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -58,12 +59,15 @@ const styles = {
 const RiwayatGolonganComponent = ({
   grade,
   onSearch = () => { },
+  deleteGrade = () => { },
   onLoading = () => { },
   onPaginationChange = () => { },
   onRowsPerPageChange = () => { }
 }) => {
   const router = useRouter()
   const classes = useStyles()
+  const [modalDelete, setModalDelete] = useState(false)
+  const [id, setId] = useState(null)
 
   const columns = useMemo(
     () => [
@@ -159,6 +163,15 @@ const RiwayatGolonganComponent = ({
                   sx={styles.buttonAction}
                 />
               )}
+              {accessGranted(PermissionsIDs.HISTORY_GRADE, Access.DELETE) && (
+                <Button
+                  text='Hapus'
+                  color='danger'
+                  icon={<Delete style={styles.iconButton} />}
+                  sx={styles.buttonAction}
+                  onClick={() => showDeleteModal(item?.id)}
+                />
+              )}
             </Box>
           )
         }
@@ -181,45 +194,69 @@ const RiwayatGolonganComponent = ({
     )
   }, [])
 
+  const showDeleteModal = (id) => {
+    setModalDelete(true)
+    setId(id)
+  }
+
+  const doDeleteItem = () => {
+    if (!id) return
+
+    // Do Delete
+    setModalDelete(false)
+    deleteGrade(id)
+  }
+
   useEffect(() => {
     const state = !grade?.loading
     onLoading(state)
   }, [grade])
 
   return (
-    <LayoutPages summary='Data Riwayat Golongan' action={action}>
-      <Box
-        sx={{
-          width: '100%',
-          padding: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'flex-end'
-        }}
-      >
-        <Search
-          inputParentClasses={classes.inputParent}
-          inputClass={classes.input}
-          iconStyle={classes.iconStyle}
-          placeholder='Cari Nama Riwayat Golongan'
-          onSearch={onSearch}
+    <>
+      <LayoutPages summary='Data Riwayat Golongan' action={action}>
+        <Box
+          sx={{
+            width: '100%',
+            padding: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'flex-end'
+          }}
+        >
+          <Search
+            inputParentClasses={classes.inputParent}
+            inputClass={classes.input}
+            iconStyle={classes.iconStyle}
+            placeholder='Cari Nama Riwayat Golongan'
+            onSearch={onSearch}
+          />
+        </Box>
+        <Table
+          rows={rows}
+          columns={columns}
+          pagination={grade?.pagination}
+          handlePagination={onPaginationChange}
+          handleRows={onRowsPerPageChange}
         />
-      </Box>
-      <Table
-        rows={rows}
-        columns={columns}
-        pagination={grade?.pagination}
-        handlePagination={onPaginationChange}
-        handleRows={onRowsPerPageChange}
+      </LayoutPages>
+      <ModalConfirmDelete
+        label='Riwayat Golongan'
+        title='Hapus Golongan'
+        copytext='Apakah anda yakin akan menghapus golongan?'
+        open={modalDelete}
+        handleModal={() => setModalDelete(false)}
+        handleDelete={doDeleteItem}
       />
-    </LayoutPages>
+    </>
   )
 }
 
 RiwayatGolonganComponent.propTypes = {
   grade: PropTypes.object,
   onSearch: PropTypes.func,
+  deleteGrade: PropTypes.func,
   onLoading: PropTypes.func,
   onPaginationChange: PropTypes.func,
   onRowsPerPageChange: PropTypes.func

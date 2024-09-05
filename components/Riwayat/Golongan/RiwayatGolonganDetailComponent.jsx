@@ -1,14 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import LayoutPages from '@/components/core/LayoutPages'
 import { Button, Table } from '@/components/shared'
 import { Box, Grid, Typography } from '@mui/material'
-import { Edit, Info } from '@mui/icons-material'
+import { Delete, Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
 import { monthOptions } from 'libs/types/options'
 import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 
 const styles = {
   iconStyle: {
@@ -28,10 +29,13 @@ const styles = {
 const RiwayatGolonganDetailComponent = ({
   grade,
   getGrade = () => { },
+  deleteGrade = () => { },
   clearGradeState = () => { },
   onLoading = () => { }
 }) => {
   const router = useRouter()
+  const [modalDelete, setModalDelete] = useState(false)
+  const [id, setId] = useState(null)
 
   const data = useMemo(() => {
     return grade?.detail
@@ -150,7 +154,15 @@ const RiwayatGolonganDetailComponent = ({
 
   const action = useMemo(() => {
     return (
-      <Box>
+      <Box sx={{ display: 'flex', gap: '12px' }}>
+        {accessGranted(PermissionsIDs.HISTORY_GRADE, Access.DELETE) && (
+          <Button
+            text='Hapus'
+            color='danger'
+            icon={<Delete style={styles.iconButton} />}
+            onClick={() => showDeleteModal(router?.query?.id)}
+          />
+        )}
         {accessGranted(PermissionsIDs.HISTORY_GRADE, Access.UPDATE) && (
           <Button
             text='Edit'
@@ -167,6 +179,19 @@ const RiwayatGolonganDetailComponent = ({
 
   const handleParsePeriod = (month, year) => {
     return month && year ? `${monthOptions[month - 1]} ${year}` : '-'
+  }
+
+  const showDeleteModal = (id) => {
+    setModalDelete(true)
+    setId(id)
+  }
+
+  const doDeleteItem = () => {
+    if (!id) return
+
+    // Do Delete
+    setModalDelete(false)
+    deleteGrade(atob(id))
   }
 
   useEffect(() => {
@@ -188,45 +213,56 @@ const RiwayatGolonganDetailComponent = ({
   }, [grade])
 
   return (
-    <LayoutPages
-      handleBack={() => router.back()}
-      summary='Detail Riwayat Golongan'
-      action={action}
-    >
-      <Paper style={{ padding: '24px 20px' }}>
-        <Grid container sx={{ marginBottom: '26px' }}>
-          <Grid item xs={6}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <Typography>Nama Riwayat golongan</Typography>
-              <Typography sx={{ fontWeight: 600 }}>
-                {data?.name || '-'}
-              </Typography>
-            </Box>
+    <>
+      <LayoutPages
+        handleBack={() => router.back()}
+        summary='Detail Riwayat Golongan'
+        action={action}
+      >
+        <Paper style={{ padding: '24px 20px' }}>
+          <Grid container sx={{ marginBottom: '26px' }}>
+            <Grid item xs={6}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <Typography>Nama Riwayat golongan</Typography>
+                <Typography sx={{ fontWeight: 600 }}>
+                  {data?.name || '-'}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={6}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <Typography>Periode Input Riwayat</Typography>
+                <Typography sx={{ fontWeight: 600 }}>
+                  {handleParsePeriod(data?.period_month, data?.period_year)}
+                </Typography>
+              </Box>
+            </Grid>
           </Grid>
-          <Grid item xs={6}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <Typography>Periode Input Riwayat</Typography>
-              <Typography sx={{ fontWeight: 600 }}>
-                {handleParsePeriod(data?.period_month, data?.period_year)}
-              </Typography>
-            </Box>
-          </Grid>
-        </Grid>
-        <Table
-          columns={columns}
-          rows={rows}
-          title='Daftar Pegawai'
-          colorTitle='simdatukPrimary'
-          paper={false}
-        />
-      </Paper>
-    </LayoutPages>
+          <Table
+            columns={columns}
+            rows={rows}
+            title='Daftar Pegawai'
+            colorTitle='simdatukPrimary'
+            paper={false}
+          />
+        </Paper>
+      </LayoutPages>
+      <ModalConfirmDelete
+        label='Riwayat Golongan'
+        title='Hapus Golongan'
+        copytext='Apakah anda yakin akan menghapus golongan?'
+        open={modalDelete}
+        handleModal={() => setModalDelete(false)}
+        handleDelete={doDeleteItem}
+      />
+    </>
   )
 }
 
 RiwayatGolonganDetailComponent.propTypes = {
   grade: PropTypes.object,
   getGrade: PropTypes.func,
+  deleteGrade: PropTypes.func,
   clearGradeState: PropTypes.func,
   onLoading: PropTypes.func
 }
