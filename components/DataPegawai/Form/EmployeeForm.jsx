@@ -764,7 +764,7 @@ const EmployeeForm = ({
         {!pagesType?.outsource && (
           <Grid item xs={6}>
             <UploadFile
-              label='Kartu Pegawai'
+              label='SK Pengangkatan'
               maxSize={2}
               dataUnit='MB'
               formatFile={['.png', '.jpg', '.pdf']}
@@ -920,11 +920,11 @@ const EmployeeForm = ({
                 }}
               />
             </Grid>
-            {/* Residence */}
+            {/* Residence Name */}
             <Grid item xs={6}>
               <Input
-                label='Nama Komplek'
-                placeholder='Masukkan Nama Komplek'
+                label='Alamat Tempat Tinggal Saat Ini'
+                placeholder='Masukkan Alamat Tempat Tinggal Saat Ini'
                 name='employee.residenceName'
                 value={values?.employee?.residenceName}
                 error={errors?.employee?.residenceName}
@@ -939,8 +939,8 @@ const EmployeeForm = ({
         {/* Address */}
         <Grid item xs={6}>
           <Input
-            label='Alamat Tempat Tinggal Saat Ini'
-            placeholder='Masukkan Alamat Tempat Tinggal Saat Ini'
+            label='Alamat sesuai KTP'
+            placeholder='Masukkan Alamat sesuai KTP'
             name='employee.address'
             value={values?.employee?.address}
             error={errors?.employee?.address}
