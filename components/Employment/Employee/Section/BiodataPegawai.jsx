@@ -81,12 +81,30 @@ const BiodataPegawai = ({ data, employmentType }) => {
           </Typography>
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
+          <Typography>Tanggal Perkawinan</Typography>
+          <Typography fontWeight='500' marginTop={1}>
+            {data?.marriage_date || '-'}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={4} paddingY={1}>
+          <Typography>Keterangan Perkawinan</Typography>
+          <Typography fontWeight='500' marginTop={1}>
+            {data?.marriage_description || '-'}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={4} paddingY={1}>
+          <Typography>Keterangan Lainnya</Typography>
+          <Typography fontWeight='500' marginTop={1}>
+            {data?.marriage_other_notes || '-'}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={4} paddingY={1}>
           <Typography>
             {data?.type == 1
               ? 'Jenis Pegawai'
               : data?.type == 2
-              ? 'Jenis Perbantuan'
-              : 'Jenis Outsourcing'}
+                ? 'Jenis Perbantuan'
+                : 'Jenis Outsourcing'}
           </Typography>
           <Typography fontWeight='500' marginTop={1}>
             {getValueOptions(data?.employment_type_id, 'type')}
@@ -171,9 +189,8 @@ const BiodataPegawai = ({ data, employmentType }) => {
               <Typography>Masa Kerja Keseluruhan</Typography>
               <Typography fontWeight='500' marginTop={1}>
                 {data?.years_of_service_total || data?.month_of_service_total
-                  ? `${data?.years_of_service_total || 0} Tahun, ${
-                      data?.month_of_service_total || 0
-                    } Bulan`
+                  ? `${data?.years_of_service_total || 0} Tahun, ${data?.month_of_service_total || 0
+                  } Bulan`
                   : '-'}
               </Typography>
             </Grid>
@@ -181,9 +198,8 @@ const BiodataPegawai = ({ data, employmentType }) => {
               <Typography>Masa Kerja Golongan</Typography>
               <Typography fontWeight='500' marginTop={1}>
                 {data?.years_of_service_rank || data?.month_of_service_rank
-                  ? `${data?.years_of_service_rank || 0} Tahun, ${
-                      data?.month_of_service_rank || 0
-                    } Bulan`
+                  ? `${data?.years_of_service_rank || 0} Tahun, ${data?.month_of_service_rank || 0
+                  } Bulan`
                   : '-'}
               </Typography>
             </Grid>
@@ -222,7 +238,7 @@ const BiodataPegawai = ({ data, employmentType }) => {
               </Typography>
             </Grid>
             <Grid item xs={12} md={4} paddingY={1}>
-              <Typography>Nama Komplek</Typography>
+              <Typography>Alamat Tempat Tinggal Saat Ini</Typography>
               <Typography fontWeight='500' marginTop={1}>
                 {data?.residence_description || '-'}
               </Typography>
@@ -230,7 +246,7 @@ const BiodataPegawai = ({ data, employmentType }) => {
           </>
         )}
         <Grid item xs={12} md={4} paddingY={1}>
-          <Typography>Alamat Tempat Tinggal Saat Ini</Typography>
+          <Typography>Alamat Sesuai KTP</Typography>
           <Typography fontWeight='500' marginTop={1}>
             {data?.current_address || '-'}
           </Typography>
@@ -285,22 +301,23 @@ const BiodataPegawai = ({ data, employmentType }) => {
             {data?.emergency_contact || '-'}
           </Typography>
         </Grid>
-        {!path?.NonASN && (
-          <Grid item xs={12} md={4} paddingY={1}>
-            <Typography>Batas Usia Pensiun</Typography>
-            <Typography fontWeight='500' marginTop={1}>
-              {`${
-                data?.retirement_age
+        {
+          !path?.NonASN && (
+            <Grid item xs={12} md={4} paddingY={1}>
+              <Typography>Batas Usia Pensiun</Typography>
+              <Typography fontWeight='500' marginTop={1}>
+                {`${data?.retirement_age
                   ? moment(data?.retirement_age, 'DD-MM-YYYY').format(
-                      'MMMM YYYY'
-                    )
+                    'MMMM YYYY'
+                  )
                   : '-'
-              } - ${data?.retirement_age_years || 0} Tahun`}
-            </Typography>
-          </Grid>
-        )}
-      </Grid>
-    </Paper>
+                  } - ${data?.retirement_age_years || 0} Tahun`}
+              </Typography>
+            </Grid>
+          )
+        }
+      </Grid >
+    </Paper >
   )
 }
 
