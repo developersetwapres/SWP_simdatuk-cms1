@@ -8,7 +8,12 @@ import RiwayatJabatanDetailComponent from '@/components/Riwayat/Jabatan/RiwayatJ
 
 export default connect(
   mapStateToProps('positionHistories', 'echelon'),
-  mapActions('getPositionHistories', 'clearPositionState', 'getEchelons')
+  mapActions(
+    'getPositionHistories',
+    'clearPositionState',
+    'getEchelons',
+    'deletePositionHistories'
+  )
 )(
   class RiwayatJabatanDetailContainer extends Component {
     static propTypes = {
@@ -16,7 +21,8 @@ export default connect(
       echelon: PropTypes.object,
       getPositionHistories: PropTypes.func,
       clearPositionState: PropTypes.func,
-      getEchelons: PropTypes.func
+      getEchelons: PropTypes.func,
+      deletePositionHistories: PropTypes.func
     }
 
     constructor(props) {

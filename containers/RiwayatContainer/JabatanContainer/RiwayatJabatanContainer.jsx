@@ -8,12 +8,13 @@ import RiwayatJabatanComponent from '@/components/Riwayat/Jabatan/RiwayatJabatan
 
 export default connect(
   mapStateToProps('positionHistories'),
-  mapActions('getPositionsHistories')
+  mapActions('getPositionsHistories', 'deletePositionHistories')
 )(
   class RiwayatJabatanContainer extends Component {
     static propTypes = {
       positionHistories: PropTypes.object,
-      getPositionsHistories: PropTypes.func
+      getPositionsHistories: PropTypes.func,
+      deletePositionHistories: PropTypes.func
     }
 
     constructor(props) {

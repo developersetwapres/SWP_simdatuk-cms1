@@ -1,14 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import LayoutPages from '@/components/core/LayoutPages'
 import { Button, Table } from '@/components/shared'
 import { Box, Grid, Typography } from '@mui/material'
-import { Edit, Info } from '@mui/icons-material'
+import { Delete, Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
 import { monthOptions, positionDescOptions } from 'libs/types/options'
 import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 
 const styles = {
   iconStyle: {
@@ -28,11 +29,14 @@ const styles = {
 const RiwayatJabatanDetailComponent = ({
   positionHistories,
   echelon,
+  deletePositionHistories = () => { },
   getPositionHistories = () => { },
   clearPositionState = () => { },
   onLoading = () => { }
 }) => {
   const router = useRouter()
+  const [modalDelete, setModalDelete] = useState(false)
+  const [id, setId] = useState(null)
 
   const options = useMemo(() => {
     const newEchelons = echelon?.data || []
@@ -196,9 +200,30 @@ const RiwayatJabatanDetailComponent = ({
     return dataMapping
   }, [positionHistories])
 
+  const showDeleteModal = (id) => {
+    setModalDelete(true)
+    setId(id)
+  }
+
+  const doDeleteItem = () => {
+    if (!id) return
+
+    // Do Delete
+    setModalDelete(false)
+    deletePositionHistories(atob(id))
+  }
+
   const action = useMemo(() => {
     return (
-      <Box>
+      <Box sx={{ display: 'flex', gap: '12px' }}>
+        {accessGranted(PermissionsIDs.HISTORY_POSITION, Access.DELETE) && (
+          <Button
+            text='Hapus'
+            color='danger'
+            icon={<Delete style={styles.iconButton} />}
+            onClick={() => showDeleteModal(router?.query?.id)}
+          />
+        )}
         {accessGranted(PermissionsIDs.HISTORY_POSITION, Access.UPDATE) && (
           <Button
             text='Edit'
@@ -238,39 +263,49 @@ const RiwayatJabatanDetailComponent = ({
   }, [positionHistories])
 
   return (
-    <LayoutPages
-      handleBack={() => router.back()}
-      summary='Detail Riwayat Jabatan'
-      action={action}
-    >
-      <Paper style={{ padding: '24px 20px' }}>
-        <Grid container sx={{ marginBottom: '26px' }}>
-          <Grid item xs={6}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <Typography>Nama Riwayat Jabatan</Typography>
-              <Typography sx={{ fontWeight: 600 }}>
-                {data?.name || '-'}
-              </Typography>
-            </Box>
+    <>
+      <LayoutPages
+        handleBack={() => router.back()}
+        summary='Detail Riwayat Jabatan'
+        action={action}
+      >
+        <Paper style={{ padding: '24px 20px' }}>
+          <Grid container sx={{ marginBottom: '26px' }}>
+            <Grid item xs={6}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <Typography>Nama Riwayat Jabatan</Typography>
+                <Typography sx={{ fontWeight: 600 }}>
+                  {data?.name || '-'}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={6}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <Typography>Periode Input Riwayat</Typography>
+                <Typography sx={{ fontWeight: 600 }}>
+                  {handleParsePeriod(data?.period_month, data?.period_year)}
+                </Typography>
+              </Box>
+            </Grid>
           </Grid>
-          <Grid item xs={6}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <Typography>Periode Input Riwayat</Typography>
-              <Typography sx={{ fontWeight: 600 }}>
-                {handleParsePeriod(data?.period_month, data?.period_year)}
-              </Typography>
-            </Box>
-          </Grid>
-        </Grid>
-        <Table
-          columns={columns}
-          rows={rows}
-          title='Daftar Pegawai'
-          colorTitle='simdatukPrimary'
-          paper={false}
-        />
-      </Paper>
-    </LayoutPages>
+          <Table
+            columns={columns}
+            rows={rows}
+            title='Daftar Pegawai'
+            colorTitle='simdatukPrimary'
+            paper={false}
+          />
+        </Paper>
+      </LayoutPages>
+      <ModalConfirmDelete
+        label='Data Pegawai'
+        title='Hapus Data Pegawai'
+        copytext='Apakah anda yakin akan menghapus data pegawai?'
+        open={modalDelete}
+        handleModal={() => setModalDelete(false)}
+        handleDelete={doDeleteItem}
+      />
+    </>
   )
 }
 
@@ -278,6 +313,7 @@ RiwayatJabatanDetailComponent.propTypes = {
   positionHistories: PropTypes.object,
   echelon: PropTypes.object,
   getPositionHistories: PropTypes.func,
+  deletePositionHistories: PropTypes.func,
   clearPositionState: PropTypes.func,
   onLoading: PropTypes.func
 }
