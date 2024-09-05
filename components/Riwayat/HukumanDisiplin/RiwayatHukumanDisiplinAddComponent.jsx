@@ -32,7 +32,8 @@ const InitValue = {
       tanggalSkHukuman: '',
       tanggalHukuman: null,
       pejabatBerwenang: '',
-      namaPejabatBerwenang: ''
+      namaPejabatBerwenang: '',
+      desc: ''
     }
   ]
 }
@@ -62,8 +63,8 @@ const FormSchema = Yup.object().shape({
 const RiwayatHukumanDisiplinAddComponent = ({
   disciplinary,
   employee,
-  postDisciplinary = () => { },
-  onLoading = () => { }
+  postDisciplinary = () => {},
+  onLoading = () => {}
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -126,7 +127,8 @@ const RiwayatHukumanDisiplinAddComponent = ({
           start_date: moment(itm?.tanggalHukuman?.from).format('YYYY-MM-DD'),
           end_date: moment(itm?.tanggalHukuman?.to).format('YYYY-MM-DD'),
           authorizing_officer: itm?.pejabatBerwenang || null,
-          name_of_authorizing_officer: itm?.namaPejabatBerwenang || null
+          name_of_authorizing_officer: itm?.namaPejabatBerwenang || null,
+          description: itm?.desc
         }
       })
 
@@ -166,7 +168,7 @@ const RiwayatHukumanDisiplinAddComponent = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => { }}
+      onSubmit={() => {}}
     >
       {(formikProps) => (
         <LayoutPages

@@ -124,6 +124,12 @@ const RiwayatHukumanDisiplinDetailComponent = ({
         align: 'left'
       },
       {
+        Header: 'Keterangan',
+        width: 400,
+        minWidth: 200,
+        align: 'left'
+      },
+      {
         Header: 'Aksi',
         width: 200,
         minWidth: 200,
@@ -240,6 +246,12 @@ const RiwayatHukumanDisiplinDetailComponent = ({
           Cell: () => (
             <Typography>{item?.name_of_authorizing_officer || '-'}</Typography>
           )
+        },
+        {
+          Header: 'Keterangan',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.description || '-'}</Typography>
         },
         {
           Header: 'Aksi',

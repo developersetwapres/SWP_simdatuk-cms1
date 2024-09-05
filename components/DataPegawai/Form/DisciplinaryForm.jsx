@@ -395,8 +395,8 @@ const DisciplinaryForm = ({
               {/* Description */}
               <Grid item xs={6}>
                 <Input
-                  label='Uraian'
-                  placeholder='Masukkan Uraian'
+                  label='Keterangan'
+                  placeholder='Masukkan Keterangan'
                   name={`disciplinaries[${idx}].description`}
                   value={itm?.description}
                   error={

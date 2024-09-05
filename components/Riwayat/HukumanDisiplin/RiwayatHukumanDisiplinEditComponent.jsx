@@ -31,7 +31,8 @@ const InitValue = {
       tanggalSkHukuman: '',
       tanggalHukuman: null,
       pejabatBerwenang: '',
-      namaPejabatBerwenang: ''
+      namaPejabatBerwenang: '',
+      desc: ''
     }
   ]
 }
@@ -61,10 +62,10 @@ const FormSchema = Yup.object().shape({
 const RiwayatHukumanDisiplinEditComponent = ({
   disciplinary,
   employee,
-  getDisciplinary = () => { },
-  updateDisciplinary = () => { },
-  clearDisciplinaryState = () => { },
-  onLoading = () => { }
+  getDisciplinary = () => {},
+  updateDisciplinary = () => {},
+  clearDisciplinaryState = () => {},
+  onLoading = () => {}
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -132,7 +133,8 @@ const RiwayatHukumanDisiplinEditComponent = ({
           start_date: moment(itm?.tanggalHukuman?.from).format('YYYY-MM-DD'),
           end_date: moment(itm?.tanggalHukuman?.to).format('YYYY-MM-DD'),
           authorizing_officer: itm?.pejabatBerwenang || null,
-          name_of_authorizing_officer: itm?.namaPejabatBerwenang || null
+          name_of_authorizing_officer: itm?.namaPejabatBerwenang || null,
+          description: itm?.desc
         }
       })
 
@@ -209,9 +211,10 @@ const RiwayatHukumanDisiplinEditComponent = ({
             const discipleDate =
               startDate && endDate ? { from: startDate, to: endDate } : null
             return {
-              nama: itm?.name && itm?.employee_id_number
-                ? `${itm?.name} - ${itm?.employee_id_number}`
-                : null,
+              nama:
+                itm?.name && itm?.employee_id_number
+                  ? `${itm?.name} - ${itm?.employee_id_number}`
+                  : null,
               golongan: itm?.grade || '',
               jabatan: itm?.position || '',
               jenisHukuman: itm?.disciplinary_type_name,
@@ -222,7 +225,8 @@ const RiwayatHukumanDisiplinEditComponent = ({
               tanggalSkHukuman: decreeDate,
               tanggalHukuman: discipleDate,
               pejabatBerwenang: itm?.authorizing_officer || '',
-              namaPejabatBerwenang: itm?.name_of_authorizing_officer || ''
+              namaPejabatBerwenang: itm?.name_of_authorizing_officer || '',
+              desc: itm?.description || ''
             }
           })
         ]
@@ -237,7 +241,7 @@ const RiwayatHukumanDisiplinEditComponent = ({
       innerRef={formikRef}
       initialValues={formValues}
       validationSchema={FormSchema}
-      onSubmit={() => { }}
+      onSubmit={() => {}}
     >
       {(formikProps) => (
         <LayoutPages

@@ -390,6 +390,19 @@ const RiwayatHukumanDisiplinForm = ({
                     }}
                   />
                 </Grid>
+                {/* Keterangan */}
+                <Grid item xs={6} md={4}>
+                  <Input
+                    label='Keterangan'
+                    placeholder='Masukkan Keterangan'
+                    name={`pegawai[${index}].desc`}
+                    value={item?.desc}
+                    onChange={(e) => {
+                      const val = e?.target?.value
+                      setFieldValue(`pegawai[${index}].desc`, val, false)
+                    }}
+                  />
+                </Grid>
               </Grid>
               {values?.pegawai?.length > 1 && (
                 <Grid item xs={1} spacing={3}>
