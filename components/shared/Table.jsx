@@ -25,6 +25,7 @@ function Table({
   colorTitle = 'primary',
   paper = true,
   divider = false,
+  maxHeight = 'unset',
   pagination,
   handlePagination = () => {},
   handleRows = () => {}
@@ -65,8 +66,12 @@ function Table({
         {divider && (
           <Divider sx={{ marginBottom: '12px', border: '1px solid #929292' }} />
         )}
-        <TableContainer>
-          <MuiTable sx={{ minWidth: 700 }} aria-label='customized table'>
+        <TableContainer sx={{ maxHeight: maxHeight }}>
+          <MuiTable
+            stickyHeader
+            sx={{ minWidth: 700 }}
+            aria-label='table sticky'
+          >
             <TableHead>
               <TableRow>
                 {columns.map((item, index) => (
@@ -76,7 +81,8 @@ function Table({
                       width: `${item?.width}px`,
                       minWidth: item?.minWidth ? `${item.minWidth}px` : 'auto',
                       fontSize: '14px',
-                      fontWeight: 600
+                      fontWeight: 600,
+                      backgroundColor: '#2F2F2F'
                     }}
                   >
                     {item?.Header}
@@ -181,7 +187,8 @@ Table.propTypes = {
   pagination: PropTypes.object,
   handlePagination: PropTypes.func,
   handleRows: PropTypes.func,
-  action: PropTypes.any
+  action: PropTypes.any,
+  maxHeight: PropTypes.any
 }
 
 export default Table
