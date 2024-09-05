@@ -8,13 +8,14 @@ import RiwayatPelatihanStrukturalDetailComponent from '@/components/Riwayat/Pela
 
 export default connect(
   mapStateToProps('training'),
-  mapActions('getTraining', 'clearTrainingState')
+  mapActions('getTraining', 'clearTrainingState', 'deleteTraining')
 )(
   class RiwayatPelatihanStrukturalDetailContainer extends Component {
     static propTypes = {
       traning: PropTypes.object,
       getTraining: PropTypes.func,
-      clearTrainingState: PropTypes.func
+      clearTrainingState: PropTypes.func,
+      deleteTraining: PropTypes.func
     }
 
     constructor(props) {

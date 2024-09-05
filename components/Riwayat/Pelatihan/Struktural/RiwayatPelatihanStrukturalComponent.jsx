@@ -1,15 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import LayoutPages from '@/components/core/LayoutPages'
 import Search from '@/components/core/Search'
 import { Button, Table } from '@/components/shared'
-import { Edit, Info } from '@mui/icons-material'
+import { Edit, Info, Delete } from '@mui/icons-material'
 import { Box, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { useRouter } from 'next/router'
 import { monthOptions } from 'libs/types/options'
 import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -58,12 +59,15 @@ const styles = {
 const RiwayatPelatihanStrukturalComponent = ({
   training,
   onSearch = () => { },
+  deleteTraining = () => { },
   onLoading = () => { },
   onPaginationChange = () => { },
   onRowsPerPageChange = () => { }
 }) => {
   const router = useRouter()
   const classes = useStyles()
+  const [modalDelete, setModalDelete] = useState(false)
+  const [id, setId] = useState(null)
 
   const columns = useMemo(
     () => [
@@ -169,6 +173,15 @@ const RiwayatPelatihanStrukturalComponent = ({
                   }
                 />
               )}
+              {accessGranted(PermissionsIDs.HISTORY_STRUCTURAL, Access.DELETE) && (
+                <Button
+                  text='Hapus'
+                  color='danger'
+                  icon={<Delete style={styles.iconButton} />}
+                  sx={styles.buttonAction}
+                  onClick={() => showDeleteModal(item?.id)}
+                />
+              )}
             </Box>
           )
         }
@@ -191,45 +204,69 @@ const RiwayatPelatihanStrukturalComponent = ({
     )
   }, [])
 
+  const showDeleteModal = (id) => {
+    setModalDelete(true)
+    setId(id)
+  }
+
+  const doDeleteItem = () => {
+    if (!id) return
+
+    // Do Delete
+    setModalDelete(false)
+    deleteTraining(id)
+  }
+
   useEffect(() => {
     const state = !training?.loading
     onLoading(state)
   }, [training])
 
   return (
-    <LayoutPages summary='Data Riwayat Pelatihan Struktural' action={action}>
-      <Box
-        sx={{
-          width: '100%',
-          padding: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'flex-end'
-        }}
-      >
-        <Search
-          inputParentClasses={classes.inputParent}
-          inputClass={classes.input}
-          iconStyle={classes.iconStyle}
-          placeholder='Cari Nama Diklat'
-          onSearch={onSearch}
+    <>
+      <LayoutPages summary='Data Riwayat Pelatihan Struktural' action={action}>
+        <Box
+          sx={{
+            width: '100%',
+            padding: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'flex-end'
+          }}
+        >
+          <Search
+            inputParentClasses={classes.inputParent}
+            inputClass={classes.input}
+            iconStyle={classes.iconStyle}
+            placeholder='Cari Nama Diklat'
+            onSearch={onSearch}
+          />
+        </Box>
+        <Table
+          columns={columns}
+          rows={rows}
+          pagination={training?.pagination}
+          handlePagination={onPaginationChange}
+          handleRows={onRowsPerPageChange}
         />
-      </Box>
-      <Table
-        columns={columns}
-        rows={rows}
-        pagination={training?.pagination}
-        handlePagination={onPaginationChange}
-        handleRows={onRowsPerPageChange}
+      </LayoutPages>
+      <ModalConfirmDelete
+        label='Riwayat Pelatihan Struktural'
+        title='Hapus Riwayat Pelatihan Struktural'
+        copytext='Apakah anda yakin akan menghapus riwayat pelatihan struktural?'
+        open={modalDelete}
+        handleModal={() => setModalDelete(false)}
+        handleDelete={doDeleteItem}
       />
-    </LayoutPages>
+    </>
   )
 }
 
 RiwayatPelatihanStrukturalComponent.propTypes = {
   training: PropTypes.object,
   onSearch: PropTypes.func,
+  deleteTraining: PropTypes.func,
   onLoading: PropTypes.func,
   onPaginationChange: PropTypes.func,
   onRowsPerPageChange: PropTypes.func
