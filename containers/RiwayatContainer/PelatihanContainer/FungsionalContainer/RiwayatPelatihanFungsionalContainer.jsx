@@ -8,12 +8,13 @@ import RiwayatPelatihanFungsionalComponent from '@/components/Riwayat/Pelatihan/
 
 export default connect(
   mapStateToProps('training'),
-  mapActions('getTrainings')
+  mapActions('getTrainings', 'deleteTraining')
 )(
   class RiwayatPelatihanFungsionalContainer extends Component {
     static propTypes = {
       training: PropTypes.object,
-      getTrainings: PropTypes.func
+      getTrainings: PropTypes.func,
+      deleteTraining: PropTypes.func
     }
 
     constructor(props) {

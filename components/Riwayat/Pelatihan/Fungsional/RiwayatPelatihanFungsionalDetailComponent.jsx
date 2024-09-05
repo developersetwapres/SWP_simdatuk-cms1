@@ -1,14 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import LayoutPages from '@/components/core/LayoutPages'
 import { Button, Table } from '@/components/shared'
 import { Box, Grid, Typography } from '@mui/material'
-import { Edit, Info } from '@mui/icons-material'
+import { Delete, Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
 import { monthOptions } from 'libs/types/options'
 import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 
 const styles = {
   iconStyle: {
@@ -36,10 +37,13 @@ const styles = {
 const RiwayatPelatihanFungsionalDetailComponent = ({
   training,
   getTraining = () => { },
+  deleteTraining = () => { },
   clearTrainingState = () => { },
   onLoading = () => { }
 }) => {
   const router = useRouter()
+  const [modalDelete, setModalDelete] = useState(false)
+  const [id, setId] = useState(null)
 
   const data = useMemo(() => {
     const detail = training?.detail
@@ -149,7 +153,15 @@ const RiwayatPelatihanFungsionalDetailComponent = ({
 
   const action = useMemo(() => {
     return (
-      <Box>
+      <Box sx={{ display: 'flex', gap: '12px' }}>
+        {accessGranted(PermissionsIDs.HISTORY_FUNCTIONAL, Access.DELETE) && (
+          <Button
+            text='Hapus'
+            color='danger'
+            icon={<Delete style={styles.iconButton} />}
+            onClick={() => showDeleteModal(router?.query?.id)}
+          />
+        )}
         {accessGranted(PermissionsIDs.HISTORY_FUNCTIONAL, Access.UPDATE) && (
           <Button
             text='Edit'
@@ -168,6 +180,19 @@ const RiwayatPelatihanFungsionalDetailComponent = ({
 
   const handleClearState = () => {
     clearTrainingState()
+  }
+
+  const showDeleteModal = (id) => {
+    setModalDelete(true)
+    setId(id)
+  }
+
+  const doDeleteItem = () => {
+    if (!id) return
+
+    // Do Delete
+    setModalDelete(false)
+    deleteTraining(atob(id))
   }
 
   useEffect(() => {
@@ -190,107 +215,118 @@ const RiwayatPelatihanFungsionalDetailComponent = ({
   }, [training])
 
   return (
-    <LayoutPages
-      handleBack={() => router.back()}
-      summary='Detail Riwayat Pelatihan Fungsional'
-      action={action}
-    >
-      <Paper style={{ padding: '24px 20px' }}>
-        <Grid container sx={{ marginBottom: '26px' }} spacing={3}>
-          {/* Nama Diklat */}
-          <Grid item xs={6}>
-            <Box sx={styles?.wrapperItem}>
-              <Typography>Nama Diklat</Typography>
-              <Typography sx={styles?.font}>{data?.name || '-'}</Typography>
-            </Box>
+    <>
+      <LayoutPages
+        handleBack={() => router.back()}
+        summary='Detail Riwayat Pelatihan Fungsional'
+        action={action}
+      >
+        <Paper style={{ padding: '24px 20px' }}>
+          <Grid container sx={{ marginBottom: '26px' }} spacing={3}>
+            {/* Nama Diklat */}
+            <Grid item xs={6}>
+              <Box sx={styles?.wrapperItem}>
+                <Typography>Nama Diklat</Typography>
+                <Typography sx={styles?.font}>{data?.name || '-'}</Typography>
+              </Box>
+            </Grid>
+            {/* Periode */}
+            <Grid item xs={6}>
+              <Box sx={styles?.wrapperItem}>
+                <Typography>Periode Input Riwayat</Typography>
+                <Typography sx={styles?.font}>
+                  {data?.period_month && data?.period_year
+                    ? `${monthOptions[data?.period_month - 1]} ${data?.period_year
+                    }`
+                    : '-'}
+                </Typography>
+              </Box>
+            </Grid>
+            {/* No Surat Perintah */}
+            <Grid item xs={6}>
+              <Box sx={styles?.wrapperItem}>
+                <Typography>No Surat Perintah</Typography>
+                <Typography sx={styles?.font}>
+                  {data?.reference_number || '-'}
+                </Typography>
+              </Box>
+            </Grid>
+            {/* Jenjang */}
+            <Grid item xs={6}>
+              <Box sx={styles?.wrapperItem}>
+                <Typography>Jenjang</Typography>
+                <Typography sx={styles?.font}>{data?.level || '-'}</Typography>
+              </Box>
+            </Grid>
+            {/* Tanggal Pelaksanaan */}
+            <Grid item xs={6}>
+              <Box sx={styles?.wrapperItem}>
+                <Typography>Tanggal Pelaksanaan</Typography>
+                <Typography sx={styles?.font}>
+                  {data?.start_date || '-'}
+                </Typography>
+              </Box>
+            </Grid>
+            {/* Penyelenggara */}
+            <Grid item xs={6}>
+              <Box sx={styles?.wrapperItem}>
+                <Typography>Penyelenggara</Typography>
+                <Typography sx={styles?.font}>
+                  {data?.organizer || '-'}
+                </Typography>
+              </Box>
+            </Grid>
+            {/* Durasi */}
+            <Grid item xs={6}>
+              <Box sx={styles?.wrapperItem}>
+                <Typography>Durasi Pelatihan (Hari)</Typography>
+                <Typography sx={styles?.font}>{data?.duration || 0}</Typography>
+              </Box>
+            </Grid>
+            {/* Materi */}
+            <Grid item xs={6}>
+              <Box sx={styles?.wrapperItem}>
+                <Typography>Link Materi Pelatihan</Typography>
+                {data?.link ? (
+                  <Button
+                    text='Lihat Materi'
+                    style={{ width: '140px' }}
+                    onClick={() => {
+                      const url = data?.link
+                      if (url) window.open(url, '_blank')
+                    }}
+                  />
+                ) : (
+                  '-'
+                )}
+              </Box>
+            </Grid>
           </Grid>
-          {/* Periode */}
-          <Grid item xs={6}>
-            <Box sx={styles?.wrapperItem}>
-              <Typography>Periode Input Riwayat</Typography>
-              <Typography sx={styles?.font}>
-                {data?.period_month && data?.period_year
-                  ? `${monthOptions[data?.period_month - 1]} ${data?.period_year
-                  }`
-                  : '-'}
-              </Typography>
-            </Box>
-          </Grid>
-          {/* No Surat Perintah */}
-          <Grid item xs={6}>
-            <Box sx={styles?.wrapperItem}>
-              <Typography>No Surat Perintah</Typography>
-              <Typography sx={styles?.font}>
-                {data?.reference_number || '-'}
-              </Typography>
-            </Box>
-          </Grid>
-          {/* Jenjang */}
-          <Grid item xs={6}>
-            <Box sx={styles?.wrapperItem}>
-              <Typography>Jenjang</Typography>
-              <Typography sx={styles?.font}>{data?.level || '-'}</Typography>
-            </Box>
-          </Grid>
-          {/* Tanggal Pelaksanaan */}
-          <Grid item xs={6}>
-            <Box sx={styles?.wrapperItem}>
-              <Typography>Tanggal Pelaksanaan</Typography>
-              <Typography sx={styles?.font}>
-                {data?.start_date || '-'}
-              </Typography>
-            </Box>
-          </Grid>
-          {/* Penyelenggara */}
-          <Grid item xs={6}>
-            <Box sx={styles?.wrapperItem}>
-              <Typography>Penyelenggara</Typography>
-              <Typography sx={styles?.font}>
-                {data?.organizer || '-'}
-              </Typography>
-            </Box>
-          </Grid>
-          {/* Durasi */}
-          <Grid item xs={6}>
-            <Box sx={styles?.wrapperItem}>
-              <Typography>Durasi Pelatihan (Hari)</Typography>
-              <Typography sx={styles?.font}>{data?.duration || 0}</Typography>
-            </Box>
-          </Grid>
-          {/* Materi */}
-          <Grid item xs={6}>
-            <Box sx={styles?.wrapperItem}>
-              <Typography>Link Materi Pelatihan</Typography>
-              {data?.link ? (
-                <Button
-                  text='Lihat Materi'
-                  style={{ width: '140px' }}
-                  onClick={() => {
-                    const url = data?.link
-                    if (url) window.open(url, '_blank')
-                  }}
-                />
-              ) : (
-                '-'
-              )}
-            </Box>
-          </Grid>
-        </Grid>
-        <Table
-          columns={columns}
-          rows={rows}
-          title='Daftar Pegawai'
-          colorTitle='simdatukPrimary'
-          paper={false}
-        />
-      </Paper>
-    </LayoutPages>
+          <Table
+            columns={columns}
+            rows={rows}
+            title='Daftar Pegawai'
+            colorTitle='simdatukPrimary'
+            paper={false}
+          />
+        </Paper>
+      </LayoutPages>
+      <ModalConfirmDelete
+        label='Riwayat Pelatihan Fungsional'
+        title='Hapus Riwayat Pelatihan Fungsional'
+        copytext='Apakah anda yakin akan menghapus riwayat pelatihan fungsional?'
+        open={modalDelete}
+        handleModal={() => setModalDelete(false)}
+        handleDelete={doDeleteItem}
+      />
+    </>
   )
 }
 
 RiwayatPelatihanFungsionalDetailComponent.propTypes = {
   training: PropTypes.object,
   getTraining: PropTypes.func,
+  deleteTraining: PropTypes.func,
   clearTrainingState: PropTypes.func,
   onLoading: PropTypes.func
 }
