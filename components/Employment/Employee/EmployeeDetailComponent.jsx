@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable indent */
-/* eslint-disable no-unused-vars */
 import React, { useMemo, useEffect, useState, useRef } from 'react'
 import { Box, Grid, List, Typography } from '@mui/material'
 import BiodataPegawai from './Section/BiodataPegawai'
@@ -51,7 +50,6 @@ import {
   PermissionsIDs
 } from '@/utils/permissionManager'
 import RiwayatCredit from './Section/RiwayatCredit'
-import { getPosition } from '@/store/actions/masterData/position'
 
 const EmployeeDetailComponent = ({
   employee,
@@ -330,11 +328,6 @@ const EmployeeDetailComponent = ({
       }
     ]
 
-    const hasTalentPoolAccess = accessGranted(
-      PermissionsIDs.TALENT_POOL,
-      Access.READ
-    )
-
     const datas = sections
       .filter((item) => {
         // Filter Notes Section by some permissions
@@ -354,8 +347,18 @@ const EmployeeDetailComponent = ({
           return false
         }
 
+        // Show certain menus only on ASN
+        if (!path?.ASN) {
+          if (
+            item?.id == 'hasil_assessment' ||
+            item?.id == 'hasil_uji_kompetensi' ||
+            item?.id == 'hasil_talent_pool'
+          ) {
+            return false
+          }
+        }
+
         // Filter by Outsourcing menus
-        const outsourcingPage = router?.asPath?.includes('outsourcing')
         const outsourcingMenu = [
           'data_pegawai',
           'riwayat_pendidikan',
@@ -375,16 +378,16 @@ const EmployeeDetailComponent = ({
           'riwayat_hukuman_disiplin'
         ]
 
-        if (outsourcingPage && outsourcingMenu?.includes(item?.id)) {
+        if (path?.Outsource && outsourcingMenu?.includes(item?.id)) {
           return true
         }
 
-        if (!outsourcingPage) {
+        if (!path?.Outsource) {
           if (chosenRiwayatMenu.includes(item.id)) {
             return Array.isArray(item?.data) && item.data.length > 0
-          } else {
-            return true
           }
+
+          return true
         }
 
         return false
