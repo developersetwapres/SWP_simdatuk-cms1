@@ -3065,103 +3065,103 @@ const EmployeeEditComponent = ({
       })
 
       // Assesments
-      detail?.assessments.map((itm, idx) => {
-        const assessmentsDate = itm?.event_date
-          ? moment(itm?.event_date, 'DD-MM-YYYY').toDate()
-          : ''
+      // detail?.assessments.map((itm, idx) => {
+      //   const assessmentsDate = itm?.event_date
+      //     ? moment(itm?.event_date, 'DD-MM-YYYY').toDate()
+      //     : ''
 
-        formikRef.current?.setFieldValue(
-          `assessments[${idx}].id`,
-          itm?.id || null,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `assessments[${idx}].date`,
-          assessmentsDate,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `assessments[${idx}].point`,
-          handleGetValue('assessments', itm?.point),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `assessments[${idx}].organizer`,
-          itm?.organizer || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `assessments[${idx}].certificate`,
-          handleSplitFile(itm?.assessment_document),
-          false
-        )
-      })
+      //   formikRef.current?.setFieldValue(
+      //     `assessments[${idx}].id`,
+      //     itm?.id || null,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `assessments[${idx}].date`,
+      //     assessmentsDate,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `assessments[${idx}].point`,
+      //     handleGetValue('assessments', itm?.point),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `assessments[${idx}].organizer`,
+      //     itm?.organizer || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `assessments[${idx}].certificate`,
+      //     handleSplitFile(itm?.assessment_document),
+      //     false
+      //   )
+      // })
 
       // Competences
-      detail?.competencies.map((itm, idx) => {
-        const competencesDate = itm?.event_date
-          ? moment(itm?.event_date, 'DD-MM-YYYY').toDate()
-          : ''
+      // detail?.competencies.map((itm, idx) => {
+      //   const competencesDate = itm?.event_date
+      //     ? moment(itm?.event_date, 'DD-MM-YYYY').toDate()
+      //     : ''
 
-        formikRef.current?.setFieldValue(
-          `competences[${idx}].id`,
-          itm?.id || null,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `competences[${idx}].date`,
-          competencesDate,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `competences[${idx}].point`,
-          handleGetValue('competences', itm?.point),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `competences[${idx}].organizer`,
-          itm?.organizer || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `competences[${idx}].certificate`,
-          handleSplitFile(itm?.competency_document),
-          false
-        )
-      })
+      //   formikRef.current?.setFieldValue(
+      //     `competences[${idx}].id`,
+      //     itm?.id || null,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `competences[${idx}].date`,
+      //     competencesDate,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `competences[${idx}].point`,
+      //     handleGetValue('competences', itm?.point),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `competences[${idx}].organizer`,
+      //     itm?.organizer || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `competences[${idx}].certificate`,
+      //     handleSplitFile(itm?.competency_document),
+      //     false
+      //   )
+      // })
 
       // Talent Pools
-      detail?.talents.map((itm, idx) => {
-        const talentsDate = itm?.event_date
-          ? moment(itm?.event_date, 'DD-MM-YYYY').toDate()
-          : ''
+      // detail?.talents.map((itm, idx) => {
+      //   const talentsDate = itm?.event_date
+      //     ? moment(itm?.event_date, 'DD-MM-YYYY').toDate()
+      //     : ''
 
-        formikRef.current?.setFieldValue(
-          `talentPools[${idx}].id`,
-          itm?.id || null,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `talentPools[${idx}].date`,
-          talentsDate,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `talentPools[${idx}].point`,
-          handleGetValue('talentPools', itm?.point),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `talentPools[${idx}].organizer`,
-          itm?.organizer || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `talentPools[${idx}].certificate`,
-          handleSplitFile(itm?.talent_document),
-          false
-        )
-      })
+      //   formikRef.current?.setFieldValue(
+      //     `talentPools[${idx}].id`,
+      //     itm?.id || null,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `talentPools[${idx}].date`,
+      //     talentsDate,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `talentPools[${idx}].point`,
+      //     handleGetValue('talentPools', itm?.point),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `talentPools[${idx}].organizer`,
+      //     itm?.organizer || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `talentPools[${idx}].certificate`,
+      //     handleSplitFile(itm?.talent_document),
+      //     false
+      //   )
+      // })
 
       // Credits
       detail?.credits.map((itm, idx) => {

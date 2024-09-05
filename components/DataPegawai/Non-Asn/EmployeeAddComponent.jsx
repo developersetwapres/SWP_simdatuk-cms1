@@ -1017,56 +1017,63 @@ const EmployeeAddComponent = ({
         )
       })
 
+      formData.append('assessments', '')
+      formData.append('competencies', '')
+      formData.append('talents', '')
+
       // Assesments
-      assessments.map((item, index) => {
-        formData.append(
-          `assessments[${index}][event_date]`,
-          handleFormatDate(item?.date, 'YYYY-MM-DD')
-        )
-        formData.append(
-          `assessments[${index}][point]`,
-          handleGetValue('assessments', item?.point)
-        )
-        formData.append(`assessments[${index}][organizer]`, item?.organizer)
-        formData.append(
-          `assessments[${index}][assessment_document]`,
-          item?.certificate || ''
-        )
-      })
+      formData.append('assessments', '')
+      // assessments.map((item, index) => {
+      //   formData.append(
+      //     `assessments[${index}][event_date]`,
+      //     handleFormatDate(item?.date, 'YYYY-MM-DD')
+      //   )
+      //   formData.append(
+      //     `assessments[${index}][point]`,
+      //     handleGetValue('assessments', item?.point)
+      //   )
+      //   formData.append(`assessments[${index}][organizer]`, item?.organizer)
+      //   formData.append(
+      //     `assessments[${index}][assessment_document]`,
+      //     item?.certificate || ''
+      //   )
+      // })
 
       // Competences
-      competences.map((item, index) => {
-        formData.append(
-          `competencies[${index}][event_date]`,
-          handleFormatDate(item?.date, 'YYYY-MM-DD')
-        )
-        formData.append(
-          `competencies[${index}][point]`,
-          handleGetValue('competences', item?.point)
-        )
-        formData.append(`competencies[${index}][organizer]`, item?.organizer)
-        formData.append(
-          `competencies[${index}][competency_document]`,
-          item?.certificate || ''
-        )
-      })
+      formData.append('competencies', '')
+      // competences.map((item, index) => {
+      //   formData.append(
+      //     `competencies[${index}][event_date]`,
+      //     handleFormatDate(item?.date, 'YYYY-MM-DD')
+      //   )
+      //   formData.append(
+      //     `competencies[${index}][point]`,
+      //     handleGetValue('competences', item?.point)
+      //   )
+      //   formData.append(`competencies[${index}][organizer]`, item?.organizer)
+      //   formData.append(
+      //     `competencies[${index}][competency_document]`,
+      //     item?.certificate || ''
+      //   )
+      // })
 
       // Talent Pools
-      talentPools.map((item, index) => {
-        formData.append(
-          `talents[${index}][event_date]`,
-          handleFormatDate(item?.date, 'YYYY-MM-DD')
-        )
-        formData.append(
-          `talents[${index}][point]`,
-          handleGetValue('talentPools', item?.point)
-        )
-        formData.append(`talents[${index}][organizer]`, item?.organizer)
-        formData.append(
-          `talents[${index}][talent_document]`,
-          item?.certificate || ''
-        )
-      })
+      formData.append('talents', '')
+      // talentPools.map((item, index) => {
+      //   formData.append(
+      //     `talents[${index}][event_date]`,
+      //     handleFormatDate(item?.date, 'YYYY-MM-DD')
+      //   )
+      //   formData.append(
+      //     `talents[${index}][point]`,
+      //     handleGetValue('talentPools', item?.point)
+      //   )
+      //   formData.append(`talents[${index}][organizer]`, item?.organizer)
+      //   formData.append(
+      //     `talents[${index}][talent_document]`,
+      //     item?.certificate || ''
+      //   )
+      // })
 
       postEmployee(formData)
     } catch (err) {

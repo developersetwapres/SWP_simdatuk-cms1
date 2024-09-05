@@ -307,13 +307,18 @@ const FormComponent = (props) => {
       {accessGranted(PermissionsIDs.NOTES, Access.READ) && (
         <NotesForm {...props} {...formikProps} />
       )}
-      {/* Assesment */}
-      <AssessmentForm {...props} {...formikProps} />
-      {/* Competence */}
-      <CompetenceTestForm {...props} {...formikProps} />
-      {/* Talent Pool */}
-      {accessGranted(PermissionsIDs.TALENT_POOL, Access.READ) && (
-        <TalentPoolForm {...props} {...formikProps} />
+
+      {pageType == 'NON-ASN' && (
+        <>
+          {/* Assesment */}
+          <AssessmentForm {...props} {...formikProps} />
+          {/* Competence */}
+          <CompetenceTestForm {...props} {...formikProps} />
+          {/* Talent Pool */}
+          {accessGranted(PermissionsIDs.TALENT_POOL, Access.READ) && (
+            <TalentPoolForm {...props} {...formikProps} />
+          )}
+        </>
       )}
     </Box>
   )
