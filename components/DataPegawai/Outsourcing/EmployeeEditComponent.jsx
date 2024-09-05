@@ -31,6 +31,7 @@ import {
   relationshipStatusOptions,
   religionOptions,
   statusOptions,
+  studyAreaOptions,
   talentPoolsOptions
 } from 'libs/types/options'
 
