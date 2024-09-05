@@ -1,14 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import LayoutPages from '@/components/core/LayoutPages'
 import { Button, Table } from '@/components/shared'
 import { Box, Grid, Typography } from '@mui/material'
-import { Edit, Info } from '@mui/icons-material'
+import { Delete, Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
 import { monthOptions } from 'libs/types/options'
 import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 
 const styles = {
   iconStyle: {
@@ -37,10 +38,13 @@ const RiwayatPenghargaanDetailComponent = ({
   recognition,
   decree,
   getRecognition = () => { },
+  deleteRecognition = () => { },
   clearRecognitionState = () => { },
   onLoading = () => { }
 }) => {
   const router = useRouter()
+  const [modalDelete, setModalDelete] = useState(false)
+  const [id, setId] = useState(null)
 
   const dataDecree = useMemo(() => {
     return decree?.data
@@ -122,7 +126,15 @@ const RiwayatPenghargaanDetailComponent = ({
 
   const action = useMemo(() => {
     return (
-      <Box>
+      <Box sx={{ display: 'flex', gap: '12px' }}>
+        {accessGranted(PermissionsIDs.HISTORY_AWARD, Access.DELETE) && (
+          <Button
+            text='Hapus'
+            color='danger'
+            icon={<Delete style={styles.iconButton} />}
+            onClick={() => showDeleteModal(router?.query?.id)}
+          />
+        )}
         {accessGranted(PermissionsIDs.HISTORY_AWARD, Access.UPDATE) && (
           <Button
             text='Edit'
@@ -146,6 +158,19 @@ const RiwayatPenghargaanDetailComponent = ({
     return month && year ? `${monthOptions[month - 1]} ${year}` : '-'
   }
 
+  const showDeleteModal = (id) => {
+    setModalDelete(true)
+    setId(id)
+  }
+
+  const doDeleteItem = () => {
+    if (!id) return
+
+    // Do Delete
+    setModalDelete(false)
+    deleteRecognition(atob(id))
+  }
+
   useEffect(() => {
     // Get Detail User
     const id = router?.query?.id
@@ -166,106 +191,116 @@ const RiwayatPenghargaanDetailComponent = ({
   }, [recognition])
 
   return (
-    <LayoutPages
-      handleBack={() => router.back()}
-      summary='Detail Riwayat Penghargaan'
-      action={action}
-    >
-      <Paper style={{ padding: '24px 20px' }}>
-        <Grid container sx={{ marginBottom: '26px' }} spacing={3}>
-          {/* Nama Penghargaan */}
-          <Grid item xs={6}>
-            <Box sx={styles?.itemWrapper}>
-              <Typography>Nama Penghargaan</Typography>
-              <Typography sx={styles?.fontItem}>
-                {data?.recognition_name || '-'}
-              </Typography>
-            </Box>
+    <>
+      <LayoutPages
+        handleBack={() => router.back()}
+        summary='Detail Riwayat Penghargaan'
+        action={action}
+      >
+        <Paper style={{ padding: '24px 20px' }}>
+          <Grid container sx={{ marginBottom: '26px' }} spacing={3}>
+            {/* Nama Penghargaan */}
+            <Grid item xs={6}>
+              <Box sx={styles?.itemWrapper}>
+                <Typography>Nama Penghargaan</Typography>
+                <Typography sx={styles?.fontItem}>
+                  {data?.recognition_name || '-'}
+                </Typography>
+              </Box>
+            </Grid>
+            {/* Periode */}
+            <Grid item xs={6}>
+              <Box sx={styles?.itemWrapper}>
+                <Typography>Periode Riwayat</Typography>
+                <Typography sx={styles?.fontItem}>
+                  {handleParsePeriod(data?.period_month, data?.period_year)}
+                </Typography>
+              </Box>
+            </Grid>
+            {/* Keterangan Penghargaan */}
+            <Grid item xs={6}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <Typography>Keterangan Penghargaan</Typography>
+                <Typography sx={styles?.fontItem}>
+                  {data?.description || '-'}
+                </Typography>
+              </Box>
+            </Grid>
+            {/* Jenis SK */}
+            <Grid item xs={6}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <Typography>Jenis SK</Typography>
+                <Typography sx={styles?.fontItem}>
+                  {data?.type_of_decree
+                    ? handleGetDecreeType(data?.type_of_decree)
+                    : '-'}
+                </Typography>
+              </Box>
+            </Grid>
+            {/* Tanggal SK */}
+            <Grid item xs={6}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <Typography>Tanggal SK</Typography>
+                <Typography sx={styles?.fontItem}>
+                  {data?.decree_date || '-'}
+                </Typography>
+              </Box>
+            </Grid>
+            {/* No SK Penghargaan */}
+            <Grid item xs={6}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <Typography>No SK Penghargaan</Typography>
+                <Typography sx={styles?.fontItem}>
+                  {data?.decree_number || '-'}
+                </Typography>
+              </Box>
+            </Grid>
+            {/* Tahun SK */}
+            <Grid item xs={6}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <Typography>Tahun SK</Typography>
+                <Typography sx={styles?.fontItem}>
+                  {data?.decree_year ? `Tahun ${data?.decree_year}` : '-'}
+                </Typography>
+              </Box>
+            </Grid>
+            {/* Instansi Pemberi Penghargaan */}
+            <Grid item xs={6}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <Typography>Instansi Pemberi Penghargaan</Typography>
+                <Typography sx={styles?.fontItem}>
+                  {data?.awarding_institution || '-'}
+                </Typography>
+              </Box>
+            </Grid>
+            {/* Tanggal Terima */}
+            <Grid item xs={6}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <Typography>Tanggal Terima</Typography>
+                <Typography sx={styles?.fontItem}>
+                  {data?.date_of_receipt || '-'}
+                </Typography>
+              </Box>
+            </Grid>
           </Grid>
-          {/* Periode */}
-          <Grid item xs={6}>
-            <Box sx={styles?.itemWrapper}>
-              <Typography>Periode Riwayat</Typography>
-              <Typography sx={styles?.fontItem}>
-                {handleParsePeriod(data?.period_month, data?.period_year)}
-              </Typography>
-            </Box>
-          </Grid>
-          {/* Keterangan Penghargaan */}
-          <Grid item xs={6}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <Typography>Keterangan Penghargaan</Typography>
-              <Typography sx={styles?.fontItem}>
-                {data?.description || '-'}
-              </Typography>
-            </Box>
-          </Grid>
-          {/* Jenis SK */}
-          <Grid item xs={6}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <Typography>Jenis SK</Typography>
-              <Typography sx={styles?.fontItem}>
-                {data?.type_of_decree
-                  ? handleGetDecreeType(data?.type_of_decree)
-                  : '-'}
-              </Typography>
-            </Box>
-          </Grid>
-          {/* Tanggal SK */}
-          <Grid item xs={6}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <Typography>Tanggal SK</Typography>
-              <Typography sx={styles?.fontItem}>
-                {data?.decree_date || '-'}
-              </Typography>
-            </Box>
-          </Grid>
-          {/* No SK Penghargaan */}
-          <Grid item xs={6}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <Typography>No SK Penghargaan</Typography>
-              <Typography sx={styles?.fontItem}>
-                {data?.decree_number || '-'}
-              </Typography>
-            </Box>
-          </Grid>
-          {/* Tahun SK */}
-          <Grid item xs={6}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <Typography>Tahun SK</Typography>
-              <Typography sx={styles?.fontItem}>
-                {data?.decree_year ? `Tahun ${data?.decree_year}` : '-'}
-              </Typography>
-            </Box>
-          </Grid>
-          {/* Instansi Pemberi Penghargaan */}
-          <Grid item xs={6}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <Typography>Instansi Pemberi Penghargaan</Typography>
-              <Typography sx={styles?.fontItem}>
-                {data?.awarding_institution || '-'}
-              </Typography>
-            </Box>
-          </Grid>
-          {/* Tanggal Terima */}
-          <Grid item xs={6}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <Typography>Tanggal Terima</Typography>
-              <Typography sx={styles?.fontItem}>
-                {data?.date_of_receipt || '-'}
-              </Typography>
-            </Box>
-          </Grid>
-        </Grid>
-        <Table
-          columns={columns}
-          rows={rows}
-          title='Daftar Pegawai'
-          colorTitle='simdatukPrimary'
-          paper={false}
-        />
-      </Paper>
-    </LayoutPages>
+          <Table
+            columns={columns}
+            rows={rows}
+            title='Daftar Pegawai'
+            colorTitle='simdatukPrimary'
+            paper={false}
+          />
+        </Paper>
+      </LayoutPages>
+      <ModalConfirmDelete
+        label='Riwayat Penghargaan'
+        title='Hapus Riwayat Penghargaan'
+        copytext='Apakah anda yakin akan menghapus riwayat penghargaan?'
+        open={modalDelete}
+        handleModal={() => setModalDelete(false)}
+        handleDelete={doDeleteItem}
+      />
+    </>
   )
 }
 
@@ -273,6 +308,7 @@ RiwayatPenghargaanDetailComponent.propTypes = {
   recognition: PropTypes.object,
   decree: PropTypes.object,
   getRecognition: PropTypes.func,
+  deleteRecognition: PropTypes.func,
   clearRecognitionState: PropTypes.func,
   onLoading: PropTypes.func
 }

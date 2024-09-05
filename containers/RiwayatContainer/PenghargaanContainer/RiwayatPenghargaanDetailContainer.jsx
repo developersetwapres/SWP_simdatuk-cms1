@@ -8,7 +8,7 @@ import RiwayatPenghargaanDetailComponent from '@/components/Riwayat/Penghargaan/
 
 export default connect(
   mapStateToProps('recognition', 'decree'),
-  mapActions('getRecognition', 'clearRecognitionState', 'getDecrees')
+  mapActions('getRecognition', 'clearRecognitionState', 'getDecrees', 'deleteRecognition')
 )(
   class RiwayatPenghargaanDetailContainer extends Component {
     static propTypes = {
@@ -16,7 +16,8 @@ export default connect(
       decree: PropTypes.object,
       getRecognition: PropTypes.func,
       clearRecognitionState: PropTypes.func,
-      getDecrees: PropTypes.func
+      getDecrees: PropTypes.func,
+      deleteRecognition: PropTypes.func
     }
 
     constructor(props) {

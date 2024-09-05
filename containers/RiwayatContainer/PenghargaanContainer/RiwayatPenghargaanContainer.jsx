@@ -8,12 +8,13 @@ import RiwayatPenghargaanComponent from '@/components/Riwayat/Penghargaan/Riwaya
 
 export default connect(
   mapStateToProps('recognition'),
-  mapActions('getRecognitions')
+  mapActions('getRecognitions', 'deleteRecognition')
 )(
   class RiwayatPenghargaanContainer extends Component {
     static propTypes = {
       recognition: PropTypes.object,
-      getRecognitions: PropTypes.func
+      getRecognitions: PropTypes.func,
+      deleteRecognition: PropTypes.func
     }
 
     constructor(props) {
