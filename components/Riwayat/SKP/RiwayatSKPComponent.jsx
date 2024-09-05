@@ -1,15 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import LayoutPages from '@/components/core/LayoutPages'
 import { Button, Table } from '@/components/shared'
 import { Box, Typography } from '@mui/material'
 import Search from '@/components/core/Search'
 import { makeStyles } from '@mui/styles'
-import { Edit, Info } from '@mui/icons-material'
+import { Edit, Info, Delete } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import { monthOptions } from 'libs/types/options'
 import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -58,12 +59,15 @@ const styles = {
 const RiwayatSKPComponent = ({
   target,
   onSearch = () => { },
+  deleteTarget = () => { },
   onLoading = () => { },
   onPaginationChange = () => { },
   onRowsPerPageChange = () => { }
 }) => {
   const router = useRouter()
   const classes = useStyles()
+  const [modalDelete, setModalDelete] = useState(false)
+  const [id, setId] = useState(null)
 
   const columns = useMemo(
     () => [
@@ -169,6 +173,15 @@ const RiwayatSKPComponent = ({
                   sx={styles.buttonAction}
                 />
               )}
+              {accessGranted(PermissionsIDs.HISTORY_SKP, Access.DELETE) && (
+                <Button
+                  text='Hapus'
+                  color='danger'
+                  icon={<Delete style={styles.iconButton} />}
+                  sx={styles.buttonAction}
+                  onClick={() => showDeleteModal(item?.id)}
+                />
+              )}
             </Box>
           )
         }
@@ -191,45 +204,69 @@ const RiwayatSKPComponent = ({
     )
   }, [])
 
+  const showDeleteModal = (id) => {
+    setModalDelete(true)
+    setId(id)
+  }
+
+  const doDeleteItem = () => {
+    if (!id) return
+
+    // Do Delete
+    setModalDelete(false)
+    deleteTarget(id)
+  }
+
   useEffect(() => {
     const state = !target?.loading
     onLoading(state)
   }, [target])
 
   return (
-    <LayoutPages summary='Data Riwayat SKP' action={action}>
-      <Box
-        sx={{
-          width: '100%',
-          padding: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'flex-end'
-        }}
-      >
-        <Search
-          inputParentClasses={classes.inputParent}
-          inputClass={classes.input}
-          iconStyle={classes.iconStyle}
-          placeholder='Cari Nama Riwayat SKP'
-          onSearch={onSearch}
+    <>
+      <LayoutPages summary='Data Riwayat SKP' action={action}>
+        <Box
+          sx={{
+            width: '100%',
+            padding: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'flex-end'
+          }}
+        >
+          <Search
+            inputParentClasses={classes.inputParent}
+            inputClass={classes.input}
+            iconStyle={classes.iconStyle}
+            placeholder='Cari Nama Riwayat SKP'
+            onSearch={onSearch}
+          />
+        </Box>
+        <Table
+          columns={columns}
+          rows={rows}
+          pagination={target?.pagination}
+          handlePagination={onPaginationChange}
+          handleRows={onRowsPerPageChange}
         />
-      </Box>
-      <Table
-        columns={columns}
-        rows={rows}
-        pagination={target?.pagination}
-        handlePagination={onPaginationChange}
-        handleRows={onRowsPerPageChange}
+      </LayoutPages>
+      <ModalConfirmDelete
+        label='Riwayat SKP'
+        title='Hapus Riwayat SKP'
+        copytext='Apakah anda yakin akan menghapus riwayat skp?'
+        open={modalDelete}
+        handleModal={() => setModalDelete(false)}
+        handleDelete={doDeleteItem}
       />
-    </LayoutPages>
+    </>
   )
 }
 
 RiwayatSKPComponent.propTypes = {
   target: PropTypes.object,
   onSearch: PropTypes.func,
+  deleteTarget: PropTypes.func,
   onLoading: PropTypes.func,
   onPaginationChange: PropTypes.func,
   onRowsPerPageChange: PropTypes.func

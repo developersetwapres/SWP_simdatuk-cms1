@@ -8,12 +8,13 @@ import RiwayatSKPComponent from '@/components/Riwayat/SKP/RiwayatSKPComponent'
 
 export default connect(
   mapStateToProps('target'),
-  mapActions('getTargets')
+  mapActions('getTargets', 'deleteTarget')
 )(
   class RiwayatSKPContainer extends Component {
     static propTypes = {
       target: PropTypes.object,
-      getTargets: PropTypes.func
+      getTargets: PropTypes.func,
+      deleteTarget: PropTypes.func
     }
 
     constructor(props) {

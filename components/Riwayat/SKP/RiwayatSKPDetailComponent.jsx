@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import LayoutPages from '@/components/core/LayoutPages'
 import { Button, Table } from '@/components/shared'
 import { Box, Grid, Typography } from '@mui/material'
-import { Edit, Info } from '@mui/icons-material'
+import { Delete, Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
 import {
@@ -19,6 +19,7 @@ import {
   accessGranted,
   PermissionsIDs
 } from '@/utils/permissionManager'
+import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 
 const styles = {
   iconStyle: {
@@ -45,11 +46,14 @@ const styles = {
 
 const RiwayatSKPDetailComponent = ({
   target,
-  getTarget = () => {},
-  clearTargetState = () => {},
-  onLoading = () => {}
+  getTarget = () => { },
+  deleteTarget = () => { },
+  clearTargetState = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
+  const [modalDelete, setModalDelete] = useState(false)
+  const [id, setId] = useState(null)
 
   const data = useMemo(() => {
     return target?.detail
@@ -186,7 +190,15 @@ const RiwayatSKPDetailComponent = ({
 
   const action = useMemo(() => {
     return (
-      <Box>
+      <Box sx={{ display: 'flex', gap: '12px' }}>
+        {accessGranted(PermissionsIDs.HISTORY_SKP, Access.DELETE) && (
+          <Button
+            text='Hapus'
+            color='danger'
+            icon={<Delete style={styles.iconButton} />}
+            onClick={() => showDeleteModal(router?.query?.id)}
+          />
+        )}
         {accessGranted(PermissionsIDs.HISTORY_SKP, Access.UPDATE) && (
           <Button
             text='Edit'
@@ -200,6 +212,19 @@ const RiwayatSKPDetailComponent = ({
       </Box>
     )
   }, [])
+
+  const showDeleteModal = (id) => {
+    setModalDelete(true)
+    setId(id)
+  }
+
+  const doDeleteItem = () => {
+    if (!id) return
+
+    // Do Delete
+    setModalDelete(false)
+    deleteTarget(id)
+  }
 
   const handleParsePeriod = (month, year) => {
     return month && year ? `${monthOptions[month - 1]} ${year}` : '-'
@@ -224,61 +249,72 @@ const RiwayatSKPDetailComponent = ({
   }, [target])
 
   return (
-    <LayoutPages
-      handleBack={() => router.back()}
-      summary='Detail Riwayat SKP'
-      action={action}
-    >
-      <Paper style={{ padding: '24px 20px' }}>
-        <Grid container sx={{ marginBottom: '26px' }} spacing={3}>
-          {/* Nama Penghargaan */}
-          <Grid item xs={6}>
-            <Box sx={styles?.itemWrapper}>
-              <Typography>Nama Riwayat Jabatan</Typography>
-              <Typography sx={styles?.fontItem}>{data?.name || '-'}</Typography>
-            </Box>
+    <>
+      <LayoutPages
+        handleBack={() => router.back()}
+        summary='Detail Riwayat SKP'
+        action={action}
+      >
+        <Paper style={{ padding: '24px 20px' }}>
+          <Grid container sx={{ marginBottom: '26px' }} spacing={3}>
+            {/* Nama Penghargaan */}
+            <Grid item xs={6}>
+              <Box sx={styles?.itemWrapper}>
+                <Typography>Nama Riwayat Jabatan</Typography>
+                <Typography sx={styles?.fontItem}>{data?.name || '-'}</Typography>
+              </Box>
+            </Grid>
+            {/* Periode */}
+            <Grid item xs={6}>
+              <Box sx={styles?.itemWrapper}>
+                <Typography>Periode Input Riwayat</Typography>
+                <Typography sx={styles?.fontItem}>
+                  {handleParsePeriod(data?.period_month, data?.period_year)}
+                </Typography>
+              </Box>
+            </Grid>
+            {/* Periode Penilaian */}
+            <Grid item xs={6}>
+              <Box sx={styles?.itemWrapper}>
+                <Typography>Periode Penilaian</Typography>
+                <Typography sx={styles?.fontItem}>
+                  {data?.appraisal_period || '-'}
+                </Typography>
+              </Box>
+            </Grid>
+            {/* Tahun */}
+            <Grid item xs={6}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <Typography>Tahun</Typography>
+                <Typography sx={styles?.fontItem}>{data?.year || '-'}</Typography>
+              </Box>
+            </Grid>
           </Grid>
-          {/* Periode */}
-          <Grid item xs={6}>
-            <Box sx={styles?.itemWrapper}>
-              <Typography>Periode Input Riwayat</Typography>
-              <Typography sx={styles?.fontItem}>
-                {handleParsePeriod(data?.period_month, data?.period_year)}
-              </Typography>
-            </Box>
-          </Grid>
-          {/* Periode Penilaian */}
-          <Grid item xs={6}>
-            <Box sx={styles?.itemWrapper}>
-              <Typography>Periode Penilaian</Typography>
-              <Typography sx={styles?.fontItem}>
-                {data?.appraisal_period || '-'}
-              </Typography>
-            </Box>
-          </Grid>
-          {/* Tahun */}
-          <Grid item xs={6}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <Typography>Tahun</Typography>
-              <Typography sx={styles?.fontItem}>{data?.year || '-'}</Typography>
-            </Box>
-          </Grid>
-        </Grid>
-        <Table
-          columns={columns}
-          rows={rows}
-          title='Daftar Pegawai'
-          colorTitle='simdatukPrimary'
-          paper={false}
-        />
-      </Paper>
-    </LayoutPages>
+          <Table
+            columns={columns}
+            rows={rows}
+            title='Daftar Pegawai'
+            colorTitle='simdatukPrimary'
+            paper={false}
+          />
+        </Paper>
+      </LayoutPages>
+      <ModalConfirmDelete
+        label='Riwayat SKP'
+        title='Hapus Riwayat SKP'
+        copytext='Apakah anda yakin akan menghapus riwayat skp?'
+        open={modalDelete}
+        handleModal={() => setModalDelete(false)}
+        handleDelete={doDeleteItem}
+      />
+    </>
   )
 }
 
 RiwayatSKPDetailComponent.propTypes = {
   target: PropTypes.object,
   getTarget: PropTypes.func,
+  deleteTarget: PropTypes.func,
   clearTargetState: PropTypes.func,
   onLoading: PropTypes.func
 }

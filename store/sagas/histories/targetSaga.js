@@ -157,7 +157,7 @@ function* deleteTarget(action) {
     })
   } catch (err) {
     const errors = err?.data
-    if (errors?.code === 403) {
+    if ([401, 403]?.includes(errors?.code)) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {
