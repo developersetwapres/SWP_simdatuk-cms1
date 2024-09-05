@@ -8,7 +8,11 @@ import { Delete, Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
 import { monthOptions } from 'libs/types/options'
-import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import {
+  Access,
+  accessGranted,
+  PermissionsIDs
+} from '@/utils/permissionManager'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 
 const styles = {
@@ -36,10 +40,10 @@ const styles = {
 
 const RiwayatPelatihanTeknisDetailComponent = ({
   training,
-  getTraining = () => { },
-  deleteTraining = () => { },
-  clearTrainingState = () => { },
-  onLoading = () => { }
+  getTraining = () => {},
+  deleteTraining = () => {},
+  clearTrainingState = () => {},
+  onLoading = () => {}
 }) => {
   const router = useRouter()
   const [modalDelete, setModalDelete] = useState(false)
@@ -93,7 +97,11 @@ const RiwayatPelatihanTeknisDetailComponent = ({
           Header: 'Nama',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{`${item?.name || ''} / ${item?.employee_id_number || ''}`}</Typography>
+          Cell: () => (
+            <Typography>{`${item?.name || ''} / ${
+              item?.employee_id_number || ''
+            }`}</Typography>
+          )
         },
         {
           Header: 'Sertifikat',
@@ -232,8 +240,9 @@ const RiwayatPelatihanTeknisDetailComponent = ({
                 <Typography>Periode Input Riwayat</Typography>
                 <Typography sx={styles?.font}>
                   {data?.period_month && data?.period_year
-                    ? `${monthOptions[data?.period_month - 1]} ${data?.period_year
-                    }`
+                    ? `${monthOptions[data?.period_month - 1]} ${
+                        data?.period_year
+                      }`
                     : '-'}
                 </Typography>
               </Box>
@@ -252,15 +261,35 @@ const RiwayatPelatihanTeknisDetailComponent = ({
               <Box sx={styles?.wrapperItem}>
                 <Typography>Tanggal Pelaksanaan</Typography>
                 <Typography sx={styles?.font}>
-                  {data?.start_date || '-'}
+                  {data?.start_date && data?.end_date
+                    ? `${data?.start_date} - ${data?.end_date}`
+                    : '-'}
                 </Typography>
+              </Box>
+            </Grid>
+            {/* Penyelenggara */}
+            <Grid item xs={6}>
+              <Box sx={styles?.wrapperItem}>
+                <Typography>Penyelenggara</Typography>
+                <Typography sx={styles?.font}>
+                  {data?.organizer || '-'}
+                </Typography>
+              </Box>
+            </Grid>
+            {/* Rumpun */}
+            <Grid item xs={6}>
+              <Box sx={styles?.wrapperItem}>
+                <Typography>Rumpun Pelatihan</Typography>
+                <Typography sx={styles?.font}>{data?.rumpun || '-'}</Typography>
               </Box>
             </Grid>
             {/* Durasi */}
             <Grid item xs={6}>
               <Box sx={styles?.wrapperItem}>
-                <Typography>Durasi Pelatihan (Hari)</Typography>
-                <Typography sx={styles?.font}>{data?.duration || '-'}</Typography>
+                <Typography>Jam Pelajaran</Typography>
+                <Typography sx={styles?.font}>
+                  {data?.duration || '-'}
+                </Typography>
               </Box>
             </Grid>
             {/* Materi */}

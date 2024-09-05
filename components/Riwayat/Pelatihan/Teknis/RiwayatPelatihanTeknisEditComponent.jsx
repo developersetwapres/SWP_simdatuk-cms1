@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
+/* eslint-disable indent */
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Formik } from 'formik'
@@ -16,9 +17,11 @@ import { monthOptions } from 'libs/types/options'
 const InitValue = {
   namaDiklat: '',
   noSurat: '',
-  tanggalPelaksanaan: '',
+  tanggalPelaksanaan: null,
   durasi: 0,
   materi: '',
+  penyelenggara: '',
+  rumpun: null,
   periode: {
     bulan: null,
     tahun: null
@@ -83,25 +86,55 @@ const RiwayatPelatihanTeknisEditComponent = ({
     })
     const data = {
       month: monthOptions || [],
-      employee: newEmployees || []
+      employee: newEmployees || [],
+      groups: []
     }
 
     return data
   }, [employee])
 
-  const handleGetValue = (value, type) => {
-    if (type == 'employee') {
-      const data = employee?.data
-      const dataFilter = data?.find(
-        (itm) => itm?.employee_id_number == value.split(' - ')[1]
-      )
+  const handleGetValueID = (value, type) => {
+    if (value || value >= 0) {
+      if (type == 'employee') {
+        const data = employee?.data
+        const dataFilter = data?.find(
+          (itm) => itm?.employee_id_number == value.split(' - ')[1]
+        )
+        return dataFilter
+      } else if (type == 'groups') {
+        const groups = [] // ambil dari value api yang disimpan di redux
+        const item =
+          (groups && groups.find((itm) => itm?.name == value?.id)) || ''
 
-      return dataFilter
-    } else {
-      const index = monthOptions.findIndex((itm) => itm == value) + 1
-
-      return index
+        return item
+      } else {
+        const index = options[type].findIndex((itm) => itm == val) + 1
+        return index
+      }
     }
+  }
+
+  const handleGetValue = (val, type) => {
+    if (val) {
+      if (type == 'groups') {
+        const groups = [] // ambil dari value api yang disimpan di redux
+        const item = groups ? groups.find((itm) => itm?.id == val)?.name : null
+
+        return item
+      } else {
+        const index = val - 1
+        const item = options[type][index]
+        return item
+      }
+    } else {
+      return null
+    }
+  }
+
+  const handleFormatDate = (value, format) => {
+    if (value) return moment(value).format(format)
+
+    return ''
   }
 
   const handleSubmit = async (values) => {
@@ -115,7 +148,7 @@ const RiwayatPelatihanTeknisEditComponent = ({
       formData.append('name', values?.namaDiklat)
       formData.append(
         'period_month',
-        handleGetValue(values?.periode?.bulan, 'month')
+        handleGetValueID(values?.periode?.bulan, 'month')
       )
       formData.append(
         'period_year',
@@ -124,8 +157,14 @@ const RiwayatPelatihanTeknisEditComponent = ({
       formData.append('reference_number', values?.noSurat)
       formData.append(
         'start_date',
-        moment(values?.tanggalPelaksanaan).format('YYYY-MM-DD')
+        handleFormatDate(values?.tanggalPelaksanaan?.from, 'YYYY-MM-DD')
       )
+      formData.append(
+        'end_date',
+        handleFormatDate(values?.tanggalPelaksanaan?.to, 'YYYY-MM-DD')
+      )
+      formData.append('groups', handleGetValueID(values?.rumpun, 'groups'))
+      formData.append('organizer', values?.penyelenggara || '')
       formData.append('duration', values?.durasi || 0)
       formData.append('link', values?.materi || '')
       formData.append('type', 3)
@@ -137,7 +176,7 @@ const RiwayatPelatihanTeknisEditComponent = ({
         )
         formData.append(
           `users[${index}][user_id]`,
-          handleGetValue(item?.nama, 'employee')?.id || ''
+          handleGetValueID(item?.nama, 'employee')?.id || ''
         )
         formData.append(
           `users[${index}][certificate]`,
@@ -200,13 +239,17 @@ const RiwayatPelatihanTeknisEditComponent = ({
 
   useEffect(() => {
     const detail = training?.detail
-    if (detail) {
+    if (Object.entries(detail).length > 0) {
       const periodYear =
         detail?.period_year && detail?.period_month
           ? new Date(detail?.period_year, detail?.period_month - 1)
           : null
-      const periodMonth = monthOptions[detail?.period_month - 1] || null
-      const startDate = detail?.start_date ? new Date(detail?.start_date) : ''
+      const startDate = detail?.start_date
+        ? moment(detail?.start_date, 'DD-MM-YYYY').toDate()
+        : ''
+      const endDate = detail?.end_date
+        ? moment(detail?.end_date, 'DD-MM-YYYY').toDate()
+        : ''
 
       const employees = detail?.users?.map((itm) => {
         let fileSplit = null
@@ -231,11 +274,19 @@ const RiwayatPelatihanTeknisEditComponent = ({
       const filledValues = {
         namaDiklat: detail?.name,
         noSurat: detail?.reference_number,
-        tanggalPelaksanaan: startDate,
+        tanggalPelaksanaan:
+          detail?.start_date && detail?.end_date
+            ? {
+                from: startDate,
+                to: endDate
+              }
+            : null,
         durasi: detail?.duration,
         materi: detail?.link,
+        penyelenggara: detail?.organizer || '',
+        rumpun: handleGetValue(detail?.rumpun, 'groups'),
         periode: {
-          bulan: periodMonth,
+          bulan: handleGetValue(detail?.period_month, 'month'),
           tahun: periodYear
         },
         pegawai: employees

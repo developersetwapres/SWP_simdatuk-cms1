@@ -9,7 +9,11 @@ import { Box, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { useRouter } from 'next/router'
 import { monthOptions } from 'libs/types/options'
-import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import {
+  Access,
+  accessGranted,
+  PermissionsIDs
+} from '@/utils/permissionManager'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 
 const useStyles = makeStyles(() => ({
@@ -58,11 +62,11 @@ const styles = {
 
 const RiwayatPelatihanTeknisComponent = ({
   training,
-  deleteTraining = () => { },
-  onSearch = () => { },
-  onLoading = () => { },
-  onPaginationChange = () => { },
-  onRowsPerPageChange = () => { }
+  deleteTraining = () => {},
+  onSearch = () => {},
+  onLoading = () => {},
+  onPaginationChange = () => {},
+  onRowsPerPageChange = () => {}
 }) => {
   const router = useRouter()
   const classes = useStyles()
@@ -137,7 +141,13 @@ const RiwayatPelatihanTeknisComponent = ({
           Header: 'Pelaksana',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.start_date || '-'}</Typography>
+          Cell: () => (
+            <Typography>
+              {item?.start_date && item?.end_date
+                ? `${item?.start_date} - ${item?.end_date}`
+                : '-'}
+            </Typography>
+          )
         },
         {
           Header: 'Total',
@@ -162,7 +172,10 @@ const RiwayatPelatihanTeknisComponent = ({
                   }
                 />
               )}
-              {accessGranted(PermissionsIDs.HISTORY_TECHNICAL, Access.UPDATE) && (
+              {accessGranted(
+                PermissionsIDs.HISTORY_TECHNICAL,
+                Access.UPDATE
+              ) && (
                 <Button
                   text='Edit'
                   color='sidatukDraweBase'
@@ -173,7 +186,10 @@ const RiwayatPelatihanTeknisComponent = ({
                   }
                 />
               )}
-              {accessGranted(PermissionsIDs.HISTORY_TECHNICAL, Access.DELETE) && (
+              {accessGranted(
+                PermissionsIDs.HISTORY_TECHNICAL,
+                Access.DELETE
+              ) && (
                 <Button
                   text='Hapus'
                   color='danger'

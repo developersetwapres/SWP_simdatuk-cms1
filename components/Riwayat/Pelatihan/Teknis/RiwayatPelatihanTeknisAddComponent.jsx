@@ -16,9 +16,11 @@ import { monthOptions } from 'libs/types/options'
 const InitValue = {
   namaDiklat: '',
   noSurat: '',
-  tanggalPelaksanaan: '',
+  tanggalPelaksanaan: null,
   durasi: 0,
   materi: '',
+  penyelenggara: '',
+  rumpun: null,
   periode: {
     bulan: null,
     tahun: null
@@ -38,9 +40,12 @@ const FormSchema = Yup.object().shape({
     tahun: Yup.string().required('Tahun tidak boleh kosong')
   }),
   noSurat: Yup.string().required('No Surat Perintah tidak boleh kosong'),
-  tanggalPelaksanaan: Yup.string().required(
-    'Tanggal Pelaksanaan tidak boleh kosong'
-  ),
+  tanggalPelaksanaan: Yup.object()
+    .shape({
+      from: Yup.string().required('Pilih tanggal awal'),
+      to: Yup.string().required('Pilih tanggal akhir')
+    })
+    .required('Tanggal Pelaksanaan tidak boleh kosong'),
   pegawai: Yup.array().of(
     Yup.object().shape({
       nama: Yup.string().required('Nama Pegawai tidak boleh kosong'),
@@ -80,25 +85,41 @@ const RiwayatPelatihanTeknisAddComponent = ({
     })
     const data = {
       month: monthOptions || [],
-      employee: newEmployees || []
+      employee: newEmployees || [],
+      groups: []
     }
 
     return data
   }, [employee])
 
   const handleGetValue = (value, type) => {
-    if (type == 'employee') {
-      const data = employee?.data
-      const dataFilter = data.find(
-        (itm) => itm?.employee_id_number === value?.split(' - ')[1]
-      )?.id
+    if (value || value >= 0) {
+      if (type == 'employee') {
+        const data = employee?.data
+        const dataFilter = data.find(
+          (itm) => itm?.employee_id_number === value?.split(' - ')[1]
+        )?.id
 
-      return dataFilter
+        return dataFilter
+      } else if (type == 'groups') {
+        const groups = [] // ambil dari value api yang disimpan di redux
+        const item =
+          (groups && groups.find((itm) => itm?.name == value)?.id) || ''
+
+        return item
+      } else {
+        const index = options[type].findIndex((itm) => itm == val) + 1
+        return index
+      }
     } else {
-      const index = monthOptions.findIndex((itm) => itm == value) + 1
-
-      return index
+      return ''
     }
+  }
+
+  const handleFormatDate = (value, format) => {
+    if (value) return moment(value).format(format)
+
+    return ''
   }
 
   const handleSubmit = async (values) => {
@@ -120,9 +141,15 @@ const RiwayatPelatihanTeknisAddComponent = ({
       formData.append('reference_number', values?.noSurat)
       formData.append(
         'start_date',
-        moment(values?.tanggalPelaksanaan).format('YYYY-MM-DD')
+        handleFormatDate(values?.tanggalPelaksanaan?.from, 'YYYY-MM-DD')
+      )
+      formData.append(
+        'end_date',
+        handleFormatDate(values?.tanggalPelaksanaan?.to, 'YYYY-MM-DD')
       )
       formData.append('duration', values?.durasi || 0)
+      formData.append('groups', handleGetValue(values?.rumpun, 'groups'))
+      formData.append('organizer', values?.penyelenggara || '')
       formData.append('link', values?.materi || '')
       formData.append('type', 3)
 

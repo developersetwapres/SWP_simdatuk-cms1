@@ -36,6 +36,14 @@ const RiwayatPelatihanTeknisForm = ({
     }
   }
 
+  const handleGetError = (value) => {
+    if (value?.to) {
+      return value?.to
+    } else {
+      return value
+    }
+  }
+
   return (
     <Form>
       <Grid container spacing={3}>
@@ -123,11 +131,16 @@ const RiwayatPelatihanTeknisForm = ({
         {/* Tanggal Pelaksanan */}
         <Grid item xs={6}>
           <DatePickerDay
-            value={values?.tanggalPelaksanaan}
+            mode='range'
             name='tanggalPelaksanaan'
             label='Tanggal Pelaksanaan *'
-            placeholder='dd-mm-yy'
-            error={errors?.tanggalPelaksanaan}
+            placeholder='dd-mm-yyyy'
+            value={values?.tanggalPelaksanaan}
+            error={
+              errors?.tanggalPelaksanaan
+                ? handleGetError(errors?.tanggalPelaksanaan)
+                : null
+            }
             onChange={(val) => {
               setFieldValue(`tanggalPelaksanaan`, val, false)
               setTimeout(() => {
@@ -136,13 +149,45 @@ const RiwayatPelatihanTeknisForm = ({
             }}
           />
         </Grid>
+        {/* Penyelenggara */}
+        <Grid item xs={6}>
+          <Input
+            label='Penyelenggara'
+            placeholder='Masukkan Penyelenggara'
+            name='penyelenggara'
+            value={values?.penyelenggara}
+            onChange={(e) => {
+              const val = e?.target?.value
+              setFieldValue(`penyelenggara`, val, false)
+            }}
+            error={errors?.penyelenggara}
+          />
+        </Grid>
+        {/* Rumpun */}
+        <Grid item xs={6}>
+          <Autocomplete
+            label='Rumpun Pelatihan'
+            placeholder='Pilih Rumpun Pelatihan'
+            options={options?.groups}
+            name='periode.bulan'
+            multiple={false}
+            value={values?.periode?.bulan}
+            onChange={(val) => {
+              setFieldValue(`periode.bulan`, val, false)
+              setTimeout(() => {
+                formikRef?.current?.validateField(`periode.bulan`)
+              }, 1)
+            }}
+            error={errors?.periode?.bulan}
+          />
+        </Grid>
         {/* Durasi Pelatihan */}
         <Grid item xs={6}>
           <Input
             type='number'
             inputProps={{ min: '0' }}
-            label='Durasi Pelatihan (Hari)'
-            placeholder='Masukkan Durasi Pelatihan (Hari)'
+            label='Jam Pelajaran'
+            placeholder='Masukkan Jam Pelajaran'
             name='durasi'
             value={values?.durasi}
             onChange={(e) => {
