@@ -9,7 +9,11 @@ import { Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
 import { monthOptions } from 'libs/types/options'
-import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import {
+  Access,
+  accessGranted,
+  PermissionsIDs
+} from '@/utils/permissionManager'
 
 const styles = {
   iconStyle: {
@@ -30,9 +34,9 @@ const styles = {
 
 const RiwayatHukumanDisiplinDetailComponent = ({
   disciplinary,
-  getDisciplinary = () => { },
-  clearDisciplinaryState = () => { },
-  onLoading = () => { }
+  getDisciplinary = () => {},
+  clearDisciplinaryState = () => {},
+  onLoading = () => {}
 }) => {
   const router = useRouter()
 
@@ -54,7 +58,7 @@ const RiwayatHukumanDisiplinDetailComponent = ({
         align: 'left'
       },
       {
-        Header: 'Golongan',
+        Header: 'Pangkat / Golongan',
         width: 400,
         minWidth: 160,
         align: 'left'
@@ -143,10 +147,14 @@ const RiwayatHukumanDisiplinDetailComponent = ({
           Header: 'Nama',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{`${item?.name || ''} / ${item?.employee_id_number || ''}`}</Typography>
+          Cell: () => (
+            <Typography>{`${item?.name || ''} / ${
+              item?.employee_id_number || ''
+            }`}</Typography>
+          )
         },
         {
-          Header: 'Golongan',
+          Header: 'Pangkat / Golongan',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.grade || '-'}</Typography>
@@ -239,7 +247,10 @@ const RiwayatHukumanDisiplinDetailComponent = ({
           verticalAlign: 'top',
           Cell: () => (
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              {accessGranted(PermissionsIDs.HISTORY_DISCIPLINARY, Access.READ) && (
+              {accessGranted(
+                PermissionsIDs.HISTORY_DISCIPLINARY,
+                Access.READ
+              ) && (
                 <Button
                   text='Detail Profil'
                   color='primary'

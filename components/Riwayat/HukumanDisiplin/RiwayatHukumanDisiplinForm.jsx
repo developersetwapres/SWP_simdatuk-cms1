@@ -188,11 +188,21 @@ const RiwayatHukumanDisiplinForm = ({
                     error={errors?.pegawai && errors?.pegawai[index]?.nama}
                     onChange={(val) => {
                       const nip = val?.split(' - ')[1]
-                      const golongan = options.employees?.find(e => e?.employee_id_number === nip)?.grade_name || ''
-                      const jabatan = options.employees?.find(e => e?.employee_id_number === nip)?.position_name || ''
+                      const golongan =
+                        options.employees?.find(
+                          (e) => e?.employee_id_number === nip
+                        )?.grade_name || ''
+                      const jabatan =
+                        options.employees?.find(
+                          (e) => e?.employee_id_number === nip
+                        )?.position_name || ''
 
                       setFieldValue(`pegawai[${index}].nama`, val, false)
-                      setFieldValue(`pegawai[${index}].golongan`, golongan, false)
+                      setFieldValue(
+                        `pegawai[${index}].golongan`,
+                        golongan,
+                        false
+                      )
                       setFieldValue(`pegawai[${index}].jabatan`, jabatan, false)
                       setTimeout(() => {
                         formikRef.current.validateField(
@@ -205,8 +215,8 @@ const RiwayatHukumanDisiplinForm = ({
                 {/* Golongan */}
                 <Grid item xs={6} md={4}>
                   <Input
-                    label='Golongan'
-                    placeholder='Masukkan Golongan'
+                    label='Pangkat / Golongan'
+                    placeholder='Masukkan Pangkat / Golongan'
                     name={`pegawai[${index}].golongan`}
                     value={item?.golongan}
                     error={errors?.pegawai && errors?.pegawai[index]?.golongan}
