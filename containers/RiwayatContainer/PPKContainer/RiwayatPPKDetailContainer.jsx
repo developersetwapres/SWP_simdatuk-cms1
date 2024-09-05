@@ -8,13 +8,14 @@ import RiwayatPPKDetailComponent from '@/components/Riwayat/PPK/RiwayatPPKDetail
 
 export default connect(
   mapStateToProps('performance'),
-  mapActions('getPerformance', 'clearPerformanceState')
+  mapActions('getPerformance', 'clearPerformanceState', 'deletePerformance')
 )(
   class RiwayatPPKDetailContainer extends Component {
     static propTypes = {
       performance: PropTypes.object,
       getPerformance: PropTypes.func,
-      clearPerformanceState: PropTypes.func
+      clearPerformanceState: PropTypes.func,
+      deletePerformance: PropTypes.func
     }
 
     constructor(props) {
