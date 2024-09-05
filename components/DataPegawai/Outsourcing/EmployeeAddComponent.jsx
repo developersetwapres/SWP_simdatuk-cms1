@@ -25,6 +25,7 @@ import {
   periodCreditsOptions,
   relationshipStatusOptions,
   religionOptions,
+  studyAreaOptions,
   talentPoolsOptions
 } from 'libs/types/options'
 
@@ -263,6 +264,54 @@ const FormSchema = Yup.object().shape({
                 if (!value) return true
                 return value.size <= maxSize
               }
+            ),
+          educationStudyAssignmentLetter: Yup.mixed()
+            .nullable()
+            .test(
+              'fileType',
+              'Format file harus PNG, JPG, atau PDF',
+              (value) => {
+                if (!value) return true
+                const fileType = value && value.type
+                return (
+                  fileType === 'image/png' ||
+                  fileType === 'image/jpeg' ||
+                  fileType === 'application/pdf'
+                )
+              }
+            )
+            .test(
+              'fileSize',
+              'Ukuran file tidak boleh lebih dari 2MB',
+              (value) => {
+                const maxSize = 2 * 1024 * 1024
+                if (!value) return true
+                return value.size <= maxSize
+              }
+            ),
+          edudcationAcademicTitleLetter: Yup.mixed()
+            .nullable()
+            .test(
+              'fileType',
+              'Format file harus PNG, JPG, atau PDF',
+              (value) => {
+                if (!value) return true
+                const fileType = value && value.type
+                return (
+                  fileType === 'image/png' ||
+                  fileType === 'image/jpeg' ||
+                  fileType === 'application/pdf'
+                )
+              }
+            )
+            .test(
+              'fileSize',
+              'Ukuran file tidak boleh lebih dari 2MB',
+              (value) => {
+                const maxSize = 2 * 1024 * 1024
+                if (!value) return true
+                return value.size <= maxSize
+              }
             )
         })
       )
@@ -352,7 +401,8 @@ const EmployeeAddComponent = ({
       competences: competencesOptions,
       talentPools: talentPoolsOptions,
       months: monthOptions,
-      periodCredits: periodCreditsOptions
+      periodCredits: periodCreditsOptions,
+      studyArea: studyAreaOptions
     }
 
     return dataOptions
@@ -524,6 +574,14 @@ const EmployeeAddComponent = ({
           handleGetValue('employeeEducationLevel', item?.educationLevel)
         )
         formData.append(`educations[${index}][name]`, item?.educationName)
+        formData.append(
+          `educations[${index}][study_area]`,
+          handleGetValue('studyArea', item?.educationArea, '')
+        )
+        formData.append(
+          `educations[${index}][accreditation]`,
+          item?.educationAccreditation
+        )
         formData.append(`educations[${index}][faculty]`, item?.educationFaculty)
         formData.append(`educations[${index}][major]`, item?.educationMajor)
         formData.append(
@@ -541,6 +599,14 @@ const EmployeeAddComponent = ({
         formData.append(
           `educations[${index}][degree_document]`,
           item?.educationCertificate || ''
+        )
+        formData.append(
+          `educations[${index}][study_assignment_letter]`,
+          item?.educationStudyAssignmentLetter || ''
+        )
+        formData.append(
+          `educations[${index}][academic_title_letter]`,
+          item?.edudcationAcademicTitleLetter || ''
         )
       })
 

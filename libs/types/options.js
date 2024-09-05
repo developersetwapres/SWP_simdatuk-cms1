@@ -220,4 +220,4 @@ export const workingPeriodOptions = [
   '65 - 70 Tahun'
 ]
 
-export const studyAreaOptions = ['Luar Negeri', 'Dalam Negeri']
+export const studyAreaOptions = ['Dalam Negeri', 'Luar Negeri']

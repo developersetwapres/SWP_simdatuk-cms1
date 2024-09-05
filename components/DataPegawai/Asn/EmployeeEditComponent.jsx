@@ -34,7 +34,8 @@ import {
   relationshipStatusOptions,
   religionOptions,
   talentPoolsOptions,
-  maritalStatuFamilysOptions
+  maritalStatuFamilysOptions,
+  studyAreaOptions
 } from 'libs/types/options'
 
 const isFile = (value) => {
@@ -365,6 +366,54 @@ const FormSchema = Yup.object().shape({
               (value) => {
                 const maxSize = 2 * 1024 * 1024
                 if (!value || !isFile(value)) return true
+                return value.size <= maxSize
+              }
+            ),
+          educationStudyAssignmentLetter: Yup.mixed()
+            .nullable()
+            .test(
+              'fileType',
+              'Format file harus PNG, JPG, atau PDF',
+              (value) => {
+                if (!value) return true
+                const fileType = value && value.type
+                return (
+                  fileType === 'image/png' ||
+                  fileType === 'image/jpeg' ||
+                  fileType === 'application/pdf'
+                )
+              }
+            )
+            .test(
+              'fileSize',
+              'Ukuran file tidak boleh lebih dari 2MB',
+              (value) => {
+                const maxSize = 2 * 1024 * 1024
+                if (!value) return true
+                return value.size <= maxSize
+              }
+            ),
+          edudcationAcademicTitleLetter: Yup.mixed()
+            .nullable()
+            .test(
+              'fileType',
+              'Format file harus PNG, JPG, atau PDF',
+              (value) => {
+                if (!value) return true
+                const fileType = value && value.type
+                return (
+                  fileType === 'image/png' ||
+                  fileType === 'image/jpeg' ||
+                  fileType === 'application/pdf'
+                )
+              }
+            )
+            .test(
+              'fileSize',
+              'Ukuran file tidak boleh lebih dari 2MB',
+              (value) => {
+                const maxSize = 2 * 1024 * 1024
+                if (!value) return true
                 return value.size <= maxSize
               }
             )
@@ -961,7 +1010,8 @@ const EmployeeEditComponent = ({
       performance: predicateOptions,
       performanceAchievement: ratingOrganizationOptions,
       discipleType: newDiscipleType,
-      performancesType: ppkDescOptions
+      performancesType: ppkDescOptions,
+      studyArea: studyAreaOptions
     }
 
     return dataOptions
@@ -1299,6 +1349,14 @@ const EmployeeEditComponent = ({
           )
           formData.append(`educations[${index}][name]`, item?.educationName)
           formData.append(
+            `educations[${index}][study_area]`,
+            handleGetValueID('studyArea', item?.educationArea, '')
+          )
+          formData.append(
+            `educations[${index}][accreditation]`,
+            item?.educationAccreditation
+          )
+          formData.append(
             `educations[${index}][faculty]`,
             item?.educationFaculty
           )
@@ -1325,6 +1383,22 @@ const EmployeeEditComponent = ({
           formData.append(
             `educations[${index}][delete_degree_document]`,
             item?.educationCertificate ? 0 : 1
+          )
+          formData.append(
+            `educations[${index}][study_assignment_letter]`,
+            item?.educationStudyAssignmentLetter || ''
+          )
+          formData.append(
+            `educations[${index}][delete_study_assignment_letter]`,
+            item?.educationStudyAssignmentLetter ? 0 : 1
+          )
+          formData.append(
+            `educations[${index}][academic_title_letter]`,
+            item?.edudcationAcademicTitleLetter || ''
+          )
+          formData.append(
+            `educations[${index}][delete_academic_title_letter]`,
+            item?.edudcationAcademicTitleLetter ? 0 : 1
           )
         })
       } else {
@@ -2239,6 +2313,16 @@ const EmployeeEditComponent = ({
           false
         )
         formikRef.current?.setFieldValue(
+          `educations[${idx}].educationArea`,
+          handleGetValue('studyArea', itm?.study_area),
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `educations[${idx}].educationAccreditation`,
+          itm?.accreditation || '',
+          false
+        )
+        formikRef.current?.setFieldValue(
           `educations[${idx}].educationFaculty`,
           itm?.faculty || '',
           false
@@ -2266,6 +2350,16 @@ const EmployeeEditComponent = ({
         formikRef.current?.setFieldValue(
           `educations[${idx}].educationCertificate`,
           handleSplitFile(itm?.degree_document),
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `educations[${idx}].educationStudyAssignmentLetter`,
+          handleSplitFile(itm?.study_assignment_letter),
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `educations[${idx}].edudcationAcademicTitleLetter`,
+          handleSplitFile(itm?.academic_title_letter),
           false
         )
       })

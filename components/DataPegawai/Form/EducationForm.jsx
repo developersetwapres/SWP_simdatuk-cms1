@@ -26,12 +26,16 @@ const EducationForm = ({
       const newData = {
         educationLevel: null,
         educationName: '',
+        educationArea: null,
+        educationAccreditation: '',
         educationFaculty: '',
         educationMajor: '',
         educationStatus: null,
         educationYear: null,
         educationDescription: '',
-        educationCertificate: null
+        educationCertificate: null,
+        educationStudyAssignmentLetter: null,
+        edudcationAcademicTitleLetter: null
       }
 
       const updateData = [...data, newData]
@@ -115,6 +119,47 @@ const EducationForm = ({
                         `educations[${idx}].educationName`
                       )
                     }, 1)
+                  }}
+                />
+              </Grid>
+              {/* Education Area */}
+              <Grid item xs={6}>
+                <Autocomplete
+                  options={options?.studyArea}
+                  label='Wilayah'
+                  placeholder='Pilih Wilayah'
+                  name={`educations[${idx}].educationArea`}
+                  value={itm?.educationArea}
+                  error={
+                    errors?.educations && errors?.educations[idx]?.educationArea
+                  }
+                  onChange={(val) => {
+                    setFieldValue(
+                      `educations[${idx}].educationArea`,
+                      val,
+                      false
+                    )
+                  }}
+                />
+              </Grid>
+              {/* Education Accreditation */}
+              <Grid item xs={6}>
+                <Input
+                  label='Akreditasi'
+                  placeholder='Masukkan Akreditasi'
+                  name={`educations[${idx}].educationAccreditation`}
+                  value={itm?.educationAccreditation}
+                  error={
+                    errors?.educations &&
+                    errors?.educations[idx]?.educationAccreditation
+                  }
+                  onChange={(e) => {
+                    const val = e?.target?.value
+                    setFieldValue(
+                      `educations[${idx}].educationAccreditation`,
+                      val,
+                      false
+                    )
                   }}
                 />
               </Grid>
@@ -266,6 +311,84 @@ const EducationForm = ({
                     setTimeout(() => {
                       formikRef.current.validateField(
                         `educations[${idx}].educationCertificate`
+                      )
+                    }, 1)
+                  }}
+                />
+              </Grid>
+              {/* Study Assignment Letter */}
+              <Grid item xs={6}>
+                <UploadFile
+                  label='Surat Keterangan Tugas Belajar'
+                  maxSize={2}
+                  dataUnit='MB'
+                  formatFile={['.png', '.jpg', '.pdf']}
+                  name={`educations[${idx}].educationStudyAssignmentLetter`}
+                  value={itm?.educationStudyAssignmentLetter}
+                  error={
+                    errors?.educations &&
+                    errors?.educations[idx]?.educationStudyAssignmentLetter
+                  }
+                  onDelete={() => {
+                    setFieldValue(
+                      `educations[${idx}].educationStudyAssignmentLetter`,
+                      null,
+                      false
+                    )
+                    setTimeout(() => {
+                      formikRef.current.validateField(
+                        `educations[${idx}].educationStudyAssignmentLetter`
+                      )
+                    }, 1)
+                  }}
+                  onChange={(val) => {
+                    setFieldValue(
+                      `educations[${idx}].educationStudyAssignmentLetter`,
+                      val,
+                      false
+                    )
+                    setTimeout(() => {
+                      formikRef.current.validateField(
+                        `educations[${idx}].educationStudyAssignmentLetter`
+                      )
+                    }, 1)
+                  }}
+                />
+              </Grid>
+              {/* Academic Title Letter */}
+              <Grid item xs={6}>
+                <UploadFile
+                  label='Surat Keputusan Pencantuman Gelar'
+                  maxSize={2}
+                  dataUnit='MB'
+                  formatFile={['.png', '.jpg', '.pdf']}
+                  name={`educations[${idx}].edudcationAcademicTitleLetter`}
+                  value={itm?.edudcationAcademicTitleLetter}
+                  error={
+                    errors?.educations &&
+                    errors?.educations[idx]?.edudcationAcademicTitleLetter
+                  }
+                  onDelete={() => {
+                    setFieldValue(
+                      `educations[${idx}].edudcationAcademicTitleLetter`,
+                      null,
+                      false
+                    )
+                    setTimeout(() => {
+                      formikRef.current.validateField(
+                        `educations[${idx}].edudcationAcademicTitleLetter`
+                      )
+                    }, 1)
+                  }}
+                  onChange={(val) => {
+                    setFieldValue(
+                      `educations[${idx}].edudcationAcademicTitleLetter`,
+                      val,
+                      false
+                    )
+                    setTimeout(() => {
+                      formikRef.current.validateField(
+                        `educations[${idx}].edudcationAcademicTitleLetter`
                       )
                     }, 1)
                   }}
