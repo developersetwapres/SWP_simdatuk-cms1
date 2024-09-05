@@ -1,13 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import LayoutPages from '../../core/LayoutPages'
 import { Box } from '@mui/system'
 import { Button, Table } from '@/components/shared'
-import { Edit, Info } from '@mui/icons-material'
+import { Edit, Info, Delete } from '@mui/icons-material'
 import { Typography } from '@mui/material'
 import EmployeeFilterComponent from '../EmployeeFilterComponent'
+import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 import { useRouter } from 'next/router'
 import {
   employeeEducationLevelOptions,
@@ -40,15 +41,18 @@ const EmployeeASNComponent = ({
   employee,
   grade,
   position,
-  clearPositionState = () => {},
-  synchronizeEmployees = () => {},
-  onLoading = () => {},
-  onSearch = () => {},
-  onFilter = () => {},
-  onPaginationChange = () => {},
-  onRowsPerPageChange = () => {}
+  deleteEmployee = () => { },
+  clearPositionState = () => { },
+  synchronizeEmployees = () => { },
+  onLoading = () => { },
+  onSearch = () => { },
+  onFilter = () => { },
+  onPaginationChange = () => { },
+  onRowsPerPageChange = () => { }
 }) => {
   const router = useRouter()
+  const [modalDelete, setModalDelete] = useState(false)
+  const [employeeId, setEmployeeId] = useState(null)
 
   const handleMapOptions = (val) => {
     const arr = []
@@ -68,6 +72,19 @@ const EmployeeASNComponent = ({
     }
 
     clearPositionState()
+  }
+
+  const showDeleteModal = (employeeId) => {
+    setModalDelete(true)
+    setEmployeeId(employeeId)
+  }
+
+  const doDeleteEmployee = () => {
+    if (!employeeId) return
+
+    // Do Delete
+    setModalDelete(false)
+    deleteEmployee(employeeId)
   }
 
   const options = useMemo(() => {
@@ -200,6 +217,15 @@ const EmployeeASNComponent = ({
                   onClick={() => handleRedirect('edit', btoa(item?.id))}
                 />
               )}
+              {accessGranted(PermissionsIDs.EMPLOYEE_ASN, Access.DELETE) && (
+                <Button
+                  text='Hapus'
+                  color='danger'
+                  icon={<Delete style={styles.iconButton} />}
+                  sx={styles.buttonAction}
+                  onClick={() => showDeleteModal(item?.id)}
+                />
+              )}
             </Box>
           )
         }
@@ -283,20 +309,30 @@ const EmployeeASNComponent = ({
   }, [employee, grade, position])
 
   return (
-    <LayoutPages summary={'Data Pegawai ASN'} action={action}>
-      <EmployeeFilterComponent
-        onFilter={handleFilter}
-        onSearch={onSearch}
-        options={options}
+    <>
+      <LayoutPages summary={'Data Pegawai ASN'} action={action}>
+        <EmployeeFilterComponent
+          onFilter={handleFilter}
+          onSearch={onSearch}
+          options={options}
+        />
+        <Table
+          columns={columns}
+          rows={rows}
+          pagination={employee?.pagination}
+          handlePagination={onPaginationChange}
+          handleRows={onRowsPerPageChange}
+        />
+      </LayoutPages>
+      <ModalConfirmDelete
+        label='Data Pegawai'
+        title='Hapus Data Pegawai'
+        copytext='Apakah anda yakin akan menghapus data pegawai?'
+        open={modalDelete}
+        handleModal={() => setModalDelete(false)}
+        handleDelete={doDeleteEmployee}
       />
-      <Table
-        columns={columns}
-        rows={rows}
-        pagination={employee?.pagination}
-        handlePagination={onPaginationChange}
-        handleRows={onRowsPerPageChange}
-      />
-    </LayoutPages>
+    </>
   )
 }
 
@@ -306,6 +342,7 @@ EmployeeASNComponent.propTypes = {
   grade: PropTypes.object,
   onLoading: PropTypes.func,
   clearPositionState: PropTypes.func,
+  deleteEmployee: PropTypes.func,
   synchronizeEmployees: PropTypes.func,
   onSearch: PropTypes.func,
   onFilter: PropTypes.func,

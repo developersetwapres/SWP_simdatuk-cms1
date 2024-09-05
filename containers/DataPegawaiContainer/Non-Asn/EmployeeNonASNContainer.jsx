@@ -12,7 +12,8 @@ export default connect(
     'getGradesOptions',
     'getPositions',
     'getEmploymentTypes',
-    'clearPositionState'
+    'clearPositionState',
+    'deleteEmployee',
   )
 )(
   class EmployeeNonASNContainer extends Component {
@@ -25,7 +26,8 @@ export default connect(
       getGradesOptions: PropTypes.func,
       getPositions: PropTypes.func,
       getEmploymentTypes: PropTypes.func,
-      clearPositionState: PropTypes.func
+      clearPositionState: PropTypes.func,
+      deleteEmployee: PropTypes.func
     }
 
     constructor(props) {

@@ -1,13 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import LayoutPages from '../../core/LayoutPages'
 import { Box } from '@mui/system'
 import { Button, Table } from '@/components/shared'
-import { Edit, Info } from '@mui/icons-material'
+import { Edit, Info, Delete } from '@mui/icons-material'
 import { Typography } from '@mui/material'
 import EmployeeFilterComponent from '../EmployeeFilterComponent'
+import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 import { useRouter } from 'next/router'
 import {
   employeeEducationLevelOptions,
@@ -41,14 +42,17 @@ const EmployeeOutsourcingComponent = ({
   grade,
   position,
   employmentType,
-  onLoading = () => {},
-  onSearch = () => {},
-  onFilter = () => {},
-  clearPositionState = () => {},
-  onPaginationChange = () => {},
-  onRowsPerPageChange = () => {}
+  deleteEmployee = () => { },
+  onLoading = () => { },
+  onSearch = () => { },
+  onFilter = () => { },
+  clearPositionState = () => { },
+  onPaginationChange = () => { },
+  onRowsPerPageChange = () => { }
 }) => {
   const router = useRouter()
+  const [modalDelete, setModalDelete] = useState(false)
+  const [employeeId, setEmployeeId] = useState(null)
 
   const handleRedirect = (type, id) => {
     if (type == 'add') {
@@ -68,6 +72,19 @@ const EmployeeOutsourcingComponent = ({
     })
 
     return arr
+  }
+
+  const showDeleteModal = (employeeId) => {
+    setModalDelete(true)
+    setEmployeeId(employeeId)
+  }
+
+  const doDeleteEmployee = () => {
+    if (!employeeId) return
+
+    // Do Delete
+    setModalDelete(false)
+    deleteEmployee(employeeId)
   }
 
   const options = useMemo(() => {
@@ -183,10 +200,7 @@ const EmployeeOutsourcingComponent = ({
           verticalAlign: 'top',
           Cell: () => (
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              {accessGranted(
-                PermissionsIDs.EMPLOYEE_OUTSOURCING,
-                Access.READ
-              ) && (
+              {accessGranted(PermissionsIDs.EMPLOYEE_OUTSOURCING, Access.READ) && (
                 <Button
                   text='Detail'
                   color='primary'
@@ -195,16 +209,22 @@ const EmployeeOutsourcingComponent = ({
                   onClick={() => handleRedirect('detail', btoa(item?.id))}
                 />
               )}
-              {accessGranted(
-                PermissionsIDs.EMPLOYEE_OUTSOURCING,
-                Access.UPDATE
-              ) && (
+              {accessGranted(PermissionsIDs.EMPLOYEE_OUTSOURCING, Access.UPDATE) && (
                 <Button
                   text='Edit'
                   color='sidatukDraweBase'
                   icon={<Edit style={styles.iconButton} />}
                   sx={styles.buttonAction}
                   onClick={() => handleRedirect('edit', btoa(item?.id))}
+                />
+              )}
+              {accessGranted(PermissionsIDs.EMPLOYEE_OUTSOURCING, Access.DELETE) && (
+                <Button
+                  text='Hapus'
+                  color='danger'
+                  icon={<Delete style={styles.iconButton} />}
+                  sx={styles.buttonAction}
+                  onClick={() => showDeleteModal(item?.id)}
                 />
               )}
             </Box>
@@ -285,20 +305,30 @@ const EmployeeOutsourcingComponent = ({
   }, [employee, grade, position, employmentType])
 
   return (
-    <LayoutPages summary={'Data Pegawai Outsourcing'} action={action}>
-      <EmployeeFilterComponent
-        onFilter={handleFilter}
-        onSearch={onSearch}
-        options={options}
+    <>
+      <LayoutPages summary={'Data Pegawai Outsourcing'} action={action}>
+        <EmployeeFilterComponent
+          onFilter={handleFilter}
+          onSearch={onSearch}
+          options={options}
+        />
+        <Table
+          columns={columns}
+          rows={rows}
+          pagination={employee?.pagination}
+          handlePagination={onPaginationChange}
+          handleRows={onRowsPerPageChange}
+        />
+      </LayoutPages>
+      <ModalConfirmDelete
+        label='Data Pegawai'
+        title='Hapus Data Pegawai'
+        copytext='Apakah anda yakin akan menghapus data pegawai?'
+        open={modalDelete}
+        handleModal={() => setModalDelete(false)}
+        handleDelete={doDeleteEmployee}
       />
-      <Table
-        columns={columns}
-        rows={rows}
-        pagination={employee?.pagination}
-        handlePagination={onPaginationChange}
-        handleRows={onRowsPerPageChange}
-      />
-    </LayoutPages>
+    </>
   )
 }
 
@@ -307,6 +337,7 @@ EmployeeOutsourcingComponent.propTypes = {
   position: PropTypes.object,
   grade: PropTypes.object,
   employmentType: PropTypes.object,
+  deleteEmployee: PropTypes.func,
   onLoading: PropTypes.func,
   onSearch: PropTypes.func,
   onFilter: PropTypes.func,

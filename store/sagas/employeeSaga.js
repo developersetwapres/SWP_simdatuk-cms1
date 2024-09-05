@@ -408,12 +408,13 @@ function* deleteEmployee(action) {
       payload: {
         code: res?.data?.meta?.code,
         message: 'Pegawai berhasil dihapus',
-        redirect: '/'
+        redirect: 'refresh'
       }
     })
   } catch (err) {
     const status = err?.data?.meta
-    if (status?.code === 403) {
+
+    if ([403, 401]?.includes(status?.code)) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {
