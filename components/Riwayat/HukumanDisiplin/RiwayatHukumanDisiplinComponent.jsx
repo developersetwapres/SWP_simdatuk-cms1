@@ -1,15 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import LayoutPages from '@/components/core/LayoutPages'
 import { Button, Table } from '@/components/shared'
 import { Box, Typography } from '@mui/material'
 import Search from '@/components/core/Search'
 import { makeStyles } from '@mui/styles'
-import { Edit, Info } from '@mui/icons-material'
+import { Edit, Info, Delete } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import { monthOptions } from 'libs/types/options'
 import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -58,12 +59,15 @@ const styles = {
 const RiwayatHukumanDisiplinComponent = ({
   disciplinary,
   onSearch = () => { },
+  deleteDisciplinary = () => { },
   onLoading = () => { },
   onPaginationChange = () => { },
   onRowsPerPageChange = () => { }
 }) => {
   const router = useRouter()
   const classes = useStyles()
+  const [modalDelete, setModalDelete] = useState(false)
+  const [id, setId] = useState(null)
 
   const columns = useMemo(
     () => [
@@ -158,6 +162,15 @@ const RiwayatHukumanDisiplinComponent = ({
                   sx={styles.buttonAction}
                 />
               )}
+              {accessGranted(PermissionsIDs.HISTORY_DISCIPLINARY, Access.DELETE) && (
+                <Button
+                  text='Hapus'
+                  color='danger'
+                  icon={<Delete style={styles.iconButton} />}
+                  sx={styles.buttonAction}
+                  onClick={() => showDeleteModal(item?.id)}
+                />
+              )}
             </Box>
           )
         }
@@ -180,45 +193,69 @@ const RiwayatHukumanDisiplinComponent = ({
     )
   }, [])
 
+  const showDeleteModal = (id) => {
+    setModalDelete(true)
+    setId(id)
+  }
+
+  const doDeleteItem = () => {
+    if (!id) return
+
+    // Do Delete
+    setModalDelete(false)
+    deleteDisciplinary(id)
+  }
+
   useEffect(() => {
     const state = !disciplinary?.loading
     onLoading(state)
   }, [disciplinary])
 
   return (
-    <LayoutPages summary='Data Riwayat Hukuman Disiplin' action={action}>
-      <Box
-        sx={{
-          width: '100%',
-          padding: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'flex-end'
-        }}
-      >
-        <Search
-          inputParentClasses={classes.inputParent}
-          inputClass={classes.input}
-          iconStyle={classes.iconStyle}
-          placeholder='Cari Nama Riwayat Hukuman Disiplin'
-          onSearch={onSearch}
+    <>
+      <LayoutPages summary='Data Riwayat Hukuman Disiplin' action={action}>
+        <Box
+          sx={{
+            width: '100%',
+            padding: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'flex-end'
+          }}
+        >
+          <Search
+            inputParentClasses={classes.inputParent}
+            inputClass={classes.input}
+            iconStyle={classes.iconStyle}
+            placeholder='Cari Nama Riwayat Hukuman Disiplin'
+            onSearch={onSearch}
+          />
+        </Box>
+        <Table
+          columns={columns}
+          rows={rows}
+          pagination={disciplinary?.pagination}
+          handlePagination={onPaginationChange}
+          handleRows={onRowsPerPageChange}
         />
-      </Box>
-      <Table
-        columns={columns}
-        rows={rows}
-        pagination={disciplinary?.pagination}
-        handlePagination={onPaginationChange}
-        handleRows={onRowsPerPageChange}
+      </LayoutPages>
+      <ModalConfirmDelete
+        label='Riwayat Hukuman Disiplin'
+        title='Hapus Riwayat Hukuman Disiplin'
+        copytext='Apakah anda yakin akan menghapus riwayat hukuman disiplin?'
+        open={modalDelete}
+        handleModal={() => setModalDelete(false)}
+        handleDelete={doDeleteItem}
       />
-    </LayoutPages>
+    </>
   )
 }
 
 RiwayatHukumanDisiplinComponent.propTypes = {
   disciplinary: PropTypes.object,
   onSearch: PropTypes.func,
+  deleteDisciplinary: PropTypes.func,
   onLoading: PropTypes.func,
   onPaginationChange: PropTypes.func,
   onRowsPerPageChange: PropTypes.func

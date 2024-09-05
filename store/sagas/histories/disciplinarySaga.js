@@ -208,7 +208,7 @@ function* deleteDisciplinary(action) {
     })
   } catch (err) {
     const errors = err?.data
-    if (errors?.code === 403 || errors?.code === 401) {
+    if ([401, 403]?.includes(errors?.code)) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {

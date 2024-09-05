@@ -8,12 +8,13 @@ import RiwayatHukumanDisiplinDetailComponent from '@/components/Riwayat/HukumanD
 
 export default connect(
   mapStateToProps('disciplinary'),
-  mapActions('getDisciplinary', 'clearDisciplinaryState')
+  mapActions('getDisciplinary', 'clearDisciplinaryState', 'deleteDisciplinary')
 )(
   class RiwayatHukumanDisiplinDetailContainer extends Component {
     static propTypes = {
       disciplinary: PropTypes.object,
-      getDisciplinary: PropTypes.func
+      getDisciplinary: PropTypes.func,
+      deleteDisciplinary: PropTypes.func
     }
 
     constructor(props) {

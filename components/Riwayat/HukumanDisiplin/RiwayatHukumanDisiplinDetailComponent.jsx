@@ -1,11 +1,11 @@
 /* eslint-disable indent */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import LayoutPages from '@/components/core/LayoutPages'
 import { Button, Table } from '@/components/shared'
 import { Box, Grid, Typography } from '@mui/material'
-import { Edit, Info } from '@mui/icons-material'
+import { Delete, Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
 import { monthOptions } from 'libs/types/options'
@@ -14,6 +14,7 @@ import {
   accessGranted,
   PermissionsIDs
 } from '@/utils/permissionManager'
+import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 
 const styles = {
   iconStyle: {
@@ -34,11 +35,14 @@ const styles = {
 
 const RiwayatHukumanDisiplinDetailComponent = ({
   disciplinary,
-  getDisciplinary = () => {},
-  clearDisciplinaryState = () => {},
-  onLoading = () => {}
+  getDisciplinary = () => { },
+  deleteDisciplinary = () => { },
+  clearDisciplinaryState = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
+  const [modalDelete, setModalDelete] = useState(false)
+  const [id, setId] = useState(null)
 
   const data = useMemo(() => {
     return disciplinary?.detail
@@ -154,9 +158,8 @@ const RiwayatHukumanDisiplinDetailComponent = ({
           align: 'left',
           verticalAlign: 'top',
           Cell: () => (
-            <Typography>{`${item?.name || ''} / ${
-              item?.employee_id_number || ''
-            }`}</Typography>
+            <Typography>{`${item?.name || ''} / ${item?.employee_id_number || ''
+              }`}</Typography>
           )
         },
         {
@@ -263,20 +266,20 @@ const RiwayatHukumanDisiplinDetailComponent = ({
                 PermissionsIDs.HISTORY_DISCIPLINARY,
                 Access.READ
               ) && (
-                <Button
-                  text='Detail Profil'
-                  color='primary'
-                  onClick={() =>
-                    router.push(
-                      `/data-riwayat/hukuman-disiplin/detail/pegawai/${btoa(
-                        item?.user_id
-                      )}`
-                    )
-                  }
-                  icon={<Info style={styles.iconButton} />}
-                  sx={styles.buttonAction}
-                />
-              )}
+                  <Button
+                    text='Detail Profil'
+                    color='primary'
+                    onClick={() =>
+                      router.push(
+                        `/data-riwayat/hukuman-disiplin/detail/pegawai/${btoa(
+                          item?.user_id
+                        )}`
+                      )
+                    }
+                    icon={<Info style={styles.iconButton} />}
+                    sx={styles.buttonAction}
+                  />
+                )}
             </Box>
           )
         }
@@ -288,7 +291,15 @@ const RiwayatHukumanDisiplinDetailComponent = ({
 
   const action = useMemo(() => {
     return (
-      <Box>
+      <Box sx={{ display: 'flex', gap: '12px' }}>
+        {accessGranted(PermissionsIDs.HISTORY_DISCIPLINARY, Access.DELETE) && (
+          <Button
+            text='Hapus'
+            color='danger'
+            icon={<Delete style={styles.iconButton} />}
+            onClick={() => showDeleteModal(router?.query?.id)}
+          />
+        )}
         {accessGranted(PermissionsIDs.HISTORY_DISCIPLINARY, Access.UPDATE) && (
           <Button
             text='Edit'
@@ -307,6 +318,19 @@ const RiwayatHukumanDisiplinDetailComponent = ({
 
   const handleParsePeriod = (month, year) => {
     return month && year ? `${monthOptions[month - 1]} ${year}` : '-'
+  }
+
+  const showDeleteModal = (id) => {
+    setModalDelete(true)
+    setId(id)
+  }
+
+  const doDeleteItem = () => {
+    if (!id) return
+
+    // Do Delete
+    setModalDelete(false)
+    deleteDisciplinary(atob(id))
   }
 
   useEffect(() => {
@@ -329,42 +353,53 @@ const RiwayatHukumanDisiplinDetailComponent = ({
   }, [disciplinary])
 
   return (
-    <LayoutPages
-      handleBack={() => router.back()}
-      summary='Detail Riwayat Hukuman Disiplin'
-      action={action}
-    >
-      <Paper style={{ padding: '24px 20px' }}>
-        <Grid container sx={{ marginBottom: '26px' }}>
-          <Grid item xs={6}>
-            <Box sx={styles?.itemWrapper}>
-              <Typography>Nama Riwayat Hukuman Disiplin</Typography>
-              <Typography sx={styles?.fontItem}>{data?.name || '-'}</Typography>
-            </Box>
+    <>
+      <LayoutPages
+        handleBack={() => router.back()}
+        summary='Detail Riwayat Hukuman Disiplin'
+        action={action}
+      >
+        <Paper style={{ padding: '24px 20px' }}>
+          <Grid container sx={{ marginBottom: '26px' }}>
+            <Grid item xs={6}>
+              <Box sx={styles?.itemWrapper}>
+                <Typography>Nama Riwayat Hukuman Disiplin</Typography>
+                <Typography sx={styles?.fontItem}>{data?.name || '-'}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={6}>
+              <Box sx={styles?.itemWrapper}>
+                <Typography>Periode Riwayat</Typography>
+                <Typography sx={styles?.fontItem}>
+                  {handleParsePeriod(data?.period_month, data?.period_year)}
+                </Typography>
+              </Box>
+            </Grid>
           </Grid>
-          <Grid item xs={6}>
-            <Box sx={styles?.itemWrapper}>
-              <Typography>Periode Riwayat</Typography>
-              <Typography sx={styles?.fontItem}>
-                {handleParsePeriod(data?.period_month, data?.period_year)}
-              </Typography>
-            </Box>
-          </Grid>
-        </Grid>
-        <Table
-          columns={columns}
-          rows={rows}
-          title='Daftar Pegawai'
-          colorTitle='simdatukPrimary'
-          paper={false}
-        />
-      </Paper>
-    </LayoutPages>
+          <Table
+            columns={columns}
+            rows={rows}
+            title='Daftar Pegawai'
+            colorTitle='simdatukPrimary'
+            paper={false}
+          />
+        </Paper>
+      </LayoutPages>
+      <ModalConfirmDelete
+        label='Riwayat Hukuman Disiplin'
+        title='Hapus Riwayat Hukuman Disiplin'
+        copytext='Apakah anda yakin akan menghapus riwayat hukuman disiplin?'
+        open={modalDelete}
+        handleModal={() => setModalDelete(false)}
+        handleDelete={doDeleteItem}
+      />
+    </>
   )
 }
 
 RiwayatHukumanDisiplinDetailComponent.propTypes = {
   disciplinary: PropTypes.object,
+  deleteDisciplinary: PropTypes.func,
   getDisciplinary: PropTypes.func,
   clearDisciplinaryState: PropTypes.func,
   onLoading: PropTypes.func
