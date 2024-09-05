@@ -8,13 +8,14 @@ import RiwayatPelatihanTeknisDetailComponent from '@/components/Riwayat/Pelatiha
 
 export default connect(
   mapStateToProps('training'),
-  mapActions('getTraining', 'clearTrainingState')
+  mapActions('getTraining', 'clearTrainingState', 'deleteTraining')
 )(
   class RiwayatPelatihanTeknisDetailContainer extends Component {
     static propTypes = {
       traning: PropTypes.object,
       getTraining: PropTypes.func,
-      clearTrainingState: PropTypes.func
+      clearTrainingState: PropTypes.func,
+      deleteTraining: PropTypes.func
     }
 
     constructor(props) {
