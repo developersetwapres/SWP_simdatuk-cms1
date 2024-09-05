@@ -37,7 +37,8 @@ import {
   monthOptions,
   organizationOptions,
   relationshipStatusOptions,
-  religionOptions
+  religionOptions,
+  studyAreaOptions
 } from 'libs/types/options'
 import ModalEditEmploymentStatus from '@/components/shared/Modal/ModalEditEmploymentStatus'
 import ModalAddNotes from '@/components/shared/Modal/ModalAddNotes'
@@ -56,14 +57,14 @@ const EmployeeDetailComponent = ({
   exportEmployeeData,
   employmentType,
   position,
-  getEmployee = () => { },
-  getPosition = () => { },
-  updateNotesByUserID = () => { },
-  updateEmployeeStatus = () => { },
-  clearEmployeeState = () => { },
-  exportEmployeeDetail = () => { },
-  setRender = () => { },
-  clearPositionState = () => { }
+  getEmployee = () => {},
+  getPosition = () => {},
+  updateNotesByUserID = () => {},
+  updateEmployeeStatus = () => {},
+  clearEmployeeState = () => {},
+  exportEmployeeDetail = () => {},
+  setRender = () => {},
+  clearPositionState = () => {}
 }) => {
   const router = useRouter()
   const sectionRef = useRef(null)
@@ -127,7 +128,8 @@ const EmployeeDetailComponent = ({
       employeeStatus: employeeStatusOptions,
       educationLevel: employeeEducationLevelOptions,
       educationStatus: educationStatusOptions,
-      relationshipStatus: relationshipStatusOptions
+      relationshipStatus: relationshipStatusOptions,
+      studyArea: studyAreaOptions
     }
 
     return dataOptions
@@ -162,12 +164,13 @@ const EmployeeDetailComponent = ({
       ),
       educations: !!detailEmployee?.educations?.length
         ? [
-          ...detailEmployee?.educations?.map((i) => ({
-            ...i,
-            level: getValue('education', i?.level - 1),
-            status: getValue('education_status', i?.status - 1)
-          }))
-        ]
+            ...detailEmployee?.educations?.map((i) => ({
+              ...i,
+              level: getValue('education', i?.level - 1),
+              status: getValue('education_status', i?.status - 1),
+              area: getValue('studyArea', i?.study_area - 1)
+            }))
+          ]
         : []
     }
 
@@ -180,8 +183,8 @@ const EmployeeDetailComponent = ({
         ? data?.type == 1
           ? 'ASN'
           : data?.type == 2
-            ? 'Non ASN'
-            : 'Outsourcing'
+          ? 'Non ASN'
+          : 'Outsourcing'
         : ''
 
       return `Detail Pegawai ${type} ${data?.employmentStatus || ''}`
@@ -348,14 +351,13 @@ const EmployeeDetailComponent = ({
         }
 
         // Show certain menus only on ASN
-        if (!path?.ASN) {
-          if (
-            item?.id == 'hasil_assessment' ||
+        if (
+          !path?.ASN &&
+          (item?.id == 'hasil_assessment' ||
             item?.id == 'hasil_uji_kompetensi' ||
-            item?.id == 'hasil_talent_pool'
-          ) {
-            return false
-          }
+            item?.id == 'hasil_talent_pool')
+        ) {
+          return false
         }
 
         // Filter by Outsourcing menus
@@ -588,7 +590,6 @@ const EmployeeDetailComponent = ({
                       ]
                         .filter((itm) => itm)
                         .join('/')}
-                      { }
                     </Typography>
                   </Box>
                 </Grid>

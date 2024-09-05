@@ -103,8 +103,8 @@ const BiodataPegawai = ({ data, employmentType }) => {
             {data?.type == 1
               ? 'Jenis Pegawai'
               : data?.type == 2
-                ? 'Jenis Perbantuan'
-                : 'Jenis Outsourcing'}
+              ? 'Jenis Perbantuan'
+              : 'Jenis Outsourcing'}
           </Typography>
           <Typography fontWeight='500' marginTop={1}>
             {getValueOptions(data?.employment_type_id, 'type')}
@@ -112,7 +112,11 @@ const BiodataPegawai = ({ data, employmentType }) => {
         </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>
-            {data?.type == 1 ? 'TMT CPNS' : 'Tanggal Mulai Bekerja'}
+            {path?.ASN
+              ? 'TMT CPNS'
+              : path?.NonASN
+              ? 'Tanggal Mulai Bekerja di Sekretariat Wakil Presiden'
+              : 'Tanggal Mulai Bekerja'}
           </Typography>
           <Typography fontWeight='500' marginTop={1}>
             {data?.cpns_effective_date || '-'}
@@ -169,7 +173,7 @@ const BiodataPegawai = ({ data, employmentType }) => {
         )}
         {!path?.Outsource && (
           <Grid item xs={12} md={4} paddingY={1}>
-            <Typography>Kartu Pegawai</Typography>
+            <Typography>SK Pengangkatan</Typography>
             {data?.employee_id_card ? (
               <Button
                 text='Lihat File'
@@ -189,8 +193,9 @@ const BiodataPegawai = ({ data, employmentType }) => {
               <Typography>Masa Kerja Keseluruhan</Typography>
               <Typography fontWeight='500' marginTop={1}>
                 {data?.years_of_service_total || data?.month_of_service_total
-                  ? `${data?.years_of_service_total || 0} Tahun, ${data?.month_of_service_total || 0
-                  } Bulan`
+                  ? `${data?.years_of_service_total || 0} Tahun, ${
+                      data?.month_of_service_total || 0
+                    } Bulan`
                   : '-'}
               </Typography>
             </Grid>
@@ -198,8 +203,9 @@ const BiodataPegawai = ({ data, employmentType }) => {
               <Typography>Masa Kerja Golongan</Typography>
               <Typography fontWeight='500' marginTop={1}>
                 {data?.years_of_service_rank || data?.month_of_service_rank
-                  ? `${data?.years_of_service_rank || 0} Tahun, ${data?.month_of_service_rank || 0
-                  } Bulan`
+                  ? `${data?.years_of_service_rank || 0} Tahun, ${
+                      data?.month_of_service_rank || 0
+                    } Bulan`
                   : '-'}
               </Typography>
             </Grid>
@@ -301,23 +307,22 @@ const BiodataPegawai = ({ data, employmentType }) => {
             {data?.emergency_contact || '-'}
           </Typography>
         </Grid>
-        {
-          !path?.NonASN && (
-            <Grid item xs={12} md={4} paddingY={1}>
-              <Typography>Batas Usia Pensiun</Typography>
-              <Typography fontWeight='500' marginTop={1}>
-                {`${data?.retirement_age
+        {!path?.NonASN && (
+          <Grid item xs={12} md={4} paddingY={1}>
+            <Typography>Batas Usia Pensiun</Typography>
+            <Typography fontWeight='500' marginTop={1}>
+              {`${
+                data?.retirement_age
                   ? moment(data?.retirement_age, 'DD-MM-YYYY').format(
-                    'MMMM YYYY'
-                  )
+                      'MMMM YYYY'
+                    )
                   : '-'
-                  } - ${data?.retirement_age_years || 0} Tahun`}
-              </Typography>
-            </Grid>
-          )
-        }
-      </Grid >
-    </Paper >
+              } - ${data?.retirement_age_years || 0} Tahun`}
+            </Typography>
+          </Grid>
+        )}
+      </Grid>
+    </Paper>
   )
 }
 

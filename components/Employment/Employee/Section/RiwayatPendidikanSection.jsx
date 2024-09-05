@@ -74,15 +74,15 @@ const RiwayatPendidikanSection = ({ data = [] }) => {
       },
       {
         Header: 'Surat Keterangan Tugas Belajar',
-        width: 300,
-        minWidth: 120,
-        align: 'left'
+        width: 500,
+        minWidth: 180,
+        align: 'center'
       },
       {
         Header: 'Surat Keputusan Pencantuman Gelar',
         width: 300,
-        minWidth: 120,
-        align: 'left'
+        minWidth: 180,
+        align: 'center'
       }
     ],
     []
@@ -183,10 +183,10 @@ const RiwayatPendidikanSection = ({ data = [] }) => {
               {item?.degree_document ? (
                 <Button
                   text='Lihat File'
-                  onClick={() => openInNewTab(item?.degree_document)}
+                  onClick={() => openInNewTab(item?.study_assignment_letter)}
                 />
               ) : (
-                <Typography>?</Typography>
+                <Typography>-</Typography>
               )}
             </>
           )
@@ -200,10 +200,10 @@ const RiwayatPendidikanSection = ({ data = [] }) => {
               {item?.degree_document ? (
                 <Button
                   text='Lihat File'
-                  onClick={() => openInNewTab(item?.degree_document)}
+                  onClick={() => openInNewTab(item?.academic_title_letter)}
                 />
               ) : (
-                <Typography>?</Typography>
+                <Typography>-</Typography>
               )}
             </>
           )
