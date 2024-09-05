@@ -32,7 +32,13 @@ const RiwayatKeluargaSection = ({ data = [] }) => {
         align: 'left'
       },
       {
-        Header: 'Tempat dan Tanggal Lahir',
+        Header: 'Tempat Tinggal',
+        width: 200,
+        minWidth: 130,
+        align: 'left'
+      },
+      {
+        Header: 'Tanggal Lahir',
         width: 200,
         minWidth: 130,
         align: 'left'
@@ -96,10 +102,16 @@ const RiwayatKeluargaSection = ({ data = [] }) => {
           )
         },
         {
-          Header: 'Tempat dan Tanggal Lahir',
+          Header: 'Tempat Lahir',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{`${item?.place_of_birth || '-'}, ${item?.date_of_birth || '-'}`}</Typography>
+          Cell: () => <Typography>{item?.place_of_birth || '-'}</Typography>
+        },
+        {
+          Header: 'Tanggal Lahir',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.date_of_birth || '-'}</Typography>
         },
         {
           Header: 'Hubungan Keluarga',

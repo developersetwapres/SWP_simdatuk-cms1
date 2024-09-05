@@ -25,6 +25,18 @@ const RiwayatPendidikanSection = ({ data = [] }) => {
         align: 'left'
       },
       {
+        Header: 'Wilayah',
+        width: 200,
+        minWidth: 100,
+        align: 'left'
+      },
+      {
+        Header: 'Akreditasi',
+        width: 200,
+        minWidth: 100,
+        align: 'left'
+      },
+      {
         Header: 'Fakultas',
         width: 200,
         minWidth: 100,
@@ -59,6 +71,18 @@ const RiwayatPendidikanSection = ({ data = [] }) => {
         width: 300,
         minWidth: 120,
         align: 'left'
+      },
+      {
+        Header: 'Surat Keterangan Tugas Belajar',
+        width: 300,
+        minWidth: 120,
+        align: 'left'
+      },
+      {
+        Header: 'Surat Keputusan Pencantuman Gelar',
+        width: 300,
+        minWidth: 120,
+        align: 'left'
       }
     ],
     []
@@ -86,10 +110,22 @@ const RiwayatPendidikanSection = ({ data = [] }) => {
           Cell: () => <Typography>{item?.level || '-'}</Typography>
         },
         {
-          Header: 'Nama',
+          Header: 'Nama Sekolah',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.name || '-'}</Typography>
+        },
+        {
+          Header: 'Wilayah',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.area || '-'}</Typography>
+        },
+        {
+          Header: 'Akreditasi',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.accreditation || '-'}</Typography>
         },
         {
           Header: 'Fakultas',
@@ -134,6 +170,40 @@ const RiwayatPendidikanSection = ({ data = [] }) => {
                 />
               ) : (
                 <Typography>-</Typography>
+              )}
+            </>
+          )
+        },
+        {
+          Header: 'Surat Keterangan Tugas Belajar',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => (
+            <>
+              {item?.degree_document ? (
+                <Button
+                  text='Lihat File'
+                  onClick={() => openInNewTab(item?.degree_document)}
+                />
+              ) : (
+                <Typography>?</Typography>
+              )}
+            </>
+          )
+        },
+        {
+          Header: 'Surat Keputusan Pencantuman Gelar',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => (
+            <>
+              {item?.degree_document ? (
+                <Button
+                  text='Lihat File'
+                  onClick={() => openInNewTab(item?.degree_document)}
+                />
+              ) : (
+                <Typography>?</Typography>
               )}
             </>
           )

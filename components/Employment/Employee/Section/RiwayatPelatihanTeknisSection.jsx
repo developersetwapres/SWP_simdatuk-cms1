@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useMemo } from 'react'
-import { Table } from '@/components/shared'
+import { Table, Button } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 
@@ -18,12 +18,12 @@ const PelatihanStrukturalSection = ({ data = [] }) => {
         align: 'left'
       },
       {
-        Header: 'Penyelenggara',
+        Header: 'Tanggal Pelaksanaan',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Tanggal Pelaksanaan',
+        Header: 'Penyelenggara',
         width: 200,
         align: 'left'
       },
@@ -31,10 +31,21 @@ const PelatihanStrukturalSection = ({ data = [] }) => {
         Header: 'Jam Pelajaran',
         width: 200,
         align: 'left'
+      },
+      {
+        Header: 'Sertifikat',
+        width: 200,
+        align: 'left'
       }
     ],
     []
   )
+
+  const openInNewTab = url => {
+    if (!url) return
+
+    window.open(url, '_blank')
+  }
 
   const rows = useMemo(() => {
     const dataMapping = data?.map((item, index) => {
@@ -68,7 +79,25 @@ const PelatihanStrukturalSection = ({ data = [] }) => {
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.duration || '-'}</Typography>
+        },
+        {
+          Header: 'Sertifikat',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => (
+            <>
+              {item?.certificate ? (
+                <Button
+                  text='Lihat File'
+                  onClick={() => openInNewTab(item?.certificate)}
+                />
+              ) : (
+                <Typography>-</Typography>
+              )}
+            </>
+          )
         }
+
       ]
     })
 

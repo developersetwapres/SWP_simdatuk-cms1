@@ -18,7 +18,7 @@ const RiwayatPenghargaanSection = ({ data = [] }) => {
         align: 'left'
       },
       {
-        Header: 'Nomor SK',
+        Header: 'No. SK Penghargaan',
         width: 200,
         align: 'left'
       },
@@ -52,7 +52,7 @@ const RiwayatPenghargaanSection = ({ data = [] }) => {
           Cell: () => <Typography>{item?.recognition_name || '-'}</Typography>
         },
         {
-          Header: 'Nomor SK',
+          Header: 'No. SK Penghargaan',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.decree_number || '-'}</Typography>

@@ -13,7 +13,7 @@ const RiwayatGolonganSection = ({ data = [] }) => {
         align: 'left'
       },
       {
-        Header: 'Golongan',
+        Header: 'Golongan / Pangkat',
         width: 200,
         align: 'left'
       },
@@ -72,7 +72,7 @@ const RiwayatGolonganSection = ({ data = [] }) => {
           Cell: () => <Typography>{index + 1}</Typography>
         },
         {
-          Header: 'Golongan',
+          Header: 'Golongan / Pangkat',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.grade_name || '-'}</Typography>

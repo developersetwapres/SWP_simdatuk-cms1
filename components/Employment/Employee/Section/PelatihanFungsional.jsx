@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useMemo } from 'react'
-import { Table } from '@/components/shared'
+import { Table, Button } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 
@@ -18,12 +18,12 @@ const PelatihanFungsionalSection = ({ data = [] }) => {
         align: 'left'
       },
       {
-        Header: 'Penyelenggara',
+        Header: 'Tanggal Pelaksanaan',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Tanggal Pelaksanaan',
+        Header: 'Penyelenggara',
         width: 200,
         align: 'left'
       },
@@ -31,10 +31,21 @@ const PelatihanFungsionalSection = ({ data = [] }) => {
         Header: 'Jam Pelajaran',
         width: 200,
         align: 'left'
+      },
+      {
+        Header: 'Sertifikat',
+        width: 200,
+        align: 'left'
       }
     ],
     []
   )
+
+  const openInNewTab = url => {
+    if (!url) return
+
+    window.open(url, '_blank')
+  }
 
   const rows = useMemo(() => {
     const dataMapping = data?.map((item, index) => {
@@ -52,23 +63,40 @@ const PelatihanFungsionalSection = ({ data = [] }) => {
           Cell: () => <Typography>{item?.name || '-'}</Typography>
         },
         {
-          Header: 'Penyelenggara',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.organizer || '-'}</Typography>
-        },
-        {
           Header: 'Tanggal Pelaksanaan',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.start_date || '-'}</Typography>
         },
         {
+          Header: 'Penyelenggara',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.organizer || '-'}</Typography>
+        },
+        {
           Header: 'Jam Pelajaran',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.duration || '-'}</Typography>
+        },
+        {
+          Header: 'Sertifikat',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => (
+            <>
+              {
+                item?.certificate ?
+                  <Button
+                    text='Lihat File'
+                    onClick={() => openInNewTab(item?.certificate)}
+                  /> : <Typography>-</Typography>
+              }
+            </>
+          )
         }
+
       ]
     })
 

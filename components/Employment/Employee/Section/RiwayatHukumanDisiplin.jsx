@@ -23,12 +23,12 @@ const RiwayatHukumanDisiplin = ({ data = [] }) => {
         align: 'left'
       },
       {
-        Header: 'Nomor SK',
+        Header: 'No. SK Hukuman Disiplin',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'Tanggal SK',
+        Header: 'Tanggal SK Hukuman Disiplin',
         width: 200,
         align: 'left'
       },
@@ -63,13 +63,13 @@ const RiwayatHukumanDisiplin = ({ data = [] }) => {
           Cell: () => <Typography>{item?.disciplinary_description || '-'}</Typography>
         },
         {
-          Header: 'Nomor SK',
+          Header: 'No. SK Hukuman Disiplin',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.decree_number || '-'}</Typography>
         },
         {
-          Header: 'Tanggal SK',
+          Header: 'Tanggal SK Hukuman Disiplin',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.date_of_decree || '-'}</Typography>

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useMemo } from 'react'
-import { Table } from '@/components/shared'
+import { Table, Button } from '@/components/shared'
 import { Grid, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 import { positionDescOptions } from 'libs/types/options'
@@ -26,17 +26,12 @@ const RiwayatJabatanSection = ({ data = [] }) => {
         align: 'left'
       },
       {
-        Header: 'Nama Jabatan',
+        Header: 'Jabatan',
         width: 200,
         align: 'left'
       },
       {
-        Header: 'TMT Menjabat',
-        width: 200,
-        align: 'left'
-      },
-      {
-        Header: 'SK Menjabat dan Tanggal SK',
+        Header: 'Jenjang Jabatan',
         width: 200,
         align: 'left'
       },
@@ -46,7 +41,22 @@ const RiwayatJabatanSection = ({ data = [] }) => {
         align: 'left'
       },
       {
-        Header: 'Keterangan Eselon',
+        Header: 'TMT Menjabat',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'SK Menjabat',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'SK Jabatan',
+        width: 200,
+        align: 'left'
+      },
+      {
+        Header: 'Tanggal SK Jabatan',
         width: 200,
         align: 'left'
       }
@@ -64,22 +74,16 @@ const RiwayatJabatanSection = ({ data = [] }) => {
           Cell: () => <Typography>{index + 1}</Typography>
         },
         {
-          Header: 'Nama Jabatan',
+          Header: 'Jabatan',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.position || '-'}</Typography>
         },
         {
-          Header: 'TMT Menjabat',
+          Header: 'Jenjang Jabatan',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.effective_date || '-'}</Typography>
-        },
-        {
-          Header: 'SK Menjabat dan Tanggal SK',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.decree || '-'}</Typography>
+          Cell: () => <Typography>{item?.echelon_name || '-'}</Typography>
         },
         {
           Header: 'Keterangan Jabatan',
@@ -92,11 +96,40 @@ const RiwayatJabatanSection = ({ data = [] }) => {
           )
         },
         {
-          Header: 'Keterangan Eselon',
+          Header: 'TMT Menjabat',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.effective_date || '-'}</Typography>
+        },
+        {
+          Header: 'SK Menjabat',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.decree || '-'}</Typography>
+        },
+        {
+          Header: 'SK Jabatan',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => (
-            <Typography>{item?.echelon_name || '-'}</Typography>
+            <>
+              {item?.decree_document ? (
+                <Button
+                  text='Lihat File'
+                  onClick={() => openInNewTab(item?.decree_document)}
+                />
+              ) : (
+                <Typography>-</Typography>
+              )}
+            </>
+          )
+        },
+        {
+          Header: 'Tanggal SK Jabatan',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => (
+            <Typography>{item?.decree_date || '-'}</Typography>
           )
         }
       ]
