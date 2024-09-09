@@ -31,14 +31,14 @@ const TypeForm = ({
   }
 
   return (
-    <CardAccordion title='Riwayat Golongan' isExpand={isExpand}>
+    <CardAccordion title='Riwayat Golongan / Pangkat' isExpand={isExpand}>
       <Grid container spacing={3} sx={{ paddingBottom: '12px' }}>
         {values?.grades &&
           values?.grades.map((itm, idx) => (
             <Grid item container xs={12} spacing={3} key={idx}>
               <Grid item xs={12} sx={{ padding: 0, margin: 0 }}>
                 <HeaderForm
-                  title='Riwayat Golongan'
+                  title='Riwayat Golongan / Pangkat'
                   handleDelete={() => handleDeleteData(idx)}
                 />
               </Grid>

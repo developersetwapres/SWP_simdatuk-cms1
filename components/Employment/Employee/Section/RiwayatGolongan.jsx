@@ -75,7 +75,13 @@ const RiwayatGolonganSection = ({ data = [] }) => {
           Header: 'Golongan / Pangkat',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.grade_name || '-'}</Typography>
+          Cell: () => (
+            <Typography>
+              {item?.grade_name && item?.grade_code
+                ? `${item?.grade_name} ${item?.grade_code}`
+                : '-'}
+            </Typography>
+          )
         },
         {
           Header: 'TMT Golongan',
