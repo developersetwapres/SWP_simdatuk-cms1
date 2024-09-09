@@ -119,11 +119,18 @@ const FormSchema = Yup.object().shape({
           .nullable()
           .test('is-required', 'Jabatan tidak boleh kosong', function (value) {
             const { path } = this
+            const { employmentStatus } = this.parent
 
             const pathParts = path.split('.')
             const index = pathParts[1].match(/\d+/)[0]
 
-            if (!value && index == 0) return false
+            if (
+              !value &&
+              index == 0 &&
+              employmentStatus !== 'Aktif' &&
+              employmentStatus !== 'Aktif Perbantuan Setneg'
+            )
+              return false
 
             return true
           })
@@ -458,7 +465,7 @@ const EmployeeEditComponent = ({
   }, [positions, residence, employmentType])
 
   const handleGetValueID = (type, val) => {
-    if (val || val == 0) {
+    if (val) {
       if (type == 'position') {
         const dataPosition = positions[positions.length - 1]
         const item = dataPosition.find((itm) => itm?.name == val)
@@ -478,7 +485,7 @@ const EmployeeEditComponent = ({
         return index
       }
     } else {
-      return val || ''
+      return ''
     }
   }
 

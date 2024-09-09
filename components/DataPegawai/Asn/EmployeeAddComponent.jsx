@@ -120,11 +120,18 @@ const FormSchema = Yup.object().shape({
           .nullable()
           .test('is-required', 'Jabatan tidak boleh kosong', function (value) {
             const { path } = this
+            const { employmentStatus } = this.parent
 
             const pathParts = path.split('.')
             const index = pathParts[1].match(/\d+/)[0]
 
-            if (!value && index == 0) return false
+            if (
+              !value &&
+              index == 0 &&
+              employmentStatus !== 'Aktif' &&
+              employmentStatus !== 'Aktif Perbantuan Setneg'
+            )
+              return false
 
             return true
           })
@@ -760,7 +767,7 @@ const EmployeeAddComponent = ({
         return index
       }
     } else {
-      return val || ''
+      return ''
     }
   }
 

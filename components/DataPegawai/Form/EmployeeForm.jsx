@@ -55,16 +55,25 @@ const EmployeeForm = ({
   }, [values?.employee])
 
   const isPositions = useMemo(() => {
-    const valuePositions = values?.employee?.positions
+    // const valuePositions = values?.employee?.positions
 
-    if (valuePositions.length > 1) {
-      return values?.employee?.positions
-        .filter((itm) => itm?.name)
-        .every((itm) => itm?.name !== null)
-    }
+    // if (valuePositions.length > 1) {
+    //   return values?.employee?.positions
+    //     .filter((itm) => itm?.name)
+    //     .every((itm) => itm?.name !== null)
+    // }
+
+    // return false
+
+    if (
+      !values?.employee?.employmentStatus ||
+      values?.employee?.employmentStatus == 'Aktif' ||
+      values?.employee?.employmentStatus == 'Aktif Perbantuan Setneg'
+    )
+      return true
 
     return false
-  }, [values?.employee?.positions])
+  }, [values?.employee?.employmentStatus])
 
   useEffect(() => {
     const datas = values?.employee?.positions || []
@@ -77,6 +86,10 @@ const EmployeeForm = ({
       setFieldValue(`employee.positions`, newValues, false)
     }
   }, [values?.employee?.positions])
+
+  useEffect(() => {
+    console.log('values?.employee', values?.employee)
+  }, [values?.employee])
 
   return (
     <CardAccordion
@@ -424,7 +437,7 @@ const EmployeeForm = ({
                 <Autocomplete
                   options={options?.positions[idx] || []}
                   placeholder='Pilih Jabatan'
-                  label={idx == 0 ? 'Jabatan *' : null}
+                  label={idx == 0 ? `Jabatan ${isPositions ? '*' : ''}` : null}
                   name={`employee.positions[${idx}].name`}
                   value={itm?.name}
                   error={
@@ -840,8 +853,9 @@ const EmployeeForm = ({
                 val == 'Aktif' ||
                 val == 'Aktif Perbantuan Setneg' ||
                 val == 'Hukuman Disiplin'
-              )
+              ) {
                 setFieldValue('employee.lastDateOfWork', '', false)
+              }
             }}
           />
         </Grid>
