@@ -36,6 +36,14 @@ const RiwayatPelatihanFungsionalForm = ({
     }
   }
 
+  const handleGetError = (value) => {
+    if (value?.to) {
+      return value?.to
+    } else {
+      return value
+    }
+  }
+
   return (
     <Form>
       <Grid container spacing={3}>
@@ -122,13 +130,14 @@ const RiwayatPelatihanFungsionalForm = ({
         </Grid>
         {/* Jenjang */}
         <Grid item xs={6}>
-          <Input
+          <Autocomplete
             label='Jenjang'
-            placeholder='Masukkan Jenjang'
+            placeholder='Pilih Jenjang'
+            options={options?.level}
             name='jenjang'
+            multiple={false}
             value={values?.jenjang}
-            onChange={(e) => {
-              const val = e?.target?.value
+            onChange={(val) => {
               setFieldValue(`jenjang`, val, false)
             }}
             error={errors?.jenjang}
@@ -137,11 +146,16 @@ const RiwayatPelatihanFungsionalForm = ({
         {/* Tanggal Pelaksanan */}
         <Grid item xs={6}>
           <DatePickerDay
+            mode='range'
             value={values?.tanggalPelaksanaan}
             name='tanggalPelaksanaan'
             label='Tanggal Pelaksanaan *'
             placeholder='dd-mm-yy'
-            error={errors?.tanggalPelaksanaan}
+            error={
+              errors?.tanggalPelaksanaan
+                ? handleGetError(errors?.tanggalPelaksanaan)
+                : null
+            }
             onChange={(val) => {
               setFieldValue(`tanggalPelaksanaan`, val, false)
               setTimeout(() => {
@@ -155,8 +169,8 @@ const RiwayatPelatihanFungsionalForm = ({
           <Input
             type='number'
             inputProps={{ min: '0' }}
-            label='Durasi Pelatihan (Hari)'
-            placeholder='Masukkan Durasi Pelatihan (Hari)'
+            label='Jam Pelajaran'
+            placeholder='Masukkan Jam Pelajaran'
             name='durasi'
             value={values?.durasi}
             onChange={(e) => {

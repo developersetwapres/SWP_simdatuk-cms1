@@ -12,7 +12,8 @@ export default connect(
     'getTraining',
     'updateTraining',
     'clearTrainingState',
-    'getEmployees'
+    'getEmployees',
+    'getLevels',
   )
 )(
   class RiwayatPelatihanFungsionalEditContainer extends Component {
@@ -22,7 +23,8 @@ export default connect(
       getTraining: PropTypes.func,
       updateTraining: PropTypes.func,
       clearTrainingState: PropTypes.func,
-      getEmployees: PropTypes.func
+      getEmployees: PropTypes.func,
+      getLevels: PropTypes.func
     }
 
     constructor(props) {
@@ -33,6 +35,12 @@ export default connect(
           limit: '',
           search: ''
         },
+        optionsQueries: {
+          page: 1,
+          limit: 999,
+          search: '',
+          type: 2
+        },
         willRender: false
       }
       this.fetch = this.fetch.bind(this)
@@ -41,6 +49,7 @@ export default connect(
 
     fetch(queries) {
       this.props.getEmployees(queries)
+      this.props.getLevels(this.state.optionsQueries)
     }
 
     setLoading(val) {

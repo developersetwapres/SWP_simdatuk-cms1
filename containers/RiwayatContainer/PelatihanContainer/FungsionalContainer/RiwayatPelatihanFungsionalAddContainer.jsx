@@ -8,14 +8,15 @@ import RiwayatPelatihanFungsionalAddComponent from '@/components/Riwayat/Pelatih
 
 export default connect(
   mapStateToProps('training', 'employee'),
-  mapActions('postTraining', 'getEmployees')
+  mapActions('postTraining', 'getEmployees', 'getLevels')
 )(
   class RiwayatPelatihanFungsionalAddContainer extends Component {
     static propTypes = {
       training: PropTypes.object,
       employee: PropTypes.object,
       postTraining: PropTypes.func,
-      getEmployees: PropTypes.func
+      getEmployees: PropTypes.func,
+      getLevels: PropTypes.func
     }
 
     constructor(props) {
@@ -26,6 +27,12 @@ export default connect(
           limit: '',
           search: ''
         },
+        optionsQueries: {
+          page: 1,
+          limit: 999,
+          search: '',
+          type: 2
+        },
         willRender: false
       }
       this.fetch = this.fetch.bind(this)
@@ -34,6 +41,7 @@ export default connect(
 
     fetch(queries) {
       this.props.getEmployees(queries)
+      this.props.getLevels(this.state.optionsQueries)
     }
 
     setLoading(val) {
