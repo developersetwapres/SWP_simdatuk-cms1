@@ -16,6 +16,18 @@ export const getTrainingsAction = (payload) => {
 }
 
 /**
+ * GET Levels
+ *
+ * @param {*} payload
+ * @returns
+ */
+export const getLevelsAction = (payload) => {
+  const { page, limit, search, type } = payload
+  const moreParams = type ? `&type=${type}` : ''
+  return get(`${basePath}/levels${queryParams(page, limit, search)}${moreParams}`)
+}
+
+/**
  * Get Training detail
  *
  * @param {*} id

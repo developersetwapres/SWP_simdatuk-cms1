@@ -3,6 +3,9 @@ import {
   GET_TRAININGS_REQUESTED,
   GET_TRAININGS_SUCCESS,
   GET_TRAININGS_FAILED,
+  GET_LEVELS_REQUESTED,
+  GET_LEVELS_SUCCESS,
+  GET_LEVELS_FAILED,
   GET_TRAINING_REQUESTED,
   GET_TRAINING_SUCCESS,
   GET_TRAINING_FAILED,
@@ -24,7 +27,8 @@ const initialState = {
   error: null,
   detail: {},
   pagination: {},
-  data: []
+  data: [],
+  levels: []
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -45,6 +49,23 @@ export const training = (state = initialState, action) => {
         pagination: payload?.pagination
       }
     case GET_TRAININGS_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: payload?.error
+      }
+    case GET_LEVELS_REQUESTED:
+      return {
+        ...state,
+        loading: true
+      }
+    case GET_LEVELS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        levels: payload?.data
+      }
+    case GET_LEVELS_FAILED:
       return {
         ...state,
         loading: false,

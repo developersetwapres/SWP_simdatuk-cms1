@@ -12,6 +12,9 @@ import {
   GET_TRAINING_REQUESTED,
   GET_TRAINING_SUCCESS,
   GET_TRAINING_FAILED,
+  GET_LEVELS_REQUESTED,
+  GET_LEVELS_SUCCESS,
+  GET_LEVELS_FAILED,
   POST_TRAINING_REQUESTED,
   POST_TRAINING_SUCCESS,
   POST_TRAINING_FAILED,
@@ -28,10 +31,55 @@ import {
   deleteTrainingAction,
   getTrainingAction,
   getTrainingsAction,
+  getLevelsAction,
   postTrainingAction,
   updateTrainingAction
 } from '../action/histories/trainingAction'
 import Router from 'next/router'
+
+/**
+ * Get Levels
+ *
+ * @param {*} action
+ * @returns
+ */
+function* getLevels(action) {
+  try {
+    const res = yield call(getLevelsAction, action?.payload)
+    const payload = res?.data
+
+    yield put({
+      type: GET_LEVELS_SUCCESS,
+      payload
+    })
+  } catch (err) {
+    const errors = err?.data
+
+    if ([403, 401].includes(errors?.code)) {
+      yield put({
+        type: ACTION_RESPONSER,
+        payload: {
+          code: errors?.code,
+          message: errors?.message,
+          redirect: '/profile'
+        }
+      })
+    } else {
+      yield put({
+        type: SET_MODAL,
+        payload: {
+          code: errors?.code,
+          message: 'Warning!',
+          childMessage: errors?.message
+        }
+      })
+      yield put({
+        type: GET_LEVELS_FAILED,
+        payload: errors?.message
+      })
+    }
+  }
+}
 
 /**
  * Get Trainings
@@ -42,7 +90,6 @@ import Router from 'next/router'
 function* getTrainings(action) {
   try {
     const res = yield call(getTrainingsAction, action?.payload)
-
     const payload = res?.data
 
     yield put({
@@ -51,7 +98,8 @@ function* getTrainings(action) {
     })
   } catch (err) {
     const errors = err?.data
-    if (errors?.code === 403) {
+
+    if ([403, 401].includes(errors?.code)) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {
@@ -61,25 +109,18 @@ function* getTrainings(action) {
         }
       })
     } else {
-      if (errors?.code === 400) {
-        yield put({
-          type: CATCH_ERROR,
-          payload: errors?.message
-        })
-      } else {
-        yield put({
-          type: SET_MODAL,
-          payload: {
-            code: errors?.code,
-            message: 'Warning!',
-            childMessage: errors?.message
-          }
-        })
-        yield put({
-          type: GET_TRAININGS_FAILED,
-          payload: errors?.message
-        })
-      }
+      yield put({
+        type: SET_MODAL,
+        payload: {
+          code: errors?.code,
+          message: 'Warning!',
+          childMessage: errors?.message
+        }
+      })
+      yield put({
+        type: GET_TRAININGS_FAILED,
+        payload: errors?.message
+      })
     }
   }
 }
@@ -93,7 +134,6 @@ function* getTrainings(action) {
 function* getTraining(action) {
   try {
     const res = yield call(getTrainingAction, action?.payload)
-
     const payload = res?.data
 
     yield put({
@@ -103,7 +143,7 @@ function* getTraining(action) {
   } catch (err) {
     const errors = err?.data
 
-    if (errors?.code === 403) {
+    if ([403, 401].includes(errors?.code)) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {
@@ -306,6 +346,7 @@ function* updateTraining(action) {
 }
 
 function* trainingSaga() {
+  yield takeEvery(GET_LEVELS_REQUESTED, getLevels)
   yield takeEvery(GET_TRAININGS_REQUESTED, getTrainings)
   yield takeEvery(GET_TRAINING_REQUESTED, getTraining)
   yield takeEvery(DELETE_TRAINING_REQUESTED, deleteTraining)

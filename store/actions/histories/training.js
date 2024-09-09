@@ -1,4 +1,5 @@
 import {
+  GET_LEVELS_REQUESTED,
   GET_TRAININGS_REQUESTED,
   GET_TRAINING_REQUESTED,
   POST_TRAINING_REQUESTED,
@@ -15,6 +16,17 @@ import {
  */
 export const getTrainings = (payload) => ({
   type: GET_TRAININGS_REQUESTED,
+  payload
+})
+
+/**
+ * Get Levels
+ *
+ * @param {*} payload
+ * @returns
+ */
+export const getLevels = (payload) => ({
+  type: GET_LEVELS_REQUESTED,
   payload
 })
 
