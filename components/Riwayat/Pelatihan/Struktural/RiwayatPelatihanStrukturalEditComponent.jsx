@@ -16,7 +16,7 @@ import { monthOptions } from 'libs/types/options'
 const InitValue = {
   namaDiklat: '',
   noSurat: '',
-  jenjang: '',
+  jenjang: null,
   tanggalPelaksanaan: '',
   penyelenggara: '',
   durasi: 0,
@@ -70,10 +70,10 @@ const FormSchema = Yup.object().shape({
 const RiwayatPelatihanStrukturalEditComponent = ({
   training,
   employee,
-  getTraining = () => {},
-  updateTraining = () => {},
-  clearTrainingState = () => {},
-  onLoading = () => {}
+  getTraining = () => { },
+  updateTraining = () => { },
+  clearTrainingState = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -85,11 +85,23 @@ const RiwayatPelatihanStrukturalEditComponent = ({
     })
     const data = {
       month: monthOptions || [],
-      employee: newEmployees || []
+      employee: newEmployees || [],
+      level: training?.levels?.map(i => i?.level_name) || []
     }
 
     return data
   }, [employee])
+
+  const getOptionsId = (value, type) => {
+    if (type === 'levels') {
+      return training
+        ?.levels
+        ?.find(item => item?.level_name === value)
+        ?.id
+    }
+
+    return ''
+  }
 
   const handleGetValue = (value, type) => {
     if (type == 'employee') {
@@ -123,7 +135,7 @@ const RiwayatPelatihanStrukturalEditComponent = ({
         moment(values?.periode?.tahun).format('YYYY')
       )
       formData.append('reference_number', values?.noSurat)
-      formData.append('level', values?.jenjang || '')
+      formData.append('level', getOptionsId(values?.jenjang || '', 'levels'))
       formData.append(
         'start_date',
         moment(values?.tanggalPelaksanaan).format('YYYY-MM-DD')
@@ -231,7 +243,7 @@ const RiwayatPelatihanStrukturalEditComponent = ({
       const filledValues = {
         namaDiklat: detail?.name,
         noSurat: detail?.reference_number,
-        jenjang: detail?.level,
+        jenjang: detail?.level_name,
         tanggalPelaksanaan: startDate,
         penyelenggara: detail?.organizer,
         durasi: detail?.duration,
@@ -252,7 +264,7 @@ const RiwayatPelatihanStrukturalEditComponent = ({
       innerRef={formikRef}
       initialValues={formValues}
       validationSchema={FormSchema}
-      onSubmit={() => {}}
+      onSubmit={() => { }}
     >
       {(formikProps) => (
         <LayoutPages

@@ -122,13 +122,14 @@ const RiwayatPelatihanStrukturalForm = ({
         </Grid>
         {/* Jenjang */}
         <Grid item xs={6}>
-          <Input
+          <Autocomplete
             label='Jenjang'
-            placeholder='Masukkan Jenjang'
+            placeholder='Pilih Jenjang'
+            options={options?.level}
             name='jenjang'
+            multiple={false}
             value={values?.jenjang}
-            onChange={(e) => {
-              const val = e?.target?.value
+            onChange={(val) => {
               setFieldValue(`jenjang`, val, false)
             }}
             error={errors?.jenjang}
