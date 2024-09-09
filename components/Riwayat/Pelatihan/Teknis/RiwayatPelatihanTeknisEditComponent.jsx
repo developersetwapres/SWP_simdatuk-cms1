@@ -41,9 +41,12 @@ const FormSchema = Yup.object().shape({
     tahun: Yup.string().required('Tahun tidak boleh kosong')
   }),
   noSurat: Yup.string().required('No Surat Perintah tidak boleh kosong'),
-  tanggalPelaksanaan: Yup.string().required(
-    'Tanggal Pelaksanaan tidak boleh kosong'
-  ),
+  tanggalPelaksanaan: Yup.object()
+    .shape({
+      from: Yup.string().required('Pilih tanggal awal'),
+      to: Yup.string().required('Pilih tanggal akhir')
+    })
+    .required('Tanggal Pelaksanaan tidak boleh kosong'),
   pegawai: Yup.array().of(
     Yup.object().shape({
       nama: Yup.string().required('Nama Pegawai tidak boleh kosong'),
@@ -71,10 +74,10 @@ const FormSchema = Yup.object().shape({
 const RiwayatPelatihanTeknisEditComponent = ({
   training,
   employee,
-  getTraining = () => {},
-  updateTraining = () => {},
-  clearTrainingState = () => {},
-  onLoading = () => {}
+  getTraining = () => { },
+  updateTraining = () => { },
+  clearTrainingState = () => { },
+  onLoading = () => { }
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -277,9 +280,9 @@ const RiwayatPelatihanTeknisEditComponent = ({
         tanggalPelaksanaan:
           detail?.start_date && detail?.end_date
             ? {
-                from: startDate,
-                to: endDate
-              }
+              from: startDate,
+              to: endDate
+            }
             : null,
         durasi: detail?.duration,
         materi: detail?.link,
@@ -301,7 +304,7 @@ const RiwayatPelatihanTeknisEditComponent = ({
       innerRef={formikRef}
       initialValues={formValues}
       validationSchema={FormSchema}
-      onSubmit={() => {}}
+      onSubmit={() => { }}
     >
       {(formikProps) => (
         <LayoutPages
