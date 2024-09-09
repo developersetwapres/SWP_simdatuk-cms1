@@ -96,7 +96,7 @@ const RiwayatHukumanDisiplinForm = ({
         <Grid item xs={6}>
           <Input
             label='Nama Riwayat Hukuman Disiplin *'
-            placeholder='Masukkan Nama Riwayat HukumanDisiplin'
+            placeholder='Masukkan Nama Riwayat Hukuman Disiplin'
             name='namaHukumanDisiplin'
             value={values?.namaHukumanDisiplin}
             error={errors?.namaHukumanDisiplin}
