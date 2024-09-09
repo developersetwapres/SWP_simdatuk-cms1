@@ -387,7 +387,7 @@ function* getEmployee(action) {
 }
 
 /**
- * Delete banner
+ * Delete employee
  *
  * @param {*} action
  * @returns
@@ -406,7 +406,7 @@ function* deleteEmployee(action) {
     yield put({
       type: SET_MODAL,
       payload: {
-        code: res?.data?.meta?.code,
+        code: payload?.code,
         message: 'Pegawai berhasil dihapus',
         redirect: 'refresh'
       }
@@ -418,8 +418,8 @@ function* deleteEmployee(action) {
       yield put({
         type: ACTION_RESPONSER,
         payload: {
-          code: err?.data?.meta?.code,
-          message: err?.data?.meta?.message,
+          code: status?.code,
+          message: status?.message,
           redirect: '/profile'
         }
       })
