@@ -110,9 +110,9 @@ const FormSchema = Yup.object().shape({
     employmentType: Yup.string().required(
       'Jenis Outsourcing tidak boleh kosong'
     ),
-    dateStartedWork: Yup.string().required(
-      'Tanggal Mulai Bekerja tidak boleh kosong'
-    ),
+    // dateStartedWork: Yup.string().required(
+    //   'Tanggal Mulai Bekerja tidak boleh kosong'
+    // ),
     positions: Yup.array().of(
       Yup.object().shape({
         name: Yup.mixed()
