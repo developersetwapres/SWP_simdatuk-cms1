@@ -54,17 +54,18 @@ import RiwayatCredit from './Section/RiwayatCredit'
 
 const EmployeeDetailComponent = ({
   employee,
+  training,
   exportEmployeeData,
   employmentType,
   position,
-  getEmployee = () => {},
-  getPosition = () => {},
-  updateNotesByUserID = () => {},
-  updateEmployeeStatus = () => {},
-  clearEmployeeState = () => {},
-  exportEmployeeDetail = () => {},
-  setRender = () => {},
-  clearPositionState = () => {}
+  getEmployee = () => { },
+  getPosition = () => { },
+  updateNotesByUserID = () => { },
+  updateEmployeeStatus = () => { },
+  clearEmployeeState = () => { },
+  exportEmployeeDetail = () => { },
+  setRender = () => { },
+  clearPositionState = () => { }
 }) => {
   const router = useRouter()
   const sectionRef = useRef(null)
@@ -87,6 +88,8 @@ const EmployeeDetailComponent = ({
       if (type == 'education') return options?.educationLevel[val]
 
       if (type == 'education_status') return options?.educationStatus[val]
+
+      if (type == 'structurals') return options?.educationStatus[val]
 
       return options[type][val]
     } else {
@@ -129,11 +132,12 @@ const EmployeeDetailComponent = ({
       educationLevel: employeeEducationLevelOptions,
       educationStatus: educationStatusOptions,
       relationshipStatus: relationshipStatusOptions,
-      studyArea: studyAreaOptions
+      studyArea: studyAreaOptions,
+      levels: training?.levels || []
     }
 
     return dataOptions
-  }, [])
+  }, [training])
 
   const data = useMemo(() => {
     const detailEmployee = employee?.detail
@@ -162,20 +166,27 @@ const EmployeeDetailComponent = ({
           ? detailEmployee?.education_level - 1
           : null
       ),
+      structurals: detailEmployee?.structurals?.map((item) => ({
+        ...item,
+        level: options
+          ?.levels
+          ?.find(l => l?.id === item?.level)
+          ?.level_name
+      })),
       educations: !!detailEmployee?.educations?.length
         ? [
-            ...detailEmployee?.educations?.map((i) => ({
-              ...i,
-              level: getValue('education', i?.level - 1),
-              status: getValue('education_status', i?.status - 1),
-              area: getValue('studyArea', i?.study_area - 1)
-            }))
-          ]
+          ...detailEmployee?.educations?.map((i) => ({
+            ...i,
+            level: getValue('education', i?.level - 1),
+            status: getValue('education_status', i?.status - 1),
+            area: getValue('studyArea', i?.study_area - 1)
+          }))
+        ]
         : []
     }
 
     return payload
-  }, [employee])
+  }, [employee, options])
 
   const titleSummary = useMemo(() => {
     if (router?.pathname.includes('data-pegawai')) {
@@ -183,8 +194,8 @@ const EmployeeDetailComponent = ({
         ? data?.type == 1
           ? 'ASN'
           : data?.type == 2
-          ? 'Non ASN'
-          : 'Outsourcing'
+            ? 'Non ASN'
+            : 'Outsourcing'
         : ''
 
       return `Detail Pegawai ${type} ${data?.employmentStatus || ''}`
@@ -667,6 +678,7 @@ const EmployeeDetailComponent = ({
 
 EmployeeDetailComponent.propTypes = {
   employee: PropTypes.object,
+  training: PropTypes.object,
   exportEmployeeData: PropTypes.object,
   employmentType: PropTypes.object,
   position: PropTypes.object,

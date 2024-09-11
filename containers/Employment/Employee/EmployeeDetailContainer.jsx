@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 export default connect(
   mapStateToProps(
     'employee',
+    'training',
     'exportEmployeeData',
     'notes',
     'employmentType',
@@ -22,12 +23,14 @@ export default connect(
     'updateNotesByUserID',
     'getEmploymentTypes',
     'getPosition',
-    'clearPositionState'
+    'clearPositionState',
+    'getLevels',
   )
 )(
   class EmployeeDetailContainers extends React.Component {
     static propTypes = {
       employee: PropTypes.object,
+      training: PropTypes.object,
       exportEmployeeData: PropTypes.object,
       notes: PropTypes.object,
       employmentType: PropTypes.object,
@@ -39,6 +42,7 @@ export default connect(
       updateNotesByUserID: PropTypes.func,
       getEmploymentTypes: PropTypes.func,
       getPosition: PropTypes.func,
+      getLevels: PropTypes.func,
       clearPositionState: PropTypes.func
     }
 
@@ -58,6 +62,12 @@ export default connect(
 
     fetch(queries) {
       this.props.getEmploymentTypes({ ...queries, type: '' })
+      this.props.getLevels({
+        page: 1,
+        limit: 9999,
+        search: '',
+        type: 1
+      })
     }
 
     setRender(val) {

@@ -7,13 +7,14 @@ import Layout from '@/components/core/Layout'
 import EmployeeDetailComponent from '@/components/Employment/Employee/EmployeeDetailComponent'
 
 export default connect(
-  mapStateToProps('employee', 'institution', 'exportEmployeeData'),
+  mapStateToProps('employee', 'institution', 'exportEmployeeData', 'training'),
   mapActions(
     'updateEmployee',
     'getEmployee',
     'clearEmployeeState',
     'getInstitutionsOptions',
-    'exportEmployeeDetail'
+    'exportEmployeeDetail',
+    'getLevels',
   )
 )(
   class RiwayatPPKDetailPegawaiContainer extends Component {
@@ -23,7 +24,8 @@ export default connect(
       clearEmployeeState: PropTypes.func,
       getInstitutionsOptions: PropTypes.func,
       exportEmployeeData: PropTypes.object,
-      exportEmployeeDetail: PropTypes.func
+      exportEmployeeDetail: PropTypes.func,
+      getLevels: PropTypes.func
     }
 
     constructor(props) {
@@ -46,6 +48,12 @@ export default connect(
 
     fetch(queries) {
       this.props.getInstitutionsOptions(queries)
+      this.props.getLevels({
+        page: 1,
+        limit: 9999,
+        search: '',
+        type: 1
+      })
     }
 
     componentDidMount() {

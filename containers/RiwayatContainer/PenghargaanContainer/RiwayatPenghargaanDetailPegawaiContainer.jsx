@@ -7,24 +7,27 @@ import Layout from '@/components/core/Layout'
 import EmployeeDetailComponent from '@/components/Employment/Employee/EmployeeDetailComponent'
 
 export default connect(
-  mapStateToProps('employee', 'institution', 'exportEmployeeData'),
+  mapStateToProps('employee', 'institution', 'exportEmployeeData', 'training'),
   mapActions(
     'updateEmployee',
     'getEmployee',
     'clearEmployeeState',
     'getInstitutionsOptions',
-    'exportEmployeeDetail'
+    'exportEmployeeDetail',
+    'getLevels',
   )
 )(
   class RiwayatPenghargaanDetailPegawaiContainer extends Component {
     static propTypes = {
       employee: PropTypes.object,
+      training: PropTypes.object,
       residence: PropTypes.object,
       getEmployee: PropTypes.func,
       getInstitutionsOptions: PropTypes.func,
       clearEmployeeState: PropTypes.func,
       exportEmployeeData: PropTypes.object,
-      exportEmployeeDetail: PropTypes.func
+      exportEmployeeDetail: PropTypes.func,
+      getLevels: PropTypes.func
     }
 
     constructor(props) {
@@ -47,6 +50,12 @@ export default connect(
 
     fetch(queries) {
       this.props.getInstitutionsOptions(queries)
+      this.props.getLevels({
+        page: 1,
+        limit: 9999,
+        search: '',
+        type: 1
+      })
     }
 
     componentDidMount() {
