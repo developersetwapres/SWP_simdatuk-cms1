@@ -33,6 +33,11 @@ const PelatihanStrukturalSection = ({ data = [] }) => {
         align: 'left'
       },
       {
+        Header: 'Keterangan',
+        width: 200,
+        align: 'left'
+      },
+      {
         Header: 'Jam Pelajaran',
         width: 200,
         align: 'left'
@@ -84,6 +89,12 @@ const PelatihanStrukturalSection = ({ data = [] }) => {
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.organizer || '-'}</Typography>
+        },
+        {
+          Header: 'Keterangan',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.description || '-'}</Typography>
         },
         {
           Header: 'Jam Pelajaran',
