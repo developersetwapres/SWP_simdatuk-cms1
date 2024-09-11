@@ -23,8 +23,8 @@ export const getTrainingsAction = (payload) => {
  */
 export const getLevelsAction = (payload) => {
   const { page, limit, search, type } = payload
-  const moreParams = type ? `&type=${type}` : ''
-  return get(`${basePath}/levels${queryParams(page, limit, search)}${moreParams}`)
+  const typeParam = type === 1 ? 'structural' : 'functional'
+  return get(`${basePath}/levels/${typeParam}${queryParams(page, limit, search)}`)
 }
 
 /**
