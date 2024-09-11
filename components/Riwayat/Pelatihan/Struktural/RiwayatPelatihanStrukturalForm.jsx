@@ -36,6 +36,14 @@ const RiwayatPelatihanStrukturalForm = ({
     }
   }
 
+  const handleGetError = (value) => {
+    if (value?.to) {
+      return value?.to
+    } else {
+      return value
+    }
+  }
+
   return (
     <Form>
       <Grid container spacing={3}>
@@ -138,11 +146,16 @@ const RiwayatPelatihanStrukturalForm = ({
         {/* Tanggal Pelaksanan */}
         <Grid item xs={6}>
           <DatePickerDay
+            mode='range'
             value={values?.tanggalPelaksanaan}
             name='tanggalPelaksanaan'
             label='Tanggal Pelaksanaan *'
-            placeholder='dd-mm-yyyy'
-            error={errors?.tanggalPelaksanaan}
+            placeholder='dd-mm-yyyy - dd-mm-yyyy'
+            error={
+              errors?.tanggalPelaksanaan
+                ? handleGetError(errors?.tanggalPelaksanaan)
+                : null
+            }
             onChange={(val) => {
               setFieldValue(`tanggalPelaksanaan`, val, false)
               setTimeout(() => {

@@ -17,7 +17,7 @@ const InitValue = {
   namaDiklat: '',
   noSurat: '',
   jenjang: null,
-  tanggalPelaksanaan: '',
+  tanggalPelaksanaan: null,
   penyelenggara: '',
   durasi: 0,
   materi: '',
@@ -41,9 +41,12 @@ const FormSchema = Yup.object().shape({
     tahun: Yup.string().required('Tahun tidak boleh kosong')
   }),
   noSurat: Yup.string().required('No Surat Perintah tidak boleh kosong'),
-  tanggalPelaksanaan: Yup.string().required(
-    'Tanggal Pelaksanaan tidak boleh kosong'
-  ),
+  tanggalPelaksanaan: Yup.object()
+    .shape({
+      from: Yup.string().required('Pilih tanggal awal'),
+      to: Yup.string().required('Pilih tanggal akhir')
+    })
+    .required('Tanggal Pelaksanaan tidak boleh kosong'),
   pegawai: Yup.array().of(
     Yup.object().shape({
       nama: Yup.string().required('Nama Pegawai tidak boleh kosong'),
@@ -118,6 +121,12 @@ const RiwayatPelatihanStrukturalEditComponent = ({
     }
   }
 
+  const handleFormatDate = (value, format) => {
+    if (value) return moment(value).format(format)
+
+    return ''
+  }
+
   const handleSubmit = async (values) => {
     try {
       await FormSchema.validate(values, { abortEarly: false })
@@ -139,7 +148,11 @@ const RiwayatPelatihanStrukturalEditComponent = ({
       formData.append('level', getOptionsId(values?.jenjang || '', 'levels'))
       formData.append(
         'start_date',
-        moment(values?.tanggalPelaksanaan).format('YYYY-MM-DD')
+        handleFormatDate(values?.tanggalPelaksanaan?.from, 'YYYY-MM-DD')
+      )
+      formData.append(
+        'end_date',
+        handleFormatDate(values?.tanggalPelaksanaan?.to, 'YYYY-MM-DD')
       )
       formData.append('duration', values?.durasi || 0)
       formData.append('organizer', values?.penyelenggara || '')
@@ -222,7 +235,12 @@ const RiwayatPelatihanStrukturalEditComponent = ({
           ? new Date(detail?.period_year, detail?.period_month - 1)
           : null
       const periodMonth = monthOptions[detail?.period_month - 1] || null
-      const startDate = detail?.start_date ? new Date(detail?.start_date) : ''
+      const startDate = detail?.start_date
+        ? moment(detail?.start_date, moment.ISO_8601).toDate()
+        : ''
+      const endDate = detail?.end_date
+        ? moment(detail?.end_date, moment.ISO_8601).toDate()
+        : ''
 
       const employees = detail?.users?.map((itm) => {
         let fileSplit = null
@@ -246,7 +264,12 @@ const RiwayatPelatihanStrukturalEditComponent = ({
         namaDiklat: detail?.name,
         noSurat: detail?.reference_number,
         jenjang: detail?.level_name,
-        tanggalPelaksanaan: startDate,
+        tanggalPelaksanaan: detail?.start_date && detail?.end_date
+          ? {
+            from: startDate,
+            to: endDate
+          }
+          : null,
         penyelenggara: detail?.organizer,
         durasi: detail?.duration,
         description: detail?.description,
