@@ -18,7 +18,7 @@ function DatePickerDay({
   error,
   fullWidth = false,
   mode = 'single',
-  onChange = () => {},
+  onChange = () => { },
   ...other
 }) {
   const [open, setOpen] = useState(false)
@@ -69,9 +69,7 @@ function DatePickerDay({
           value={
             valueDate
               ? mode == 'range'
-                ? `${formatDate(valueDate?.from)} - ${formatDate(
-                    valueDate?.to
-                  )}`
+                ? `${formatDate(valueDate?.from)} - ${formatDate(valueDate?.to)}`
                 : formatDate(valueDate)
               : ''
           }

@@ -170,6 +170,8 @@ export const dateTimeFormat = (date = '', subtract = null) => {
  * @returns
  */
 export const formatDate = (date) => {
+  if (!date) return ''
+
   let d = new Date(date),
     month = '' + (d.getMonth() + 1),
     day = '' + d.getDate(),

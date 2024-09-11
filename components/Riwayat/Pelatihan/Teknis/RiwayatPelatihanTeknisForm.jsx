@@ -134,7 +134,7 @@ const RiwayatPelatihanTeknisForm = ({
             mode='range'
             name='tanggalPelaksanaan'
             label='Tanggal Pelaksanaan *'
-            placeholder='dd-mm-yyyy'
+            placeholder='dd-mm-yyyy - dd-mm-yyyy'
             value={values?.tanggalPelaksanaan}
             error={
               errors?.tanggalPelaksanaan
@@ -169,16 +169,13 @@ const RiwayatPelatihanTeknisForm = ({
             label='Rumpun Pelatihan'
             placeholder='Pilih Rumpun Pelatihan'
             options={options?.groups}
-            name='periode.bulan'
+            name='rumpun'
             multiple={false}
-            value={values?.periode?.bulan}
+            value={values?.rumpun}
             onChange={(val) => {
-              setFieldValue(`periode.bulan`, val, false)
-              setTimeout(() => {
-                formikRef?.current?.validateField(`periode.bulan`)
-              }, 1)
+              setFieldValue(`rumpun`, val, false)
             }}
-            error={errors?.periode?.bulan}
+            error={errors?.rumpun}
           />
         </Grid>
         {/* Durasi Pelatihan */}

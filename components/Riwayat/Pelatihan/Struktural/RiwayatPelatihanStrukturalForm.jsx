@@ -141,7 +141,7 @@ const RiwayatPelatihanStrukturalForm = ({
             value={values?.tanggalPelaksanaan}
             name='tanggalPelaksanaan'
             label='Tanggal Pelaksanaan *'
-            placeholder='dd-mm-yy'
+            placeholder='dd-mm-yyyy'
             error={errors?.tanggalPelaksanaan}
             onChange={(val) => {
               setFieldValue(`tanggalPelaksanaan`, val, false)

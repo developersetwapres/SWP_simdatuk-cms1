@@ -150,7 +150,7 @@ const RiwayatPelatihanFungsionalForm = ({
             value={values?.tanggalPelaksanaan}
             name='tanggalPelaksanaan'
             label='Tanggal Pelaksanaan *'
-            placeholder='dd-mm-yy'
+            placeholder='dd-mm-yyyy - dd-mm-yyyy'
             error={
               errors?.tanggalPelaksanaan
                 ? handleGetError(errors?.tanggalPelaksanaan)
