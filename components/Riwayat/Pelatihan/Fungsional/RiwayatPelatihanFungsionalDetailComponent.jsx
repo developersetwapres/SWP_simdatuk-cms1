@@ -255,7 +255,7 @@ const RiwayatPelatihanFungsionalDetailComponent = ({
             <Grid item xs={6}>
               <Box sx={styles?.wrapperItem}>
                 <Typography>Jenjang</Typography>
-                <Typography sx={styles?.font}>{data?.level || '-'}</Typography>
+                <Typography sx={styles?.font}>{data?.level_name || '-'}</Typography>
               </Box>
             </Grid>
             {/* Tanggal Pelaksanaan */}

@@ -251,7 +251,7 @@ const RiwayatPelatihanStrukturalDetailComponent = ({
             <Grid item xs={6}>
               <Box sx={styles?.wrapperItem}>
                 <Typography>Jenjang</Typography>
-                <Typography sx={styles?.font}>{data?.level || '-'}</Typography>
+                <Typography sx={styles?.font}>{data?.level_name || '-'}</Typography>
               </Box>
             </Grid>
             {/* Tanggal Pelaksanaan */}
@@ -269,6 +269,15 @@ const RiwayatPelatihanStrukturalDetailComponent = ({
                 <Typography>Penyelenggara</Typography>
                 <Typography sx={styles?.font}>
                   {data?.organizer || '-'}
+                </Typography>
+              </Box>
+            </Grid>
+            {/* Keterangan */}
+            <Grid item xs={6}>
+              <Box sx={styles?.wrapperItem}>
+                <Typography>Keterangan</Typography>
+                <Typography sx={styles?.font}>
+                  {data?.description || '-'}
                 </Typography>
               </Box>
             </Grid>
