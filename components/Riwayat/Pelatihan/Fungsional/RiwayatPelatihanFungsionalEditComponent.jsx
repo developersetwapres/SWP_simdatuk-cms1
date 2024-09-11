@@ -229,6 +229,7 @@ const RiwayatPelatihanFungsionalEditComponent = ({
 
   useEffect(() => {
     const detail = training?.detail
+
     if (detail) {
       const periodYear =
         detail?.period_year && detail?.period_month
@@ -236,10 +237,10 @@ const RiwayatPelatihanFungsionalEditComponent = ({
           : null
       const periodMonth = monthOptions[detail?.period_month - 1] || null
       const startDate = detail?.start_date
-        ? moment(detail?.start_date, 'DD-MM-YYYY').toDate()
+        ? moment(detail?.start_date, moment.ISO_8601).toDate()
         : ''
       const endDate = detail?.end_date
-        ? moment(detail?.end_date, 'DD-MM-YYYY').toDate()
+        ? moment(detail?.end_date, moment.ISO_8601).toDate()
         : ''
 
       const employees = detail?.users?.map((itm) => {
