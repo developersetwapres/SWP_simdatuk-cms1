@@ -167,6 +167,20 @@ const RiwayatPelatihanStrukturalForm = ({
             error={errors?.durasi}
           />
         </Grid>
+        {/* Keterangan */}
+        <Grid item xs={6}>
+          <Input
+            label='Keterangan'
+            placeholder='Masukkan Keterangan'
+            name='description'
+            value={values?.description}
+            onChange={(e) => {
+              const val = e?.target?.value
+              setFieldValue(`description`, val, false)
+            }}
+            error={errors?.description}
+          />
+        </Grid>
         {/* Penyelenggara */}
         <Grid item xs={6}>
           <Input

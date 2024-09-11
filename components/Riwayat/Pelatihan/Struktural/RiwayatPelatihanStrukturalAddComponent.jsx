@@ -21,6 +21,7 @@ const InitValue = {
   penyelenggara: '',
   durasi: 0,
   materi: '',
+  description: '',
   periode: {
     bulan: null,
     tahun: null
@@ -140,6 +141,7 @@ const RiwayatPelatihanStrukturalAddComponent = ({
       formData.append('duration', values?.durasi || 0)
       formData.append('organizer', values?.penyelenggara || '')
       formData.append('link', values?.materi || '')
+      formData.append('description', values?.description || '')
       formData.append('type', 1)
 
       values?.pegawai?.map((item, index) => {
