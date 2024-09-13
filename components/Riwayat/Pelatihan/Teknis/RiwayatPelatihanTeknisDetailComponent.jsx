@@ -52,6 +52,9 @@ const RiwayatPelatihanTeknisDetailComponent = ({
   const data = useMemo(() => {
     const detail = training?.detail
 
+    console.log('DETAIL: ', detail)
+    
+
     if (detail) return detail
 
     return {}
@@ -280,7 +283,7 @@ const RiwayatPelatihanTeknisDetailComponent = ({
             <Grid item xs={6}>
               <Box sx={styles?.wrapperItem}>
                 <Typography>Rumpun Pelatihan</Typography>
-                <Typography sx={styles?.font}>{data?.rumpun || '-'}</Typography>
+                <Typography sx={styles?.font}>{data?.group_name || '-'}</Typography>
               </Box>
             </Grid>
             {/* Durasi */}
