@@ -169,8 +169,8 @@ const RiwayatPelatihanStrukturalForm = ({
           <Input
             type='number'
             inputProps={{ min: '0' }}
-            label='Durasi Pelatihan (Hari)'
-            placeholder='Masukkan Durasi Pelatihan (Hari)'
+            label='Jam Pelajaran'
+            placeholder='Masukkan Jam Pelajaran'
             name='durasi'
             value={values?.durasi}
             onChange={(e) => {

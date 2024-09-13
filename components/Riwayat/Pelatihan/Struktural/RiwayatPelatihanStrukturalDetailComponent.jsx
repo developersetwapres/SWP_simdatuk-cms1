@@ -284,8 +284,8 @@ const RiwayatPelatihanStrukturalDetailComponent = ({
             {/* Durasi */}
             <Grid item xs={6}>
               <Box sx={styles?.wrapperItem}>
-                <Typography>Durasi Pelatihan (Hari)</Typography>
-                <Typography sx={styles?.font}>{data?.duration || '-'}</Typography>
+                <Typography>Jam Pelajaran</Typography>
+                <Typography sx={styles?.font}>{data?.duration || '0'}&nbsp;Jam</Typography>
               </Box>
             </Grid>
             {/* Materi */}
