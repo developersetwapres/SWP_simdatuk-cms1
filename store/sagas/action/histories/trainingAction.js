@@ -28,6 +28,17 @@ export const getLevelsAction = (payload) => {
 }
 
 /**
+ * GET Clusters
+ *
+ * @param {*} payload
+ * @returns
+ */
+export const getClustersAction = (payload) => {
+  const { page, limit, search } = payload
+  return get(`${basePath}/groups${queryParams(page, limit, search)}`)
+}
+
+/**
  * Get Training detail
  *
  * @param {*} id

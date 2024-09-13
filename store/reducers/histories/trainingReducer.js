@@ -6,6 +6,9 @@ import {
   GET_LEVELS_REQUESTED,
   GET_LEVELS_SUCCESS,
   GET_LEVELS_FAILED,
+  GET_CLUSTERS_REQUESTED,
+  GET_CLUSTERS_SUCCESS,
+  GET_CLUSTERS_FAILED,
   GET_TRAINING_REQUESTED,
   GET_TRAINING_SUCCESS,
   GET_TRAINING_FAILED,
@@ -28,7 +31,8 @@ const initialState = {
   detail: {},
   pagination: {},
   data: [],
-  levels: []
+  levels: [],
+  clusters: []
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -66,6 +70,23 @@ export const training = (state = initialState, action) => {
         levels: payload?.data
       }
     case GET_LEVELS_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: payload?.error
+      }
+    case GET_CLUSTERS_REQUESTED:
+      return {
+        ...state,
+        loading: true
+      }
+    case GET_CLUSTERS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        clusters: payload?.data
+      }
+    case GET_CLUSTERS_FAILED:
       return {
         ...state,
         loading: false,

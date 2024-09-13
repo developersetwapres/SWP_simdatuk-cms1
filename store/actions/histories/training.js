@@ -5,7 +5,8 @@ import {
   POST_TRAINING_REQUESTED,
   UPDATE_TRAINING_REQUESTED,
   DELETE_TRAINING_REQUESTED,
-  CLEAR_TRAINING_STATE
+  CLEAR_TRAINING_STATE,
+  GET_CLUSTERS_REQUESTED
 } from '../../constants'
 
 /**
@@ -27,6 +28,17 @@ export const getTrainings = (payload) => ({
  */
 export const getLevels = (payload) => ({
   type: GET_LEVELS_REQUESTED,
+  payload
+})
+
+/**
+ * Get Clusters
+ *
+ * @param {*} payload
+ * @returns
+ */
+export const getClusters = (payload) => ({
+  type: GET_CLUSTERS_REQUESTED,
   payload
 })
 

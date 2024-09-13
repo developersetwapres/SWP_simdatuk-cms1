@@ -12,7 +12,8 @@ export default connect(
     'getTraining',
     'updateTraining',
     'clearTrainingState',
-    'getEmployees'
+    'getEmployees',
+    'getClusters',
   )
 )(
   class RiwayatPelatihanTeknisEditContainer extends Component {
@@ -22,7 +23,8 @@ export default connect(
       getTraining: PropTypes.func,
       updateTraining: PropTypes.func,
       clearTrainingState: PropTypes.func,
-      getEmployees: PropTypes.func
+      getEmployees: PropTypes.func,
+      getClusters: PropTypes.func
     }
 
     constructor(props) {
@@ -41,6 +43,7 @@ export default connect(
 
     fetch(queries) {
       this.props.getEmployees(queries)
+      this.props.getClusters(queries)
     }
 
     setLoading(val) {

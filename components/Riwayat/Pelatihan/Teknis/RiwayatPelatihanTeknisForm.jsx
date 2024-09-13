@@ -168,7 +168,7 @@ const RiwayatPelatihanTeknisForm = ({
           <Autocomplete
             label='Rumpun Pelatihan'
             placeholder='Pilih Rumpun Pelatihan'
-            options={options?.groups}
+            options={options?.groups?.map(g => g?.name)}
             name='rumpun'
             multiple={false}
             value={values?.rumpun}

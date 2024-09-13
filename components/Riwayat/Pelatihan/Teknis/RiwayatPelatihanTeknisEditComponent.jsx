@@ -90,7 +90,7 @@ const RiwayatPelatihanTeknisEditComponent = ({
     const data = {
       month: monthOptions || [],
       employee: newEmployees || [],
-      groups: []
+      groups: training?.clusters || []
     }
 
     return data
@@ -105,9 +105,8 @@ const RiwayatPelatihanTeknisEditComponent = ({
         )
         return dataFilter
       } else if (type == 'groups') {
-        const groups = [] // ambil dari value api yang disimpan di redux
         const item =
-          (groups && groups.find((itm) => itm?.name == value?.id)) || ''
+          (options?.groups?.find((itm) => itm?.name === value)?.id) || ''
 
         return item
       } else {
@@ -166,7 +165,7 @@ const RiwayatPelatihanTeknisEditComponent = ({
         'end_date',
         handleFormatDate(values?.tanggalPelaksanaan?.to, 'YYYY-MM-DD')
       )
-      formData.append('groups', handleGetValueID(values?.rumpun, 'groups'))
+      formData.append('group_id', handleGetValueID(values?.rumpun, 'groups'))
       formData.append('organizer', values?.penyelenggara || '')
       formData.append('duration', values?.durasi || 0)
       formData.append('link', values?.materi || '')

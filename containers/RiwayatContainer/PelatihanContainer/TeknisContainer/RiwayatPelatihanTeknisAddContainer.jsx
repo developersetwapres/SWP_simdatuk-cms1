@@ -8,14 +8,15 @@ import RiwayatPelatihanTeknisAddComponent from '@/components/Riwayat/Pelatihan/T
 
 export default connect(
   mapStateToProps('training', 'employee'),
-  mapActions('postTraining', 'getEmployees')
+  mapActions('postTraining', 'getEmployees', 'getClusters')
 )(
   class RiwayatPelatihanTeknisAddContainer extends Component {
     static propTypes = {
       training: PropTypes.object,
       employee: PropTypes.object,
       postTraining: PropTypes.func,
-      getEmployees: PropTypes.func
+      getEmployees: PropTypes.func,
+      getClusters: PropTypes.func
     }
 
     constructor(props) {
@@ -34,6 +35,7 @@ export default connect(
 
     fetch(queries) {
       this.props.getEmployees(queries)
+      this.props.getClusters(queries)
     }
 
     setLoading(val) {

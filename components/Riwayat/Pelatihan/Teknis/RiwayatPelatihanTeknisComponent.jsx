@@ -62,11 +62,11 @@ const styles = {
 
 const RiwayatPelatihanTeknisComponent = ({
   training,
-  deleteTraining = () => {},
-  onSearch = () => {},
-  onLoading = () => {},
-  onPaginationChange = () => {},
-  onRowsPerPageChange = () => {}
+  deleteTraining = () => { },
+  onSearch = () => { },
+  onLoading = () => { },
+  onPaginationChange = () => { },
+  onRowsPerPageChange = () => { }
 }) => {
   const router = useRouter()
   const classes = useStyles()

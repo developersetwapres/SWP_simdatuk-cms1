@@ -21,6 +21,9 @@ import {
   UPDATE_TRAINING_REQUESTED,
   UPDATE_TRAINING_SUCCESS,
   UPDATE_TRAINING_FAILED,
+  GET_CLUSTERS_SUCCESS,
+  GET_CLUSTERS_FAILED,
+  GET_CLUSTERS_REQUESTED,
   DELETE_TRAINING_REQUESTED,
   DELETE_TRAINING_SUCCESS,
   DELETE_TRAINING_FAILED,
@@ -33,9 +36,54 @@ import {
   getTrainingsAction,
   getLevelsAction,
   postTrainingAction,
-  updateTrainingAction
+  updateTrainingAction,
+  getClustersAction
 } from '../action/histories/trainingAction'
 import Router from 'next/router'
+
+/**
+ * Get Clusters
+ *
+ * @param {*} action
+ * @returns
+ */
+function* getClusters(action) {
+  try {
+    const res = yield call(getClustersAction, action?.payload)
+    const payload = res?.data
+
+    yield put({
+      type: GET_CLUSTERS_SUCCESS,
+      payload
+    })
+  } catch (err) {
+    const errors = err?.data
+
+    if ([403, 401].includes(errors?.code)) {
+      yield put({
+        type: ACTION_RESPONSER,
+        payload: {
+          code: errors?.code,
+          message: errors?.message,
+          redirect: '/profile'
+        }
+      })
+    } else {
+      yield put({
+        type: SET_MODAL,
+        payload: {
+          code: errors?.code,
+          message: 'Warning!',
+          childMessage: errors?.message
+        }
+      })
+      yield put({
+        type: GET_CLUSTERS_FAILED,
+        payload: errors?.message
+      })
+    }
+  }
+}
 
 /**
  * Get Levels
@@ -348,6 +396,7 @@ function* updateTraining(action) {
 function* trainingSaga() {
   yield takeEvery(GET_LEVELS_REQUESTED, getLevels)
   yield takeEvery(GET_TRAININGS_REQUESTED, getTrainings)
+  yield takeEvery(GET_CLUSTERS_REQUESTED, getClusters)
   yield takeEvery(GET_TRAINING_REQUESTED, getTraining)
   yield takeEvery(DELETE_TRAINING_REQUESTED, deleteTraining)
   yield takeEvery(POST_TRAINING_REQUESTED, postTraining)
