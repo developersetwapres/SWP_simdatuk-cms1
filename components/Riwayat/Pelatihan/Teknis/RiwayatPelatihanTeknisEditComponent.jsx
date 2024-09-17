@@ -110,7 +110,7 @@ const RiwayatPelatihanTeknisEditComponent = ({
 
         return item
       } else {
-        const index = options[type].findIndex((itm) => itm == val) + 1
+        const index = options[type].findIndex((itm) => itm == value) + 1
         return index
       }
     }

@@ -166,13 +166,6 @@ const EmployeeDetailComponent = ({
           ? detailEmployee?.education_level - 1
           : null
       ),
-      structurals: detailEmployee?.structurals?.map((item) => ({
-        ...item,
-        level: options
-          ?.levels
-          ?.find(l => l?.id === item?.level)
-          ?.level_name
-      })),
       educations: !!detailEmployee?.educations?.length
         ? [
           ...detailEmployee?.educations?.map((i) => ({

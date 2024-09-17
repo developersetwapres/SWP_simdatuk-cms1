@@ -18,6 +18,11 @@ const PelatihanStrukturalSection = ({ data = [] }) => {
         align: 'left'
       },
       {
+        Header: 'Jenjang',
+        width: 200,
+        align: 'left'
+      },
+      {
         Header: 'Tanggal Pelaksanaan',
         width: 200,
         align: 'left'
@@ -63,16 +68,22 @@ const PelatihanStrukturalSection = ({ data = [] }) => {
           Cell: () => <Typography>{item?.name || '-'}</Typography>
         },
         {
-          Header: 'Penyelenggara',
+          Header: 'Jenjang',
           align: 'left',
           verticalAlign: 'top',
-          Cell: () => <Typography>{item?.organizer || '-'}</Typography>
+          Cell: () => <Typography>{item?.level || '-'}</Typography>
         },
         {
           Header: 'Tanggal Pelaksanaan',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.start_date || '-'}</Typography>
+        },
+        {
+          Header: 'Penyelenggara',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.organizer || '-'}</Typography>
         },
         {
           Header: 'Jam Pelajaran',
