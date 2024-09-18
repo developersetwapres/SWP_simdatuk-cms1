@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import { monthOptions } from 'libs/types/options'
 import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -58,6 +59,8 @@ const styles = {
 
 const RiwayatGolonganComponent = ({
   grade,
+  queries,
+  onFetch = () => { },
   onSearch = () => { },
   deleteGrade = () => { },
   onLoading = () => { },
@@ -68,6 +71,7 @@ const RiwayatGolonganComponent = ({
   const classes = useStyles()
   const [modalDelete, setModalDelete] = useState(false)
   const [id, setId] = useState(null)
+  const modal = useSelector((state) => state.modalReducer)
 
   const columns = useMemo(
     () => [
@@ -212,6 +216,12 @@ const RiwayatGolonganComponent = ({
     onLoading(state)
   }, [grade])
 
+  useEffect(() => {
+    if (!modal?.modal && grade?.data?.length > 0) {
+      onFetch({ ...queries, page: 1 })
+    }
+  }, [modal])
+
   return (
     <>
       <LayoutPages summary='Data Riwayat Golongan' action={action}>
@@ -254,7 +264,9 @@ const RiwayatGolonganComponent = ({
 }
 
 RiwayatGolonganComponent.propTypes = {
+  queries: PropTypes.object,
   grade: PropTypes.object,
+  onFetch: PropTypes.func,
   onSearch: PropTypes.func,
   deleteGrade: PropTypes.func,
   onLoading: PropTypes.func,

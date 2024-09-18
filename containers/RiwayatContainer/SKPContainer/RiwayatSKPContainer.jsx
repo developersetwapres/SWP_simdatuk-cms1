@@ -93,6 +93,7 @@ export default connect(
         <Layout willRender={this.state.willRender}>
           <RiwayatSKPComponent
             onSearch={this.onSearch}
+            onFetch={this.fetch}
             onLoading={this.setLoading}
             onPaginationChange={this.onPaginationChange}
             onRowsPerPageChange={this.onRowsPerPageChange}

@@ -141,7 +141,8 @@ function* deleteTarget(action) {
     const res = yield call(deleteTargetAction, action?.payload)
     const payload = res?.data
     const path = Router.pathname
-    const redirect = path?.includes('detail') ? 'back' : 'refresh'
+    const redirect = path?.includes('detail') ? 
+      `/${path.split('/').slice(1, 3).join('/')}` : ''
 
     yield put({
       type: DELETE_TARGET_SUCCESS,

@@ -15,6 +15,7 @@ import {
   PermissionsIDs
 } from '@/utils/permissionManager'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -62,7 +63,9 @@ const styles = {
 
 const RiwayatPelatihanTeknisComponent = ({
   training,
+  queries,
   deleteTraining = () => { },
+  onFetch = () => { },
   onSearch = () => { },
   onLoading = () => { },
   onPaginationChange = () => { },
@@ -72,6 +75,7 @@ const RiwayatPelatihanTeknisComponent = ({
   const classes = useStyles()
   const [modalDelete, setModalDelete] = useState(false)
   const [id, setId] = useState(null)
+  const modal = useSelector((state) => state.modalReducer)
 
   const columns = useMemo(
     () => [
@@ -238,6 +242,12 @@ const RiwayatPelatihanTeknisComponent = ({
     onLoading(state)
   }, [training])
 
+  useEffect(() => {
+    if (!modal?.modal && training?.data?.length > 0) {
+      onFetch({ ...queries, page: 1 })
+    }
+  }, [modal])
+
   return (
     <>
       <LayoutPages summary='Data Riwayat Pelatihan Teknis' action={action}>
@@ -280,7 +290,9 @@ const RiwayatPelatihanTeknisComponent = ({
 }
 
 RiwayatPelatihanTeknisComponent.propTypes = {
+  queries: PropTypes.object,
   training: PropTypes.object,
+  onFetch: PropTypes.func,
   onSearch: PropTypes.func,
   deleteTraining: PropTypes.func,
   onLoading: PropTypes.func,

@@ -93,6 +93,7 @@ export default connect(
         <Layout willRender={this.state.willRender}>
           <RiwayatPenghargaanComponent
             onLoading={this.setLoading}
+            onFetch={this.fetch}
             onSearch={this.onSearch}
             onPaginationChange={this.onPaginationChange}
             onRowsPerPageChange={this.onRowsPerPageChange}

@@ -93,6 +93,7 @@ export default connect(
       return (
         <Layout willRender={this.state.willRender}>
           <RiwayatPelatihanStrukturalComponent
+            onFetch={this.fetch}
             onSearch={this.onSearch}
             onLoading={this.setLoading}
             onPaginationChange={this.onPaginationChange}

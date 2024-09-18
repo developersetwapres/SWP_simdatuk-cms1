@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import { monthOptions } from 'libs/types/options'
 import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -57,8 +58,10 @@ const styles = {
 }
 
 const RiwayatJabatanComponent = ({
+  queries,
   positionHistories,
   deletePositionHistories = () => { },
+  onFetch = () => { },
   onSearch = () => { },
   onLoading = () => { },
   onPaginationChange = () => { },
@@ -68,6 +71,7 @@ const RiwayatJabatanComponent = ({
   const router = useRouter()
   const [modalDelete, setModalDelete] = useState(false)
   const [id, setId] = useState(null)
+  const modal = useSelector((state) => state.modalReducer)
 
   const columns = useMemo(
     () => [
@@ -212,6 +216,12 @@ const RiwayatJabatanComponent = ({
     onLoading(state)
   }, [positionHistories])
 
+  useEffect(() => {
+    if (!modal?.modal && positionHistories?.data?.length > 0) {
+      onFetch({ ...queries, page: 1 })
+    }
+  }, [modal])
+
   return (
     <>
       <LayoutPages summary='Data Riwayat Jabatan' action={action}>
@@ -255,7 +265,9 @@ const RiwayatJabatanComponent = ({
 
 RiwayatJabatanComponent.propTypes = {
   positionHistories: PropTypes.object,
+  queries: PropTypes.object,
   onSearch: PropTypes.func,
+  onFetch: PropTypes.func,
   deletePositionHistories: PropTypes.func,
   onLoading: PropTypes.func,
   onPaginationChange: PropTypes.func,

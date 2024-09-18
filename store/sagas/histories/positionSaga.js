@@ -141,7 +141,8 @@ function* deletePosition(action) {
     const res = yield call(deletePositionHistoriesAction, action?.payload)
     const payload = res?.data
     const path = Router.asPath
-    const redirect = path?.includes('detail') ? 'back' : 'refresh'
+    const redirect = path?.includes('detail') ? 
+      `/${path.split('/').slice(1, 3).join('/')}` : ''
     
     yield put({
       type: DELETE_POSITION_HISTORIES_SUCCESS,

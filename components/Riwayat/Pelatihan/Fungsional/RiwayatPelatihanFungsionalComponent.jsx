@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import { monthOptions } from 'libs/types/options'
 import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -58,6 +59,8 @@ const styles = {
 
 const RiwayatPelatihanFungsionalComponent = ({
   training,
+  queries,
+  onFetch = () => { },
   onSearch = () => { },
   deleteTraining = () => { },
   onLoading = () => { },
@@ -68,6 +71,7 @@ const RiwayatPelatihanFungsionalComponent = ({
   const classes = useStyles()
   const [modalDelete, setModalDelete] = useState(false)
   const [id, setId] = useState(null)
+  const modal = useSelector((state) => state.modalReducer)
 
   const columns = useMemo(
     () => [
@@ -222,6 +226,12 @@ const RiwayatPelatihanFungsionalComponent = ({
     onLoading(state)
   }, [training])
 
+  useEffect(() => {
+    if (!modal?.modal && training?.data?.length > 0) {
+      onFetch({ ...queries, page: 1 })
+    }
+  }, [modal])
+
   return (
     <>
       <LayoutPages summary='Data Riwayat Pelatihan Fungsional' action={action}>
@@ -264,7 +274,9 @@ const RiwayatPelatihanFungsionalComponent = ({
 }
 
 RiwayatPelatihanFungsionalComponent.propTypes = {
+  queries: PropTypes.object,
   training: PropTypes.object,
+  onFetch: PropTypes.func,
   onSearch: PropTypes.func,
   deleteTraining: PropTypes.func,
   onLoading: PropTypes.func,

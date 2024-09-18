@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import { monthOptions } from 'libs/types/options'
 import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -57,7 +58,9 @@ const styles = {
 }
 
 const RiwayatPPKComponent = ({
+  queries,
   performance,
+  onFetch = () => { },
   onSearch = () => { },
   deletePerformance = () => { },
   onLoading = () => { },
@@ -68,6 +71,7 @@ const RiwayatPPKComponent = ({
   const classes = useStyles()
   const [modalDelete, setModalDelete] = useState(false)
   const [id, setId] = useState(null)
+  const modal = useSelector((state) => state.modalReducer)
 
   const columns = useMemo(
     () => [
@@ -222,6 +226,12 @@ const RiwayatPPKComponent = ({
     onLoading(state)
   }, [performance])
 
+  useEffect(() => {
+    if (!modal?.modal && performance?.data?.length > 0) {
+      onFetch({ ...queries, page: 1 })
+    }
+  }, [modal])
+
   return (
     <>
       <LayoutPages
@@ -267,7 +277,9 @@ const RiwayatPPKComponent = ({
 }
 
 RiwayatPPKComponent.propTypes = {
+  queries: PropTypes.object,
   performance: PropTypes.object,
+  onFetch: PropTypes.func,
   onSearch: PropTypes.func,
   deletePerformance: PropTypes.func,
   onLoading: PropTypes.func,

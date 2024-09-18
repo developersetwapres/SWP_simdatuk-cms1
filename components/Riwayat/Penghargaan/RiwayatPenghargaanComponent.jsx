@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import { monthOptions } from 'libs/types/options'
 import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -57,8 +58,10 @@ const styles = {
 }
 
 const RiwayatPenghargaanComponent = ({
+  queries,
   recognition,
   onSearch = () => { },
+  onFetch = () => { },
   deleteRecognition = () => { },
   onLoading = () => { },
   onPaginationChange = () => { },
@@ -68,6 +71,7 @@ const RiwayatPenghargaanComponent = ({
   const classes = useStyles()
   const [modalDelete, setModalDelete] = useState(false)
   const [id, setId] = useState(null)
+  const modal = useSelector((state) => state.modalReducer)
 
   const columns = useMemo(
     () => [
@@ -224,6 +228,12 @@ const RiwayatPenghargaanComponent = ({
     onLoading(state)
   }, [recognition])
 
+  useEffect(() => {
+    if (!modal?.modal && recognition?.data?.length > 0) {
+      onFetch({ ...queries, page: 1 })
+    }
+  }, [modal])
+
   return (
     <>
       <LayoutPages summary='Data Riwayat Penghargaan' action={action}>
@@ -266,7 +276,9 @@ const RiwayatPenghargaanComponent = ({
 }
 
 RiwayatPenghargaanComponent.propTypes = {
+  queries: PropTypes.object,
   recognition: PropTypes.object,
+  onFetch: PropTypes.func,
   onSearch: PropTypes.func,
   deleteRecognition: PropTypes.func,
   onLoading: PropTypes.func,

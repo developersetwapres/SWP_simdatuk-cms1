@@ -92,6 +92,7 @@ export default connect(
       return (
         <Layout willRender={this.state.willRender}>
           <RiwayatJabatanComponent
+            onFetch={this.fetch}
             onSearch={this.onSearch}
             onLoading={this.setLoading}
             onPaginationChange={this.onPaginationChange}

@@ -139,7 +139,8 @@ function* deletePerformance(action) {
     const res = yield call(deletePerformanceAction, action?.payload)
     const payload = res?.data
     const path = Router.pathname
-    const redirect = path?.includes('detail') ? 'back' : 'refresh'
+    const redirect = path?.includes('detail') ? 
+      `/${path.split('/').slice(1, 3).join('/')}` : ''
 
     yield put({
       type: DELETE_PERFORMANCE_SUCCESS,
