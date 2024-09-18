@@ -35,6 +35,7 @@ import {
   postRecognitionAction,
   updateRecognitionAction
 } from '../action/histories/recognitionAction'
+import Router from 'next/router'
 
 /**
  * Get Recognitions Options
@@ -185,8 +186,9 @@ function* getRecognition(action) {
 function* deleteRecognition(action) {
   try {
     const res = yield call(deleteRecognitionAction, action?.payload)
-
     const payload = res?.data
+    const path = Router.pathname
+    const redirect = path?.includes('detail') ? 'back' : 'refresh'
 
     yield put({
       type: DELETE_RECOGNITION_SUCCESS,
@@ -199,7 +201,7 @@ function* deleteRecognition(action) {
         code: payload?.code,
         message: 'Riwayat Penghargaan Berhasil Dihapus',
         childMessage: payload?.message,
-        redirect: '/data-riwayat/penghargaan'
+        redirect
       }
     })
   } catch (err) {

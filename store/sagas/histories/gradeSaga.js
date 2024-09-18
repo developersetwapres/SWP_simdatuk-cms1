@@ -35,6 +35,7 @@ import {
   postGradeAction,
   updateGradeAction
 } from '../action/histories/gradeAction'
+import Router from 'next/router'
 
 /**
  * Get Grades Options
@@ -185,8 +186,9 @@ function* getGrade(action) {
 function* deleteGrade(action) {
   try {
     const res = yield call(deleteGradeAction, action?.payload)
-
     const payload = res?.data
+    const path = Router.asPath
+    const redirect = path?.includes('detail') ? 'back' : 'refresh'
 
     yield put({
       type: DELETE_GRADE_SUCCESS,
@@ -199,7 +201,7 @@ function* deleteGrade(action) {
         code: payload?.code,
         message: 'Riwayat Golongan Berhasil Dihapus',
         childMessage: payload?.message,
-        redirect: '/data-riwayat/golongan'
+        redirect
       }
     })
   } catch (err) {

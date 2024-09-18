@@ -31,6 +31,7 @@ import {
   postPositionHistoriesAction,
   updatePositionHistoriesAction
 } from '../action/histories/positionAction'
+import Router from 'next/router'
 
 /**
  * Get Positions
@@ -138,9 +139,10 @@ function* getPosition(action) {
 function* deletePosition(action) {
   try {
     const res = yield call(deletePositionHistoriesAction, action?.payload)
-
     const payload = res?.data
-
+    const path = Router.asPath
+    const redirect = path?.includes('detail') ? 'back' : 'refresh'
+    
     yield put({
       type: DELETE_POSITION_HISTORIES_SUCCESS,
       payload
@@ -152,7 +154,7 @@ function* deletePosition(action) {
         code: payload?.code,
         message: 'Riwayat Jabatan Berhasil Dihapus',
         childMessage: payload?.message,
-        redirect: '/data-riwayat/jabatan'
+        redirect
       }
     })
   } catch (err) {

@@ -35,6 +35,7 @@ import {
   updateDisciplinaryAction,
   getDisciplinariesOptionsAction
 } from '../action/histories/disciplinaryAction'
+import Router from 'next/router'
 
 /**
  * Get Disciplinaries Options
@@ -189,8 +190,9 @@ function* getDisciplinary(action) {
 function* deleteDisciplinary(action) {
   try {
     const res = yield call(deleteDisciplinaryAction, action?.payload)
-
     const payload = res?.data
+    const path = Router.pathname
+    const redirect = path?.includes('detail') ? 'back' : 'refresh'
 
     yield put({
       type: DELETE_DISCIPLINARY_SUCCESS,
@@ -203,7 +205,7 @@ function* deleteDisciplinary(action) {
         code: payload?.code,
         message: 'Riwayat Hukuman Disiplin Berhasil Dihapus',
         childMessage: payload?.message,
-        redirect: '/data-riwayat/hukuman-disiplin'
+        redirect
       }
     })
   } catch (err) {

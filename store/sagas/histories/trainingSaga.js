@@ -230,16 +230,14 @@ function* getTraining(action) {
 function* deleteTraining(action) {
   try {
     const res = yield call(deleteTrainingAction, action?.payload)
-
     const payload = res?.data
+    const path = Router.pathname
+    const redirect = path?.includes('detail') ? 'back' : 'refresh'
 
     yield put({
       type: DELETE_TRAINING_SUCCESS,
       payload
     })
-
-    const path = Router.pathname
-    const redirect = `/${path.split('/').slice(1, 3).join('/')}`
 
     yield put({
       type: SET_MODAL,

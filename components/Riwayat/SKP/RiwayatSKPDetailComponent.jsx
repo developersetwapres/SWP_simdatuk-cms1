@@ -223,7 +223,7 @@ const RiwayatSKPDetailComponent = ({
 
     // Do Delete
     setModalDelete(false)
-    deleteTarget(id)
+    deleteTarget(atob(id))
   }
 
   const handleParsePeriod = (month, year) => {

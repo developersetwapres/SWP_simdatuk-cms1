@@ -31,6 +31,7 @@ import {
   postTargetAction,
   updateTargetAction
 } from '../action/histories/targetAction'
+import Router from 'next/router'
 
 /**
  * Get Targets
@@ -138,8 +139,9 @@ function* getTarget(action) {
 function* deleteTarget(action) {
   try {
     const res = yield call(deleteTargetAction, action?.payload)
-
     const payload = res?.data
+    const path = Router.pathname
+    const redirect = path?.includes('detail') ? 'back' : 'refresh'
 
     yield put({
       type: DELETE_TARGET_SUCCESS,
@@ -152,7 +154,7 @@ function* deleteTarget(action) {
         code: payload?.code,
         message: 'Riwayat SKP Berhasil Dihapus',
         childMessage: payload?.message,
-        redirect: '/data-riwayat/skp'
+        redirect
       }
     })
   } catch (err) {

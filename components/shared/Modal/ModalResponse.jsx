@@ -30,11 +30,12 @@ function ModalResponse({ modalReducer, closeModal = () => {} }) {
 
   const [open, setOpen] = useState(false)
 
-  const handleCallback = () => {
+  const handleCallback = () => {  
+    closeModal()
+    
     if (modalReducer?.redirect === 'back') router.back()
     else if (modalReducer?.redirect === 'refresh') router.reload()
     else if (modalReducer?.redirect) router.push(modalReducer?.redirect || path)
-    closeModal()
   }
 
   useEffect(() => {

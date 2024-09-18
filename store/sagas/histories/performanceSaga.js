@@ -31,6 +31,7 @@ import {
   postPerformanceAction,
   updatePerformanceAction
 } from '../action/histories/performanceAction'
+import Router from 'next/router'
 
 /**
  * Get Performances
@@ -136,8 +137,9 @@ function* getPerformance(action) {
 function* deletePerformance(action) {
   try {
     const res = yield call(deletePerformanceAction, action?.payload)
-
     const payload = res?.data
+    const path = Router.pathname
+    const redirect = path?.includes('detail') ? 'back' : 'refresh'
 
     yield put({
       type: DELETE_PERFORMANCE_SUCCESS,
@@ -150,7 +152,7 @@ function* deletePerformance(action) {
         code: payload?.code,
         message: 'Riwayat PPK Berhasil Dihapus',
         childMessage: payload?.message,
-        redirect: '/data-riwayat/ppk'
+        redirect
       }
     })
   } catch (err) {
