@@ -81,24 +81,24 @@ export default connect(
 
     mapKey(val) {
       switch (val) {
-        case 'positionId':
-          return 'position_id'
-        case 'gradeId':
-          return 'grade_id'
-        case 'employmentType':
-          return 'employment_type_id'
-        case 'months':
-          return 'month_of_birth'
-        case 'status':
-          return 'employment_status'
-        case 'ageMin':
-          return 'min_age'
-        case 'ageMax':
-          return 'max_age'
-        case 'educationLevel':
-          return 'education_level'
-        default:
-          return val
+      case 'positionId':
+        return 'position_id'
+      case 'gradeId':
+        return 'grade_id'
+      case 'employmentType':
+        return 'employment_type_id'
+      case 'months':
+        return 'month_of_birth'
+      case 'status':
+        return 'employment_status'
+      case 'ageMin':
+        return 'min_age'
+      case 'ageMax':
+        return 'max_age'
+      case 'educationLevel':
+        return 'education_level'
+      default:
+        return val
       }
     }
 
@@ -207,6 +207,8 @@ export default connect(
       return (
         <Layout willRender={this.state.willRender}>
           <EmployeeASNComponent
+            onFetch={this.fetch}
+            onFetchFilter={this.fetchFilter}
             onSearch={this.onSearch}
             onFilter={this.onFilter}
             onLoading={this.setLoading}

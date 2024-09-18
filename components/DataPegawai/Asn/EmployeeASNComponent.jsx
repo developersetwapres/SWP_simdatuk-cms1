@@ -21,6 +21,7 @@ import {
   accessGranted,
   PermissionsIDs
 } from '@/utils/permissionManager'
+import { useSelector } from 'react-redux'
 
 const styles = {
   iconStyle: {
@@ -38,10 +39,14 @@ const styles = {
 }
 
 const EmployeeASNComponent = ({
+  queries,
+  queriesEmployees,
   employee,
   grade,
   position,
   deleteEmployee = () => { },
+  onFetch = () => { },
+  onFetchFilter = () => { },
   clearPositionState = () => { },
   synchronizeEmployees = () => { },
   onLoading = () => { },
@@ -53,6 +58,7 @@ const EmployeeASNComponent = ({
   const router = useRouter()
   const [modalDelete, setModalDelete] = useState(false)
   const [employeeId, setEmployeeId] = useState(null)
+  const modal = useSelector((state) => state.modalReducer)
 
   const handleMapOptions = (val) => {
     const arr = []
@@ -308,6 +314,13 @@ const EmployeeASNComponent = ({
     onLoading(state)
   }, [employee, grade, position])
 
+  useEffect(() => {
+    if (!modal?.modal && employee?.data?.length > 0) {
+      onFetch({ ...queriesEmployees, page: 1 })
+      onFetchFilter({ ...queries, page: 1 })
+    }
+  }, [modal])
+
   return (
     <>
       <LayoutPages summary={'Data Pegawai ASN'} action={action}>
@@ -337,10 +350,14 @@ const EmployeeASNComponent = ({
 }
 
 EmployeeASNComponent.propTypes = {
+  queries: PropTypes.object,
+  queriesEmployees: PropTypes.object,
   employee: PropTypes.object,
   position: PropTypes.object,
   grade: PropTypes.object,
   onLoading: PropTypes.func,
+  onFetch: PropTypes.func,
+  onFetchFilter: PropTypes.func,
   clearPositionState: PropTypes.func,
   deleteEmployee: PropTypes.func,
   synchronizeEmployees: PropTypes.func,

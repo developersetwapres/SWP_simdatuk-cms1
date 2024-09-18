@@ -21,6 +21,7 @@ import {
   accessGranted,
   PermissionsIDs
 } from '@/utils/permissionManager'
+import { useSelector } from 'react-redux'
 
 const styles = {
   iconStyle: {
@@ -38,11 +39,15 @@ const styles = {
 }
 
 const EmployeeOutsourcingComponent = ({
+  queries,
+  queriesEmployees,
   employee,
   grade,
   position,
   employmentType,
   deleteEmployee = () => { },
+  onFetch = () => { },
+  onFetchFilter = () => { },
   onLoading = () => { },
   onSearch = () => { },
   onFilter = () => { },
@@ -53,6 +58,7 @@ const EmployeeOutsourcingComponent = ({
   const router = useRouter()
   const [modalDelete, setModalDelete] = useState(false)
   const [employeeId, setEmployeeId] = useState(null)
+  const modal = useSelector((state) => state.modalReducer)
 
   const handleRedirect = (type, id) => {
     if (type == 'add') {
@@ -304,6 +310,13 @@ const EmployeeOutsourcingComponent = ({
     onLoading(state)
   }, [employee, grade, position, employmentType])
 
+  useEffect(() => {
+    if (!modal?.modal && employee?.data?.length > 0) {
+      onFetch({ ...queriesEmployees, page: 1 })
+      onFetchFilter({ ...queries, page: 1 })
+    }
+  }, [modal])
+
   return (
     <>
       <LayoutPages summary={'Data Pegawai Outsourcing'} action={action}>
@@ -333,10 +346,14 @@ const EmployeeOutsourcingComponent = ({
 }
 
 EmployeeOutsourcingComponent.propTypes = {
+  queries: PropTypes.object,
+  queriesEmployees: PropTypes.object,
   employee: PropTypes.object,
   position: PropTypes.object,
   grade: PropTypes.object,
   employmentType: PropTypes.object,
+  onFetch: PropTypes.func,
+  onFetchFilter: PropTypes.func,
   deleteEmployee: PropTypes.func,
   onLoading: PropTypes.func,
   onSearch: PropTypes.func,

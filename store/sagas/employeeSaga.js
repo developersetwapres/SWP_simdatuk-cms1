@@ -395,7 +395,6 @@ function* getEmployee(action) {
 function* deleteEmployee(action) {
   try {
     const res = yield call(deleteEmployeeAction, action?.payload)
-
     const payload = res?.data
 
     yield put({
@@ -408,7 +407,7 @@ function* deleteEmployee(action) {
       payload: {
         code: payload?.code,
         message: 'Pegawai berhasil dihapus',
-        redirect: 'refresh'
+        redirect: ''
       }
     })
   } catch (err) {
