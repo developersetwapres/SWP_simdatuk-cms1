@@ -19,6 +19,7 @@ import {
   employeeStatusOptions,
   genderOptions,
   leavesOptions,
+  maritalStatuFamilysOptions,
   maritalStatusOptions,
   monthOptions,
   periodCreditsOptions,
@@ -89,6 +90,9 @@ const InitValue = {
       month: 0
     }
   },
+  families: [],
+  positions: [],
+  trainingTechnicals: [],
   educations: [],
   notes: []
 }
@@ -248,17 +252,55 @@ const FormSchema = Yup.object().shape({
         }
       )
   }),
-  educations: Yup.lazy((educations) => {
-    if (Array.isArray(educations) && educations.length > 0) {
+  families: Yup.lazy((families) => {
+    if (Array.isArray(families) && families.length > 0) {
       return Yup.array().of(
         Yup.object().shape({
-          educationLevel: Yup.string().required('Tingkat tidak boleh kosong'),
-          educationName: Yup.string().required('Nama tidak boleh kosong'),
-          educationStatus: Yup.string().required('Status tidak boleh kosong'),
-          educationYear: Yup.string().required(
-            'Tahun Lulus tidak boleh kosong'
+          familyRegistNumber: Yup.string()
+            .min(16, 'No KK harus tediri dari 16 digit angka')
+            .max(16, 'No KK harus tediri dari 16 digit angka')
+            .required('No Kartu Keluarga tidak boleh kosong'),
+          name: Yup.string().required(
+            'Nama Anggota Keluarga tidak boleh kosong'
           ),
-          educationCertificate: Yup.mixed()
+          idNumber: Yup.string()
+            .min(16, 'No NIK harus terdiri dari 16 digit angka')
+            .max(16, 'No NIK harus terdiri dari 16 digit angka')
+            .required('No NIK tidak boleh kosong'),
+          gender: Yup.string().required('Jenis Kelamin tidak boleh kosong'),
+          religion: Yup.string().required('Agama tidak boleh kosong'),
+          placeOfBirth: Yup.string().required(
+            'Tempat Lahir tidak boleh kosong'
+          ),
+          dateOfBirth: Yup.string().required(
+            'Tanggal Lahir tidak boleh kosong'
+          ),
+          relationshipStatus: Yup.string().required(
+            'Hubungan Keluarga tidak boleh kosong'
+          ),
+          educationLevel: Yup.string().required(
+            'Pendidikan tidak boleh kosong'
+          ),
+          maritalStatus: Yup.string().required(
+            'Status Perkawinan tidak boleh kosong'
+          )
+        })
+      )
+    } else {
+      return Yup.array()
+    }
+  }),
+  positions: Yup.lazy((positions) => {
+    if (Array.isArray(positions) && positions.length > 0) {
+      return Yup.array().of(
+        Yup.object().shape({
+          position: Yup.string().required('Jabatan tidak boleh kosong'),
+          // group: Yup.string().required('Rumpun tidak boleh kosong'),
+          effectiveDate: Yup.string().required(
+            'TMT Menjabat tidak boleh kosong'
+          ),
+          status: Yup.string().required('Status tidak boleh kosong'),
+          decreeDocument: Yup.mixed()
             .nullable()
             .test(
               'fileType',
@@ -279,54 +321,6 @@ const FormSchema = Yup.object().shape({
               (value) => {
                 const maxSize = 2 * 1024 * 1024
                 if (!value || !isFile(value)) return true
-                return value.size <= maxSize
-              }
-            ),
-          educationStudyAssignmentLetter: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value) return true
-                return value.size <= maxSize
-              }
-            ),
-          edudcationAcademicTitleLetter: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value) return true
                 return value.size <= maxSize
               }
             )
@@ -336,24 +330,149 @@ const FormSchema = Yup.object().shape({
       return Yup.array()
     }
   }),
-  notes: Yup.lazy((notes) => {
-    if (Array.isArray(notes) && notes.length > 0) {
+  trainingTechnicals: Yup.lazy((trainingTechnicals) => {
+    if (Array.isArray(trainingTechnicals) && trainingTechnicals.length > 0) {
       return Yup.array().of(
         Yup.object().shape({
-          description: Yup.string()
-            .required('Catatan tidak boleh kosong')
-            .max(160, 'Catatan tidak boleh lebih dari 160 karakter')
+          certificate: Yup.mixed()
+            .nullable()
+            .test(
+              'fileType',
+              'Format file harus PNG, JPG, atau PDF',
+              (value) => {
+                if (!value || !isFile(value)) return true
+                const fileType = value && value.type
+                return (
+                  fileType === 'image/png' ||
+                  fileType === 'image/jpeg' ||
+                  fileType === 'application/pdf'
+                )
+              }
+            )
+            .test(
+              'fileSize',
+              'Ukuran file tidak boleh lebih dari 2MB',
+              (value) => {
+                const maxSize = 2 * 1024 * 1024
+                if (!value || !isFile(value)) return true
+                return value.size <= maxSize
+              }
+            )
         })
       )
     } else {
       return Yup.array()
     }
   })
+  // educations: Yup.lazy((educations) => {
+  //   if (Array.isArray(educations) && educations.length > 0) {
+  //     return Yup.array().of(
+  //       Yup.object().shape({
+  //         educationLevel: Yup.string().required('Tingkat tidak boleh kosong'),
+  //         educationName: Yup.string().required('Nama tidak boleh kosong'),
+  //         educationStatus: Yup.string().required('Status tidak boleh kosong'),
+  //         educationYear: Yup.string().required(
+  //           'Tahun Lulus tidak boleh kosong'
+  //         ),
+  //         educationCertificate: Yup.mixed()
+  //           .nullable()
+  //           .test(
+  //             'fileType',
+  //             'Format file harus PNG, JPG, atau PDF',
+  //             (value) => {
+  //               if (!value || !isFile(value)) return true
+  //               const fileType = value && value.type
+  //               return (
+  //                 fileType === 'image/png' ||
+  //                 fileType === 'image/jpeg' ||
+  //                 fileType === 'application/pdf'
+  //               )
+  //             }
+  //           )
+  //           .test(
+  //             'fileSize',
+  //             'Ukuran file tidak boleh lebih dari 2MB',
+  //             (value) => {
+  //               const maxSize = 2 * 1024 * 1024
+  //               if (!value || !isFile(value)) return true
+  //               return value.size <= maxSize
+  //             }
+  //           ),
+  //         educationStudyAssignmentLetter: Yup.mixed()
+  //           .nullable()
+  //           .test(
+  //             'fileType',
+  //             'Format file harus PNG, JPG, atau PDF',
+  //             (value) => {
+  //               if (!value) return true
+  //               const fileType = value && value.type
+  //               return (
+  //                 fileType === 'image/png' ||
+  //                 fileType === 'image/jpeg' ||
+  //                 fileType === 'application/pdf'
+  //               )
+  //             }
+  //           )
+  //           .test(
+  //             'fileSize',
+  //             'Ukuran file tidak boleh lebih dari 2MB',
+  //             (value) => {
+  //               const maxSize = 2 * 1024 * 1024
+  //               if (!value) return true
+  //               return value.size <= maxSize
+  //             }
+  //           ),
+  //         edudcationAcademicTitleLetter: Yup.mixed()
+  //           .nullable()
+  //           .test(
+  //             'fileType',
+  //             'Format file harus PNG, JPG, atau PDF',
+  //             (value) => {
+  //               if (!value) return true
+  //               const fileType = value && value.type
+  //               return (
+  //                 fileType === 'image/png' ||
+  //                 fileType === 'image/jpeg' ||
+  //                 fileType === 'application/pdf'
+  //               )
+  //             }
+  //           )
+  //           .test(
+  //             'fileSize',
+  //             'Ukuran file tidak boleh lebih dari 2MB',
+  //             (value) => {
+  //               const maxSize = 2 * 1024 * 1024
+  //               if (!value) return true
+  //               return value.size <= maxSize
+  //             }
+  //           )
+  //       })
+  //     )
+  //   } else {
+  //     return Yup.array()
+  //   }
+  // }),
+  // notes: Yup.lazy((notes) => {
+  //   if (Array.isArray(notes) && notes.length > 0) {
+  //     return Yup.array().of(
+  //       Yup.object().shape({
+  //         description: Yup.string()
+  //           .required('Catatan tidak boleh kosong')
+  //           .max(160, 'Catatan tidak boleh lebih dari 160 karakter')
+  //       })
+  //     )
+  //   } else {
+  //     return Yup.array()
+  //   }
+  // })
 })
 
 const EmployeeEditComponent = ({
   employee,
   position,
+  echelon,
+  decree,
+  group,
   residence,
   employmentType,
   getEmployee = () => {},
@@ -426,10 +545,20 @@ const EmployeeEditComponent = ({
     const newEmploymentType = employmentType?.data
       ? handleMapping('employments', employmentType?.data)
       : []
+    const newGroup = group?.data ? handleMapping('groups', group?.data) : []
+    const newDecreeType = decree?.data
+      ? handleMapping('decrees', decree?.data)
+      : []
+    const newEchelon = echelon?.options
+      ? handleMapping('echelons', echelon?.options)
+      : []
+
+    console.log('echelon', echelon)
+    console.log('newEchelon', newEchelon)
 
     const dataOptions = {
       positions: newPosition,
-      echelon: [],
+      echelon: newEchelon,
       grade: [],
       institution: [],
       residence: newResidence,
@@ -437,6 +566,7 @@ const EmployeeEditComponent = ({
       religion: religionOptions,
       gender: genderOptions,
       marital: maritalStatusOptions,
+      maritalFamily: maritalStatuFamilysOptions,
       employeeStatus: employeeStatusOptions,
       employeeEducationLevel: employeeEducationLevelOptions,
       educationLevel: educationLevelOptions,
@@ -450,8 +580,8 @@ const EmployeeEditComponent = ({
       periodCredits: periodCreditsOptions,
       status: statusOptions,
       positionDescription: positionDescOptions,
-      decreeType: [],
-      group: [],
+      decreeType: newDecreeType,
+      group: newGroup,
       period: periodOptions,
       workBehavior: ratingOptions,
       performance: predicateOptions,
@@ -462,7 +592,7 @@ const EmployeeEditComponent = ({
     }
 
     return dataOptions
-  }, [positions, residence, employmentType])
+  }, [positions, residence, employmentType, echelon, decree, group])
 
   const handleGetValueID = (type, val) => {
     if (val) {
@@ -470,6 +600,20 @@ const EmployeeEditComponent = ({
         const dataPosition = positions[positions.length - 1]
         const item = dataPosition.find((itm) => itm?.name == val)
         return item?.id
+      } else if (type == 'echelon') {
+        const idItm =
+          echelon?.options &&
+          echelon?.options.find((itm) => itm?.name == val)?.id
+        return idItm
+      } else if (type == 'group') {
+        const idItm =
+          group?.data && group?.data.find((itm) => itm?.name == val)?.id
+        return idItm
+      } else if (type == 'decreeType') {
+        const item =
+          decree?.data && decree?.data.find((itm) => itm?.name == val)?.id
+
+        return item
       } else if (type == 'residence') {
         const idItm =
           residence?.data && residence?.data.find((itm) => itm?.name == val)?.id
@@ -500,6 +644,19 @@ const EmployeeEditComponent = ({
           employmentType?.data &&
           employmentType?.data.find((itm) => itm?.id == val)?.name
 
+        return item
+      } else if (type == 'echelon') {
+        const item =
+          echelon?.options &&
+          echelon?.options.find((itm) => itm?.id == val)?.name
+        return item
+      } else if (type == 'decree') {
+        const item =
+          decree?.data && decree?.data.find((itm) => itm?.id == val)?.name
+        return item
+      } else if (type == 'group') {
+        const item =
+          group?.data && group?.data.find((itm) => itm?.id == val)?.name
         return item
       } else {
         const index = val - 1
@@ -669,81 +826,232 @@ const EmployeeEditComponent = ({
       )
       formData.append('type', 3)
 
-      // Educations
-      if (educations.length > 0) {
-        educations.map((item, index) => {
-          formData.append(`educations[${index}][id]`, item?.id || '')
+      // Families
+      if (families.length > 0) {
+        families.map((item, index) => {
+          formData.append(`families[${index}][id]`, item?.id || '')
           formData.append(
-            `educations[${index}][level]`,
-            handleGetValueID('employeeEducationLevel', item?.educationLevel)
+            `families[${index}][card_number]`,
+            item?.familyRegistNumber
           )
-          formData.append(`educations[${index}][name]`, item?.educationName)
+          formData.append(`families[${index}][name]`, item?.name)
+          formData.append(`families[${index}][id_number]`, item?.idNumber)
           formData.append(
-            `educations[${index}][study_area]`,
-            handleGetValueID('studyArea', item?.educationArea, '')
-          )
-          formData.append(
-            `educations[${index}][accreditation]`,
-            item?.educationAccreditation
+            `families[${index}][gender]`,
+            item?.gender == 'Laki-Laki' ? 1 : 0
           )
           formData.append(
-            `educations[${index}][faculty]`,
-            item?.educationFaculty
-          )
-          formData.append(`educations[${index}][major]`, item?.educationMajor)
-          formData.append(
-            `educations[${index}][status]`,
-            handleGetValueID('educationStatus', item?.educationStatus)
+            `families[${index}][religion]`,
+            handleGetValueID('religion', item?.religion, '')
           )
           formData.append(
-            `educations[${index}][year_of_graduation]`,
-            handleFormatDate(item?.educationYear, 'YYYY')
+            `families[${index}][place_of_birth]`,
+            item?.placeOfBirth
           )
           formData.append(
-            `educations[${index}][description]`,
-            item?.educationDescription
+            `families[${index}][date_of_birth]`,
+            handleFormatDate(item?.dateOfBirth, 'YYYY-MM-DD')
           )
           formData.append(
-            `educations[${index}][degree_document]`,
-            !item?.educationCertificate ||
-              typeof item?.educationCertificate == 'string'
-              ? ''
-              : item?.educationCertificate
+            `families[${index}][name_of_father]`,
+            item?.nameOfFather
           )
           formData.append(
-            `educations[${index}][delete_degree_document]`,
-            item?.educationCertificate ? 0 : 1
+            `families[${index}][name_of_mother]`,
+            item?.nameOfMother
           )
           formData.append(
-            `educations[${index}][study_assignment_letter]`,
-            item?.educationStudyAssignmentLetter || ''
+            `families[${index}][relationship_status]`,
+            handleGetValueID('relationshipStatus', item?.relationshipStatus, '')
           )
           formData.append(
-            `educations[${index}][delete_study_assignment_letter]`,
-            item?.educationStudyAssignmentLetter ? 0 : 1
+            `families[${index}][education]`,
+            handleGetValueID('educationLevel', item?.educationLevel, '')
+          )
+          formData.append(`families[${index}][occupation]`, item?.occupation)
+          formData.append(
+            `families[${index}][occupation_description]`,
+            item?.occupationDescription
           )
           formData.append(
-            `educations[${index}][academic_title_letter]`,
-            item?.edudcationAcademicTitleLetter || ''
+            `families[${index}][marital_status]`,
+            handleGetValueID('maritalFamily', item?.maritalStatus, '')
           )
+          formData.append(`families[${index}][mobile_phone]`, item?.mobilePhone)
           formData.append(
-            `educations[${index}][delete_academic_title_letter]`,
-            item?.edudcationAcademicTitleLetter ? 0 : 1
+            `families[${index}][sequence_number]`,
+            item?.sequenceNumber
           )
         })
       } else {
-        formData.append(`educations`, emptyArray)
+        formData.append(`families`, emptyArray)
       }
 
+      // History Positions
+      positions.map((item, index) => {
+        formData.append(`positions[${index}][id]`, item?.id || '')
+        formData.append(`positions[${index}][position]`, item?.position)
+        formData.append(
+          `positions[${index}][group_id]`,
+          handleGetValueID('group', item?.group, '')
+        )
+        formData.append(
+          `positions[${index}][echelon]`,
+          item?.level ? handleGetValueID('echelon', item?.level, '') : ''
+        )
+        formData.append(
+          `positions[${index}][position_status]`,
+          item?.description
+            ? handleGetValueID('positionDescription', item?.description, '')
+            : ''
+        )
+        formData.append(
+          `positions[${index}][effective_date]`,
+          handleFormatDate(item?.effectiveDate, 'YYYY-MM-DD')
+        )
+        formData.append(`positions[${index}][decree]`, item?.decree)
+        formData.append(
+          `positions[${index}][decree_document]`,
+          !item?.decreeDocument || typeof item?.decreeDocument == 'string'
+            ? ''
+            : item?.decreeDocument
+        )
+        formData.append(
+          `positions[${index}][type_of_decree]`,
+          item?.decreeType
+            ? handleGetValueID('decreeType', item?.decreeType, '')
+            : ''
+        )
+        formData.append(
+          `positions[${index}][decree_number]`,
+          item?.decreeNumber
+        )
+        formData.append(
+          `positions[${index}][decree_date]`,
+          handleFormatDate(item?.decreeDate, 'YYYY-MM-DD')
+        )
+        formData.append(
+          `positions[${index}][termination_date]`,
+          handleFormatDate(item?.terminationDate, 'YYYY-MM-DD')
+        )
+        formData.append(
+          `positions[${index}][termination_decree]`,
+          item?.terminationDecree || ''
+        )
+        formData.append(
+          `positions[${index}][type_of_termination_decree]`,
+          item?.terminationDecreeType
+            ? handleGetValueID('decreeType', item?.terminationDecreeType, '')
+            : ''
+        )
+        formData.append(
+          `positions[${index}][termination_decree_number]`,
+          item?.terminationDecreeNumber
+        )
+        formData.append(
+          `positions[${index}][termination_decree_date]`,
+          handleFormatDate(item?.terminationDecreeDate, 'YYYY-MM-DD')
+        )
+        formData.append(
+          `positions[${index}][status]`,
+          item?.status == 'Aktif' ? 1 : 0
+        )
+        formData.append(
+          `positions[${index}][delete_decree_document]`,
+          values?.decreeDocument ? 0 : 1
+        )
+      })
+
+      // History Technicals Trainigns
+      technicals.map((item, index) => {
+        formData.append(`technicals[${index}][id]`, item?.id || '')
+        formData.append(
+          `technicals[${index}][certificate]`,
+          !item?.certificate || typeof item?.certificate == 'string'
+            ? ''
+            : item?.certificate
+        )
+        formData.append(
+          `technicals[${index}][delete_certificate]`,
+          item?.certificate ? 0 : 1
+        )
+      })
+
+      // Educations
+      // if (educations.length > 0) {
+      //   educations.map((item, index) => {
+      //     formData.append(`educations[${index}][id]`, item?.id || '')
+      //     formData.append(
+      //       `educations[${index}][level]`,
+      //       handleGetValueID('employeeEducationLevel', item?.educationLevel)
+      //     )
+      //     formData.append(`educations[${index}][name]`, item?.educationName)
+      //     formData.append(
+      //       `educations[${index}][study_area]`,
+      //       handleGetValueID('studyArea', item?.educationArea, '')
+      //     )
+      //     formData.append(
+      //       `educations[${index}][accreditation]`,
+      //       item?.educationAccreditation
+      //     )
+      //     formData.append(
+      //       `educations[${index}][faculty]`,
+      //       item?.educationFaculty
+      //     )
+      //     formData.append(`educations[${index}][major]`, item?.educationMajor)
+      //     formData.append(
+      //       `educations[${index}][status]`,
+      //       handleGetValueID('educationStatus', item?.educationStatus)
+      //     )
+      //     formData.append(
+      //       `educations[${index}][year_of_graduation]`,
+      //       handleFormatDate(item?.educationYear, 'YYYY')
+      //     )
+      //     formData.append(
+      //       `educations[${index}][description]`,
+      //       item?.educationDescription
+      //     )
+      //     formData.append(
+      //       `educations[${index}][degree_document]`,
+      //       !item?.educationCertificate ||
+      //         typeof item?.educationCertificate == 'string'
+      //         ? ''
+      //         : item?.educationCertificate
+      //     )
+      //     formData.append(
+      //       `educations[${index}][delete_degree_document]`,
+      //       item?.educationCertificate ? 0 : 1
+      //     )
+      //     formData.append(
+      //       `educations[${index}][study_assignment_letter]`,
+      //       item?.educationStudyAssignmentLetter || ''
+      //     )
+      //     formData.append(
+      //       `educations[${index}][delete_study_assignment_letter]`,
+      //       item?.educationStudyAssignmentLetter ? 0 : 1
+      //     )
+      //     formData.append(
+      //       `educations[${index}][academic_title_letter]`,
+      //       item?.edudcationAcademicTitleLetter || ''
+      //     )
+      //     formData.append(
+      //       `educations[${index}][delete_academic_title_letter]`,
+      //       item?.edudcationAcademicTitleLetter ? 0 : 1
+      //     )
+      //   })
+      // } else {
+      //   formData.append(`educations`, emptyArray)
+      // }
+
       // Notes
-      if (notes.length > 0) {
-        notes.map((item, index) => {
-          formData.append(`notes[${index}][id]`, item?.id || '')
-          formData.append(`notes[${index}][description]`, item?.description)
-        })
-      } else {
-        formData.append(`notes`, emptyArray)
-      }
+      // if (notes.length > 0) {
+      //   notes.map((item, index) => {
+      //     formData.append(`notes[${index}][id]`, item?.id || '')
+      //     formData.append(`notes[${index}][description]`, item?.description)
+      //   })
+      // } else {
+      //   formData.append(`notes`, emptyArray)
+      // }
 
       const payload = {
         id,
@@ -1104,92 +1412,270 @@ const EmployeeEditComponent = ({
         false
       )
 
-      // Educations
-      detail?.educations.map((itm, idx) => {
-        const educationsYear = itm?.year_of_graduation
-          ? moment(itm?.year_of_graduation, 'YYYY').toDate()
+      // History Positions
+      detail?.positions.map((itm, idx) => {
+        const positionsYear = itm?.period_year
+          ? moment(itm?.period_year, 'YYYY').toDate()
           : null
+        const positionsEffectiveDate = itm?.effective_date
+          ? moment(itm?.effective_date, 'DD-MM-YYYY').toDate()
+          : ''
+        const positionsDecreeDate = itm?.decree_date
+          ? moment(itm?.decree_date, 'DD-MM-YYYY').toDate()
+          : ''
+        const positionsTerminationDate = itm?.termination_date
+          ? moment(itm?.termination_date, 'DD-MM-YYYY').toDate()
+          : ''
+        const positionsTerminationDecreeDate = itm?.termination_decree_date
+          ? moment(itm?.termination_decree_date, 'DD-MM-YYYY').toDate()
+          : ''
 
         formikRef.current?.setFieldValue(
-          `educations[${idx}].id`,
+          `positions[${idx}].id`,
           itm?.id || null,
           false
         )
         formikRef.current?.setFieldValue(
-          `educations[${idx}].educationLevel`,
-          handleGetValue('employeeEducationLevel', itm?.level),
+          `positions[${idx}].month`,
+          handleGetValue('months', itm?.period_month),
           false
         )
         formikRef.current?.setFieldValue(
-          `educations[${idx}].educationName`,
+          `positions[${idx}].year`,
+          positionsYear,
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `positions[${idx}].position`,
+          itm?.position || '',
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `positions[${idx}].group`,
+          handleGetValue('group', itm?.group_id),
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `positions[${idx}].level`,
+          handleGetValue('echelon', itm?.echelon),
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `positions[${idx}].description`,
+          handleGetValue('positionDescription', itm?.position_status),
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `positions[${idx}].effectiveDate`,
+          positionsEffectiveDate,
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `positions[${idx}].decree`,
+          itm?.decree || '',
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `positions[${idx}].decreeDocument`,
+          handleSplitFile(itm?.decree_document),
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `positions[${idx}].decreeType`,
+          handleGetValue('decree', itm?.type_decree_id),
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `positions[${idx}].decreeNumber`,
+          itm?.decree_number || '',
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `positions[${idx}].decreeDate`,
+          positionsDecreeDate,
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `positions[${idx}].terminationDate`,
+          positionsTerminationDate,
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `positions[${idx}].terminationDecree`,
+          itm?.termination_decree,
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `positions[${idx}].terminationDecreeType`,
+          handleGetValue('decree', itm?.type_termination_decree_id),
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `positions[${idx}].terminationDecreeNumber`,
+          itm?.termination_decree_number || '',
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `positions[${idx}].terminationDecreeDate`,
+          positionsTerminationDecreeDate,
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `positions[${idx}].status`,
+          handleGetValue(
+            'status',
+            itm?.status !== null && itm?.status >= 0
+              ? itm?.status == 0
+                ? 2
+                : 1
+              : null
+          ),
+          false
+        )
+      })
+
+      // History Technicals Traininss
+      detail?.technicals.map((itm, idx) => {
+        const functionalsYear = itm?.period_year
+          ? moment(itm?.period_year, 'YYYY').toDate()
+          : null
+        const functionalsDate = itm?.start_date
+          ? moment(itm?.start_date, 'DD-MM-YYYY').toDate()
+          : null
+
+        formikRef.current?.setFieldValue(
+          `trainingTechnicals[${idx}].id`,
+          itm?.id || null,
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `trainingTechnicals[${idx}].month`,
+          handleGetValue('months', itm?.period_month),
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `trainingTechnicals[${idx}].year`,
+          functionalsYear,
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `trainingTechnicals[${idx}].trainingName`,
           itm?.name || '',
           false
         )
         formikRef.current?.setFieldValue(
-          `educations[${idx}].educationArea`,
-          handleGetValue('studyArea', itm?.study_area),
+          `trainingTechnicals[${idx}].number`,
+          itm?.reference_number || '',
           false
         )
         formikRef.current?.setFieldValue(
-          `educations[${idx}].educationAccreditation`,
-          itm?.accreditation || '',
+          `trainingTechnicals[${idx}].date`,
+          functionalsDate,
           false
         )
         formikRef.current?.setFieldValue(
-          `educations[${idx}].educationFaculty`,
-          itm?.faculty || '',
+          `trainingTechnicals[${idx}].duration`,
+          itm?.duration || '',
           false
         )
         formikRef.current?.setFieldValue(
-          `educations[${idx}].educationMajor`,
-          itm?.major || '',
+          `trainingTechnicals[${idx}].link`,
+          itm?.link || '',
           false
         )
         formikRef.current?.setFieldValue(
-          `educations[${idx}].educationStatus`,
-          handleGetValue('educationStatus', itm?.status),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `educations[${idx}].educationYear`,
-          educationsYear,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `educations[${idx}].educationDescription`,
-          itm?.description || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `educations[${idx}].educationCertificate`,
-          handleSplitFile(itm?.degree_document),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `educations[${idx}].educationStudyAssignmentLetter`,
-          handleSplitFile(itm?.study_assignment_letter),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `educations[${idx}].edudcationAcademicTitleLetter`,
-          handleSplitFile(itm?.academic_title_letter),
+          `trainingTechnicals[${idx}].certificate`,
+          handleSplitFile(itm?.certificate),
           false
         )
       })
 
+      // Educations
+      // detail?.educations.map((itm, idx) => {
+      //   const educationsYear = itm?.year_of_graduation
+      //     ? moment(itm?.year_of_graduation, 'YYYY').toDate()
+      //     : null
+
+      //   formikRef.current?.setFieldValue(
+      //     `educations[${idx}].id`,
+      //     itm?.id || null,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `educations[${idx}].educationLevel`,
+      //     handleGetValue('employeeEducationLevel', itm?.level),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `educations[${idx}].educationName`,
+      //     itm?.name || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `educations[${idx}].educationArea`,
+      //     handleGetValue('studyArea', itm?.study_area),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `educations[${idx}].educationAccreditation`,
+      //     itm?.accreditation || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `educations[${idx}].educationFaculty`,
+      //     itm?.faculty || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `educations[${idx}].educationMajor`,
+      //     itm?.major || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `educations[${idx}].educationStatus`,
+      //     handleGetValue('educationStatus', itm?.status),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `educations[${idx}].educationYear`,
+      //     educationsYear,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `educations[${idx}].educationDescription`,
+      //     itm?.description || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `educations[${idx}].educationCertificate`,
+      //     handleSplitFile(itm?.degree_document),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `educations[${idx}].educationStudyAssignmentLetter`,
+      //     handleSplitFile(itm?.study_assignment_letter),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `educations[${idx}].edudcationAcademicTitleLetter`,
+      //     handleSplitFile(itm?.academic_title_letter),
+      //     false
+      //   )
+      // })
+
       // Notes
-      detail?.notes.map((itm, idx) => {
-        formikRef.current?.setFieldValue(
-          `notes[${idx}].id`,
-          itm?.id || null,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `notes[${idx}].description`,
-          itm?.description || '',
-          false
-        )
-      })
+      // detail?.notes.map((itm, idx) => {
+      //   formikRef.current?.setFieldValue(
+      //     `notes[${idx}].id`,
+      //     itm?.id || null,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `notes[${idx}].description`,
+      //     itm?.description || '',
+      //     false
+      //   )
+      // })
     }
   }, [employee?.detail, residence, employmentType])
 
@@ -1234,6 +1720,9 @@ const EmployeeEditComponent = ({
 EmployeeEditComponent.propTypes = {
   employee: PropTypes.object,
   position: PropTypes.object,
+  echelon: PropTypes.object,
+  decree: PropTypes.object,
+  group: PropTypes.object,
   residence: PropTypes.object,
   employmentType: PropTypes.object,
   getEmployee: PropTypes.func,

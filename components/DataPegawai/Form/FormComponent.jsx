@@ -248,15 +248,36 @@ const FormComponent = (props) => {
     if (Object.entries(errorsForm).length > 0) handleSetErrorsForm(errorsForm)
   }, [errorsForm])
 
+  if (pageType == 'NON_ASN') {
+    return (
+      <Box sx={containerStyles}>
+        {/* Employee */}
+        <EmployeeForm {...props} {...formikProps} />
+        {/* Position */}
+        {isEdit && <PositionForm {...props} {...formikProps} />}
+      </Box>
+    )
+  }
+
   if (pageType == 'OUTSOURCING') {
     return (
       <Box sx={containerStyles}>
         {/* Employee */}
         <EmployeeForm {...props} {...formikProps} />
+        {isEdit && (
+          <>
+            {/* Position */}
+            <PositionForm {...props} {...formikProps} />
+            {/* Technic Traning */}
+            <TechnicalTrainingForm {...props} {...formikProps} />
+          </>
+        )}
+        {/* Family */}
+        <FamilyForm {...props} {...formikProps} />
         {/* Education */}
-        <EducationForm {...props} {...formikProps} />
+        {/* <EducationForm {...props} {...formikProps} /> */}
         {/* Notes */}
-        <NotesForm {...props} {...formikProps} />
+        {/* <NotesForm {...props} {...formikProps} /> */}
       </Box>
     )
   }

@@ -97,17 +97,6 @@ const EmployeeDetailComponent = ({
     }
   }
 
-  const path = useMemo(() => {
-    const pathname = router?.pathname.split('/')[2]
-    const data = {
-      ASN: pathname == 'asn',
-      NonASN: pathname == 'non-asn',
-      Outsource: pathname == 'outsourcing'
-    }
-
-    return data
-  }, [router])
-
   const getPermissionID = (type) => {
     if (type == 1) {
       return PermissionsIDs.EMPLOYEE_ASN
@@ -180,6 +169,17 @@ const EmployeeDetailComponent = ({
 
     return payload
   }, [employee, options])
+
+  const path = useMemo(() => {
+    const type = data?.type
+    const payload = {
+      ASN: type == 1,
+      NonASN: type == 2,
+      Outsource: type == 3
+    }
+
+    return payload
+  }, [data])
 
   const titleSummary = useMemo(() => {
     if (router?.pathname.includes('data-pegawai')) {
@@ -349,29 +349,23 @@ const EmployeeDetailComponent = ({
           (item?.id == 'hasil_talent_pool' && !hasTalentPoolAccess) ||
           (item?.id == 'riwayat_penetapan_angka_kredit_terakhir' &&
             !data?.position_id &&
-            !positionType)
+            !positionType) ||
+          (!path?.ASN &&
+            (item?.id == 'hasil_assessment' ||
+              item?.id == 'hasil_uji_kompetensi' ||
+              item?.id == 'hasil_talent_pool'))
         ) {
           return false
         }
 
-        // Show certain menus only on ASN
-        if (
-          !path?.ASN &&
-          (item?.id == 'hasil_assessment' ||
-            item?.id == 'hasil_uji_kompetensi' ||
-            item?.id == 'hasil_talent_pool')
-        ) {
-          return false
-        }
-
-        // Filter by Outsourcing menus
+        // Filter menus by employment type
         const outsourcingMenu = [
           'data_pegawai',
           'riwayat_pendidikan',
           'riwayat_keluarga',
           'riwayat_catatan'
         ]
-        const chosenRiwayatMenu = [
+        const asnMenu = [
           'riwayat_jabatan',
           'riwayat_golongan_/_pangkat',
           'riwayat_pelatihan_struktural',
@@ -383,17 +377,23 @@ const EmployeeDetailComponent = ({
           'riwayat_penilaian_prestasi_kerja',
           'riwayat_hukuman_disiplin'
         ]
+        const nonAsnMenu = ['data_pegawai', 'riwayat_jabatan']
 
-        if (path?.Outsource && outsourcingMenu?.includes(item?.id)) {
-          return true
-        }
-
-        if (!path?.Outsource) {
-          if (chosenRiwayatMenu.includes(item.id)) {
-            return Array.isArray(item?.data) && item.data.length > 0
+        if (path?.ASN) {
+          if (asnMenu.includes(item.id)) {
+            return Array.isArray(item?.data) && item?.data.length > 0
           }
 
           return true
+        }
+
+        if (
+          (path?.NonASN && nonAsnMenu.includes(item.id)) ||
+          (path?.Outsource && outsourcingMenu?.includes(item?.id))
+        ) {
+          return item.id == 'data_pegawai' || item.id == 'riwayat_keluarga'
+            ? true
+            : Array.isArray(item?.data) && item?.data.length > 0
         }
 
         return false

@@ -345,308 +345,308 @@ const FormSchema = Yup.object().shape({
         return value.size <= maxSize
       })
   }),
-  educations: Yup.lazy((educations) => {
-    if (Array.isArray(educations) && educations.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          educationLevel: Yup.string().required('Tingkat tidak boleh kosong'),
-          educationName: Yup.string().required('Nama tidak boleh kosong'),
-          educationStatus: Yup.string().required('Status tidak boleh kosong'),
-          educationYear: Yup.string().required(
-            'Tahun Lulus tidak boleh kosong'
-          ),
-          educationCertificate: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value || !isFile(value)) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value || !isFile(value)) return true
-                return value.size <= maxSize
-              }
-            ),
-          educationStudyAssignmentLetter: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value) return true
-                return value.size <= maxSize
-              }
-            ),
-          edudcationAcademicTitleLetter: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value) return true
-                return value.size <= maxSize
-              }
-            )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  families: Yup.lazy((families) => {
-    if (Array.isArray(families) && families.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          familyRegistNumber: Yup.string()
-            .min(16, 'No KK harus tediri dari 16 digit angka')
-            .max(16, 'No KK harus tediri dari 16 digit angka')
-            .required('No KK tidak boleh kosong'),
-          name: Yup.string().required(
-            'Nama Anggota Keluarga tidak boleh kosong'
-          ),
-          idNumber: Yup.string()
-            .min(16, 'No NIK harus terdiri dari 16 digit angka')
-            .min(16, 'No NIK harus terdiri dari 16 digit angka')
-            .required('No NIK tidak boleh kosong'),
-          gender: Yup.string().required('Jenis Kelamin tidak boleh kosong'),
-          religion: Yup.string().required('Agama tidak boleh kosong'),
-          placeOfBirth: Yup.string().required(
-            'Tempat Lahir tidak boleh kosong'
-          ),
-          dateOfBirth: Yup.string().required(
-            'Tanggal Lahir tidak boleh kosong'
-          ),
-          relationshipStatus: Yup.string().required(
-            'Hubungan Keluarga tidak boleh kosong'
-          ),
-          educationLevel: Yup.string().required(
-            'Pendidikan tidak boleh kosong'
-          ),
-          maritalStatus: Yup.string().required(
-            'Status Perkawinan tidak boleh kosong'
-          )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  leaves: Yup.lazy((leaves) => {
-    if (Array.isArray(leaves) && leaves.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          period: Yup.object()
-            .shape({
-              from: Yup.string().required('Pilih tanggal awal'),
-              to: Yup.string().required('Pilih tanggal akhir')
-            })
-            .required('Periode tidak boleh kosong'),
-          type: Yup.string().required('Jenis Cuti tidak boleh kosong'),
-          number: Yup.string().required('No Cuti tidak boleh kosong'),
-          description: Yup.string().required('Keterangan tidak boleh kosong'),
-          leaveLetter: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value || !isFile(value)) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value || !isFile(value)) return true
-                return value.size <= maxSize
-              }
-            )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  notes: Yup.lazy((notes) => {
-    if (Array.isArray(notes) && notes.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          description: Yup.string()
-            .required('Catatan tidak boleh kosong')
-            .max(160, 'Catatan tidak boleh lebih dari 160 karakter')
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  assessments: Yup.lazy((assessments) => {
-    if (Array.isArray(assessments) && assessments.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          date: Yup.string().required('Tanggal tidak boleh kosong'),
-          point: Yup.string().required('Hasil tidak boleh kosong'),
-          certificate: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value || !isFile(value)) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value || !isFile(value)) return true
-                return value.size <= maxSize
-              }
-            )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  competences: Yup.lazy((competences) => {
-    if (Array.isArray(competences) && competences.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          date: Yup.string().required('Tanggal tidak boleh kosong'),
-          point: Yup.string().required('Hasil tidak boleh kosong'),
-          certificate: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value || !isFile(value)) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value || !isFile(value)) return true
-                return value.size <= maxSize
-              }
-            )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  talentPools: Yup.lazy((talentPools) => {
-    if (Array.isArray(talentPools) && talentPools.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          date: Yup.string().required('Tanggal tidak boleh kosong'),
-          point: Yup.string().required('Hasil tidak boleh kosong'),
-          certificate: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value || !isFile(value)) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value || !isFile(value)) return true
-                return value.size <= maxSize
-              }
-            )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  credits: Yup.lazy((credits) => {
-    if (Array.isArray(credits) && credits.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          period: Yup.string().required('Periode tidak boleh kosong'),
-          year: Yup.string().required('Tahun tidak boleh kosong')
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
+  // educations: Yup.lazy((educations) => {
+  //   if (Array.isArray(educations) && educations.length > 0) {
+  //     return Yup.array().of(
+  //       Yup.object().shape({
+  //         educationLevel: Yup.string().required('Tingkat tidak boleh kosong'),
+  //         educationName: Yup.string().required('Nama tidak boleh kosong'),
+  //         educationStatus: Yup.string().required('Status tidak boleh kosong'),
+  //         educationYear: Yup.string().required(
+  //           'Tahun Lulus tidak boleh kosong'
+  //         ),
+  //         educationCertificate: Yup.mixed()
+  //           .nullable()
+  //           .test(
+  //             'fileType',
+  //             'Format file harus PNG, JPG, atau PDF',
+  //             (value) => {
+  //               if (!value || !isFile(value)) return true
+  //               const fileType = value && value.type
+  //               return (
+  //                 fileType === 'image/png' ||
+  //                 fileType === 'image/jpeg' ||
+  //                 fileType === 'application/pdf'
+  //               )
+  //             }
+  //           )
+  //           .test(
+  //             'fileSize',
+  //             'Ukuran file tidak boleh lebih dari 2MB',
+  //             (value) => {
+  //               const maxSize = 2 * 1024 * 1024
+  //               if (!value || !isFile(value)) return true
+  //               return value.size <= maxSize
+  //             }
+  //           ),
+  //         educationStudyAssignmentLetter: Yup.mixed()
+  //           .nullable()
+  //           .test(
+  //             'fileType',
+  //             'Format file harus PNG, JPG, atau PDF',
+  //             (value) => {
+  //               if (!value) return true
+  //               const fileType = value && value.type
+  //               return (
+  //                 fileType === 'image/png' ||
+  //                 fileType === 'image/jpeg' ||
+  //                 fileType === 'application/pdf'
+  //               )
+  //             }
+  //           )
+  //           .test(
+  //             'fileSize',
+  //             'Ukuran file tidak boleh lebih dari 2MB',
+  //             (value) => {
+  //               const maxSize = 2 * 1024 * 1024
+  //               if (!value) return true
+  //               return value.size <= maxSize
+  //             }
+  //           ),
+  //         edudcationAcademicTitleLetter: Yup.mixed()
+  //           .nullable()
+  //           .test(
+  //             'fileType',
+  //             'Format file harus PNG, JPG, atau PDF',
+  //             (value) => {
+  //               if (!value) return true
+  //               const fileType = value && value.type
+  //               return (
+  //                 fileType === 'image/png' ||
+  //                 fileType === 'image/jpeg' ||
+  //                 fileType === 'application/pdf'
+  //               )
+  //             }
+  //           )
+  //           .test(
+  //             'fileSize',
+  //             'Ukuran file tidak boleh lebih dari 2MB',
+  //             (value) => {
+  //               const maxSize = 2 * 1024 * 1024
+  //               if (!value) return true
+  //               return value.size <= maxSize
+  //             }
+  //           )
+  //       })
+  //     )
+  //   } else {
+  //     return Yup.array()
+  //   }
+  // }),
+  // families: Yup.lazy((families) => {
+  //   if (Array.isArray(families) && families.length > 0) {
+  //     return Yup.array().of(
+  //       Yup.object().shape({
+  //         familyRegistNumber: Yup.string()
+  //           .min(16, 'No KK harus tediri dari 16 digit angka')
+  //           .max(16, 'No KK harus tediri dari 16 digit angka')
+  //           .required('No KK tidak boleh kosong'),
+  //         name: Yup.string().required(
+  //           'Nama Anggota Keluarga tidak boleh kosong'
+  //         ),
+  //         idNumber: Yup.string()
+  //           .min(16, 'No NIK harus terdiri dari 16 digit angka')
+  //           .min(16, 'No NIK harus terdiri dari 16 digit angka')
+  //           .required('No NIK tidak boleh kosong'),
+  //         gender: Yup.string().required('Jenis Kelamin tidak boleh kosong'),
+  //         religion: Yup.string().required('Agama tidak boleh kosong'),
+  //         placeOfBirth: Yup.string().required(
+  //           'Tempat Lahir tidak boleh kosong'
+  //         ),
+  //         dateOfBirth: Yup.string().required(
+  //           'Tanggal Lahir tidak boleh kosong'
+  //         ),
+  //         relationshipStatus: Yup.string().required(
+  //           'Hubungan Keluarga tidak boleh kosong'
+  //         ),
+  //         educationLevel: Yup.string().required(
+  //           'Pendidikan tidak boleh kosong'
+  //         ),
+  //         maritalStatus: Yup.string().required(
+  //           'Status Perkawinan tidak boleh kosong'
+  //         )
+  //       })
+  //     )
+  //   } else {
+  //     return Yup.array()
+  //   }
+  // }),
+  // leaves: Yup.lazy((leaves) => {
+  //   if (Array.isArray(leaves) && leaves.length > 0) {
+  //     return Yup.array().of(
+  //       Yup.object().shape({
+  //         period: Yup.object()
+  //           .shape({
+  //             from: Yup.string().required('Pilih tanggal awal'),
+  //             to: Yup.string().required('Pilih tanggal akhir')
+  //           })
+  //           .required('Periode tidak boleh kosong'),
+  //         type: Yup.string().required('Jenis Cuti tidak boleh kosong'),
+  //         number: Yup.string().required('No Cuti tidak boleh kosong'),
+  //         description: Yup.string().required('Keterangan tidak boleh kosong'),
+  //         leaveLetter: Yup.mixed()
+  //           .nullable()
+  //           .test(
+  //             'fileType',
+  //             'Format file harus PNG, JPG, atau PDF',
+  //             (value) => {
+  //               if (!value || !isFile(value)) return true
+  //               const fileType = value && value.type
+  //               return (
+  //                 fileType === 'image/png' ||
+  //                 fileType === 'image/jpeg' ||
+  //                 fileType === 'application/pdf'
+  //               )
+  //             }
+  //           )
+  //           .test(
+  //             'fileSize',
+  //             'Ukuran file tidak boleh lebih dari 2MB',
+  //             (value) => {
+  //               const maxSize = 2 * 1024 * 1024
+  //               if (!value || !isFile(value)) return true
+  //               return value.size <= maxSize
+  //             }
+  //           )
+  //       })
+  //     )
+  //   } else {
+  //     return Yup.array()
+  //   }
+  // }),
+  // notes: Yup.lazy((notes) => {
+  //   if (Array.isArray(notes) && notes.length > 0) {
+  //     return Yup.array().of(
+  //       Yup.object().shape({
+  //         description: Yup.string()
+  //           .required('Catatan tidak boleh kosong')
+  //           .max(160, 'Catatan tidak boleh lebih dari 160 karakter')
+  //       })
+  //     )
+  //   } else {
+  //     return Yup.array()
+  //   }
+  // }),
+  // assessments: Yup.lazy((assessments) => {
+  //   if (Array.isArray(assessments) && assessments.length > 0) {
+  //     return Yup.array().of(
+  //       Yup.object().shape({
+  //         date: Yup.string().required('Tanggal tidak boleh kosong'),
+  //         point: Yup.string().required('Hasil tidak boleh kosong'),
+  //         certificate: Yup.mixed()
+  //           .nullable()
+  //           .test(
+  //             'fileType',
+  //             'Format file harus PNG, JPG, atau PDF',
+  //             (value) => {
+  //               if (!value || !isFile(value)) return true
+  //               const fileType = value && value.type
+  //               return (
+  //                 fileType === 'image/png' ||
+  //                 fileType === 'image/jpeg' ||
+  //                 fileType === 'application/pdf'
+  //               )
+  //             }
+  //           )
+  //           .test(
+  //             'fileSize',
+  //             'Ukuran file tidak boleh lebih dari 2MB',
+  //             (value) => {
+  //               const maxSize = 2 * 1024 * 1024
+  //               if (!value || !isFile(value)) return true
+  //               return value.size <= maxSize
+  //             }
+  //           )
+  //       })
+  //     )
+  //   } else {
+  //     return Yup.array()
+  //   }
+  // }),
+  // competences: Yup.lazy((competences) => {
+  //   if (Array.isArray(competences) && competences.length > 0) {
+  //     return Yup.array().of(
+  //       Yup.object().shape({
+  //         date: Yup.string().required('Tanggal tidak boleh kosong'),
+  //         point: Yup.string().required('Hasil tidak boleh kosong'),
+  //         certificate: Yup.mixed()
+  //           .nullable()
+  //           .test(
+  //             'fileType',
+  //             'Format file harus PNG, JPG, atau PDF',
+  //             (value) => {
+  //               if (!value || !isFile(value)) return true
+  //               const fileType = value && value.type
+  //               return (
+  //                 fileType === 'image/png' ||
+  //                 fileType === 'image/jpeg' ||
+  //                 fileType === 'application/pdf'
+  //               )
+  //             }
+  //           )
+  //           .test(
+  //             'fileSize',
+  //             'Ukuran file tidak boleh lebih dari 2MB',
+  //             (value) => {
+  //               const maxSize = 2 * 1024 * 1024
+  //               if (!value || !isFile(value)) return true
+  //               return value.size <= maxSize
+  //             }
+  //           )
+  //       })
+  //     )
+  //   } else {
+  //     return Yup.array()
+  //   }
+  // }),
+  // talentPools: Yup.lazy((talentPools) => {
+  //   if (Array.isArray(talentPools) && talentPools.length > 0) {
+  //     return Yup.array().of(
+  //       Yup.object().shape({
+  //         date: Yup.string().required('Tanggal tidak boleh kosong'),
+  //         point: Yup.string().required('Hasil tidak boleh kosong'),
+  //         certificate: Yup.mixed()
+  //           .nullable()
+  //           .test(
+  //             'fileType',
+  //             'Format file harus PNG, JPG, atau PDF',
+  //             (value) => {
+  //               if (!value || !isFile(value)) return true
+  //               const fileType = value && value.type
+  //               return (
+  //                 fileType === 'image/png' ||
+  //                 fileType === 'image/jpeg' ||
+  //                 fileType === 'application/pdf'
+  //               )
+  //             }
+  //           )
+  //           .test(
+  //             'fileSize',
+  //             'Ukuran file tidak boleh lebih dari 2MB',
+  //             (value) => {
+  //               const maxSize = 2 * 1024 * 1024
+  //               if (!value || !isFile(value)) return true
+  //               return value.size <= maxSize
+  //             }
+  //           )
+  //       })
+  //     )
+  //   } else {
+  //     return Yup.array()
+  //   }
+  // }),
+  // credits: Yup.lazy((credits) => {
+  //   if (Array.isArray(credits) && credits.length > 0) {
+  //     return Yup.array().of(
+  //       Yup.object().shape({
+  //         period: Yup.string().required('Periode tidak boleh kosong'),
+  //         year: Yup.string().required('Tahun tidak boleh kosong')
+  //       })
+  //     )
+  //   } else {
+  //     return Yup.array()
+  //   }
+  // }),
   positions: Yup.lazy((positions) => {
     if (Array.isArray(positions) && positions.length > 0) {
       return Yup.array().of(
@@ -686,205 +686,205 @@ const FormSchema = Yup.object().shape({
     } else {
       return Yup.array()
     }
-  }),
-  grades: Yup.lazy((grades) => {
-    if (Array.isArray(grades) && grades.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          grade: Yup.string().required('Golongan tidak boleh kosong'),
-          effectiveDate: Yup.string().required(
-            'TMT Golongan tidak boleh kosong'
-          ),
-          decreeType: Yup.string().required(
-            'Jenis SK Golongan tidak boleh kosong'
-          ),
-          decreeNumber: Yup.string().required(
-            'No. SK Golongan tidak boleh kosong'
-          ),
-          status: Yup.string().required('Status Golongan tidak boleh kosong'),
-          decreeDocument: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value || !isFile(value)) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value || !isFile(value)) return true
-                return value.size <= maxSize
-              }
-            )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  trainingStructurals: Yup.lazy((trainingStructurals) => {
-    if (Array.isArray(trainingStructurals) && trainingStructurals.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          certificate: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value || !isFile(value)) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value || !isFile(value)) return true
-                return value.size <= maxSize
-              }
-            )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  trainingFungsionals: Yup.lazy((trainingFungsionals) => {
-    if (Array.isArray(trainingFungsionals) && trainingFungsionals.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          certificate: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value || !isFile(value)) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value || !isFile(value)) return true
-                return value.size <= maxSize
-              }
-            )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  trainingTechnicals: Yup.lazy((trainingTechnicals) => {
-    if (Array.isArray(trainingTechnicals) && trainingTechnicals.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          certificate: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value || !isFile(value)) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value || !isFile(value)) return true
-                return value.size <= maxSize
-              }
-            )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  targets: Yup.lazy((targets) => {
-    if (Array.isArray(targets) && targets.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          workBehavior: Yup.string().required(
-            'Rating Perilaku Kerja tidak boleh kosong'
-          ),
-          performance: Yup.string().required(
-            'Predikat Kinerja Pegawai tidak boleh kosong'
-          ),
-          performanceAchievement: Yup.string().required(
-            'Capaian Kinerja Organisasi tidak boleh kosong'
-          )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  performances: Yup.lazy((performances) => {
-    if (Array.isArray(performances) && performances.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          point: Yup.string().required(
-            'Nilai Prestasi Kerja tidak boleh kosong'
-          )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  disciplinaries: Yup.lazy((disciplinaries) => {
-    if (Array.isArray(disciplinaries) && disciplinaries.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          discipleType: Yup.string().required(
-            'Jenis Hukuman tidak boleh kosong'
-          ),
-          discipleDate: Yup.object()
-            .shape({
-              from: Yup.string().required('Pilih tanggal awal'),
-              to: Yup.string().required('Pilih tanggal akhir')
-            })
-            .required('Tanggal Hukuman tidak boleh kosong')
-        })
-      )
-    } else {
-      return Yup.array()
-    }
   })
+  // grades: Yup.lazy((grades) => {
+  //   if (Array.isArray(grades) && grades.length > 0) {
+  //     return Yup.array().of(
+  //       Yup.object().shape({
+  //         grade: Yup.string().required('Golongan tidak boleh kosong'),
+  //         effectiveDate: Yup.string().required(
+  //           'TMT Golongan tidak boleh kosong'
+  //         ),
+  //         decreeType: Yup.string().required(
+  //           'Jenis SK Golongan tidak boleh kosong'
+  //         ),
+  //         decreeNumber: Yup.string().required(
+  //           'No. SK Golongan tidak boleh kosong'
+  //         ),
+  //         status: Yup.string().required('Status Golongan tidak boleh kosong'),
+  //         decreeDocument: Yup.mixed()
+  //           .nullable()
+  //           .test(
+  //             'fileType',
+  //             'Format file harus PNG, JPG, atau PDF',
+  //             (value) => {
+  //               if (!value || !isFile(value)) return true
+  //               const fileType = value && value.type
+  //               return (
+  //                 fileType === 'image/png' ||
+  //                 fileType === 'image/jpeg' ||
+  //                 fileType === 'application/pdf'
+  //               )
+  //             }
+  //           )
+  //           .test(
+  //             'fileSize',
+  //             'Ukuran file tidak boleh lebih dari 2MB',
+  //             (value) => {
+  //               const maxSize = 2 * 1024 * 1024
+  //               if (!value || !isFile(value)) return true
+  //               return value.size <= maxSize
+  //             }
+  //           )
+  //       })
+  //     )
+  //   } else {
+  //     return Yup.array()
+  //   }
+  // }),
+  // trainingStructurals: Yup.lazy((trainingStructurals) => {
+  //   if (Array.isArray(trainingStructurals) && trainingStructurals.length > 0) {
+  //     return Yup.array().of(
+  //       Yup.object().shape({
+  //         certificate: Yup.mixed()
+  //           .nullable()
+  //           .test(
+  //             'fileType',
+  //             'Format file harus PNG, JPG, atau PDF',
+  //             (value) => {
+  //               if (!value || !isFile(value)) return true
+  //               const fileType = value && value.type
+  //               return (
+  //                 fileType === 'image/png' ||
+  //                 fileType === 'image/jpeg' ||
+  //                 fileType === 'application/pdf'
+  //               )
+  //             }
+  //           )
+  //           .test(
+  //             'fileSize',
+  //             'Ukuran file tidak boleh lebih dari 2MB',
+  //             (value) => {
+  //               const maxSize = 2 * 1024 * 1024
+  //               if (!value || !isFile(value)) return true
+  //               return value.size <= maxSize
+  //             }
+  //           )
+  //       })
+  //     )
+  //   } else {
+  //     return Yup.array()
+  //   }
+  // }),
+  // trainingFungsionals: Yup.lazy((trainingFungsionals) => {
+  //   if (Array.isArray(trainingFungsionals) && trainingFungsionals.length > 0) {
+  //     return Yup.array().of(
+  //       Yup.object().shape({
+  //         certificate: Yup.mixed()
+  //           .nullable()
+  //           .test(
+  //             'fileType',
+  //             'Format file harus PNG, JPG, atau PDF',
+  //             (value) => {
+  //               if (!value || !isFile(value)) return true
+  //               const fileType = value && value.type
+  //               return (
+  //                 fileType === 'image/png' ||
+  //                 fileType === 'image/jpeg' ||
+  //                 fileType === 'application/pdf'
+  //               )
+  //             }
+  //           )
+  //           .test(
+  //             'fileSize',
+  //             'Ukuran file tidak boleh lebih dari 2MB',
+  //             (value) => {
+  //               const maxSize = 2 * 1024 * 1024
+  //               if (!value || !isFile(value)) return true
+  //               return value.size <= maxSize
+  //             }
+  //           )
+  //       })
+  //     )
+  //   } else {
+  //     return Yup.array()
+  //   }
+  // }),
+  // trainingTechnicals: Yup.lazy((trainingTechnicals) => {
+  //   if (Array.isArray(trainingTechnicals) && trainingTechnicals.length > 0) {
+  //     return Yup.array().of(
+  //       Yup.object().shape({
+  //         certificate: Yup.mixed()
+  //           .nullable()
+  //           .test(
+  //             'fileType',
+  //             'Format file harus PNG, JPG, atau PDF',
+  //             (value) => {
+  //               if (!value || !isFile(value)) return true
+  //               const fileType = value && value.type
+  //               return (
+  //                 fileType === 'image/png' ||
+  //                 fileType === 'image/jpeg' ||
+  //                 fileType === 'application/pdf'
+  //               )
+  //             }
+  //           )
+  //           .test(
+  //             'fileSize',
+  //             'Ukuran file tidak boleh lebih dari 2MB',
+  //             (value) => {
+  //               const maxSize = 2 * 1024 * 1024
+  //               if (!value || !isFile(value)) return true
+  //               return value.size <= maxSize
+  //             }
+  //           )
+  //       })
+  //     )
+  //   } else {
+  //     return Yup.array()
+  //   }
+  // }),
+  // targets: Yup.lazy((targets) => {
+  //   if (Array.isArray(targets) && targets.length > 0) {
+  //     return Yup.array().of(
+  //       Yup.object().shape({
+  //         workBehavior: Yup.string().required(
+  //           'Rating Perilaku Kerja tidak boleh kosong'
+  //         ),
+  //         performance: Yup.string().required(
+  //           'Predikat Kinerja Pegawai tidak boleh kosong'
+  //         ),
+  //         performanceAchievement: Yup.string().required(
+  //           'Capaian Kinerja Organisasi tidak boleh kosong'
+  //         )
+  //       })
+  //     )
+  //   } else {
+  //     return Yup.array()
+  //   }
+  // }),
+  // performances: Yup.lazy((performances) => {
+  //   if (Array.isArray(performances) && performances.length > 0) {
+  //     return Yup.array().of(
+  //       Yup.object().shape({
+  //         point: Yup.string().required(
+  //           'Nilai Prestasi Kerja tidak boleh kosong'
+  //         )
+  //       })
+  //     )
+  //   } else {
+  //     return Yup.array()
+  //   }
+  // }),
+  // disciplinaries: Yup.lazy((disciplinaries) => {
+  //   if (Array.isArray(disciplinaries) && disciplinaries.length > 0) {
+  //     return Yup.array().of(
+  //       Yup.object().shape({
+  //         discipleType: Yup.string().required(
+  //           'Jenis Hukuman tidak boleh kosong'
+  //         ),
+  //         discipleDate: Yup.object()
+  //           .shape({
+  //             from: Yup.string().required('Pilih tanggal awal'),
+  //             to: Yup.string().required('Pilih tanggal akhir')
+  //           })
+  //           .required('Tanggal Hukuman tidak boleh kosong')
+  //       })
+  //     )
+  //   } else {
+  //     return Yup.array()
+  //   }
+  // })
 })
 
 const EmployeeEditComponent = ({
@@ -1623,236 +1623,237 @@ const EmployeeEditComponent = ({
       }
 
       // History Positions
-      positions.map((item, index) => {
-        formData.append(`positions[${index}][id]`, item?.id || '')
-        formData.append(`positions[${index}][position]`, item?.position)
-        formData.append(
-          `positions[${index}][group_id]`,
-          handleGetValueID('group', item?.group)
-        )
-        formData.append(
-          `positions[${index}][echelon]`,
-          item?.level ? handleGetValueID('echelon', item?.level) : ''
-        )
-        formData.append(
-          `positions[${index}][position_status]`,
-          item?.description
-            ? handleGetValueID('positionDescription', item?.description)
-            : ''
-        )
-        formData.append(
-          `positions[${index}][effective_date]`,
-          handleFormatDate(item?.effectiveDate, 'YYYY-MM-DD')
-        )
-        formData.append(`positions[${index}][decree]`, item?.decree)
-        formData.append(
-          `positions[${index}][decree_document]`,
-          !item?.decreeDocument || typeof item?.decreeDocument == 'string'
-            ? ''
-            : item?.decreeDocument
-        )
-        formData.append(
-          `positions[${index}][type_of_decree]`,
-          item?.decreeType
-            ? handleGetValueID('decreeType', item?.decreeType)
-            : ''
-        )
-        formData.append(
-          `positions[${index}][decree_number]`,
-          item?.decreeNumber
-        )
-        formData.append(
-          `positions[${index}][decree_date]`,
-          handleFormatDate(item?.decreeDate, 'YYYY-MM-DD')
-        )
-        formData.append(
-          `positions[${index}][termination_date]`,
-          handleFormatDate(item?.terminationDate, 'YYYY-MM-DD')
-        )
-        formData.append(
-          `positions[${index}][termination_decree]`,
-          item?.terminationDecree
-        )
-        formData.append(
-          `positions[${index}][type_of_termination_decree]`,
-          item?.terminationDecreeType
-            ? handleGetValueID('decreeType', item?.terminationDecreeType)
-            : ''
-        )
-        formData.append(
-          `positions[${index}][termination_decree_number]`,
-          item?.terminationDecreeNumber
-        )
-        formData.append(
-          `positions[${index}][termination_decree_date]`,
-          handleFormatDate(item?.terminationDecreeDate, 'YYYY-MM-DD')
-        )
-        formData.append(
-          `positions[${index}][status]`,
-          item?.status == 'Aktif' ? 1 : 0
-        )
-        formData.append(
-          `positions[${index}][delete_decree_document]`,
-          values?.decreeDocument ? 0 : 1
-        )
-      })
+      formData.append(`positions`, emptyArray)
+      // positions.map((item, index) => {
+      //   formData.append(`positions[${index}][id]`, item?.id || '')
+      //   formData.append(`positions[${index}][position]`, item?.position)
+      //   formData.append(
+      //     `positions[${index}][group_id]`,
+      //     handleGetValueID('group', item?.group)
+      //   )
+      //   formData.append(
+      //     `positions[${index}][echelon]`,
+      //     item?.level ? handleGetValueID('echelon', item?.level) : ''
+      //   )
+      //   formData.append(
+      //     `positions[${index}][position_status]`,
+      //     item?.description
+      //       ? handleGetValueID('positionDescription', item?.description)
+      //       : ''
+      //   )
+      //   formData.append(
+      //     `positions[${index}][effective_date]`,
+      //     handleFormatDate(item?.effectiveDate, 'YYYY-MM-DD')
+      //   )
+      //   formData.append(`positions[${index}][decree]`, item?.decree)
+      //   formData.append(
+      //     `positions[${index}][decree_document]`,
+      //     !item?.decreeDocument || typeof item?.decreeDocument == 'string'
+      //       ? ''
+      //       : item?.decreeDocument
+      //   )
+      //   formData.append(
+      //     `positions[${index}][type_of_decree]`,
+      //     item?.decreeType
+      //       ? handleGetValueID('decreeType', item?.decreeType)
+      //       : ''
+      //   )
+      //   formData.append(
+      //     `positions[${index}][decree_number]`,
+      //     item?.decreeNumber
+      //   )
+      //   formData.append(
+      //     `positions[${index}][decree_date]`,
+      //     handleFormatDate(item?.decreeDate, 'YYYY-MM-DD')
+      //   )
+      //   formData.append(
+      //     `positions[${index}][termination_date]`,
+      //     handleFormatDate(item?.terminationDate, 'YYYY-MM-DD')
+      //   )
+      //   formData.append(
+      //     `positions[${index}][termination_decree]`,
+      //     item?.terminationDecree
+      //   )
+      //   formData.append(
+      //     `positions[${index}][type_of_termination_decree]`,
+      //     item?.terminationDecreeType
+      //       ? handleGetValueID('decreeType', item?.terminationDecreeType)
+      //       : ''
+      //   )
+      //   formData.append(
+      //     `positions[${index}][termination_decree_number]`,
+      //     item?.terminationDecreeNumber
+      //   )
+      //   formData.append(
+      //     `positions[${index}][termination_decree_date]`,
+      //     handleFormatDate(item?.terminationDecreeDate, 'YYYY-MM-DD')
+      //   )
+      //   formData.append(
+      //     `positions[${index}][status]`,
+      //     item?.status == 'Aktif' ? 1 : 0
+      //   )
+      //   formData.append(
+      //     `positions[${index}][delete_decree_document]`,
+      //     values?.decreeDocument ? 0 : 1
+      //   )
+      // })
 
       // History Grades
-      grades.map((item, index) => {
-        formData.append(`grades[${index}][id]`, item?.id || '')
-        formData.append(
-          `grades[${index}][grade_id]`,
-          handleGetValueID('grade', item?.grade)
-        )
-        formData.append(
-          `grades[${index}][effective_date]`,
-          handleFormatDate(item?.effectiveDate, 'YYYY-MM-DD')
-        )
-        formData.append(`grades[${index}][decree]`, item?.decree)
-        formData.append(
-          `grades[${index}][decree_document]`,
-          !item?.decreeDocument || typeof item?.decreeDocument == 'string'
-            ? ''
-            : item?.decreeDocument
-        )
-        formData.append(
-          `grades[${index}][type_of_decree]`,
-          item?.decreeType
-            ? handleGetValueID('decreeType', item?.decreeType)
-            : ''
-        )
-        formData.append(`grades[${index}][decree_number]`, item?.decreeNumber)
-        formData.append(
-          `grades[${index}][decree_date]`,
-          handleFormatDate(item?.decreeDate, 'YYYY-MM-DD')
-        )
-        formData.append(`grades[${index}][description]`, item?.description)
-        formData.append(
-          `grades[${index}][status]`,
-          item?.status == 'Aktif' ? 1 : 0
-        )
-        formData.append(
-          `grades[${index}][delete_decree_document]`,
-          item?.decreeDocument ? 0 : 1
-        )
-      })
+      // grades.map((item, index) => {
+      //   formData.append(`grades[${index}][id]`, item?.id || '')
+      //   formData.append(
+      //     `grades[${index}][grade_id]`,
+      //     handleGetValueID('grade', item?.grade)
+      //   )
+      //   formData.append(
+      //     `grades[${index}][effective_date]`,
+      //     handleFormatDate(item?.effectiveDate, 'YYYY-MM-DD')
+      //   )
+      //   formData.append(`grades[${index}][decree]`, item?.decree)
+      //   formData.append(
+      //     `grades[${index}][decree_document]`,
+      //     !item?.decreeDocument || typeof item?.decreeDocument == 'string'
+      //       ? ''
+      //       : item?.decreeDocument
+      //   )
+      //   formData.append(
+      //     `grades[${index}][type_of_decree]`,
+      //     item?.decreeType
+      //       ? handleGetValueID('decreeType', item?.decreeType)
+      //       : ''
+      //   )
+      //   formData.append(`grades[${index}][decree_number]`, item?.decreeNumber)
+      //   formData.append(
+      //     `grades[${index}][decree_date]`,
+      //     handleFormatDate(item?.decreeDate, 'YYYY-MM-DD')
+      //   )
+      //   formData.append(`grades[${index}][description]`, item?.description)
+      //   formData.append(
+      //     `grades[${index}][status]`,
+      //     item?.status == 'Aktif' ? 1 : 0
+      //   )
+      //   formData.append(
+      //     `grades[${index}][delete_decree_document]`,
+      //     item?.decreeDocument ? 0 : 1
+      //   )
+      // })
 
       // History Structurals Traininss
-      structurals.map((item, index) => {
-        formData.append(`structurals[${index}][id]`, !item?.id || '')
-        formData.append(
-          `structurals[${index}][certificate]`,
-          !item?.certificate || typeof item?.certificate == 'string'
-            ? ''
-            : item?.certificate
-        )
-        formData.append(
-          `structurals[${index}][delete_certificate]`,
-          item?.certificate ? 0 : 1
-        )
-      })
+      // structurals.map((item, index) => {
+      //   formData.append(`structurals[${index}][id]`, !item?.id || '')
+      //   formData.append(
+      //     `structurals[${index}][certificate]`,
+      //     !item?.certificate || typeof item?.certificate == 'string'
+      //       ? ''
+      //       : item?.certificate
+      //   )
+      //   formData.append(
+      //     `structurals[${index}][delete_certificate]`,
+      //     item?.certificate ? 0 : 1
+      //   )
+      // })
 
       // History Functionals Traininss
-      functionals.map((item, index) => {
-        formData.append(`functionals[${index}][id]`, !item?.id || '')
-        formData.append(
-          `functionals[${index}][certificate]`,
-          !item?.certificate || typeof item?.certificate == 'string'
-            ? ''
-            : item?.certificate
-        )
-        formData.append(
-          `functionals[${index}][delete_certificate]`,
-          item?.certificate ? 0 : 1
-        )
-      })
+      // functionals.map((item, index) => {
+      //   formData.append(`functionals[${index}][id]`, !item?.id || '')
+      //   formData.append(
+      //     `functionals[${index}][certificate]`,
+      //     !item?.certificate || typeof item?.certificate == 'string'
+      //       ? ''
+      //       : item?.certificate
+      //   )
+      //   formData.append(
+      //     `functionals[${index}][delete_certificate]`,
+      //     item?.certificate ? 0 : 1
+      //   )
+      // })
 
       // History Technicals Traininss
-      technicals.map((item, index) => {
-        formData.append(`technicals[${index}][id]`, !item?.id || '')
-        formData.append(
-          `technicals[${index}][certificate]`,
-          !item?.certificate || typeof item?.certificate == 'string'
-            ? ''
-            : item?.certificate
-        )
-        formData.append(
-          `technicals[${index}][delete_certificate]`,
-          item?.certificate ? 0 : 1
-        )
-      })
+      // technicals.map((item, index) => {
+      //   formData.append(`technicals[${index}][id]`, !item?.id || '')
+      //   formData.append(
+      //     `technicals[${index}][certificate]`,
+      //     !item?.certificate || typeof item?.certificate == 'string'
+      //       ? ''
+      //       : item?.certificate
+      //   )
+      //   formData.append(
+      //     `technicals[${index}][delete_certificate]`,
+      //     item?.certificate ? 0 : 1
+      //   )
+      // })
 
       // History Targets
-      targets.map((item, index) => {
-        formData.append(`targets[${index}][id]`, !item?.id || '')
-        formData.append(
-          `targets[${index}][work_behavior_rating]`,
-          handleGetValueID('workBehavior', item?.workBehavior)
-        )
-        formData.append(
-          `targets[${index}][employee_performance_predicate]`,
-          handleGetValueID('performance', item?.performance)
-        )
-        formData.append(
-          `targets[${index}][organizational_performance_achievement]`,
-          handleGetValueID(
-            'performanceAchievement',
-            item?.performanceAchievement
-          )
-        )
-      })
+      // targets.map((item, index) => {
+      //   formData.append(`targets[${index}][id]`, !item?.id || '')
+      //   formData.append(
+      //     `targets[${index}][work_behavior_rating]`,
+      //     handleGetValueID('workBehavior', item?.workBehavior)
+      //   )
+      //   formData.append(
+      //     `targets[${index}][employee_performance_predicate]`,
+      //     handleGetValueID('performance', item?.performance)
+      //   )
+      //   formData.append(
+      //     `targets[${index}][organizational_performance_achievement]`,
+      //     handleGetValueID(
+      //       'performanceAchievement',
+      //       item?.performanceAchievement
+      //     )
+      //   )
+      // })
 
       // History Performances
-      performances.map((item, index) => {
-        formData.append(`performances[${index}][id]`, item?.id || '')
-        formData.append(
-          `performances[${index}][work_performance_score]`,
-          item?.point
-        )
-        formData.append(
-          `performances[${index}][description]`,
-          handleGetValueID('performancesType', item?.description)
-        )
-      })
+      // performances.map((item, index) => {
+      //   formData.append(`performances[${index}][id]`, item?.id || '')
+      //   formData.append(
+      //     `performances[${index}][work_performance_score]`,
+      //     item?.point
+      //   )
+      //   formData.append(
+      //     `performances[${index}][description]`,
+      //     handleGetValueID('performancesType', item?.description)
+      //   )
+      // })
 
       // History Disciplinaries
-      disciplinaries.map((item, index) => {
-        formData.append(`disciplinaries[${index}][id]`, item?.id || '')
-        formData.append(`disciplinaries[${index}][grade]`, item?.grade)
-        formData.append(`disciplinaries[${index}][position]`, item?.position)
-        formData.append(
-          `disciplinaries[${index}][disciplinary_id]`,
-          handleGetValueID('discipleType', item?.discipleType)
-        )
-        formData.append(
-          `disciplinaries[${index}][decree_number]`,
-          item?.decreeNumber
-        )
-        formData.append(
-          `disciplinaries[${index}][date_of_decree]`,
-          handleFormatDate(item?.decreeDate, 'YYYY-MM-DD')
-        )
-        formData.append(
-          `disciplinaries[${index}][start_date]`,
-          handleFormatDate(item?.discipleDate?.from, 'YYYY-MM-DD')
-        )
-        formData.append(
-          `disciplinaries[${index}][end_date]`,
-          handleFormatDate(item?.discipleDate?.to, 'YYYY-MM-DD')
-        )
-        formData.append(
-          `disciplinaries[${index}][authorizing_officer]`,
-          item?.authorizedOfficial
-        )
-        formData.append(
-          `disciplinaries[${index}][name_of_authorizing_officer]`,
-          item?.authorizedOfficialName
-        )
-        formData.append(
-          `disciplinaries[${index}][description]`,
-          item?.description
-        )
-      })
+      // disciplinaries.map((item, index) => {
+      //   formData.append(`disciplinaries[${index}][id]`, item?.id || '')
+      //   formData.append(`disciplinaries[${index}][grade]`, item?.grade)
+      //   formData.append(`disciplinaries[${index}][position]`, item?.position)
+      //   formData.append(
+      //     `disciplinaries[${index}][disciplinary_id]`,
+      //     handleGetValueID('discipleType', item?.discipleType)
+      //   )
+      //   formData.append(
+      //     `disciplinaries[${index}][decree_number]`,
+      //     item?.decreeNumber
+      //   )
+      //   formData.append(
+      //     `disciplinaries[${index}][date_of_decree]`,
+      //     handleFormatDate(item?.decreeDate, 'YYYY-MM-DD')
+      //   )
+      //   formData.append(
+      //     `disciplinaries[${index}][start_date]`,
+      //     handleFormatDate(item?.discipleDate?.from, 'YYYY-MM-DD')
+      //   )
+      //   formData.append(
+      //     `disciplinaries[${index}][end_date]`,
+      //     handleFormatDate(item?.discipleDate?.to, 'YYYY-MM-DD')
+      //   )
+      //   formData.append(
+      //     `disciplinaries[${index}][authorizing_officer]`,
+      //     item?.authorizedOfficial
+      //   )
+      //   formData.append(
+      //     `disciplinaries[${index}][name_of_authorizing_officer]`,
+      //     item?.authorizedOfficialName
+      //   )
+      //   formData.append(
+      //     `disciplinaries[${index}][description]`,
+      //     item?.description
+      //   )
+      // })
 
       const payload = {
         id,
@@ -2264,77 +2265,77 @@ const EmployeeEditComponent = ({
       )
 
       // Educations
-      detail?.educations.map((itm, idx) => {
-        const educationsYear = itm?.year_of_graduation
-          ? moment(itm?.year_of_graduation, 'YYYY').toDate()
-          : null
+      // detail?.educations.map((itm, idx) => {
+      //   const educationsYear = itm?.year_of_graduation
+      //     ? moment(itm?.year_of_graduation, 'YYYY').toDate()
+      //     : null
 
-        formikRef.current?.setFieldValue(
-          `educations[${idx}].id`,
-          itm?.id || null,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `educations[${idx}].educationLevel`,
-          handleGetValue('employeeEducationLevel', itm?.level),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `educations[${idx}].educationName`,
-          itm?.name || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `educations[${idx}].educationArea`,
-          handleGetValue('studyArea', itm?.study_area),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `educations[${idx}].educationAccreditation`,
-          itm?.accreditation || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `educations[${idx}].educationFaculty`,
-          itm?.faculty || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `educations[${idx}].educationMajor`,
-          itm?.major || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `educations[${idx}].educationStatus`,
-          handleGetValue('educationStatus', itm?.status),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `educations[${idx}].educationYear`,
-          educationsYear,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `educations[${idx}].educationDescription`,
-          itm?.description || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `educations[${idx}].educationCertificate`,
-          handleSplitFile(itm?.degree_document),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `educations[${idx}].educationStudyAssignmentLetter`,
-          handleSplitFile(itm?.study_assignment_letter),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `educations[${idx}].edudcationAcademicTitleLetter`,
-          handleSplitFile(itm?.academic_title_letter),
-          false
-        )
-      })
+      //   formikRef.current?.setFieldValue(
+      //     `educations[${idx}].id`,
+      //     itm?.id || null,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `educations[${idx}].educationLevel`,
+      //     handleGetValue('employeeEducationLevel', itm?.level),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `educations[${idx}].educationName`,
+      //     itm?.name || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `educations[${idx}].educationArea`,
+      //     handleGetValue('studyArea', itm?.study_area),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `educations[${idx}].educationAccreditation`,
+      //     itm?.accreditation || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `educations[${idx}].educationFaculty`,
+      //     itm?.faculty || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `educations[${idx}].educationMajor`,
+      //     itm?.major || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `educations[${idx}].educationStatus`,
+      //     handleGetValue('educationStatus', itm?.status),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `educations[${idx}].educationYear`,
+      //     educationsYear,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `educations[${idx}].educationDescription`,
+      //     itm?.description || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `educations[${idx}].educationCertificate`,
+      //     handleSplitFile(itm?.degree_document),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `educations[${idx}].educationStudyAssignmentLetter`,
+      //     handleSplitFile(itm?.study_assignment_letter),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `educations[${idx}].edudcationAcademicTitleLetter`,
+      //     handleSplitFile(itm?.academic_title_letter),
+      //     false
+      //   )
+      // })
 
       // History Positions
       detail?.positions.map((itm, idx) => {
@@ -2459,711 +2460,711 @@ const EmployeeEditComponent = ({
       })
 
       // History Grade
-      detail?.grades.map((itm, idx) => {
-        const gradesYear = itm?.period_year
-          ? moment(itm?.period_year, 'YYYY').toDate()
-          : null
-        const gradesEffectiveDate = itm?.effective_date
-          ? moment(itm?.effective_date, 'DD-MM-YYYY')
-          : ''
-        const gradesDecreeDate = itm?.decree_date
-          ? moment(itm?.decree_date, 'DD-MM-YYYY')
-          : ''
+      // detail?.grades.map((itm, idx) => {
+      //   const gradesYear = itm?.period_year
+      //     ? moment(itm?.period_year, 'YYYY').toDate()
+      //     : null
+      //   const gradesEffectiveDate = itm?.effective_date
+      //     ? moment(itm?.effective_date, 'DD-MM-YYYY')
+      //     : ''
+      //   const gradesDecreeDate = itm?.decree_date
+      //     ? moment(itm?.decree_date, 'DD-MM-YYYY')
+      //     : ''
 
-        formikRef.current?.setFieldValue(
-          `grades[${idx}].id`,
-          itm?.id || null,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `grades[${idx}].month`,
-          handleGetValue('months', itm?.period_month),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `grades[${idx}].year`,
-          gradesYear,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `grades[${idx}].grade`,
-          handleGetValue('grade', itm?.grade_id),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `grades[${idx}].effectiveDate`,
-          gradesEffectiveDate,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `grades[${idx}].decree`,
-          itm?.decree_name || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `grades[${idx}].decreeDocument`,
-          handleSplitFile(itm?.decree_document),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `grades[${idx}].decreeType`,
-          handleGetValue('decree', itm?.type_of_decree),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `grades[${idx}].decreeNumber`,
-          itm?.decree_number || null,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `grades[${idx}].decreeDate`,
-          gradesDecreeDate,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `grades[${idx}].description`,
-          itm?.description || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `grades[${idx}].status`,
-          handleGetValue(
-            'status',
-            itm?.status !== null && itm?.status >= 0
-              ? itm?.status == 0
-                ? 2
-                : 1
-              : null
-          ),
-          false
-        )
-      })
+      //   formikRef.current?.setFieldValue(
+      //     `grades[${idx}].id`,
+      //     itm?.id || null,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `grades[${idx}].month`,
+      //     handleGetValue('months', itm?.period_month),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `grades[${idx}].year`,
+      //     gradesYear,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `grades[${idx}].grade`,
+      //     handleGetValue('grade', itm?.grade_id),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `grades[${idx}].effectiveDate`,
+      //     gradesEffectiveDate,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `grades[${idx}].decree`,
+      //     itm?.decree_name || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `grades[${idx}].decreeDocument`,
+      //     handleSplitFile(itm?.decree_document),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `grades[${idx}].decreeType`,
+      //     handleGetValue('decree', itm?.type_of_decree),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `grades[${idx}].decreeNumber`,
+      //     itm?.decree_number || null,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `grades[${idx}].decreeDate`,
+      //     gradesDecreeDate,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `grades[${idx}].description`,
+      //     itm?.description || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `grades[${idx}].status`,
+      //     handleGetValue(
+      //       'status',
+      //       itm?.status !== null && itm?.status >= 0
+      //         ? itm?.status == 0
+      //           ? 2
+      //           : 1
+      //         : null
+      //     ),
+      //     false
+      //   )
+      // })
 
       // History Structurals Traininss
-      detail?.structurals.map((itm, idx) => {
-        const structuralsYear = itm?.period_year
-          ? moment(itm?.period_year, 'YYYY').toDate()
-          : null
-        const structuralsDate = itm?.start_date
-          ? moment(itm?.start_date, 'DD-MM-YYYY').toDate()
-          : null
+      // detail?.structurals.map((itm, idx) => {
+      //   const structuralsYear = itm?.period_year
+      //     ? moment(itm?.period_year, 'YYYY').toDate()
+      //     : null
+      //   const structuralsDate = itm?.start_date
+      //     ? moment(itm?.start_date, 'DD-MM-YYYY').toDate()
+      //     : null
 
-        formikRef.current?.setFieldValue(
-          `trainingStructurals[${idx}].id`,
-          itm?.id || null,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `trainingStructurals[${idx}].month`,
-          handleGetValue('months', itm?.period_month),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `trainingStructurals[${idx}].year`,
-          structuralsYear,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `trainingStructurals[${idx}].trainingName`,
-          itm?.name || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `trainingStructurals[${idx}].number`,
-          itm?.reference_number || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `trainingStructurals[${idx}].level`,
-          itm?.level || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `trainingStructurals[${idx}].date`,
-          structuralsDate,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `trainingStructurals[${idx}].duration`,
-          itm?.duration || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `trainingStructurals[${idx}].organizer`,
-          itm?.organizer || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `trainingStructurals[${idx}].link`,
-          itm?.link || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `trainingStructurals[${idx}].certificate`,
-          handleSplitFile(itm?.certificate),
-          false
-        )
-      })
+      //   formikRef.current?.setFieldValue(
+      //     `trainingStructurals[${idx}].id`,
+      //     itm?.id || null,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `trainingStructurals[${idx}].month`,
+      //     handleGetValue('months', itm?.period_month),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `trainingStructurals[${idx}].year`,
+      //     structuralsYear,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `trainingStructurals[${idx}].trainingName`,
+      //     itm?.name || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `trainingStructurals[${idx}].number`,
+      //     itm?.reference_number || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `trainingStructurals[${idx}].level`,
+      //     itm?.level || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `trainingStructurals[${idx}].date`,
+      //     structuralsDate,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `trainingStructurals[${idx}].duration`,
+      //     itm?.duration || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `trainingStructurals[${idx}].organizer`,
+      //     itm?.organizer || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `trainingStructurals[${idx}].link`,
+      //     itm?.link || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `trainingStructurals[${idx}].certificate`,
+      //     handleSplitFile(itm?.certificate),
+      //     false
+      //   )
+      // })
 
       // History Functionals Traininss
-      detail?.functionals.map((itm, idx) => {
-        const functionalsYear = itm?.period_year
-          ? moment(itm?.period_year, 'YYYY').toDate()
-          : null
-        const functionalsDate = itm?.start_date
-          ? moment(itm?.start_date, 'DD-MM-YYYY').toDate()
-          : null
+      // detail?.functionals.map((itm, idx) => {
+      //   const functionalsYear = itm?.period_year
+      //     ? moment(itm?.period_year, 'YYYY').toDate()
+      //     : null
+      //   const functionalsDate = itm?.start_date
+      //     ? moment(itm?.start_date, 'DD-MM-YYYY').toDate()
+      //     : null
 
-        formikRef.current?.setFieldValue(
-          `trainingFungsionals[${idx}].id`,
-          itm?.id || null,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `trainingFungsionals[${idx}].month`,
-          handleGetValue('months', itm?.period_month),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `trainingFungsionals[${idx}].year`,
-          functionalsYear,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `trainingFungsionals[${idx}].trainingName`,
-          itm?.name || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `trainingFungsionals[${idx}].number`,
-          itm?.reference_number || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `trainingFungsionals[${idx}].level`,
-          itm?.level || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `trainingFungsionals[${idx}].date`,
-          functionalsDate,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `trainingFungsionals[${idx}].duration`,
-          itm?.duration || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `trainingFungsionals[${idx}].organizer`,
-          itm?.organizer || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `trainingFungsionals[${idx}].link`,
-          itm?.link || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `trainingFungsionals[${idx}].certificate`,
-          handleSplitFile(itm?.certificate),
-          false
-        )
-      })
+      //   formikRef.current?.setFieldValue(
+      //     `trainingFungsionals[${idx}].id`,
+      //     itm?.id || null,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `trainingFungsionals[${idx}].month`,
+      //     handleGetValue('months', itm?.period_month),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `trainingFungsionals[${idx}].year`,
+      //     functionalsYear,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `trainingFungsionals[${idx}].trainingName`,
+      //     itm?.name || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `trainingFungsionals[${idx}].number`,
+      //     itm?.reference_number || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `trainingFungsionals[${idx}].level`,
+      //     itm?.level || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `trainingFungsionals[${idx}].date`,
+      //     functionalsDate,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `trainingFungsionals[${idx}].duration`,
+      //     itm?.duration || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `trainingFungsionals[${idx}].organizer`,
+      //     itm?.organizer || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `trainingFungsionals[${idx}].link`,
+      //     itm?.link || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `trainingFungsionals[${idx}].certificate`,
+      //     handleSplitFile(itm?.certificate),
+      //     false
+      //   )
+      // })
 
       // History Technicals Traininss
-      detail?.technicals.map((itm, idx) => {
-        const functionalsYear = itm?.period_year
-          ? moment(itm?.period_year, 'YYYY').toDate()
-          : null
-        const functionalsDate = itm?.start_date
-          ? moment(itm?.start_date, 'DD-MM-YYYY').toDate()
-          : null
+      // detail?.technicals.map((itm, idx) => {
+      //   const functionalsYear = itm?.period_year
+      //     ? moment(itm?.period_year, 'YYYY').toDate()
+      //     : null
+      //   const functionalsDate = itm?.start_date
+      //     ? moment(itm?.start_date, 'DD-MM-YYYY').toDate()
+      //     : null
 
-        formikRef.current?.setFieldValue(
-          `trainingTechnicals[${idx}].id`,
-          itm?.id || null,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `trainingTechnicals[${idx}].month`,
-          handleGetValue('months', itm?.period_month),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `trainingTechnicals[${idx}].year`,
-          functionalsYear,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `trainingTechnicals[${idx}].trainingName`,
-          itm?.name || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `trainingTechnicals[${idx}].number`,
-          itm?.reference_number || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `trainingTechnicals[${idx}].date`,
-          functionalsDate,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `trainingTechnicals[${idx}].duration`,
-          itm?.duration || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `trainingTechnicals[${idx}].link`,
-          itm?.link || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `trainingTechnicals[${idx}].certificate`,
-          handleSplitFile(itm?.certificate),
-          false
-        )
-      })
+      //   formikRef.current?.setFieldValue(
+      //     `trainingTechnicals[${idx}].id`,
+      //     itm?.id || null,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `trainingTechnicals[${idx}].month`,
+      //     handleGetValue('months', itm?.period_month),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `trainingTechnicals[${idx}].year`,
+      //     functionalsYear,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `trainingTechnicals[${idx}].trainingName`,
+      //     itm?.name || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `trainingTechnicals[${idx}].number`,
+      //     itm?.reference_number || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `trainingTechnicals[${idx}].date`,
+      //     functionalsDate,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `trainingTechnicals[${idx}].duration`,
+      //     itm?.duration || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `trainingTechnicals[${idx}].link`,
+      //     itm?.link || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `trainingTechnicals[${idx}].certificate`,
+      //     handleSplitFile(itm?.certificate),
+      //     false
+      //   )
+      // })
 
       // History Recognitions
-      detail?.recognitions.map((itm, idx) => {
-        const recognitionsYear = itm?.period_year
-          ? moment(itm?.period_year, 'YYYY').toDate()
-          : null
-        const recognitionsDecreeDate = itm?.decree_date
-          ? moment(itm?.decree_date, 'DD-MM-YYYY').toDate()
-          : ''
-        const recognitionsReceiptDate = itm?.date_of_receipt
-          ? moment(itm?.date_of_receipt, 'DD-MM-YYYY').toDate()
-          : ''
+      // detail?.recognitions.map((itm, idx) => {
+      //   const recognitionsYear = itm?.period_year
+      //     ? moment(itm?.period_year, 'YYYY').toDate()
+      //     : null
+      //   const recognitionsDecreeDate = itm?.decree_date
+      //     ? moment(itm?.decree_date, 'DD-MM-YYYY').toDate()
+      //     : ''
+      //   const recognitionsReceiptDate = itm?.date_of_receipt
+      //     ? moment(itm?.date_of_receipt, 'DD-MM-YYYY').toDate()
+      //     : ''
 
-        formikRef.current?.setFieldValue(
-          `recognitions[${idx}].id`,
-          itm?.id || null,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `recognitions[${idx}].month`,
-          handleGetValue('months', itm?.period_month),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `recognitions[${idx}].year`,
-          recognitionsYear,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `recognitions[${idx}].name`,
-          itm?.recognition_name || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `recognitions[${idx}].description`,
-          itm?.description || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `recognitions[${idx}].decreeType`,
-          handleGetValue('decree', itm?.type_of_decree),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `recognitions[${idx}].decreeDate`,
-          recognitionsDecreeDate,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `recognitions[${idx}].decreeNumber`,
-          itm?.decree_number || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `recognitions[${idx}].decreeYear`,
-          itm?.decree_year || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `recognitions[${idx}].institution`,
-          itm?.awarding_institution || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `recognitions[${idx}].receiptDate`,
-          recognitionsReceiptDate,
-          false
-        )
-      })
+      //   formikRef.current?.setFieldValue(
+      //     `recognitions[${idx}].id`,
+      //     itm?.id || null,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `recognitions[${idx}].month`,
+      //     handleGetValue('months', itm?.period_month),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `recognitions[${idx}].year`,
+      //     recognitionsYear,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `recognitions[${idx}].name`,
+      //     itm?.recognition_name || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `recognitions[${idx}].description`,
+      //     itm?.description || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `recognitions[${idx}].decreeType`,
+      //     handleGetValue('decree', itm?.type_of_decree),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `recognitions[${idx}].decreeDate`,
+      //     recognitionsDecreeDate,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `recognitions[${idx}].decreeNumber`,
+      //     itm?.decree_number || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `recognitions[${idx}].decreeYear`,
+      //     itm?.decree_year || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `recognitions[${idx}].institution`,
+      //     itm?.awarding_institution || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `recognitions[${idx}].receiptDate`,
+      //     recognitionsReceiptDate,
+      //     false
+      //   )
+      // })
 
       // History Targets
-      detail?.targets.map((itm, idx) => {
-        const targetsYear = itm?.period_year
-          ? moment(itm?.period_year, 'YYYY').toDate()
-          : null
-        const targetsAssessmentYear = itm?.year
-          ? moment(itm?.year, 'YYYY').toDate()
-          : null
+      // detail?.targets.map((itm, idx) => {
+      //   const targetsYear = itm?.period_year
+      //     ? moment(itm?.period_year, 'YYYY').toDate()
+      //     : null
+      //   const targetsAssessmentYear = itm?.year
+      //     ? moment(itm?.year, 'YYYY').toDate()
+      //     : null
 
-        formikRef.current?.setFieldValue(
-          `targets[${idx}].id`,
-          itm?.id || null,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `targets[${idx}].month`,
-          handleGetValue('months', itm?.period_month),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `targets[${idx}].year`,
-          targetsYear,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `targets[${idx}].appraisal`,
-          handleGetValue('period', itm?.appraisal_period),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `targets[${idx}].assessmentYear`,
-          targetsAssessmentYear,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `targets[${idx}].workBehavior`,
-          handleGetValue('workBehavior', itm?.work_behavior_rating),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `targets[${idx}].performance`,
-          handleGetValue('performance', itm?.employee_performance_predicate),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `targets[${idx}].performanceAchievement`,
-          handleGetValue(
-            'performanceAchievement',
-            itm?.organizational_performance_achievement
-          ),
-          false
-        )
-      })
+      //   formikRef.current?.setFieldValue(
+      //     `targets[${idx}].id`,
+      //     itm?.id || null,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `targets[${idx}].month`,
+      //     handleGetValue('months', itm?.period_month),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `targets[${idx}].year`,
+      //     targetsYear,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `targets[${idx}].appraisal`,
+      //     handleGetValue('period', itm?.appraisal_period),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `targets[${idx}].assessmentYear`,
+      //     targetsAssessmentYear,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `targets[${idx}].workBehavior`,
+      //     handleGetValue('workBehavior', itm?.work_behavior_rating),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `targets[${idx}].performance`,
+      //     handleGetValue('performance', itm?.employee_performance_predicate),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `targets[${idx}].performanceAchievement`,
+      //     handleGetValue(
+      //       'performanceAchievement',
+      //       itm?.organizational_performance_achievement
+      //     ),
+      //     false
+      //   )
+      // })
 
       // History Performances
-      detail?.performances.map((itm, idx) => {
-        const performancesYear = itm?.period_year
-          ? moment(itm?.period_year, 'YYYY').toDate()
-          : null
+      // detail?.performances.map((itm, idx) => {
+      //   const performancesYear = itm?.period_year
+      //     ? moment(itm?.period_year, 'YYYY').toDate()
+      //     : null
 
-        formikRef.current?.setFieldValue(
-          `performances[${idx}].id`,
-          itm?.id || null,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `performances[${idx}].month`,
-          handleGetValue('months', itm?.period_month),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `performances[${idx}].year`,
-          performancesYear,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `performances[${idx}].appraisal`,
-          itm?.performance_period || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `performances[${idx}].point`,
-          itm?.work_performance_score || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `performances[${idx}].description`,
-          handleGetValue('performancesType', itm?.description),
-          false
-        )
-      })
+      //   formikRef.current?.setFieldValue(
+      //     `performances[${idx}].id`,
+      //     itm?.id || null,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `performances[${idx}].month`,
+      //     handleGetValue('months', itm?.period_month),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `performances[${idx}].year`,
+      //     performancesYear,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `performances[${idx}].appraisal`,
+      //     itm?.performance_period || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `performances[${idx}].point`,
+      //     itm?.work_performance_score || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `performances[${idx}].description`,
+      //     handleGetValue('performancesType', itm?.description),
+      //     false
+      //   )
+      // })
 
       // History Disciplinaries
-      detail?.disciplinaries.map((itm, idx) => {
-        const disciplinariesYear = itm?.period_year
-          ? moment(itm?.period_year, 'YYYY').toDate()
-          : null
-        const disciplinariesDecreeDate = itm?.date_of_decree
-          ? moment(itm?.date_of_decree, 'DD-MM-YYYY').toDate()
-          : ''
-        const disciplinariesDiscipleStartDate = itm?.start_date
-          ? moment(itm?.start_date, 'DD-MM-YYYY').toDate()
-          : ''
-        const disciplinariesDiscipleEndDate = itm?.end_date
-          ? moment(itm?.end_date, 'DD-MM-YYYY').toDate()
-          : ''
+      // detail?.disciplinaries.map((itm, idx) => {
+      //   const disciplinariesYear = itm?.period_year
+      //     ? moment(itm?.period_year, 'YYYY').toDate()
+      //     : null
+      //   const disciplinariesDecreeDate = itm?.date_of_decree
+      //     ? moment(itm?.date_of_decree, 'DD-MM-YYYY').toDate()
+      //     : ''
+      //   const disciplinariesDiscipleStartDate = itm?.start_date
+      //     ? moment(itm?.start_date, 'DD-MM-YYYY').toDate()
+      //     : ''
+      //   const disciplinariesDiscipleEndDate = itm?.end_date
+      //     ? moment(itm?.end_date, 'DD-MM-YYYY').toDate()
+      //     : ''
 
-        formikRef.current?.setFieldValue(
-          `disciplinaries[${idx}].id`,
-          itm?.id || null,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `disciplinaries[${idx}].month`,
-          handleGetValue('months', itm?.period_month),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `disciplinaries[${idx}].year`,
-          disciplinariesYear,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `disciplinaries[${idx}].grade`,
-          itm?.grade || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `disciplinaries[${idx}].position`,
-          itm?.position || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `disciplinaries[${idx}].discipleType`,
-          handleGetValue('disciplinary', itm?.disciplinary_id),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `disciplinaries[${idx}].discipleLevel`,
-          itm?.disciplinary_description || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `disciplinaries[${idx}].allowanceDeducation`,
-          itm?.performance_allowance_deduction || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `disciplinaries[${idx}].allowanceDuration`,
-          itm?.performance_allowance_duration || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `disciplinaries[${idx}].decreeNumber`,
-          itm?.decree_number || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `disciplinaries[${idx}].decreeDate`,
-          disciplinariesDecreeDate,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `disciplinaries[${idx}].discipleDate`,
-          itm?.start_date && itm?.end_date
-            ? {
-                from: disciplinariesDiscipleStartDate,
-                to: disciplinariesDiscipleEndDate
-              }
-            : null,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `disciplinaries[${idx}].status`,
-          itm?.status == 1 ? 'Aktif' : 'Tidak Aktif',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `disciplinaries[${idx}].validity`,
-          itm?.validity_period || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `disciplinaries[${idx}].authorizedOfficial`,
-          itm?.authorizing_officer || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `disciplinaries[${idx}].authorizedOfficial`,
-          itm?.authorizing_officer || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `disciplinaries[${idx}].authorizedOfficialName`,
-          itm?.name_of_authorizing_officer || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `disciplinaries[${idx}].description`,
-          itm?.description || '',
-          false
-        )
-      })
+      //   formikRef.current?.setFieldValue(
+      //     `disciplinaries[${idx}].id`,
+      //     itm?.id || null,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `disciplinaries[${idx}].month`,
+      //     handleGetValue('months', itm?.period_month),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `disciplinaries[${idx}].year`,
+      //     disciplinariesYear,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `disciplinaries[${idx}].grade`,
+      //     itm?.grade || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `disciplinaries[${idx}].position`,
+      //     itm?.position || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `disciplinaries[${idx}].discipleType`,
+      //     handleGetValue('disciplinary', itm?.disciplinary_id),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `disciplinaries[${idx}].discipleLevel`,
+      //     itm?.disciplinary_description || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `disciplinaries[${idx}].allowanceDeducation`,
+      //     itm?.performance_allowance_deduction || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `disciplinaries[${idx}].allowanceDuration`,
+      //     itm?.performance_allowance_duration || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `disciplinaries[${idx}].decreeNumber`,
+      //     itm?.decree_number || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `disciplinaries[${idx}].decreeDate`,
+      //     disciplinariesDecreeDate,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `disciplinaries[${idx}].discipleDate`,
+      //     itm?.start_date && itm?.end_date
+      //       ? {
+      //           from: disciplinariesDiscipleStartDate,
+      //           to: disciplinariesDiscipleEndDate
+      //         }
+      //       : null,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `disciplinaries[${idx}].status`,
+      //     itm?.status == 1 ? 'Aktif' : 'Tidak Aktif',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `disciplinaries[${idx}].validity`,
+      //     itm?.validity_period || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `disciplinaries[${idx}].authorizedOfficial`,
+      //     itm?.authorizing_officer || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `disciplinaries[${idx}].authorizedOfficial`,
+      //     itm?.authorizing_officer || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `disciplinaries[${idx}].authorizedOfficialName`,
+      //     itm?.name_of_authorizing_officer || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `disciplinaries[${idx}].description`,
+      //     itm?.description || '',
+      //     false
+      //   )
+      // })
 
       // Families
-      detail?.families.map((itm, idx) => {
-        const familiesDateOfBirth = itm?.date_of_birth
-          ? moment(itm?.date_of_birth, 'DD-MM-YYYY').toDate()
-          : ''
+      // detail?.families.map((itm, idx) => {
+      //   const familiesDateOfBirth = itm?.date_of_birth
+      //     ? moment(itm?.date_of_birth, 'DD-MM-YYYY').toDate()
+      //     : ''
 
-        formikRef.current?.setFieldValue(
-          `families[${idx}].id`,
-          itm?.id || null,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `families[${idx}].familyRegistNumber`,
-          itm?.card_number || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `families[${idx}].name`,
-          itm?.name || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `families[${idx}].idNumber`,
-          itm?.id_number || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `families[${idx}].gender`,
-          handleGetValue(
-            'gender',
-            itm?.gender !== null && itm?.gender >= 0
-              ? itm?.gender == 0
-                ? 2
-                : 1
-              : null
-          ),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `families[${idx}].religion`,
-          handleGetValue('religion', itm?.religion),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `families[${idx}].placeOfBirth`,
-          itm?.place_of_birth || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `families[${idx}].dateOfBirth`,
-          familiesDateOfBirth,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `families[${idx}].nameOfFather`,
-          itm?.name_of_father || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `families[${idx}].nameOfMother`,
-          itm?.name_of_mother || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `families[${idx}].relationshipStatus`,
-          handleGetValue('relationshipStatus', itm?.relationship_status),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `families[${idx}].educationLevel`,
-          handleGetValue('educationLevel', itm?.education),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `families[${idx}].occupation`,
-          itm?.occupation || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `families[${idx}].occupationDescription`,
-          itm?.occupation_description || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `families[${idx}].maritalStatus`,
-          handleGetValue('maritalFamily', itm?.marital_status),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `families[${idx}].mobilePhone`,
-          itm?.mobile_phone || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `families[${idx}].mobilePhone`,
-          itm?.mobile_phone || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `families[${idx}].sequenceNumber`,
-          itm?.sequence_number || '',
-          false
-        )
-      })
+      //   formikRef.current?.setFieldValue(
+      //     `families[${idx}].id`,
+      //     itm?.id || null,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `families[${idx}].familyRegistNumber`,
+      //     itm?.card_number || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `families[${idx}].name`,
+      //     itm?.name || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `families[${idx}].idNumber`,
+      //     itm?.id_number || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `families[${idx}].gender`,
+      //     handleGetValue(
+      //       'gender',
+      //       itm?.gender !== null && itm?.gender >= 0
+      //         ? itm?.gender == 0
+      //           ? 2
+      //           : 1
+      //         : null
+      //     ),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `families[${idx}].religion`,
+      //     handleGetValue('religion', itm?.religion),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `families[${idx}].placeOfBirth`,
+      //     itm?.place_of_birth || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `families[${idx}].dateOfBirth`,
+      //     familiesDateOfBirth,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `families[${idx}].nameOfFather`,
+      //     itm?.name_of_father || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `families[${idx}].nameOfMother`,
+      //     itm?.name_of_mother || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `families[${idx}].relationshipStatus`,
+      //     handleGetValue('relationshipStatus', itm?.relationship_status),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `families[${idx}].educationLevel`,
+      //     handleGetValue('educationLevel', itm?.education),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `families[${idx}].occupation`,
+      //     itm?.occupation || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `families[${idx}].occupationDescription`,
+      //     itm?.occupation_description || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `families[${idx}].maritalStatus`,
+      //     handleGetValue('maritalFamily', itm?.marital_status),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `families[${idx}].mobilePhone`,
+      //     itm?.mobile_phone || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `families[${idx}].mobilePhone`,
+      //     itm?.mobile_phone || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `families[${idx}].sequenceNumber`,
+      //     itm?.sequence_number || '',
+      //     false
+      //   )
+      // })
 
       // Leaves
-      detail?.leaves.map((itm, idx) => {
-        const leavesStartDate = itm?.start_date
-          ? moment(itm?.start_date, 'DD-MM-YYYY').toDate()
-          : ''
-        const leavesEndDate = itm?.end_date
-          ? moment(itm?.end_date, 'DD-MM-YYYY').toDate()
-          : ''
+      // detail?.leaves.map((itm, idx) => {
+      //   const leavesStartDate = itm?.start_date
+      //     ? moment(itm?.start_date, 'DD-MM-YYYY').toDate()
+      //     : ''
+      //   const leavesEndDate = itm?.end_date
+      //     ? moment(itm?.end_date, 'DD-MM-YYYY').toDate()
+      //     : ''
 
-        formikRef.current?.setFieldValue(
-          `leaves[${idx}].id`,
-          itm?.id || null,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `leaves[${idx}].period`,
-          itm?.start_date && itm?.end_date
-            ? {
-                from: leavesStartDate,
-                to: leavesEndDate
-              }
-            : null,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `leaves[${idx}].type`,
-          handleGetValue('leaves', itm?.type),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `leaves[${idx}].number`,
-          itm?.number || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `leaves[${idx}].description`,
-          itm?.description || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `leaves[${idx}].leaveLetter`,
-          handleSplitFile(itm?.leaveLetter),
-          false
-        )
-      })
+      //   formikRef.current?.setFieldValue(
+      //     `leaves[${idx}].id`,
+      //     itm?.id || null,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `leaves[${idx}].period`,
+      //     itm?.start_date && itm?.end_date
+      //       ? {
+      //           from: leavesStartDate,
+      //           to: leavesEndDate
+      //         }
+      //       : null,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `leaves[${idx}].type`,
+      //     handleGetValue('leaves', itm?.type),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `leaves[${idx}].number`,
+      //     itm?.number || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `leaves[${idx}].description`,
+      //     itm?.description || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `leaves[${idx}].leaveLetter`,
+      //     handleSplitFile(itm?.leaveLetter),
+      //     false
+      //   )
+      // })
 
       // Notes
-      detail?.notes.map((itm, idx) => {
-        formikRef.current?.setFieldValue(
-          `notes[${idx}].id`,
-          itm?.id || null,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `notes[${idx}].description`,
-          itm?.description || '',
-          false
-        )
-      })
+      // detail?.notes.map((itm, idx) => {
+      //   formikRef.current?.setFieldValue(
+      //     `notes[${idx}].id`,
+      //     itm?.id || null,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `notes[${idx}].description`,
+      //     itm?.description || '',
+      //     false
+      //   )
+      // })
 
       // Assesments
       // detail?.assessments.map((itm, idx) => {
@@ -3265,48 +3266,48 @@ const EmployeeEditComponent = ({
       // })
 
       // Credits
-      detail?.credits.map((itm, idx) => {
-        const creaditsYear = itm?.year
-          ? moment(itm?.year, 'YYYY').toDate()
-          : null
-        const creditsMonthStart = handleGetValue('months', itm?.month_start)
-        const creditsMonthEnd = handleGetValue('months', itm?.month_end)
-        const creditsMonth = {
-          start: creditsMonthStart,
-          end: creditsMonthEnd
-        }
+      // detail?.credits.map((itm, idx) => {
+      //   const creaditsYear = itm?.year
+      //     ? moment(itm?.year, 'YYYY').toDate()
+      //     : null
+      //   const creditsMonthStart = handleGetValue('months', itm?.month_start)
+      //   const creditsMonthEnd = handleGetValue('months', itm?.month_end)
+      //   const creditsMonth = {
+      //     start: creditsMonthStart,
+      //     end: creditsMonthEnd
+      //   }
 
-        formikRef.current?.setFieldValue(
-          `credits[${idx}].id`,
-          itm?.id || null,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `credits[${idx}].position`,
-          itm?.position || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `credits[${idx}].period`,
-          handleGetValue('periodCredits', itm?.period),
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `credits[${idx}].year`,
-          creaditsYear,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `credits[${idx}].point`,
-          itm?.score || '',
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `credits[${idx}].month`,
-          creditsMonth,
-          false
-        )
-      })
+      //   formikRef.current?.setFieldValue(
+      //     `credits[${idx}].id`,
+      //     itm?.id || null,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `credits[${idx}].position`,
+      //     itm?.position || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `credits[${idx}].period`,
+      //     handleGetValue('periodCredits', itm?.period),
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `credits[${idx}].year`,
+      //     creaditsYear,
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `credits[${idx}].point`,
+      //     itm?.score || '',
+      //     false
+      //   )
+      //   formikRef.current?.setFieldValue(
+      //     `credits[${idx}].month`,
+      //     creditsMonth,
+      //     false
+      //   )
+      // })
     }
   }, [
     employee?.detail,

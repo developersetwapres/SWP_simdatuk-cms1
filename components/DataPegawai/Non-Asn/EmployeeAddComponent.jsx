@@ -323,309 +323,309 @@ const FormSchema = Yup.object().shape({
         if (!value) return true
         return value.size <= maxSize
       })
-  }),
-  educations: Yup.lazy((educations) => {
-    if (Array.isArray(educations) && educations.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          educationLevel: Yup.string().required('Tingkat tidak boleh kosong'),
-          educationName: Yup.string().required('Nama tidak boleh kosong'),
-          educationStatus: Yup.string().required('Status tidak boleh kosong'),
-          educationYear: Yup.string().required(
-            'Tahun Lulus tidak boleh kosong'
-          ),
-          educationCertificate: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value) return true
-                return value.size <= maxSize
-              }
-            ),
-          educationStudyAssignmentLetter: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value) return true
-                return value.size <= maxSize
-              }
-            ),
-          edudcationAcademicTitleLetter: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value) return true
-                return value.size <= maxSize
-              }
-            )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  families: Yup.lazy((families) => {
-    if (Array.isArray(families) && families.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          familyRegistNumber: Yup.string()
-            .min(16, 'No KK harus tediri dari 16 digit angka')
-            .max(16, 'No KK harus tediri dari 16 digit angka')
-            .required('No Kartu Keluarga tidak boleh kosong'),
-          name: Yup.string().required(
-            'Nama Anggota Keluarga tidak boleh kosong'
-          ),
-          idNumber: Yup.string()
-            .min(16, 'No NIK harus terdiri dari 16 digit angka')
-            .max(16, 'No NIK harus terdiri dari 16 digit angka')
-            .required('No NIK tidak boleh kosong'),
-          gender: Yup.string().required('Jenis Kelamin tidak boleh kosong'),
-          religion: Yup.string().required('Agama tidak boleh kosong'),
-          placeOfBirth: Yup.string().required(
-            'Tempat Lahir tidak boleh kosong'
-          ),
-          dateOfBirth: Yup.string().required(
-            'Tanggal Lahir tidak boleh kosong'
-          ),
-          relationshipStatus: Yup.string().required(
-            'Hubungan Keluarga tidak boleh kosong'
-          ),
-          educationLevel: Yup.string().required(
-            'Pendidikan tidak boleh kosong'
-          ),
-          maritalStatus: Yup.string().required(
-            'Status Perkawinan tidak boleh kosong'
-          )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  leaves: Yup.lazy((leaves) => {
-    if (Array.isArray(leaves) && leaves.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          period: Yup.object()
-            .shape({
-              from: Yup.string().required('Pilih tanggal awal'),
-              to: Yup.string().required('Pilih tanggal akhir')
-            })
-            .required('Periode tidak boleh kosong'),
-          type: Yup.string().required('Jenis Cuti tidak boleh kosong'),
-          number: Yup.string().required('No Cuti tidak boleh kosong'),
-          description: Yup.string().required('Keterangan tidak boleh kosong'),
-          leaveLetter: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value) return true
-                return value.size <= maxSize
-              }
-            )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  notes: Yup.lazy((notes) => {
-    if (Array.isArray(notes) && notes.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          description: Yup.string()
-            .required('Catatan tidak boleh kosong')
-            .max(160, 'Catatan tidak boleh lebih dari 160 karakter')
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  assessments: Yup.lazy((assesments) => {
-    if (Array.isArray(assesments) && assesments.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          date: Yup.string().required('Tanggal tidak boleh kosong'),
-          point: Yup.string().required('Hasil tidak boleh kosong'),
-          certificate: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value) return true
-                return value.size <= maxSize
-              }
-            )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  competences: Yup.lazy((competences) => {
-    if (Array.isArray(competences) && competences.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          date: Yup.string().required('Tanggal tidak boleh kosong'),
-          point: Yup.string().required('Hasil tidak boleh kosong'),
-          certificate: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value) return true
-                return value.size <= maxSize
-              }
-            )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  talentPools: Yup.lazy((talentPools) => {
-    if (Array.isArray(talentPools) && talentPools.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          date: Yup.string().required('Tanggal tidak boleh kosong'),
-          point: Yup.string().required('Hasil tidak boleh kosong'),
-          certificate: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value) return true
-                return value.size <= maxSize
-              }
-            )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  credits: Yup.lazy((credits) => {
-    if (Array.isArray(credits) && credits.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          period: Yup.string().required('Periode tidak boleh kosong'),
-          year: Yup.string().required('Tahun tidak boleh kosong')
-        })
-      )
-    } else {
-      return Yup.array()
-    }
   })
+  // educations: Yup.lazy((educations) => {
+  //   if (Array.isArray(educations) && educations.length > 0) {
+  //     return Yup.array().of(
+  //       Yup.object().shape({
+  //         educationLevel: Yup.string().required('Tingkat tidak boleh kosong'),
+  //         educationName: Yup.string().required('Nama tidak boleh kosong'),
+  //         educationStatus: Yup.string().required('Status tidak boleh kosong'),
+  //         educationYear: Yup.string().required(
+  //           'Tahun Lulus tidak boleh kosong'
+  //         ),
+  //         educationCertificate: Yup.mixed()
+  //           .nullable()
+  //           .test(
+  //             'fileType',
+  //             'Format file harus PNG, JPG, atau PDF',
+  //             (value) => {
+  //               if (!value) return true
+  //               const fileType = value && value.type
+  //               return (
+  //                 fileType === 'image/png' ||
+  //                 fileType === 'image/jpeg' ||
+  //                 fileType === 'application/pdf'
+  //               )
+  //             }
+  //           )
+  //           .test(
+  //             'fileSize',
+  //             'Ukuran file tidak boleh lebih dari 2MB',
+  //             (value) => {
+  //               const maxSize = 2 * 1024 * 1024
+  //               if (!value) return true
+  //               return value.size <= maxSize
+  //             }
+  //           ),
+  //         educationStudyAssignmentLetter: Yup.mixed()
+  //           .nullable()
+  //           .test(
+  //             'fileType',
+  //             'Format file harus PNG, JPG, atau PDF',
+  //             (value) => {
+  //               if (!value) return true
+  //               const fileType = value && value.type
+  //               return (
+  //                 fileType === 'image/png' ||
+  //                 fileType === 'image/jpeg' ||
+  //                 fileType === 'application/pdf'
+  //               )
+  //             }
+  //           )
+  //           .test(
+  //             'fileSize',
+  //             'Ukuran file tidak boleh lebih dari 2MB',
+  //             (value) => {
+  //               const maxSize = 2 * 1024 * 1024
+  //               if (!value) return true
+  //               return value.size <= maxSize
+  //             }
+  //           ),
+  //         edudcationAcademicTitleLetter: Yup.mixed()
+  //           .nullable()
+  //           .test(
+  //             'fileType',
+  //             'Format file harus PNG, JPG, atau PDF',
+  //             (value) => {
+  //               if (!value) return true
+  //               const fileType = value && value.type
+  //               return (
+  //                 fileType === 'image/png' ||
+  //                 fileType === 'image/jpeg' ||
+  //                 fileType === 'application/pdf'
+  //               )
+  //             }
+  //           )
+  //           .test(
+  //             'fileSize',
+  //             'Ukuran file tidak boleh lebih dari 2MB',
+  //             (value) => {
+  //               const maxSize = 2 * 1024 * 1024
+  //               if (!value) return true
+  //               return value.size <= maxSize
+  //             }
+  //           )
+  //       })
+  //     )
+  //   } else {
+  //     return Yup.array()
+  //   }
+  // }),
+  // families: Yup.lazy((families) => {
+  //   if (Array.isArray(families) && families.length > 0) {
+  //     return Yup.array().of(
+  //       Yup.object().shape({
+  //         familyRegistNumber: Yup.string()
+  //           .min(16, 'No KK harus tediri dari 16 digit angka')
+  //           .max(16, 'No KK harus tediri dari 16 digit angka')
+  //           .required('No Kartu Keluarga tidak boleh kosong'),
+  //         name: Yup.string().required(
+  //           'Nama Anggota Keluarga tidak boleh kosong'
+  //         ),
+  //         idNumber: Yup.string()
+  //           .min(16, 'No NIK harus terdiri dari 16 digit angka')
+  //           .max(16, 'No NIK harus terdiri dari 16 digit angka')
+  //           .required('No NIK tidak boleh kosong'),
+  //         gender: Yup.string().required('Jenis Kelamin tidak boleh kosong'),
+  //         religion: Yup.string().required('Agama tidak boleh kosong'),
+  //         placeOfBirth: Yup.string().required(
+  //           'Tempat Lahir tidak boleh kosong'
+  //         ),
+  //         dateOfBirth: Yup.string().required(
+  //           'Tanggal Lahir tidak boleh kosong'
+  //         ),
+  //         relationshipStatus: Yup.string().required(
+  //           'Hubungan Keluarga tidak boleh kosong'
+  //         ),
+  //         educationLevel: Yup.string().required(
+  //           'Pendidikan tidak boleh kosong'
+  //         ),
+  //         maritalStatus: Yup.string().required(
+  //           'Status Perkawinan tidak boleh kosong'
+  //         )
+  //       })
+  //     )
+  //   } else {
+  //     return Yup.array()
+  //   }
+  // }),
+  // leaves: Yup.lazy((leaves) => {
+  //   if (Array.isArray(leaves) && leaves.length > 0) {
+  //     return Yup.array().of(
+  //       Yup.object().shape({
+  //         period: Yup.object()
+  //           .shape({
+  //             from: Yup.string().required('Pilih tanggal awal'),
+  //             to: Yup.string().required('Pilih tanggal akhir')
+  //           })
+  //           .required('Periode tidak boleh kosong'),
+  //         type: Yup.string().required('Jenis Cuti tidak boleh kosong'),
+  //         number: Yup.string().required('No Cuti tidak boleh kosong'),
+  //         description: Yup.string().required('Keterangan tidak boleh kosong'),
+  //         leaveLetter: Yup.mixed()
+  //           .nullable()
+  //           .test(
+  //             'fileType',
+  //             'Format file harus PNG, JPG, atau PDF',
+  //             (value) => {
+  //               if (!value) return true
+  //               const fileType = value && value.type
+  //               return (
+  //                 fileType === 'image/png' ||
+  //                 fileType === 'image/jpeg' ||
+  //                 fileType === 'application/pdf'
+  //               )
+  //             }
+  //           )
+  //           .test(
+  //             'fileSize',
+  //             'Ukuran file tidak boleh lebih dari 2MB',
+  //             (value) => {
+  //               const maxSize = 2 * 1024 * 1024
+  //               if (!value) return true
+  //               return value.size <= maxSize
+  //             }
+  //           )
+  //       })
+  //     )
+  //   } else {
+  //     return Yup.array()
+  //   }
+  // }),
+  // notes: Yup.lazy((notes) => {
+  //   if (Array.isArray(notes) && notes.length > 0) {
+  //     return Yup.array().of(
+  //       Yup.object().shape({
+  //         description: Yup.string()
+  //           .required('Catatan tidak boleh kosong')
+  //           .max(160, 'Catatan tidak boleh lebih dari 160 karakter')
+  //       })
+  //     )
+  //   } else {
+  //     return Yup.array()
+  //   }
+  // }),
+  // assessments: Yup.lazy((assesments) => {
+  //   if (Array.isArray(assesments) && assesments.length > 0) {
+  //     return Yup.array().of(
+  //       Yup.object().shape({
+  //         date: Yup.string().required('Tanggal tidak boleh kosong'),
+  //         point: Yup.string().required('Hasil tidak boleh kosong'),
+  //         certificate: Yup.mixed()
+  //           .nullable()
+  //           .test(
+  //             'fileType',
+  //             'Format file harus PNG, JPG, atau PDF',
+  //             (value) => {
+  //               if (!value) return true
+  //               const fileType = value && value.type
+  //               return (
+  //                 fileType === 'image/png' ||
+  //                 fileType === 'image/jpeg' ||
+  //                 fileType === 'application/pdf'
+  //               )
+  //             }
+  //           )
+  //           .test(
+  //             'fileSize',
+  //             'Ukuran file tidak boleh lebih dari 2MB',
+  //             (value) => {
+  //               const maxSize = 2 * 1024 * 1024
+  //               if (!value) return true
+  //               return value.size <= maxSize
+  //             }
+  //           )
+  //       })
+  //     )
+  //   } else {
+  //     return Yup.array()
+  //   }
+  // }),
+  // competences: Yup.lazy((competences) => {
+  //   if (Array.isArray(competences) && competences.length > 0) {
+  //     return Yup.array().of(
+  //       Yup.object().shape({
+  //         date: Yup.string().required('Tanggal tidak boleh kosong'),
+  //         point: Yup.string().required('Hasil tidak boleh kosong'),
+  //         certificate: Yup.mixed()
+  //           .nullable()
+  //           .test(
+  //             'fileType',
+  //             'Format file harus PNG, JPG, atau PDF',
+  //             (value) => {
+  //               if (!value) return true
+  //               const fileType = value && value.type
+  //               return (
+  //                 fileType === 'image/png' ||
+  //                 fileType === 'image/jpeg' ||
+  //                 fileType === 'application/pdf'
+  //               )
+  //             }
+  //           )
+  //           .test(
+  //             'fileSize',
+  //             'Ukuran file tidak boleh lebih dari 2MB',
+  //             (value) => {
+  //               const maxSize = 2 * 1024 * 1024
+  //               if (!value) return true
+  //               return value.size <= maxSize
+  //             }
+  //           )
+  //       })
+  //     )
+  //   } else {
+  //     return Yup.array()
+  //   }
+  // }),
+  // talentPools: Yup.lazy((talentPools) => {
+  //   if (Array.isArray(talentPools) && talentPools.length > 0) {
+  //     return Yup.array().of(
+  //       Yup.object().shape({
+  //         date: Yup.string().required('Tanggal tidak boleh kosong'),
+  //         point: Yup.string().required('Hasil tidak boleh kosong'),
+  //         certificate: Yup.mixed()
+  //           .nullable()
+  //           .test(
+  //             'fileType',
+  //             'Format file harus PNG, JPG, atau PDF',
+  //             (value) => {
+  //               if (!value) return true
+  //               const fileType = value && value.type
+  //               return (
+  //                 fileType === 'image/png' ||
+  //                 fileType === 'image/jpeg' ||
+  //                 fileType === 'application/pdf'
+  //               )
+  //             }
+  //           )
+  //           .test(
+  //             'fileSize',
+  //             'Ukuran file tidak boleh lebih dari 2MB',
+  //             (value) => {
+  //               const maxSize = 2 * 1024 * 1024
+  //               if (!value) return true
+  //               return value.size <= maxSize
+  //             }
+  //           )
+  //       })
+  //     )
+  //   } else {
+  //     return Yup.array()
+  //   }
+  // }),
+  // credits: Yup.lazy((credits) => {
+  //   if (Array.isArray(credits) && credits.length > 0) {
+  //     return Yup.array().of(
+  //       Yup.object().shape({
+  //         period: Yup.string().required('Periode tidak boleh kosong'),
+  //         year: Yup.string().required('Tahun tidak boleh kosong')
+  //       })
+  //     )
+  //   } else {
+  //     return Yup.array()
+  //   }
+  // })
 })
 
 const EmployeeAddComponent = ({
@@ -949,150 +949,151 @@ const EmployeeAddComponent = ({
       formData.append('type', 2)
 
       // Educations
-      educations.map((item, index) => {
-        formData.append(
-          `educations[${index}][level]`,
-          handleGetValue('employeeEducationLevel', item?.educationLevel)
-        )
-        formData.append(`educations[${index}][name]`, item?.educationName)
-        formData.append(
-          `educations[${index}][study_area]`,
-          handleGetValue('studyArea', item?.educationArea, '')
-        )
-        formData.append(
-          `educations[${index}][accreditation]`,
-          item?.educationAccreditation
-        )
-        formData.append(`educations[${index}][faculty]`, item?.educationFaculty)
-        formData.append(`educations[${index}][major]`, item?.educationMajor)
-        formData.append(
-          `educations[${index}][status]`,
-          handleGetValue('educationStatus', item?.educationStatus)
-        )
-        formData.append(
-          `educations[${index}][year_of_graduation]`,
-          handleFormatDate(item?.educationYear, 'YYYY')
-        )
-        formData.append(
-          `educations[${index}][description]`,
-          item?.educationDescription
-        )
-        formData.append(
-          `educations[${index}][degree_document]`,
-          item?.educationCertificate || ''
-        )
-        formData.append(
-          `educations[${index}][study_assignment_letter]`,
-          item?.educationStudyAssignmentLetter || ''
-        )
-        formData.append(
-          `educations[${index}][academic_title_letter]`,
-          item?.edudcationAcademicTitleLetter || ''
-        )
-      })
+      formData.append('educations', '')
+      // educations.map((item, index) => {
+      //   formData.append(
+      //     `educations[${index}][level]`,
+      //     handleGetValue('employeeEducationLevel', item?.educationLevel)
+      //   )
+      //   formData.append(`educations[${index}][name]`, item?.educationName)
+      //   formData.append(
+      //     `educations[${index}][study_area]`,
+      //     handleGetValue('studyArea', item?.educationArea, '')
+      //   )
+      //   formData.append(
+      //     `educations[${index}][accreditation]`,
+      //     item?.educationAccreditation
+      //   )
+      //   formData.append(`educations[${index}][faculty]`, item?.educationFaculty)
+      //   formData.append(`educations[${index}][major]`, item?.educationMajor)
+      //   formData.append(
+      //     `educations[${index}][status]`,
+      //     handleGetValue('educationStatus', item?.educationStatus)
+      //   )
+      //   formData.append(
+      //     `educations[${index}][year_of_graduation]`,
+      //     handleFormatDate(item?.educationYear, 'YYYY')
+      //   )
+      //   formData.append(
+      //     `educations[${index}][description]`,
+      //     item?.educationDescription
+      //   )
+      //   formData.append(
+      //     `educations[${index}][degree_document]`,
+      //     item?.educationCertificate || ''
+      //   )
+      //   formData.append(
+      //     `educations[${index}][study_assignment_letter]`,
+      //     item?.educationStudyAssignmentLetter || ''
+      //   )
+      //   formData.append(
+      //     `educations[${index}][academic_title_letter]`,
+      //     item?.edudcationAcademicTitleLetter || ''
+      //   )
+      // })
 
       // Families
-      families.map((item, index) => {
-        formData.append(
-          `families[${index}][card_number]`,
-          item?.familyRegistNumber
-        )
-        formData.append(`families[${index}][name]`, item?.name)
-        formData.append(`families[${index}][id_number]`, item?.idNumber)
-        formData.append(
-          `families[${index}][gender]`,
-          item?.gender == 'Laki-Laki' ? 1 : 0
-        )
-        formData.append(
-          `families[${index}][religion]`,
-          handleGetValue('religion', item?.religion)
-        )
-        formData.append(
-          `families[${index}][place_of_birth]`,
-          item?.placeOfBirth
-        )
-        formData.append(
-          `families[${index}][date_of_birth]`,
-          handleFormatDate(item?.dateOfBirth, 'YYYY-MM-DD')
-        )
-        formData.append(
-          `families[${index}][name_of_father]`,
-          item?.nameOfFather
-        )
-        formData.append(
-          `families[${index}][name_of_mother]`,
-          item?.nameOfMother
-        )
-        formData.append(
-          `families[${index}][relationship_status]`,
-          handleGetValue('relationshipStatus', item?.relationshipStatus)
-        )
-        formData.append(
-          `families[${index}][education]`,
-          handleGetValue('educationLevel', item?.educationLevel)
-        )
-        formData.append(`families[${index}][occupation]`, item?.occupation)
-        formData.append(
-          `families[${index}][occupation_description]`,
-          item?.occupationDescription
-        )
-        formData.append(
-          `families[${index}][marital_status]`,
-          handleGetValue('maritalFamily', item?.maritalStatus)
-        )
-        formData.append(`families[${index}][mobile_phone]`, item?.mobilePhone)
-        formData.append(
-          `families[${index}][sequence_number]`,
-          item?.sequenceNumber
-        )
-      })
+      formData.append('families', '')
+      // families.map((item, index) => {
+      //   formData.append(
+      //     `families[${index}][card_number]`,
+      //     item?.familyRegistNumber
+      //   )
+      //   formData.append(`families[${index}][name]`, item?.name)
+      //   formData.append(`families[${index}][id_number]`, item?.idNumber)
+      //   formData.append(
+      //     `families[${index}][gender]`,
+      //     item?.gender == 'Laki-Laki' ? 1 : 0
+      //   )
+      //   formData.append(
+      //     `families[${index}][religion]`,
+      //     handleGetValue('religion', item?.religion)
+      //   )
+      //   formData.append(
+      //     `families[${index}][place_of_birth]`,
+      //     item?.placeOfBirth
+      //   )
+      //   formData.append(
+      //     `families[${index}][date_of_birth]`,
+      //     handleFormatDate(item?.dateOfBirth, 'YYYY-MM-DD')
+      //   )
+      //   formData.append(
+      //     `families[${index}][name_of_father]`,
+      //     item?.nameOfFather
+      //   )
+      //   formData.append(
+      //     `families[${index}][name_of_mother]`,
+      //     item?.nameOfMother
+      //   )
+      //   formData.append(
+      //     `families[${index}][relationship_status]`,
+      //     handleGetValue('relationshipStatus', item?.relationshipStatus)
+      //   )
+      //   formData.append(
+      //     `families[${index}][education]`,
+      //     handleGetValue('educationLevel', item?.educationLevel)
+      //   )
+      //   formData.append(`families[${index}][occupation]`, item?.occupation)
+      //   formData.append(
+      //     `families[${index}][occupation_description]`,
+      //     item?.occupationDescription
+      //   )
+      //   formData.append(
+      //     `families[${index}][marital_status]`,
+      //     handleGetValue('maritalFamily', item?.maritalStatus)
+      //   )
+      //   formData.append(`families[${index}][mobile_phone]`, item?.mobilePhone)
+      //   formData.append(
+      //     `families[${index}][sequence_number]`,
+      //     item?.sequenceNumber
+      //   )
+      // })
 
       // Leaves
-      leaves.map((item, index) => {
-        formData.append(
-          `leaves[${index}][start_date]`,
-          handleFormatDate(item?.period?.from, 'YYYY-MM-DD')
-        )
-        formData.append(
-          `leaves[${index}][end_date]`,
-          handleFormatDate(item?.period?.to, 'YYYY-MM-DD')
-        )
-        formData.append(
-          `leaves[${index}][type]`,
-          handleGetValue('leaves', item?.type)
-        )
-        formData.append(`leaves[${index}][number]`, item?.number)
-        formData.append(`leaves[${index}][description]`, item?.description)
-        formData.append(`leaves[${index}][letter]`, item?.leaveLetter || '')
-      })
+      formData.append('leaves', '')
+      // leaves.map((item, index) => {
+      //   formData.append(
+      //     `leaves[${index}][start_date]`,
+      //     handleFormatDate(item?.period?.from, 'YYYY-MM-DD')
+      //   )
+      //   formData.append(
+      //     `leaves[${index}][end_date]`,
+      //     handleFormatDate(item?.period?.to, 'YYYY-MM-DD')
+      //   )
+      //   formData.append(
+      //     `leaves[${index}][type]`,
+      //     handleGetValue('leaves', item?.type)
+      //   )
+      //   formData.append(`leaves[${index}][number]`, item?.number)
+      //   formData.append(`leaves[${index}][description]`, item?.description)
+      //   formData.append(`leaves[${index}][letter]`, item?.leaveLetter || '')
+      // })
 
       // Notes
-      notes.map((item, index) => {
-        formData.append(`notes[${index}][description]`, item?.description)
-      })
+      formData.append('notes', '')
+      // notes.map((item, index) => {
+      //   formData.append(`notes[${index}][description]`, item?.description)
+      // })
 
       // Credits
-      credits.map((item, index) => {
-        formData.append(`credits[${index}][position]`, item?.position)
-        formData.append(
-          `credits[${index}][period]`,
-          handleGetValue('periodCredits', item?.period)
-        )
-        formData.append(`credits[${index}][year]`, item?.year)
-        formData.append(`credits[${index}][score]`, item?.point)
-        formData.append(
-          `credits[${index}][start_month]`,
-          item?.month?.start ? handleGetValue('months', item?.month?.start) : ''
-        )
-        formData.append(
-          `credits[${index}][end_month]`,
-          item?.month?.end ? handleGetValue('months', item?.month?.end) : ''
-        )
-      })
-
-      formData.append('assessments', '')
-      formData.append('competencies', '')
-      formData.append('talents', '')
+      formData.append('credits', '')
+      // credits.map((item, index) => {
+      //   formData.append(`credits[${index}][position]`, item?.position)
+      //   formData.append(
+      //     `credits[${index}][period]`,
+      //     handleGetValue('periodCredits', item?.period)
+      //   )
+      //   formData.append(`credits[${index}][year]`, item?.year)
+      //   formData.append(`credits[${index}][score]`, item?.point)
+      //   formData.append(
+      //     `credits[${index}][start_month]`,
+      //     item?.month?.start ? handleGetValue('months', item?.month?.start) : ''
+      //   )
+      //   formData.append(
+      //     `credits[${index}][end_month]`,
+      //     item?.month?.end ? handleGetValue('months', item?.month?.end) : ''
+      //   )
+      // })
 
       // Assesments
       formData.append('assessments', '')

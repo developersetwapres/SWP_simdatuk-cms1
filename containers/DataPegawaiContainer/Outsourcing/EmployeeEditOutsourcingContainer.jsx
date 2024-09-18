@@ -6,14 +6,25 @@ import Layout from '@/components/core/Layout'
 import EmployeeEditComponent from '@/components/DataPegawai/Outsourcing/EmployeeEditComponent'
 
 export default connect(
-  mapStateToProps('employee', 'position', 'residence', 'employmentType'),
+  mapStateToProps(
+    'employee',
+    'position',
+    'residence',
+    'employmentType',
+    'echelon',
+    'decree',
+    'group'
+  ),
   mapActions(
     'getEmployee',
     'updateEmployee',
     'clearEmployeeState',
     'getPositions',
     'getResidences',
-    'getEmploymentTypes'
+    'getEmploymentTypes',
+    'getEchelonsOptions',
+    'getDecrees',
+    'getGroups'
   )
 )(
   class EmployeeEditOutsourcingContainer extends Component {
@@ -22,12 +33,18 @@ export default connect(
       position: PropTypes.object,
       residence: PropTypes.object,
       employmentType: PropTypes.object,
+      echelon: PropTypes.object,
+      decree: PropTypes.object,
+      group: PropTypes.object,
       getEmployee: PropTypes.func,
       updateEmployee: PropTypes.func,
       clearEmployeeState: PropTypes.func,
       getPositions: PropTypes.func,
       getResidences: PropTypes.func,
-      getEmploymentTypes: PropTypes.func
+      getEmploymentTypes: PropTypes.func,
+      getEchelonsOptions: PropTypes.func,
+      getDecrees: PropTypes.func,
+      getGroups: PropTypes.func
     }
 
     constructor(props) {
@@ -54,6 +71,9 @@ export default connect(
       })
       this.props.getResidences(queries)
       this.props.getEmploymentTypes({ ...queries, type: 3 })
+      this.props.getEchelonsOptions(queries)
+      this.props.getDecrees(queries)
+      this.props.getGroups(queries)
     }
 
     fetchHierarchy(val) {
