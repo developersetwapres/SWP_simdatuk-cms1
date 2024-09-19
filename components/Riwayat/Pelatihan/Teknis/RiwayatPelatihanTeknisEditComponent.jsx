@@ -286,7 +286,7 @@ const RiwayatPelatihanTeknisEditComponent = ({
         durasi: detail?.duration,
         materi: detail?.link,
         penyelenggara: detail?.organizer || '',
-        rumpun: handleGetValue(detail?.rumpun, 'groups'),
+        rumpun: detail?.group_name,
         periode: {
           bulan: handleGetValue(detail?.period_month, 'month'),
           tahun: periodYear
