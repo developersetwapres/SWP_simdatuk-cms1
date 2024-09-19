@@ -382,7 +382,7 @@ const FormSchema = Yup.object().shape({
               'fileType',
               'Format file harus PNG, JPG, atau PDF',
               (value) => {
-                if (!value) return true
+                if (!value || !isFile(value)) return true
                 const fileType = value && value.type
                 return (
                   fileType === 'image/png' ||
@@ -396,7 +396,7 @@ const FormSchema = Yup.object().shape({
               'Ukuran file tidak boleh lebih dari 2MB',
               (value) => {
                 const maxSize = 2 * 1024 * 1024
-                if (!value) return true
+                if (!value || !isFile(value)) return true
                 return value.size <= maxSize
               }
             ),
@@ -406,7 +406,7 @@ const FormSchema = Yup.object().shape({
               'fileType',
               'Format file harus PNG, JPG, atau PDF',
               (value) => {
-                if (!value) return true
+                if (!value || !isFile(value)) return true
                 const fileType = value && value.type
                 return (
                   fileType === 'image/png' ||
@@ -420,7 +420,7 @@ const FormSchema = Yup.object().shape({
               'Ukuran file tidak boleh lebih dari 2MB',
               (value) => {
                 const maxSize = 2 * 1024 * 1024
-                if (!value) return true
+                if (!value || !isFile(value)) return true
                 return value.size <= maxSize
               }
             )
@@ -1393,7 +1393,10 @@ const EmployeeEditComponent = ({
           )
           formData.append(
             `educations[${index}][study_assignment_letter]`,
-            item?.educationStudyAssignmentLetter || ''
+            !item?.educationStudyAssignmentLetter ||
+              typeof item?.educationStudyAssignmentLetter == 'string'
+              ? ''
+              : item?.educationStudyAssignmentLetter
           )
           formData.append(
             `educations[${index}][delete_study_assignment_letter]`,
@@ -1401,7 +1404,10 @@ const EmployeeEditComponent = ({
           )
           formData.append(
             `educations[${index}][academic_title_letter]`,
-            item?.edudcationAcademicTitleLetter || ''
+            !item?.edudcationAcademicTitleLetter ||
+              typeof item?.edudcationAcademicTitleLetter == 'string'
+              ? ''
+              : item?.edudcationAcademicTitleLetter
           )
           formData.append(
             `educations[${index}][delete_academic_title_letter]`,
