@@ -6,6 +6,11 @@ import { Typography, Grid } from '@mui/material'
 import DatepickerYear from '@/components/shared/form/DatepickerYear'
 import CardAccordion from './CardAccordion'
 import HeaderForm from './HeaderForm'
+import {
+  Access,
+  PermissionsIDs,
+  accessGranted
+} from '@/utils/permissionManager'
 
 const PerformanceForm = ({
   values,
@@ -37,6 +42,10 @@ const PerformanceForm = ({
               <Grid item xs={12} sx={{ padding: 0, margin: 0 }}>
                 <HeaderForm
                   title='Riwayat Penilaian Prestasi Kerja'
+                  isDelete={accessGranted(
+                    PermissionsIDs.HISTORY_PERFORMANCE,
+                    Access.DELETE
+                  )}
                   handleDelete={() => handleDeleteData(idx)}
                 />
               </Grid>

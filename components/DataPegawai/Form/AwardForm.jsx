@@ -7,6 +7,11 @@ import DatePickerDay from '@/components/shared/form/DatePickerDay'
 import DatepickerYear from '@/components/shared/form/DatepickerYear'
 import CardAccordion from './CardAccordion'
 import HeaderForm from './HeaderForm'
+import {
+  Access,
+  PermissionsIDs,
+  accessGranted
+} from '@/utils/permissionManager'
 
 const AwardForm = ({
   values,
@@ -38,6 +43,10 @@ const AwardForm = ({
               <Grid item xs={12} sx={{ padding: 0, margin: 0 }}>
                 <HeaderForm
                   title='Riwayat Jabatan'
+                  isDelete={accessGranted(
+                    PermissionsIDs.HISTORY_AWARD,
+                    Access.DELETE
+                  )}
                   handleDelete={() => handleDeleteData(idx)}
                 />
               </Grid>

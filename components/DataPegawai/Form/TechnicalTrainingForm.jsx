@@ -8,6 +8,11 @@ import UploadFile from '@/components/shared/form/UploadFile'
 import DatepickerYear from '@/components/shared/form/DatepickerYear'
 import CardAccordion from './CardAccordion'
 import HeaderForm from './HeaderForm'
+import {
+  Access,
+  PermissionsIDs,
+  accessGranted
+} from '@/utils/permissionManager'
 
 const TechnicalTrainingForm = ({
   values,
@@ -41,6 +46,10 @@ const TechnicalTrainingForm = ({
               <Grid item xs={12} sx={{ padding: 0, margin: 0 }}>
                 <HeaderForm
                   title='Riwayat Pelatihan Teknis'
+                  isDelete={accessGranted(
+                    PermissionsIDs.HISTORY_TECHNICAL,
+                    Access.DELETE
+                  )}
                   handleDelete={() => handleDeleteData(idx)}
                 />
               </Grid>

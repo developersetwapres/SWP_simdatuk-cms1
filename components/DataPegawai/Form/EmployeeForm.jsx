@@ -87,10 +87,6 @@ const EmployeeForm = ({
     }
   }, [values?.employee?.positions])
 
-  useEffect(() => {
-    console.log('values?.employee', values?.employee)
-  }, [values?.employee])
-
   return (
     <CardAccordion
       title='Data Pegawai'

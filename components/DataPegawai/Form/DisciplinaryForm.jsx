@@ -8,6 +8,11 @@ import DatepickerYear from '@/components/shared/form/DatepickerYear'
 import DatePickerDay from '@/components/shared/form/DatePickerDay'
 import CardAccordion from './CardAccordion'
 import HeaderForm from './HeaderForm'
+import {
+  Access,
+  PermissionsIDs,
+  accessGranted
+} from '@/utils/permissionManager'
 
 const DisciplinaryForm = ({
   values,
@@ -49,6 +54,10 @@ const DisciplinaryForm = ({
               <Grid item xs={12} sx={{ padding: 0, margin: 0 }}>
                 <HeaderForm
                   title='Riwayat Hukuman Disiplin'
+                  isDelete={accessGranted(
+                    PermissionsIDs.HISTORY_DISCIPLINARY,
+                    Access.DELETE
+                  )}
                   handleDelete={() => handleDeleteData(idx)}
                 />
               </Grid>
