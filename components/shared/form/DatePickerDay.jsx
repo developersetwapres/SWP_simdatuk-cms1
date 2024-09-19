@@ -18,7 +18,7 @@ function DatePickerDay({
   error,
   fullWidth = false,
   mode = 'single',
-  onChange = () => { },
+  onChange = () => {},
   ...other
 }) {
   const [open, setOpen] = useState(false)
@@ -45,7 +45,26 @@ function DatePickerDay({
   }, [valueDate, mode])
 
   const handleSelectedValue = (val) => {
-    onChange(val)
+    if (val?.from && val?.to) {
+      const fromDate = new Date(val?.from)
+      const toDate = new Date(val?.to)
+
+      let newVal = {
+        from: val?.from,
+        to: val?.to
+      }
+
+      if (fromDate > toDate) {
+        let temp = val?.from
+        newVal.from = val?.to
+        newVal.to = temp
+      }
+
+      onChange(newVal)
+    } else {
+      onChange(val)
+    }
+
     if ((mode == 'single' || (mode == 'range' && val?.from && val?.to)) && open)
       setOpen((open) => !open)
   }
@@ -69,7 +88,9 @@ function DatePickerDay({
           value={
             valueDate
               ? mode == 'range'
-                ? `${formatDate(valueDate?.from)} - ${formatDate(valueDate?.to)}`
+                ? `${formatDate(valueDate?.from)} - ${formatDate(
+                    valueDate?.to
+                  )}`
                 : formatDate(valueDate)
               : ''
           }
