@@ -2935,13 +2935,13 @@ const EmployeeEditComponent = ({
           ? moment(itm?.period_year, 'YYYY').toDate()
           : null
         const disciplinariesDecreeDate = itm?.date_of_decree
-          ? moment(itm?.date_of_decree, 'DD-MM-YYYY').toDate()
+          ? moment(itm?.date_of_decree, 'YYYY-MM-DD').toDate()
           : ''
         const disciplinariesDiscipleStartDate = itm?.start_date
-          ? moment(itm?.start_date, 'DD-MM-YYYY').toDate()
+          ? moment(itm?.start_date, 'YYYY-MM-DD').toDate()
           : ''
         const disciplinariesDiscipleEndDate = itm?.end_date
-          ? moment(itm?.end_date, 'DD-MM-YYYY').toDate()
+          ? moment(itm?.end_date, 'YYYY-MM-DD').toDate()
           : ''
 
         formikRef.current?.setFieldValue(
