@@ -180,7 +180,7 @@ const RiwayatPendidikanSection = ({ data = [] }) => {
           verticalAlign: 'top',
           Cell: () => (
             <>
-              {item?.degree_document ? (
+              {item?.study_assignment_letter ? (
                 <Button
                   text='Lihat File'
                   onClick={() => openInNewTab(item?.study_assignment_letter)}
@@ -197,7 +197,7 @@ const RiwayatPendidikanSection = ({ data = [] }) => {
           verticalAlign: 'top',
           Cell: () => (
             <>
-              {item?.degree_document ? (
+              {item?.academic_title_letter ? (
                 <Button
                   text='Lihat File'
                   onClick={() => openInNewTab(item?.academic_title_letter)}
