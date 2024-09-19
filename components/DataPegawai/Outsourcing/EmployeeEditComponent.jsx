@@ -553,9 +553,6 @@ const EmployeeEditComponent = ({
       ? handleMapping('echelons', echelon?.options)
       : []
 
-    console.log('echelon', echelon)
-    console.log('newEchelon', newEchelon)
-
     const dataOptions = {
       positions: newPosition,
       echelon: newEchelon,

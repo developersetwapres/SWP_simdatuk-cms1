@@ -73,8 +73,8 @@ const FormSchema = Yup.object().shape({
 const RiwayatPelatihanTeknisAddComponent = ({
   training,
   employee,
-  postTraining = () => { },
-  onLoading = () => { }
+  postTraining = () => {},
+  onLoading = () => {}
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -103,7 +103,7 @@ const RiwayatPelatihanTeknisAddComponent = ({
         return dataFilter
       } else if (type == 'groups') {
         const item =
-          (options?.groups?.find((itm) => itm?.name === value)?.id) || ''
+          options?.groups?.find((itm) => itm?.name === value)?.id || ''
 
         return item
       } else {
@@ -162,7 +162,6 @@ const RiwayatPelatihanTeknisAddComponent = ({
 
       postTraining(formData)
     } catch (err) {
-      console.log('err', err)
       if (!err.inner || err.inner.length === 0) {
         return
       }
@@ -190,7 +189,7 @@ const RiwayatPelatihanTeknisAddComponent = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => { }}
+      onSubmit={() => {}}
     >
       {(formikProps) => (
         <LayoutPages
