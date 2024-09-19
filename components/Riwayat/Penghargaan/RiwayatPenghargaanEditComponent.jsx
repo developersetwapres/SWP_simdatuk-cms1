@@ -21,7 +21,7 @@ const InitValue = {
   noSkPenghargaan: '',
   tahunSk: null,
   instansi: '',
-  received: '',
+  // received: '',
   periode: {
     bulan: null,
     tahun: null
@@ -153,9 +153,9 @@ const RiwayatPenghargaanEditComponent = ({
             ? moment(values?.tahunSk).format('YYYY')
             : '',
           awarding_institution: values?.instansi || '',
-          date_of_receipt: values?.received
-            ? moment(values?.received).format('YYYY-MM-DD')
-            : '',
+          // date_of_receipt: values?.received
+          //   ? moment(values?.received).format('YYYY-MM-DD')
+          //   : '',
           users
         }
       }
@@ -220,9 +220,9 @@ const RiwayatPenghargaanEditComponent = ({
       const decreeYear = detail?.decree_date
         ? new Date(detail?.decree_year, 0, 1)
         : null
-      const receivDate = detail?.date_of_receipt
-        ? new Date(detail?.date_of_receipt)
-        : ''
+      // const receivDate = detail?.date_of_receipt
+      //   ? new Date(detail?.date_of_receipt)
+      //   : ''
 
       const employees = detail?.users?.map((itm) => ({
         nama:
@@ -239,7 +239,7 @@ const RiwayatPenghargaanEditComponent = ({
         noSkPenghargaan: detail?.decree_number,
         tahunSk: decreeYear,
         instansi: detail?.awarding_institution,
-        received: receivDate,
+        // received: receivDate,
         periode: {
           bulan: periodMonth,
           tahun: periodYear

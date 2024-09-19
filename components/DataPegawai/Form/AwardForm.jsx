@@ -234,7 +234,7 @@ const AwardForm = ({
                 />
               </Grid>
               {/* Receipt Date */}
-              <Grid item xs={6}>
+              {/* <Grid item xs={6}>
                 <DatePickerDay
                   disabled
                   label='Tanggal Terima'
@@ -253,7 +253,7 @@ const AwardForm = ({
                     )
                   }}
                 />
-              </Grid>
+              </Grid> */}
             </Grid>
           ))}
       </Grid>

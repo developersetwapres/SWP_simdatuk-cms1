@@ -21,7 +21,7 @@ const InitValue = {
   noSkPenghargaan: '',
   tahunSk: null,
   instansi: '',
-  received: '',
+  // received: '',
   periode: {
     bulan: null,
     tahun: null
@@ -137,9 +137,9 @@ const RiwayatPenghargaanAddComponent = ({
 
       payload.awarding_institution = values?.instansi || ''
 
-      payload.date_of_receipt = values?.received
-        ? moment(values?.received).format('YYYY-MM-DD')
-        : ''
+      // payload.date_of_receipt = values?.received
+      //   ? moment(values?.received).format('YYYY-MM-DD')
+      //   : ''
 
       postRecognition(payload)
     } catch (err) {

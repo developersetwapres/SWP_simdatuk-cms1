@@ -8,7 +8,11 @@ import { Delete, Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
 import { monthOptions } from 'libs/types/options'
-import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import {
+  Access,
+  accessGranted,
+  PermissionsIDs
+} from '@/utils/permissionManager'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 
 const styles = {
@@ -37,10 +41,10 @@ const styles = {
 const RiwayatPenghargaanDetailComponent = ({
   recognition,
   decree,
-  getRecognition = () => { },
-  deleteRecognition = () => { },
-  clearRecognitionState = () => { },
-  onLoading = () => { }
+  getRecognition = () => {},
+  deleteRecognition = () => {},
+  clearRecognitionState = () => {},
+  onLoading = () => {}
 }) => {
   const router = useRouter()
   const [modalDelete, setModalDelete] = useState(false)
@@ -90,8 +94,9 @@ const RiwayatPenghargaanDetailComponent = ({
           align: 'left',
           verticalAlign: 'top',
           Cell: () => (
-            <Typography>{`${item?.name || '-'} / ${item?.employee_id_number || '-'
-              }`}</Typography>
+            <Typography>{`${item?.name || '-'} / ${
+              item?.employee_id_number || '-'
+            }`}</Typography>
           )
         },
         {
@@ -219,7 +224,9 @@ const RiwayatPenghargaanDetailComponent = ({
             </Grid>
             {/* Keterangan Penghargaan */}
             <Grid item xs={6}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <Box
+                sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
+              >
                 <Typography>Keterangan Penghargaan</Typography>
                 <Typography sx={styles?.fontItem}>
                   {data?.description || '-'}
@@ -228,7 +235,9 @@ const RiwayatPenghargaanDetailComponent = ({
             </Grid>
             {/* Jenis SK */}
             <Grid item xs={6}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <Box
+                sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
+              >
                 <Typography>Jenis SK</Typography>
                 <Typography sx={styles?.fontItem}>
                   {data?.type_of_decree
@@ -239,7 +248,9 @@ const RiwayatPenghargaanDetailComponent = ({
             </Grid>
             {/* Tanggal SK */}
             <Grid item xs={6}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <Box
+                sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
+              >
                 <Typography>Tanggal SK</Typography>
                 <Typography sx={styles?.fontItem}>
                   {data?.decree_date || '-'}
@@ -248,7 +259,9 @@ const RiwayatPenghargaanDetailComponent = ({
             </Grid>
             {/* No SK Penghargaan */}
             <Grid item xs={6}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <Box
+                sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
+              >
                 <Typography>No SK Penghargaan</Typography>
                 <Typography sx={styles?.fontItem}>
                   {data?.decree_number || '-'}
@@ -257,7 +270,9 @@ const RiwayatPenghargaanDetailComponent = ({
             </Grid>
             {/* Tahun SK */}
             <Grid item xs={6}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <Box
+                sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
+              >
                 <Typography>Tahun SK</Typography>
                 <Typography sx={styles?.fontItem}>
                   {data?.decree_year ? `Tahun ${data?.decree_year}` : '-'}
@@ -266,7 +281,9 @@ const RiwayatPenghargaanDetailComponent = ({
             </Grid>
             {/* Instansi Pemberi Penghargaan */}
             <Grid item xs={6}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <Box
+                sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
+              >
                 <Typography>Instansi Pemberi Penghargaan</Typography>
                 <Typography sx={styles?.fontItem}>
                   {data?.awarding_institution || '-'}
@@ -274,14 +291,14 @@ const RiwayatPenghargaanDetailComponent = ({
               </Box>
             </Grid>
             {/* Tanggal Terima */}
-            <Grid item xs={6}>
+            {/* <Grid item xs={6}>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 <Typography>Tanggal Terima</Typography>
                 <Typography sx={styles?.fontItem}>
                   {data?.date_of_receipt || '-'}
                 </Typography>
               </Box>
-            </Grid>
+            </Grid> */}
           </Grid>
           <Table
             columns={columns}

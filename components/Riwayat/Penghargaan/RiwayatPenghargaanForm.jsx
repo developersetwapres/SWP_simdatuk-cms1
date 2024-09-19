@@ -198,7 +198,7 @@ const RiwayatJabatanForm = ({
           />
         </Grid>
         {/* Tanggal Terima */}
-        <Grid item xs={6}>
+        {/* <Grid item xs={6}>
           <DatePickerDay
             value={values?.received}
             name='received'
@@ -207,7 +207,7 @@ const RiwayatJabatanForm = ({
             error={errors?.received}
             onChange={(val) => setFieldValue('received', val, false)}
           />
-        </Grid>
+        </Grid> */}
       </Grid>
       <Box sx={{ marginTop: '22px' }}>
         <Typography

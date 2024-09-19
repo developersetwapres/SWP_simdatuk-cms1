@@ -2776,9 +2776,9 @@ const EmployeeEditComponent = ({
         const recognitionsDecreeDate = itm?.decree_date
           ? moment(itm?.decree_date, 'DD-MM-YYYY').toDate()
           : ''
-        const recognitionsReceiptDate = itm?.date_of_receipt
-          ? moment(itm?.date_of_receipt, 'DD-MM-YYYY').toDate()
-          : ''
+        // const recognitionsReceiptDate = itm?.date_of_receipt
+        //   ? moment(itm?.date_of_receipt, 'DD-MM-YYYY').toDate()
+        //   : ''
 
         formikRef.current?.setFieldValue(
           `recognitions[${idx}].id`,
@@ -2830,11 +2830,11 @@ const EmployeeEditComponent = ({
           itm?.awarding_institution || '',
           false
         )
-        formikRef.current?.setFieldValue(
-          `recognitions[${idx}].receiptDate`,
-          recognitionsReceiptDate,
-          false
-        )
+        // formikRef.current?.setFieldValue(
+        //   `recognitions[${idx}].receiptDate`,
+        //   recognitionsReceiptDate,
+        //   false
+        // )
       })
 
       // History Targets
