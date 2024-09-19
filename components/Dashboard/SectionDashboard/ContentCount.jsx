@@ -48,7 +48,7 @@ const ContentCount = ({ data, datas }) => {
       {data?.type === 'generations' && (
         <Grid container spacing={2}>
           {transformed?.map(item => (
-            <Grid key={uuidv4()} item>
+            <Grid sx={{ display: 'flex' }} key={uuidv4()} item>
               <CardCount title={item?.name || ''} count={item?.total || 0} />
             </Grid>
           ))}
@@ -81,10 +81,14 @@ const CardCount = ({ title, count }) => {
       sx={{
         width: '160px',
         minHieght: '130px',
+        height: '100%',
         padding: '16px',
         backgroundColor: '#FBF6EE',
         boxShadow: 'none',
-        borderRadius: '8px'
+        borderRadius: '8px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between'
       }}
     >
       <Typography
