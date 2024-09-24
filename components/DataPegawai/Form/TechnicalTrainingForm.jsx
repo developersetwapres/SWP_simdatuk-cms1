@@ -175,8 +175,8 @@ const TechnicalTrainingForm = ({
               <Grid item xs={6}>
                 <Input
                   disabled
-                  label='Durasi Pelatihan(Hari)'
-                  placeholder='Masukkan Durasi Pelatihan(Hari)'
+                  label='Jam Pelajaran'
+                  placeholder='Masukkan Jam Pelajaran'
                   name={`trainingTechnicals[${idx}].duration`}
                   value={itm?.duration}
                   error={
