@@ -32,7 +32,7 @@ const RiwayatKeluargaSection = ({ data = [] }) => {
         align: 'left'
       },
       {
-        Header: 'Tempat Tinggal',
+        Header: 'Tempat Lahir',
         width: 200,
         minWidth: 130,
         align: 'left'
