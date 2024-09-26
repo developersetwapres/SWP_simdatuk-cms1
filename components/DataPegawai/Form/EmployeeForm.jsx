@@ -332,28 +332,6 @@ const EmployeeForm = ({
                 Contoh : Pernikahan Pertama, dst., Cerai Mati, Cerai Hidup
               </Typography>
             </Grid>
-            {/* Marriage Other */}
-            <Grid item xs={6}>
-              <Input
-                label='Keterangan Lainnya'
-                placeholder='Masukkan Keterangan Lainnya'
-                name='employee.marriageOther'
-                value={values?.employee?.marriageOther}
-                error={errors?.employee?.marriageOther}
-                onChange={(e) => {
-                  const val = e?.target?.value
-                  setFieldValue('employee.marriageOther', val, false)
-                  // setTimeout(() => {
-                  //   formikRef.current.validateField('employee.marriageOther')
-                  // }, 1)
-                }}
-              />
-              <Typography
-                sx={{ fontSize: '12px', marginTop: '6px', opacity: 0.8 }}
-              >
-                Contoh : Meninggal Dunia, Anak Angkat, Dan lain-lain
-              </Typography>
-            </Grid>
           </>
         )}
         {/* Employment Type */}

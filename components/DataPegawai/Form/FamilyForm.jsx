@@ -2,7 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Autocomplete, Input } from '@/components/shared'
-import { Grid } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import DatePickerDay from '@/components/shared/form/DatePickerDay'
 import CardAccordion from './CardAccordion'
 import HeaderForm from './HeaderForm'
@@ -37,6 +37,7 @@ const FamilyForm = ({
         occupation: '',
         occupationDescription: '',
         maritalStatus: null,
+        marriageOther: '',
         mobilePhone: '',
         sequenceNumber: ''
       }
@@ -348,6 +349,27 @@ const FamilyForm = ({
                     }, 1)
                   }}
                 />
+              </Grid>
+              {/* Marriage Other */}
+              <Grid item xs={6}>
+                <Input
+                  label='Keterangan Lainnya'
+                  placeholder='Masukkan Keterangan Lainnya'
+                  name={`families[${idx}].marriageOther`}
+                  value={itm?.marriageOther}
+                  error={
+                    errors?.families && errors?.families[idx]?.marriageOther
+                  }
+                  onChange={(e) => {
+                    const val = e?.target?.value
+                    setFieldValue(`families[${idx}].marriageOther`, val, false)
+                  }}
+                />
+                <Typography
+                  sx={{ fontSize: '12px', marginTop: '6px', opacity: 0.8 }}
+                >
+                  Contoh : Meninggal Dunia, Anak Angkat, Dan lain-lain
+                </Typography>
               </Grid>
               {/* Number Phone */}
               <Grid item xs={6}>

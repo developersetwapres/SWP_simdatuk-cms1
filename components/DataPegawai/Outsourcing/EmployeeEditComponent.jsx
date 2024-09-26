@@ -874,6 +874,10 @@ const EmployeeEditComponent = ({
             `families[${index}][marital_status]`,
             handleGetValueID('maritalFamily', item?.maritalStatus, '')
           )
+          formData.append(
+            `families[${index}][marriage_other_notes]`,
+            item?.marriageOther
+          )
           formData.append(`families[${index}][mobile_phone]`, item?.mobilePhone)
           formData.append(
             `families[${index}][sequence_number]`,
@@ -1583,6 +1587,116 @@ const EmployeeEditComponent = ({
         formikRef.current?.setFieldValue(
           `trainingTechnicals[${idx}].certificate`,
           handleSplitFile(itm?.certificate),
+          false
+        )
+      })
+
+      // Families
+      detail?.families.map((itm, idx) => {
+        const familiesDateOfBirth = itm?.date_of_birth
+          ? moment(itm?.date_of_birth, 'DD-MM-YYYY').toDate()
+          : ''
+
+        formikRef.current?.setFieldValue(
+          `families[${idx}].id`,
+          itm?.id || null,
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `families[${idx}].familyRegistNumber`,
+          itm?.card_number || '',
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `families[${idx}].name`,
+          itm?.name || '',
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `families[${idx}].idNumber`,
+          itm?.id_number || '',
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `families[${idx}].gender`,
+          handleGetValue(
+            'gender',
+            itm?.gender !== null && itm?.gender >= 0
+              ? itm?.gender == 1
+                ? 1
+                : 2
+              : null
+          ),
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `families[${idx}].religion`,
+          handleGetValue('religion', itm?.religion),
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `families[${idx}].placeOfBirth`,
+          itm?.place_of_birth || '',
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `families[${idx}].dateOfBirth`,
+          familiesDateOfBirth,
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `families[${idx}].nameOfFather`,
+          itm?.name_of_father || '',
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `families[${idx}].nameOfMother`,
+          itm?.name_of_mother || '',
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `families[${idx}].relationshipStatus`,
+          handleGetValue('relationshipStatus', itm?.relationship_status),
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `families[${idx}].educationLevel`,
+          handleGetValue('educationLevel', itm?.education),
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `families[${idx}].occupation`,
+          itm?.occupation || '',
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `families[${idx}].occupationDescription`,
+          itm?.occupation_description || '',
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `families[${idx}].maritalStatus`,
+          handleGetValue('maritalFamily', itm?.marital_status),
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `families[${idx}].marriageOther`,
+          itm?.marriage_other_notes || '',
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `families[${idx}].mobilePhone`,
+          itm?.mobile_phone || '',
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `families[${idx}].mobilePhone`,
+          itm?.mobile_phone || '',
+          false
+        )
+        formikRef.current?.setFieldValue(
+          `families[${idx}].sequenceNumber`,
+          itm?.sequence_number || '',
           false
         )
       })

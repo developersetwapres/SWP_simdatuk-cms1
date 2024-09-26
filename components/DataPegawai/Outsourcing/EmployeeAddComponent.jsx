@@ -665,6 +665,10 @@ const EmployeeAddComponent = ({
           `families[${index}][marital_status]`,
           handleGetValue('maritalFamily', item?.maritalStatus, '')
         )
+        formData.append(
+          `families[${index}][marriage_other_notes]`,
+          item?.marriageOther
+        )
         formData.append(`families[${index}][mobile_phone]`, item?.mobilePhone)
         formData.append(
           `families[${index}][sequence_number]`,
