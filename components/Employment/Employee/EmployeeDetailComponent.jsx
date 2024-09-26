@@ -544,7 +544,7 @@ const EmployeeDetailComponent = ({
                     <Grid item xs={12} md={4}>
                       <Box>
                         <Typography component='h5' sx={{ fontSize: '14px' }}>
-                          Eselon
+                          Eselon / Jenjang, TMT Eselon
                         </Typography>
                         <Typography fontSize={14} fontWeight='600'>
                           {[

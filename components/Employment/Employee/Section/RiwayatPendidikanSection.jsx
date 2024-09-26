@@ -48,12 +48,12 @@ const RiwayatPendidikanSection = ({ data = [] }) => {
         minWidth: 100,
         align: 'left'
       },
-      {
-        Header: 'Status',
-        width: 200,
-        minWidth: 100,
-        align: 'left'
-      },
+      // {
+      //   Header: 'Status',
+      //   width: 200,
+      //   minWidth: 100,
+      //   align: 'left'
+      // },
       {
         Header: 'Tahun Lulus',
         width: 300,
@@ -69,7 +69,7 @@ const RiwayatPendidikanSection = ({ data = [] }) => {
       {
         Header: 'Ijazah',
         width: 300,
-        minWidth: 120,
+        minWidth: 160,
         align: 'left'
       },
       {
@@ -139,12 +139,12 @@ const RiwayatPendidikanSection = ({ data = [] }) => {
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.major || '-'}</Typography>
         },
-        {
-          Header: 'Status',
-          align: 'left',
-          verticalAlign: 'top',
-          Cell: () => <Typography>{item?.status || '-'}</Typography>
-        },
+        // {
+        //   Header: 'Status',
+        //   align: 'left',
+        //   verticalAlign: 'top',
+        //   Cell: () => <Typography>{item?.status || '-'}</Typography>
+        // },
         {
           Header: 'Tahun',
           align: 'left',

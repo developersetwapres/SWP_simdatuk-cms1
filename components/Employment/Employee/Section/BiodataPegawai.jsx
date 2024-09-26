@@ -92,12 +92,12 @@ const BiodataPegawai = ({ data, employmentType }) => {
             {data?.marriage_description || '-'}
           </Typography>
         </Grid>
-        <Grid item xs={12} md={4} paddingY={1}>
+        {/* <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Keterangan Lainnya</Typography>
           <Typography fontWeight='500' marginTop={1}>
             {data?.marriage_other_notes || '-'}
           </Typography>
-        </Grid>
+        </Grid> */}
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>
             {data?.type == 1
@@ -243,14 +243,14 @@ const BiodataPegawai = ({ data, employmentType }) => {
                 {data?.residence_name || '-'}
               </Typography>
             </Grid>
-            <Grid item xs={12} md={4} paddingY={1}>
-              <Typography>Alamat Tempat Tinggal Saat Ini</Typography>
-              <Typography fontWeight='500' marginTop={1}>
-                {data?.residence_description || '-'}
-              </Typography>
-            </Grid>
           </>
         )}
+        <Grid item xs={12} md={4} paddingY={1}>
+          <Typography>Alamat Tempat Tinggal Saat Ini</Typography>
+          <Typography fontWeight='500' marginTop={1}>
+            {data?.residence_description || '-'}
+          </Typography>
+        </Grid>
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>Alamat Sesuai KTP</Typography>
           <Typography fontWeight='500' marginTop={1}>
