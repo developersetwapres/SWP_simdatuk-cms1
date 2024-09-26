@@ -30,7 +30,7 @@ const EducationForm = ({
         educationAccreditation: '',
         educationFaculty: '',
         educationMajor: '',
-        educationStatus: null,
+        // educationStatus: null,
         educationYear: null,
         educationDescription: '',
         educationCertificate: null,
@@ -206,7 +206,7 @@ const EducationForm = ({
                 />
               </Grid>
               {/* Education Status */}
-              <Grid item xs={6}>
+              {/* <Grid item xs={6}>
                 <Autocomplete
                   options={options?.educationStatus}
                   label='Status *'
@@ -230,7 +230,7 @@ const EducationForm = ({
                     }, 1)
                   }}
                 />
-              </Grid>
+              </Grid> */}
               {/* Education Year */}
               <Grid item xs={6}>
                 <DatepickerYear

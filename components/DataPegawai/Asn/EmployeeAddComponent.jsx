@@ -327,7 +327,7 @@ const FormSchema = Yup.object().shape({
         Yup.object().shape({
           educationLevel: Yup.string().required('Tingkat tidak boleh kosong'),
           educationName: Yup.string().required('Nama tidak boleh kosong'),
-          educationStatus: Yup.string().required('Status tidak boleh kosong'),
+          // educationStatus: Yup.string().required('Status tidak boleh kosong'),
           educationYear: Yup.string().required(
             'Tahun Lulus tidak boleh kosong'
           ),
@@ -963,10 +963,10 @@ const EmployeeAddComponent = ({
         )
         formData.append(`educations[${index}][faculty]`, item?.educationFaculty)
         formData.append(`educations[${index}][major]`, item?.educationMajor)
-        formData.append(
-          `educations[${index}][status]`,
-          handleGetValue('educationStatus', item?.educationStatus, '')
-        )
+        // formData.append(
+        //   `educations[${index}][status]`,
+        //   handleGetValue('educationStatus', item?.educationStatus, '')
+        // )
         formData.append(
           `educations[${index}][year_of_graduation]`,
           handleFormatDate(item?.educationYear, 'YYYY')
