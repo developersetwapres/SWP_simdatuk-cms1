@@ -42,7 +42,7 @@ const AwardForm = ({
             <Grid item container xs={12} spacing={3} key={idx}>
               <Grid item xs={12} sx={{ padding: 0, margin: 0 }}>
                 <HeaderForm
-                  title='Riwayat Jabatan'
+                  title='Riwayat Penghargaan'
                   isDelete={accessGranted(
                     PermissionsIDs.HISTORY_AWARD,
                     Access.DELETE
