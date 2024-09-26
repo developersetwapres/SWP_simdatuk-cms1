@@ -44,16 +44,16 @@ const EmployeeASNComponent = ({
   employee,
   grade,
   position,
-  deleteEmployee = () => { },
-  onFetch = () => { },
-  onFetchFilter = () => { },
-  clearPositionState = () => { },
-  synchronizeEmployees = () => { },
-  onLoading = () => { },
-  onSearch = () => { },
-  onFilter = () => { },
-  onPaginationChange = () => { },
-  onRowsPerPageChange = () => { }
+  deleteEmployee = () => {},
+  onFetch = () => {},
+  onFetchFilter = () => {},
+  clearPositionState = () => {},
+  synchronizeEmployees = () => {},
+  onLoading = () => {},
+  onSearch = () => {},
+  onFilter = () => {},
+  onPaginationChange = () => {},
+  onRowsPerPageChange = () => {}
 }) => {
   const router = useRouter()
   const [modalDelete, setModalDelete] = useState(false)
@@ -126,7 +126,7 @@ const EmployeeASNComponent = ({
         align: 'left'
       },
       {
-        Header: 'Golongan / Pangkat',
+        Header: 'Pangkat / Golongan',
         width: 200,
         align: 'left'
       },

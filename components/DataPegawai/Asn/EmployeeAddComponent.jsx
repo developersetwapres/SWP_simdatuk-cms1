@@ -154,9 +154,9 @@ const FormSchema = Yup.object().shape({
 
     //   return true
     // }),
-    grade: Yup.string().required('Golongan / Pangkat tidak boleh kosong'),
+    grade: Yup.string().required('Pangkat / Golongan tidak boleh kosong'),
     gradeEffectiveDate: Yup.string().required(
-      'TMT Golongan / Pangkat tidak boleh kosong'
+      'TMT Pangkat / Golongan tidak boleh kosong'
     ),
     // institution: Yup.string().required('Instansi Induk tidak boleh kosong'),
     educationLevel: Yup.string().required(

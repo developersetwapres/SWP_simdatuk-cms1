@@ -36,14 +36,14 @@ const TypeForm = ({
   }
 
   return (
-    <CardAccordion title='Riwayat Golongan / Pangkat' isExpand={isExpand}>
+    <CardAccordion title='Riwayat Pangkat / Golongan' isExpand={isExpand}>
       <Grid container spacing={3} sx={{ paddingBottom: '12px' }}>
         {values?.grades &&
           values?.grades.map((itm, idx) => (
             <Grid item container xs={12} spacing={3} key={idx}>
               <Grid item xs={12} sx={{ padding: 0, margin: 0 }}>
                 <HeaderForm
-                  title='Riwayat Golongan / Pangkat'
+                  title='Riwayat Pangkat / Golongan'
                   isDelete={accessGranted(
                     PermissionsIDs.HISTORY_GRADE,
                     Access.DELETE
@@ -98,7 +98,7 @@ const TypeForm = ({
                 <Autocomplete
                   options={options?.grade}
                   placeholder='Pilih Golongan'
-                  label='Golongan / Pangkat *'
+                  label='Pangkat / Golongan *'
                   name={`grades[${idx}].grade`}
                   value={itm?.grade}
                   error={errors?.grades && errors?.grades[idx]?.grade}

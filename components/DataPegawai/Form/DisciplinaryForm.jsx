@@ -117,8 +117,8 @@ const DisciplinaryForm = ({
               {/* Grade */}
               <Grid item xs={6}>
                 <Input
-                  label='Golongan / Pangkat'
-                  placeholder='Masukkan Golongan / Pangkat'
+                  label='Pangkat / Golongan'
+                  placeholder='Masukkan Pangkat / Golongan'
                   name={`disciplinaries[${idx}].grade`}
                   value={itm?.grade}
                   error={

@@ -13,7 +13,7 @@ const RiwayatGolonganSection = ({ data = [] }) => {
         align: 'left'
       },
       {
-        Header: 'Golongan / Pangkat',
+        Header: 'Pangkat / Golongan',
         width: 200,
         align: 'left'
       },
@@ -72,7 +72,7 @@ const RiwayatGolonganSection = ({ data = [] }) => {
           Cell: () => <Typography>{index + 1}</Typography>
         },
         {
-          Header: 'Golongan / Pangkat',
+          Header: 'Pangkat / Golongan',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => (
@@ -151,7 +151,7 @@ const RiwayatGolonganSection = ({ data = [] }) => {
   return (
     <Grid>
       <Table
-        title='Riwayat Golongan / Pangkat'
+        title='Riwayat Pangkat / Golongan'
         columns={columns}
         rows={rows}
         isPagination={false}

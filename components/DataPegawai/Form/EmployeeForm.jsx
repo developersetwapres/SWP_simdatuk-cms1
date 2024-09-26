@@ -462,8 +462,8 @@ const EmployeeForm = ({
             <Grid item xs={6}>
               <Autocomplete
                 options={options?.grade}
-                placeholder='Pilih Golongan / Pangkat'
-                label={`Golongan / Pangkat ${pagesType?.asn ? '*' : ''}`}
+                placeholder='Pilih Pangkat / Golongan'
+                label={`Pangkat / Golongan ${pagesType?.asn ? '*' : ''}`}
                 name='employee.grade'
                 value={values?.employee?.grade}
                 error={errors?.employee?.grade}
@@ -481,7 +481,7 @@ const EmployeeForm = ({
             {/* TMT Grade */}
             <Grid item xs={6}>
               <DatePickerDay
-                label={`TMT Golongan / Pangkat ${pagesType?.asn ? '*' : ''}`}
+                label={`TMT Pangkat / Golongan ${pagesType?.asn ? '*' : ''}`}
                 placeholder='dd-mm-yyyy'
                 name='employee.gradeEffectiveDate'
                 value={values?.employee?.gradeEffectiveDate}
