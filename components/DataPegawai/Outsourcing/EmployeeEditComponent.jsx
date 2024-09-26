@@ -591,10 +591,10 @@ const EmployeeEditComponent = ({
     return dataOptions
   }, [positions, residence, employmentType, echelon, decree, group])
 
-  const handleGetValueID = (type, val) => {
+  const handleGetValueID = (type, val, idx) => {
     if (val) {
       if (type == 'position') {
-        const dataPosition = positions[positions.length - 1]
+        const dataPosition = positions[idx]
         const item = dataPosition.find((itm) => itm?.name == val)
         return item?.id
       } else if (type == 'echelon') {

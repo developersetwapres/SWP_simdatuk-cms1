@@ -889,41 +889,39 @@ const EmployeeForm = ({
             }}
           />
         </Grid>
+        {/* Residence */}
         {pagesType?.asn && (
-          <>
-            {/* Residence */}
-            <Grid item xs={6}>
-              <Autocomplete
-                options={options?.residence}
-                placeholder='Pilih Komplek'
-                label='Komplek'
-                name='employee.residence'
-                value={values?.employee?.residence}
-                error={errors?.employee?.residence}
-                onChange={(val) => {
-                  setFieldValue('employee.residence', val, false)
-                  // setTimeout(() => {
-                  //   formikRef.current.validateField('employee.residence')
-                  // }, 1)
-                }}
-              />
-            </Grid>
-            {/* Residence Name */}
-            <Grid item xs={6}>
-              <Input
-                label='Alamat Tempat Tinggal Saat Ini'
-                placeholder='Masukkan Alamat Tempat Tinggal Saat Ini'
-                name='employee.residenceName'
-                value={values?.employee?.residenceName}
-                error={errors?.employee?.residenceName}
-                onChange={(e) => {
-                  const val = e?.target?.value
-                  setFieldValue('employee.residenceName', val, false)
-                }}
-              />
-            </Grid>
-          </>
+          <Grid item xs={6}>
+            <Autocomplete
+              options={options?.residence}
+              placeholder='Pilih Komplek'
+              label='Komplek'
+              name='employee.residence'
+              value={values?.employee?.residence}
+              error={errors?.employee?.residence}
+              onChange={(val) => {
+                setFieldValue('employee.residence', val, false)
+                // setTimeout(() => {
+                //   formikRef.current.validateField('employee.residence')
+                // }, 1)
+              }}
+            />
+          </Grid>
         )}
+        {/* Residence Name */}
+        <Grid item xs={6}>
+          <Input
+            label='Alamat Tempat Tinggal Saat Ini'
+            placeholder='Masukkan Alamat Tempat Tinggal Saat Ini'
+            name='employee.residenceName'
+            value={values?.employee?.residenceName}
+            error={errors?.employee?.residenceName}
+            onChange={(e) => {
+              const val = e?.target?.value
+              setFieldValue('employee.residenceName', val, false)
+            }}
+          />
+        </Grid>
         {/* Address */}
         <Grid item xs={6}>
           <Input

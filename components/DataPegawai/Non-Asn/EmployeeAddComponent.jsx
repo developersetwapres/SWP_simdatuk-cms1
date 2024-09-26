@@ -722,7 +722,7 @@ const EmployeeAddComponent = ({
   const handleGetValue = (type, val, idx) => {
     if (val) {
       if (type == 'position') {
-        const dataPosition = positions[positions.length - 1]
+        const dataPosition = positions[idx]
         const item = dataPosition.find((itm) => itm?.name == val)
         return item?.id
       } else if (type == 'grade') {
@@ -819,16 +819,16 @@ const EmployeeAddComponent = ({
       )
       formData.append(
         'religion',
-        handleGetValue('religion', values?.employee?.religion)
+        handleGetValue('religion', values?.employee?.religion, null)
       )
       formData.append('gender', values?.employee?.gender == 'Laki-Laki' ? 1 : 0)
       formData.append(
         'marital_status',
-        handleGetValue('marital', values?.employee?.maritalStatus)
+        handleGetValue('marital', values?.employee?.maritalStatus, null)
       )
       formData.append(
         'employment_type_id',
-        handleGetValue('employmentType', values?.employee?.employmentType)
+        handleGetValue('employmentType', values?.employee?.employmentType, null)
       )
       formData.append(
         'cpns_effective_date',
@@ -844,7 +844,7 @@ const EmployeeAddComponent = ({
       )
       formData.append(
         'grade_id',
-        handleGetValue('grade', values?.employee?.grade)
+        handleGetValue('grade', values?.employee?.grade, null)
       )
       formData.append(
         'grade_effective_date',
@@ -853,7 +853,7 @@ const EmployeeAddComponent = ({
       formData.append(
         'echelon_id',
         values?.employee?.echelon
-          ? handleGetValue('echelon', values?.employee?.echelon)
+          ? handleGetValue('echelon', values?.employee?.echelon, null)
           : ''
       )
       formData.append(
@@ -862,13 +862,14 @@ const EmployeeAddComponent = ({
       )
       formData.append(
         'institution_id',
-        handleGetValue('institution', values?.employee?.institution)
+        handleGetValue('institution', values?.employee?.institution, null)
       )
       formData.append(
         'education_level',
         handleGetValue(
           'employeeEducationLevel',
-          values?.employee?.educationLevel
+          values?.employee?.educationLevel,
+          null
         )
       )
       formData.append('education_name', values?.employee?.educationName)
@@ -893,7 +894,11 @@ const EmployeeAddComponent = ({
       formData.append('id_tax', values?.employee?.taxId)
       formData.append(
         'employment_status',
-        handleGetValue('employeeStatus', values?.employee?.employmentStatus)
+        handleGetValue(
+          'employeeStatus',
+          values?.employee?.employmentStatus,
+          null
+        )
       )
       formData.append(
         'family_registration_number',
@@ -903,7 +908,7 @@ const EmployeeAddComponent = ({
       formData.append(
         'residence_id',
         values?.employee?.residence
-          ? handleGetValue('residence', values?.employee?.residence)
+          ? handleGetValue('residence', values?.employee?.residence, null)
           : ''
       )
       formData.append('residence_description', values?.employee?.residenceName)
