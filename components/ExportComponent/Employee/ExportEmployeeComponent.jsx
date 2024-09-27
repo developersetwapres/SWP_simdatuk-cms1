@@ -64,6 +64,7 @@ const checkboxes = [
       { name: 'isEndDate', label: 'Tanggal Terakhir Bekerja' },
       { name: 'isWorkDuration', label: 'Masa Kerja Keseluruhan' },
       { name: 'isGradeDuration', label: 'Masa Kerja Golongan' },
+      { name: 'isFullPosition', label: 'Jabatan Lengkap' },
       { name: 'isPosition', label: 'Jabatan' },
       { name: 'isDatePosition', label: 'TMT Menjabat' },
       { name: 'isEchelons', label: 'Eselon' },
@@ -522,6 +523,10 @@ const ExportEmployeeComponent = ({
 
     if (label === 'Masa Kerja Golongan') {
       return response?.grade_duration || '-'
+    }
+
+    if (label === 'Jabatan Lengkap') {
+      return response?.full_position || '-'
     }
 
     if (label === 'Jabatan') {
