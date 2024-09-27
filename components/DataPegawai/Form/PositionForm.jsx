@@ -170,8 +170,7 @@ const PositionForm = ({
                   error={
                     errors?.positions && errors?.positions[idx]?.effectiveDate
                   }
-                  onChange={(e) => {
-                    const val = e?.target?.value
+                  onChange={(val) => {
                     setFieldValue(`positions[${idx}].effectiveDate`, val, false)
                     setTimeout(() => {
                       formikRef.current.validateField(
