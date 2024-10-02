@@ -631,7 +631,7 @@ const EmployeeEditComponent = ({
   }
 
   const handleGetValue = (type, val) => {
-    if (val || val >= 0) {
+    if ((val || val >= 0) && val !== null) {
       if (type == 'residence') {
         const item =
           residence?.data && residence?.data.find((itm) => itm?.id == val)?.name

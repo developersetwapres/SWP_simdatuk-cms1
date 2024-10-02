@@ -1092,7 +1092,7 @@ const EmployeeEditComponent = ({
   }
 
   const handleGetValue = (type, val) => {
-    if (val || val >= 0) {
+    if ((val || val >= 0) && val !== null) {
       if (type == 'grade') {
         const item =
           grade?.options && grade?.options.find((itm) => itm?.id == val)
@@ -2032,6 +2032,8 @@ const EmployeeEditComponent = ({
       const quitDate = detail?.quit_date
         ? moment(detail?.quit_date, 'DD-MM-YYYY').toDate()
         : ''
+
+      console.log('grades', detail?.grade_id)
 
       // Employee
       formikRef.current?.setFieldValue(
