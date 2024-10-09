@@ -576,7 +576,7 @@ const EmployeeEditComponent = ({
             )
             formData.append(
               `positions[${index}][delete_decree_document]`,
-              values?.decreeDocument ? 0 : 1
+              item?.decreeDocument ? 0 : 1
             )
           })
         } else {
