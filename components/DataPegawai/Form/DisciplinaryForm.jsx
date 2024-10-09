@@ -29,12 +29,11 @@ const FormSchema = Yup.object().shape({
           // discipleType: Yup.string().required(
           //   'Jenis Hukuman tidak boleh kosong'
           // ),
-          discipleDate: Yup.object()
-            .shape({
-              from: Yup.string().required('Pilih tanggal awal'),
-              to: Yup.string().required('Pilih tanggal akhir')
-            })
-            .required('Tanggal Hukuman tidak boleh kosong')
+          discipleDate: Yup.object().shape({
+            from: Yup.string().required('Pilih tanggal awal'),
+            to: Yup.string().required('Pilih tanggal akhir')
+          })
+          // .required('Tanggal Hukuman tidak boleh kosong')
         })
       )
     } else {
@@ -145,7 +144,7 @@ const DisciplinaryForm = forwardRef((props, ref) => {
                       fontWeight: 500
                     }}
                   >
-                    Periode Input Riwayat *
+                    Periode Input Riwayat
                   </Typography>
                   <Grid container spacing={3}>
                     {/* Bulan */}

@@ -156,7 +156,7 @@ const FunctionalTrainingForm = forwardRef((props, ref) => {
                       fontWeight: 500
                     }}
                   >
-                    Periode Input Riwayat *
+                    Periode Input Riwayat
                   </Typography>
                   <Grid container spacing={3}>
                     {/* Bulan */}
@@ -208,7 +208,7 @@ const FunctionalTrainingForm = forwardRef((props, ref) => {
                 <Grid item xs={6}>
                   <Input
                     disabled
-                    label='Nama Diklat *'
+                    label='Nama Diklat'
                     placeholder='Masukkan Nama Diklat'
                     name={`trainingFungsionals[${idx}].trainingName`}
                     value={itm?.trainingName}
@@ -230,7 +230,7 @@ const FunctionalTrainingForm = forwardRef((props, ref) => {
                 <Grid item xs={6}>
                   <Input
                     disabled
-                    label='No. Surat Perintah *'
+                    label='No. Surat Perintah'
                     placeholder='Masukkan No. Surat Perintah'
                     name={`trainingFungsionals[${idx}].number`}
                     value={itm?.number}
@@ -274,7 +274,7 @@ const FunctionalTrainingForm = forwardRef((props, ref) => {
                 <Grid item xs={6}>
                   <DatePickerDay
                     disabled
-                    label='Tanggal Pelaksanaan *'
+                    label='Tanggal Pelaksanaan'
                     placeholder='dd-mm-yyyy'
                     name={`trainingFungsionals[${idx}].date`}
                     value={itm?.date}

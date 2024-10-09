@@ -167,7 +167,7 @@ const TypeForm = forwardRef((props, ref) => {
                       fontWeight: 500
                     }}
                   >
-                    Periode Input Riwayat *
+                    Periode Input Riwayat
                   </Typography>
                   <Grid container spacing={2}>
                     {/* Month */}
@@ -400,7 +400,7 @@ const TypeForm = forwardRef((props, ref) => {
                   <Autocomplete
                     options={options?.status}
                     placeholder='Pilih Status Golongan'
-                    label='Status Golongan *'
+                    label='Status Golongan'
                     name={`grades[${idx}].status`}
                     value={itm?.status}
                     error={

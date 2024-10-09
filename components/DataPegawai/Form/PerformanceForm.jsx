@@ -132,7 +132,7 @@ const PerformanceForm = forwardRef((props, ref) => {
                       fontWeight: 500
                     }}
                   >
-                    Periode Input Riwayat *
+                    Periode Input Riwayat
                   </Typography>
                   <Grid container spacing={3}>
                     {/* Bulan */}
@@ -205,7 +205,7 @@ const PerformanceForm = forwardRef((props, ref) => {
                 {/* Point */}
                 <Grid item xs={6}>
                   <Input
-                    label='Nilai Prestasi Kerja*'
+                    label='Nilai Prestasi Kerja'
                     placeholder='Masukkan Nilai Prestasi Kerja'
                     name={`performances[${idx}].point`}
                     value={itm?.point}

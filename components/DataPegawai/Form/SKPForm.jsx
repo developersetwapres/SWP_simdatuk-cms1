@@ -135,7 +135,7 @@ const SKPForm = forwardRef((props, ref) => {
                       fontWeight: 500
                     }}
                   >
-                    Periode Input Riwayat *
+                    Periode Input Riwayat
                   </Typography>
                   <Grid container spacing={3}>
                     {/* Bulan */}
