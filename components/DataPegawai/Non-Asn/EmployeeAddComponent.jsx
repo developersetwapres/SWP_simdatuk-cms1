@@ -629,6 +629,11 @@ const EmployeeAddComponent = ({
     onLoading(state)
   }, [position, echelon, grade, institution, residence, employmentType])
 
+  useEffect(() => {
+    const FormEmployee = formikEmployeeRef?.current
+    FormEmployee?.setFieldValue('type', '2', false)
+  }, [formikEmployeeRef])
+
   return (
     <LayoutPages
       handleBack={() => router.back()}

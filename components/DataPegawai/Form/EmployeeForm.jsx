@@ -457,16 +457,6 @@ const EmployeeForm = forwardRef((props, ref) => {
     }
   }, [ref, formik?.values?.positions])
 
-  useEffect(() => {
-    if (pagesType?.ASN) {
-      formik?.setFieldValue('type', '1', false)
-    } else if (pagesType?.NONASN) {
-      formik?.setFieldValue('type', '2', false)
-    } else {
-      formik?.setFieldValue('type', '3', false)
-    }
-  }, [pagesType])
-
   return (
     <form ref={ref}>
       <CardAccordion

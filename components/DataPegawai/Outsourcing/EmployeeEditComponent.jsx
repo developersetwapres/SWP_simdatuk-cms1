@@ -912,6 +912,7 @@ const EmployeeEditComponent = ({
         handleSetCountServiceValue(detail?.month_of_service_total),
         false
       )
+      FormEmployee?.setFieldValue('type', '3', false)
 
       // History Positions
       detail?.positions.map((itm, idx) => {

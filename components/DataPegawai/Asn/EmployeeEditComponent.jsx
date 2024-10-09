@@ -1636,6 +1636,7 @@ const EmployeeEditComponent = ({
         handleSetCountServiceValue(detail?.month_of_service_rank),
         false
       )
+      FormEmployee?.setFieldValue('type', '1', false)
 
       // Educations
       detail?.educations.map((itm, idx) => {
