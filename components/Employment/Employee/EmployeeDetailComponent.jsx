@@ -362,9 +362,10 @@ const EmployeeDetailComponent = ({
         const outsourcingMenu = [
           'data_pegawai',
           'riwayat_pendidikan',
-          'riwayat_keluarga',
           'riwayat_jabatan',
-          'riwayat_pelatihan_teknis'
+          'riwayat_pelatihan_teknis',
+          'riwayat_keluarga',
+          'riwayat_catatan'
         ]
         const asnMenu = [
           'riwayat_jabatan',

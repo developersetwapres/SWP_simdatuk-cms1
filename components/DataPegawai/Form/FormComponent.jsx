@@ -259,6 +259,8 @@ const FormComponent = (props) => {
           pagesType={PagesType}
           {...props}
         />
+        {/* Education */}
+        <EducationForm ref={formikRef?.formikEducationsRef} {...props} />
         {isEdit && (
           <>
             {/* Position */}
@@ -272,10 +274,10 @@ const FormComponent = (props) => {
         )}
         {/* Family */}
         <FamilyForm ref={formikRef?.formikFamiliesRef} {...props} />
-        {/* Education */}
-        {/* <EducationForm {...props} /> */}
         {/* Notes */}
-        {/* <NotesForm {...props} /> */}
+        {accessGranted(PermissionsIDs.NOTES, Access.READ) && (
+          <NotesForm ref={formikRef?.formikNotesRef} {...props} />
+        )}
       </Box>
     )
   }

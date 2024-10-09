@@ -52,6 +52,8 @@ const EmployeeEditComponent = ({
   const router = useRouter()
   const formikEmployeeRef = useRef(null)
   const formikFamiliesRef = useRef(null)
+  const formikEducationsRef = useRef(null)
+  const formikNotesRef = useRef(null)
   const formikPositionsRef = useRef(null)
   const formikTrainingTechnicalsRef = useRef(null)
 
@@ -62,12 +64,16 @@ const EmployeeEditComponent = ({
     return {
       formikEmployeeRef,
       formikFamiliesRef,
+      formikEducationsRef,
+      formikNotesRef,
       formikPositionsRef,
       formikTrainingTechnicalsRef
     }
   }, [
     formikEmployeeRef,
     formikFamiliesRef,
+    formikEducationsRef,
+    formikNotesRef,
     formikPositionsRef,
     formikTrainingTechnicalsRef
   ])
@@ -259,12 +265,16 @@ const EmployeeEditComponent = ({
   const handleSubmit = useCallback(async () => {
     const FormEmployee = formikEmployeeRef?.current
     const FormFamilies = formikFamiliesRef?.current
+    const FormEducations = formikEducationsRef?.current
+    const FormNotes = formikNotesRef?.current
     const FormPositions = formikPositionsRef?.current
     const FormTrainingTechnicals = formikTrainingTechnicalsRef?.current
 
     const formsToValidate = [
       FormEmployee,
       FormFamilies,
+      FormEducations,
+      FormNotes,
       FormPositions,
       FormTrainingTechnicals
     ].filter(Boolean)
@@ -284,6 +294,8 @@ const EmployeeEditComponent = ({
       const refValidate = [
         formikEmployeeRef,
         formikFamiliesRef,
+        formikEducationsRef,
+        formikNotesRef,
         formikPositionsRef,
         formikTrainingTechnicalsRef
       ]
@@ -297,6 +309,8 @@ const EmployeeEditComponent = ({
       if (allFormsValid) {
         const employee = FormEmployee?.values
         const families = FormFamilies?.values?.families || []
+        const educations = FormEducations?.values?.educations || []
+        const notes = FormNotes?.values?.notes || []
         const positions = FormPositions?.values?.positions || []
         const technicals =
           FormTrainingTechnicals?.values?.trainingTechnicals || []
@@ -592,6 +606,92 @@ const EmployeeEditComponent = ({
           formData.append(`technicals`, emptyArray)
         }
 
+        // Educations
+        if (educations.length > 0) {
+          educations.map((item, index) => {
+            formData.append(`educations[${index}][id]`, item?.id || '')
+            formData.append(
+              `educations[${index}][level]`,
+              handleGetValueID(
+                'employeeEducationLevel',
+                item?.educationLevel,
+                ''
+              )
+            )
+            formData.append(`educations[${index}][name]`, item?.educationName)
+            formData.append(
+              `educations[${index}][study_area]`,
+              handleGetValueID('studyArea', item?.educationArea, '')
+            )
+            formData.append(
+              `educations[${index}][accreditation]`,
+              item?.educationAccreditation
+            )
+            formData.append(
+              `educations[${index}][faculty]`,
+              item?.educationFaculty
+            )
+            formData.append(`educations[${index}][major]`, item?.educationMajor)
+            // formData.append(
+            //   `educations[${index}][status]`,
+            //   handleGetValueID('educationStatus', item?.educationStatus, '')
+            // )
+            formData.append(
+              `educations[${index}][year_of_graduation]`,
+              handleFormatDate(item?.educationYear, 'YYYY')
+            )
+            formData.append(
+              `educations[${index}][description]`,
+              item?.educationDescription
+            )
+            formData.append(
+              `educations[${index}][degree_document]`,
+              !item?.educationCertificate ||
+                typeof item?.educationCertificate == 'string'
+                ? ''
+                : item?.educationCertificate
+            )
+            formData.append(
+              `educations[${index}][delete_degree_document]`,
+              item?.educationCertificate ? 0 : 1
+            )
+            formData.append(
+              `educations[${index}][study_assignment_letter]`,
+              !item?.educationStudyAssignmentLetter ||
+                typeof item?.educationStudyAssignmentLetter == 'string'
+                ? ''
+                : item?.educationStudyAssignmentLetter
+            )
+            formData.append(
+              `educations[${index}][delete_study_assignment_letter]`,
+              item?.educationStudyAssignmentLetter ? 0 : 1
+            )
+            formData.append(
+              `educations[${index}][academic_title_letter]`,
+              !item?.edudcationAcademicTitleLetter ||
+                typeof item?.edudcationAcademicTitleLetter == 'string'
+                ? ''
+                : item?.edudcationAcademicTitleLetter
+            )
+            formData.append(
+              `educations[${index}][delete_academic_title_letter]`,
+              item?.edudcationAcademicTitleLetter ? 0 : 1
+            )
+          })
+        } else {
+          formData.append(`educations`, emptyArray)
+        }
+
+        // Notes
+        if (notes.length > 0) {
+          notes.map((item, index) => {
+            formData.append(`notes[${index}][id]`, item?.id || '')
+            formData.append(`notes[${index}][description]`, item?.description)
+          })
+        } else {
+          formData.append(`notes`, emptyArray)
+        }
+
         const payload = {
           id,
           data: formData
@@ -613,6 +713,8 @@ const EmployeeEditComponent = ({
     positions,
     formikEmployeeRef,
     formikFamiliesRef,
+    formikEducationsRef,
+    formikNotesRef,
     formikPositionsRef,
     formikTrainingTechnicalsRef
   ])
@@ -709,6 +811,8 @@ const EmployeeEditComponent = ({
     if (Object.entries(detail).length > 0) {
       const FormEmployee = formikEmployeeRef?.current
       const FormFamilies = formikFamiliesRef?.current
+      const FormEducations = formikEducationsRef?.current
+      const FormNotes = formikNotesRef?.current
       const FormPositions = formikPositionsRef?.current
       const FormTrainingTechnicals = formikTrainingTechnicalsRef?.current
 
@@ -1198,6 +1302,89 @@ const EmployeeEditComponent = ({
         FormFamilies?.setFieldValue(
           `families[${idx}].sequenceNumber`,
           itm?.sequence_number || '',
+          false
+        )
+      })
+
+      // Educations
+      detail?.educations.map((itm, idx) => {
+        const educationsYear = itm?.year_of_graduation
+          ? moment(itm?.year_of_graduation, 'YYYY').toDate()
+          : null
+
+        FormEducations?.setFieldValue(
+          `educations[${idx}].id`,
+          itm?.id || null,
+          false
+        )
+        FormEducations?.setFieldValue(
+          `educations[${idx}].educationLevel`,
+          handleGetValue('employeeEducationLevel', itm?.level),
+          false
+        )
+        FormEducations?.setFieldValue(
+          `educations[${idx}].educationName`,
+          itm?.name || '',
+          false
+        )
+        FormEducations?.setFieldValue(
+          `educations[${idx}].educationArea`,
+          handleGetValue('studyArea', itm?.study_area),
+          false
+        )
+        FormEducations?.setFieldValue(
+          `educations[${idx}].educationAccreditation`,
+          itm?.accreditation || '',
+          false
+        )
+        FormEducations?.setFieldValue(
+          `educations[${idx}].educationFaculty`,
+          itm?.faculty || '',
+          false
+        )
+        FormEducations?.setFieldValue(
+          `educations[${idx}].educationMajor`,
+          itm?.major || '',
+          false
+        )
+        // FormEducations?.setFieldValue(
+        //   `educations[${idx}].educationStatus`,
+        //   handleGetValue('educationStatus', itm?.status),
+        //   false
+        // )
+        FormEducations?.setFieldValue(
+          `educations[${idx}].educationYear`,
+          educationsYear,
+          false
+        )
+        FormEducations?.setFieldValue(
+          `educations[${idx}].educationDescription`,
+          itm?.description || '',
+          false
+        )
+        FormEducations?.setFieldValue(
+          `educations[${idx}].educationCertificate`,
+          handleSplitFile(itm?.degree_document),
+          false
+        )
+        FormEducations?.setFieldValue(
+          `educations[${idx}].educationStudyAssignmentLetter`,
+          handleSplitFile(itm?.study_assignment_letter),
+          false
+        )
+        FormEducations?.setFieldValue(
+          `educations[${idx}].edudcationAcademicTitleLetter`,
+          handleSplitFile(itm?.academic_title_letter),
+          false
+        )
+      })
+
+      // Notes
+      detail?.notes.map((itm, idx) => {
+        FormNotes?.setFieldValue(`notes[${idx}].id`, itm?.id || null, false)
+        FormNotes?.setFieldValue(
+          `notes[${idx}].description`,
+          itm?.description || '',
           false
         )
       })

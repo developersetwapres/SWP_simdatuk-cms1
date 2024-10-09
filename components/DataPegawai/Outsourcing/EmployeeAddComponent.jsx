@@ -40,6 +40,8 @@ const EmployeeAddComponent = ({
   const router = useRouter()
   const formikEmployeeRef = useRef(null)
   const formikFamiliesRef = useRef(null)
+  const formikEducationsRef = useRef(null)
+  const formikNotesRef = useRef(null)
 
   const [positions, setPositions] = useState([])
   const [isExpand, setIsExpand] = useState(false)
@@ -47,9 +49,16 @@ const EmployeeAddComponent = ({
   const formikRef = useMemo(() => {
     return {
       formikEmployeeRef,
-      formikFamiliesRef
+      formikFamiliesRef,
+      formikEducationsRef,
+      formikNotesRef
     }
-  }, [formikEmployeeRef, formikFamiliesRef])
+  }, [
+    formikEmployeeRef,
+    formikFamiliesRef,
+    formikEducationsRef,
+    formikNotesRef
+  ])
 
   const errorsForm = useMemo(() => {
     return employee?.errorForm || {}
@@ -145,8 +154,15 @@ const EmployeeAddComponent = ({
   const handleSubmit = useCallback(async () => {
     const FormEmployee = formikEmployeeRef?.current
     const FormFamilies = formikFamiliesRef?.current
+    const FormEducations = formikEducationsRef?.current
+    const FormNotes = formikNotesRef?.current
 
-    const formsToValidate = [FormEmployee, FormFamilies].filter(Boolean)
+    const formsToValidate = [
+      FormEmployee,
+      FormFamilies,
+      FormEducations,
+      FormNotes
+    ].filter(Boolean)
 
     if (!formsToValidate) return null
 
@@ -160,7 +176,12 @@ const EmployeeAddComponent = ({
         })
       )
 
-      const refValidate = [formikEmployeeRef, formikFamiliesRef]
+      const refValidate = [
+        formikEmployeeRef,
+        formikFamiliesRef,
+        formikEducationsRef,
+        formikNotesRef
+      ]
 
       const allFormsValid = refValidate.every(
         (form) =>
@@ -171,6 +192,8 @@ const EmployeeAddComponent = ({
       if (allFormsValid) {
         const employee = FormEmployee?.values
         const families = FormFamilies?.values?.families || []
+        const educations = FormEducations?.values?.educations || []
+        const notes = FormNotes?.values?.notes || []
 
         const position = employee?.positions.filter((itm) => itm?.name !== null)
         const positionLength = position.length
@@ -340,52 +363,55 @@ const EmployeeAddComponent = ({
         })
 
         // Educations
-        // educations.map((item, index) => {
-        //   formData.append(
-        //     `educations[${index}][level]`,
-        //     handleGetValue('employeeEducationLevel', item?.educationLevel)
-        //   )
-        //   formData.append(`educations[${index}][name]`, item?.educationName)
-        //   formData.append(
-        //     `educations[${index}][study_area]`,
-        //     handleGetValue('studyArea', item?.educationArea, '')
-        //   )
-        //   formData.append(
-        //     `educations[${index}][accreditation]`,
-        //     item?.educationAccreditation
-        //   )
-        //   formData.append(`educations[${index}][faculty]`, item?.educationFaculty)
-        //   formData.append(`educations[${index}][major]`, item?.educationMajor)
-        //   formData.append(
-        //     `educations[${index}][status]`,
-        //     handleGetValue('educationStatus', item?.educationStatus)
-        //   )
-        //   formData.append(
-        //     `educations[${index}][year_of_graduation]`,
-        //     handleFormatDate(item?.educationYear, 'YYYY')
-        //   )
-        //   formData.append(
-        //     `educations[${index}][description]`,
-        //     item?.educationDescription
-        //   )
-        //   formData.append(
-        //     `educations[${index}][degree_document]`,
-        //     item?.educationCertificate || ''
-        //   )
-        //   formData.append(
-        //     `educations[${index}][study_assignment_letter]`,
-        //     item?.educationStudyAssignmentLetter || ''
-        //   )
-        //   formData.append(
-        //     `educations[${index}][academic_title_letter]`,
-        //     item?.edudcationAcademicTitleLetter || ''
-        //   )
-        // })
+        educations.map((item, index) => {
+          formData.append(
+            `educations[${index}][level]`,
+            handleGetValue('employeeEducationLevel', item?.educationLevel, '')
+          )
+          formData.append(`educations[${index}][name]`, item?.educationName)
+          formData.append(
+            `educations[${index}][study_area]`,
+            handleGetValue('studyArea', item?.educationArea, '')
+          )
+          formData.append(
+            `educations[${index}][accreditation]`,
+            item?.educationAccreditation
+          )
+          formData.append(
+            `educations[${index}][faculty]`,
+            item?.educationFaculty
+          )
+          formData.append(`educations[${index}][major]`, item?.educationMajor)
+          // formData.append(
+          //   `educations[${index}][status]`,
+          //   handleGetValue('educationStatus', item?.educationStatus, '')
+          // )
+          formData.append(
+            `educations[${index}][year_of_graduation]`,
+            handleFormatDate(item?.educationYear, 'YYYY')
+          )
+          formData.append(
+            `educations[${index}][description]`,
+            item?.educationDescription
+          )
+          formData.append(
+            `educations[${index}][degree_document]`,
+            item?.educationCertificate || ''
+          )
+          formData.append(
+            `educations[${index}][study_assignment_letter]`,
+            item?.educationStudyAssignmentLetter || ''
+          )
+          formData.append(
+            `educations[${index}][academic_title_letter]`,
+            item?.edudcationAcademicTitleLetter || ''
+          )
+        })
 
         // Notes
-        // notes.map((item, index) => {
-        //   formData.append(`notes[${index}][description]`, item?.description)
-        // })
+        notes.map((item, index) => {
+          formData.append(`notes[${index}][description]`, item?.description)
+        })
 
         postEmployee(formData)
       }
@@ -393,7 +419,14 @@ const EmployeeAddComponent = ({
       setIsExpand(true)
       setTimeout(() => setIsExpand(false), 500)
     }
-  }, [position, positions, formikEmployeeRef, formikFamiliesRef])
+  }, [
+    position,
+    positions,
+    formikEmployeeRef,
+    formikFamiliesRef,
+    formikEducationsRef,
+    formikNotesRef
+  ])
 
   const handleChangeHierarchies = (val) => {
     const datas = val.filter((itm) => itm?.name !== null)
