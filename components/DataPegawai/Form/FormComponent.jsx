@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable indent */
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Box } from '@mui/material'
 import PropTypes from 'prop-types'
 import EmployeeForm from './EmployeeForm'
@@ -35,38 +35,21 @@ const containerStyles = {
 }
 
 const FormComponent = (props) => {
-  const {
-    mode,
-    pageType,
-    formikProps,
-    onGetPositionType,
-    errorsForm,
-    options
-  } = props
+  const { formikRef, mode, pageType, errorsForm } = props
+
+  const [isCreditNumber, setIsCreditNumber] = useState(false)
 
   const isEdit = useMemo(() => {
     return mode == 'edit'
   }, [mode])
 
-  const isCreditNumber = useMemo(() => {
-    const positions = formikProps?.values?.employee?.positions || []
-    const positionsFilter = positions.filter((itm) => itm?.name !== null)
-
-    if (positionsFilter.length > 0 && pageType == 'ASN') {
-      const index = positionsFilter.length - 1
-      const item = positionsFilter[index]
-      const type = onGetPositionType(item?.name, index)
-      const state = type == 'fungsional'
-
-      return state
+  const PagesType = useMemo(() => {
+    return {
+      ASN: pageType == 'ASN',
+      NONASN: pageType == 'NON_ASN',
+      OUTSOURCE: pageType == 'OUTSOURCING'
     }
-
-    return false
-  }, [
-    formikProps?.values?.employee?.positions,
-    formikProps?.values,
-    options?.positions
-  ])
+  }, [pageType])
 
   const handleSetKeyForm = (val) => {
     switch (val) {
@@ -212,72 +195,87 @@ const FormComponent = (props) => {
   const handleSetErrorsForm = (errors) => {
     const mappedErrors = {}
 
-    Object.entries(errors).map(([key, value]) => {
-      const val = value[0]
-      const match = key.match(/^(\w+)(\[(\d+)\])?\.(\w+)$/)
+    // Object.entries(errors).map(([key, value]) => {
+    //   const val = value[0]
+    //   const match = key.match(/^(\w+)(\[(\d+)\])?\.(\w+)$/)
 
-      if (match) {
-        const [_, parent, , index, child] = match
+    //   if (match) {
+    //     const [_, parent, , index, child] = match
 
-        const childName = handleSetKeyForm(child)
+    //     const childName = handleSetKeyForm(child)
 
-        if (!mappedErrors[parent]) {
-          mappedErrors[parent] = index !== undefined ? [] : {}
-        }
+    //     if (!mappedErrors[parent]) {
+    //       mappedErrors[parent] = index !== undefined ? [] : {}
+    //     }
 
-        if (index !== undefined) {
-          if (!mappedErrors[parent][index]) {
-            mappedErrors[parent][index] = {}
-          }
-          mappedErrors[parent][index][childName] = val
-        } else {
-          mappedErrors[parent][childName] = val
-        }
-      } else {
-        if (!mappedErrors['employee']) {
-          mappedErrors['employee'] = {}
-        }
-        mappedErrors['employee'][handleSetKeyForm(key)] = val
-      }
-    })
+    //     if (index !== undefined) {
+    //       if (!mappedErrors[parent][index]) {
+    //         mappedErrors[parent][index] = {}
+    //       }
+    //       mappedErrors[parent][index][childName] = val
+    //     } else {
+    //       mappedErrors[parent][childName] = val
+    //     }
+    //   } else {
+    //     if (!mappedErrors['employee']) {
+    //       mappedErrors['employee'] = {}
+    //     }
+    //     mappedErrors['employee'][handleSetKeyForm(key)] = val
+    //   }
+    // })
 
-    formikProps.setErrors(mappedErrors)
+    // formikProps.setErrors(mappedErrors)
   }
 
   useEffect(() => {
     if (Object.entries(errorsForm).length > 0) handleSetErrorsForm(errorsForm)
   }, [errorsForm])
 
-  if (pageType == 'NON_ASN') {
+  if (PagesType?.NONASN) {
     return (
       <Box sx={containerStyles}>
         {/* Employee */}
-        <EmployeeForm {...props} {...formikProps} />
+        <EmployeeForm
+          ref={formikRef?.formikEmployeeRef}
+          setIsCreditNumber={setIsCreditNumber}
+          pagesType={PagesType}
+          {...props}
+        />
         {/* Position */}
-        {isEdit && <PositionForm {...props} {...formikProps} />}
+        {isEdit && (
+          <PositionForm ref={formikRef?.formikPositionsRef} {...props} />
+        )}
       </Box>
     )
   }
 
-  if (pageType == 'OUTSOURCING') {
+  if (PagesType?.OUTSOURCE) {
     return (
       <Box sx={containerStyles}>
         {/* Employee */}
-        <EmployeeForm {...props} {...formikProps} />
+        <EmployeeForm
+          ref={formikRef?.formikEmployeeRef}
+          setIsCreditNumber={setIsCreditNumber}
+          pagesType={PagesType}
+          {...props}
+        />
         {isEdit && (
           <>
             {/* Position */}
-            <PositionForm {...props} {...formikProps} />
+            <PositionForm ref={formikRef?.formikPositionsRef} {...props} />
             {/* Technic Traning */}
-            <TechnicalTrainingForm {...props} {...formikProps} />
+            <TechnicalTrainingForm
+              ref={formikRef?.formikTrainingTechnicalsRef}
+              {...props}
+            />
           </>
         )}
         {/* Family */}
-        <FamilyForm {...props} {...formikProps} />
+        <FamilyForm ref={formikRef?.formikFamiliesRef} {...props} />
         {/* Education */}
-        {/* <EducationForm {...props} {...formikProps} /> */}
+        {/* <EducationForm {...props} /> */}
         {/* Notes */}
-        {/* <NotesForm {...props} {...formikProps} /> */}
+        {/* <NotesForm {...props} /> */}
       </Box>
     )
   }
@@ -285,61 +283,75 @@ const FormComponent = (props) => {
   return (
     <Box sx={containerStyles}>
       {/* Employee */}
-      <EmployeeForm {...props} {...formikProps} />
+      <EmployeeForm
+        ref={formikRef?.formikEmployeeRef}
+        setIsCreditNumber={setIsCreditNumber}
+        pagesType={PagesType}
+        {...props}
+      />
       {/* Education */}
-      <EducationForm {...props} {...formikProps} />
+      <EducationForm ref={formikRef?.formikEducationsRef} {...props} />
 
       {isEdit && (
         <>
           {/* Position */}
-          <PositionForm {...props} {...formikProps} />
+          <PositionForm ref={formikRef?.formikPositionsRef} {...props} />
           {/* Type/Grade */}
-          <TypeForm {...props} {...formikProps} />
+          <TypeForm ref={formikRef?.formikGradesRef} {...props} />
           {/* Structural Training */}
-          <StructuralTrainingForm {...props} {...formikProps} />
+          <StructuralTrainingForm
+            ref={formikRef?.formikTrainingStructuralsRef}
+            {...props}
+          />
           {/* Functional Training */}
-          <FunctionalTrainingForm {...props} {...formikProps} />
+          <FunctionalTrainingForm
+            ref={formikRef?.formikTrainingFungsionalsRef}
+            {...props}
+          />
           {/* Technic Traning */}
-          <TechnicalTrainingForm {...props} {...formikProps} />
+          <TechnicalTrainingForm
+            ref={formikRef?.formikTrainingTechnicalsRef}
+            {...props}
+          />
           {/* Award */}
-          <AwardForm {...props} {...formikProps} />
+          <AwardForm ref={formikRef?.formikRecognitionsRef} {...props} />
           {/* SKP */}
-          <SKPForm {...props} {...formikProps} />
+          <SKPForm ref={formikRef?.formikTargetsRef} {...props} />
         </>
       )}
 
       {/* Credit Number */}
-      {isCreditNumber && <CreditsForm {...props} {...formikProps} />}
+      {isCreditNumber && (
+        <CreditsForm ref={formikRef?.formikCreditsRef} {...props} />
+      )}
 
       {isEdit && (
         <>
           {/* Performance */}
-          <PerformanceForm {...props} {...formikProps} />
+          <PerformanceForm ref={formikRef?.formikPerformancesRef} {...props} />
           {/* Disciplinary */}
-          <DisciplinaryForm {...props} {...formikProps} />
+          <DisciplinaryForm
+            ref={formikRef?.formikDisciplinariesRef}
+            {...props}
+          />
         </>
       )}
 
       {/* Family */}
-      <FamilyForm {...props} {...formikProps} />
+      <FamilyForm ref={formikRef?.formikFamiliesRef} {...props} />
       {/* Paid Leave */}
-      <PaidLeaveForm {...props} {...formikProps} />
+      <PaidLeaveForm ref={formikRef?.formikLeavesRef} {...props} />
       {/* Notes */}
       {accessGranted(PermissionsIDs.NOTES, Access.READ) && (
-        <NotesForm {...props} {...formikProps} />
+        <NotesForm ref={formikRef?.formikNotesRef} {...props} />
       )}
-
-      {pageType == 'NON-ASN' && (
-        <>
-          {/* Assesment */}
-          <AssessmentForm {...props} {...formikProps} />
-          {/* Competence */}
-          <CompetenceTestForm {...props} {...formikProps} />
-          {/* Talent Pool */}
-          {accessGranted(PermissionsIDs.TALENT_POOL, Access.READ) && (
-            <TalentPoolForm {...props} {...formikProps} />
-          )}
-        </>
+      {/* Assesment */}
+      <AssessmentForm ref={formikRef?.formikAssessmentsRef} {...props} />
+      {/* Competence */}
+      <CompetenceTestForm ref={formikRef?.formikCompetencesRef} {...props} />
+      {/* Talent Pool */}
+      {accessGranted(PermissionsIDs.TALENT_POOL, Access.READ) && (
+        <TalentPoolForm ref={formikRef?.formikTalentsRef} {...props} />
       )}
     </Box>
   )
@@ -348,11 +360,8 @@ const FormComponent = (props) => {
 FormComponent.propTypes = {
   mode: PropTypes.string.isRequired,
   pageType: PropTypes.string.isRequired,
-  formikRef: PropTypes.any,
-  formikProps: PropTypes.any,
-  options: PropTypes.object,
   errorsForm: PropTypes.object,
-  onGetPositionType: PropTypes.func
+  formikRef: PropTypes.object
 }
 
 export default FormComponent

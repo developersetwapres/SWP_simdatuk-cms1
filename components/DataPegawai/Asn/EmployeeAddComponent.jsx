@@ -1,15 +1,13 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable indent */
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import LayoutPages from '@/components/core/LayoutPages'
 import { useRouter } from 'next/router'
 import { Button } from '@/components/shared'
 import { Box } from '@mui/material'
 import FormComponent from '../Form/FormComponent'
-import { Formik } from 'formik'
-import * as Yup from 'yup'
 import moment from 'moment'
 import {
   assesmentsOptions,
@@ -31,600 +29,6 @@ import {
   talentPoolsOptions
 } from 'libs/types/options'
 
-const InitValue = {
-  employee: {
-    image: null,
-    name: '',
-    titlePrefix: '',
-    titleSuffix: '',
-    nip: '',
-    nik: '',
-    nrp: '',
-    placeOfBirth: '',
-    dateOfBirth: '',
-    religion: null,
-    gender: null,
-    maritalStatus: null,
-    marriageDate: '',
-    marriageDesc: '',
-    employmentType: null,
-    dateStartedWork: '',
-    pnsEffectiveDate: '',
-    positions: [{ name: null }],
-    positionEffectiveDate: '',
-    grade: null,
-    gradeEffectiveDate: '',
-    echelon: null,
-    echelonEffectiveDate: '',
-    educationLevel: null,
-    educationName: '',
-    educationYear: null,
-    institution: null,
-    employeeIdCardNumber: '',
-    employeeIdCard: null,
-    karisu: '',
-    taxId: '',
-    employmentStatus: null,
-    lastDateOfWork: '',
-    familyRegistNumber: '',
-    idNumber: '',
-    residence: null,
-    residenceName: '',
-    address: '',
-    homeTelephoneNumber: '',
-    mobilePhone: '',
-    officeAddress: '',
-    officeTelephoneNumber: '',
-    email: '',
-    officeEmail: '',
-    emergencyContact: '',
-    yearsOfServiceTotal: {
-      year: 0,
-      month: 0
-    },
-    yearsOfServiceRank: {
-      year: 0,
-      month: 0
-    }
-  },
-  educations: [],
-  families: [],
-  leaves: [],
-  notes: [],
-  assessments: [],
-  competences: [],
-  talentPools: [],
-  credits: []
-}
-
-const FormSchema = Yup.object().shape({
-  employee: Yup.object().shape({
-    name: Yup.string().required('Nama tidak boleh kosong'),
-    nip: Yup.string()
-      .min(5, 'NIP tidak boleh kurang dari 5 digit')
-      .max(18, 'NIP tidak boleh lebih dari 18 digit')
-      .required('NIP tidak boleh kosong'),
-    placeOfBirth: Yup.string().required('Tempat Lahir tidak boleh kosong'),
-    dateOfBirth: Yup.string().required('Tanggal Lahir tidak boleh kosong'),
-    religion: Yup.string().required('Agama tidak boleh kosong'),
-    gender: Yup.string().required('Jenis Kelamin tidak boleh kosong'),
-    // maritalStatus: Yup.string().required(
-    //   'Status Perkawinan tidak boleh kosong'
-    // ),
-    employmentType: Yup.string().required('Jenis Pegawai tidak boleh kosong'),
-    dateStartedWork: Yup.string().required('TMT CPNS tidak boleh kosong'),
-    positions: Yup.array().of(
-      Yup.object().shape({
-        name: Yup.mixed()
-          .nullable()
-          .test('is-required', 'Jabatan tidak boleh kosong', function (value) {
-            const { path } = this
-            const { employmentStatus } = this.parent
-
-            const pathParts = path.split('.')
-            const index = pathParts[1].match(/\d+/)[0]
-
-            if (
-              !value &&
-              index == 0 &&
-              employmentStatus !== 'Aktif' &&
-              employmentStatus !== 'Aktif Perbantuan Setneg'
-            )
-              return false
-
-            return true
-          })
-      })
-    ),
-    positionEffectiveDate: Yup.string()
-      .nullable()
-      .required('TMT Menjabat tidak boleh kosong'),
-    // .test('required', 'TMT Menjabat tidak boleh kosong', function (value) {
-    //   const { positions } = this.parent
-
-    //   const positionsLength = positions.length
-    //   const isPositions =
-    //     positionsLength > 1
-    //       ? positions
-    //           .filter((itm) => itm?.name)
-    //           .every((itm) => itm?.name !== null)
-    //       : false
-
-    //   if (positionsLength > 1 && isPositions && !value) return false
-
-    //   return true
-    // }),
-    grade: Yup.string().required('Pangkat / Golongan tidak boleh kosong'),
-    gradeEffectiveDate: Yup.string().required(
-      'TMT Pangkat / Golongan tidak boleh kosong'
-    ),
-    // institution: Yup.string().required('Instansi Induk tidak boleh kosong'),
-    educationLevel: Yup.string().required(
-      'Tingak Pendidikan tidak boleh kosong'
-    ),
-    // educationName: Yup.string().required(
-    //   'Nama Sekolah/Universitas tidak boleh kosong'
-    // ),
-    // educationYear: Yup.string().required('Tahun Lulus tidak boleh kosong'),
-    employmentStatus: Yup.string().required(
-      'Status Pegawai tidak boleh kosong'
-    ),
-    // lastDateOfWork: Yup.string().test(
-    //   'is-required',
-    //   'Tanggal Terakhir Bekerja tidak boleh kosong',
-    //   function (value) {
-    //     const { employmentStatus } = this.parent
-    //     if (
-    //       employmentStatus !== 'Aktif' &&
-    //       employmentStatus !== 'Aktif Perbantuan Setneg' &&
-    //       employmentStatus !== 'Hukuman Disiplin'
-    //     ) {
-    //       return value != null && value !== ''
-    //     }
-    //     return true
-    //   }
-    // ),
-    familyRegistNumber: Yup.string().test(
-      'len',
-      'No KK harus terdiri dari 16 digit angka',
-      function (value) {
-        if (value && value.length > 0) return value.length === 16
-        return true
-      }
-    ),
-    idNumber: Yup.string()
-      .min(16, 'No NIK harus terdiri dari 16 digit angka')
-      .max(16, 'No NIK harus terdiri dari 16 digit angka')
-      .required('No NIK tidak boleh kosong'),
-    // residence: Yup.string().required('Komplek tidak boleh kosong'),
-    emergencyContact: Yup.string().required(
-      'Kontak Darurat tidak boleh kosong'
-    ),
-    email: Yup.string().email('Email tidak valid'),
-    officeEmail: Yup.string()
-      .required('Email Dinas tidak boleh kosong')
-      .email('Email Dinas tidak valid'),
-    employeeIdCardNumber: Yup.string()
-      .nullable()
-      .test(
-        'length-check',
-        'No. Karpeg harus terdiri dari 5 hingga 18 digit',
-        function (value) {
-          if (!value) return true
-          return value.length >= 5 && value.length <= 18
-        }
-      ),
-    karisu: Yup.string()
-      .nullable()
-      .test(
-        'length-check',
-        'No. Kartu Istri / Kartu Suami harus terdiri dari 5 hingga 18 digit',
-        function (value) {
-          if (!value) return true
-          return value.length >= 5 && value.length <= 18
-        }
-      ),
-    taxId: Yup.string()
-      .nullable()
-      .test(
-        'length-check',
-        'NPWP harus terdiri dari 15 hingga 16 digit',
-        function (value) {
-          if (!value) return true
-          return value.length >= 15 && value.length <= 16
-        }
-      ),
-    yearsOfServiceTotal: Yup.object().shape({
-      month: Yup.number()
-        .nullable()
-        .notRequired()
-        .transform((value, originalValue) =>
-          originalValue === '' ? null : value
-        )
-        .test(
-          'max-12',
-          'Jumlah Bulan tidak boleh lebih dari 12',
-          function (value) {
-            if (value === null || value === undefined) return true
-            return value <= 12
-          }
-        )
-    }),
-    yearsOfServiceRank: Yup.object().shape({
-      month: Yup.number()
-        .nullable()
-        .notRequired()
-        .transform((value, originalValue) =>
-          originalValue === '' ? null : value
-        )
-        .test(
-          'max-12',
-          'Jumlah Bulan tidak boleh lebih dari 12',
-          function (value) {
-            if (value === null || value === undefined) return true
-            return value <= 12
-          }
-        )
-    }),
-    image: Yup.mixed()
-      .nullable()
-      .test('fileType', 'Format file harus PNG, JPG', (value) => {
-        if (!value) return true
-        const fileType = value && value.type
-        return fileType === 'image/png' || fileType === 'image/jpeg'
-      })
-      .test('fileSize', 'Ukuran file tidak boleh lebih dari 2MB', (value) => {
-        const maxSize = 2 * 1024 * 1024
-        if (!value) return true
-        return value.size <= maxSize
-      })
-      .test(
-        'fileDimensions',
-        'Ukuran dimensi file harus 350px x 500px',
-        async (value) => {
-          if (!value) return true
-
-          return new Promise((resolve, reject) => {
-            const reader = new FileReader()
-            reader.onload = (e) => {
-              const img = new Image()
-              img.onload = () => {
-                if (img.width === 350 && img.height === 500) {
-                  resolve(true)
-                } else {
-                  resolve(false)
-                }
-              }
-              img.src = e.target.result
-            }
-            reader.onerror = () => {
-              reject(new Error('File reading failed'))
-            }
-            reader.readAsDataURL(value)
-          })
-        }
-      ),
-    employeeIdCard: Yup.mixed()
-      .nullable()
-      .test('fileType', 'Format file harus PNG, JPG, atau PDF', (value) => {
-        if (!value) return true
-        const fileType = value && value.type
-        return (
-          fileType === 'image/png' ||
-          fileType === 'image/jpeg' ||
-          fileType === 'application/pdf'
-        )
-      })
-      .test('fileSize', 'Ukuran file tidak boleh lebih dari 2MB', (value) => {
-        const maxSize = 2 * 1024 * 1024
-        if (!value) return true
-        return value.size <= maxSize
-      })
-  }),
-  educations: Yup.lazy((educations) => {
-    if (Array.isArray(educations) && educations.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          educationLevel: Yup.string().required('Tingkat tidak boleh kosong'),
-          educationName: Yup.string().required('Nama tidak boleh kosong'),
-          // educationStatus: Yup.string().required('Status tidak boleh kosong'),
-          educationYear: Yup.string().required(
-            'Tahun Lulus tidak boleh kosong'
-          ),
-          educationCertificate: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value) return true
-                return value.size <= maxSize
-              }
-            ),
-          educationStudyAssignmentLetter: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value) return true
-                return value.size <= maxSize
-              }
-            ),
-          edudcationAcademicTitleLetter: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value) return true
-                return value.size <= maxSize
-              }
-            )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  families: Yup.lazy((families) => {
-    if (Array.isArray(families) && families.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          familyRegistNumber: Yup.string()
-            .min(16, 'No KK harus tediri dari 16 digit angka')
-            .max(16, 'No KK harus tediri dari 16 digit angka')
-            .required('No Kartu Keluarga tidak boleh kosong'),
-          name: Yup.string().required(
-            'Nama Anggota Keluarga tidak boleh kosong'
-          ),
-          idNumber: Yup.string()
-            .min(16, 'No NIK harus terdiri dari 16 digit angka')
-            .max(16, 'No NIK harus terdiri dari 16 digit angka')
-            .required('No NIK tidak boleh kosong'),
-          gender: Yup.string().required('Jenis Kelamin tidak boleh kosong'),
-          religion: Yup.string().required('Agama tidak boleh kosong'),
-          placeOfBirth: Yup.string().required(
-            'Tempat Lahir tidak boleh kosong'
-          ),
-          dateOfBirth: Yup.string().required(
-            'Tanggal Lahir tidak boleh kosong'
-          ),
-          relationshipStatus: Yup.string().required(
-            'Hubungan Keluarga tidak boleh kosong'
-          ),
-          educationLevel: Yup.string().required(
-            'Pendidikan tidak boleh kosong'
-          ),
-          maritalStatus: Yup.string().required(
-            'Status Perkawinan tidak boleh kosong'
-          )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  leaves: Yup.lazy((leaves) => {
-    if (Array.isArray(leaves) && leaves.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          period: Yup.object()
-            .shape({
-              from: Yup.string().required('Pilih tanggal awal'),
-              to: Yup.string().required('Pilih tanggal akhir')
-            })
-            .required('Periode tidak boleh kosong'),
-          type: Yup.string().required('Jenis Cuti tidak boleh kosong'),
-          number: Yup.string().required('No Cuti tidak boleh kosong'),
-          description: Yup.string().required('Keterangan tidak boleh kosong'),
-          leaveLetter: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value) return true
-                return value.size <= maxSize
-              }
-            )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  notes: Yup.lazy((notes) => {
-    if (Array.isArray(notes) && notes.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          description: Yup.string()
-            .required('Catatan tidak boleh kosong')
-            .max(160, 'Catatan tidak boleh lebih dari 160 karakter')
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  assessments: Yup.lazy((assesments) => {
-    if (Array.isArray(assesments) && assesments.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          date: Yup.string().required('Tanggal tidak boleh kosong'),
-          point: Yup.string().required('Hasil tidak boleh kosong'),
-          certificate: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value) return true
-                return value.size <= maxSize
-              }
-            )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  competences: Yup.lazy((competences) => {
-    if (Array.isArray(competences) && competences.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          date: Yup.string().required('Tanggal tidak boleh kosong'),
-          point: Yup.string().required('Hasil tidak boleh kosong'),
-          certificate: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value) return true
-                return value.size <= maxSize
-              }
-            )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  talentPools: Yup.lazy((talentPools) => {
-    if (Array.isArray(talentPools) && talentPools.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          date: Yup.string().required('Tanggal tidak boleh kosong'),
-          point: Yup.string().required('Hasil tidak boleh kosong'),
-          certificate: Yup.mixed()
-            .nullable()
-            .test(
-              'fileType',
-              'Format file harus PNG, JPG, atau PDF',
-              (value) => {
-                if (!value) return true
-                const fileType = value && value.type
-                return (
-                  fileType === 'image/png' ||
-                  fileType === 'image/jpeg' ||
-                  fileType === 'application/pdf'
-                )
-              }
-            )
-            .test(
-              'fileSize',
-              'Ukuran file tidak boleh lebih dari 2MB',
-              (value) => {
-                const maxSize = 2 * 1024 * 1024
-                if (!value) return true
-                return value.size <= maxSize
-              }
-            )
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  }),
-  credits: Yup.lazy((credits) => {
-    if (Array.isArray(credits) && credits.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          period: Yup.string().required('Periode tidak boleh kosong'),
-          year: Yup.string().required('Tahun tidak boleh kosong')
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  })
-})
-
 const EmployeeAddComponent = ({
   employee,
   position,
@@ -638,10 +42,42 @@ const EmployeeAddComponent = ({
   onLoading = () => {}
 }) => {
   const router = useRouter()
-  const formikRef = useRef(null)
+  const formikEmployeeRef = useRef(null)
+  const formikEducationsRef = useRef(null)
+  const formikFamiliesRef = useRef(null)
+  const formikLeavesRef = useRef(null)
+  const formikNotesRef = useRef(null)
+  const formikCreditsRef = useRef(null)
+  const formikAssessmentsRef = useRef(null)
+  const formikCompetencesRef = useRef(null)
+  const formikTalentsRef = useRef(null)
 
   const [positions, setPositions] = useState([])
   const [isExpand, setIsExpand] = useState(false)
+
+  const formikRef = useMemo(() => {
+    return {
+      formikEmployeeRef,
+      formikEducationsRef,
+      formikFamiliesRef,
+      formikLeavesRef,
+      formikNotesRef,
+      formikCreditsRef,
+      formikAssessmentsRef,
+      formikCompetencesRef,
+      formikTalentsRef
+    }
+  }, [
+    formikEmployeeRef,
+    formikEducationsRef,
+    formikFamiliesRef,
+    formikLeavesRef,
+    formikNotesRef,
+    formikCreditsRef,
+    formikAssessmentsRef,
+    formikCompetencesRef,
+    formikTalentsRef
+  ])
 
   const errorsForm = useMemo(() => {
     return employee?.errorForm || {}
@@ -776,398 +212,441 @@ const EmployeeAddComponent = ({
     return ''
   }
 
-  const handleSubmit = async (values) => {
-    setIsExpand(true)
+  const handleSubmit = useCallback(async () => {
+    const FormEmployee = formikEmployeeRef?.current
+    const FormEducations = formikEducationsRef?.current
+    const FormFamilies = formikFamiliesRef?.current
+    const FormLeaves = formikLeavesRef?.current
+    const FormNotes = formikNotesRef?.current
+    const FormCredits = formikCreditsRef?.current
+    const FormAssessments = formikAssessmentsRef?.current
+    const FormCompetences = formikCompetencesRef?.current
+    const FormTalents = formikTalentsRef?.current
+
+    const formsToValidate = [
+      FormEmployee,
+      FormEducations,
+      FormAssessments,
+      FormCompetences,
+      FormTalents,
+      FormFamilies,
+      FormLeaves,
+      FormNotes
+    ].filter(Boolean)
+
+    if (!formsToValidate) return null
 
     try {
-      await FormSchema.validate(values, { abortEarly: false })
-      formikRef.current.setErrors({})
+      await Promise.all(
+        formsToValidate.map(async (form) => {
+          const res = await form.validateForm()
 
-      const position = values?.employee?.positions.filter(
-        (itm) => itm?.name !== null
+          if (res?.errors && Object.keys(res?.errors).length > 0)
+            throw new Error('Form not valid!')
+        })
       )
-      const positionLength = position.length
-      const indexPosition = positionLength > 0 ? positionLength - 1 : 0
-      const itemPosition =
-        positionLength > 0 ? position[indexPosition]?.name : ''
 
-      const educations = values?.educations || []
-      const families = values?.families || []
-      const leaves = values?.leaves || []
-      const notes = values?.notes || []
-      const credits = values?.credits || []
-      const assessments = values?.assessments || []
-      const competences = values?.competences || []
-      const talentPools = values?.talentPools || []
+      const refValidate = [
+        formikEmployeeRef,
+        formikEducationsRef,
+        formikFamiliesRef,
+        formikLeavesRef,
+        formikNotesRef,
+        formikAssessmentsRef,
+        formikCompetencesRef,
+        formikTalentsRef
+      ]
 
-      const formData = new FormData()
+      const allFormsValid = refValidate.every(
+        (form) =>
+          form?.current?.errors &&
+          Object.keys(form?.current?.errors).length === 0
+      )
 
-      // Employee
-      formData.append('photo_profile', values?.employee?.image || '')
-      formData.append('name', values?.employee?.name)
-      formData.append('title_prefix', values?.employee?.titlePrefix)
-      formData.append('title_suffix', values?.employee?.titleSuffix)
-      formData.append('employee_id_number', values?.employee?.nip)
-      formData.append('employee_registration_number', values?.employee?.nrp)
-      formData.append('place_of_birth', values?.employee?.placeOfBirth)
-      formData.append(
-        'date_of_birth',
-        handleFormatDate(values?.employee?.dateOfBirth, 'YYYY-MM-DD')
-      )
-      formData.append(
-        'religion',
-        handleGetValue('religion', values?.employee?.religion, '')
-      )
-      formData.append('gender', values?.employee?.gender == 'Laki-Laki' ? 1 : 0)
-      formData.append(
-        'marital_status',
-        handleGetValue('marital', values?.employee?.maritalStatus, '')
-      )
-      formData.append(
-        'marriage_date',
-        handleFormatDate(values?.employee?.marriageDate, 'YYYY-MM-DD')
-      )
-      formData.append('marriage_description', values?.employee?.marriageDesc)
-      formData.append(
-        'employment_type_id',
-        handleGetValue('employmentType', values?.employee?.employmentType, '')
-      )
-      formData.append(
-        'cpns_effective_date',
-        handleFormatDate(values?.employee?.dateStartedWork, 'YYYY-MM-DD')
-      )
-      formData.append(
-        'pns_effective_date',
-        handleFormatDate(values?.employee?.pnsEffectiveDate, 'YYYY-MM-DD')
-      )
-      formData.append(
-        'position_id',
-        handleGetValue('position', itemPosition, indexPosition)
-      )
-      formData.append(
-        'position_effective_date',
-        handleFormatDate(values?.employee?.positionEffectiveDate, 'YYYY-MM-DD')
-      )
-      formData.append(
-        'grade_id',
-        handleGetValue('grade', values?.employee?.grade, '')
-      )
-      formData.append(
-        'grade_effective_date',
-        handleFormatDate(values?.employee?.gradeEffectiveDate, 'YYYY-MM-DD')
-      )
-      formData.append(
-        'echelon_id',
-        values?.employee?.echelon
-          ? handleGetValue('echelon', values?.employee?.echelon, '')
-          : ''
-      )
-      formData.append(
-        'echelon_effective_date',
-        handleFormatDate(values?.employee?.echelonEffectiveDate, 'YYYY-MM-DD')
-      )
-      formData.append(
-        'institution_id',
-        handleGetValue('institution', values?.employee?.institution, '')
-      )
-      formData.append(
-        'education_level',
-        handleGetValue(
-          'employeeEducationLevel',
-          values?.employee?.educationLevel,
-          ''
-        )
-      )
-      formData.append('education_name', values?.employee?.educationName)
-      formData.append(
-        'education_year',
-        handleFormatDate(values?.employee?.educationYear, 'YYYY')
-      )
-      formData.append(
-        'employee_id_card_number',
-        values?.employee?.employeeIdCardNumber
-      )
-      formData.append(
-        'employee_id_card',
-        values?.employee?.employeeIdCard || ''
-      )
-      formData.append('karisu_number', values?.employee?.karisu)
-      formData.append('id_tax', values?.employee?.taxId)
-      formData.append(
-        'employment_status',
-        handleGetValue('employeeStatus', values?.employee?.employmentStatus, '')
-      )
-      formData.append(
-        'family_registration_number',
-        values?.employee?.familyRegistNumber
-      )
-      formData.append('id_number', values?.employee?.idNumber)
-      formData.append(
-        'residence_id',
-        values?.employee?.residence
-          ? handleGetValue('residence', values?.employee?.residence, '')
-          : ''
-      )
-      formData.append('residence_description', values?.employee?.residenceName)
-      formData.append('current_address', values?.employee?.address)
-      formData.append(
-        'home_phone_number',
-        values?.employee?.homeTelephoneNumber
-      )
-      formData.append('mobile_phone', values?.employee?.mobilePhone)
-      formData.append('office_address', values?.employee?.officeAddress)
-      formData.append(
-        'office_phone_number',
-        values?.employee?.officeTelephoneNumber
-      )
-      formData.append('email', values?.employee?.email)
-      formData.append('office_email', values?.employee?.officeEmail)
-      formData.append('emergency_contact', values?.employee?.emergencyContact)
-      formData.append('description', '')
-      formData.append(
-        'quit_date',
-        handleFormatDate(values?.employee?.lastDateOfWork, 'YYYY-MM-DD')
-      )
-      formData.append(
-        'years_of_service_total',
-        values?.employee?.yearsOfServiceTotal?.year
-      )
-      formData.append(
-        'month_of_service_total',
-        values?.employee?.yearsOfServiceTotal?.month
-      )
-      formData.append(
-        'years_of_service_rank',
-        values?.employee?.yearsOfServiceRank?.year
-      )
-      formData.append(
-        'month_of_service_rank',
-        values?.employee?.yearsOfServiceRank?.month
-      )
-      formData.append('type', 1)
+      if (allFormsValid) {
+        const employee = FormEmployee?.values
+        const educations = FormEducations?.values?.educations || []
+        const families = FormFamilies?.values?.families || []
+        const leaves = FormLeaves?.values?.leaves || []
+        const notes = FormNotes?.values?.notes || []
+        const assessments = FormAssessments?.values?.assessments || []
+        const competences = FormCompetences?.values?.competences || []
+        const talents = FormTalents?.values?.talentPools || []
 
-      // Educations
-      educations.map((item, index) => {
-        formData.append(
-          `educations[${index}][level]`,
-          handleGetValue('employeeEducationLevel', item?.educationLevel, '')
-        )
-        formData.append(`educations[${index}][name]`, item?.educationName)
-        formData.append(
-          `educations[${index}][study_area]`,
-          handleGetValue('studyArea', item?.educationArea, '')
-        )
-        formData.append(
-          `educations[${index}][accreditation]`,
-          item?.educationAccreditation
-        )
-        formData.append(`educations[${index}][faculty]`, item?.educationFaculty)
-        formData.append(`educations[${index}][major]`, item?.educationMajor)
-        // formData.append(
-        //   `educations[${index}][status]`,
-        //   handleGetValue('educationStatus', item?.educationStatus, '')
-        // )
-        formData.append(
-          `educations[${index}][year_of_graduation]`,
-          handleFormatDate(item?.educationYear, 'YYYY')
-        )
-        formData.append(
-          `educations[${index}][description]`,
-          item?.educationDescription
-        )
-        formData.append(
-          `educations[${index}][degree_document]`,
-          item?.educationCertificate || ''
-        )
-        formData.append(
-          `educations[${index}][study_assignment_letter]`,
-          item?.educationStudyAssignmentLetter || ''
-        )
-        formData.append(
-          `educations[${index}][academic_title_letter]`,
-          item?.edudcationAcademicTitleLetter || ''
-        )
-      })
+        const position = employee?.positions.filter((itm) => itm?.name !== null)
+        const positionLength = position.length
+        const indexPosition = positionLength > 0 ? positionLength - 1 : 0
+        const itemPosition =
+          positionLength > 0 ? position[indexPosition]?.name : ''
 
-      // Families
-      families.map((item, index) => {
-        formData.append(
-          `families[${index}][card_number]`,
-          item?.familyRegistNumber
-        )
-        formData.append(`families[${index}][name]`, item?.name)
-        formData.append(`families[${index}][id_number]`, item?.idNumber)
-        formData.append(
-          `families[${index}][gender]`,
-          item?.gender == 'Laki-Laki' ? 1 : 0
-        )
-        formData.append(
-          `families[${index}][religion]`,
-          handleGetValue('religion', item?.religion, '')
-        )
-        formData.append(
-          `families[${index}][place_of_birth]`,
-          item?.placeOfBirth
-        )
-        formData.append(
-          `families[${index}][date_of_birth]`,
-          handleFormatDate(item?.dateOfBirth, 'YYYY-MM-DD')
-        )
-        formData.append(
-          `families[${index}][name_of_father]`,
-          item?.nameOfFather
-        )
-        formData.append(
-          `families[${index}][name_of_mother]`,
-          item?.nameOfMother
-        )
-        formData.append(
-          `families[${index}][relationship_status]`,
-          handleGetValue('relationshipStatus', item?.relationshipStatus, '')
-        )
-        formData.append(
-          `families[${index}][education]`,
-          handleGetValue('educationLevel', item?.educationLevel, '')
-        )
-        formData.append(`families[${index}][occupation]`, item?.occupation)
-        formData.append(
-          `families[${index}][occupation_description]`,
-          item?.occupationDescription
-        )
-        formData.append(
-          `families[${index}][marital_status]`,
-          handleGetValue('maritalFamily', item?.maritalStatus, '')
-        )
-        formData.append(
-          `families[${index}][marriage_other_notes]`,
-          item?.marriageOther
-        )
-        formData.append(`families[${index}][mobile_phone]`, item?.mobilePhone)
-        formData.append(
-          `families[${index}][sequence_number]`,
-          item?.sequenceNumber
-        )
-      })
+        const formData = new FormData()
 
-      // Leaves
-      leaves.map((item, index) => {
+        // Employee
+        formData.append('photo_profile', employee?.image || '')
+        formData.append('name', employee?.name)
+        formData.append('title_prefix', employee?.titlePrefix)
+        formData.append('title_suffix', employee?.titleSuffix)
+        formData.append('employee_id_number', employee?.nip)
+        formData.append('employee_registration_number', employee?.nrp)
+        formData.append('place_of_birth', employee?.placeOfBirth)
         formData.append(
-          `leaves[${index}][start_date]`,
-          handleFormatDate(item?.period?.from, 'YYYY-MM-DD')
+          'date_of_birth',
+          handleFormatDate(employee?.dateOfBirth, 'YYYY-MM-DD')
         )
         formData.append(
-          `leaves[${index}][end_date]`,
-          handleFormatDate(item?.period?.to, 'YYYY-MM-DD')
+          'religion',
+          handleGetValue('religion', employee?.religion, '')
+        )
+        formData.append('gender', employee?.gender == 'Laki-Laki' ? 1 : 0)
+        formData.append(
+          'marital_status',
+          handleGetValue('marital', employee?.maritalStatus, '')
         )
         formData.append(
-          `leaves[${index}][type]`,
-          handleGetValue('leaves', item?.type, '')
+          'marriage_date',
+          handleFormatDate(employee?.marriageDate, 'YYYY-MM-DD')
         )
-        formData.append(`leaves[${index}][number]`, item?.number)
-        formData.append(`leaves[${index}][description]`, item?.description)
-        formData.append(`leaves[${index}][letter]`, item?.leaveLetter || '')
-      })
-
-      // Notes
-      notes.map((item, index) => {
-        formData.append(`notes[${index}][description]`, item?.description)
-      })
-
-      // Credits
-      credits.map((item, index) => {
-        formData.append(`credits[${index}][position]`, item?.position)
+        formData.append('marriage_description', employee?.marriageDesc)
         formData.append(
-          `credits[${index}][period]`,
-          handleGetValue('periodCredits', item?.period, '')
+          'employment_type_id',
+          handleGetValue('employmentType', employee?.employmentType, '')
         )
-        formData.append(`credits[${index}][year]`, item?.year)
-        formData.append(`credits[${index}][score]`, item?.point)
         formData.append(
-          `credits[${index}][start_month]`,
-          item?.month?.start
-            ? handleGetValue('months', item?.month?.start, '')
+          'cpns_effective_date',
+          handleFormatDate(employee?.dateStartedWork, 'YYYY-MM-DD')
+        )
+        formData.append(
+          'pns_effective_date',
+          handleFormatDate(employee?.pnsEffectiveDate, 'YYYY-MM-DD')
+        )
+        formData.append(
+          'position_id',
+          handleGetValue('position', itemPosition, indexPosition)
+        )
+        formData.append(
+          'position_effective_date',
+          handleFormatDate(employee?.positionEffectiveDate, 'YYYY-MM-DD')
+        )
+        formData.append(
+          'grade_id',
+          handleGetValue('grade', employee?.grade, '')
+        )
+        formData.append(
+          'grade_effective_date',
+          handleFormatDate(employee?.gradeEffectiveDate, 'YYYY-MM-DD')
+        )
+        formData.append(
+          'echelon_id',
+          employee?.echelon
+            ? handleGetValue('echelon', employee?.echelon, '')
             : ''
         )
         formData.append(
-          `credits[${index}][end_month]`,
-          item?.month?.end ? handleGetValue('months', item?.month?.end, '') : ''
+          'echelon_effective_date',
+          handleFormatDate(employee?.echelonEffectiveDate, 'YYYY-MM-DD')
         )
-      })
+        formData.append(
+          'institution_id',
+          handleGetValue('institution', employee?.institution, '')
+        )
+        formData.append(
+          'education_level',
+          handleGetValue('employeeEducationLevel', employee?.educationLevel, '')
+        )
+        formData.append('education_name', employee?.educationName)
+        formData.append(
+          'education_year',
+          handleFormatDate(employee?.educationYear, 'YYYY')
+        )
+        formData.append(
+          'employee_id_card_number',
+          employee?.employeeIdCardNumber
+        )
+        formData.append('employee_id_card', employee?.employeeIdCard || '')
+        formData.append('karisu_number', employee?.karisu)
+        formData.append('id_tax', employee?.taxId)
+        formData.append(
+          'employment_status',
+          handleGetValue('employeeStatus', employee?.employmentStatus, '')
+        )
+        formData.append(
+          'family_registration_number',
+          employee?.familyRegistNumber
+        )
+        formData.append('id_number', employee?.idNumber)
+        formData.append(
+          'residence_id',
+          employee?.residence
+            ? handleGetValue('residence', employee?.residence, '')
+            : ''
+        )
+        formData.append('residence_description', employee?.residenceName)
+        formData.append('current_address', employee?.address)
+        formData.append('home_phone_number', employee?.homeTelephoneNumber)
+        formData.append('mobile_phone', employee?.mobilePhone)
+        formData.append('office_address', employee?.officeAddress)
+        formData.append('office_phone_number', employee?.officeTelephoneNumber)
+        formData.append('email', employee?.email)
+        formData.append('office_email', employee?.officeEmail)
+        formData.append('emergency_contact', employee?.emergencyContact)
+        formData.append('description', '')
+        formData.append(
+          'quit_date',
+          handleFormatDate(employee?.lastDateOfWork, 'YYYY-MM-DD')
+        )
+        formData.append(
+          'years_of_service_total',
+          employee?.yearsOfServiceTotal?.year
+        )
+        formData.append(
+          'month_of_service_total',
+          employee?.yearsOfServiceTotal?.month
+        )
+        formData.append(
+          'years_of_service_rank',
+          employee?.yearsOfServiceRank?.year
+        )
+        formData.append(
+          'month_of_service_rank',
+          employee?.yearsOfServiceRank?.month
+        )
+        formData.append('type', 1)
 
-      // Assesments
-      assessments.map((item, index) => {
-        formData.append(
-          `assessments[${index}][event_date]`,
-          handleFormatDate(item?.date, 'YYYY-MM-DD')
-        )
-        formData.append(
-          `assessments[${index}][point]`,
-          handleGetValue('assessments', item?.point, '')
-        )
-        formData.append(`assessments[${index}][organizer]`, item?.organizer)
-        formData.append(
-          `assessments[${index}][assessment_document]`,
-          item?.certificate || ''
-        )
-      })
+        // Educations
+        educations.map((item, index) => {
+          formData.append(
+            `educations[${index}][level]`,
+            handleGetValue('employeeEducationLevel', item?.educationLevel, '')
+          )
+          formData.append(`educations[${index}][name]`, item?.educationName)
+          formData.append(
+            `educations[${index}][study_area]`,
+            handleGetValue('studyArea', item?.educationArea, '')
+          )
+          formData.append(
+            `educations[${index}][accreditation]`,
+            item?.educationAccreditation
+          )
+          formData.append(
+            `educations[${index}][faculty]`,
+            item?.educationFaculty
+          )
+          formData.append(`educations[${index}][major]`, item?.educationMajor)
+          // formData.append(
+          //   `educations[${index}][status]`,
+          //   handleGetValue('educationStatus', item?.educationStatus, '')
+          // )
+          formData.append(
+            `educations[${index}][year_of_graduation]`,
+            handleFormatDate(item?.educationYear, 'YYYY')
+          )
+          formData.append(
+            `educations[${index}][description]`,
+            item?.educationDescription
+          )
+          formData.append(
+            `educations[${index}][degree_document]`,
+            item?.educationCertificate || ''
+          )
+          formData.append(
+            `educations[${index}][study_assignment_letter]`,
+            item?.educationStudyAssignmentLetter || ''
+          )
+          formData.append(
+            `educations[${index}][academic_title_letter]`,
+            item?.edudcationAcademicTitleLetter || ''
+          )
+        })
 
-      // Competences
-      competences.map((item, index) => {
-        formData.append(
-          `competencies[${index}][event_date]`,
-          handleFormatDate(item?.date, 'YYYY-MM-DD')
-        )
-        formData.append(
-          `competencies[${index}][point]`,
-          handleGetValue('competences', item?.point, '')
-        )
-        formData.append(`competencies[${index}][organizer]`, item?.organizer)
-        formData.append(
-          `competencies[${index}][competency_document]`,
-          item?.certificate || ''
-        )
-      })
+        // Families
+        families.map((item, index) => {
+          formData.append(
+            `families[${index}][card_number]`,
+            item?.familyRegistNumber
+          )
+          formData.append(`families[${index}][name]`, item?.name)
+          formData.append(`families[${index}][id_number]`, item?.idNumber)
+          formData.append(
+            `families[${index}][gender]`,
+            item?.gender == 'Laki-Laki' ? 1 : 0
+          )
+          formData.append(
+            `families[${index}][religion]`,
+            handleGetValue('religion', item?.religion, '')
+          )
+          formData.append(
+            `families[${index}][place_of_birth]`,
+            item?.placeOfBirth
+          )
+          formData.append(
+            `families[${index}][date_of_birth]`,
+            handleFormatDate(item?.dateOfBirth, 'YYYY-MM-DD')
+          )
+          formData.append(
+            `families[${index}][name_of_father]`,
+            item?.nameOfFather
+          )
+          formData.append(
+            `families[${index}][name_of_mother]`,
+            item?.nameOfMother
+          )
+          formData.append(
+            `families[${index}][relationship_status]`,
+            handleGetValue('relationshipStatus', item?.relationshipStatus, '')
+          )
+          formData.append(
+            `families[${index}][education]`,
+            handleGetValue('educationLevel', item?.educationLevel, '')
+          )
+          formData.append(`families[${index}][occupation]`, item?.occupation)
+          formData.append(
+            `families[${index}][occupation_description]`,
+            item?.occupationDescription
+          )
+          formData.append(
+            `families[${index}][marital_status]`,
+            handleGetValue('maritalFamily', item?.maritalStatus, '')
+          )
+          formData.append(
+            `families[${index}][marriage_other_notes]`,
+            item?.marriageOther
+          )
+          formData.append(`families[${index}][mobile_phone]`, item?.mobilePhone)
+          formData.append(
+            `families[${index}][sequence_number]`,
+            item?.sequenceNumber
+          )
+        })
 
-      // Talent Pools
-      talentPools.map((item, index) => {
-        formData.append(
-          `talents[${index}][event_date]`,
-          handleFormatDate(item?.date, 'YYYY-MM-DD')
-        )
-        formData.append(
-          `talents[${index}][point]`,
-          handleGetValue('talentPools', item?.point, '')
-        )
-        formData.append(`talents[${index}][organizer]`, item?.organizer)
-        formData.append(
-          `talents[${index}][talent_document]`,
-          item?.certificate || ''
-        )
-      })
+        // Leaves
+        leaves.map((item, index) => {
+          formData.append(
+            `leaves[${index}][start_date]`,
+            handleFormatDate(item?.period?.from, 'YYYY-MM-DD')
+          )
+          formData.append(
+            `leaves[${index}][end_date]`,
+            handleFormatDate(item?.period?.to, 'YYYY-MM-DD')
+          )
+          formData.append(
+            `leaves[${index}][type]`,
+            handleGetValue('leaves', item?.type, '')
+          )
+          formData.append(`leaves[${index}][number]`, item?.number)
+          formData.append(`leaves[${index}][description]`, item?.description)
+          formData.append(`leaves[${index}][letter]`, item?.leaveLetter || '')
+        })
 
-      postEmployee(formData)
-    } catch (err) {
-      if (!err.inner || err.inner.length === 0) {
-        return
+        // Notes
+        notes.map((item, index) => {
+          formData.append(`notes[${index}][description]`, item?.description)
+        })
+
+        // Assesments
+        assessments.map((item, index) => {
+          formData.append(
+            `assessments[${index}][event_date]`,
+            handleFormatDate(item?.date, 'YYYY-MM-DD')
+          )
+          formData.append(
+            `assessments[${index}][point]`,
+            handleGetValue('assessments', item?.point, '')
+          )
+          formData.append(`assessments[${index}][organizer]`, item?.organizer)
+          formData.append(
+            `assessments[${index}][assessment_document]`,
+            item?.certificate || ''
+          )
+        })
+
+        // Competences
+        competences.map((item, index) => {
+          formData.append(
+            `competencies[${index}][event_date]`,
+            handleFormatDate(item?.date, 'YYYY-MM-DD')
+          )
+          formData.append(
+            `competencies[${index}][point]`,
+            handleGetValue('competences', item?.point, '')
+          )
+          formData.append(`competencies[${index}][organizer]`, item?.organizer)
+          formData.append(
+            `competencies[${index}][competency_document]`,
+            item?.certificate || ''
+          )
+        })
+
+        // Talent Pools
+        talents.map((item, index) => {
+          formData.append(
+            `talents[${index}][event_date]`,
+            handleFormatDate(item?.date, 'YYYY-MM-DD')
+          )
+          formData.append(
+            `talents[${index}][point]`,
+            handleGetValue('talentPools', item?.point, '')
+          )
+          formData.append(`talents[${index}][organizer]`, item?.organizer)
+          formData.append(
+            `talents[${index}][talent_document]`,
+            item?.certificate || ''
+          )
+        })
+
+        // Credits
+        if (FormCredits) {
+          await FormCredits.validateForm()
+
+          if (FormCredits?.isValid) {
+            const credits = FormCredits?.values?.credits || []
+
+            credits.map((item, index) => {
+              formData.append(`credits[${index}][position]`, item?.position)
+              formData.append(
+                `credits[${index}][period]`,
+                handleGetValue('periodCredits', item?.period, '')
+              )
+              formData.append(`credits[${index}][year]`, item?.year)
+              formData.append(`credits[${index}][score]`, item?.point)
+              formData.append(
+                `credits[${index}][start_month]`,
+                item?.month?.start
+                  ? handleGetValue('months', item?.month?.start, '')
+                  : ''
+              )
+              formData.append(
+                `credits[${index}][end_month]`,
+                item?.month?.end
+                  ? handleGetValue('months', item?.month?.end, '')
+                  : ''
+              )
+            })
+          }
+        }
+
+        postEmployee(formData)
       }
-
-      const newErrors = {}
-      err.inner.forEach((error) => {
-        newErrors[error.path] = error.message
-        formikRef.current.setFieldError(error.path, error.message)
-      })
-
-      const firstErrorField = err.inner[0].path
-      const firstErrorEl = document.querySelector(`[name="${firstErrorField}"]`)
-
-      firstErrorEl &&
-        setTimeout(() => {
-          firstErrorEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        }, 5)
+    } catch (err) {
+      setIsExpand(true)
+      setTimeout(() => setIsExpand(false), 500)
     }
-
-    setIsExpand(false)
-  }
+  }, [
+    position,
+    grade,
+    echelon,
+    institution,
+    residence,
+    employmentType,
+    positions,
+    formikEmployeeRef,
+    formikEducationsRef,
+    formikFamiliesRef,
+    formikLeavesRef,
+    formikNotesRef,
+    formikAssessmentsRef,
+    formikCompetencesRef,
+    formikTalentsRef
+  ])
 
   const handleChangeHierarchies = (val) => {
     const datas = val.filter((itm) => itm?.name !== null)
@@ -1226,40 +705,26 @@ const EmployeeAddComponent = ({
   }, [position, echelon, grade, institution, residence, employmentType])
 
   return (
-    <Formik
-      innerRef={formikRef}
-      initialValues={InitValue}
-      validationSchema={FormSchema}
-      onSubmit={() => {}}
+    <LayoutPages
+      handleBack={() => router.back()}
+      summary={'Tambah Pegawai ASN'}
+      action={
+        <Box>
+          <Button text='Simpan' color='primary' onClick={handleSubmit} />
+        </Box>
+      }
     >
-      {(formikProps) => (
-        <LayoutPages
-          handleBack={() => router.back()}
-          summary={'Tambah Pegawai ASN'}
-          action={
-            <Box>
-              <Button
-                text='Simpan'
-                color='primary'
-                onClick={() => handleSubmit(formikProps?.values)}
-              />
-            </Box>
-          }
-        >
-          <FormComponent
-            mode='add'
-            pageType='ASN'
-            isExpand={isExpand}
-            options={options}
-            formikRef={formikRef}
-            formikProps={formikProps}
-            errorsForm={errorsForm}
-            onGetPositionType={handleGetPositionType}
-            onChangeHierarchies={handleChangeHierarchies}
-          />
-        </LayoutPages>
-      )}
-    </Formik>
+      <FormComponent
+        mode='add'
+        pageType='ASN'
+        formikRef={formikRef}
+        isExpand={isExpand}
+        options={options}
+        errorsForm={errorsForm}
+        onGetPositionType={handleGetPositionType}
+        onChangeHierarchies={handleChangeHierarchies}
+      />
+    </LayoutPages>
   )
 }
 

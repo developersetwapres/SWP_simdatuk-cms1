@@ -1,25 +1,92 @@
 /* eslint-disable no-unused-vars */
-import React from 'react'
+/* eslint-disable react/display-name */
+import React, { forwardRef, useImperativeHandle } from 'react'
 import PropTypes from 'prop-types'
 import { Input, TextArea } from '@/components/shared'
 import { Grid } from '@mui/material'
 import CardAccordion from './CardAccordion'
 import HeaderForm from './HeaderForm'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
 
-const NotesForm = ({
-  values,
-  errors,
-  touched,
-  handleChange,
-  handleBlur,
-  handleSubmit,
-  isSubmitting,
-  setFieldValue,
-  formikRef,
-  isAccordion = true,
-  isEdit = false,
-  isExpand
-}) => {
+const InitValue = {
+  notes: []
+}
+
+const FormSchema = Yup.object().shape({
+  // notes: Yup.lazy((notes) => {
+  //   if (Array.isArray(notes) && notes.length > 0) {
+  //     return Yup.array().of(
+  //       Yup.object().shape({
+  //         description: Yup.string()
+  //           .required('Catatan tidak boleh kosong')
+  //           .max(160, 'Catatan tidak boleh lebih dari 160 karakter')
+  //       })
+  //     )
+  //   } else {
+  //     return Yup.array()
+  //   }
+  // })
+})
+
+const NotesForm = forwardRef((props, ref) => {
+  const { isAccordion = true, isEdit = false, isExpand } = props
+
+  const formik = useFormik({
+    initialValues: InitValue,
+    validationSchema: FormSchema,
+    onSubmit: () => {},
+    innerRef: ref
+  })
+
+  useImperativeHandle(ref, () => ({
+    validateForm: async () => {
+      try {
+        await FormSchema.validate(formik?.values, { abortEarly: false })
+
+        formik.setErrors({})
+        ref.current.setErrors({})
+
+        return ref.current
+      } catch (err) {
+        if (!err.inner || err.inner.length === 0) {
+          return
+        }
+
+        const newErrors = {}
+        err.inner.forEach((error) => {
+          newErrors[error.path] = error.message
+
+          formik.setFieldError(error.path, error.message)
+          if (ref.current) {
+            ref.current.setFieldError(error.path, error.message)
+          }
+        })
+
+        formik.setErrors(newErrors)
+        if (ref.current) ref.current.setErrors(newErrors)
+
+        const firstErrorField = err.inner[0].path
+        const firstErrorEl = document.querySelector(
+          `[name="${firstErrorField}"]`
+        )
+
+        if (firstErrorEl) {
+          setTimeout(() => {
+            firstErrorEl.scrollIntoView({ behavior: 'smooth', block: 'end' })
+          }, 5)
+        }
+
+        return ref.current
+      }
+    },
+    ...Object.fromEntries(
+      Object.entries(formik)
+        .filter((form) => form[0] !== 'validateForm')
+        .map((form) => form)
+    )
+  }))
+
   const handleData = (data, type, indexItem) => {
     if (type == 'add') {
       const newData = {
@@ -27,27 +94,28 @@ const NotesForm = ({
         ...(isEdit ? { date: '', inputer: '' } : {})
       }
       const updateData = [...data, newData]
-      setFieldValue('notes', updateData, false)
+      formik?.setFieldValue('notes', updateData, false)
     } else {
       const newData = data.filter((item, index) => index !== indexItem)
-      setFieldValue('notes', newData, false)
+      formik?.setFieldValue('notes', newData, false)
     }
   }
 
   const handleDeleteData = (idx) => {
-    const error = errors?.notes
+    const error = formik?.errors?.notes
     if (error) error.splice(idx, 1)
-    handleData(values?.notes, 'delete', idx)
+
+    handleData(formik?.values?.notes, 'delete', idx)
   }
 
   if (!isAccordion) {
     return (
       <Notes
-        formikRef={formikRef}
-        values={values}
-        errors={errors}
-        setFieldValue={setFieldValue}
         isEdit={isEdit}
+        values={formik?.values}
+        errors={formik?.errors}
+        setFieldValue={formik?.setFieldValue}
+        validateField={formik?.validateField}
         handleDeleteData={handleDeleteData}
       />
     )
@@ -59,26 +127,26 @@ const NotesForm = ({
       title='Catatan'
       textAdd='Tambah Catatan Baru'
       isExpand={isExpand}
-      handleAdd={() => handleData(values?.notes, 'add')}
+      handleAdd={() => handleData(formik?.values?.notes, 'add')}
     >
       <Notes
-        formikRef={formikRef}
-        values={values}
-        errors={errors}
-        setFieldValue={setFieldValue}
         isEdit={isEdit}
+        values={formik?.values}
+        errors={formik?.errors}
+        setFieldValue={formik?.setFieldValue}
+        validateField={formik?.validateField}
         handleDeleteData={handleDeleteData}
       />
     </CardAccordion>
   )
-}
+})
 
 const Notes = ({
   values,
   errors,
-  setFieldValue,
-  formikRef,
   isEdit = false,
+  setFieldValue = () => {},
+  validateField = () => {},
   handleDeleteData = () => {}
 }) => {
   return (
@@ -124,7 +192,7 @@ const Notes = ({
             )}
             <Grid item xs={12}>
               <TextArea
-                label='Catatan *'
+                label='Catatan'
                 placeholder='Masukkan Catatan'
                 rows={3}
                 name={`notes[${idx}].description`}
@@ -133,9 +201,9 @@ const Notes = ({
                 onChange={(e) => {
                   const val = e?.target?.value
                   setFieldValue(`notes[${idx}].description`, val, false)
-                  setTimeout(() => {
-                    formikRef.current.validateField(`notes[${idx}].description`)
-                  }, 1)
+                  // setTimeout(() => {
+                  //   validateField(`notes[${idx}].description`)
+                  // }, 1)
                 }}
               />
             </Grid>
@@ -148,23 +216,13 @@ const Notes = ({
 Notes.propTypes = {
   values: PropTypes.object,
   errors: PropTypes.object,
-  setFieldValue: PropTypes.func,
-  formikRef: PropTypes.any,
   isEdit: PropTypes.bool,
+  setFieldValue: PropTypes.func,
+  validateField: PropTypes.func,
   handleDeleteData: PropTypes.func
 }
 
 NotesForm.propTypes = {
-  values: PropTypes.object,
-  errors: PropTypes.object,
-  touched: PropTypes.object,
-  handleChange: PropTypes.func,
-  handleBlur: PropTypes.func,
-  handleSubmit: PropTypes.func,
-  handleField: PropTypes.func,
-  setFieldValue: PropTypes.func,
-  isSubmitting: PropTypes.bool,
-  formikRef: PropTypes.any,
   isAccordion: PropTypes.bool,
   isEdit: PropTypes.bool,
   isExpand: PropTypes.bool
