@@ -599,8 +599,8 @@ const EmployeeAddComponent = ({
   }
 
   useEffect(() => {
-    if (Object.entries(employee?.errorForm).length > 0) {
-      const err = employee?.errorForm || {}
+    const err = employee?.errorForm || {}
+    if (Object.entries(err).length > 0) {
       const mappedErrors = {}
 
       Object.entries(err).map(([key, value]) => {
