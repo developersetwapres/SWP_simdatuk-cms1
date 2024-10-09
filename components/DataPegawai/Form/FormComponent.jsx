@@ -35,7 +35,7 @@ const containerStyles = {
 }
 
 const FormComponent = (props) => {
-  const { formikRef, mode, pageType, errorsForm } = props
+  const { formikRef, mode, pageType } = props
 
   const [isCreditNumber, setIsCreditNumber] = useState(false)
 
@@ -182,7 +182,6 @@ const FormComponent = (props) => {
 FormComponent.propTypes = {
   mode: PropTypes.string.isRequired,
   pageType: PropTypes.string.isRequired,
-  errorsForm: PropTypes.object,
   formikRef: PropTypes.object
 }
 

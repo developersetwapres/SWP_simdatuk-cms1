@@ -1261,7 +1261,6 @@ const EmployeeEditComponent = ({
         formikRef={formikRef}
         isExpand={isExpand}
         options={options}
-        errorsForm={errorsForm}
         onGetPositionType={handleGetPositionType}
         onChangeHierarchies={handleChangeHierarchies}
       />
