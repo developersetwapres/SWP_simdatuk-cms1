@@ -74,8 +74,8 @@ const FormSchema = Yup.object().shape({
 const RiwayatPelatihanStrukturalAddComponent = ({
   training,
   employee,
-  postTraining = () => { },
-  onLoading = () => { }
+  postTraining = () => {},
+  onLoading = () => {}
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -87,22 +87,11 @@ const RiwayatPelatihanStrukturalAddComponent = ({
     const data = {
       month: monthOptions || [],
       employee: newEmployees || [],
-      level: training?.levels?.map(i => i?.level_name) || []
+      level: training?.levels?.map((i) => i?.level_name) || []
     }
 
     return data
   }, [employee])
-
-  const getOptionsId = (value, type) => {
-    if (type === 'levels') {
-      return training
-        ?.levels
-        ?.find(item => item?.level_name === value)
-        ?.id
-    }
-
-    return ''
-  }
 
   const handleFormatDate = (value, format) => {
     if (value) return moment(value).format(format)
@@ -111,17 +100,26 @@ const RiwayatPelatihanStrukturalAddComponent = ({
   }
 
   const handleGetValue = (value, type) => {
-    if (type == 'employee') {
-      const data = employee?.data
-      const dataFilter = data.find(
-        (itm) => itm?.employee_id_number === value?.split(' - ')[1]
-      )?.id
+    if (value) {
+      if (type == 'employee') {
+        const data = employee?.data
+        const dataFilter = data.find(
+          (itm) => itm?.employee_id_number === value?.split(' - ')[1]
+        )?.id
 
-      return dataFilter
+        return dataFilter
+      } else if (type === 'levels') {
+        return (
+          training?.levels &&
+          training?.levels?.find((item) => item?.level_name === value)?.id
+        )
+      } else {
+        const index = monthOptions.findIndex((itm) => itm == value) + 1
+
+        return index
+      }
     } else {
-      const index = monthOptions.findIndex((itm) => itm == value) + 1
-
-      return index
+      return ''
     }
   }
 
@@ -142,7 +140,7 @@ const RiwayatPelatihanStrukturalAddComponent = ({
         moment(values?.periode?.tahun).format('YYYY')
       )
       formData.append('reference_number', values?.noSurat)
-      formData.append('level', getOptionsId(values?.jenjang || '', 'levels'))
+      formData.append('level', handleGetValue(values?.jenjang || '', 'levels'))
       formData.append(
         'start_date',
         handleFormatDate(values?.tanggalPelaksanaan?.from, 'YYYY-MM-DD')
@@ -194,7 +192,7 @@ const RiwayatPelatihanStrukturalAddComponent = ({
       innerRef={formikRef}
       initialValues={InitValue}
       validationSchema={FormSchema}
-      onSubmit={() => { }}
+      onSubmit={() => {}}
     >
       {(formikProps) => (
         <LayoutPages
