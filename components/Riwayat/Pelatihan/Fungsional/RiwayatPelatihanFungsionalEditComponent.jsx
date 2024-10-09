@@ -101,7 +101,7 @@ const RiwayatPelatihanFungsionalEditComponent = ({
         const data = employee?.data
         const dataFilter = data?.find(
           (itm) => itm?.employee_id_number === value.split(' - ')[1]
-        )?.id
+        )
 
         return dataFilter
       } else if (type === 'levels') {
