@@ -309,7 +309,11 @@ const EmployeeAddComponent = ({
           formData.append(`families[${index}][id_number]`, item?.idNumber)
           formData.append(
             `families[${index}][gender]`,
-            item?.gender == 'Laki-Laki' ? 1 : 0
+            item?.gender && item?.gender >= 0 && item?.gender !== null
+              ? item?.gender == 'Laki-Laki'
+                ? 1
+                : 0
+              : ''
           )
           formData.append(
             `families[${index}][religion]`,

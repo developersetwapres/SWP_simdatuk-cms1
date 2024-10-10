@@ -707,7 +707,11 @@ const EmployeeEditComponent = ({
             formData.append(`families[${index}][id_number]`, item?.idNumber)
             formData.append(
               `families[${index}][gender]`,
-              item?.gender == 'Laki-Laki' ? 1 : 0
+              item?.gender && item?.gender >= 0 && item?.gender !== null
+                ? item?.gender == 'Laki-Laki'
+                  ? 1
+                  : 0
+                : ''
             )
             formData.append(
               `families[${index}][religion]`,
@@ -1279,6 +1283,13 @@ const EmployeeEditComponent = ({
     if (item) return item?.type?.name.toLowerCase()
 
     return ''
+  }
+
+  const handleGetDisiciplinaryType = (val) => {
+    const dataOptions = disciplinary?.options
+    const item = dataOptions && dataOptions.find((itm) => itm?.name == val)
+
+    return item || null
   }
 
   const handleClearState = () => {
@@ -2024,7 +2035,9 @@ const EmployeeEditComponent = ({
         )
         FormPositions?.setFieldValue(
           `positions[${idx}].terminationDecree`,
-          itm?.termination_decree,
+          itm?.termination_decree && itm?.termination_decree !== 'null'
+            ? itm?.termination_decree
+            : '',
           false
         )
         FormPositions?.setFieldValue(
@@ -2388,11 +2401,12 @@ const EmployeeEditComponent = ({
 
       // History Targets
       detail?.targets.map((itm, idx) => {
+        const period =
+          itm?.appraisal_period && itm?.appraisal_period !== 'null'
+            ? parseInt(itm?.appraisal_period.split('')[1])
+            : null
         const targetsYear = itm?.period_year
           ? moment(itm?.period_year, 'YYYY').toDate()
-          : null
-        const targetsAssessmentYear = itm?.year
-          ? moment(itm?.year, 'YYYY').toDate()
           : null
 
         FormTargets?.setFieldValue(`targets[${idx}].id`, itm?.id || null, false)
@@ -2404,12 +2418,12 @@ const EmployeeEditComponent = ({
         FormTargets?.setFieldValue(`targets[${idx}].year`, targetsYear, false)
         FormTargets?.setFieldValue(
           `targets[${idx}].appraisal`,
-          handleGetValue('period', itm?.appraisal_period),
+          handleGetValue('period', period),
           false
         )
         FormTargets?.setFieldValue(
           `targets[${idx}].assessmentYear`,
-          targetsAssessmentYear,
+          itm?.year,
           false
         )
         FormTargets?.setFieldValue(
@@ -2902,6 +2916,7 @@ const EmployeeEditComponent = ({
         options={options}
         onGetPositionType={handleGetPositionType}
         onChangeHierarchies={handleChangeHierarchies}
+        onDisiciplinaryType={handleGetDisiciplinaryType}
       />
     </LayoutPages>
   )

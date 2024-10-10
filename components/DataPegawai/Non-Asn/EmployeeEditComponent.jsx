@@ -1201,7 +1201,9 @@ const EmployeeEditComponent = ({
         )
         FormPositions?.setFieldValue(
           `positions[${idx}].terminationDecree`,
-          itm?.termination_decree,
+          itm?.termination_decree && itm?.termination_decree !== 'null'
+            ? itm?.termination_decree
+            : '',
           false
         )
         FormPositions?.setFieldValue(

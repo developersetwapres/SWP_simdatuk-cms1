@@ -431,6 +431,7 @@ const EmployeeEditComponent = ({
         // Families
         if (families.length > 0) {
           families.map((item, index) => {
+            console.log('item?.gender', item?.gender)
             formData.append(`families[${index}][id]`, item?.id || '')
             formData.append(
               `families[${index}][card_number]`,
@@ -440,7 +441,11 @@ const EmployeeEditComponent = ({
             formData.append(`families[${index}][id_number]`, item?.idNumber)
             formData.append(
               `families[${index}][gender]`,
-              item?.gender == 'Laki-Laki' ? 1 : 0
+              item?.gender && item?.gender >= 0 && item?.gender !== null
+                ? item?.gender == 'Laki-Laki'
+                  ? 1
+                  : 0
+                : ''
             )
             formData.append(
               `families[${index}][religion]`,
@@ -1294,7 +1299,9 @@ const EmployeeEditComponent = ({
         )
         FormPositions?.setFieldValue(
           `positions[${idx}].terminationDecree`,
-          itm?.termination_decree,
+          itm?.termination_decree && itm?.termination_decree !== 'null'
+            ? itm?.termination_decree
+            : '',
           false
         )
         FormPositions?.setFieldValue(
