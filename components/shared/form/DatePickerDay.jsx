@@ -178,6 +178,7 @@ DatePickerDay.propTypes = {
   name: PropTypes.string,
   error: PropTypes.string,
   mode: PropTypes.string,
+  disabled: PropTypes.bool,
   fullWidth: PropTypes.bool,
   placeholder: PropTypes.string,
   value: PropTypes.any,
