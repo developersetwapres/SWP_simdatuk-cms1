@@ -450,7 +450,7 @@ const EmployeeEditComponent = ({
           FormTrainingFungsionals?.values?.trainingFungsionals || []
         const technicals =
           FormTrainingTechnicals?.values?.trainingTechnicals || []
-        // const recognitions = FormRecognitions?.values?.recognitions || []
+        const recognitions = FormRecognitions?.values?.recognitions || []
         const targets = FormTargets?.values?.targets || []
         const performances = FormPerformances?.values?.performances || []
         const disciplinaries = FormDisciplinaries?.values?.disciplinaries || []
@@ -1086,6 +1086,15 @@ const EmployeeEditComponent = ({
           })
         } else {
           formData.append(`technicals`, emptyArray)
+        }
+
+        // History Recognitions
+        if (recognitions.length > 0) {
+          recognitions.map((item, index) => {
+            formData.append(`recognitions[${index}][id]`, item?.id || '')
+          })
+        } else {
+          formData.append(`recognitions`, emptyArray)
         }
 
         // History Targets
