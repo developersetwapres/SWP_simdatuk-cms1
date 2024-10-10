@@ -29,10 +29,12 @@ const FormSchema = Yup.object().shape({
           // discipleType: Yup.string().required(
           //   'Jenis Hukuman tidak boleh kosong'
           // ),
-          discipleDate: Yup.object().shape({
-            from: Yup.string().required('Pilih tanggal awal'),
-            to: Yup.string().required('Pilih tanggal akhir')
-          })
+          discipleDate: Yup.object()
+            .shape({
+              from: Yup.string().required('Pilih tanggal awal'),
+              to: Yup.string().required('Pilih tanggal akhir')
+            })
+            .nullable()
           // .required('Tanggal Hukuman tidak boleh kosong')
         })
       )
@@ -43,7 +45,7 @@ const FormSchema = Yup.object().shape({
 })
 
 const DisciplinaryForm = forwardRef((props, ref) => {
-  const { options, isExpand } = props
+  const { options, isExpand, onDisiciplinaryType = () => {} } = props
 
   const formik = useFormik({
     initialValues: InitValue,
@@ -247,6 +249,28 @@ const DisciplinaryForm = forwardRef((props, ref) => {
                       formik?.errors?.disciplinaries[idx]?.discipleType
                     }
                     onChange={(val) => {
+                      if (val) {
+                        const item = onDisiciplinaryType(val)
+
+                        if (item) {
+                          formik.setFieldValue(
+                            `disciplinaries[${idx}].discipleLevel`,
+                            item?.description,
+                            false
+                          )
+                          formik.setFieldValue(
+                            `disciplinaries[${idx}].allowanceDeducation`,
+                            item?.performance_allowance_deduction,
+                            false
+                          )
+                          formik.setFieldValue(
+                            `disciplinaries[${idx}].allowanceDuration`,
+                            item?.performance_allowance_duration,
+                            false
+                          )
+                        }
+                      }
+
                       formik.setFieldValue(
                         `disciplinaries[${idx}].discipleType`,
                         val,
@@ -260,77 +284,82 @@ const DisciplinaryForm = forwardRef((props, ref) => {
                     }}
                   />
                 </Grid>
-                {/* Level of Disciple */}
-                <Grid item xs={6}>
-                  <Input
-                    disabled
-                    label='Tingkat Hukuman'
-                    placeholder='Masukkan Tingkat Hukuman'
-                    name={`disciplinaries[${idx}].discipleLevel`}
-                    value={itm?.discipleLevel}
-                    error={
-                      formik?.errors?.disciplinaries &&
-                      formik?.errors?.disciplinaries[idx]?.discipleLevel
-                    }
-                    onChange={(e) => {
-                      const val = e?.target?.value
-                      formik.setFieldValue(
-                        `disciplinaries[${idx}].discipleLevel`,
-                        val,
-                        false
-                      )
-                    }}
-                  />
-                </Grid>
-                {/* Allowance Deducation */}
-                <Grid item xs={6}>
-                  <Input
-                    disabled
-                    label='Pemotongan Tunjangan Kinerja(Persentase)'
-                    placeholder='Masukkan Pemotongan Tunjangan Kinerja'
-                    name={`disciplinaries[${idx}].allowanceDeducation`}
-                    value={itm?.allowanceDeducation}
-                    error={
-                      formik?.errors?.disciplinaries &&
-                      formik?.errors?.disciplinaries[idx]?.allowanceDeducation
-                    }
-                    onChange={(e) => {
-                      const val = e?.target?.value
-                      formik.setFieldValue(
-                        `disciplinaries[${idx}].allowanceDeducation`,
-                        val,
-                        false
-                      )
-                    }}
-                  />
-                </Grid>
-                {/* Allowance Duration */}
-                <Grid item xs={6}>
-                  <Input
-                    disabled
-                    label='Jangka Waktu Pemotongan'
-                    placeholder='Masukkan Jangka Waktu Pemotongan'
-                    name={`disciplinaries[${idx}].allowanceDuration`}
-                    value={itm?.allowanceDuration}
-                    error={
-                      formik?.errors?.disciplinaries &&
-                      formik?.errors?.disciplinaries[idx]?.allowanceDuration
-                    }
-                    onChange={(e) => {
-                      const val = e?.target?.value
-                      formik.setFieldValue(
-                        `disciplinaries[${idx}].allowanceDuration`,
-                        val,
-                        false
-                      )
-                      // setTimeout(() => {
-                      //   formik.validateField(
-                      //     `disciplinaries[${idx}].allowanceDuration`
-                      //   )
-                      // }, 1)
-                    }}
-                  />
-                </Grid>
+                {itm?.discipleType && (
+                  <>
+                    {/* Level of Disciple */}
+                    <Grid item xs={6}>
+                      <Input
+                        disabled
+                        label='Tingkat Hukuman'
+                        placeholder='Masukkan Tingkat Hukuman'
+                        name={`disciplinaries[${idx}].discipleLevel`}
+                        value={itm?.discipleLevel}
+                        error={
+                          formik?.errors?.disciplinaries &&
+                          formik?.errors?.disciplinaries[idx]?.discipleLevel
+                        }
+                        onChange={(e) => {
+                          const val = e?.target?.value
+                          formik.setFieldValue(
+                            `disciplinaries[${idx}].discipleLevel`,
+                            val,
+                            false
+                          )
+                        }}
+                      />
+                    </Grid>
+                    {/* Allowance Deducation */}
+                    <Grid item xs={6}>
+                      <Input
+                        disabled
+                        label='Pemotongan Tunjangan Kinerja(Persentase)'
+                        placeholder='Masukkan Pemotongan Tunjangan Kinerja'
+                        name={`disciplinaries[${idx}].allowanceDeducation`}
+                        value={itm?.allowanceDeducation}
+                        error={
+                          formik?.errors?.disciplinaries &&
+                          formik?.errors?.disciplinaries[idx]
+                            ?.allowanceDeducation
+                        }
+                        onChange={(e) => {
+                          const val = e?.target?.value
+                          formik.setFieldValue(
+                            `disciplinaries[${idx}].allowanceDeducation`,
+                            val,
+                            false
+                          )
+                        }}
+                      />
+                    </Grid>
+                    {/* Allowance Duration */}
+                    <Grid item xs={6}>
+                      <Input
+                        disabled
+                        label='Jangka Waktu Pemotongan'
+                        placeholder='Masukkan Jangka Waktu Pemotongan'
+                        name={`disciplinaries[${idx}].allowanceDuration`}
+                        value={itm?.allowanceDuration}
+                        error={
+                          formik?.errors?.disciplinaries &&
+                          formik?.errors?.disciplinaries[idx]?.allowanceDuration
+                        }
+                        onChange={(e) => {
+                          const val = e?.target?.value
+                          formik.setFieldValue(
+                            `disciplinaries[${idx}].allowanceDuration`,
+                            val,
+                            false
+                          )
+                          // setTimeout(() => {
+                          //   formik.validateField(
+                          //     `disciplinaries[${idx}].allowanceDuration`
+                          //   )
+                          // }, 1)
+                        }}
+                      />
+                    </Grid>
+                  </>
+                )}
                 {/* Decree Number */}
                 <Grid item xs={6}>
                   <Input
@@ -524,7 +553,8 @@ const DisciplinaryForm = forwardRef((props, ref) => {
 
 DisciplinaryForm.propTypes = {
   options: PropTypes.object,
-  isExpand: PropTypes.bool
+  isExpand: PropTypes.bool,
+  onDisiciplinaryType: PropTypes.func
 }
 
 export default DisciplinaryForm
