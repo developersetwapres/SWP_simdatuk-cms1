@@ -16,6 +16,7 @@ function DatePickerDay({
   placeholder,
   value,
   error,
+  disabled = false,
   fullWidth = false,
   mode = 'single',
   onChange = () => {},
@@ -82,6 +83,7 @@ function DatePickerDay({
       <Box sx={{ position: 'relative' }}>
         <Input
           fullWidth
+          disabled={disabled}
           placeholder={placeholder}
           readOnly
           name={name}
@@ -122,6 +124,7 @@ function DatePickerDay({
           >
             {valueDate && (
               <IconButton
+                disabled={disabled}
                 aria-label='clear'
                 onClick={() => handleSelectedValue(null)}
               >
