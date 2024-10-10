@@ -50,6 +50,7 @@ const FormSchema = Yup.object().shape({
     })
   )
 })
+
 const RiwayatPenghargaanEditComponent = ({
   recognition,
   employee,
@@ -208,18 +209,18 @@ const RiwayatPenghargaanEditComponent = ({
     if (detail) {
       const periodYear =
         detail?.period_year && detail?.period_month
-          ? new Date(detail?.period_year, detail?.period_month - 1)
+          ? moment(detail?.period_year, 'YYYY').toDate()
           : null
       const periodMonth = monthOptions[detail?.period_month - 1] || null
       const decreeType =
         decree?.data.find((itm) => itm?.id == detail?.type_of_decree)?.name ||
         null
       const decreeDate = detail?.decree_date
-        ? new Date(detail?.decree_date)
+        ? moment(detail?.decree_date, 'YYYY-MM-DD').toDate()
         : ''
-      const decreeYear = detail?.decree_date
-        ? new Date(detail?.decree_year, 0, 1)
-        : null
+      const decreeYear = detail?.decree_year
+        ? moment(detail?.decree_year, 'YYYY').toDate()
+        : ''
       // const receivDate = detail?.date_of_receipt
       //   ? new Date(detail?.date_of_receipt)
       //   : ''
@@ -246,6 +247,7 @@ const RiwayatPenghargaanEditComponent = ({
         },
         pegawai: employees
       }
+
       setFormValues(filledValues)
     }
   }, [recognition?.detail, recognition])
