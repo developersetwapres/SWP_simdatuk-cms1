@@ -431,7 +431,6 @@ const EmployeeEditComponent = ({
         // Families
         if (families.length > 0) {
           families.map((item, index) => {
-            console.log('item?.gender', item?.gender)
             formData.append(`families[${index}][id]`, item?.id || '')
             formData.append(
               `families[${index}][card_number]`,
