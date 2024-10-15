@@ -787,10 +787,7 @@ const EmployeeForm = forwardRef((props, ref) => {
                     }
                     name={`positions[${idx}].name`}
                     value={itm?.name}
-                    error={
-                      formik?.errors?.positions &&
-                      formik?.errors?.positions[0]?.name
-                    }
+                    error={formik?.errors[`positions[${idx}].name`]}
                     onChange={(val) => {
                       const data = formik?.values?.positions
                       const dataSlice = data.slice(0, idx)
