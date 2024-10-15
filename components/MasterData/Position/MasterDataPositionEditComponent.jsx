@@ -78,6 +78,7 @@ const FormSchema = Yup.object().shape({
     })
   )
 })
+
 const MasterDataPositionEditComponent = ({
   echelon,
   position,
@@ -311,12 +312,13 @@ const MasterDataPositionEditComponent = ({
         )
       })
     } else {
-      formikRef.current?.setFieldValue(`echelons[0].name`, null, false)
-      formikRef.current?.setFieldValue(
-        `echelons[0].quantity`,
-        detail?.available,
-        false
-      )
+      const newValues = [
+        {
+          name: null,
+          quantity: detail?.available == null ? '0' : `${detail?.available}`
+        }
+      ]
+      formikRef.current?.setFieldValue(`echelons`, newValues, false)
     }
 
     hierarchies.map((itm, idx) => {
