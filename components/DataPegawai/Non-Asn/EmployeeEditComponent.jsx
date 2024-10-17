@@ -341,7 +341,10 @@ const EmployeeEditComponent = ({
         const formData = new FormData()
 
         // Employee
-        formData.append('photo_profile', employee?.image || '')
+        formData.append(
+          'photo_profile',
+          typeof employee?.image !== 'string' ? employee?.image : ''
+        )
         formData.append('delete_photo_profile', !employee?.image ? 1 : 0)
         formData.append('name', employee?.name)
         formData.append('title_prefix', employee?.titlePrefix)
@@ -426,6 +429,10 @@ const EmployeeEditComponent = ({
             typeof employee?.employeeIdCard == 'string'
             ? ''
             : employee?.employeeIdCard
+        )
+        formData.append(
+          'delete_employee_id_card',
+          employee?.employeeIdCard ? 0 : 1
         )
         formData.append(
           'karisu_number',

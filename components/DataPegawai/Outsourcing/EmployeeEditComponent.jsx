@@ -324,7 +324,10 @@ const EmployeeEditComponent = ({
         const formData = new FormData()
 
         // Employee
-        formData.append('photo_profile', employee?.image || '')
+        formData.append(
+          'photo_profile',
+          typeof employee?.image !== 'string' ? employee?.image : ''
+        )
         formData.append('delete_photo_profile', !employee?.image ? 1 : 0)
         formData.append('name', employee?.name)
         formData.append('title_prefix', employee?.titlePrefix)
