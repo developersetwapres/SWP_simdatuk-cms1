@@ -354,6 +354,18 @@ const EmployeeEditComponent = ({
     return ''
   }
 
+  const getProfilePhoto = (image) => {
+    if (image) {
+      if (typeof image === 'string') {
+        return ''
+      }
+
+      return image
+    }
+
+    return ''
+  }
+
   const handleSubmit = useCallback(async () => {
     const FormEmployee = formikEmployeeRef?.current
     const FormEducations = formikEducationsRef?.current
@@ -470,7 +482,7 @@ const EmployeeEditComponent = ({
         // Employee
         formData.append(
           'photo_profile',
-          typeof employee?.image !== 'string' ? employee?.image : ''
+          getProfilePhoto(employee?.image)
         )
         formData.append('delete_photo_profile', !employee?.image ? 1 : 0)
         formData.append('name', employee?.name)
