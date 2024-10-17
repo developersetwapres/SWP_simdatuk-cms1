@@ -276,8 +276,7 @@ const MasterDataPositionEditComponent = ({
   const handleSetDefaultValue = (detail) => {
     const hierarchies = detail?.hierarchies || []
     const echelons = detail?.echelons || []
-    const echelon = echelons ? echelons[0] : []
-    const isShow = echelon?.name ? true : false
+    const isShow = detail?.type?.id !== 3 && detail?.echelons?.length > 0
     const isShowingOnPetaJabatan = detail?.status === 1
     const typeId = detail?.type?.id
 
@@ -299,18 +298,25 @@ const MasterDataPositionEditComponent = ({
     handleFetchHierarchies(detail?.type?.name)
 
     if (detail?.type?.id !== 3) {
-      echelons.map((itm, idx) => {
-        formikRef.current?.setFieldValue(
-          `echelons[${idx}].name`,
-          itm?.name,
-          false
-        )
-        formikRef.current?.setFieldValue(
-          `echelons[${idx}].quantity`,
-          itm?.available,
-          false
-        )
-      })
+      let newValues = []
+
+      if (echelons.length > 0) {
+        newValues = echelons.map((itm, idx) => {
+          return {
+            name: itm?.name,
+            quantity: itm?.available == null ? '0' : `${itm?.available}`
+          }
+        })
+      } else {
+        newValues = [
+          {
+            name: null,
+            quantity: detail?.available == null ? '0' : `${detail?.available}`
+          }
+        ]
+      }
+
+      formikRef.current?.setFieldValue(`echelons`, newValues, false)
     } else {
       const newValues = [
         {
