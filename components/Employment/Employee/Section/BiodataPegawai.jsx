@@ -18,8 +18,14 @@ const BiodataPegawai = ({ data, employmentType }) => {
       Outsource: type == 3
     }
 
+    console.log('data', data)
+
     return datas
   }, [data])
+
+  const isLastDate = useMemo(() => {
+    return ![1, 6, 10].includes(data?.employment_status)
+  }, [data?.employment_status])
 
   const options = useMemo(() => {
     const data = {
@@ -223,6 +229,14 @@ const BiodataPegawai = ({ data, employmentType }) => {
             {data?.employmentStatus || '-'}
           </Typography>
         </Grid>
+        {isLastDate && (
+          <Grid item xs={12} md={4} paddingY={1}>
+            <Typography>Tanggal Terakhir Bekerja</Typography>
+            <Typography fontWeight='500' marginTop={1}>
+              {data?.quit_date || '-'}
+            </Typography>
+          </Grid>
+        )}
         <Grid item xs={12} md={4} paddingY={1}>
           <Typography>No. KK</Typography>
           <Typography fontWeight='500' marginTop={1}>
