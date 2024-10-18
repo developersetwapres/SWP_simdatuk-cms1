@@ -120,8 +120,10 @@ const FormSchema = Yup.object().shape({
           if (
             !value &&
             index == 0 &&
-            employmentStatus == 'Aktif' &&
-            employmentStatus == 'Aktif Perbantuan Setneg'
+            (!employmentStatus ||
+              (employmentStatus &&
+                (employmentStatus == 'Aktif' ||
+                  employmentStatus == 'Aktif Perbantuan Setneg')))
           )
             return false
 
@@ -136,8 +138,10 @@ const FormSchema = Yup.object().shape({
 
       if (
         !value &&
-        employmentStatus == 'Aktif' &&
-        employmentStatus == 'Aktif Perbantuan Setneg'
+        (!employmentStatus ||
+          (employmentStatus &&
+            (employmentStatus == 'Aktif' ||
+              employmentStatus == 'Aktif Perbantuan Setneg')))
       )
         return false
 
