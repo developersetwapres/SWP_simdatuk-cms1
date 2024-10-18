@@ -112,7 +112,7 @@ const FormSchema = Yup.object().shape({
         .nullable()
         .test('is-required', 'Jabatan tidak boleh kosong', function (value) {
           const { path } = this
-          const { employmentStatus } = this.parent
+          const { employmentStatus } = this.from[1]?.value
 
           const pathParts = path.split('.')
           const index = pathParts[0].match(/\d+/)[0]
@@ -120,8 +120,8 @@ const FormSchema = Yup.object().shape({
           if (
             !value &&
             index == 0 &&
-            employmentStatus !== 'Aktif' &&
-            employmentStatus !== 'Aktif Perbantuan Setneg'
+            employmentStatus == 'Aktif' &&
+            employmentStatus == 'Aktif Perbantuan Setneg'
           )
             return false
 
@@ -131,7 +131,18 @@ const FormSchema = Yup.object().shape({
   ),
   positionEffectiveDate: Yup.string()
     .nullable()
-    .required('TMT Menjabat tidak boleh kosong'),
+    .test('required', 'TMT Menjabat tidak boleh kosong', function (value) {
+      const { employmentStatus } = this.parent
+
+      if (
+        !value &&
+        employmentStatus == 'Aktif' &&
+        employmentStatus == 'Aktif Perbantuan Setneg'
+      )
+        return false
+
+      return true
+    }),
   // .test('required', 'TMT Menjabat tidak boleh kosong', function (value) {
   //   const { positions } = this.parent
 
@@ -153,24 +164,38 @@ const FormSchema = Yup.object().shape({
       'required',
       'Pangkat / Golongan tidak boleh kosong',
       function (value) {
-        const { type } = this.parent
+        const { type, employmentStatus } = this.parent
 
-        if ((!value || value === null) && type == '1') return false
+        if (
+          (!value || value === null) &&
+          type == '1'
+          // employmentStatus == 'Aktif' &&
+          // employmentStatus == 'Aktif Perbantuan Setneg'
+        )
+          return false
 
         return true
       }
     ),
-  gradeEffectiveDate: Yup.string().test(
-    'required',
-    'TMT Pangkat / Golongan tidak boleh kosong',
-    function (value) {
-      const { type } = this.parent
+  gradeEffectiveDate: Yup.string()
+    .nullable()
+    .test(
+      'required',
+      'TMT Pangkat / Golongan tidak boleh kosong',
+      function (value) {
+        const { type, employmentStatus } = this.parent
 
-      if (!value && type == '1') return false
+        if (
+          (!value || value == null) &&
+          type == '1'
+          // employmentStatus == 'Aktif' &&
+          // employmentStatus == 'Aktif Perbantuan Setneg'
+        )
+          return false
 
-      return true
-    }
-  ),
+        return true
+      }
+    ),
   // institution: Yup.string().required('Instansi Induk tidak boleh kosong'),
   educationLevel: Yup.string().required('Tingak Pendidikan tidak boleh kosong'),
   // educationName: Yup.string().required(
@@ -178,21 +203,26 @@ const FormSchema = Yup.object().shape({
   // ),
   // educationYear: Yup.string().required('Tahun Lulus tidak boleh kosong'),
   employmentStatus: Yup.string().required('Status Pegawai tidak boleh kosong'),
-  // lastDateOfWork: Yup.string().test(
-  //   'is-required',
-  //   'Tanggal Terakhir Bekerja tidak boleh kosong',
-  //   function (value) {
-  //     const { employmentStatus } = this.parent
-  //     if (
-  //       employmentStatus !== 'Aktif' &&
-  //       employmentStatus !== 'Aktif Perbantuan Setneg' &&
-  //       employmentStatus !== 'Hukuman Disiplin'
-  //     ) {
-  //       return value != null && value !== ''
-  //     }
-  //     return true
-  //   }
-  // ),
+  lastDateOfWork: Yup.string()
+    .nullable()
+    .test(
+      'is-required',
+      'Tanggal Terakhir Bekerja tidak boleh kosong',
+      function (value) {
+        const { employmentStatus } = this.parent
+
+        if (
+          (!value || value == null || value == '') &&
+          employmentStatus &&
+          employmentStatus !== 'Aktif' &&
+          employmentStatus !== 'Aktif Perbantuan Setneg' &&
+          employmentStatus !== 'Hukuman Disiplin'
+        )
+          return false
+
+        return true
+      }
+    ),
   familyRegistNumber: Yup.string().test(
     'len',
     'No KK harus terdiri dari 16 digit angka',
@@ -810,7 +840,7 @@ const EmployeeForm = forwardRef((props, ref) => {
           {/* TMT Position */}
           <Grid item xs={6}>
             <DatePickerDay
-              label={`TMT Menjabat *`}
+              label={`TMT Menjabat ${isPositions ? '*' : ''}`}
               placeholder='dd-mm-yyyy'
               name='positionEffectiveDate'
               value={formik?.values?.positionEffectiveDate}
@@ -1197,16 +1227,16 @@ const EmployeeForm = forwardRef((props, ref) => {
           {isLastDate && (
             <Grid item xs={6}>
               <DatePickerDay
-                label='Tanggal Terakhir Bekerja'
+                label='Tanggal Terakhir Bekerja *'
                 placeholder='dd-mm-yyyy'
                 name={'lastDateOfWork'}
                 value={formik?.values?.lastDateOfWork}
                 error={formik?.errors?.lastDateOfWork}
                 onChange={(val) => {
                   formik?.setFieldValue('lastDateOfWork', val, false)
-                  // setTimeout(() => {
-                  //   formik.validateField('lastDateOfWork')
-                  // }, 1)
+                  setTimeout(() => {
+                    formik.validateField('lastDateOfWork')
+                  }, 1)
                 }}
               />
             </Grid>
