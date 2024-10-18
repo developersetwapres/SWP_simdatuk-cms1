@@ -18,8 +18,6 @@ const BiodataPegawai = ({ data, employmentType }) => {
       Outsource: type == 3
     }
 
-    console.log('data', data)
-
     return datas
   }, [data])
 
