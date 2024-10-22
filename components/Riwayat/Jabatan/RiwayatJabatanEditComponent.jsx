@@ -10,7 +10,11 @@ import * as Yup from 'yup'
 import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
 import moment from 'moment'
-import { monthOptions, positionDescOptions } from 'libs/types/options'
+import {
+  monthOptions,
+  positionDescOptions,
+  positionLevelOptions
+} from 'libs/types/options'
 
 const InitValue = {
   namaJabatan: '',
@@ -79,10 +83,10 @@ const RiwayatJabatanEditComponent = ({
   positionHistories,
   echelon,
   employee,
-  getPositionHistories = () => { },
-  updatePositionHistories = () => { },
-  clearPositionHistoriesState = () => { },
-  onLoading = () => { }
+  getPositionHistories = () => {},
+  updatePositionHistories = () => {},
+  clearPositionHistoriesState = () => {},
+  onLoading = () => {}
 }) => {
   const router = useRouter()
   const formikRef = useRef(null)
@@ -95,7 +99,7 @@ const RiwayatJabatanEditComponent = ({
     })
 
     const data = {
-      jenjangJabatan: newEchelons,
+      jenjangJabatan: positionLevelOptions,
       employee: newEmployees,
       keteranganJabatan: positionDescOptions,
       month: monthOptions || []
@@ -117,7 +121,7 @@ const RiwayatJabatanEditComponent = ({
       const index = options['month'].findIndex((itm) => itm == val)
       return index + 1
     } else {
-      const index = options['keteranganJabatan'].findIndex((itm) => itm == val)
+      const index = options[type].findIndex((itm) => itm == val)
       return index + 1
     }
   }
@@ -134,12 +138,11 @@ const RiwayatJabatanEditComponent = ({
           user_id: handleGetValueId(itm?.nama, 'employee'),
           position: itm?.jabatan,
           effective_date: moment(itm?.tmt).format('YYYY-MM-DD'),
-          position_status: itm?.keteranganJabatan ? handleGetValueId(
-            itm?.keteranganJabatan,
-            'ketJabatan'
-          ) : null,
-          echelon: itm?.jenjangJabatan ?
-            handleGetValueId(itm?.jenjangJabatan, 'echelon')
+          position_status: itm?.keteranganJabatan
+            ? handleGetValueId(itm?.keteranganJabatan, 'keteranganJabatan')
+            : null,
+          echelon: itm?.jenjangJabatan
+            ? handleGetValueId(itm?.jenjangJabatan, 'jenjangJabatan')
             : null,
           decree: itm?.noSk || null
         }
@@ -193,9 +196,7 @@ const RiwayatJabatanEditComponent = ({
 
   useEffect(() => {
     const state =
-      !employee?.loading ||
-      !echelon?.loading ||
-      !positionHistories?.loading
+      !employee?.loading || !echelon?.loading || !positionHistories?.loading
     onLoading(state)
   }, [employee, echelon, positionHistories])
 
@@ -211,19 +212,18 @@ const RiwayatJabatanEditComponent = ({
         },
         pegawai: [
           ...detail?.users?.map((itm) => ({
-            nama: itm?.name && itm?.employee_id_number
-              ? `${itm?.name} - ${itm?.employee_id_number}`
-              : null,
+            nama:
+              itm?.name && itm?.employee_id_number
+                ? `${itm?.name} - ${itm?.employee_id_number}`
+                : null,
             jabatan: itm?.position || '',
             jenjangJabatan: itm?.echelon
-              ? echelon?.data?.find((item) => item?.id == itm?.echelon)?.name
+              ? options['jenjangJabatan'][itm?.echelon - 1]
               : null,
             keteranganJabatan: itm?.position_status
               ? options['keteranganJabatan'][itm?.position_status - 1]
               : null,
-            tmt: itm?.effective_date
-              ? new Date(itm?.effective_date)
-              : '',
+            tmt: itm?.effective_date ? new Date(itm?.effective_date) : '',
             noSk: itm?.decree || ''
           }))
         ]
@@ -238,7 +238,7 @@ const RiwayatJabatanEditComponent = ({
       innerRef={formikRef}
       initialValues={formValues}
       validationSchema={FormSchema}
-      onSubmit={() => { }}
+      onSubmit={() => {}}
     >
       {(formikProps) => (
         <LayoutPages

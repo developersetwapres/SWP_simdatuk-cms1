@@ -33,7 +33,8 @@ import {
   religionOptions,
   talentPoolsOptions,
   maritalStatuFamilysOptions,
-  studyAreaOptions
+  studyAreaOptions,
+  positionLevelOptions
 } from 'libs/types/options'
 
 const EmployeeEditComponent = ({
@@ -227,7 +228,8 @@ const EmployeeEditComponent = ({
       performanceAchievement: ratingOrganizationOptions,
       discipleType: newDiscipleType,
       performancesType: ppkDescOptions,
-      studyArea: studyAreaOptions
+      studyArea: studyAreaOptions,
+      positionLevel: positionLevelOptions
     }
 
     return dataOptions
@@ -480,10 +482,7 @@ const EmployeeEditComponent = ({
         const formData = new FormData()
 
         // Employee
-        formData.append(
-          'photo_profile',
-          getProfilePhoto(employee?.image)
-        )
+        formData.append('photo_profile', getProfilePhoto(employee?.image))
         formData.append('delete_photo_profile', !employee?.image ? 1 : 0)
         formData.append('name', employee?.name)
         formData.append('title_prefix', employee?.titlePrefix)
@@ -927,7 +926,9 @@ const EmployeeEditComponent = ({
             )
             formData.append(
               `positions[${index}][echelon]`,
-              item?.level ? handleGetValueID('echelon', item?.level, '') : ''
+              item?.level
+                ? handleGetValueID('positionLevel', item?.level, '')
+                : ''
             )
             formData.append(
               `positions[${index}][position_status]`,
@@ -2014,7 +2015,7 @@ const EmployeeEditComponent = ({
         )
         FormPositions?.setFieldValue(
           `positions[${idx}].level`,
-          handleGetValue('echelon', itm?.echelon),
+          handleGetValue('positionLevel', itm?.echelon),
           false
         )
         FormPositions?.setFieldValue(

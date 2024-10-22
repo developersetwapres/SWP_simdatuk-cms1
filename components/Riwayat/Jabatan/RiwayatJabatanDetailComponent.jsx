@@ -7,8 +7,16 @@ import { Box, Grid, Typography } from '@mui/material'
 import { Delete, Edit, Info } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
-import { monthOptions, positionDescOptions } from 'libs/types/options'
-import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import {
+  monthOptions,
+  positionDescOptions,
+  positionLevelOptions
+} from 'libs/types/options'
+import {
+  Access,
+  accessGranted,
+  PermissionsIDs
+} from '@/utils/permissionManager'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 
 const styles = {
@@ -29,10 +37,10 @@ const styles = {
 const RiwayatJabatanDetailComponent = ({
   positionHistories,
   echelon,
-  deletePositionHistories = () => { },
-  getPositionHistories = () => { },
-  clearPositionState = () => { },
-  onLoading = () => { }
+  deletePositionHistories = () => {},
+  getPositionHistories = () => {},
+  clearPositionState = () => {},
+  onLoading = () => {}
 }) => {
   const router = useRouter()
   const [modalDelete, setModalDelete] = useState(false)
@@ -42,7 +50,7 @@ const RiwayatJabatanDetailComponent = ({
     const newEchelons = echelon?.data || []
 
     const data = {
-      echelon: newEchelons,
+      echelon: positionLevelOptions,
       keteranganJabatan: positionDescOptions,
       month: monthOptions || []
     }
@@ -52,8 +60,7 @@ const RiwayatJabatanDetailComponent = ({
 
   const handleGetValueId = (val, type) => {
     if (type == 'echelon') {
-      const dataFilter =
-        options['echelon'].find((itm) => itm?.id == val)?.name || null
+      const dataFilter = options['echelon'][val - 1] || null
       return dataFilter
     } else if (type == 'month') {
       const value = options['month'][val - 1]
@@ -142,7 +149,7 @@ const RiwayatJabatanDetailComponent = ({
           verticalAlign: 'top',
           Cell: () => (
             <Typography>
-              {item?.echelon ? handleGetValueId(item?.echelon, 'echelon') : ''}
+              {item?.echelon ? handleGetValueId(item?.echelon, 'echelon') : '-'}
             </Typography>
           )
         },
@@ -154,7 +161,7 @@ const RiwayatJabatanDetailComponent = ({
             <Typography>
               {item?.position_status
                 ? handleGetValueId(item?.position_status, 'ketJabatan')
-                : ''}
+                : '-'}
             </Typography>
           )
         },
@@ -272,7 +279,9 @@ const RiwayatJabatanDetailComponent = ({
         <Paper style={{ padding: '24px 20px' }}>
           <Grid container sx={{ marginBottom: '26px' }}>
             <Grid item xs={6}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <Box
+                sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
+              >
                 <Typography>Nama Riwayat Jabatan</Typography>
                 <Typography sx={{ fontWeight: 600 }}>
                   {data?.name || '-'}
@@ -280,7 +289,9 @@ const RiwayatJabatanDetailComponent = ({
               </Box>
             </Grid>
             <Grid item xs={6}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <Box
+                sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
+              >
                 <Typography>Periode Input Riwayat</Typography>
                 <Typography sx={{ fontWeight: 600 }}>
                   {handleParsePeriod(data?.period_month, data?.period_year)}

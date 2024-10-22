@@ -112,7 +112,7 @@ const FormSchema = Yup.object().shape({
         .nullable()
         .test('is-required', 'Jabatan tidak boleh kosong', function (value) {
           const { path } = this
-          const { employmentStatus } = this.from[1]?.value
+          const { employmentStatus } = this.from[this.from.length - 1]?.value
 
           const pathParts = path.split('.')
           const index = pathParts[0].match(/\d+/)[0]
@@ -120,7 +120,8 @@ const FormSchema = Yup.object().shape({
           if (
             !value &&
             index == 0 &&
-            (!employmentStatus ||
+            (employmentStatus == undefined ||
+              !employmentStatus ||
               (employmentStatus &&
                 (employmentStatus == 'Aktif' ||
                   employmentStatus == 'Aktif Perbantuan Setneg')))
@@ -821,7 +822,11 @@ const EmployeeForm = forwardRef((props, ref) => {
                     }
                     name={`positions[${idx}].name`}
                     value={itm?.name}
-                    error={formik?.errors[`positions[${idx}].name`]}
+                    error={
+                      idx == 0 && !itm?.name
+                        ? formik?.errors[`positions[${idx}].name`]
+                        : ''
+                    }
                     onChange={(val) => {
                       const data = formik?.values?.positions
                       const dataSlice = data.slice(0, idx)
@@ -834,7 +839,7 @@ const EmployeeForm = forwardRef((props, ref) => {
                       formik?.setFieldValue(`positions`, newData, false)
 
                       setTimeout(() => {
-                        formik.validateField(`positions`)
+                        formik?.validateField(`positions`)
                       }, 1)
                     }}
                   />

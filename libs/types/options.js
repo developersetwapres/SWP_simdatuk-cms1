@@ -221,3 +221,13 @@ export const workingPeriodOptions = [
 ]
 
 export const studyAreaOptions = ['Dalam Negeri', 'Luar Negeri']
+
+export const positionLevelOptions = [
+  'Eselon I',
+  'Eselon II',
+  'Eselon III',
+  'Eselon IV',
+  'Pelaksana',
+  'Fungsional',
+  'Staf'
+]

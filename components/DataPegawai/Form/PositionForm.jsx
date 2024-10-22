@@ -261,7 +261,7 @@ const PositionForm = forwardRef((props, ref) => {
                 {/* Level */}
                 <Grid item xs={6}>
                   <Autocomplete
-                    options={options?.echelon}
+                    options={options?.positionLevel}
                     placeholder='Pilih Jenjang Jabatan'
                     label='Jenjang Jabatan'
                     name={`positions[${idx}].level`}

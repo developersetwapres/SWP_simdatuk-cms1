@@ -23,6 +23,7 @@ import {
   monthOptions,
   organizationOptions,
   periodCreditsOptions,
+  positionLevelOptions,
   relationshipStatusOptions,
   religionOptions,
   studyAreaOptions,
@@ -111,7 +112,8 @@ const EmployeeAddComponent = ({
       talentPools: talentPoolsOptions,
       months: monthOptions,
       periodCredits: periodCreditsOptions,
-      studyArea: studyAreaOptions
+      studyArea: studyAreaOptions,
+      positionLevel: positionLevelOptions
     }
 
     return dataOptions

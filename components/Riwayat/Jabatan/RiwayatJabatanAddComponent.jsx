@@ -11,7 +11,11 @@ import * as Yup from 'yup'
 import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
 import moment from 'moment'
-import { monthOptions, positionDescOptions } from 'libs/types/options'
+import {
+  monthOptions,
+  positionDescOptions,
+  positionLevelOptions
+} from 'libs/types/options'
 
 const InitValue = {
   namaJabatan: '',
@@ -63,7 +67,7 @@ const RiwayatJabatanAddComponent = ({
     })
 
     const data = {
-      jenjangJabatan: newEchelons,
+      jenjangJabatan: positionLevelOptions,
       employee: newEmployees,
       keteranganJabatan: positionDescOptions,
       month: monthOptions || []
@@ -104,7 +108,7 @@ const RiwayatJabatanAddComponent = ({
             ? handleGetValueId(itm?.keteranganJabatan, 'keteranganJabatan')
             : null,
           echelon: itm?.jenjangJabatan
-            ? handleGetValueId(itm?.jenjangJabatan, 'echelon')
+            ? handleGetValueId(itm?.jenjangJabatan, 'jenjangJabatan')
             : null,
           decree: itm?.noSk || null
         }
