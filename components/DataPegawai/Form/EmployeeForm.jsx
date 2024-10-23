@@ -813,7 +813,7 @@ const EmployeeForm = forwardRef((props, ref) => {
           <Grid container item xs={6} spacing={3}>
             {formik?.values?.positions &&
               formik?.values?.positions.map((itm, idx) => (
-                <Grid item xs={12} key={idx} ref={ref}>
+                <Grid item xs={12} key={`[${idx}][${itm?.name}]`} ref={ref}>
                   <Autocomplete
                     options={options?.positions[idx] || []}
                     placeholder='Pilih Jabatan'

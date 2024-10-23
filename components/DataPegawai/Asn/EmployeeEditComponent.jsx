@@ -76,6 +76,7 @@ const EmployeeEditComponent = ({
   const formikDisciplinariesRef = useRef(null)
 
   const [positions, setPositions] = useState([])
+  const [newValues, setNewValues] = useState([])
   const [isExpand, setIsExpand] = useState(false)
 
   const formikRef = useMemo(() => {
@@ -1592,6 +1593,32 @@ const EmployeeEditComponent = ({
   }, [position?.data])
 
   useEffect(() => {
+    const detail = employee?.detail || {}
+    const positionHierarchies = detail?.position || []
+
+    const hasInvalidValues =
+      newValues.length === 0 || newValues.some((itm) => itm?.name === null)
+
+    if (Object.entries(detail).length > 0 && hasInvalidValues) {
+      const updatedValues = positionHierarchies.map((item) => {
+        const val = positions.flat()
+        const name = val.find((itm) => itm?.id === item?.id)?.name || null
+
+        return { name }
+      })
+
+      if (JSON.stringify(newValues) !== JSON.stringify(updatedValues)) {
+        setNewValues(updatedValues)
+        formikEmployeeRef?.current?.setFieldValue(
+          'positions',
+          updatedValues,
+          false
+        )
+      }
+    }
+  }, [positions, employee?.detail, newValues])
+
+  useEffect(() => {
     const state =
       !position?.loading &&
       !echelon?.loading &&
@@ -1652,11 +1679,11 @@ const EmployeeEditComponent = ({
       const FormPerformances = formikPerformancesRef?.current
       const FormDisciplinaries = formikDisciplinariesRef?.current
 
-      const newPosition = detail?.position.map((itm, idx) => {
+      detail?.position.map((itm, idx) => {
         if (itm?.parent_id) onFetchHierarchy(itm?.parent_id)
         if (idx == detail?.position.length - 1) onFetchHierarchy(itm?.id)
-        return { name: itm?.name }
       })
+
       const dateOfBirth = detail?.date_of_birth
         ? moment(detail?.date_of_birth, 'DD-MM-YYYY').toDate()
         : ''
@@ -1758,7 +1785,7 @@ const EmployeeEditComponent = ({
       )
       FormEmployee?.setFieldValue('dateStartedWork', cpnsEffectiveDate, false)
       FormEmployee?.setFieldValue('pnsEffectiveDate', pnsEffectiveDate, false)
-      FormEmployee?.setFieldValue(`positions`, newPosition, false)
+      // FormEmployee?.setFieldValue(`positions`, newPosition, false)
       FormEmployee?.setFieldValue(
         'positionEffectiveDate',
         positionEffectiveDate,

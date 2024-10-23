@@ -59,6 +59,7 @@ const EmployeeEditComponent = ({
   const formikPositionsRef = useRef(null)
 
   const [positions, setPositions] = useState([])
+  const [newValues, setNewValues] = useState([])
   const [isExpand, setIsExpand] = useState(false)
 
   const formikRef = useMemo(() => {
@@ -246,7 +247,7 @@ const EmployeeEditComponent = ({
     }
   }
 
-  const handleGetValue = (type, val) => {
+  const handleGetValue = (type, val, idx) => {
     if ((val || val >= 0) && val !== null) {
       if (type == 'grade') {
         const item =
@@ -852,6 +853,32 @@ const EmployeeEditComponent = ({
   }, [position?.data])
 
   useEffect(() => {
+    const detail = employee?.detail || {}
+    const positionHierarchies = detail?.position || []
+
+    const hasInvalidValues =
+      newValues.length === 0 || newValues.some((itm) => itm?.name === null)
+
+    if (Object.entries(detail).length > 0 && hasInvalidValues) {
+      const updatedValues = positionHierarchies.map((item) => {
+        const val = positions.flat()
+        const name = val.find((itm) => itm?.id === item?.id)?.name || null
+
+        return { name }
+      })
+
+      if (JSON.stringify(newValues) !== JSON.stringify(updatedValues)) {
+        setNewValues(updatedValues)
+        formikEmployeeRef?.current?.setFieldValue(
+          'positions',
+          updatedValues,
+          false
+        )
+      }
+    }
+  }, [positions, employee?.detail, newValues])
+
+  useEffect(() => {
     const state =
       !position?.loading &&
       !echelon?.loading &&
@@ -897,11 +924,11 @@ const EmployeeEditComponent = ({
       const FormEmployee = formikEmployeeRef?.current
       const FormPositions = formikPositionsRef?.current
 
-      const newPosition = detail?.position.map((itm, idx) => {
-        if (itm?.parent_id) onFetchHierarchy(itm?.parent_id)
+      detail?.position.map((itm, idx) => {
         if (idx == detail?.position.length - 1) onFetchHierarchy(itm?.id)
-        return { name: itm?.name }
+        if (itm?.parent_id) onFetchHierarchy(itm?.parent_id)
       })
+
       const dateOfBirth = detail?.date_of_birth
         ? moment(detail?.date_of_birth, 'DD-MM-YYYY').toDate()
         : ''
@@ -986,7 +1013,7 @@ const EmployeeEditComponent = ({
         false
       )
       FormEmployee?.setFieldValue('dateStartedWork', cpnsEffectiveDate, false)
-      FormEmployee?.setFieldValue(`positions`, newPosition, false)
+      // FormEmployee?.setFieldValue(`positions`, newPosition, false)
       FormEmployee?.setFieldValue(
         'positionEffectiveDate',
         positionEffectiveDate,
