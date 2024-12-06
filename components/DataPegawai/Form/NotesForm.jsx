@@ -7,6 +7,7 @@ import { Grid } from '@mui/material'
 import CardAccordion from './CardAccordion'
 import HeaderForm from './HeaderForm'
 import * as Yup from 'yup'
+import { useFormik } from 'formik'
 
 const InitValue = {
   notes: []
@@ -30,13 +31,13 @@ const FormSchema = Yup.object().shape({
 
 const NotesForm = forwardRef((props, ref) => {
   const { isAccordion = true, isEdit = false, isExpand } = props
-  const formik = props
-  // const formik = useFormik({
-  //   initialValues: InitValue,
-  //   validationSchema: FormSchema,
-  //   onSubmit: () => {},
-  //   innerRef: ref
-  // })
+  // const formik = props
+  const formik = useFormik({
+    initialValues: InitValue,
+    validationSchema: FormSchema,
+    onSubmit: () => {},
+    innerRef: ref
+  })
 
   useImperativeHandle(ref, () => ({
     validateForm: async () => {
