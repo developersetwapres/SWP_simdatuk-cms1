@@ -6,30 +6,8 @@ import { Button, Modal } from '..'
 import { Box, Typography } from '@mui/material'
 import { CLOSE_ICON } from '@/utils/iconConstant'
 import NotesForm from '@/components/DataPegawai/Form/NotesForm'
-import { Formik } from 'formik'
-import * as Yup from 'yup'
 import moment from 'moment'
 import { useRouter } from 'next/router'
-
-const InitValue = {
-  notes: []
-}
-
-const FormSchema = Yup.object().shape({
-  notes: Yup.lazy((notes) => {
-    if (Array.isArray(notes) && notes.length > 0) {
-      return Yup.array().of(
-        Yup.object().shape({
-          description: Yup.string()
-            .required('Catatan tidak boleh kosong')
-            .max(160, 'Catatan tidak boleh lebih dari 160 karakter')
-        })
-      )
-    } else {
-      return Yup.array()
-    }
-  })
-})
 
 const style = {
   containerModal: {
@@ -58,43 +36,23 @@ const ModalAddNotes = ({
   const formikRef = useRef(null)
 
   const updateNotes = async (values) => {
-    try {
-      await FormSchema.validate(values, { abortEarly: false })
-      formikRef.current.setErrors({})
+    const id = router?.query?.id || btoa(data?.id)
+    const notes = values?.notes
 
-      const id = router?.query?.id || btoa(data?.id)
-      const notes = values?.notes
-
-      const payload = {
-        notes: notes.map((itm) => {
-          return {
-            id: itm?.id || null,
-            description: itm?.description
-          }
-        })
-      }
-
-      handleSave({
-        id: atob(id),
-        data: payload
+    const payload = {
+      notes: notes.map((itm) => {
+        return {
+          id: itm?.id || null,
+          description: itm?.description
+        }
       })
-      handleModal()
-    } catch (err) {
-      if (!err.inner || err.inner.length === 0) {
-        return
-      }
-
-      const newErrors = {}
-      err.inner.forEach((error) => {
-        newErrors[error.path] = error.message
-        formikRef.current.setFieldError(error.path, error.message)
-      })
-
-      const firstErrorField = err.inner[0].path
-      const firstErrorEl = document.querySelector(`[name="${firstErrorField}"]`)
-      firstErrorEl &&
-        firstErrorEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
+
+    handleSave({
+      id: atob(id),
+      data: payload
+    })
+    handleModal()
   }
 
   useEffect(() => {
@@ -128,97 +86,89 @@ const ModalAddNotes = ({
   }, [data])
 
   useEffect(() => {
-    if (!open) formikRef.current.resetForm()
+    if (!open && formikRef.current) formikRef.current.resetForm()
   }, [open])
 
   return (
-    <Formik
-      innerRef={formikRef}
-      initialValues={InitValue}
-      validationSchema={FormSchema}
-      onSubmit={() => {}}
+    <Modal
+      aria-labelledby='transition-modal-title'
+      aria-describedby='transition-modal-description'
+      open={open}
+      padding='2rem'
+      width={'600px'}
+      otherStyle={style?.containerModal}
     >
-      {(formikProps) => (
-        <Modal
-          aria-labelledby='transition-modal-title'
-          aria-describedby='transition-modal-description'
-          open={open}
-          padding='2rem'
-          width={'600px'}
-          otherStyle={style?.containerModal}
-        >
-          <Box
-            sx={{
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'space-between'
-            }}
-          >
-            <Typography component='h6' variant='h6'>
-              Catatan
-            </Typography>
-            <img
-              style={{
-                width: '20px',
-                height: '20px',
-                cursor: 'pointer'
-              }}
-              src={CLOSE_ICON}
-              alt='img close'
-              onClick={handleModal}
-            />
-          </Box>
+      <Box
+        sx={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'space-between'
+        }}
+      >
+        <Typography component='h6' variant='h6'>
+          Catatan
+        </Typography>
+        <img
+          style={{
+            width: '20px',
+            height: '20px',
+            cursor: 'pointer'
+          }}
+          src={CLOSE_ICON}
+          alt='img close'
+          onClick={handleModal}
+        />
+      </Box>
 
-          <Box
-            sx={{
-              width: '100%',
-              margin: `20px 0 ${
-                formikProps?.values?.notes.length > 0 ? '30px' : 0
-              } 0`,
-              maxHeight: '60vh',
-              overflow: 'auto'
-            }}
-          >
-            <NotesForm
-              isAccordion={false}
-              isEdit={true}
-              formikRef={formikRef}
-              {...formikProps}
-            />
-          </Box>
+      <Box
+        sx={{
+          width: '100%',
+          margin: `20px 0 ${
+            formikRef?.current?.values?.notes.length > 0 ? '30px' : 0
+          } 0`,
+          maxHeight: '60vh',
+          overflow: 'auto'
+        }}
+      >
+        <NotesForm
+          ref={formikRef}
+          {...{
+            isAccordion: false,
+            isEdit: true
+          }}
+        />
+      </Box>
 
-          <Box sx={style?.wrapperButton}>
-            <Button
-              color='primary'
-              variant='outlined'
-              text='Tambah Catatan Baru'
-              sx={{
-                width: '100%',
-                fontSize: '14px',
-                display: 'block',
-                fontWeight: 'bold',
-                textTransform: 'none'
-              }}
-              onClick={() =>
-                formikProps?.setFieldValue(
-                  'notes',
-                  [
-                    ...formikProps?.values?.notes,
-                    { date: '', inputer: '', description: '' }
-                  ],
-                  false
-                )
-              }
-            />
-            <Button
-              text='Simpan'
-              style={{ width: '100%' }}
-              onClick={() => updateNotes(formikProps?.values)}
-            />
-          </Box>
-        </Modal>
-      )}
-    </Formik>
+      <Box sx={style?.wrapperButton}>
+        <Button
+          color='primary'
+          variant='outlined'
+          text='Tambah Catatan Baru'
+          sx={{
+            width: '100%',
+            fontSize: '14px',
+            display: 'block',
+            fontWeight: 'bold',
+            textTransform: 'none'
+          }}
+          onClick={() =>
+            formikRef?.current?.setFieldValue(
+              'notes',
+              [
+                ...formikRef?.current?.values?.notes,
+                { date: '', inputer: '', description: '' }
+              ],
+              false
+            )
+          }
+        />
+        <Button
+          text='Simpan'
+          style={{ width: '100%' }}
+          onClick={() => updateNotes(formikRef?.current?.values)}
+        />
+      </Box>
+    </Modal>
   )
 }
 

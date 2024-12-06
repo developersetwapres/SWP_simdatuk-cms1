@@ -31,7 +31,7 @@ const FormSchema = Yup.object().shape({
 
 const NotesForm = forwardRef((props, ref) => {
   const { isAccordion = true, isEdit = false, isExpand } = props
-  // const formik = props
+
   const formik = useFormik({
     initialValues: InitValue,
     validationSchema: FormSchema,
