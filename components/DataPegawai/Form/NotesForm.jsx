@@ -6,7 +6,6 @@ import { Input, TextArea } from '@/components/shared'
 import { Grid } from '@mui/material'
 import CardAccordion from './CardAccordion'
 import HeaderForm from './HeaderForm'
-import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
 const InitValue = {
@@ -31,13 +30,13 @@ const FormSchema = Yup.object().shape({
 
 const NotesForm = forwardRef((props, ref) => {
   const { isAccordion = true, isEdit = false, isExpand } = props
-
-  const formik = useFormik({
-    initialValues: InitValue,
-    validationSchema: FormSchema,
-    onSubmit: () => {},
-    innerRef: ref
-  })
+  const formik = props
+  // const formik = useFormik({
+  //   initialValues: InitValue,
+  //   validationSchema: FormSchema,
+  //   onSubmit: () => {},
+  //   innerRef: ref
+  // })
 
   useImperativeHandle(ref, () => ({
     validateForm: async () => {
