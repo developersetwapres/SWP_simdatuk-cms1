@@ -39,82 +39,11 @@ import DatepickerYear from '@/components/shared/form/DatepickerYear'
 import moment from 'moment'
 import { useDispatch } from 'react-redux'
 import { ACTION_RESPONSER, SET_MODAL } from '@/store/constants'
-
-const checkboxes = [
-  {
-    title: 'Data Diri',
-    checkbox: 'personalData',
-    children: [
-      { name: 'isTitleSuffix', label: 'Gelar Belakang' },
-      { name: 'isTitlePrefix', label: 'Gelar Depan' },
-      { name: 'isNameWithTitle', label: 'Nama Dengan Gelar' },
-      { name: 'isName', label: 'Nama' },
-      { name: 'isNip', label: 'NIP/NRP' },
-      { name: 'isBirthPlaceDate', label: 'Tempat, Tanggal Lahir' },
-      { name: 'isAge', label: 'Umur' },
-      { name: 'isReligion', label: 'Agama' },
-      { name: 'isGender', label: 'Jenis Kelamin' },
-      { name: 'isMaritalStatus', label: 'Status Perkawinan' },
-      { name: 'isEmployeeType', label: 'Jenis Pegawai' },
-      { name: 'isAssistanceType', label: 'Jenis Perbantuan' },
-      { name: 'isOutsourcingType', label: 'Jenis Outsourcing' },
-      { name: 'isDateCPNS', label: 'TMT CPNS' },
-      { name: 'isDatePNS', label: 'TMT PNS' },
-      { name: 'isStartDate', label: 'Tanggal Mulai Bekerja' },
-      { name: 'isEndDate', label: 'Tanggal Terakhir Bekerja' },
-      { name: 'isWorkDuration', label: 'Masa Kerja Keseluruhan' },
-      { name: 'isGradeDuration', label: 'Masa Kerja Golongan' },
-      { name: 'isFullPosition', label: 'Jabatan Lengkap' },
-      { name: 'isPosition', label: 'Jabatan' },
-      { name: 'isDatePosition', label: 'TMT Menjabat' },
-      { name: 'isEchelons', label: 'Eselon' },
-      { name: 'isEchelonDate', label: 'TMT Eselon' },
-      { name: 'isGrade', label: 'Golongan' },
-      { name: 'isGradeDate', label: 'TMT Golongan' },
-      { name: 'isAgency', label: 'Instansi Induk' },
-      { name: 'isNoWorker', label: 'No. Karpeg' },
-      { name: 'isKarisu', label: 'No. Karisu' },
-      { name: 'isNPWP', label: 'NPWP' },
-      { name: 'isEmployeeStatus', label: 'Status Pegawai' },
-      { name: 'isNoFamily', label: 'No. KK' },
-      { name: 'isNIK', label: 'No. NIK' },
-      { name: 'isComplex', label: 'Nama Komplek' },
-      { name: 'isCurrentAddress', label: 'Alamat Tempat Tinggal Saat Ini' },
-      { name: 'isHomeNumber', label: 'No. Telepon Rumah' },
-      { name: 'isPhoneNumber', label: 'No. HP' },
-      { name: 'isOfficeAddress', label: 'Alamat Kantor' },
-      { name: 'isOfficeNumber', label: 'No. Telepon Kantor' },
-      { name: 'isEmail', label: 'Email' },
-      { name: 'isOfficeEmail', label: 'Email Dinas' },
-      { name: 'isPositionDescription', label: 'Keterangan' },
-      { name: 'isEmergencyContact', label: 'Kontak Darurat' },
-      { name: 'isPensionCap', label: 'Batas Usia Pensiun' }
-    ]
-  },
-  {
-    title: 'Data Riwayat',
-    checkbox: 'historyData',
-    children: [
-      { name: 'isEducationHistory', label: 'Riwayat Pendidikan' },
-      { name: 'isPositionHistory', label: 'Riwayat Jabatan' },
-      { name: 'isGradeHistory', label: 'Riwayat Golongan' },
-      { name: 'isTrainingStructural', label: 'Riwayat Pelatihan Struktural' },
-      { name: 'isTrainingFunctional', label: 'Riwayat Pelatihan Fungsional' },
-      { name: 'isTrainingTechnique', label: 'Riwayat Pelatihan Teknis' },
-      { name: 'isRecognition', label: 'Riwayat Penghargaan' },
-      { name: 'isSKP', label: 'Riwayat SKP' },
-      { name: 'isCredit', label: 'Riwayat Penetapan Angka Kredit Terakhir' },
-      { name: 'isPerformance', label: 'Riwayat Penilaian Prestasi Kerja' },
-      { name: 'isDisciplinary', label: 'Riwayat Hukuman Disiplin' },
-      { name: 'isFamilyHistory', label: 'Keluarga' },
-      { name: 'isLeave', label: 'Cuti' },
-      { name: 'isNotes', label: 'Catatan' },
-      { name: 'isAssessment', label: 'Hasil Assessment' },
-      { name: 'isCompetency', label: 'Hasil Uji Kompetensi' },
-      { name: 'isTalentPool', label: 'Hasil Talent Pool' }
-    ]
-  }
-]
+import {
+  Access,
+  PermissionsIDs,
+  accessGranted
+} from '@/utils/permissionManager'
 
 const InitValue = {
   // Data
@@ -163,6 +92,243 @@ const ExportEmployeeComponent = ({
   const formikRef = useRef()
   const dispatch = useDispatch()
   const [showPreview, setShowPreview] = useState(false)
+
+  const checkboxes = useMemo(() => {
+    const items = [
+      {
+        title: 'Data Diri',
+        checkbox: 'personalData',
+        children: [
+          {
+            name: 'isTitleSuffix',
+            label: 'Gelar Belakang',
+            permissionID: null
+          },
+          { name: 'isTitlePrefix', label: 'Gelar Depan', permissionID: null },
+          {
+            name: 'isNameWithTitle',
+            label: 'Nama Dengan Gelar',
+            permissionID: null
+          },
+          { name: 'isName', label: 'Nama', permissionID: null },
+          { name: 'isNip', label: 'NIP/NRP', permissionID: null },
+          {
+            name: 'isBirthPlaceDate',
+            label: 'Tempat, Tanggal Lahir',
+            permissionID: null
+          },
+          { name: 'isAge', label: 'Umur', permissionID: null },
+          { name: 'isReligion', label: 'Agama', permissionID: null },
+          { name: 'isGender', label: 'Jenis Kelamin', permissionID: null },
+          {
+            name: 'isMaritalStatus',
+            label: 'Status Perkawinan',
+            permissionID: null
+          },
+          {
+            name: 'isEmployeeType',
+            label: 'Jenis Pegawai',
+            permissionID: null
+          },
+          {
+            name: 'isAssistanceType',
+            label: 'Jenis Perbantuan',
+            permissionID: null
+          },
+          {
+            name: 'isOutsourcingType',
+            label: 'Jenis Outsourcing',
+            permissionID: null
+          },
+          { name: 'isDateCPNS', label: 'TMT CPNS', permissionID: null },
+          { name: 'isDatePNS', label: 'TMT PNS', permissionID: null },
+          {
+            name: 'isStartDate',
+            label: 'Tanggal Mulai Bekerja',
+            permissionID: null
+          },
+          {
+            name: 'isEndDate',
+            label: 'Tanggal Terakhir Bekerja',
+            permissionID: null
+          },
+          {
+            name: 'isWorkDuration',
+            label: 'Masa Kerja Keseluruhan',
+            permissionID: null
+          },
+          {
+            name: 'isGradeDuration',
+            label: 'Masa Kerja Golongan',
+            permissionID: null
+          },
+          {
+            name: 'isFullPosition',
+            label: 'Jabatan Lengkap',
+            permissionID: null
+          },
+          { name: 'isPosition', label: 'Jabatan', permissionID: null },
+          { name: 'isDatePosition', label: 'TMT Menjabat', permissionID: null },
+          { name: 'isEchelons', label: 'Eselon', permissionID: null },
+          { name: 'isEchelonDate', label: 'TMT Eselon', permissionID: null },
+          { name: 'isGrade', label: 'Golongan', permissionID: null },
+          { name: 'isGradeDate', label: 'TMT Golongan', permissionID: null },
+          { name: 'isAgency', label: 'Instansi Induk', permissionID: null },
+          { name: 'isNoWorker', label: 'No. Karpeg', permissionID: null },
+          { name: 'isKarisu', label: 'No. Karisu', permissionID: null },
+          { name: 'isNPWP', label: 'NPWP', permissionID: null },
+          {
+            name: 'isEmployeeStatus',
+            label: 'Status Pegawai',
+            permissionID: null
+          },
+          { name: 'isNoFamily', label: 'No. KK', permissionID: null },
+          { name: 'isNIK', label: 'No. NIK', permissionID: null },
+          { name: 'isComplex', label: 'Nama Komplek', permissionID: null },
+          {
+            name: 'isCurrentAddress',
+            label: 'Alamat Tempat Tinggal Saat Ini',
+            permissionID: null
+          },
+          {
+            name: 'isHomeNumber',
+            label: 'No. Telepon Rumah',
+            permissionID: null
+          },
+          { name: 'isPhoneNumber', label: 'No. HP', permissionID: null },
+          {
+            name: 'isOfficeAddress',
+            label: 'Alamat Kantor',
+            permissionID: null
+          },
+          {
+            name: 'isOfficeNumber',
+            label: 'No. Telepon Kantor',
+            permissionID: null
+          },
+          { name: 'isEmail', label: 'Email', permissionID: null },
+          { name: 'isOfficeEmail', label: 'Email Dinas', permissionID: null },
+          {
+            name: 'isPositionDescription',
+            label: 'Keterangan',
+            permissionID: null
+          },
+          {
+            name: 'isEmergencyContact',
+            label: 'Kontak Darurat',
+            permissionID: null
+          },
+          {
+            name: 'isPensionCap',
+            label: 'Batas Usia Pensiun',
+            permissionID: null
+          }
+        ]
+      },
+      {
+        title: 'Data Riwayat',
+        checkbox: 'historyData',
+        children: [
+          {
+            name: 'isEducationHistory',
+            label: 'Riwayat Pendidikan',
+            permissionID: null
+          },
+          {
+            name: 'isPositionHistory',
+            label: 'Riwayat Jabatan',
+            permissionID: PermissionsIDs?.HISTORY_POSITION
+          },
+          {
+            name: 'isGradeHistory',
+            label: 'Riwayat Golongan',
+            permissionID: PermissionsIDs?.HISTORY_GRADE
+          },
+          {
+            name: 'isTrainingStructural',
+            label: 'Riwayat Pelatihan Struktural',
+            permissionID: PermissionsIDs?.HISTORY_STRUCTURAL
+          },
+          {
+            name: 'isTrainingFunctional',
+            label: 'Riwayat Pelatihan Fungsional',
+            permissionID: PermissionsIDs?.HISTORY_FUNCTIONAL
+          },
+          {
+            name: 'isTrainingTechnique',
+            label: 'Riwayat Pelatihan Teknis',
+            permissionID: PermissionsIDs?.HISTORY_TECHNICAL
+          },
+          {
+            name: 'isRecognition',
+            label: 'Riwayat Penghargaan',
+            permissionID: PermissionsIDs?.HISTORY_AWARD
+          },
+          {
+            name: 'isSKP',
+            label: 'Riwayat SKP',
+            permissionID: PermissionsIDs?.HISTORY_SKP
+          },
+          {
+            name: 'isCredit',
+            label: 'Riwayat Penetapan Angka Kredit Terakhir',
+            permissionID: null
+          },
+          {
+            name: 'isPerformance',
+            label: 'Riwayat Penilaian Prestasi Kerja',
+            permissionID: PermissionsIDs?.HISTORY_PERFORMANCE
+          },
+          {
+            name: 'isDisciplinary',
+            label: 'Riwayat Hukuman Disiplin',
+            permissionID: PermissionsIDs?.HISTORY_DISCIPLINARY
+          },
+          { name: 'isFamilyHistory', label: 'Keluarga', permissionID: null },
+          { name: 'isLeave', label: 'Cuti', permissionID: null },
+          {
+            name: 'isNotes',
+            label: 'Catatan',
+            permissionID: PermissionsIDs?.NOTES
+          },
+          {
+            name: 'isAssessment',
+            label: 'Hasil Assessment',
+            permissionID: null
+          },
+          {
+            name: 'isCompetency',
+            label: 'Hasil Uji Kompetensi',
+            permissionID: null
+          },
+          {
+            name: 'isTalentPool',
+            label: 'Hasil Talent Pool',
+            permissionID: PermissionsIDs?.TALENT_POOL
+          }
+        ]
+      }
+    ]
+
+    return items.map((item, index) => {
+      if (index == 1) {
+        const childrenFilter = item?.children.filter((itm) => {
+          if (itm?.permissionID) {
+            return accessGranted(itm.permissionID, Access?.READ)
+          }
+
+          return itm?.permissionID == null
+        })
+
+        return {
+          ...item,
+          children: childrenFilter
+        }
+      }
+
+      return item
+    })
+  }, [PermissionsIDs])
 
   const convertKeyToPayload = (key) => {
     if (key === 'employeeType') return 'employee_type'
