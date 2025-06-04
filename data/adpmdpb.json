@@ -1,0 +1,61 @@
+{
+  "position": "Asisten Deputi Pemberdayaan Masyarakat dan Penanggulangan Bencana",
+  "name": "Slamet Widodo, S.S., M.Si.",
+  "image": "/simdatuk/imagePegawai.png",
+  "eselon": "Es. II.a, 13-02-2018",
+  "golongan": "Pembina Utama Madya (IV/d), 01-04-2022",
+  "nip": "180004296 / 196806171996031001",
+  "tmt": null,
+  "isDetail": false,
+  "isProfile": true,
+  "pathDetail": null,
+  "pathProfil": "/rekapitulasi/peta-jabatan/detail/1",
+  "children": [
+    {
+      "type": "CARDJOBS",
+      "position": "Jabatan Fungsional",
+      "children": [
+        {
+          "title": "Analisi Kebijakan",
+          "jobs": [
+            {
+              "title": "Ahli Madya",
+              "slot": 1,
+              "children": []
+            },
+            {
+              "title": "Ahli Muda",
+              "slot": 4,
+              "children": []
+            },
+            {
+              "title": "Ahli Pertama",
+              "slot": 0,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE1",
+      "position": "Kepala Subbagian Dukungan Administrasi",
+      "category": "ksda-6",
+      "slot": 1,
+      "children": [
+        {
+          "name": "Santi Setiawati, S.IP.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": "Es. III.a, 20-02-2013",
+          "golongan": "Pembina Tingkat I (IV/b), 01-04-2021",
+          "nip": "180004458 / 197108091998032002",
+          "tmt": null,
+          "isDetail": true,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    }
+  ]
+}

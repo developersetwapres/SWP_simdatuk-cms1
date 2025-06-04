@@ -1,0 +1,61 @@
+{
+  "position": "Asisten Deputi Industri, Perdagangan, Pariwisata, dan Ekonomi Kreatif",
+  "name": "Drs. Abdul Mu’is",
+  "image": "/simdatuk/imagePegawai.png",
+  "eselon": "Es. II.a, 29-01-2014",
+  "golongan": "Pembina Utama Madya (IV/d), 01-04-2019",
+  "nip": "180004051 / 196605111995031002",
+  "tmt": null,
+  "isDetail": false,
+  "isProfile": true,
+  "pathDetail": null,
+  "pathProfil": "/rekapitulasi/peta-jabatan/detail/1",
+  "children": [
+    {
+      "type": "CARDJOBS",
+      "position": "Jabatan Fungsional",
+      "children": [
+        {
+          "title": "Analisi Kebijakan",
+          "jobs": [
+            {
+              "title": "Ahli Madya",
+              "slot": 2,
+              "children": []
+            },
+            {
+              "title": "Ahli Muda",
+              "slot": 5,
+              "children": []
+            },
+            {
+              "title": "Ahli Pertama",
+              "slot": 0,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE1",
+      "position": "Kepala Subbagian Dukungan Administrasi",
+      "category": "ksda-2",
+      "slot": 1,
+      "children": [
+        {
+          "name": "Susi Handayani, S.E., M.M.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": "Es. IV.a, 20-02-2013",
+          "golongan": "Pembina (IV/a), 01-04-2022",
+          "nip": "180004133 / 196911021996032002",
+          "tmt": null,
+          "isDetail": true,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    }
+  ]
+}

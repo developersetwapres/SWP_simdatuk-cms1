@@ -1,0 +1,56 @@
+{
+  "type": "CARDPROFILE4",
+  "position": "Staff Khusus Wakil Presiden (Bidang Infrastruktur dan Investasi)",
+  "name": "Dr. R. Gatot Prio Utomo",
+  "image": "/simdatuk/imagePegawai.png",
+  "eselon": null,
+  "golongan": null,
+  "nip": null,
+  "tmt": "14-11-1999",
+  "isDetail": false,
+  "isProfile": true,
+  "pathDetail": null,
+  "pathProfil": "/rekapitulasi/peta-jabatan/detail/1",
+  "children": [
+    {
+      "type": "CARDPROFILE4",
+      "position": "Asisten Staff Khusus Wakil Presiden",
+      "category": "askwp",
+      "slot": 1,
+      "children": [
+        {
+          "name": "Siswanto",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "20-12-2019",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE4",
+      "position": "Asisten Staff Khusus Wakil Presiden",
+      "category": "askwp",
+      "slot": 1,
+      "children": [
+        {
+          "name": "Arif Suryawan",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "28-01-2020",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    }
+  ]
+}

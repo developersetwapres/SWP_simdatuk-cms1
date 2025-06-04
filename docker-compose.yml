@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  simdatuk-cms:
+    build: .
+    ports:
+      - 3005:3000

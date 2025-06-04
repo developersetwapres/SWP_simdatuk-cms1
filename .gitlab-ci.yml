@@ -1,0 +1,60 @@
+image: docker:latest
+services:
+  - docker:dind
+
+stages:
+  - build
+  - release
+  - deploy
+
+variables:
+  # Use TLS https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#tls-enabled
+  # DOCKER_HOST: tcp://docker:2376
+  # DOCKER_TLS_CERTDIR: "/certs"
+  CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
+
+before_script:
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+build:
+  stage: build
+  tags:
+    - build
+  script:
+    - cp $env .env.local
+    - docker build --pull -t $CONTAINER_RELEASE_IMAGE .
+    - docker push $CONTAINER_RELEASE_IMAGE
+  only:
+    - tags
+  except:
+    - branches
+
+release-image:
+  stage: release
+  tags:
+    - build
+  script:
+    - docker tag $CONTAINER_RELEASE_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE
+  only:
+    - tags
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+  except:
+    - branches
+
+deploy:
+  stage: deploy
+  image: kroniak/ssh-client
+  tags:
+    - build
+  before_script:
+    - echo "Start deploying to server"
+  script:
+    - chmod 400 $SSH_SERVER_PROJECTS_PRIVATE_KEY
+    - ssh -o StrictHostKeyChecking=no -i $SSH_SERVER_PROJECTS_PRIVATE_KEY root@$IP_PROJECTS_SERVER "docker pull registry.ekuator.id/project/setneg/simdatuk/cms:latest"
+    - ssh -o StrictHostKeyChecking=no -i $SSH_SERVER_PROJECTS_PRIVATE_KEY root@$IP_PROJECTS_SERVER "docker stop simdatuk-cms || true && docker rm simdatuk-cms || true"
+    - ssh -o StrictHostKeyChecking=no -i $SSH_SERVER_PROJECTS_PRIVATE_KEY root@$IP_PROJECTS_SERVER "docker run --network=project_network -p 3005:3000 -d --name simdatuk-cms --restart=always registry.ekuator.id/project/setneg/simdatuk/cms:latest"
+  only:
+    - tags
+  except:
+    - branches

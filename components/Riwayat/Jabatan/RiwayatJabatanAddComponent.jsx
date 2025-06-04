@@ -1,0 +1,190 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useMemo, useRef } from 'react'
+import PropTypes from 'prop-types'
+import RiwayatJabatanForm from './RiwayatJabatanForm'
+import { Formik } from 'formik'
+import LayoutPages from '@/components/core/LayoutPages'
+import { Box } from '@mui/material'
+import Card from '@/components/shared/Card/Index'
+import * as Yup from 'yup'
+import { Button } from '@/components/shared'
+import { useRouter } from 'next/router'
+import moment from 'moment'
+import {
+  monthOptions,
+  positionDescOptions,
+  positionLevelOptions
+} from 'libs/types/options'
+
+const InitValue = {
+  namaJabatan: '',
+  periode: {
+    bulan: null,
+    tahun: null
+  },
+  pegawai: [
+    {
+      nama: null,
+      jabatan: '',
+      jenjangJabatan: null,
+      keteranganJabatan: null,
+      tmt: '',
+      noSk: ''
+    }
+  ]
+}
+
+const FormSchema = Yup.object().shape({
+  namaJabatan: Yup.string().required('Nama Jabatan tidak boleh kosong'),
+  periode: Yup.object().shape({
+    bulan: Yup.string().required('Bulan tidak boleh kosong'),
+    tahun: Yup.string().required('Tahun tidak boleh kosong')
+  }),
+  pegawai: Yup.array().of(
+    Yup.object().shape({
+      nama: Yup.string().required('Nama Pegawai tidak boleh kosong'),
+      jabatan: Yup.string().required('Jabatan tidak boleh kosong'),
+      tmt: Yup.string().required('TMT Pegawai tidak boleh kosong')
+    })
+  )
+})
+
+const RiwayatJabatanAddComponent = ({
+  positionHistories,
+  echelon,
+  employee,
+  postPositionHistories = () => {},
+  onLoading = () => {}
+}) => {
+  const router = useRouter()
+  const formikRef = useRef(null)
+
+  const options = useMemo(() => {
+    const newEchelons = echelon?.data.map((itm) => itm?.name)
+    const newEmployees = employee?.data.map((itm) => {
+      return `${itm?.name} - ${itm?.employee_id_number}`
+    })
+
+    const data = {
+      jenjangJabatan: positionLevelOptions,
+      employee: newEmployees,
+      keteranganJabatan: positionDescOptions,
+      month: monthOptions || []
+    }
+
+    return data
+  }, [echelon, employee])
+
+  const handleGetValueId = (val, type) => {
+    if (type == 'echelon') {
+      const dataFilter = echelon?.data.find((itm) => itm?.name == val)
+      return dataFilter?.id
+    } else if (type == 'employee') {
+      const dataFilter = employee?.data?.find(
+        (itm) => itm?.employee_id_number === val?.split(' - ')[1]
+      )
+      return dataFilter?.id
+    } else if (type == 'month') {
+      const index = options['month']?.findIndex((itm) => itm == val)
+      return index + 1
+    } else {
+      const index = options[type]?.findIndex((itm) => itm == val)
+      return index + 1
+    }
+  }
+
+  const handleSubmit = async (values) => {
+    try {
+      await FormSchema.validate(values, { abortEarly: false })
+      formikRef.current.setErrors({})
+
+      const users = values?.pegawai.map((itm) => {
+        const userPayload = {
+          user_id: handleGetValueId(itm?.nama, 'employee'),
+          position: itm?.jabatan,
+          effective_date: moment(itm?.tmt).format('YYYY-MM-DD'),
+          position_status: itm?.keteranganJabatan
+            ? handleGetValueId(itm?.keteranganJabatan, 'keteranganJabatan')
+            : null,
+          echelon: itm?.jenjangJabatan
+            ? handleGetValueId(itm?.jenjangJabatan, 'jenjangJabatan')
+            : null,
+          decree: itm?.noSk || null
+        }
+
+        return userPayload
+      })
+
+      const payload = {
+        name: values?.namaJabatan,
+        period_month: handleGetValueId(values?.periode?.bulan, 'month'),
+        period_year: moment(values?.periode?.tahun).format('YYYY'),
+        users
+      }
+
+      postPositionHistories(payload)
+    } catch (err) {
+      if (!err.inner || err.inner.length === 0) return
+
+      const newErrors = {}
+      err.inner.forEach((error) => {
+        newErrors[error.path] = error.message
+        formikRef.current.setFieldError(error.path, error.message)
+      })
+
+      const firstErrorField = err.inner[0].path
+      const firstErrorEl = document.querySelector(`[name="${firstErrorField}"]`)
+      firstErrorEl &&
+        firstErrorEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
+  }
+
+  useEffect(() => {
+    const state =
+      !employee?.loading && !echelon?.loading && !positionHistories?.isSubmit
+    onLoading(state)
+  }, [employee, echelon, positionHistories])
+
+  return (
+    <Formik
+      innerRef={formikRef}
+      initialValues={InitValue}
+      validationSchema={FormSchema}
+      onSubmit={() => {}}
+    >
+      {(formikProps) => (
+        <LayoutPages
+          summary={'Tambah Riwayat Jabatan'}
+          handleBack={() => router.back()}
+          action={
+            <Box>
+              <Button
+                text='Simpan'
+                onClick={() => handleSubmit(formikProps?.values)}
+              />
+            </Box>
+          }
+        >
+          <Card>
+            <RiwayatJabatanForm
+              options={options}
+              formikRef={formikRef}
+              {...formikProps}
+            />
+          </Card>
+        </LayoutPages>
+      )}
+    </Formik>
+  )
+}
+
+RiwayatJabatanAddComponent.propTypes = {
+  positionHistories: PropTypes.object,
+  echelon: PropTypes.object,
+  employee: PropTypes.object,
+  postPositionHistories: PropTypes.func,
+  onLoading: PropTypes.func
+}
+
+export default RiwayatJabatanAddComponent

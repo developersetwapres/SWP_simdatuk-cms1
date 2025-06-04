@@ -1,0 +1,293 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useMemo, useState } from 'react'
+import PropTypes from 'prop-types'
+import LayoutPages from '@/components/core/LayoutPages'
+import { Button, Table } from '@/components/shared'
+import { Box, Typography } from '@mui/material'
+import Search from '@/components/core/Search'
+import { makeStyles } from '@mui/styles'
+import { Delete, Edit, Info } from '@mui/icons-material'
+import { useRouter } from 'next/router'
+import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
+import { useSelector } from 'react-redux'
+import {
+  Access,
+  accessGranted,
+  PermissionsIDs
+} from '@/utils/permissionManager'
+
+const useStyles = makeStyles(() => ({
+  inputParent: {
+    display: 'flex',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    border: '1px solid #878787',
+    margin: '0 0 1rem 0',
+    borderRadius: '4px',
+    width: '30%',
+    alignSelf: 'flex-end',
+    padding: '0 10px'
+  },
+  input: {
+    cursor: 'text',
+    caretColor: '#000',
+    color: '#000',
+    border: 'none',
+    borderRight: '1px solid #fff',
+    width: '100%',
+    padding: '15px 15px',
+    backgroundColor: 'transparent',
+    fontSize: '14px',
+    '&:focus': {
+      outline: 'none',
+      borderRight: '1px solid #fff'
+    }
+  }
+}))
+
+const styles = {
+  iconStyle: {
+    fontSize: '20px'
+  },
+  iconButton: {
+    margin: '0 8px 0 -4px',
+    fontSize: '20px'
+  },
+  buttonAction: {
+    width: '100px',
+    fontSize: '16px',
+    textTransform: 'none'
+  }
+}
+
+const MasterDataInstitutionComponent = ({
+  queries,
+  institution,
+  onSearch = () => {},
+  onLoading = () => {},
+  onFetch = () => {},
+  onFetchOptions = () => {},
+  onPaginationChange = () => {},
+  onRowsPerPageChange = () => {},
+  deleteInstitution = () => {}
+}) => {
+  const classes = useStyles()
+  const router = useRouter()
+  const modal = useSelector((state) => state.modalReducer)
+
+  const [modalDelete, setModalDelete] = useState(false)
+  const [deleteValue, setDeleteValue] = useState(null)
+  const [deleteId, setDeleteId] = useState(null)
+
+  const handleSetValue = (val) => {
+    const data = institution?.options.filter((itm) => itm?.name == val)[0]
+    setDeleteValue(data)
+  }
+
+  const handleDelete = () => {
+    const payload = {
+      id: deleteId,
+      data: { institution_id: deleteValue?.id }
+    }
+
+    deleteInstitution(payload)
+  }
+
+  const handleModal = () => {
+    const newVal = !modalDelete
+
+    setModalDelete(newVal)
+
+    if (!newVal) {
+      setDeleteId(null)
+      setDeleteValue(null)
+    }
+  }
+
+  const options = useMemo(() => {
+    let newOptions = []
+    const datas = institution?.options
+
+    if (datas) {
+      if (deleteId) {
+        const newData = datas
+          .filter((itm) => itm?.id !== deleteId)
+          .map((itm) => itm?.name)
+        newOptions = newData
+      } else {
+        const newData = datas.map((itm) => itm?.name)
+        newOptions = newData
+      }
+    }
+
+    return newOptions
+  }, [institution, deleteId])
+
+  const columns = useMemo(() => {
+    const col = [
+      {
+        Header: 'Nama Instansi',
+        width: 600,
+        align: 'left'
+      },
+      {
+        Header: 'Aksi',
+        width: 360,
+        align: 'left'
+      }
+    ]
+    return col
+  }, [])
+
+  const rows = useMemo(() => {
+    const data = institution?.data || []
+    const dataMapping = data.map((item) => {
+      return [
+        {
+          Header: 'Name',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => <Typography>{item?.name || '-'}</Typography>
+        },
+        {
+          Header: 'Aksi',
+          align: 'left',
+          verticalAlign: 'top',
+          Cell: () => (
+            <Box sx={{ display: 'flex', gap: 1 }}>
+              {accessGranted(
+                PermissionsIDs.MASTER_INSTITUTION,
+                Access.READ
+              ) && (
+                <Button
+                  text='Detail'
+                  color='primary'
+                  onClick={() =>
+                    router.push(`/${router.pathname}/detail/${btoa(item?.id)}`)
+                  }
+                  icon={<Info style={styles.iconButton} />}
+                  sx={styles.buttonAction}
+                />
+              )}
+              {accessGranted(
+                PermissionsIDs.MASTER_INSTITUTION,
+                Access.UPDATE
+              ) && (
+                <Button
+                  text='Edit'
+                  color='sidatukDraweBase'
+                  onClick={() =>
+                    router.push(`/${router.pathname}/edit/${btoa(item?.id)}`)
+                  }
+                  icon={<Edit style={styles.iconButton} />}
+                  sx={styles.buttonAction}
+                />
+              )}
+              {accessGranted(
+                PermissionsIDs.MASTER_INSTITUTION,
+                Access.DELETE
+              ) && (
+                <Button
+                  text='Hapus'
+                  color='danger'
+                  onClick={() => {
+                    setDeleteId(item?.id)
+                    handleModal()
+                  }}
+                  icon={<Delete style={styles.iconButton} />}
+                  sx={styles.buttonAction}
+                />
+              )}
+            </Box>
+          )
+        }
+      ]
+    })
+
+    return dataMapping
+  }, [institution])
+
+  const action = useMemo(() => {
+    return (
+      <Box>
+        {accessGranted(PermissionsIDs.MASTER_INSTITUTION, Access.CREATE) && (
+          <Button
+            text='Tambah'
+            onClick={() => router.push(`${router.pathname}/add`)}
+          />
+        )}
+      </Box>
+    )
+  }, [])
+
+  useEffect(() => {
+    const state = !institution?.loading
+    onLoading(state)
+  }, [institution])
+
+  useEffect(() => {
+    if (modal?.code !== null && modal?.code !== 401) handleModal()
+    if (!modal?.modal && institution?.data.length > 0) {
+      onFetch(queries)
+      onFetchOptions()
+    }
+  }, [modal])
+
+  return (
+    <>
+      <LayoutPages summary='Master Data Instansi' action={action}>
+        <Box
+          sx={{
+            width: '100%',
+            padding: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'flex-end'
+          }}
+        >
+          <Search
+            inputParentClasses={classes.inputParent}
+            inputClass={classes.input}
+            iconStyle={classes.iconStyle}
+            placeholder='Cari Nama Instansi'
+            onSearch={onSearch}
+          />
+        </Box>
+        <Table
+          columns={columns}
+          rows={rows}
+          pagination={institution?.pagination}
+          handlePagination={onPaginationChange}
+          handleRows={onRowsPerPageChange}
+        />
+      </LayoutPages>
+      <ModalConfirmDelete
+        label='Instansi'
+        title='Hapus Data Instansi'
+        copytext='Apakah anda yakin akan menghapus data instansi ? Jika ya, silahkan pilih instansi lain sebagai pengganti'
+        options={options}
+        open={modalDelete}
+        value={deleteValue?.name || null}
+        isLoading={institution?.loading}
+        handleModal={handleModal}
+        handleDelete={handleDelete}
+        handleSetValue={handleSetValue}
+      />
+    </>
+  )
+}
+
+MasterDataInstitutionComponent.propTypes = {
+  institution: PropTypes.object,
+  queries: PropTypes.object,
+  onSearch: PropTypes.func,
+  onLoading: PropTypes.func,
+  onFetch: PropTypes.func,
+  onFetchOptions: PropTypes.func,
+  onPaginationChange: PropTypes.func,
+  onRowsPerPageChange: PropTypes.func,
+  deleteInstitution: PropTypes.func
+}
+
+export default MasterDataInstitutionComponent

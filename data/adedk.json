@@ -1,0 +1,71 @@
+{
+  "position": "Asisten Deputi Ekonomi dan Keuangan",
+  "name": "Ahmad Lutfie, S.E., M.M.",
+  "image": "/simdatuk/imagePegawai.png",
+  "eselon": "Es. II.a, 13-02-2018",
+  "golongan": "Pembina Utama Madya (IV/d), 01-04-2022",
+  "nip": "180003956 / 196809261994031001",
+  "tmt": null,
+  "isDetail": false,
+  "isProfile": true,
+  "pathDetail": null,
+  "pathProfil": "/rekapitulasi/peta-jabatan/detail/1",
+  "children": [
+    {
+      "type": "CARDJOBS",
+      "position": "Jabatan Fungsional",
+      "children": [
+        {
+          "title": "Analisi Kebijakan",
+          "jobs": [
+            {
+              "title": "Ahli Madya",
+              "slot": 2,
+              "children": []
+            },
+            {
+              "title": "Ahli Muda",
+              "slot": 5,
+              "children": []
+            },
+            {
+              "title": "Ahli Pertama",
+              "slot": 0,
+              "children": []
+            }
+          ]
+        },
+        {
+          "title": "Arsiparis",
+          "jobs": [
+            {
+              "title": "Ahli Muda",
+              "slot": 1,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE1",
+      "position": "Kepala Subbagian Dukungan Administrasi",
+      "category": "ksda1",
+      "slot": 1,
+      "children": [
+        {
+          "name": "Ayu Pudianingtias, S.E., M.P.A.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": "Es. IV, 02-05-2018",
+          "golongan": "Penata Tingkat I (III/d), 01-04-2023",
+          "nip": "1800005504 / 198806042010122004",
+          "tmt": null,
+          "isDetail": true,
+          "isProfile": true,
+          "pathDetail": "ksda1",
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    }
+  ]
+}

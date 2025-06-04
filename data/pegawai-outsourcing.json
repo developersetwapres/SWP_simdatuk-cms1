@@ -1,0 +1,130 @@
+[
+    {
+      "title": "Tenaga Outsourcing",
+      "children": [
+        {
+          "title": "Pengemudi",
+          "category": "pengemudi",
+          "count": 38,
+          "children": []
+        },
+        {
+          "title": "Petugas Kebersihan Gedung",
+          "category": "petugas-kebersihan-gedung",
+          "count": 51,
+          "children": []
+        },
+        {
+          "title": "Petugas Perawatan Kolam",
+          "category": "petugas-perawatan-kolam",
+          "count": 2,
+          "children": []
+        },
+        {
+          "title": "Petugas Taman",
+          "category": "petugas-taman",
+          "count": 24,
+          "children": []
+        },
+        {
+          "title": "Pramusaji/Pramubakti",
+          "category": "pramusaji-pramubakti",
+          "count": 39,
+          "children": []
+        },
+        {
+          "title": "Teknisi Jaringan",
+          "category": "teknisi-jaringan",
+          "count": 2,
+          "children": []
+        },
+        {
+          "title": "Teknisi Komputer",
+          "category": "teknisi-komputer",
+          "count": 11,
+          "children": []
+        },
+        {
+            "title": "Teknisi Mekanikal dan Elektrikal",
+            "category": "teknisi-mekanikal-dan-elaktrial",
+            "count": 24,
+            "children": []
+          }
+      ]
+    },
+    {
+      "title": "Teknologi Non Outourcing",
+      "children": [
+        {
+          "title": "Teknisi Fotocopy",
+          "category": "teknisi-fotocopy",
+          "count": 3,
+          "children": []
+        },
+        {
+          "title": "Teknisi Road Blocker",
+          "category": "teknisi-road-blocker",
+          "count": 2,
+          "children": []
+        },
+        {
+            "title": "Teknisi Lift",
+            "category": "teknisi-lift",
+            "count": 2,
+            "children": []
+          }
+      ]
+    },
+    {
+      "title": "Pendidikan",
+      "children": [
+        {
+            "title": "Diploma IV/Strata I",
+            "category": "diploma-IV/strata-I",
+            "count": 0,
+            "children": []
+        },
+        {
+            "title": "Akademi/Diploma III/Sarjana Muda",
+            "category": "akademi/diploma-III-sarjana-muda",
+            "count": 0,
+            "children": []
+        },
+        {
+            "title": "Diploma I/II",
+            "category": "diploma-I/II",
+            "count": 0,
+            "children": []
+        },
+        {
+          "title": "SLTA/Sederajat",
+          "category": "slta/sederajat",
+          "count": 0,
+          "children": []
+        },
+        {
+          "title": "SLTP/Sederajat",
+          "category": "sltp/sederajat",
+          "count": 0,
+          "children": []
+        }
+      ]
+    },
+    {
+      "title": "Jenis Kelamain",
+      "children": [
+        {
+          "title": "Laki-laki",
+          "category": "laki-laki",
+          "count": 0,
+          "children": []
+        },
+        {
+          "title": "Perempuan",
+          "category": "perempuan",
+          "count": 0,
+          "children": []
+        }
+      ]
+    }
+  ]

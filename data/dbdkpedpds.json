@@ -1,0 +1,92 @@
+{
+  "type": "CARDPROFILE1",
+  "position": "Deputi Bidang Dukungan Kebijakan Pembangunan Ekonomi dan Peningkatan Daya Saing",
+  "name": "",
+  "image": null,
+  "eselon": null,
+  "golongan": null,
+  "nip": null,
+  "tmt": null,
+  "isDetail": false,
+  "isProfile": false,
+  "pathDetail": null,
+  "pathProfil": "/rekapitulasi/peta-jabatan/detail/1",
+  "children": [
+    {
+      "type": "CARDJOBS",
+      "position": "Jabatan Fungsional",
+      "children": [
+        {
+          "title": "Analis Kebijakan",
+          "jobs": [
+            {
+              "title": "Ahli Utama",
+              "slot": 1,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE1",
+      "position": "Asisten Deputi Ekonomi dan Keuangan",
+      "category": "adedk",
+      "slot": 1,
+      "children": [
+        {
+          "name": "Ahmad Lutfie, S.E., M.M.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": "Es. II.a, 13-02-2018",
+          "golongan": "Pembina Utama Madya (IV/d), 01-04-2022",
+          "nip": "180003956 / 196809261994031001",
+          "tmt": null,
+          "isDetail": true,
+          "isProfile": true,
+          "pathDetail": "adedk",
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE1",
+      "position": "Asisten Deputi Industri, Perdagangan, Pariwisata, dan Ekonomi Kreatif ",
+      "category": "adipppdek",
+      "slot": 1,
+      "children": [
+        {
+          "name": "Drs. Abdul Mu’is",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": "Es. II.a, 29-01-2014",
+          "golongan": "Pembina Utama Madya (IV/d), 01-04-2019",
+          "nip": "180004051 / 196605111995031002",
+          "tmt": null,
+          "isDetail": true,
+          "isProfile": true,
+          "pathDetail": "adipppdek",
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE1",
+      "position": "Asisten Deputi Infrastruktur, Ketahanan Energi, dan Sumber Daya Alam",
+      "category": "adikedsda",
+      "slot": 1,
+      "children": [
+        {
+          "name": "Celvya Betty Manurung, S.IP., M.P.M.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": "Es. II.a, 11-01-2013",
+          "golongan": "Pembina Utama Madya (IV/d), 01-04-2018",
+          "nip": "180004042 / 196809271995032001",
+          "tmt": "02-12-2019",
+          "isDetail": true,
+          "isProfile": true,
+          "pathDetail": "adikedsda",
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "position": "Asisten Deputi Infrastruktur, Ketahanan Energi, dan Sumber Daya Alam",
+  "name": "Celvya Betty Manurung, S.IP., M.P.M.",
+  "image": "/simdatuk/imagePegawai.png",
+  "eselon": "Es. II.a, 11-01-2013",
+  "golongan": "Pembina Utama Madya (IV/d), 01-04-2018",
+  "nip": "180004042 / 196809271995032001",
+  "tmt": null,
+  "isDetail": false,
+  "isProfile": true,
+  "pathDetail": null,
+  "pathProfil": "/rekapitulasi/peta-jabatan/detail/1",
+  "children": [
+    {
+      "type": "CARDJOBS",
+      "position": "Jabatan Fungsional",
+      "children": [
+        {
+          "title": "Analisi Kebijakan",
+          "jobs": [
+            {
+              "title": "Ahli Madya",
+              "slot": 3,
+              "children": []
+            },
+            {
+              "title": "Ahli Muda",
+              "slot": 2,
+              "children": []
+            },
+            {
+              "title": "Ahli Pertama",
+              "slot": 0,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE1",
+      "position": "Kepala Subbagian Dukungan Administrasi",
+      "category": "ksda3",
+      "slot": 1,
+      "children": [
+        {
+          "name": "Robi Yunior Manuputty, A.Ks., M.M.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": "Es. III.a, 30-11-2016",
+          "golongan": "(IV/b), 01-04-2022",
+          "nip": "180004765 / 197511122005011001",
+          "tmt": null,
+          "isDetail": true,
+          "isProfile": true,
+          "pathDetail": "ksda3",
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    }
+  ]
+}

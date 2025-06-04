@@ -1,0 +1,51 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:react/recommended"
+  ],
+  "plugins": [
+    "react"
+  ],
+  "rules": {
+    "react/prop-types": 2,
+    "strict": 0,
+    "template-curly-spacing": "off",
+    "indent": [
+      "error",
+      2,
+      {
+        "ignoredNodes": [
+          "TemplateLiteral"
+        ]
+      }
+    ],
+    "comma-dangle": [
+      "error",
+      "never"
+    ],
+    "semi": [
+      "error",
+      "never"
+    ],
+    "jsx-quotes": [
+      "error",
+      "prefer-single"
+    ],
+    "no-trailing-spaces": "off",
+    "quotes": [
+      "error",
+      "single",
+      {
+        "allowTemplateLiterals": true
+      }
+    ],
+    "generator-star-spacing": [
+      "off"
+    ],
+    "no-unused-vars": "error",
+    "no-var": "error",
+    "no-useless-escape": "off",
+    "curly": "off",
+    "valid-typeof": "off"
+  }
+}

@@ -1,0 +1,67 @@
+/**
+ *
+ * @module Saga/EmployeesRecapitulationsSaga
+ *
+ * @desc Employees Recapitulations
+ */
+import { call, put, takeEvery } from '@redux-saga/core/effects'
+import {
+  GET_EMPLOYEES_RECAP_FAILED,
+  GET_EMPLOYEES_RECAP_REQUESTED,
+  GET_EMPLOYEES_RECAP_SUCCESS,
+  SET_MODAL
+} from '../../constants'
+import { getEmployeesRecapAction } from '../action/recap/employeesRecap'
+
+/**
+ * Get Employees Recapitulations
+ *
+ * @param {*} action
+ * @returns
+ */
+function* getEmployeesRecapitulations(action) {
+  try {
+    const res = yield call(getEmployeesRecapAction, action?.payload)
+
+    const payload = res?.data
+
+    yield put({
+      type: GET_EMPLOYEES_RECAP_SUCCESS,
+      payload
+    })
+  } catch (err) {
+    const errors = err?.data
+
+    if (errors?.code === 403 || errors?.code === 401) {
+      yield put({
+        type: ACTION_RESPONSER,
+        payload: {
+          code: errors?.code,
+          message: errors?.message,
+          redirect: '/profile'
+        }
+      })
+    } else {
+      const errorMessage = errors?.message || 'Terjadi Kesalahan'
+
+      yield put({
+        type: SET_MODAL,
+        payload: {
+          code: errors?.code,
+          message: errorMessage
+        }
+      })
+
+      yield put({
+        type: GET_EMPLOYEES_RECAP_FAILED,
+        payload: errors?.message
+      })
+    }
+  }
+}
+
+function* employeesRecapitulationsSaga() {
+  yield takeEvery(GET_EMPLOYEES_RECAP_REQUESTED, getEmployeesRecapitulations)
+}
+
+export default employeesRecapitulationsSaga

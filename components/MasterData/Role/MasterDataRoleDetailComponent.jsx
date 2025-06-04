@@ -1,0 +1,278 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useMemo, useState } from 'react'
+import PropTypes from 'prop-types'
+import LayoutPages from '@/components/core/LayoutPages'
+import { Button } from '@/components/shared'
+import { Box, Grid, Typography } from '@mui/material'
+import { Delete, Edit } from '@mui/icons-material'
+import { useRouter } from 'next/router'
+import Paper from '@/components/shared/overrides/Paper'
+import PermissionRoleCheckbox from './PermissionRoleCheckbox'
+import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
+import { useSelector } from 'react-redux'
+import {
+  Access,
+  accessGranted,
+  PermissionsIDs
+} from '@/utils/permissionManager'
+
+const styles = {
+  iconStyle: {
+    fontSize: '20px'
+  },
+  iconButton: {
+    margin: '0 8px 0 -4px',
+    fontSize: '20px'
+  },
+  buttonAction: {
+    width: 'fit-content',
+    fontSize: '16px',
+    textTransform: 'none'
+  },
+  wrapperItem: { display: 'flex', flexDirection: 'column', gap: '8px' },
+  fontItem: { fontWeight: 600 }
+}
+
+const MasterDataRoleDetailComponent = ({
+  role,
+  getRole = () => {},
+  deleteRole = () => {},
+  clearRoleState = () => {},
+  onLoading = () => {}
+}) => {
+  const router = useRouter()
+  const modal = useSelector((state) => state.modalReducer)
+
+  const [values, setValues] = useState([])
+  const [modalDelete, setModalDelete] = useState(false)
+  const [deleteValue, setDeleteValue] = useState(null)
+  const [deleteId, setDeleteId] = useState(null)
+
+  const handleSetValue = (val) => {
+    const data = role?.options.filter((itm) => itm?.name == val)[0]
+    setDeleteValue(data)
+  }
+
+  const handleDelete = () => {
+    const payload = {
+      id: deleteId,
+      data: { role_id: deleteValue?.id }
+    }
+
+    deleteRole(payload)
+  }
+
+  const handleModal = () => {
+    const newVal = !modalDelete
+
+    setModalDelete(newVal)
+
+    if (!newVal) setDeleteValue(null)
+  }
+
+  const options = useMemo(() => {
+    let newOptions = []
+    const datas = role?.options
+
+    if (datas) {
+      const newData = datas
+        .filter((itm) => itm?.id !== parseInt(deleteId))
+        .map((itm) => itm?.name)
+      newOptions = newData
+    }
+
+    return newOptions
+  }, [role, deleteId, router])
+
+  const data = useMemo(() => {
+    const detail = role?.detail
+    const access = role?.dataPermissions
+
+    if (detail?.permissions && access) {
+      const detailId = detail?.permissions.map((itm) => {
+        return itm?.id
+      })
+      const newAccess = access.filter((itm) => {
+        return detailId.includes(itm?.id)
+      })
+
+      return {
+        ...detail,
+        permissions: newAccess
+      }
+    }
+
+    return []
+  }, [role])
+
+  const action = useMemo(() => {
+    return (
+      <Box sx={{ display: 'flex', gap: '12px' }}>
+        {accessGranted(PermissionsIDs.MASTER_ROLE, Access.DELETE) && (
+          <Button
+            text='Hapus'
+            color='danger'
+            icon={<Delete style={styles.iconButton} />}
+            onClick={handleModal}
+          />
+        )}
+        {accessGranted(PermissionsIDs.MASTER_ROLE, Access.UPDATE) && (
+          <Button
+            text='Edit'
+            color='sidatukDraweBase'
+            icon={<Edit style={styles.iconButton} />}
+            onClick={() =>
+              router.push(`/master-data/role/edit/${router?.query?.id}`)
+            }
+          />
+        )}
+      </Box>
+    )
+  }, [])
+
+  const handleGetValueAccess = (id) => {
+    const filter = values?.filter((itm) => {
+      return itm?.id == id
+    })
+
+    return filter.length > 0 ? filter[0] : {}
+  }
+
+  useEffect(() => {
+    // Get Detail User
+    const id = router?.query?.id
+    if (id) {
+      getRole(atob(id))
+      setDeleteId(atob(id))
+    }
+
+    // Event clear state when url path changes
+    router.events.on('routeChangeComplete', clearRoleState)
+
+    return () => {
+      router.events.off('routeChangeComplete', clearRoleState)
+    }
+  }, [router])
+
+  useEffect(() => {
+    const dataPermissions = role?.dataPermissions
+    const state =
+      !role?.loading &&
+      dataPermissions.length > 0 &&
+      Object.entries(role?.detail).length > 0
+
+    onLoading(state)
+  }, [role])
+
+  const getRolePermissions = (item) => {
+    if (!item || !item.permitted_actions) return ''
+
+    let permissions = ''
+    const actions = [
+      { key: 'c', prop: 'create' },
+      { key: 'r', prop: 'read' },
+      { key: 'u', prop: 'update' },
+      { key: 'd', prop: 'delete' }
+    ]
+
+    actions.forEach((action) => {
+      if (
+        item.permitted_actions.includes(action.key) &&
+        item[action.prop] === 1
+      ) {
+        permissions += action.key
+      }
+    })
+
+    return permissions
+  }
+
+  useEffect(() => {
+    const detail = role?.detail
+
+    if (detail?.permissions) {
+      const newPermissions = detail?.permissions.map((itm) => {
+        return {
+          id: itm?.id,
+          permitted_actions: getRolePermissions(itm)
+        }
+      })
+      setValues(newPermissions)
+    }
+  }, [role?.detail])
+
+  useEffect(() => {
+    if (modal?.code !== null && modal?.code !== 401) handleModal()
+  }, [modal])
+
+  return (
+    <>
+      <LayoutPages
+        handleBack={() => router.back()}
+        summary='Detail Data Role Pengguna'
+        action={action}
+      >
+        <Paper style={{ padding: '24px 20px' }}>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Box sx={styles?.wrapperItem}>
+                <Typography>Role Pengguna</Typography>
+                <Typography sx={styles?.fontItem}>
+                  {data?.name || '-'}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid container item xs={12} spacing={3}>
+              <Grid item xs={12} sx={{ marginBottom: '-12px' }}>
+                <Typography
+                  sx={{
+                    margin: 0,
+                    fontSize: '14px',
+                    fontWeight: 500
+                  }}
+                >
+                  Hak Akses Menu
+                </Typography>
+              </Grid>
+              {/* Menus */}
+              {data?.permissions &&
+                data?.permissions.map((item, index) => (
+                  <Grid item xs={6} key={index}>
+                    <PermissionRoleCheckbox
+                      data={item}
+                      dataFormik={values?.permissions}
+                      values={handleGetValueAccess(item?.id)}
+                      isChecked={false}
+                    />
+                  </Grid>
+                ))}
+            </Grid>
+          </Grid>
+        </Paper>
+      </LayoutPages>
+      <ModalConfirmDelete
+        label='Role Pengguna'
+        title='Hapus Data Role Pengguna'
+        copytext='Apakah anda yakin akan menghapus data role pengguna ? Jika ya, silahkan pilih role pengguna lain sebagai pengganti'
+        options={options}
+        open={modalDelete}
+        value={deleteValue?.name || null}
+        isLoading={role?.loading}
+        handleModal={handleModal}
+        handleDelete={handleDelete}
+        handleSetValue={handleSetValue}
+      />
+    </>
+  )
+}
+
+MasterDataRoleDetailComponent.propTypes = {
+  role: PropTypes.object,
+  getRole: PropTypes.func,
+  deleteRole: PropTypes.func,
+  clearRoleState: PropTypes.func,
+  onLoading: PropTypes.func
+}
+
+export default MasterDataRoleDetailComponent

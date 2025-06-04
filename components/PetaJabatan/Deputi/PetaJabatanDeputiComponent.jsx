@@ -1,0 +1,135 @@
+import React from 'react'
+import EmployeeLayout from '@/components/core/LayoutPages'
+import JobChart from '@/components/shared/JobChart'
+import { CardTypes } from 'libs/types/CardTypes'
+
+const PetaJabatanDeputiComponent = () => {
+  const data = {
+    parent: {
+      position: 'Kepala Sekretariat Wakil Presiden',
+      name: 'Ahmad Erani Yustika, S.E., M.Sc., Ph.D.',
+      image: '/simdatuk/imagePegawai.png',
+      eselon: 'Es. I.a., 25-01-2021',
+      golongan: 'Pembina Utama Madya (IV/d), 01-04-2017',
+      nip: '197303221997021001',
+      tmt: '14-11-1999',
+      isDetail: true,
+      isProfile: true
+    },
+    children: [
+      {
+        type: CardTypes?.CARDJOBS,
+        position: 'Jabatan Fungsional',
+        children: [
+          {
+            title: 'Analisi Kebijakan',
+            jobs: [
+              {
+                title: 'Ahli Utama',
+                slot: 1,
+                children: [
+                  {
+                    type: CardTypes?.PROFILE1,
+                    position: 'Asisten Deputi Ekonomi dan Keuangan',
+                    name: 'Dr. Ir. Suprayoga Hadi, M.S.P.',
+                    image: '/simdatuk/imagePegawai.png',
+                    eselon: 'Es. I.a., 25-01-2021',
+                    golongan: 'Pembina Utama (IV/e), 01-04-2017',
+                    nip: '1965053019991031002',
+                    isDetail: true,
+                    isProfile: true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            title: 'Arsiparis',
+            jobs: [
+              {
+                title: 'Ahli Utama',
+                slot: 1,
+                children: []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        type: CardTypes?.PROFILE1,
+        position: 'Asisten Deputi Ekonomi dan Keuangan',
+        slot: 4,
+        children: [
+          {
+            name: 'Dr. Ir. Suprayoga Hadi, M.S.P.',
+            image: '/simdatuk/imagePegawai.png',
+            eselon: 'Es. I.a., 25-01-2021',
+            golongan: 'Pembina Utama (IV/e), 01-04-2017',
+            nip: '1965053019991031002',
+            isDetail: true,
+            isProfile: true
+          },
+          {
+            name: 'Dr. Ir. Suprayoga Hadi, M.S.P.',
+            image: '/simdatuk/imagePegawai.png',
+            eselon: 'Es. I.a., 25-01-2021',
+            golongan: 'Pembina Utama (IV/e), 01-04-2017',
+            nip: '1965053019991031002',
+            isDetail: true,
+            isProfile: true
+          },
+          {
+            name: 'Dr. Ir. Suprayoga Hadi, M.S.P.',
+            image: '/simdatuk/imagePegawai.png',
+            eselon: 'Es. I.a., 25-01-2021',
+            golongan: 'Pembina Utama (IV/e), 01-04-2017',
+            nip: '1965053019991031002',
+            isDetail: true,
+            isProfile: true
+          }
+        ]
+      },
+      {
+        type: CardTypes?.PROFILE1,
+        position:
+          'Asisten Deputi Industri, Perdagangan, Pariwisata, dan Ekonomi Kreatif ',
+        slot: 3,
+        children: [
+          {
+            name: 'Dr. Velix Vernando Wanggai S.IP., MPA',
+            image: '/simdatuk/imagePegawai.png',
+            eselon: 'Es. I.a, 23-08-2022',
+            golongan: 'Pembina Utama Muda (IV/c), 01-10-2019',
+            nip: '197202161998031005',
+            isDetail: true,
+            isProfile: true
+          }
+        ]
+      },
+      {
+        type: CardTypes?.PROFILE1,
+        position: 'Kepala Subbagian Dukungan Administrasi',
+        slot: 1,
+        children: [
+          {
+            name: 'Sapto Harjono Wahjoe Sedjati, S.Sos., M.A.',
+            image: '/simdatuk/imagePegawai.png',
+            eselon: 'Es. I.a, 01-03-2023',
+            golongan: 'Pembina Utama (IV/e), 01-03-2023',
+            nip: '180004061 / 197010271995031001',
+            isDetail: true,
+            isProfile: true
+          }
+        ]
+      }
+    ]
+  }
+
+  return (
+    <EmployeeLayout summary='Peta Jabatan' showExpButton={true}>
+      <JobChart datas={data} />
+    </EmployeeLayout>
+  )
+}
+
+export default PetaJabatanDeputiComponent

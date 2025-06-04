@@ -1,0 +1,136 @@
+{
+  "type": "CARDPROFILE4",
+  "position": "Asisten Staff Khusus Wakil Presiden",
+  "name": "Fiqih Radito",
+  "image": "/simdatuk/imagePegawai.png",
+  "eselon": null,
+  "golongan": null,
+  "nip": null,
+  "tmt": "14-11-1999",
+  "isDetail": false,
+  "isProfile": true,
+  "pathDetail": null,
+  "pathProfil": "/rekapitulasi/peta-jabatan/detail/1",
+  "children": [
+    {
+      "type": "CARDPROFILE4",
+      "position": "Pembantu Asisten Staff Khusus Wakil Presiden (BANAS I)",
+      "category": "paskwpbI",
+      "slot": 1,
+      "children": [
+        {
+          "name": "Muhamad Yazid",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "20-12-2019",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE4",
+      "position": "Pembantu Asisten Staff Khusus Wakil Presiden (BANAS II)",
+      "category": "paskwpbII",
+      "slot": 1,
+      "children": [
+        {
+          "name": "Arif Fahrudin",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "20-12-2019",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE4",
+      "position": "Pembantu Asisten Staff Khusus Wakil Presiden (BANAS III)",
+      "category": "paskwpbIII",
+      "slot": 1,
+      "children": [
+        {
+          "name": "Letkol Inf Wahyu Asmara",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "20-12-2019",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE4",
+      "position": "Pembantu Asisten Staff Khusus Wakil Presiden (BANAS IV)",
+      "category": "paskwpbIV",
+      "slot": 1,
+      "children": [
+        {
+          "name": null,
+          "image": null,
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": null,
+          "isDetail": false,
+          "isProfile": false,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE4",
+      "position": "Pembantu Asisten Staff Khusus Wakil Presiden (BANAS V)",
+      "category": "paskwpbV",
+      "slot": 1,
+      "children": [
+        {
+          "name": "Siti Fatimahtuzzahro",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "20-12-2019",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    },
+    {
+      "type": "CARDPROFILE4",
+      "position": "Pembantu Asisten Staff Khusus Wakil Presiden (BANAS VI)",
+      "category": "paskwpbVI",
+      "slot": 1,
+      "children": [
+        {
+          "name": "Akmal, S.Ag.",
+          "image": "/simdatuk/imagePegawai.png",
+          "eselon": null,
+          "golongan": null,
+          "nip": null,
+          "tmt": "20-12-2019",
+          "isDetail": false,
+          "isProfile": true,
+          "pathDetail": null,
+          "pathProfil": "/rekapitulasi/peta-jabatan/detail/1"
+        }
+      ]
+    }
+  ]
+}

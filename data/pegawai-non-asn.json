@@ -1,0 +1,148 @@
+[
+    {
+      "title": "Jabatan",
+      "children": [
+        {
+          "title": "Staf Khusus Wakil Presiden",
+          "category": "staf-khusus-wakil-presiden",
+          "count": 10,
+          "children": []
+        },
+        {
+          "title": "Asisten Staf Khusus Wakil Presiden",
+          "category": "asisten-staf-khusus-wakil-presiden",
+          "count": 20,
+          "children": []
+        },
+        {
+          "title": "Pembantu Asisten Staf Khusus Wakil Presiden",
+          "category": "pembantu-asisten-staf-khusus-wakil-presiden",
+          "count": 5,
+          "children": []
+        },
+        {
+          "title": "Anggota Tim Ahli Wakil Presiden",
+          "category": "anggota-tim-ahli-wakil-presiden",
+          "count": 12,
+          "children": []
+        },
+        {
+          "title": "Staf Pada Sekretaris Pribadi Istri Wakil Presiden",
+          "category": "staf-pada-sekretaris-pribadi-istri-wakil-presiden",
+          "count": 1,
+          "children": []
+        },
+        {
+          "title": "Staf Kerumahtanggaan Pada Kediaman Wakil Presiden",
+          "category": "staf-kerumahtanggaan-pada-kediaman-wakil-presiden",
+          "count": 1,
+          "children": []
+        },
+        {
+          "title": "Sekretariat Pada Staf Khusus Wakil Presiden (PTT dari SETKAB)",
+          "category": "sekretariat-pada-staf-khusus-wakil-presiden-ptt-dari-setkab",
+          "count": 3,
+          "children": []
+        },
+        {
+            "title": "Ajudan Wakil Presiden dan Istri Wakil Presiden (Perbantuan TNI dan POLRI)",
+            "category": "ajudan-wakil-presiden-dan-istri-wakil-presiden-perbantuan-tni-dan-polri",
+            "count": 8,
+            "children": []
+          },
+          {
+            "title": "Dokter Pribadi Wakil Presiden",
+            "category": "dokter-pribadi-wakil-presiden",
+            "count": 4,
+            "children": []
+          },
+          {
+            "title": "Pengemudi VVIP (Perbantuan TNI dan POLRI)",
+            "category": "pengemudi-vvip-perbantuan-tni-polri",
+            "count": 10,
+            "children": []
+          }
+      ]
+    },
+    {
+      "title": "Tim",
+      "children": [
+        {
+          "title": "Tim Nasional Percepatan Penanggulangan Kemiskinan (TNP2K)",
+          "category": "tim-nasional-percepatan-penanggulangan-kemiskinan-tnp2k",
+          "count": 64,
+          "children": []
+        },
+        {
+          "title": "Tim Nasional Percepatan Penurunan Stunting (TPPS)",
+          "category": "tim-nasional-percepatan-penurunan-stunting-tpps",
+          "count": 24,
+          "children": []
+        }
+      ]
+    },
+    {
+      "title": "Pendidikan",
+      "children": [
+        {
+          "title": "Strata III",
+          "category": "strata-III",
+          "count": 0,
+          "children": []
+        },
+        {
+          "title": "Strata II",
+          "category": "strata-II",
+          "count": 0,
+          "children": []
+        },
+        {
+          "title": "Diploma IV/Strata I",
+          "category": "diploma-IV/strata-I",
+          "count": 0,
+          "children": []
+        },
+        {
+          "title": "Akademi/Diploma III/Sarjana Muda",
+          "category": "akademi/diploma-III-sarjana-muda",
+          "count": 0,
+          "children": []
+        },
+        {
+          "title": "Diploma I/II",
+          "category": "diploma-I/II",
+          "count": 0,
+          "children": []
+        },
+        {
+          "title": "SLTA/Sederajat",
+          "category": "slta/sederajat",
+          "count": 0,
+          "children": []
+        },
+        {
+          "title": "SLTP/Sederajat",
+          "category": "sltp/sederajat",
+          "count": 0,
+          "children": []
+        }
+      ]
+    },
+    {
+      "title": "Jenis Kelamain",
+      "children": [
+        {
+          "title": "Laki-laki",
+          "category": "laki-laki",
+          "count": 0,
+          "children": []
+        },
+        {
+          "title": "Perempuan",
+          "category": "perempuan",
+          "count": 0,
+          "children": []
+        }
+      ]
+    }
+  ]
