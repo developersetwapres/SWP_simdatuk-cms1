@@ -14,13 +14,13 @@ RUN npm install
 COPY . .
 
 # Copy env file
-COPY .env.local .env.local
+# COPY .env.local .env.local
 
 # Build the Next.js application
 RUN npm run build
 
-# Expose port 3000
-EXPOSE 3000
+# Expose port 8080
+EXPOSE 8080
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
