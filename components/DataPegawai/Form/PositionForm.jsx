@@ -30,12 +30,6 @@ const FormSchema = Yup.object().shape({
     if (Array.isArray(positions) && positions.length > 0) {
       return Yup.array().of(
         Yup.object().shape({
-          // position: Yup.string().required('Jabatan tidak boleh kosong'),
-          // group: Yup.string().required('Rumpun tidak boleh kosong'),
-          // effectiveDate: Yup.string().required(
-          //   'TMT Menjabat tidak boleh kosong'
-          // ),
-          // status: Yup.string().required('Status tidak boleh kosong'),
           decreeDocument: Yup.mixed()
             .nullable()
             .test(
@@ -303,7 +297,7 @@ const PositionForm = forwardRef((props, ref) => {
                 {/* Effective Date */}
                 <Grid item xs={6}>
                   <DatePickerDay
-                    label='TMT Menjabat'
+                    label='TMT Golongan'
                     placeholder='dd-mm-yyyy'
                     name={`positions[${idx}].effectiveDate`}
                     value={itm?.effectiveDate}

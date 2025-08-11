@@ -29,7 +29,7 @@ export const headersRiwayatJabatan = [
   { text: 'No' },
   { text: 'Jabatan' },
   { text: 'Rumpun' },
-  { text: 'TMT Menjabat' },
+  { text: 'TMT Golongan' },
   { text: 'SK Menjabat' },
   { text: 'SK Jabatan' },
   { text: 'Jenis SK Jabatan' },
