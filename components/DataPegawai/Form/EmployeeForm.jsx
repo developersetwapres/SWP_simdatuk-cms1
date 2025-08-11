@@ -134,7 +134,7 @@ const FormSchema = Yup.object().shape({
   ),
   positionEffectiveDate: Yup.string()
     .nullable()
-    .test('required', 'TMT Menjabat tidak boleh kosong', function (value) {
+    .test('required', 'TMT Golongan tidak boleh kosong', function (value) {
       const { employmentStatus } = this.parent
 
       if (
@@ -148,21 +148,6 @@ const FormSchema = Yup.object().shape({
 
       return true
     }),
-  // .test('required', 'TMT Menjabat tidak boleh kosong', function (value) {
-  //   const { positions } = this.parent
-
-  //   const positionsLength = positions.length
-  //   const isPositions =
-  //     positionsLength > 1
-  //       ? positions
-  //           .filter((itm) => itm?.name)
-  //           .every((itm) => itm?.name !== null)
-  //       : false
-
-  //   if (positionsLength > 1 && isPositions && !value) return false
-
-  //   return true
-  // }),
   grade: Yup.string()
     .nullable()
     .test(
@@ -849,7 +834,7 @@ const EmployeeForm = forwardRef((props, ref) => {
           {/* TMT Position */}
           <Grid item xs={6}>
             <DatePickerDay
-              label={`TMT Menjabat ${isPositions ? '*' : ''}`}
+              label={`TMT Golongan ${isPositions ? '*' : ''}`}
               placeholder='dd-mm-yyyy'
               name='positionEffectiveDate'
               value={formik?.values?.positionEffectiveDate}

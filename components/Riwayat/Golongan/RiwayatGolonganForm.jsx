@@ -167,7 +167,7 @@ const RiwayatGolonganForm = ({
                     <DatePickerDay
                       value={item?.tmt}
                       name={`pegawai[${index}].tmt`}
-                      label='TMT Menjabat *'
+                      label='TMT Golongan *'
                       placeholder='dd-mm-yy'
                       error={errors?.pegawai && errors?.pegawai[index]?.tmt}
                       onChange={(val) => {

@@ -60,10 +60,10 @@ const EmployeeASNComponent = ({
   const [employeeId, setEmployeeId] = useState(null)
   const modal = useSelector((state) => state.modalReducer)
 
-  const handleMapOptions = (val) => {
+  const handleMapOptions = (val = []) => {
     const arr = []
 
-    val.map((itm) => {
+    val?.map((itm) => {
       arr.push(itm?.name)
     })
 

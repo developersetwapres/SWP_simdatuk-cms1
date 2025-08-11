@@ -59,7 +59,7 @@ const RiwayatGolonganDetailComponent = ({
         align: 'left'
       },
       {
-        Header: 'TMT Menjabat',
+        Header: 'TMT Golongan',
         width: 200,
         align: 'left'
       },
