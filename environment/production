@@ -1,3 +1,5 @@
 VERSION=v1.0
 NODE_ENV=production
-NEXT_PUBLIC_API_URL=https://www.google.com
+NEXT_PUBLIC_API_URL="http://localhost/api"
+NEXT_PUBLIC_USER_INFO_SERCRET_KEY="userSecretKey"
+NEXT_PUBLIC_SITE_KEY="googleCaptchaSiteKey"
