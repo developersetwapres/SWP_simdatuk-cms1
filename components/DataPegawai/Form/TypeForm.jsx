@@ -30,17 +30,6 @@ const FormSchema = Yup.object().shape({
     if (Array.isArray(grades) && grades.length > 0) {
       return Yup.array().of(
         Yup.object().shape({
-          // grade: Yup.string().required('Golongan tidak boleh kosong'),
-          // effectiveDate: Yup.string().required(
-          //   'TMT Golongan tidak boleh kosong'
-          // ),
-          // decreeType: Yup.string().required(
-          //   'Jenis SK Golongan tidak boleh kosong'
-          // ),
-          // decreeNumber: Yup.string().required(
-          //   'No. SK Golongan tidak boleh kosong'
-          // ),
-          // status: Yup.string().required('Status Golongan tidak boleh kosong'),
           decreeDocument: Yup.mixed()
             .nullable()
             .test(

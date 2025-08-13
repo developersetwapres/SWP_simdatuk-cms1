@@ -41,7 +41,7 @@ const RiwayatJabatanSection = ({ data = [] }) => {
         align: 'left'
       },
       {
-        Header: 'TMT Golongan',
+        Header: 'TMT Jabatan',
         width: 200,
         align: 'left'
       },
@@ -96,7 +96,7 @@ const RiwayatJabatanSection = ({ data = [] }) => {
           )
         },
         {
-          Header: 'TMT Golongan',
+          Header: 'TMT Jabatan',
           align: 'left',
           verticalAlign: 'top',
           Cell: () => <Typography>{item?.effective_date || '-'}</Typography>

@@ -297,7 +297,7 @@ const PositionForm = forwardRef((props, ref) => {
                 {/* Effective Date */}
                 <Grid item xs={6}>
                   <DatePickerDay
-                    label='TMT Golongan'
+                    label='TMT Jabatan'
                     placeholder='dd-mm-yyyy'
                     name={`positions[${idx}].effectiveDate`}
                     value={itm?.effectiveDate}

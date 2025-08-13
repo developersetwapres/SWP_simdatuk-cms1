@@ -168,7 +168,7 @@ const ExportEmployeeComponent = ({
             permissionID: null
           },
           { name: 'isPosition', label: 'Jabatan', permissionID: null },
-          { name: 'isDatePosition', label: 'TMT Golongan', permissionID: null },
+          { name: 'isDatePosition', label: 'TMT Jabatan', permissionID: null },
           { name: 'isEchelons', label: 'Eselon', permissionID: null },
           { name: 'isEchelonDate', label: 'TMT Eselon', permissionID: null },
           { name: 'isGrade', label: 'Golongan', permissionID: null },
@@ -699,7 +699,7 @@ const ExportEmployeeComponent = ({
       return response?.position_name || '-'
     }
 
-    if (label === 'TMT Golongan') {
+    if (label === 'TMT Jabatan') {
       return response?.position_effective_date || '-'
     }
 
