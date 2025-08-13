@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import LayoutPages from '@/components/core/LayoutPages'
@@ -36,7 +35,7 @@ const RiwayatGolonganDetailComponent = ({
   const router = useRouter()
   const [modalDelete, setModalDelete] = useState(false)
   const [id, setId] = useState(null)
-
+  const detailId = useMemo(() => router.query?.id, [router])
   const data = useMemo(() => {
     return grade?.detail
   }, [grade])
@@ -84,7 +83,7 @@ const RiwayatGolonganDetailComponent = ({
 
   const rows = useMemo(() => {
     const data = grade?.detail?.users || []
-    const dataMapping = data.map((item, index) => {
+    const dataMapping = data?.map((item, index) => {
       return [
         {
           Header: 'No',
@@ -150,7 +149,7 @@ const RiwayatGolonganDetailComponent = ({
     })
 
     return dataMapping
-  }, [grade])
+  }, [grade?.detail?.users, router])
 
   const action = useMemo(() => {
     return (
@@ -160,7 +159,7 @@ const RiwayatGolonganDetailComponent = ({
             text='Hapus'
             color='danger'
             icon={<Delete style={styles.iconButton} />}
-            onClick={() => showDeleteModal(router?.query?.id)}
+            onClick={() => showDeleteModal(detailId)}
           />
         )}
         {accessGranted(PermissionsIDs.HISTORY_GRADE, Access.UPDATE) && (
@@ -168,14 +167,14 @@ const RiwayatGolonganDetailComponent = ({
             text='Edit'
             color='sidatukDraweBase'
             icon={<Edit style={styles.iconButton} />}
-            onClick={() =>
-              router.push(`/data-riwayat/golongan/edit/${router?.query?.id}`)
-            }
+            onClick={() => {
+              router.push(`/data-riwayat/golongan/edit/${detailId}`)
+            }}
           />
         )}
       </Box>
     )
-  }, [])
+  }, [detailId, router])
 
   const handleParsePeriod = (month, year) => {
     return month && year ? `${monthOptions[month - 1]} ${year}` : '-'
@@ -205,11 +204,13 @@ const RiwayatGolonganDetailComponent = ({
     return () => {
       router.events.off('routeChangeComplete', clearGradeState)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router])
 
   useEffect(() => {
     const state = !grade?.loading && Object.entries(grade?.detail).length > 0
     onLoading(state)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [grade])
 
   return (
