@@ -135,7 +135,7 @@ const BiodataPegawai = ({ data, employmentType }) => {
           </Grid>
         )}
         <Grid item xs={12} md={4} paddingY={1}>
-          <Typography>TMT Golongan</Typography>
+          <Typography>TMT Jabatan</Typography>
           <Typography fontWeight='500' marginTop={1}>
             {data?.position_effective_date || '-'}
           </Typography>

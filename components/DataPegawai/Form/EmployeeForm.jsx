@@ -134,7 +134,7 @@ const FormSchema = Yup.object().shape({
   ),
   positionEffectiveDate: Yup.string()
     .nullable()
-    .test('required', 'TMT Golongan tidak boleh kosong', function (value) {
+    .test('required', 'TMT Jabatan tidak boleh kosong', function (value) {
       const { employmentStatus } = this.parent
 
       if (
@@ -834,7 +834,7 @@ const EmployeeForm = forwardRef((props, ref) => {
           {/* TMT Position */}
           <Grid item xs={6}>
             <DatePickerDay
-              label={`TMT Golongan ${isPositions ? '*' : ''}`}
+              label={`TMT Jabatan ${isPositions ? '*' : ''}`}
               placeholder='dd-mm-yyyy'
               name='positionEffectiveDate'
               value={formik?.values?.positionEffectiveDate}

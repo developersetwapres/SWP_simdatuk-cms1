@@ -104,7 +104,7 @@ const RiwayatJabatanDetailComponent = ({
         align: 'left'
       },
       {
-        Header: 'TMT Golongan',
+        Header: 'TMT Jabatan',
         width: 200,
         align: 'left'
       },

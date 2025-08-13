@@ -200,12 +200,12 @@ const RiwayatJabatanForm = ({
                       }}
                     />
                   </Grid>
-                  {/* TMT Golongan */}
+                  {/* TMT Jabatan */}
                   <Grid item xs={6} md={4}>
                     <DatePickerDay
                       value={item?.tmt}
                       name={`pegawai[${index}].tmt`}
-                      label='TMT Golongan *'
+                      label='TMT Jabatan *'
                       placeholder='dd-mm-yy'
                       error={errors?.pegawai && errors?.pegawai[index]?.tmt}
                       onChange={(val) => {
