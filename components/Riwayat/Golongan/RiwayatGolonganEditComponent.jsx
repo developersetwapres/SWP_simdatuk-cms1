@@ -210,7 +210,9 @@ const RiwayatGolonganEditComponent = ({
               ? `${itm?.name} - ${itm?.employee_id_number}`
               : null,
             golongan: `${itm?.grade_name} ${itm?.grade_code}`,
-            tmt: itm?.effective_date || '',
+            tmt: itm?.effective_date ? 
+              moment(itm?.effective_date, 'DD-MM-YYYY').toDate() : 
+              '',
             noSk: itm?.decree_number || '',
             statusGolongan: itm?.status === 1 ? 'Aktif' : 'Tidak Aktif'
           }))

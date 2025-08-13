@@ -111,18 +111,18 @@ const RiwayatJabatanEditComponent = ({
 
   const handleGetValueId = (val, type) => {
     if (type == 'echelon') {
-      const dataFilter = echelon?.data.find((itm) => itm?.name == val)
+      const dataFilter = echelon?.data?.find((itm) => itm?.name == val)
       return dataFilter?.id
     } else if (type == 'employee') {
-      const dataFilter = employee?.data.find(
+      const dataFilter = employee?.data?.find(
         (itm) => itm?.employee_id_number === val?.split(' - ')[1]
       )
       return dataFilter?.id
     } else if (type == 'month') {
-      const index = options['month'].findIndex((itm) => itm == val)
+      const index = options['month']?.findIndex((itm) => itm == val)
       return index + 1
     } else {
-      const index = options[type].findIndex((itm) => itm == val)
+      const index = options[type]?.findIndex((itm) => itm == val)
       return index + 1
     }
   }
@@ -224,7 +224,9 @@ const RiwayatJabatanEditComponent = ({
             keteranganJabatan: itm?.position_status
               ? options['keteranganJabatan'][itm?.position_status - 1]
               : null,
-            tmt: itm?.effective_date ? new Date(itm?.effective_date) : '',
+            tmt: itm?.effective_date ? 
+              moment(itm?.effective_date, 'DD-MM-YYYY').toDate() : 
+              '',
             noSk: itm?.decree || ''
           }))
         ]
