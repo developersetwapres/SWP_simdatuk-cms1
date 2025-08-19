@@ -69,6 +69,7 @@ const InitValue = {
   email: '',
   officeEmail: '',
   emergencyContact: '',
+  employeeType: '',
   yearsOfServiceTotal: {
     year: 0,
     month: 0
@@ -187,7 +188,7 @@ const FormSchema = Yup.object().shape({
       }
     ),
   // institution: Yup.string().required('Instansi Induk tidak boleh kosong'),
-  educationLevel: Yup.string().required('Tingak Pendidikan tidak boleh kosong'),
+  educationLevel: Yup.string().required('Tingkat Pendidikan tidak boleh kosong'),
   // educationName: Yup.string().required(
   //   'Nama Sekolah/Universitas tidak boleh kosong'
   // ),
@@ -230,9 +231,7 @@ const FormSchema = Yup.object().shape({
   email: Yup.string()
     .test('required', 'Email tidak boleh kosong', function (value) {
       const { type } = this.parent
-
-      if (!value && type !== '1') return false
-
+      if (type === '1' && !value) return false
       return true
     })
     .email('Email tidak valid'),
@@ -360,7 +359,8 @@ const FormSchema = Yup.object().shape({
       const maxSize = 2 * 1024 * 1024
       if (!value || !isFile(value)) return true
       return value.size <= maxSize
-    })
+    }),
+    employeeType: Yup.string().required('Silakan Pilih Tipe')
 })
 
 const EmployeeForm = forwardRef((props, ref) => {
@@ -1385,7 +1385,7 @@ const EmployeeForm = forwardRef((props, ref) => {
           {/* Email */}
           <Grid item xs={6}>
             <Input
-              label={`Email ${!pagesType?.ASN ? '*' : ''}`}
+              label={`Email ${pagesType?.ASN ? '*' : ''}`}
               placeholder='Masukkan Email'
               name='email'
               value={formik?.values?.email}
@@ -1452,6 +1452,24 @@ const EmployeeForm = forwardRef((props, ref) => {
                 formik?.setFieldValue('emergencyContact', val, false)
                 setTimeout(() => {
                   formik.validateField('emergencyContact')
+                }, 1)
+              }}
+            />
+          </Grid>
+
+          {/* Type */}
+          <Grid item xs={6}>
+            <Autocomplete
+              options={options?.employeeType}
+              placeholder='Pilih Tipe'
+              label='Tipe *'
+              name='employeeType'
+              value={formik?.values?.employeeType}
+              error={formik?.errors?.employeeType}
+              onChange={(val) => {
+                formik?.setFieldValue('employeeType', val, false)
+                setTimeout(() => {
+                  formik.validateField('employeeType')
                 }, 1)
               }}
             />
