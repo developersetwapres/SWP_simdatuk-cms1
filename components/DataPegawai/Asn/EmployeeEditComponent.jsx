@@ -34,7 +34,8 @@ import {
   talentPoolsOptions,
   maritalStatuFamilysOptions,
   studyAreaOptions,
-  positionLevelOptions
+  positionLevelOptions,
+  employeeTypeOptions
 } from 'libs/types/options'
 
 const EmployeeEditComponent = ({
@@ -230,7 +231,8 @@ const EmployeeEditComponent = ({
       discipleType: newDiscipleType,
       performancesType: ppkDescOptions,
       studyArea: studyAreaOptions,
-      positionLevel: positionLevelOptions
+      positionLevel: positionLevelOptions,
+      employeeType: employeeTypeOptions
     }
 
     return dataOptions
@@ -632,7 +634,10 @@ const EmployeeEditComponent = ({
           'month_of_service_rank',
           employee?.yearsOfServiceRank?.month
         )
-        formData.append('type', 1)
+        formData.append(
+          'type',
+          employeeTypeOptions.indexOf(employee?.employeeType) + 1
+        )
 
         // Educations
         if (educations.length > 0) {
@@ -1449,6 +1454,8 @@ const EmployeeEditComponent = ({
         return 'relationshipStatus'
       case 'ocupation':
         return 'ocupation'
+      case 'employeeType':
+        return 'employeeType'
       case 'ocupation_description':
         return 'ocupationDescription'
       case 'degree_document':
@@ -1922,7 +1929,12 @@ const EmployeeEditComponent = ({
         handleSetCountServiceValue(detail?.month_of_service_rank),
         false
       )
-      FormEmployee?.setFieldValue('type', '1', false)
+      FormEmployee?.setFieldValue('type', detail?.type, false)
+      FormEmployee?.setFieldValue(
+        'employeeType',
+        detail?.type ? employeeTypeOptions?.at(detail?.type - 1) : '',
+        false
+      )
 
       // Educations
       detail?.educations.map((itm, idx) => {

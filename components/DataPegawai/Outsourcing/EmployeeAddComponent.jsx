@@ -16,6 +16,7 @@ import {
   educationStatusOptions,
   employeeEducationLevelOptions,
   employeeStatusOptions,
+  employeeTypeOptions,
   genderOptions,
   leavesOptions,
   maritalStatuFamilysOptions,
@@ -113,7 +114,8 @@ const EmployeeAddComponent = ({
       months: monthOptions,
       periodCredits: periodCreditsOptions,
       studyArea: studyAreaOptions,
-      positionLevel: positionLevelOptions
+      positionLevel: positionLevelOptions,
+      employeeType: employeeTypeOptions
     }
 
     return dataOptions
@@ -299,7 +301,10 @@ const EmployeeAddComponent = ({
           ''
           // employee?.yearsOfServiceTotal?.month
         )
-        formData.append('type', 3)
+        formData.append(
+          'type',
+          employeeTypeOptions.indexOf(employee?.employeeType) + 1
+        )
 
         // Families
         families.map((item, index) => {
@@ -546,6 +551,8 @@ const EmployeeAddComponent = ({
         return 'officeTelephoneNumber'
       case 'email':
         return 'email'
+      case 'employeeType':
+        return 'employeeType'
       case 'office_email':
         return 'officeEmail'
       case 'emergency_contact':

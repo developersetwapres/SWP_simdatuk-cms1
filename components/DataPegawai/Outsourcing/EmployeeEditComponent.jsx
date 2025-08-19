@@ -16,6 +16,7 @@ import {
   educationStatusOptions,
   employeeEducationLevelOptions,
   employeeStatusOptions,
+  employeeTypeOptions,
   genderOptions,
   leavesOptions,
   maritalStatuFamilysOptions,
@@ -175,7 +176,8 @@ const EmployeeEditComponent = ({
       discipleType: [],
       performancesType: ppkDescOptions,
       studyArea: studyAreaOptions,
-      positionLevel: positionLevelOptions
+      positionLevel: positionLevelOptions,
+      employeeType: employeeTypeOptions
     }
 
     return dataOptions
@@ -437,7 +439,10 @@ const EmployeeEditComponent = ({
           'month_of_service_total',
           employee?.yearsOfServiceTotal?.month
         )
-        formData.append('type', 3)
+        formData.append(
+          'type',
+          employeeTypeOptions.indexOf(employee?.employeeType) + 1
+        )
 
         // Families
         if (families.length > 0) {
@@ -899,6 +904,8 @@ const EmployeeEditComponent = ({
         return 'leaveLetter'
       case 'position':
         return 'position'
+      case 'employeeType':
+        return 'employeeType'
       case 'period':
         return 'period'
       case 'year':
@@ -1245,7 +1252,12 @@ const EmployeeEditComponent = ({
         handleSetCountServiceValue(detail?.month_of_service_total),
         false
       )
-      FormEmployee?.setFieldValue('type', '3', false)
+      FormEmployee?.setFieldValue('type', detail?.type, false)
+      FormEmployee?.setFieldValue(
+        'employeeType',
+        detail?.type ? employeeTypeOptions?.at(detail?.type - 1) : '',
+        false
+      )
 
       // History Positions
       detail?.positions.map((itm, idx) => {

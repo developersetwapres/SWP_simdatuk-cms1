@@ -16,6 +16,7 @@ import {
   educationStatusOptions,
   employeeEducationLevelOptions,
   employeeStatusOptions,
+  employeeTypeOptions,
   genderOptions,
   leavesOptions,
   maritalStatuFamilysOptions,
@@ -116,7 +117,8 @@ const EmployeeAddComponent = ({
       months: monthOptions,
       periodCredits: periodCreditsOptions,
       studyArea: studyAreaOptions,
-      positionLevel: positionLevelOptions
+      positionLevel: positionLevelOptions,
+      employeeType: employeeTypeOptions
     }
 
     return dataOptions
@@ -351,7 +353,10 @@ const EmployeeAddComponent = ({
           ''
           // employee?.yearsOfServiceRank?.month
         )
-        formData.append('type', 2)
+        formData.append(
+          'type',
+          employeeTypeOptions.indexOf(employee?.employeeType) + 1
+        )
 
         // Educations
         formData.append('educations', '')
@@ -684,6 +689,8 @@ const EmployeeAddComponent = ({
         return 'officeAddress'
       case 'office_phone_number':
         return 'officeTelephoneNumber'
+      case 'employeeType':
+        return 'employeeType'
       case 'email':
         return 'email'
       case 'office_email':
