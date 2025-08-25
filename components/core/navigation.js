@@ -35,7 +35,7 @@ const navigation = [
       },
       {
         path: '/rekapitulasi/pegawai-non-asn',
-        name: 'PEGAWAI NON ASN',
+        name: 'PEGAWAI NON ASN/ASN PERBANTUAN',
         icon: null,
         permissionID: PermissionsIDs?.RECAP_NON_ASN
       },
