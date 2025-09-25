@@ -319,7 +319,7 @@ const EmployeeNonASNComponent = ({
 
   return (
     <>
-      <LayoutPages summary={'Data Pegawai Non ASN'} action={action}>
+      <LayoutPages summary={'Data Pegawai Non ASN + Perbantuan'} action={action}>
         <EmployeeFilterComponent
           onFilter={handleFilter}
           onSearch={onSearch}

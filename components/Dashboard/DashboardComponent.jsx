@@ -40,8 +40,8 @@ const data = [
     type: 'gender_employees'
   },
   {
-    title: 'Pegawai Non ASN',
-    copytext: 'Jumlah pegawai Non ASN yang ada di Sekretariat Wakil Presiden',
+    title: 'Pegawai Non ASN + Perbantuan',
+    copytext: 'Jumlah pegawai Non ASN + Perbantuan yang ada di Sekretariat Wakil Presiden',
     image: TYPE_ICON,
     count: [
       {

@@ -32,7 +32,7 @@ const MasterDataEmployementTypeAddComponent = ({
   const formikRef = useRef(null)
 
   const options = useMemo(() => {
-    const data = { type: ['ASN', 'NON ASN', 'OUTSOURCE'] }
+    const data = { type: ['ASN', 'NON ASN + PERBANTUAN', 'OUTSOURCE'] }
     return data
   }, [])
 

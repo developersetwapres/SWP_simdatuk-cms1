@@ -1303,7 +1303,7 @@ const EmployeeEditComponent = ({
   return (
     <LayoutPages
       handleBack={() => router.back()}
-      summary={'Edit Pegawai Non ASN'}
+      summary='Edit Pegawai Non ASN + Perbantuan'
       action={
         <Box>
           <Button text='Simpan' color='primary' onClick={handleSubmit} />

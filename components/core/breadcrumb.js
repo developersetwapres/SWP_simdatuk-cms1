@@ -13,7 +13,7 @@ const breadcrumbs = [
       },
       {
         pathChild: '/rekapitulasi/komposisi-pegawai/non-asn',
-        name: 'Non Aparatur Sipil Negara (Non ASN) + Tim)'
+        name: 'Non Aparatur Sipil Negara (Non ASN + Perbantuan) + Tim)'
       },
       {
         pathChild: '/rekapitulasi/komposisi-pegawai/outsourcing',

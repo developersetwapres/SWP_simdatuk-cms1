@@ -9,7 +9,7 @@ const ExportNonAsn = () => {
 
   return (
     <Box>
-      <ExportTable summary='Non Aparatur Sipil Negara (Non ASN)  ' data={[]} />
+      <ExportTable summary='Non Aparatur Sipil Negara (Non ASN + Perbantuan)  ' data={[]} />
       <ExportTable summary='Tim' data={tim} />
       <Box
         sx={{
@@ -22,7 +22,7 @@ const ExportNonAsn = () => {
         }}
       >
         <Typography fontWeight='400' color='white' fontSize={14}>
-          Non Aparatur Sipil Negara (Non ASN) + Tim
+          Non Aparatur Sipil Negara (Non ASN + Perbantuan) + Tim
         </Typography>
         <Typography fontWeight='400' color='white' fontSize={14}>
           Total : {totalData}
