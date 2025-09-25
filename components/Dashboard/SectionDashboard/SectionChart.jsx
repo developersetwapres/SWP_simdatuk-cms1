@@ -95,7 +95,7 @@ const SectionChart = ({ data, datas }) => {
 
   return (
     <DashboardSectionLayout>
-      <Grid container height='fit-content' overflow='auto'>
+      <Grid container height='80vh' overflow='auto'>
         {!!newDatas?.children?.length && (
           <Grid
             item
