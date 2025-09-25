@@ -75,7 +75,7 @@ const MasterDataEmployementTypeComponent = ({
   const router = useRouter()
   const modal = useSelector((state) => state.modalReducer)
 
-  const [type, setType] = useState(['ASN', 'NON ASN', 'OUTSOURCE'])
+  const [type, setType] = useState(['ASN', 'NON ASN + PERBANTUAN', 'OUTSOURCE'])
   const [modalDelete, setModalDelete] = useState(false)
   const [deleteId, setDeleteId] = useState(null)
 

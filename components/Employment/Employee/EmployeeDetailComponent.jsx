@@ -187,7 +187,7 @@ const EmployeeDetailComponent = ({
         ? data?.type == 1
           ? 'ASN'
           : data?.type == 2
-          ? 'Non ASN'
+          ? 'Non ASN + Perbantuan'
           : 'Outsourcing'
         : ''
 

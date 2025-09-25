@@ -817,7 +817,7 @@ const EmployeeAddComponent = ({
   return (
     <LayoutPages
       handleBack={() => router.back()}
-      summary={'Tambah Pegawai Non ASN'}
+      summary='Tambah Pegawai Non ASN + Perbantuan'
       action={
         <Box>
           <Button text='Simpan' color='primary' onClick={handleSubmit} />
