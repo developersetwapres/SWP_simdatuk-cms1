@@ -223,7 +223,7 @@ const EmployeeAddBulkComponent = ({
     } else if (employeeType === 2) {
       employeeTypeLabel = 'NON_ASN'
     } else {
-      employeeTypeLabel = 'OUTSOURCE'
+      employeeTypeLabel = 'OUTSOURCING'
     }
 
     return `${
