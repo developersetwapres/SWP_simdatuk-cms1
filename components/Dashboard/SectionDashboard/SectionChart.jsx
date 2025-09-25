@@ -26,36 +26,37 @@ const options = {
   }
 }
 
-const SectionChart = ({ data, datas }) => {
-  const counts = datas[data?.type]
-  const generateRandomColor = (name, index) => {
-    const colorWheel = [
-      '#FF0000', // Merah
-      '#FFA500', // Oranye
-      '#FFFF00', // Kuning
-      '#008000', // Hijau
-      '#0000FF', // Biru
-      '#800080', // Ungu
-      '#FF4500', // Jingga
-      '#A52A2A', // Coklat
-      '#FFC0CB', // Pink
-      '#808080' // Abu-abu
-    ]
+const generateRandomColor = (name, index) => {
+  const colorWheel = [
+    '#FF0000', // Merah
+    '#FFA500', // Oranye
+    '#FFFF00', // Kuning
+    '#008000', // Hijau
+    '#0000FF', // Biru
+    '#800080', // Ungu
+    '#FF4500', // Jingga
+    '#A52A2A', // Coklat
+    '#FFC0CB', // Pink
+    '#808080' // Abu-abu
+  ]
 
-    let color = ''
+  let color = ''
 
-    if (index < colorWheel.length) {
-      color = colorWheel[index]
-    } else {
-      let hash = 0
-      for (let i = 0; i < name?.length; i++) {
-        hash = name.charCodeAt(i) + ((hash << 5) - hash)
-      }
-      color = '#' + ((hash & 0xffffff) << 0).toString(16).padStart(6, '0')
+  if (index < colorWheel.length) {
+    color = colorWheel[index]
+  } else {
+    let hash = 0
+    for (let i = 0; i < name?.length; i++) {
+      hash = name.charCodeAt(i) + ((hash << 5) - hash)
     }
-
-    return color
+    color = '#' + ((hash & 0xffffff) << 0).toString(16).padStart(6, '0')
   }
+
+  return color
+}
+
+const SectionChart = ({ data, datas }) => {
+  const counts = useMemo(() => datas[data?.type], [data, datas])
 
   const newDatas = useMemo(() => {
     const payload = {
@@ -77,12 +78,13 @@ const SectionChart = ({ data, datas }) => {
 
   const dataCharts = useMemo(() => {
     const payload = {
-      labels: !!newDatas?.children?.length ? newDatas?.children?.map((item) => item.name) : [],
+      labels: !!newDatas?.children?.length ?
+        newDatas?.children?.map((item) => item?.name) : [],
       datasets: [
         {
           label: newDatas?.title,
-          data: newDatas?.children?.map((item) => item.count),
-          backgroundColor: newDatas?.children?.map((item) => item.color),
+          data: newDatas?.children?.map((item) => item?.count || 0),
+          backgroundColor: newDatas?.children?.map((item) => item?.color),
           borderWidth: 1
         }
       ]
@@ -93,7 +95,7 @@ const SectionChart = ({ data, datas }) => {
 
   return (
     <DashboardSectionLayout>
-      <Grid container sx={{ height: '80vh' }}>
+      <Grid container height='fit-content' overflow='auto'>
         {!!newDatas?.children?.length && (
           <Grid
             item
@@ -110,7 +112,7 @@ const SectionChart = ({ data, datas }) => {
 
         {!!dataCharts && (
           <Grid item xs={12} sm={7} sx={style?.grid}>
-            <Box sx={{ width: '60%' }}>
+            <Box width='60%'>
               <Chart type='doughnut' data={dataCharts} options={options} />
             </Box>
           </Grid>
