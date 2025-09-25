@@ -184,7 +184,7 @@ export const entityOptions = ['Orang', 'Kelompok']
 
 export const positionTypeOptions = ['Struktural', 'Fungsional', 'Outsourcing']
 
-export const employeeTypeOptions = ['ASN', 'NON-ASN + PERBANTUAN', 'OUTSOURCE']
+export const employeeTypeOptions = ['ASN', 'NON-ASN + PERBANTUAN', 'OUTSOURCING']
 
 export const statusOptions = ['Aktif', 'Tidak Aktif']
 

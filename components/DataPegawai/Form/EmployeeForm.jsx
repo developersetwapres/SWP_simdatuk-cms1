@@ -1132,7 +1132,7 @@ const EmployeeForm = forwardRef((props, ref) => {
           )}
 
           {/* Employee Card */}
-          {!pagesType?.outsource && (
+          {!pagesType?.OUTSOURCE && (
             <Grid item xs={6}>
               <UploadFile
                 label='SK Pengangkatan'
