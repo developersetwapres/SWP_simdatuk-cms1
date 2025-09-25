@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Typography } from '@mui/material'
 
 const ChartList = ({ data }) => {
-  const handleGetPercentage = (datas, count) => {
-    const totalCount = datas.reduce((total, item) => total + item.count, 0)
-    const value = (100 / totalCount) * count
-    return value.toFixed(1)
-  }
+  const handleGetPercentage = useCallback((datas = [], count = 0) => {
+    const total = datas?.reduce(
+      (acc, item) => acc + (item?.total || item?.count || 0), 0
+    )
+    const percentage = ((count / total) * 100)?.toFixed(1)
+    
+    return percentage
+  }, [])
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -19,7 +22,7 @@ const ChartList = ({ data }) => {
           fontWeight: '800'
         }}
       >
-        {data?.title}
+        {data?.title || ''}
       </Typography>
       <Typography
         variant='p'
@@ -30,7 +33,7 @@ const ChartList = ({ data }) => {
           fontSize: '16px'
         }}
       >
-        {data?.copytext}
+        {data?.copytext || ''}
       </Typography>
       <Box>
         {data?.children?.map((item, index) => (
@@ -65,13 +68,13 @@ const ChartList = ({ data }) => {
                 component='p'
                 sx={{ width: '80%', fontSize: '16px' }}
               >
-                {`${item?.name} (${handleGetPercentage(
+                {`${item?.name || ''} (${handleGetPercentage(
                   data?.children,
                   item?.count
                 )}%)`}
               </Typography>
               <Typography variant='p' component='p' sx={{ fontSize: '16px' }}>
-                {`${item?.count} orang`}
+                {`${item?.count || 0} orang`}
               </Typography>
             </Box>
           </Box>
