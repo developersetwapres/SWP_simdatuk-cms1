@@ -39,18 +39,43 @@ function ResetPasswordComponent({
   const validate = (fieldOfValues = values) => {
     const temp = { ...errors }
 
-    if ('newPassword' in fieldOfValues)
-      temp.newPassword = fieldOfValues.newPassword
-        ? ''
-        : 'Password baru tidak boleh kosong'
+    if ('newPassword' in fieldOfValues) {
+      if (!fieldOfValues.newPassword) {
+        temp.newPassword = 'Password baru tidak boleh kosong'
+      } else if (fieldOfValues.newPassword.length < 8) {
+        temp.newPassword = 'Password baru minimal 8 karakter'
+      } else if (!/[A-Z]/.test(fieldOfValues.newPassword)) {
+        temp.newPassword = 'Password baru harus mengandung minimal 1 huruf besar'
+      } else if (!/[a-z]/.test(fieldOfValues.newPassword)) {
+        temp.newPassword = 'Password baru harus mengandung minimal 1 huruf kecil'
+      } else if (!/\d/.test(fieldOfValues.newPassword)) {
+        temp.newPassword = 'Password baru harus mengandung minimal 1 angka'
+      } else if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(fieldOfValues.newPassword)) {
+        temp.newPassword = 'Password baru harus mengandung minimal 1 karakter spesial'
+      } else {
+        temp.newPassword = ''
+      }
+    }
 
-    if ('confirmNewPassword' in fieldOfValues)
-      temp.confirmNewPassword = fieldOfValues.confirmNewPassword
-        ? values.newPassword.toLowerCase() ===
-          fieldOfValues.confirmNewPassword.toLowerCase()
-          ? ''
-          : 'Password harus sama dengan Password Baru'
-        : 'Konfirmasi password baru tidak boleh kosong'
+    if ('confirmNewPassword' in fieldOfValues) {
+      if (!fieldOfValues.confirmNewPassword) {
+        temp.confirmNewPassword = 'Konfirmasi password baru tidak boleh kosong'
+      } else if (fieldOfValues.confirmNewPassword.length < 8) {
+        temp.confirmNewPassword = 'Konfirmasi password minimal 8 karakter'
+      } else if (!/[A-Z]/.test(fieldOfValues.confirmNewPassword)) {
+        temp.confirmNewPassword = 'Konfirmasi password harus mengandung minimal 1 huruf besar'
+      } else if (!/[a-z]/.test(fieldOfValues.confirmNewPassword)) {
+        temp.confirmNewPassword = 'Konfirmasi password harus mengandung minimal 1 huruf kecil'
+      } else if (!/\d/.test(fieldOfValues.confirmNewPassword)) {
+        temp.confirmNewPassword = 'Konfirmasi password harus mengandung minimal 1 angka'
+      } else if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(fieldOfValues.confirmNewPassword)) {
+        temp.confirmNewPassword = 'Konfirmasi password harus mengandung minimal 1 karakter spesial'
+      } else if (values.newPassword !== fieldOfValues.confirmNewPassword) {
+        temp.confirmNewPassword = 'Password harus sama dengan Password Baru'
+      } else {
+        temp.confirmNewPassword = ''
+      }
+    }
 
     setErrors({
       ...temp

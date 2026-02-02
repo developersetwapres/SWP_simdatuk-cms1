@@ -24,6 +24,8 @@ import {
   UPDATE_PROFILE_FAILED,
   SET_MODAL,
   AUTHENTICATION_LOGOUT_REQUESTED,
+  AUTHENTICATION_LOGOUT_SUCCESS,
+  AUTHENTICATION_LOGOUT_FAILED,
   GET_HASH_URL_PASSWORD_REQUESTED,
   GET_HASH_URL_PASSWORD_SUCCESS,
   GET_HASH_URL_PASSWORD_FAILED,
@@ -46,7 +48,8 @@ import {
   resetPasswordAction,
   authenticationQrCodeAction,
   getProfileAction,
-  newPasswordAction
+  newPasswordAction,
+  authenticationLogoutAction
 } from './action/authenticationAction'
 import { delay } from './sagaUtils'
 import Router from 'next/router'
@@ -283,8 +286,22 @@ function* updateProfileSagas(action) {
  * @returns
  */
 function* authenticationLogout() {
-  clearStorages(['setneg_token', 'setneg_menu', '__ui'])
-  Router.push('/auth/login')
+  try {
+    yield call(authenticationLogoutAction)
+    yield put({
+      type: AUTHENTICATION_LOGOUT_SUCCESS,
+      payload: { message: 'Logout berhasil' }
+    })
+  } catch (err) {
+    // Even if API fails, still logout user from frontend
+    yield put({
+      type: AUTHENTICATION_LOGOUT_FAILED,
+      payload: { error: err?.data?.message || 'Logout failed' }
+    })
+  } finally {
+    clearStorages(['setneg_token', 'setneg_menu', '__ui'])
+    Router.push('/auth/login')
+  }
 }
 
 /**

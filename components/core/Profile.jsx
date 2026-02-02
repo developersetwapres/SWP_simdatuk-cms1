@@ -32,10 +32,100 @@ const FormSchema = Yup.object().shape({
   email: Yup.string().notRequired().nullable().email('Email tidak valid'),
   username: Yup.string().notRequired().nullable(),
   // Password
-  old_password: Yup.string().notRequired().nullable(),
-  password: Yup.string().notRequired().nullable(),
-  confirm_password: Yup.string().notRequired().nullable()
-    .oneOf([Yup.ref('password'), null], 'Konfirmasi Password harus sama dengan Password Baru')
+  old_password: Yup.string()
+    .notRequired()
+    .nullable()
+    .test('old-password-validation', function(value) {
+      if (!value) return true
+      
+      const { path, createError } = this
+      
+      if (value.length < 8) {
+        return createError({ path, message: 'Password lama minimal 8 karakter' })
+      }
+      
+      if (!/[A-Z]/.test(value)) {
+        return createError({ path, message: 'Password lama harus mengandung minimal 1 huruf besar' })
+      }
+      
+      if (!/[a-z]/.test(value)) {
+        return createError({ path, message: 'Password lama harus mengandung minimal 1 huruf kecil' })
+      }
+      
+      if (!/\d/.test(value)) {
+        return createError({ path, message: 'Password lama harus mengandung minimal 1 angka' })
+      }
+      
+      if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value)) {
+        return createError({ path, message: 'Password lama harus mengandung minimal 1 karakter spesial' })
+      }
+      
+      return true
+    }),
+  password: Yup.string()
+    .notRequired()
+    .nullable()
+    .test('password-validation', function(value) {
+      if (!value) return true
+      
+      const { path, createError } = this
+      
+      if (value.length < 8) {
+        return createError({ path, message: 'Password baru minimal 8 karakter' })
+      }
+      
+      if (!/[A-Z]/.test(value)) {
+        return createError({ path, message: 'Password baru harus mengandung minimal 1 huruf besar' })
+      }
+      
+      if (!/[a-z]/.test(value)) {
+        return createError({ path, message: 'Password baru harus mengandung minimal 1 huruf kecil' })
+      }
+      
+      if (!/\d/.test(value)) {
+        return createError({ path, message: 'Password baru harus mengandung minimal 1 angka' })
+      }
+      
+      if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value)) {
+        return createError({ path, message: 'Password baru harus mengandung minimal 1 karakter spesial' })
+      }
+      
+      return true
+    }),
+  confirm_password: Yup.string()
+    .notRequired()
+    .nullable()
+    .test('confirm-password-validation', function(value) {
+      const { path, createError, parent } = this
+      
+      if (!value) return true
+      
+      if (value.length < 8) {
+        return createError({ path, message: 'Konfirmasi password minimal 8 karakter' })
+      }
+      
+      if (!/[A-Z]/.test(value)) {
+        return createError({ path, message: 'Konfirmasi password harus mengandung minimal 1 huruf besar' })
+      }
+      
+      if (!/[a-z]/.test(value)) {
+        return createError({ path, message: 'Konfirmasi password harus mengandung minimal 1 huruf kecil' })
+      }
+      
+      if (!/\d/.test(value)) {
+        return createError({ path, message: 'Konfirmasi password harus mengandung minimal 1 angka' })
+      }
+      
+      if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value)) {
+        return createError({ path, message: 'Konfirmasi password harus mengandung minimal 1 karakter spesial' })
+      }
+      
+      if (value !== parent.password) {
+        return createError({ path, message: 'Konfirmasi Password harus sama dengan Password Baru' })
+      }
+      
+      return true
+    })
 })
 
 function Profile({
