@@ -33,10 +33,23 @@ const LoginComponent = ({
         : 'username tidak boleh kosong'
     }
 
-    if ('password' in fieldOfValues)
-      temp.password = fieldOfValues.password
-        ? ''
-        : 'Password tidak boleh kosong'
+    if ('password' in fieldOfValues) {
+      if (!fieldOfValues.password) {
+        temp.password = 'Password tidak boleh kosong'
+      } else if (fieldOfValues.password.length < 8) {
+        temp.password = 'Password minimal 8 karakter'
+      } else if (!/[A-Z]/.test(fieldOfValues.password)) {
+        temp.password = 'Password harus mengandung minimal 1 huruf besar'
+      } else if (!/[a-z]/.test(fieldOfValues.password)) {
+        temp.password = 'Password harus mengandung minimal 1 huruf kecil'
+      } else if (!/\d/.test(fieldOfValues.password)) {
+        temp.password = 'Password harus mengandung minimal 1 angka'
+      } else if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(fieldOfValues.password)) {
+        temp.password = 'Password harus mengandung minimal 1 karakter spesial'
+      } else {
+        temp.password = ''
+      }
+    }
 
     setErrors({
       ...temp
