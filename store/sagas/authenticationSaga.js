@@ -16,6 +16,9 @@ import {
   FORGET_PASSWORD_REQUESTED,
   FORGET_PASSWORD_SUCCESS,
   FORGET_PASSWORD_FAILED,
+  VERIFY_OTP_REQUESTED,
+  VERIFY_OTP_SUCCESS,
+  VERIFY_OTP_FAILED,
   GET_PROFILE_REQUESTED,
   GET_PROFILE_SUCCESS,
   GET_PROFILE_FAILED,
@@ -43,6 +46,7 @@ import {
   authenticationPost,
   updatePasswordAction,
   forgetPasswordAction,
+  verifyOTPAction,
   updateProfileAction,
   getHashUrlPasswordAction,
   resetPasswordAction,
@@ -159,13 +163,7 @@ function* forgetPassword(action) {
       type: FORGET_PASSWORD_SUCCESS,
       payload: payload
     })
-    yield put({
-      type: SET_MODAL,
-      payload: {
-        code: payload?.code,
-        message: payload?.message
-      }
-    })
+    // Don't show modal, we're redirecting to OTP page
   } catch (err) {
     yield put({
       type: SET_MODAL,
@@ -176,6 +174,45 @@ function* forgetPassword(action) {
     })
     yield put({
       type: FORGET_PASSWORD_FAILED,
+      payload: {
+        error: err?.data?.meta?.message
+      }
+    })
+  }
+}
+
+/**
+ * Verify OTP Sagas
+ *
+ * @param {*} action
+ * @returns
+ */
+function* verifyOTP(action) {
+  try {
+    const res = yield call(verifyOTPAction, action?.payload)
+
+    const payload = res?.data
+    yield put({
+      type: VERIFY_OTP_SUCCESS,
+      payload: payload
+    })
+    
+    // Save reset_token to localStorage and redirect
+    const resetToken = payload?.reset_token || payload?.data?.reset_token
+    if (resetToken) {
+      localStorage.setItem('reset_token', resetToken)
+      Router.push(`/auth/reset-password`)
+    }
+  } catch (err) {
+    yield put({
+      type: SET_MODAL,
+      payload: {
+        code: err?.data?.code,
+        message: err?.data?.message || 'Kode OTP tidak valid atau telah kadaluarsa'
+      }
+    })
+    yield put({
+      type: VERIFY_OTP_FAILED,
       payload: {
         error: err?.data?.meta?.message
       }
@@ -334,8 +371,6 @@ function* getHashPassword(action) {
  * @returns
  */
 function* resetPasswordSaga(action) {
-  const isNewPassword = action?.payload?.status
-
   try {
     const res = yield call(resetPasswordAction, action?.payload)
     const payload = res?.data
@@ -346,6 +381,8 @@ function* resetPasswordSaga(action) {
     })
 
     clearStorages(['__ui', 'setneg_token'])
+    localStorage.removeItem('reset_token')
+    localStorage.removeItem('reset_email')
 
     yield put({
       type: SET_MODAL,
@@ -449,6 +486,7 @@ function* authSaga() {
   yield takeEvery(AUTHENTICATION_REQUESTED, postAuthentication)
   yield takeEvery(UPDATE_PASSWORD_REQUESTED, updatePassword)
   yield takeEvery(FORGET_PASSWORD_REQUESTED, forgetPassword)
+  yield takeEvery(VERIFY_OTP_REQUESTED, verifyOTP)
   yield takeEvery(GET_PROFILE_REQUESTED, getProfile)
   yield takeEvery(UPDATE_PROFILE_REQUESTED, updateProfileSagas)
   yield takeEvery(AUTHENTICATION_LOGOUT_REQUESTED, authenticationLogout)

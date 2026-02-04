@@ -7,6 +7,7 @@ import { primaryButtonStyle } from '@/utils/theme'
 import { makeStyles } from '@mui/styles'
 import { useForm } from '@/hooks/'
 import { formatEmail } from '@/utils/'
+import { useRouter } from 'next/router'
 
 const useStyles = (makeStyles({
   modal: {
@@ -39,6 +40,7 @@ function LoginModal({
   })
 
   const classes = useStyles()
+  const router = useRouter()
 
   const validate = (fieldOfValues = values) => {
     const temp = { ...errors }
@@ -69,11 +71,19 @@ function LoginModal({
 
   const handleSuccessReset = () => {
     if (validate()) {
-      setResetEmail(false)
+      // Store email in localStorage for OTP page
+      localStorage.setItem('reset_email', values.resetEmail)
+      
       const payload = {
         email: values.resetEmail
       }
+      
+      // Call forgetPassword which will send OTP
       forgetPassword(payload)
+      
+      // Redirect to OTP verification page
+      setResetEmail(false)
+      router.push(`/auth/verify-otp`)
     }
   }
 
@@ -118,7 +128,7 @@ function LoginModal({
               textAlign: 'center'
             }}>
               <h3>Lupa Password ?</h3>
-              <p>Kami akan mengirim instruksi melalui email untuk mengganti password. Silakan masukkan password anda.</p>
+              <p>Masukkan email Anda dan kami akan mengirimkan kode OTP untuk verifikasi reset password.</p>
             </div>
             <div style={{ marginTop: '40px' }}>
               <Input

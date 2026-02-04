@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Footer from '@/components/core/Footer'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Box, Container, Grid, Typography, Stack } from '@mui/material'
 import Image from 'next/image'
 import { makeStyles } from '@mui/styles'
@@ -9,6 +9,7 @@ import ResetPasswordForm from './ResetPasswordForm'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import logo from '/public/simdatuk/Logo.png'
+import Router from 'next/router'
 
 // eslint-disable-next-line no-unused-vars
 const useStyles = makeStyles((theme) => ({
@@ -29,6 +30,16 @@ function ResetPasswordComponent({
 }) {
   const classes = useStyles()
   const selector = useSelector((state) => state.authentication)
+
+  // Check if reset_token exists, if not redirect to login
+  useEffect(() => {
+    const resetToken = localStorage.getItem('reset_token')
+    const resetEmail = localStorage.getItem('reset_email')
+    
+    if (!resetToken && !resetEmail && !isNewPassword) {
+      Router.push('/auth/login')
+    }
+  }, [isNewPassword])
 
   // eslint-disable-next-line no-unused-vars
   const [initialValues, setInitialValues] = useState({
@@ -93,10 +104,11 @@ function ResetPasswordComponent({
 
   const handleSubmitReset = () => {
     if (validate()) {
+      const resetToken = localStorage.getItem('reset_token')
       const payload = {
-        code: router.query.hash,
+        reset_token: resetToken,
         password: values?.newPassword,
-        password_confirmation: values?.confirmNewPassword
+        new_password: values?.confirmNewPassword
       }
 
       router?.pathname.includes('new-password')
@@ -155,7 +167,7 @@ function ResetPasswordComponent({
             <Grid item textAlign='center'>
               <h2>{isNewPassword ? 'Password Baru' : 'Reset Password'}</h2>
 
-              {isNewPassword ? (
+              {/* {isNewPassword ? (
                 <>
                   <p style={{ marginTop: '' }}>
                     Anda telah berhasil terverifikasi
@@ -168,7 +180,7 @@ function ResetPasswordComponent({
                 <p style={{ marginTop: '-10px' }}>
                   Reset Password akun: {router?.query?.email ?? '-'}
                 </p>
-              )}
+              )} */}
             </Grid>
             <Grid item>
               <ResetPasswordForm
