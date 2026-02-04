@@ -42,6 +42,16 @@ export const forgetPasswordAction = (payload) => {
 }
 
 /**
+ * Verify OTP
+ *
+ * @param {*} payload
+ * @returns
+ */
+export const verifyOTPAction = (payload) => {
+  return post(`/verify-otp`, payload)
+}
+
+/**
  * Get Profile
  *
  * @returns

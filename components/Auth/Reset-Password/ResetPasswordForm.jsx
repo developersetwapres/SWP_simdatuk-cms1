@@ -151,6 +151,7 @@ function ResetPasswordForm({
           }}
           color='primary'
           fullWidth
+          disabled={!values.newPassword || !values.confirmNewPassword}
           isBusy={stateLoading?.isBusy}
           isLoading={stateLoading?.loading}
           onClick={handleSubmitReset}
