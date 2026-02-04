@@ -9,6 +9,7 @@ import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
 import { monthOptions, ppkDescOptions } from 'libs/types/options'
 import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import { extractIdFromShortUuidUrl, createShortUuidUrl } from '@/utils'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 
 const styles = {
@@ -136,7 +137,7 @@ const RiwayatPPKDetailComponent = ({
                   color='primary'
                   onClick={() =>
                     router.push(
-                      `/data-riwayat/ppk/detail/pegawai/${btoa(item?.user_id)}`
+                      createShortUuidUrl(`/data-riwayat/ppk/detail/pegawai`, item?.user_id)
                     )
                   }
                   icon={<Info style={styles.iconButton} />}
@@ -160,7 +161,10 @@ const RiwayatPPKDetailComponent = ({
             text='Hapus'
             color='danger'
             icon={<Delete style={styles.iconButton} />}
-            onClick={() => showDeleteModal(router?.query?.id)}
+            onClick={() => {
+              const numericId = extractIdFromShortUuidUrl(router?.query)
+              if (numericId) showDeleteModal(numericId)
+            }}
           />
         )}
         {accessGranted(PermissionsIDs.HISTORY_PERFORMANCE, Access.UPDATE) && (
@@ -168,9 +172,12 @@ const RiwayatPPKDetailComponent = ({
             text='Edit'
             color='sidatukDraweBase'
             icon={<Edit style={styles.iconButton} />}
-            onClick={() =>
-              router.push(`/data-riwayat/ppk/edit/${router?.query?.id}`)
-            }
+            onClick={() => {
+              const numericId = extractIdFromShortUuidUrl(router?.query)
+              if (numericId) {
+                router.push(createShortUuidUrl(`/data-riwayat/ppk/edit`, numericId))
+              }
+            }}
           />
         )}
       </Box>
@@ -191,13 +198,14 @@ const RiwayatPPKDetailComponent = ({
 
     // Do Delete
     setModalDelete(false)
-    deletePerformance(atob(id))
+    const deleteId = extractIdFromShortUuidUrl(router?.query)
+    deletePerformance(deleteId)
   }
 
   useEffect(() => {
     // Get Detail User
-    const id = router?.query?.id
-    if (id) getPerformance(atob(id))
+    const id = extractIdFromShortUuidUrl(router?.query)
+    if (id) getPerformance(id)
 
     // Event clear state when url path changes
     router.events.on('routeChangeComplete', clearPerformanceState)

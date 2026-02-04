@@ -11,6 +11,7 @@ import ButtonExport from '../core/ButtonExport'
 import { SaveAs, saveFile } from '@/utils/fileSaver'
 import { useDispatch } from 'react-redux'
 import { CLEAR_DIAGRAMS_EXPORT_STATE } from '@/store/constants'
+import { createShortUuidUrl, extractIdFromShortUuidUrl } from '@/utils'
 
 const styles = {
   headerMap: {
@@ -86,9 +87,9 @@ const PetaJabatanComponent = ({
 
   useEffect(() => {
     const isStaff = router?.pathname.includes('[staff]')
-    const staffId = router?.query?.staff
+    const staffId = extractIdFromShortUuidUrl(router?.query)
 
-    if (staffId && isStaff) onFetch(atob(staffId))
+    if (staffId && isStaff) onFetch(staffId)
 
     if (!isStaff) onFetch('')
   }, [router])
@@ -120,7 +121,7 @@ const PetaJabatanComponent = ({
                 <Grid item xs={index + 1 == datas.length ? 4 : 3} key={index}>
                   <CardEmployment
                     title={item?.name}
-                    path={`${router.asPath}/${btoa(item?.id)}`}
+                    path={createShortUuidUrl(`/rekapitulasi/peta-jabatan`, item?.id)}
                   />
                 </Grid>
               ) : (

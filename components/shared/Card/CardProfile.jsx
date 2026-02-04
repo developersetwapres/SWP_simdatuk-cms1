@@ -22,6 +22,7 @@ import {
   PermissionsIDs
 } from '@/utils/permissionManager'
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material'
+import { createShortUuidUrl } from '@/utils'
 
 const style = {
   cardParent: {
@@ -415,13 +416,13 @@ const ContentProfile = ({
                       Access.READ
                     ) && (
                       <Button
-                        onClick={() =>
-                          router.push(
-                            `/rekapitulasi/peta-jabatan/detail/${btoa(
-                              item?.id
-                            )}`
-                          )
-                        }
+                        onClick={() => {
+                          if (item?.id) {
+                            router.push(
+                              createShortUuidUrl(`/rekapitulasi/peta-jabatan/detail`, item.id)
+                            )
+                          }
+                        }}
                         text='Lihat Profile'
                         color='sidatukDraweBase'
                         fullWidth
@@ -435,11 +436,13 @@ const ContentProfile = ({
                     )}
                   {employee?.has_child && (
                     <Button
-                      onClick={() =>
-                        router.push(
-                          `/rekapitulasi/peta-jabatan/${btoa(data?.id)}`
-                        )
-                      }
+                      onClick={() => {
+                        if (data?.id) {
+                          router.push(
+                            createShortUuidUrl(`/rekapitulasi/peta-jabatan`, data.id)
+                          )
+                        }
+                      }}
                       text='Lihat Detail'
                       color='primary'
                       fullWidth

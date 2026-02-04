@@ -11,6 +11,7 @@ import * as Yup from 'yup'
 import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
 import MasterDataInstitutionForm from './MasterDataInstitutionForm'
+import { extractIdFromShortUuidUrl } from '@/utils'
 
 const InitValue = {
   name: ''
@@ -36,7 +37,7 @@ const MasterDataInstitutionEditComponent = ({
       formikRef.current.setErrors({})
 
       const payload = {
-        id: atob(router?.query?.id),
+        id: extractIdFromShortUuidUrl(router?.query),
         data: {
           name: values.name
         }
@@ -63,8 +64,8 @@ const MasterDataInstitutionEditComponent = ({
 
   useEffect(() => {
     // Get Detail User
-    const id = router?.query?.id
-    if (id) getInstitution(atob(id))
+    const id = extractIdFromShortUuidUrl(router?.query)
+    if (id) getInstitution(id)
 
     const clearState = () => {
       clearInstitutionState()

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { mapActions } from '@/store/'
 import Layout from '@/components/core/Layout'
 import BandingkanDataPegawai from '@/components/BandingkanPegawai/DataPegawai/BandingkanDataPegawai'
+import { shortUuidToId } from '@/utils'
 
 export default connect(
   mapStateToProps(
@@ -53,7 +54,15 @@ export default connect(
         isPromotion ? 'dataPegawaiPromosi' : 'dataPegawai'
       )
       const employeesIds = storedData ? JSON.parse(storedData) : []
-      const decodedIds = employeesIds?.map(id => parseInt(atob(id)))
+      // Data di localStorage sekarang berupa ID numeric, tidak perlu decode
+      const decodedIds = employeesIds?.map(id => {
+        const parsedId = parseInt(id)
+        if (!isNaN(parsedId)) {
+          return parsedId
+        }
+        console.warn('Invalid storage format - expected numeric ID, got:', id)
+        return null
+      }).filter(id => id !== null)
       return decodedIds
     }
 

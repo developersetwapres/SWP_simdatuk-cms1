@@ -174,7 +174,7 @@ const BandingkanPegawaiComponent = ({
   }
 
   const handleRedirectCompare = () => {
-    const data = JSON.stringify(collectData?.map((item) => btoa(item)))
+    const data = JSON.stringify(collectData)
 
     if (router?.query?.echelon_id) {
       setStorages([{ name: 'dataPegawaiPromosi', value: data }])

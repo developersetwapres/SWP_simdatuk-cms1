@@ -9,6 +9,7 @@ import { useRouter } from 'next/router'
 import Card from '../shared/Card/Index'
 import LayoutPages from '../core/LayoutPages'
 import { v4 as uuidv4 } from 'uuid'
+import { extractIdFromShortUuidUrl } from '@/utils'
 
 const SubEmploymentComponent = ({
   recapComposition,
@@ -34,10 +35,10 @@ const SubEmploymentComponent = ({
 
   useEffect(() => {
     const path = router.asPath
-    const id = router.query?.subEmployment
+    const id = extractIdFromShortUuidUrl(router.query)
 
-    if (path?.includes('komposisi')) getCompositionsCategories(atob(id))
-    if (path?.includes('pegawai-asn')) getASNRecapByCategory(atob(id))
+    if (path?.includes('komposisi')) getCompositionsCategories(id)
+    if (path?.includes('pegawai-asn')) getASNRecapByCategory(id)
   }, [router])
 
   // Loading
@@ -94,7 +95,7 @@ const RecapItem = ({ showBackground, data }) => {
 
     const payload = {
       page: pages(),
-      categoryId: atob(query?.subEmployment) || null,
+      categoryId: extractIdFromShortUuidUrl(router?.query) || null,
       sectionId: data?.id,
       cardId: value?.id,
       name: value?.name

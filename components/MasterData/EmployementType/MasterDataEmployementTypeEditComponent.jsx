@@ -11,6 +11,7 @@ import * as Yup from 'yup'
 import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
 import MasterDataEmployementTypeForm from './MasterDataEmployementTypeForm'
+import { extractIdFromShortUuidUrl } from '@/utils'
 
 const initValue = {
   name: '',
@@ -44,7 +45,7 @@ const MasterDataEmployementTypeEditComponent = ({
       formikRef.current.setErrors({})
 
       const payload = {
-        id: atob(router?.query?.id),
+        id: extractIdFromShortUuidUrl(router?.query),
         data: {
           name: values?.name,
           type: options['type'].findIndex((itm) => itm == values?.type) + 1,
@@ -73,8 +74,8 @@ const MasterDataEmployementTypeEditComponent = ({
 
   useEffect(() => {
     // Get Detail User
-    const id = router?.query?.id
-    if (id) getEmploymentType(atob(id))
+    const id = extractIdFromShortUuidUrl(router?.query)
+    if (id) getEmploymentType(id)
 
     const clearState = () => {
       clearEmploymentTypeState()

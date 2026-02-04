@@ -7,6 +7,7 @@ import { Box, Grid, Typography } from '@mui/material'
 import { Button } from '../shared'
 import PropTypes from 'prop-types'
 import { useRouter } from 'next/router'
+import { createShortUuidUrl } from '@/utils'
 
 const styles = {
   headerMap: {
@@ -220,9 +221,7 @@ const PetaJabatanLayout = ({ data, children }) => {
                   text='Lihat Profil'
                   onClick={() =>
                     router.push(
-                      `/rekapitulasi/peta-jabatan/detail/${btoa(
-                        employee?.user?.id
-                      )}`
+                      createShortUuidUrl(`/rekapitulasi/peta-jabatan/detail`, employee?.user?.id)
                     )
                   }
                   sx={{
@@ -238,7 +237,7 @@ const PetaJabatanLayout = ({ data, children }) => {
                   text='Lihat Detail'
                   onClick={() => {
                     router.push(
-                      `/rekapitulasi/peta-jabatan/${btoa(employee?.id)}`
+                      createShortUuidUrl(`/rekapitulasi/peta-jabatan`, employee?.id)
                     )
                   }}
                   sx={{

@@ -12,6 +12,7 @@ import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
 import MasterDataPositionForm from './MasterDataPositionForm'
 import { entityOptions, positionTypeOptions } from 'libs/types/options'
+import { extractIdFromShortUuidUrl } from '@/utils'
 
 const InitValue = {
   show: false,
@@ -175,7 +176,7 @@ const MasterDataPositionEditComponent = ({
       await FormSchema.validate(values, { abortEarly: false })
       formikRef.current.setErrors({})
 
-      const id = atob(router?.query?.id)
+      const id = extractIdFromShortUuidUrl(router?.query)
       const echelonsDetail = position?.detail?.echelons
 
       const type = values?.position
@@ -343,9 +344,9 @@ const MasterDataPositionEditComponent = ({
     }
 
     // Get Detail User
-    const id = router?.query?.id
+    const id = extractIdFromShortUuidUrl(router?.query)
     if (id) {
-      getPosition(atob(id))
+      getPosition(id)
     }
 
     // Event clear state when url path changes
@@ -373,7 +374,7 @@ const MasterDataPositionEditComponent = ({
   }, [position?.detail])
 
   useEffect(() => {
-    const id = router?.query?.id
+    const id = extractIdFromShortUuidUrl(router?.query)
     const data = position?.data
     const isValidate = data?.length > 0
     const isChecked = positions.some((subArray) =>
@@ -383,7 +384,7 @@ const MasterDataPositionEditComponent = ({
     if (isValidate && !isChecked) {
       const newData =
         positions.length == 0
-          ? data.filter((itm) => `${itm?.id}` !== atob(id))
+          ? data.filter((itm) => `${itm?.id}` !== id)
           : data
       const values = [...positions, newData]
       setPositions(values)

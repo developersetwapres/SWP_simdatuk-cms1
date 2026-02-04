@@ -16,6 +16,7 @@ import {
   accessGranted,
   PermissionsIDs
 } from '@/utils/permissionManager'
+import { createShortUuidUrl } from '@/utils'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -160,9 +161,11 @@ const MasterDataEmployementTypeComponent = ({
                 <Button
                   text='Detail'
                   color='primary'
-                  onClick={() =>
-                    router.push(`/${router.pathname}/detail/${btoa(item?.id)}`)
-                  }
+                  onClick={() => {
+                    if (item?.id) {
+                      router.push(createShortUuidUrl(`/${router.pathname}/detail`, item.id))
+                    }
+                  }}
                   icon={<Info style={styles.iconButton} />}
                   sx={styles.buttonAction}
                 />
@@ -171,9 +174,11 @@ const MasterDataEmployementTypeComponent = ({
                 <Button
                   text='Edit'
                   color='sidatukDraweBase'
-                  onClick={() =>
-                    router.push(`/${router.pathname}/edit/${btoa(item?.id)}`)
-                  }
+                  onClick={() => {
+                    if (item?.id) {
+                      router.push(createShortUuidUrl(`/${router.pathname}/edit`, item.id))
+                    }
+                  }}
                   icon={<Edit style={styles.iconButton} />}
                   sx={styles.buttonAction}
                 />

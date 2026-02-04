@@ -15,6 +15,7 @@ import {
   accessGranted,
   PermissionsIDs
 } from '@/utils/permissionManager'
+import { extractIdFromShortUuidUrl, createShortUuidUrl } from '@/utils'
 
 const styles = {
   iconStyle: {
@@ -105,9 +106,12 @@ const MasterDataInstitutionDetailComponent = ({
             text='Edit'
             color='sidatukDraweBase'
             icon={<Edit style={styles.iconButton} />}
-            onClick={() =>
-              router.push(`/master-data/institution/edit/${router?.query?.id}`)
-            }
+            onClick={() => {
+              const numericId = extractIdFromShortUuidUrl(router?.query)
+              if (numericId) {
+                router.push(createShortUuidUrl(`/master-data/institution/edit`, numericId))
+              }
+            }}
           />
         )}
       </Box>
@@ -116,10 +120,10 @@ const MasterDataInstitutionDetailComponent = ({
 
   useEffect(() => {
     // Get Detail User
-    const id = router?.query?.id
+    const id = extractIdFromShortUuidUrl(router?.query)
     if (id) {
-      getInstitution(atob(id))
-      setDeleteId(atob(id))
+      getInstitution(id)
+      setDeleteId(id)
     }
 
     // Event clear state when url path changes

@@ -22,6 +22,7 @@ import {
   PermissionsIDs
 } from '@/utils/permissionManager'
 import { useSelector } from 'react-redux'
+import { createShortUuidUrl } from '@/utils'
 
 const styles = {
   iconStyle: {
@@ -73,8 +74,11 @@ const EmployeeASNComponent = ({
   const handleRedirect = (type, id) => {
     if (type == 'add') {
       router.push(`${router.pathname}/add`)
+    } else if (id) {
+      const url = createShortUuidUrl(`${router.pathname}/${type}`, id, { status: 'ASN' })
+      router.push(url)
     } else {
-      router.push(`${router.pathname}/${type}/${id}`)
+      console.error('Cannot redirect: Invalid ID')
     }
 
     clearPositionState()
@@ -211,7 +215,7 @@ const EmployeeASNComponent = ({
                   color='primary'
                   icon={<Info style={styles.iconButton} />}
                   sx={styles.buttonAction}
-                  onClick={() => handleRedirect('detail', btoa(item?.id))}
+                  onClick={() => handleRedirect('detail', item?.id)}
                 />
               )}
               {accessGranted(PermissionsIDs.EMPLOYEE_ASN, Access.UPDATE) && (
@@ -220,7 +224,7 @@ const EmployeeASNComponent = ({
                   color='sidatukDraweBase'
                   icon={<Edit style={styles.iconButton} />}
                   sx={styles.buttonAction}
-                  onClick={() => handleRedirect('edit', btoa(item?.id))}
+                  onClick={() => handleRedirect('edit', item?.id)}
                 />
               )}
               {accessGranted(PermissionsIDs.EMPLOYEE_ASN, Access.DELETE) && (

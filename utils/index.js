@@ -1,6 +1,9 @@
 /* eslint-disable indent */
 import axios from 'axios'
 
+// Export UUID helpers
+export * from './uuidHelper'
+
 /**
  *
  * Check if User have role
