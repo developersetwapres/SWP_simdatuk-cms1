@@ -29,7 +29,8 @@ function OTPVerificationComponent({
   const [error, setError] = useState('')
   const [countdown, setCountdown] = useState(5)
   const [canResend, setCanResend] = useState(false)
-// Check if reset_email exists, if not redirect to login
+  
+  // Check if reset_email exists, if not redirect to login
   useEffect(() => {
     const resetEmail = router.query.email || localStorage.getItem('reset_email')
     
