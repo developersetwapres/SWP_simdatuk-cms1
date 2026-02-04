@@ -108,7 +108,7 @@ function ResetPasswordComponent({
       const payload = {
         reset_token: resetToken,
         password: values?.newPassword,
-        new_password: values?.confirmNewPassword
+        password_confirmation: values?.confirmNewPassword
       }
 
       router?.pathname.includes('new-password')
