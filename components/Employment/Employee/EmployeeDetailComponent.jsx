@@ -42,7 +42,7 @@ import {
 } from 'libs/types/options'
 import ModalEditEmploymentStatus from '@/components/shared/Modal/ModalEditEmploymentStatus'
 import ModalAddNotes from '@/components/shared/Modal/ModalAddNotes'
-import { capitalizeFirstLetter, dateTimeFormat } from '@/utils/index'
+import { capitalizeFirstLetter, dateTimeFormat, extractIdFromShortUuidUrl, createShortUuidUrl } from '@/utils/index'
 import { useDispatch } from 'react-redux'
 import { CLEAR_EXPORT_EMPLOYEE_DETAIL_STATE } from '@/store/constants'
 import {
@@ -216,11 +216,15 @@ const EmployeeDetailComponent = ({
               text='Edit'
               color='sidatukDraweBase'
               onClick={() => {
-                const id = router?.query?.id
+                const numericId = extractIdFromShortUuidUrl(router?.query)
+                if (!numericId) {
+                  console.error('Failed to extract ID from URL')
+                  return
+                }
                 const path = router.pathname
                 const pathSplit = path.split('/')
                 const pathname = pathSplit.slice(0, 3).join('/')
-                router.push(`${pathname}/edit/${id}`)
+                router.push(createShortUuidUrl(`${pathname}/edit`, numericId))
               }}
             />
           </>
@@ -436,7 +440,7 @@ const EmployeeDetailComponent = ({
     const id = router?.query?.id
 
     if (id) {
-      exportEmployeeDetail(atob(id))
+      exportEmployeeDetail(extractIdFromShortUuidUrl(router.query))
     }
   }
 
@@ -466,8 +470,8 @@ const EmployeeDetailComponent = ({
   }
 
   useEffect(() => {
-    const id = router?.query?.id
-    if (id) getEmployee(atob(id))
+    const id = extractIdFromShortUuidUrl(router.query)
+    if (id) getEmployee(id)
 
     // Event clear state when url path changes
     router.events.on('routeChangeComplete', hanldleClearState)

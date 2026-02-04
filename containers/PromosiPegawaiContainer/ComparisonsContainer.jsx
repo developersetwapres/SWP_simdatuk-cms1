@@ -37,7 +37,22 @@ export default connect(
     getEmployeesFromStorage() {
       const storedData = localStorage.getItem('dataPegawaiPromosi')
       const employeesIds = storedData ? JSON.parse(storedData) : []
-      const decodedIds = employeesIds?.map(id => parseInt(atob(id)))
+      
+      const decodedIds = employeesIds?.map(item => {
+        const parsedId = parseInt(item)
+        if (!isNaN(parsedId)) {
+          return parsedId
+        }
+        
+        console.warn('Invalid storage format - expected numeric ID, got:', item)
+        return null
+      }).filter(id => id !== null)
+      
+      if (decodedIds.length === 0 && employeesIds.length > 0) {
+        console.warn('Storage contains invalid data format. Please reselect employees.')
+        localStorage.removeItem('dataPegawaiPromosi')
+      }
+      
       return decodedIds
     }
 

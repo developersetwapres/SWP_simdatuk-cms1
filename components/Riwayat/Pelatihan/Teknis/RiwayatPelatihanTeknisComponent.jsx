@@ -16,6 +16,7 @@ import {
 } from '@/utils/permissionManager'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 import { useSelector } from 'react-redux'
+import { createShortUuidUrl } from '@/utils'
 
 const useStyles = makeStyles(() => ({
   inputParent: {
@@ -171,9 +172,11 @@ const RiwayatPelatihanTeknisComponent = ({
                   color='primary'
                   icon={<Info style={styles.iconButton} />}
                   sx={styles.buttonAction}
-                  onClick={() =>
-                    router.push(`${router.pathname}/detail/${btoa(item?.id)}`)
-                  }
+                  onClick={() => {
+                    if (item?.id) {
+                      router.push(createShortUuidUrl(`${router.pathname}/detail`, item.id))
+                    }
+                  }}
                 />
               )}
               {accessGranted(
@@ -185,9 +188,11 @@ const RiwayatPelatihanTeknisComponent = ({
                   color='sidatukDraweBase'
                   icon={<Edit style={styles.iconButton} />}
                   sx={styles.buttonAction}
-                  onClick={() =>
-                    router.push(`${router.pathname}/edit/${btoa(item?.id)}`)
-                  }
+                  onClick={() => {
+                    if (item?.id) {
+                      router.push(createShortUuidUrl(`${router.pathname}/edit`, item.id))
+                    }
+                  }}
                 />
               )}
               {accessGranted(

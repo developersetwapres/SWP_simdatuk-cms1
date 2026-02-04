@@ -10,6 +10,7 @@ import Paper from '@/components/shared/overrides/Paper'
 import { monthOptions } from 'libs/types/options'
 import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
+import { extractIdFromShortUuidUrl, createShortUuidUrl } from '@/utils'
 
 const styles = {
   iconStyle: {
@@ -129,9 +130,7 @@ const RiwayatPelatihanStrukturalDetailComponent = ({
                   color='primary'
                   onClick={() =>
                     router.push(
-                      `/data-riwayat/pelatihan-struktural/detail/pegawai/${btoa(
-                        item?.user_id
-                      )}`
+                      createShortUuidUrl(`/data-riwayat/pelatihan-struktural/detail/pegawai`, item?.user_id)
                     )
                   }
                   icon={<Info style={styles.iconButton} />}
@@ -155,7 +154,10 @@ const RiwayatPelatihanStrukturalDetailComponent = ({
             text='Hapus'
             color='danger'
             icon={<Delete style={styles.iconButton} />}
-            onClick={() => showDeleteModal(router?.query?.id)}
+            onClick={() => {
+              const numericId = extractIdFromShortUuidUrl(router?.query)
+              if (numericId) showDeleteModal(numericId)
+            }}
           />
         )}
         {accessGranted(PermissionsIDs.HISTORY_STRUCTURAL, Access.UPDATE) && (
@@ -163,11 +165,12 @@ const RiwayatPelatihanStrukturalDetailComponent = ({
             text='Edit'
             color='sidatukDraweBase'
             icon={<Edit style={styles.iconButton} />}
-            onClick={() =>
-              router.push(
-                `/data-riwayat/pelatihan-struktural/edit/${router?.query?.id}`
-              )
-            }
+            onClick={() => {
+              const numericId = extractIdFromShortUuidUrl(router?.query)
+              if (numericId) {
+                router.push(createShortUuidUrl(`/data-riwayat/pelatihan-struktural/edit`, numericId))
+              }
+            }}
           />
         )}
       </Box>
@@ -188,13 +191,14 @@ const RiwayatPelatihanStrukturalDetailComponent = ({
 
     // Do Delete
     setModalDelete(false)
-    deleteTraining(atob(id))
+    const deleteId = extractIdFromShortUuidUrl(router?.query)
+    deleteTraining(deleteId)
   }
 
   useEffect(() => {
     // Get Detail Training
-    const id = router?.query?.id
-    if (id) getTraining(atob(id))
+    const id = extractIdFromShortUuidUrl(router?.query)
+    if (id) getTraining(id)
 
     // Event clear state when url path changes
     router.events.on('routeChangeComplete', handleClearState)

@@ -8,6 +8,7 @@ import { CLOSE_ICON } from '@/utils/iconConstant'
 import NotesForm from '@/components/DataPegawai/Form/NotesForm'
 import moment from 'moment'
 import { useRouter } from 'next/router'
+import { extractIdFromShortUuidUrl } from '@/utils'
 
 const style = {
   containerModal: {
@@ -36,7 +37,7 @@ const ModalAddNotes = ({
   const formikRef = useRef(null)
 
   const updateNotes = async (values) => {
-    const id = router?.query?.id || btoa(data?.id)
+    // const id = extractIdFromShortUuidUrl(router?.query) || data?.id
     const notes = values?.notes
 
     const payload = {
@@ -49,7 +50,7 @@ const ModalAddNotes = ({
     }
 
     handleSave({
-      id: atob(id),
+      id: extractIdFromShortUuidUrl(router?.query),
       data: payload
     })
     handleModal()

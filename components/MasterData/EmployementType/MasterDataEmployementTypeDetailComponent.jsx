@@ -15,6 +15,7 @@ import {
   accessGranted,
   PermissionsIDs
 } from '@/utils/permissionManager'
+import { extractIdFromShortUuidUrl, createShortUuidUrl } from '@/utils'
 
 const styles = {
   iconStyle: {
@@ -79,11 +80,14 @@ const MasterDataEmployementTypeDetailComponent = ({
             text='Edit'
             color='sidatukDraweBase'
             icon={<Edit style={styles.iconButton} />}
-            onClick={() =>
-              router.push(
-                `/master-data/employment-type/edit/${router?.query?.id}`
-              )
-            }
+            onClick={() => {
+              const numericId = extractIdFromShortUuidUrl(router?.query)
+              if (numericId) {
+                router.push(
+                  createShortUuidUrl(`/master-data/employment-type/edit`, numericId)
+                )
+              }
+            }}
           />
         )}
       </Box>
@@ -92,10 +96,10 @@ const MasterDataEmployementTypeDetailComponent = ({
 
   useEffect(() => {
     // Get Detail User
-    const id = router?.query?.id
+    const id = extractIdFromShortUuidUrl(router?.query)
     if (id) {
-      getEmploymentType(atob(id))
-      setDeleteId(atob(id))
+      getEmploymentType(id)
+      setDeleteId(id)
     }
 
     // Event clear state when url path changes

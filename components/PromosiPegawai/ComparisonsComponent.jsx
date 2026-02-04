@@ -227,7 +227,8 @@ function ComparisonsComponent({
 
   useEffect(() => {
     if (employees.length > 1) {
-      const data = JSON.stringify(employees?.map((item) => btoa(item?.id)))
+      // Simpan ID numeric di localStorage, bukan short UUID
+      const data = JSON.stringify(employees?.map((item) => item?.id))
       setStorages([{ name: 'dataPegawaiPromosi', value: data }])
     }
   }, [employees])

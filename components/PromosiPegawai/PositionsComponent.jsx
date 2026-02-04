@@ -7,6 +7,7 @@ import { makeStyles } from '@mui/styles'
 import { Button } from '../shared'
 import Card from '../shared/Card/Index'
 import PropTypes from 'prop-types'
+import { createShortUuidUrl } from '@/utils'
 
 const useStyles = makeStyles({
   heading: {},
@@ -61,7 +62,7 @@ function PositionsComponent({
   }, [positionInfo])
 
   const navigateToCompare = (positionId) => {
-    router.push(`/rekapitulasi/promosi-pegawai/bandingkan-pegawai/${btoa(positionId)}`)
+    router.push(createShortUuidUrl(`/rekapitulasi/promosi-pegawai/bandingkan-pegawai`, positionId))
   }
 
   const unoccupiedPositions = useMemo(() => {

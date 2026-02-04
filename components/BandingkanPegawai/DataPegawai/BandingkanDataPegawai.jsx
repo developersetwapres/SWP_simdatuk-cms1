@@ -80,7 +80,8 @@ const BandingkanDataPegawai = ({
   const updateStorage = (id) => {
     const storedData = localStorage.getItem('dataPegawai')
     const retrievedArray = storedData ? JSON.parse(storedData) : []
-    const employeesData = retrievedArray?.filter((item) => item?.id != id)
+    // Filter berdasarkan ID numeric, bukan object property
+    const employeesData = retrievedArray?.filter((item) => item != id)
     localStorage.setItem('dataPegawai', JSON.stringify(employeesData))
   }
 

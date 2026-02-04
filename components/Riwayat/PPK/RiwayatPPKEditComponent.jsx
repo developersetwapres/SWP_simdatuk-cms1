@@ -10,6 +10,7 @@ import Card from '@/components/shared/Card/Index'
 import * as Yup from 'yup'
 import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
+import { extractIdFromShortUuidUrl } from '@/utils'
 import moment from 'moment'
 import { monthOptions, ppkDescOptions } from 'libs/types/options'
 
@@ -96,7 +97,7 @@ const RiwayatPPKEditComponent = ({
       await FormSchema.validate(values, { abortEarly: false })
       formikRef.current.setErrors({})
 
-      const id = atob(router?.query?.id)
+      const id = extractIdFromShortUuidUrl(router?.query)
       const users = values?.pegawai?.map((itm, index) => {
         return {
           id: handleGetValue(index, 'performance'),
@@ -144,8 +145,8 @@ const RiwayatPPKEditComponent = ({
 
   useEffect(() => {
     // Get Detail User
-    const id = router?.query?.id
-    if (id) getPerformance(atob(id))
+    const id = extractIdFromShortUuidUrl(router?.query)
+    if (id) getPerformance(id)
 
     // Event clear state when url path changes
     router.events.on('routeChangeComplete', handleClearState)
