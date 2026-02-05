@@ -63,7 +63,7 @@ service.interceptors.response.use(
         type: 'ACTION_RESPONSER',
         payload: {
           code: status || 401,
-          message: 'Sesion anda telah habis, silahkan login kembali'
+          message: err?.data?.message || 'Sesion anda telah habis, silahkan login kembali'
         }
       })
     } else if (status == 403) {
@@ -73,7 +73,7 @@ service.interceptors.response.use(
         type: 'ACTION_RESPONSER',
         payload: {
           code: 500,
-          message: 'Mohon Maaf kami sedang dalam gangguan'
+          message: err?.data?.message || 'Mohon Maaf kami sedang dalam gangguan'
         }
       })
     }
