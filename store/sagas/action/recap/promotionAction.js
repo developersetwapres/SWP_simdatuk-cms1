@@ -39,7 +39,7 @@ export const getBriefEmployeesAction = (payload) => {
  * @returns
  */
 export const getEmployeesCompareAction = (payload) => {
-  return post(`/comparisons/detail`, payload)
+  return get(`/comparisons/detail`, payload)
 }
 
 /**
@@ -49,5 +49,5 @@ export const getEmployeesCompareAction = (payload) => {
  * @returns
  */
 export const getEmployeesPromotionAction = (payload) => {
-  return post(`/comparisons/detail-promotions`, payload)
+  return get(`/comparisons/detail-promotions`, payload)
 }
