@@ -193,7 +193,10 @@ const RecapItem = ({ showBackground, data }) => {
       )
     } else if (value?.id) {
       // Build clean base path from query params
-      const basePath = `/rekapitulasi/${query?.employment}/${query?.subEmployment}`
+      // Check if subEmployment exists in query
+      const basePath = query?.subEmployment 
+        ? `/rekapitulasi/${query?.employment}/${query?.subEmployment}`
+        : `/rekapitulasi/${query?.employment}`
       router.push(createShortUuidUrl(basePath, value.id))
     }
   }
