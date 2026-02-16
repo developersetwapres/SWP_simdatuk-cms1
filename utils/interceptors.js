@@ -14,7 +14,7 @@ export const logResponser = (res) => {
   if (!res) return null
   const { config } = res
   const loadTime = performance.now()
-  const url = config.url.replace(process.env.NEXT_PUBLIC_API_URL, '')
+  const url = config.url.replace(`${process.env.NEXT_PUBLIC_API_URL}/api`, '')
 
   // * Send Response to logger
   Logger(`${config.method.toUpperCase()} ${url}`, {
@@ -32,7 +32,7 @@ export const logResponser = (res) => {
  * Axios create default config
  */
 const service = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost',
+  baseURL: `${process.env.NEXT_PUBLIC_API_URL}/api` || 'http://localhost',
   headers: {
     Authorization: {
       toString() {
