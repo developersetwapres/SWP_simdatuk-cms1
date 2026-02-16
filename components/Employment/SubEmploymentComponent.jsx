@@ -102,7 +102,10 @@ const RecapItem = ({ showBackground, data }) => {
     }
     const jsonString = JSON.stringify(payload)
     const params = btoa(jsonString)
-    router.push(`${router?.asPath}/pegawai?category=${params}`)
+    
+    // Clean the asPath from query string before appending new path
+    const cleanPath = router?.asPath?.split('?')[0]
+    router.push(`${cleanPath}/pegawai?category=${params}`)
   }
 
   return (
