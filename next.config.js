@@ -1,5 +1,4 @@
 const path = require('path')
-const Dotenv = require('dotenv-webpack')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const alias = {
   '@/components': path.join(__dirname, 'components'),
@@ -12,7 +11,15 @@ const alias = {
 
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: false,
+  swcMinify: true,
+  modularizeImports: {
+    '@mui/icons-material': {
+      transform: '@mui/icons-material/{{member}}'
+    },
+    '@mui/material': {
+      transform: '@mui/material/{{member}}'
+    }
+  },
   async redirects() {
     return [
       {
@@ -82,11 +89,6 @@ const nextConfig = {
     config.plugins = config.plugins || []
     config.plugins = [
       ...config.plugins,
-      // Read the .env file
-      new Dotenv({
-        path: path.join(__dirname, '.env.local'),
-        systemvars: true
-      }),
       new CaseSensitivePathsPlugin()
     ]
     config.resolve.alias = Object.assign({}, config.resolve.alias, alias)
