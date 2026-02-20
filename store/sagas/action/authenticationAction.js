@@ -1,4 +1,4 @@
-import { post, patch, get } from '@/utils/interceptors'
+import { post, patch, get, del } from '@/utils/interceptors'
 
 /**
  *
@@ -42,6 +42,16 @@ export const forgetPasswordAction = (payload) => {
 }
 
 /**
+ * Verify OTP
+ *
+ * @param {*} payload
+ * @returns
+ */
+export const verifyOTPAction = (payload) => {
+  return post(`/verify-otp`, payload)
+}
+
+/**
  * Get Profile
  *
  * @returns
@@ -66,7 +76,7 @@ export const updateProfileAction = (payload) => {
  * @returns
  */
 export const authenticationLogoutAction = () => {
-  return get(`/auth/logout`)
+  return del(`/logout`)
 }
 
 /**

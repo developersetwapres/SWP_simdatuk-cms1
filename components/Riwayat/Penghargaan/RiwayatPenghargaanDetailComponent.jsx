@@ -14,6 +14,7 @@ import {
   PermissionsIDs
 } from '@/utils/permissionManager'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
+import { extractIdFromShortUuidUrl, createShortUuidUrl } from '@/utils'
 
 const styles = {
   iconStyle: {
@@ -111,9 +112,7 @@ const RiwayatPenghargaanDetailComponent = ({
                   color='primary'
                   onClick={() =>
                     router.push(
-                      `/data-riwayat/penghargaan/detail/pegawai/${btoa(
-                        item?.user_id
-                      )}`
+                      createShortUuidUrl(`/data-riwayat/penghargaan/detail/pegawai`, item?.user_id)
                     )
                   }
                   icon={<Info style={styles.iconButton} />}
@@ -137,7 +136,10 @@ const RiwayatPenghargaanDetailComponent = ({
             text='Hapus'
             color='danger'
             icon={<Delete style={styles.iconButton} />}
-            onClick={() => showDeleteModal(router?.query?.id)}
+            onClick={() => {
+              const numericId = extractIdFromShortUuidUrl(router?.query)
+              if (numericId) showDeleteModal(numericId)
+            }}
           />
         )}
         {accessGranted(PermissionsIDs.HISTORY_AWARD, Access.UPDATE) && (
@@ -145,9 +147,12 @@ const RiwayatPenghargaanDetailComponent = ({
             text='Edit'
             color='sidatukDraweBase'
             icon={<Edit style={styles.iconButton} />}
-            onClick={() =>
-              router.push(`/data-riwayat/penghargaan/edit/${router?.query?.id}`)
-            }
+            onClick={() => {
+              const numericId = extractIdFromShortUuidUrl(router?.query)
+              if (numericId) {
+                router.push(createShortUuidUrl(`/data-riwayat/penghargaan/edit`, numericId))
+              }
+            }}
           />
         )}
       </Box>
@@ -173,13 +178,14 @@ const RiwayatPenghargaanDetailComponent = ({
 
     // Do Delete
     setModalDelete(false)
-    deleteRecognition(atob(id))
+    const deleteId = extractIdFromShortUuidUrl(router?.query)
+    deleteRecognition(deleteId)
   }
 
   useEffect(() => {
     // Get Detail User
-    const id = router?.query?.id
-    if (id) getRecognition(atob(id))
+    const id = extractIdFromShortUuidUrl(router?.query)
+    if (id) getRecognition(id)
 
     // Event clear state when url path changes
     router.events.on('routeChangeComplete', clearRecognitionState)

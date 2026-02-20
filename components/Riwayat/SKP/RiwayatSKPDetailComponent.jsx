@@ -14,6 +14,7 @@ import {
   predicateOptions,
   ratingOrganizationOptions
 } from 'libs/types/options'
+import { extractIdFromShortUuidUrl, createShortUuidUrl } from '@/utils'
 import {
   Access,
   accessGranted,
@@ -172,7 +173,7 @@ const RiwayatSKPDetailComponent = ({
                   color='primary'
                   onClick={() =>
                     router.push(
-                      `/data-riwayat/skp/detail/pegawai/${btoa(item?.user_id)}`
+                      createShortUuidUrl(`/data-riwayat/skp/detail/pegawai`, item?.user_id)
                     )
                   }
                   icon={<Info style={styles.iconButton} />}
@@ -196,7 +197,10 @@ const RiwayatSKPDetailComponent = ({
             text='Hapus'
             color='danger'
             icon={<Delete style={styles.iconButton} />}
-            onClick={() => showDeleteModal(router?.query?.id)}
+            onClick={() => {
+              const numericId = extractIdFromShortUuidUrl(router?.query)
+              if (numericId) showDeleteModal(numericId)
+            }}
           />
         )}
         {accessGranted(PermissionsIDs.HISTORY_SKP, Access.UPDATE) && (
@@ -204,9 +208,12 @@ const RiwayatSKPDetailComponent = ({
             text='Edit'
             color='sidatukDraweBase'
             icon={<Edit style={styles.iconButton} />}
-            onClick={() =>
-              router.push(`/data-riwayat/skp/edit/${router?.query?.id}`)
-            }
+            onClick={() => {
+              const numericId = extractIdFromShortUuidUrl(router?.query)
+              if (numericId) {
+                router.push(createShortUuidUrl(`/data-riwayat/skp/edit`, numericId))
+              }
+            }}
           />
         )}
       </Box>
@@ -223,7 +230,8 @@ const RiwayatSKPDetailComponent = ({
 
     // Do Delete
     setModalDelete(false)
-    deleteTarget(atob(id))
+    const deleteId = extractIdFromShortUuidUrl(router?.query)
+    deleteTarget(deleteId)
   }
 
   const handleParsePeriod = (month, year) => {
@@ -232,8 +240,8 @@ const RiwayatSKPDetailComponent = ({
 
   useEffect(() => {
     // Get Detail User
-    const id = router?.query?.id
-    if (id) getTarget(atob(id))
+    const id = extractIdFromShortUuidUrl(router?.query)
+    if (id) getTarget(id)
 
     // Event clear state when url path changes
     router.events.on('routeChangeComplete', clearTargetState)

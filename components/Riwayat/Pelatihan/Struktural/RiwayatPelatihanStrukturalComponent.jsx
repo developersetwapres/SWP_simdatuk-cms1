@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import { monthOptions } from 'libs/types/options'
 import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
+import { createShortUuidUrl } from '@/utils'
 import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles(() => ({
@@ -161,9 +162,11 @@ const RiwayatPelatihanStrukturalComponent = ({
                   color='primary'
                   icon={<Info style={styles.iconButton} />}
                   sx={styles.buttonAction}
-                  onClick={() =>
-                    router.push(`${router.pathname}/detail/${btoa(item?.id)}`)
-                  }
+                  onClick={() => {
+                    if (item?.id) {
+                      router.push(createShortUuidUrl(`${router.pathname}/detail`, item.id))
+                    }
+                  }}
                 />
               )}
               {accessGranted(PermissionsIDs.HISTORY_STRUCTURAL, Access.UPDATE) && (
@@ -172,9 +175,11 @@ const RiwayatPelatihanStrukturalComponent = ({
                   color='sidatukDraweBase'
                   icon={<Edit style={styles.iconButton} />}
                   sx={styles.buttonAction}
-                  onClick={() =>
-                    router.push(`${router.pathname}/edit/${btoa(item?.id)}`)
-                  }
+                  onClick={() => {
+                    if (item?.id) {
+                      router.push(createShortUuidUrl(`${router.pathname}/edit`, item.id))
+                    }
+                  }}
                 />
               )}
               {accessGranted(PermissionsIDs.HISTORY_STRUCTURAL, Access.DELETE) && (

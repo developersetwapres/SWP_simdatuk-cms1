@@ -11,6 +11,7 @@ import * as Yup from 'yup'
 import { Button } from '@/components/shared'
 import { useRouter } from 'next/router'
 import MasterDataRoleForm from './MasterDataRoleForm'
+import { extractIdFromShortUuidUrl } from '@/utils'
 
 const FormSchema = Yup.object().shape({
   roleName: Yup.string().required('Role Pengguna tidak boleh kosong')
@@ -50,7 +51,7 @@ const MasterDataRoleEditComponent = ({
           : []
 
       const payload = {
-        id: atob(router?.query?.id),
+        id: extractIdFromShortUuidUrl(router?.query),
         data: {
           name: values.roleName,
           permissions: valuePermission
@@ -79,8 +80,8 @@ const MasterDataRoleEditComponent = ({
 
   useEffect(() => {
     // Get Detail User
-    const id = router?.query?.id
-    if (id) getRole(atob(id))
+    const id = extractIdFromShortUuidUrl(router?.query)
+    if (id) getRole(id)
 
     const clearState = () => {
       clearRoleState()

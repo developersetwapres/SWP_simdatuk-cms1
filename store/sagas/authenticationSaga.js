@@ -16,6 +16,9 @@ import {
   FORGET_PASSWORD_REQUESTED,
   FORGET_PASSWORD_SUCCESS,
   FORGET_PASSWORD_FAILED,
+  VERIFY_OTP_REQUESTED,
+  VERIFY_OTP_SUCCESS,
+  VERIFY_OTP_FAILED,
   GET_PROFILE_REQUESTED,
   GET_PROFILE_SUCCESS,
   GET_PROFILE_FAILED,
@@ -24,6 +27,8 @@ import {
   UPDATE_PROFILE_FAILED,
   SET_MODAL,
   AUTHENTICATION_LOGOUT_REQUESTED,
+  AUTHENTICATION_LOGOUT_SUCCESS,
+  AUTHENTICATION_LOGOUT_FAILED,
   GET_HASH_URL_PASSWORD_REQUESTED,
   GET_HASH_URL_PASSWORD_SUCCESS,
   GET_HASH_URL_PASSWORD_FAILED,
@@ -41,12 +46,14 @@ import {
   authenticationPost,
   updatePasswordAction,
   forgetPasswordAction,
+  verifyOTPAction,
   updateProfileAction,
   getHashUrlPasswordAction,
   resetPasswordAction,
   authenticationQrCodeAction,
   getProfileAction,
-  newPasswordAction
+  newPasswordAction,
+  authenticationLogoutAction
 } from './action/authenticationAction'
 import { delay } from './sagaUtils'
 import Router from 'next/router'
@@ -156,13 +163,7 @@ function* forgetPassword(action) {
       type: FORGET_PASSWORD_SUCCESS,
       payload: payload
     })
-    yield put({
-      type: SET_MODAL,
-      payload: {
-        code: payload?.code,
-        message: payload?.message
-      }
-    })
+    // Don't show modal, we're redirecting to OTP page
   } catch (err) {
     yield put({
       type: SET_MODAL,
@@ -173,6 +174,45 @@ function* forgetPassword(action) {
     })
     yield put({
       type: FORGET_PASSWORD_FAILED,
+      payload: {
+        error: err?.data?.meta?.message
+      }
+    })
+  }
+}
+
+/**
+ * Verify OTP Sagas
+ *
+ * @param {*} action
+ * @returns
+ */
+function* verifyOTP(action) {
+  try {
+    const res = yield call(verifyOTPAction, action?.payload)
+
+    const payload = res?.data
+    yield put({
+      type: VERIFY_OTP_SUCCESS,
+      payload: payload
+    })
+    
+    // Save reset_token to localStorage and redirect
+    const resetToken = payload?.reset_token || payload?.data?.reset_token
+    if (resetToken) {
+      localStorage.setItem('reset_token', resetToken)
+      Router.push(`/auth/reset-password`)
+    }
+  } catch (err) {
+    yield put({
+      type: SET_MODAL,
+      payload: {
+        code: err?.data?.code,
+        message: err?.data?.message || 'Kode OTP tidak valid atau telah kadaluarsa'
+      }
+    })
+    yield put({
+      type: VERIFY_OTP_FAILED,
       payload: {
         error: err?.data?.meta?.message
       }
@@ -283,8 +323,22 @@ function* updateProfileSagas(action) {
  * @returns
  */
 function* authenticationLogout() {
-  clearStorages(['setneg_token', 'setneg_menu', '__ui'])
-  Router.push('/auth/login')
+  try {
+    yield call(authenticationLogoutAction)
+    yield put({
+      type: AUTHENTICATION_LOGOUT_SUCCESS,
+      payload: { message: 'Logout berhasil' }
+    })
+  } catch (err) {
+    // Even if API fails, still logout user from frontend
+    yield put({
+      type: AUTHENTICATION_LOGOUT_FAILED,
+      payload: { error: err?.data?.message || 'Logout failed' }
+    })
+  } finally {
+    clearStorages(['setneg_token', 'setneg_menu', '__ui'])
+    Router.push('/auth/login')
+  }
 }
 
 /**
@@ -317,8 +371,6 @@ function* getHashPassword(action) {
  * @returns
  */
 function* resetPasswordSaga(action) {
-  const isNewPassword = action?.payload?.status
-
   try {
     const res = yield call(resetPasswordAction, action?.payload)
     const payload = res?.data
@@ -329,6 +381,8 @@ function* resetPasswordSaga(action) {
     })
 
     clearStorages(['__ui', 'setneg_token'])
+    localStorage.removeItem('reset_token')
+    localStorage.removeItem('reset_email')
 
     yield put({
       type: SET_MODAL,
@@ -432,6 +486,7 @@ function* authSaga() {
   yield takeEvery(AUTHENTICATION_REQUESTED, postAuthentication)
   yield takeEvery(UPDATE_PASSWORD_REQUESTED, updatePassword)
   yield takeEvery(FORGET_PASSWORD_REQUESTED, forgetPassword)
+  yield takeEvery(VERIFY_OTP_REQUESTED, verifyOTP)
   yield takeEvery(GET_PROFILE_REQUESTED, getProfile)
   yield takeEvery(UPDATE_PROFILE_REQUESTED, updateProfileSagas)
   yield takeEvery(AUTHENTICATION_LOGOUT_REQUESTED, authenticationLogout)

@@ -10,6 +10,9 @@ import {
   FORGET_PASSWORD_REQUESTED,
   FORGET_PASSWORD_SUCCESS,
   FORGET_PASSWORD_FAILED,
+  VERIFY_OTP_REQUESTED,
+  VERIFY_OTP_SUCCESS,
+  VERIFY_OTP_FAILED,
   GET_PROFILE_REQUESTED,
   GET_PROFILE_SUCCESS,
   GET_PROFILE_FAILED,
@@ -46,7 +49,8 @@ const initialState = {
   isBusy: false,
   forgetStatus: '',
   statusCode: 200,
-  qrCode: null
+  qrCode: null,
+  otpVerified: false
 }
 
 export const authentication = (state = initialState, actions) => {
@@ -115,6 +119,24 @@ export const authentication = (state = initialState, actions) => {
         ...state,
         loading: false,
         forgetStatus: 'FAILED',
+        error: payload?.error
+      }
+    case VERIFY_OTP_REQUESTED:
+      return {
+        ...state,
+        loading: true
+      }
+    case VERIFY_OTP_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        otpVerified: true
+      }
+    case VERIFY_OTP_FAILED:
+      return {
+        ...state,
+        loading: false,
+        otpVerified: false,
         error: payload?.error
       }
     case GET_PROFILE_REQUESTED:

@@ -14,6 +14,7 @@ import {
   accessGranted,
   PermissionsIDs
 } from '@/utils/permissionManager'
+import { extractIdFromShortUuidUrl, createShortUuidUrl } from '@/utils'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 
 const styles = {
@@ -271,9 +272,7 @@ const RiwayatHukumanDisiplinDetailComponent = ({
                     color='primary'
                     onClick={() =>
                       router.push(
-                        `/data-riwayat/hukuman-disiplin/detail/pegawai/${btoa(
-                          item?.user_id
-                        )}`
+                        createShortUuidUrl(`/data-riwayat/hukuman-disiplin/detail/pegawai`, item?.user_id)
                       )
                     }
                     icon={<Info style={styles.iconButton} />}
@@ -297,7 +296,10 @@ const RiwayatHukumanDisiplinDetailComponent = ({
             text='Hapus'
             color='danger'
             icon={<Delete style={styles.iconButton} />}
-            onClick={() => showDeleteModal(router?.query?.id)}
+            onClick={() => {
+              const numericId = extractIdFromShortUuidUrl(router?.query)
+              if (numericId) showDeleteModal(numericId)
+            }}
           />
         )}
         {accessGranted(PermissionsIDs.HISTORY_DISCIPLINARY, Access.UPDATE) && (
@@ -305,11 +307,12 @@ const RiwayatHukumanDisiplinDetailComponent = ({
             text='Edit'
             color='sidatukDraweBase'
             icon={<Edit style={styles.iconButton} />}
-            onClick={() =>
-              router.push(
-                `/data-riwayat/hukuman-disiplin/edit/${router?.query?.id}`
-              )
-            }
+            onClick={() => {
+              const numericId = extractIdFromShortUuidUrl(router?.query)
+              if (numericId) {
+                router.push(createShortUuidUrl(`/data-riwayat/hukuman-disiplin/edit`, numericId))
+              }
+            }}
           />
         )}
       </Box>
@@ -330,13 +333,14 @@ const RiwayatHukumanDisiplinDetailComponent = ({
 
     // Do Delete
     setModalDelete(false)
-    deleteDisciplinary(atob(id))
+    const deleteId = extractIdFromShortUuidUrl(router?.query)
+    deleteDisciplinary(deleteId)
   }
 
   useEffect(() => {
     // Get Detail User
-    const id = router?.query?.id
-    if (id) getDisciplinary(atob(id))
+    const id = extractIdFromShortUuidUrl(router?.query)
+    if (id) getDisciplinary(id)
 
     // Event clear state when url path changes
     router.events.on('routeChangeComplete', clearDisciplinaryState)

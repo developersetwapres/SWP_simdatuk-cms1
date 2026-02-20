@@ -9,6 +9,7 @@ import { Button } from '@/components/shared'
 import { Box } from '@mui/material'
 import FormComponent from '../Form/FormComponent'
 import moment from 'moment'
+import { extractIdFromShortUuidUrl } from '@/utils'
 import {
   assesmentsOptions,
   competencesOptions,
@@ -330,7 +331,7 @@ const EmployeeEditComponent = ({
 
         const emptyArray = ''
 
-        const id = atob(router?.query?.id)
+        const id = extractIdFromShortUuidUrl(router?.query)
 
         const position = employee?.positions.filter((itm) => itm?.name !== null)
         const positionLength = position.length
@@ -971,8 +972,8 @@ const EmployeeEditComponent = ({
   }, [employee?.errorForm])
 
   useEffect(() => {
-    const id = router?.query.id
-    if (id) getEmployee(atob(id))
+    const id = extractIdFromShortUuidUrl(router?.query)
+    if (id) getEmployee(id)
 
     router.events.on('routeChangeComplete', handleClearState)
 

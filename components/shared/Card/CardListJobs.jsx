@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Box, List, Typography } from '@mui/material'
 import { Button } from '..'
 import { useRouter } from 'next/router'
+import { createShortUuidUrl } from '@/utils'
 
 const CardListJobs = ({ data, otherStyle, isModal, handleModal }) => {
   const router = useRouter()
@@ -43,7 +44,10 @@ const CardListJobs = ({ data, otherStyle, isModal, handleModal }) => {
         <Button
           onClick={() => {
             if (isModal) handleModal()
-            router.push(btoa(data?.id))
+            if (data?.id) {
+              // Use static base path for PetaJabatan
+              router.push(createShortUuidUrl('/rekapitulasi/peta-jabatan', data.id))
+            }
           }}
           text='Lihat Detail'
           color='primary'

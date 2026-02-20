@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import { monthOptions } from 'libs/types/options'
 import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
+import { createShortUuidUrl } from '@/utils'
 import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles(() => ({
@@ -148,9 +149,11 @@ const RiwayatHukumanDisiplinComponent = ({
                 <Button
                   text='Detail'
                   color='primary'
-                  onClick={() =>
-                    router.push(`${router.pathname}/detail/${btoa(item?.id)}`)
-                  }
+                  onClick={() => {
+                    if (item?.id) {
+                      router.push(createShortUuidUrl(`${router.pathname}/detail`, item.id))
+                    }
+                  }}
                   icon={<Info style={styles.iconButton} />}
                   sx={styles.buttonAction}
                 />
@@ -159,9 +162,11 @@ const RiwayatHukumanDisiplinComponent = ({
                 <Button
                   text='Edit'
                   color='sidatukDraweBase'
-                  onClick={() =>
-                    router.push(`${router.pathname}/edit/${btoa(item?.id)}`)
-                  }
+                  onClick={() => {
+                    if (item?.id) {
+                      router.push(createShortUuidUrl(`${router.pathname}/edit`, item.id))
+                    }
+                  }}
                   icon={<Edit style={styles.iconButton} />}
                   sx={styles.buttonAction}
                 />

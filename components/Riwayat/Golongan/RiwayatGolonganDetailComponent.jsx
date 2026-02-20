@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import Paper from '@/components/shared/overrides/Paper'
 import { monthOptions } from 'libs/types/options'
 import { Access, accessGranted, PermissionsIDs } from '@/utils/permissionManager'
+import { extractIdFromShortUuidUrl, createShortUuidUrl } from '@/utils'
 import ModalConfirmDelete from '@/components/shared/Modal/ModalConfirmDelete'
 
 const styles = {
@@ -35,7 +36,6 @@ const RiwayatGolonganDetailComponent = ({
   const router = useRouter()
   const [modalDelete, setModalDelete] = useState(false)
   const [id, setId] = useState(null)
-  const detailId = useMemo(() => router.query?.id, [router])
   const data = useMemo(() => {
     return grade?.detail
   }, [grade])
@@ -135,7 +135,7 @@ const RiwayatGolonganDetailComponent = ({
                   color='primary'
                   onClick={() =>
                     router.push(
-                      `/data-riwayat/golongan/detail/pegawai/${btoa(item?.user_id)}`
+                      createShortUuidUrl(`/data-riwayat/golongan/detail/pegawai`, item?.user_id)
                     )
                   }
                   icon={<Info style={styles.iconButton} />}
@@ -159,7 +159,10 @@ const RiwayatGolonganDetailComponent = ({
             text='Hapus'
             color='danger'
             icon={<Delete style={styles.iconButton} />}
-            onClick={() => showDeleteModal(detailId)}
+            onClick={() => {
+              const numericId = extractIdFromShortUuidUrl(router?.query)
+              if (numericId) showDeleteModal(numericId)
+            }}
           />
         )}
         {accessGranted(PermissionsIDs.HISTORY_GRADE, Access.UPDATE) && (
@@ -168,13 +171,16 @@ const RiwayatGolonganDetailComponent = ({
             color='sidatukDraweBase'
             icon={<Edit style={styles.iconButton} />}
             onClick={() => {
-              router.push(`/data-riwayat/golongan/edit/${detailId}`)
+              const numericId = extractIdFromShortUuidUrl(router?.query)
+              if (numericId) {
+                router.push(createShortUuidUrl(`/data-riwayat/golongan/edit`, numericId))
+              }
             }}
           />
         )}
       </Box>
     )
-  }, [detailId, router])
+  }, [router])
 
   const handleParsePeriod = (month, year) => {
     return month && year ? `${monthOptions[month - 1]} ${year}` : '-'
@@ -190,13 +196,14 @@ const RiwayatGolonganDetailComponent = ({
 
     // Do Delete
     setModalDelete(false)
-    deleteGrade(atob(id))
+    const deleteId = extractIdFromShortUuidUrl(router?.query)
+    deleteGrade(deleteId)
   }
 
   useEffect(() => {
     // Get Detail User
-    const id = router?.query?.id
-    if (id) getGrade(atob(id))
+    const id = extractIdFromShortUuidUrl(router?.query)
+    if (id) getGrade(id)
 
     // Event clear state when url path changes
     router.events.on('routeChangeComplete', clearGradeState)

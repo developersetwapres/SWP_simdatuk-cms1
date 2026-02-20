@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Footer from '@/components/core/Footer'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Box, Container, Grid, Typography, Stack } from '@mui/material'
 import Image from 'next/image'
 import { makeStyles } from '@mui/styles'
@@ -9,6 +9,7 @@ import ResetPasswordForm from './ResetPasswordForm'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import logo from '/public/simdatuk/Logo.png'
+import Router from 'next/router'
 
 // eslint-disable-next-line no-unused-vars
 const useStyles = makeStyles((theme) => ({
@@ -30,6 +31,16 @@ function ResetPasswordComponent({
   const classes = useStyles()
   const selector = useSelector((state) => state.authentication)
 
+  // Check if reset_token exists, if not redirect to login
+  useEffect(() => {
+    const resetToken = localStorage.getItem('reset_token')
+    const resetEmail = localStorage.getItem('reset_email')
+    
+    if (!resetToken && !resetEmail && !isNewPassword) {
+      Router.push('/auth/login')
+    }
+  }, [isNewPassword])
+
   // eslint-disable-next-line no-unused-vars
   const [initialValues, setInitialValues] = useState({
     newPassword: '',
@@ -39,18 +50,43 @@ function ResetPasswordComponent({
   const validate = (fieldOfValues = values) => {
     const temp = { ...errors }
 
-    if ('newPassword' in fieldOfValues)
-      temp.newPassword = fieldOfValues.newPassword
-        ? ''
-        : 'Password baru tidak boleh kosong'
+    if ('newPassword' in fieldOfValues) {
+      if (!fieldOfValues.newPassword) {
+        temp.newPassword = 'Password baru tidak boleh kosong'
+      } else if (fieldOfValues.newPassword.length < 8) {
+        temp.newPassword = 'Password baru minimal 8 karakter'
+      } else if (!/[A-Z]/.test(fieldOfValues.newPassword)) {
+        temp.newPassword = 'Password baru harus mengandung minimal 1 huruf besar'
+      } else if (!/[a-z]/.test(fieldOfValues.newPassword)) {
+        temp.newPassword = 'Password baru harus mengandung minimal 1 huruf kecil'
+      } else if (!/\d/.test(fieldOfValues.newPassword)) {
+        temp.newPassword = 'Password baru harus mengandung minimal 1 angka'
+      } else if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(fieldOfValues.newPassword)) {
+        temp.newPassword = 'Password baru harus mengandung minimal 1 karakter spesial'
+      } else {
+        temp.newPassword = ''
+      }
+    }
 
-    if ('confirmNewPassword' in fieldOfValues)
-      temp.confirmNewPassword = fieldOfValues.confirmNewPassword
-        ? values.newPassword.toLowerCase() ===
-          fieldOfValues.confirmNewPassword.toLowerCase()
-          ? ''
-          : 'Password harus sama dengan Password Baru'
-        : 'Konfirmasi password baru tidak boleh kosong'
+    if ('confirmNewPassword' in fieldOfValues) {
+      if (!fieldOfValues.confirmNewPassword) {
+        temp.confirmNewPassword = 'Konfirmasi password baru tidak boleh kosong'
+      } else if (fieldOfValues.confirmNewPassword.length < 8) {
+        temp.confirmNewPassword = 'Konfirmasi password minimal 8 karakter'
+      } else if (!/[A-Z]/.test(fieldOfValues.confirmNewPassword)) {
+        temp.confirmNewPassword = 'Konfirmasi password harus mengandung minimal 1 huruf besar'
+      } else if (!/[a-z]/.test(fieldOfValues.confirmNewPassword)) {
+        temp.confirmNewPassword = 'Konfirmasi password harus mengandung minimal 1 huruf kecil'
+      } else if (!/\d/.test(fieldOfValues.confirmNewPassword)) {
+        temp.confirmNewPassword = 'Konfirmasi password harus mengandung minimal 1 angka'
+      } else if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(fieldOfValues.confirmNewPassword)) {
+        temp.confirmNewPassword = 'Konfirmasi password harus mengandung minimal 1 karakter spesial'
+      } else if (values.newPassword !== fieldOfValues.confirmNewPassword) {
+        temp.confirmNewPassword = 'Password harus sama dengan Password Baru'
+      } else {
+        temp.confirmNewPassword = ''
+      }
+    }
 
     setErrors({
       ...temp
@@ -68,8 +104,9 @@ function ResetPasswordComponent({
 
   const handleSubmitReset = () => {
     if (validate()) {
+      const resetToken = localStorage.getItem('reset_token')
       const payload = {
-        code: router.query.hash,
+        reset_token: resetToken,
         password: values?.newPassword,
         password_confirmation: values?.confirmNewPassword
       }
@@ -130,7 +167,7 @@ function ResetPasswordComponent({
             <Grid item textAlign='center'>
               <h2>{isNewPassword ? 'Password Baru' : 'Reset Password'}</h2>
 
-              {isNewPassword ? (
+              {/* {isNewPassword ? (
                 <>
                   <p style={{ marginTop: '' }}>
                     Anda telah berhasil terverifikasi
@@ -143,7 +180,7 @@ function ResetPasswordComponent({
                 <p style={{ marginTop: '-10px' }}>
                   Reset Password akun: {router?.query?.email ?? '-'}
                 </p>
-              )}
+              )} */}
             </Grid>
             <Grid item>
               <ResetPasswordForm

@@ -12,7 +12,7 @@ import ButtonExport from '../core/ButtonExport'
 import { v4 as uuidv4 } from 'uuid'
 import { useDispatch } from 'react-redux'
 import { CLEAR_EXPORT_RECAP_STATE } from '@/store/constants'
-import { dateTimeFormat } from '@/utils/index'
+import { dateTimeFormat, createShortUuidUrl } from '@/utils/index'
 
 const EmploymentComponent = ({
   recapComposition,
@@ -157,6 +157,7 @@ const RecapItem = ({ showBackground, data }) => {
 
   const nextPagePath = (value) => {
     const path = router?.asPath
+    const query = router?.query
 
     if (
       (path?.includes('pegawai-asn') &&
@@ -164,8 +165,6 @@ const RecapItem = ({ showBackground, data }) => {
       path?.includes('pegawai-non-asn') ||
       path?.includes('pegawai-outsourcing')
     ) {
-      const query = router?.query
-
       const pages = () => {
         switch (query?.employment) {
           case 'pegawai-asn':
@@ -190,12 +189,15 @@ const RecapItem = ({ showBackground, data }) => {
       const jsonString = JSON.stringify(payload)
       const params = btoa(jsonString)
       router.push(
-        `/rekapitulasi/${query?.employment}/${btoa(
-          0
-        )}/pegawai?category=${params}`
+        `/rekapitulasi/${query?.employment}/0/pegawai?category=${params}`
       )
-    } else {
-      router.push(`${router?.asPath}/${btoa(value?.id)}`)
+    } else if (value?.id) {
+      // Build clean base path from query params
+      // Check if subEmployment exists in query
+      const basePath = query?.subEmployment 
+        ? `/rekapitulasi/${query?.employment}/${query?.subEmployment}`
+        : `/rekapitulasi/${query?.employment}`
+      router.push(createShortUuidUrl(basePath, value.id))
     }
   }
 

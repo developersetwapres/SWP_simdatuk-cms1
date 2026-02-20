@@ -2,6 +2,7 @@ import {
   AUTHENTICATION_REQUESTED,
   UPDATE_PASSWORD_REQUESTED,
   FORGET_PASSWORD_REQUESTED,
+  VERIFY_OTP_REQUESTED,
   UPDATE_PROFILE_REQUESTED,
   AUTHENTICATION_LOGOUT_REQUESTED,
   GET_HASH_URL_PASSWORD_REQUESTED,
@@ -60,6 +61,17 @@ export const updatePassword = (payload) => ({
  */
 export const forgetPassword = (payload) => ({
   type: FORGET_PASSWORD_REQUESTED,
+  payload: payload
+})
+
+/**
+ * Verify OTP
+ *
+ * @param {*} payload
+ * @returns
+ */
+export const verifyOTP = (payload) => ({
+  type: VERIFY_OTP_REQUESTED,
   payload: payload
 })
 

@@ -1,6 +1,34 @@
-Dockerfile
-.dockerignore
+# --- Dependencies & Build Output ---
 node_modules
-npm-debug.log
+.next
+build
+dist
+
+# --- Environment Variables ---
+.env*
+!.env.local
+
+# --- Version Control & CI ---
+.git
+.gitignore
+.gitlab-ci.yml
+.github
+
+# --- Logs & Debug ---
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.npm
+
+# --- IDE & System Files ---
+.DS_Store
+.vscode
+.idea
+*.swp
+*.swo
+
+# --- Testing & Documentation ---
+coverage
 README.md
-/.next
+Dockerfile

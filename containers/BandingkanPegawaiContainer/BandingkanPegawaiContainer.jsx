@@ -91,8 +91,28 @@ export default connect(
       const retrievedArray = storedData ? JSON.parse(storedData) : []
 
       this.setState({
-        dataFromStorage: retrievedArray?.map(id => parseInt(atob(id)))
+        dataFromStorage: retrievedArray?.map(item => {
+          // Dalam konteks localStorage, kita seharusnya menyimpan ID numeric asli, bukan short UUID
+          const parsedId = parseInt(item)
+          if (!isNaN(parsedId)) {
+            return parsedId
+          }
+          
+          // Jika bukan angka, kemungkinan ini short UUID yang tersimpan salah
+          console.warn('Invalid storage format - expected numeric ID, got:', item)
+          return null
+        }).filter(id => id !== null)
       })
+
+      // Jika tidak ada ID yang valid, user perlu memilih ulang pegawai
+      if (this.state && retrievedArray.length > 0) {
+        const validIds = this.state.dataFromStorage || []
+        if (validIds.length === 0) {
+          console.warn('Storage contains invalid data format. Please reselect employees.')
+          // Opsional: clear storage yang corrupt
+          localStorage.removeItem(key)
+        }
+      }
     }
 
     fetchMasterData(queries) {
