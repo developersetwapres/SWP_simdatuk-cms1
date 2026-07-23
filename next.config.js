@@ -31,9 +31,12 @@ const nextConfig = {
   },
   async headers() {
     // Read URLs from environment variables
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://simdatuk-api.ekuator.id'
-    const contentUrl = process.env.NEXT_PUBLIC_CONTENT_URL || 'https://content.ekuator.id'
-    const frontendUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || 'https://simdatuk.ekuator.id'
+    const apiUrl =
+      process.env.NEXT_PUBLIC_API_URL || 'https://simdatuk-api.ekuator.id'
+    const contentUrl =
+      process.env.NEXT_PUBLIC_CONTENT_URL || 'https://content.ekuator.id'
+    const frontendUrl =
+      process.env.NEXT_PUBLIC_FRONTEND_URL || 'https://simdatuk.ekuator.id'
 
     const ContentSecurityPolicy = `
       default-src 'self';
@@ -47,8 +50,9 @@ const nextConfig = {
       base-uri 'self';
       form-action 'self';
       frame-ancestors 'none';
-      upgrade-insecure-requests;
     `
+    // upgrade-insecure-requests;
+    // `
 
     const securityHeaders = [
       {
@@ -63,10 +67,11 @@ const nextConfig = {
         key: 'X-Frame-Options',
         value: 'DENY'
       },
-      {
-        key: 'Strict-Transport-Security',
-        value: 'max-age=31536000; includeSubDomains; preload'
-      },
+      //Dikomentari karena menyebabkan error kalau server bukan menggunakan HTTPS
+      // {
+      //   key: 'Strict-Transport-Security',
+      //   value: 'max-age=31536000; includeSubDomains; preload'
+      // },
       {
         key: 'Cache-Control',
         value: 'no-store, no-cache, must-revalidate'
@@ -87,10 +92,7 @@ const nextConfig = {
   },
   webpack: (config) => {
     config.plugins = config.plugins || []
-    config.plugins = [
-      ...config.plugins,
-      new CaseSensitivePathsPlugin()
-    ]
+    config.plugins = [...config.plugins, new CaseSensitivePathsPlugin()]
     config.resolve.alias = Object.assign({}, config.resolve.alias, alias)
     return config
   }
