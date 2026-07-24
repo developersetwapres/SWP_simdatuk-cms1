@@ -9,10 +9,3 @@ services:
     container_name: swp_simdatuk-cms1
 
     restart: unless-stopped
-
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    external: true
