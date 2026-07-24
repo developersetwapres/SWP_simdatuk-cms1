@@ -9,3 +9,10 @@ services:
     container_name: swp_simdatuk-cms1
 
     restart: unless-stopped
+
+    networks:
+      - nginx-network
+
+networks:
+  nginx-network:
+    external: true
