@@ -67,19 +67,19 @@ const nextConfig = {
         key: 'X-Frame-Options',
         value: 'DENY'
       },
-      //Dikomentari karena menyebabkan error kalau server bukan menggunakan HTTPS
-      // {
-      //   key: 'Strict-Transport-Security',
-      //   value: 'max-age=31536000; includeSubDomains; preload'
-      // },
+      {
+        key: 'Strict-Transport-Security',
+        value: 'max-age=31536000; includeSubDomains; preload'
+      },
       {
         key: 'Cache-Control',
         value: 'no-store, no-cache, must-revalidate'
-      },
-      {
-        key: 'Content-Security-Policy',
-        value: ContentSecurityPolicy.replace(/\s{2,}/g, ' ').trim()
       }
+      //Dikomentari karena menyebabkan error kalau server bukan menggunakan HTTPS
+      // {
+      //   key: 'Content-Security-Policy',
+      //   value: ContentSecurityPolicy.replace(/\s{2,}/g, ' ').trim()
+      // }
     ]
 
     return [

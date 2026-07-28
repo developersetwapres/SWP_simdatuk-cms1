@@ -526,7 +526,7 @@ const ExportEmployeeComponent = ({
       organizationalPerformances: ratingOrganizationOptions,
       employeeStatuses: employeeStatusOptions,
       echelons: echelon?.options?.map((e) => e?.name) || [],
-      grades: grade?.options?.map((e) => e?.name) || [],
+      grades: grade?.options?.map((e) => e?.name + ' ' + e?.code) || [],
       // Only For Response
       employeeStatusOptions: employeeStatusOptions,
       religionOptions: religionOptions
