@@ -50,8 +50,8 @@ const nextConfig = {
       base-uri 'self';
       form-action 'self';
       frame-ancestors 'none';
-      upgrade-insecure-requests;
-    `
+      `
+    // upgrade-insecure-requests;
 
     const securityHeaders = [
       {
@@ -73,11 +73,12 @@ const nextConfig = {
       {
         key: 'Cache-Control',
         value: 'no-store, no-cache, must-revalidate'
-      },
-      {
-        key: 'Content-Security-Policy',
-        value: ContentSecurityPolicy.replace(/\s{2,}/g, ' ').trim()
       }
+      //Dikomentari karena menyebabkan error kalau server bukan menggunakan HTTPS
+      // {
+      //   key: 'Content-Security-Policy',
+      //   value: ContentSecurityPolicy.replace(/\s{2,}/g, ' ').trim()
+      // }
     ]
 
     return [
