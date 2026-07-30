@@ -171,7 +171,12 @@ const ExportEmployeeComponent = ({
           { name: 'isDatePosition', label: 'TMT Jabatan', permissionID: null },
           { name: 'isEchelons', label: 'Eselon', permissionID: null },
           { name: 'isEchelonDate', label: 'TMT Eselon', permissionID: null },
-          { name: 'isGrade', label: 'Golongan', permissionID: null },
+          { name: 'isGrade', label: 'Pangkat/ Golongan', permissionID: null },
+          {
+            name: 'isEducation',
+            label: 'Pendidikan Terakhir',
+            permissionID: null
+          },
           { name: 'isGradeDate', label: 'TMT Golongan', permissionID: null },
           { name: 'isAgency', label: 'Instansi Induk', permissionID: null },
           { name: 'isNoWorker', label: 'No. Karpeg', permissionID: null },
@@ -1029,9 +1034,9 @@ const ExportEmployeeComponent = ({
                   <Autocomplete
                     options={employeeEducationLevelOptions}
                     name='education'
-                    placeholder='Pilih Riwayat Pendidikan'
+                    placeholder='Pilih Pendidikan Terakhir'
                     multiple={true}
-                    label='Riwayat Pendidikan'
+                    label='Pendidikan Terakhir'
                     value={values?.education || []}
                     onChange={(val) => {
                       setFieldValue('education', val || [], false)
