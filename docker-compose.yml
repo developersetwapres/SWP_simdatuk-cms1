@@ -1,18 +1,7 @@
-version: '3.8'
+version: '3'
 
 services:
-  simdatuk-cms1_app:
-    build:
-      context: .
-
-    image: simdatuk-cms1:latest
-    container_name: swp_simdatuk-cms1
-
-    restart: unless-stopped
-
-    networks:
-      - nginx-network
-
-networks:
-  nginx-network:
-    external: true
+  simdatuk-cms:
+    build: .
+    ports:
+      - 3005:3000
